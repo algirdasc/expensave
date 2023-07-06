@@ -1,0 +1,10 @@
+<app-calendar-grid-row
+        *ngFor="let row of data"
+        [row]="row"
+        [visibleDate]="visibleDate"
+        [component]="cellComponent"
+        [calendar]="calendar"
+        [expenses]="expenses"
+        [rowResizedEvent]="resizedEvent"
+        (resized)="resizedEvent = $event">
+</app-calendar-grid-row>

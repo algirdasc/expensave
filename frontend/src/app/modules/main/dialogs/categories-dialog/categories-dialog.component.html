@@ -1,0 +1,13 @@
+<div style="width: 290px" [nbSpinner]="isBusy">
+    <app-category-list
+            *ngIf="!category"
+            [categories]="categories"
+            (categoryClick)="editCategory($event)">
+    </app-category-list>
+    <app-category-edit
+            *ngIf="category"
+            [categories]="categories"
+            [category]="category"
+            (save)="category = undefined; fetch()">
+    </app-category-edit>
+</div>

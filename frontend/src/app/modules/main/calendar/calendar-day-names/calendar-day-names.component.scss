@@ -1,0 +1,18 @@
+@use '../../../../../themes' as *;
+
+:host {
+  display: flex;
+  justify-content: space-between;
+
+  .day {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-transform: uppercase;
+    width: 100%;
+    color: nb-theme(text-hint-color);
+    font-size: nb-theme(text-subtitle-font-size);
+    font-weight: nb-theme(text-subtitle-font-weight);
+    line-height: 34px;
+  }
+}

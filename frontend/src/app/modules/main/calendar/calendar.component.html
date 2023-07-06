@@ -1,0 +1,12 @@
+<app-calendar-day-names
+        [size]="size">
+</app-calendar-day-names>
+
+<app-calendar-grid
+        [data]="weeks"
+        [visibleDate]="visibleDate"
+        [cellComponent]="cellComponent"
+        [calendar]="calendar"
+        [expenses]="expenses"
+        (select)="onSelect($event)">
+</app-calendar-grid>

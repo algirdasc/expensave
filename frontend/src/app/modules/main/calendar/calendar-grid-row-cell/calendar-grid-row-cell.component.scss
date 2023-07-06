@@ -1,0 +1,56 @@
+@import '../../../../../themes';
+
+:host.today {
+  .day-header {
+    background: nb-theme(background-primary-color-1);
+    color: nb-theme(text-alternate-color);
+  }
+}
+
+:host.bounding-month {
+  opacity: .25;
+}
+
+:host:hover.bounding-month {
+  opacity: 1;
+  transition: opacity 1s;
+}
+
+.day-header {
+  background: nb-theme(background-basic-color-3);
+  color: nb-theme(text-hint-color);
+  border-radius: nb-theme(border-radius);
+  position: relative;
+}
+
+.day-number {
+  font-size: nb-theme(text-heading-6-font-size);
+  font-weight: nb-theme(text-heading-6-font-weight);
+}
+
+.add-button {
+  display: none;
+  position: absolute;
+  border: 3px solid nb-theme(background-basic-color-1) !important;
+  right: 20px;
+  top: -8px;
+  border-radius: 32px !important;
+}
+
+:host:hover {
+  .add-button {
+    display: block;
+  }
+
+  .day-expenses {
+    display: none !important;
+  }
+}
+
+.expense-list {
+  overflow: hidden;
+}
+
+.other-label {
+  font-size: 12px;
+}

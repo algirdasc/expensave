@@ -1,0 +1,44 @@
+<form #expenseForm="ngForm" (ngSubmit)="onSubmit()" autocomplete="off">
+    <nb-card [nbSpinner]="isBusy">
+        <nb-card-header>
+            <input nbInput name="label" [(ngModel)]="expense.label">
+        </nb-card-header>
+        <nb-card-body class="p-0">
+            <nb-list>
+                <nb-list-item>
+                    <nb-icon icon="calendar-outline"></nb-icon>
+                    {{ expense.calendar.name }}
+                </nb-list-item>
+                <nb-list-item (click)="expense.confirmed = !expense.confirmed">
+                    <nb-icon [icon]="expense.confirmed ? 'checkmark-circle-2' : 'checkmark-circle-2-outline'"></nb-icon>
+                    {{ expense.confirmed | json }}
+                </nb-list-item>
+                <nb-list-item>
+                    <nb-icon icon="radio-button-on" [ngStyle]="{'color': expense.category?.color}"></nb-icon>
+                    {{ expense.category?.name | json }}
+                </nb-list-item>
+                <nb-list-item>
+                    <nb-icon icon="calendar-outline"></nb-icon>
+                    {{ expense.createdAt }}
+                </nb-list-item>
+                <nb-list-item>
+                    <nb-icon icon="file-text-outline"></nb-icon>
+                    <span>Add description</span>
+                </nb-list-item>
+                <nb-list-item>
+                    <nb-icon icon="person-outline"></nb-icon>
+                    <nb-user [name]="expense.user.name"
+                             [picture]="expense.user.avatar"
+                             size="small">
+                    </nb-user>
+                </nb-list-item>
+            </nb-list>
+        </nb-card-body>
+        <nb-card-footer class="text-right">
+            <button nbButton type="submit" status="primary" [disabled]="isBusy || !expenseForm.valid">
+                <nb-icon icon="save-outline"></nb-icon>
+                Save
+            </button>
+        </nb-card-footer>
+    </nb-card>
+</form>

@@ -1,0 +1,12 @@
+@import 'node_modules/bootstrap/scss/functions';
+@import 'node_modules/bootstrap/scss/variables';
+@import 'node_modules/bootstrap/scss/mixins';
+
+@include media-breakpoint-only(xs) {
+  .calendar-content {
+    height: 50%;
+  }
+  .calendar-expenses {
+    height: 50%;
+  }
+}

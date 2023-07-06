@@ -1,0 +1,8 @@
+<div class="expense-overlay" style="background-color: orange;"></div>
+<div class="expense-category" style="background-color: orange;"></div>
+<div class="expense-label ml-1 text-truncate">
+    {{ expense.label }}
+</div>
+<div class="expense-amount">
+    <small>{{ expense.amount | currency:' ' }}</small>
+</div>

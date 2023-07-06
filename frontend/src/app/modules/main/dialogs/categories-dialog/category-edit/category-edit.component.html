@@ -1,0 +1,41 @@
+<form #categoriesForm="ngForm" (submit)="onSubmit()" class="dialog-responsive">
+    <nb-card>
+        <nb-card-header i18n>
+            <button nbButton status="primary" ghost (click)="categoryChange.emit()">
+                <nb-icon icon="arrow-back-outline"></nb-icon>
+            </button>
+            Manage categories
+        </nb-card-header>
+        <nb-card-body>
+            <div class="d-flex align-items-center mb-3">
+                <nb-icon icon="radio-button-on" class="flex-shrink-0 me-3" [style.color]="category.color"></nb-icon>
+                <div class="flex-fill">
+                    <input type="hidden" required [(ngModel)]="category.color" name="color" />
+                    <input nbInput fullWidth maxlength="255" required placeholder="Category name" [(ngModel)]="category.name" name="name" />
+                </div>
+            </div>
+            <div class="color-picker">
+                <div class="color-picker-color d-flex justify-content-center align-items-center m-1"
+                     *ngFor="let color of colors"
+                     (click)="category.color = color"
+                     [style.background-color]="color">
+                    <nb-icon icon="radio-button-on"
+                             *ngIf="category.color !== color && usedColors[color]"
+                             style="color: white; opacity: 0.5">
+                    </nb-icon>
+                    <nb-icon icon="checkmark-outline"
+                             *ngIf="category.color === color"
+                             style="color: white;">
+                    </nb-icon>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+        </nb-card-body>
+        <nb-card-footer class="text-right">
+            <button nbButton type="submit" status="primary" [disabled]="isBusy || !categoriesForm.valid">
+                <nb-icon icon="save-outline"></nb-icon>
+                Save
+            </button>
+        </nb-card-footer>
+    </nb-card>
+</form>

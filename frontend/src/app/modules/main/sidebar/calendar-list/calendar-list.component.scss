@@ -1,0 +1,28 @@
+@use '../../../../../themes' as *;
+
+:host ::ng-deep nb-radio label {
+  width: 100%;
+  padding-right: 0 !important;
+  font-weight: normal;
+}
+
+:host ::ng-deep nb-radio label span.text {
+  display: flex;
+  flex: 1 1 auto !important;
+  font-size: nb-theme(text-subtitle-font-size);
+  font-weight: nb-theme(text-subtitle-font-weight);
+  line-height: 34px;
+}
+
+:host ::ng-deep label .calendar-actions {
+  display: none;
+  width: 120px;
+}
+
+:host ::ng-deep label:hover .calendar-actions {
+  display: block;
+}
+
+:host ::ng-deep label:hover .calendar-balance {
+  display: none;
+}

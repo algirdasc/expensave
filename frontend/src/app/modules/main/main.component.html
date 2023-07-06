@@ -1,0 +1,34 @@
+<nb-layout>
+
+  <nb-layout-header fixed>
+    <app-header
+            [calendar]="calendar"
+            [(selectedDate)]="selectedDate">
+    </app-header>
+  </nb-layout-header>
+
+  <nb-layout-column class="p-0 p-sm-3" [nbSpinner]="isBusy">
+    <nb-card class="h-100 mb-0">
+      <app-calendar
+              [calendar]="calendar"
+              [expenses]="expenses"
+              [visibleDate]="selectedDate"
+              (dateRangeChange)="dateRange = $event; fetchExpenses()">
+      </app-calendar>
+    </nb-card>
+  </nb-layout-column>
+
+  <nb-sidebar class="menu-sidebar" tag="menu-sidebar" state="collapsed" responsive>
+    <div class="d-flex flex-column justify-content-between h-100">
+      <app-calendar-list
+              [(calendars)]="mainService.user.calendars"
+              [calendar]="calendar"
+              (calendarChange)="calendar = $event; fetchExpenses()">
+      </app-calendar-list>
+      <app-profile
+              [(user)]="mainService.user">
+      </app-profile>
+    </div>
+  </nb-sidebar>
+
+</nb-layout>

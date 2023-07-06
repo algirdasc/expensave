@@ -1,0 +1,13 @@
+@forward '@nebular/theme/styles/theming';
+@use '@nebular/theme/styles/theming' as *;
+@use '@nebular/theme/styles/themes/default';
+
+$nb-enable-css-custom-properties: true;
+
+$nb-themes: nb-register-theme(
+                (
+
+                ),
+                default,
+                default
+);

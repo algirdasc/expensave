@@ -1,0 +1,7 @@
+@import '../../../../../themes';
+
+:host {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(50px, 1fr));
+  height: 100%;
+}

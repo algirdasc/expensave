@@ -1,0 +1,9 @@
+parameters:
+    level: 8
+    paths:
+        - src
+    symfony:
+        containerXmlPath: var/cache/dev/App_KernelDevDebugContainer.xml
+    scanDirectories:
+        - var/cache/dev/Symfony/Config
+    checkGenericClassInNonGenericObjectType: false

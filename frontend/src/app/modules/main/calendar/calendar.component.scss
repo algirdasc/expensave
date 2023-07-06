@@ -1,0 +1,15 @@
+@import 'node_modules/bootstrap/scss/functions';
+@import 'node_modules/bootstrap/scss/variables';
+@import 'node_modules/bootstrap/scss/mixins';
+
+:host {
+  height: 100%;
+  display: grid;
+  grid-template-rows: max-content 1fr;
+}
+
+@include media-breakpoint-only(xs) {
+  :host {
+    height: 50%;
+  }
+}

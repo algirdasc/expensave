@@ -1,0 +1,15 @@
+<form #importForm="ngForm" (ngSubmit)="onSubmit($event)">
+    <nb-card [nbSpinner]="isBusy">
+        <nb-card-body>
+            <div>
+                <input nbInput type="file" name="statements[]" multiple [fullWidth] required />
+            </div>
+        </nb-card-body>
+        <nb-card-footer class="text-right">
+            <button nbButton type="submit" status="primary" [disabled]="isBusy || !importForm.valid">
+                <nb-icon icon="attach-outline"></nb-icon>
+                Import
+            </button>
+        </nb-card-footer>
+    </nb-card>
+</form>

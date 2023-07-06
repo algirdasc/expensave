@@ -1,0 +1,17 @@
+<nb-card>
+    <nb-card-body>
+        <p class="lead">
+            {{ question }}
+        </p>
+    </nb-card-body>
+    <nb-card-footer class="text-right">
+        <button nbButton status="primary" (click)="dialogRef.close(true)" class="mx-1">
+            <nb-icon icon="checkmark-outline"></nb-icon>
+            {{ yesText }}
+        </button>
+        <button nbButton (click)="dialogRef.close(false)" class="mx-1">
+            <nb-icon icon="close-outline"></nb-icon>
+            {{ noText }}
+        </button>
+    </nb-card-footer>
+</nb-card>

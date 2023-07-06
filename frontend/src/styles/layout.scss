@@ -1,0 +1,30 @@
+@import 'node_modules/bootstrap/scss/functions';
+@import 'node_modules/bootstrap/scss/variables';
+@import 'node_modules/bootstrap/scss/mixins';
+
+nb-sidebar > .main-container > .scrollable {
+  padding: 0 !important;
+}
+
+@include media-breakpoint-only(xs) {
+  nb-sidebar.expanded {
+    width: 100% !important;
+
+    .main-container {
+      width: 100% !important;
+    }
+  }
+
+
+}
+
+@include media-breakpoint-up(sm) {
+  nb-sidebar.compacted,
+  nb-sidebar.expanded {
+    width: 24rem !important;
+
+    .main-container {
+      width: 24rem !important;
+    }
+  }
+}

@@ -1,0 +1,10 @@
+@use 'themes' as *;
+@use '@nebular/theme/styles/globals' as *;
+
+@use 'styles/animation';
+@use 'styles/helpers';
+@use 'styles/layout';
+
+@include nb-install() {
+  @include nb-theme-global();
+}

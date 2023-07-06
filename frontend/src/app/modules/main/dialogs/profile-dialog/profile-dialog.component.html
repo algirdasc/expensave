@@ -1,0 +1,41 @@
+<form #userForm="ngForm" (ngSubmit)="onSubmit()" autocomplete="off">
+    <nb-card [nbSpinner]="isBusy">
+        <nb-card-body>
+            <div class="d-flex justify-content-center">
+                <nb-user
+                        [name]="user.name"
+                        [picture]="user.avatar"
+                        (click)="avatarUpload.click()"
+                        size="large"
+                        onlyPicture
+                        style="cursor: pointer;"
+                        class="mb-3">
+                </nb-user>
+            </div>
+            <input type="file" #avatarUpload (change)="onAvatarSelected($event)" accept="image/jpeg" class="d-none" />
+            <h6 class="my-1 text-hint">Profile</h6>
+            <div class="mb-3">
+                <input nbInput maxlength="255" name="name" placeholder="User name" [(ngModel)]="user.name" required />
+            </div>
+            <div class="mb-3">
+                <input nbInput disabled maxlength="255" type="email" name="email" placeholder="Email address" [(ngModel)]="user.email" />
+            </div>
+            <h6 class="my-1 text-hint">Password</h6>
+            <div class="mb-3">
+                <input nbInput type="password" maxlength="255" id="current-password" placeholder="Current password" />
+            </div>
+            <div class="mb-3">
+                <input nbInput type="password" minlength="8" maxlength="255" id="new-password-1" placeholder="New password" />
+            </div>
+            <div class="mb-0">
+                <input nbInput type="password" minlength="8" maxlength="255" id="new-password-2" placeholder="Confirm new password" />
+            </div>
+        </nb-card-body>
+        <nb-card-footer class="text-right">
+            <button nbButton type="submit" status="primary" [disabled]="isBusy || !userForm.valid">
+                <nb-icon icon="save-outline"></nb-icon>
+                Save
+            </button>
+        </nb-card-footer>
+    </nb-card>
+</form>

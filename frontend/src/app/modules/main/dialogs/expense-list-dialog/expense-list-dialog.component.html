@@ -1,0 +1,21 @@
+<nb-card>
+    <nb-card-header>
+        {{ visibleDate }}
+    </nb-card-header>
+    <nb-card-body class="p-0">
+        <nb-list>
+            <nb-list-item
+                    *ngFor="let expense of expenses"
+                    (click)="openExpense(expense)"
+                    class="justify-content-between">
+                <!-- TODO: confirmed! -->
+                <nb-icon icon="checkmark-circle-2-outline"></nb-icon>
+                {{ expense.label }}
+                <span>{{ expense.amount | shortNumber | currency }}</span>
+            </nb-list-item>
+        </nb-list>
+    </nb-card-body>
+    <nb-card-footer class="text-right">
+        Daily change:
+    </nb-card-footer>
+</nb-card>
