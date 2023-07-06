@@ -26,7 +26,7 @@ jobs:
         name: Composer install
         with:
           php_version: ${{ vars.PHP_VERSION }}
-          args: -d backend/
+          working_dir: backend/
 
       - uses: php-actions/phpstan@v3
         name: PHPStan
