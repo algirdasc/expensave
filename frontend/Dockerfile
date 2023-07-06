@@ -7,6 +7,6 @@ RUN npm run build
 
 FROM nginx:alpine
 EXPOSE 4200
-COPY build/nginx/nginx.conf /etc/nginx/nginx.conf
-RUN rm -rf /usr/share/nginx/html/*
-COPY --from=frontend-builder /usr/src/app/dist /usr/share/nginx/html
+RUN rm -rf /etc/nginx/conf.d/default.conf
+COPY ./build/nginx/vhost.conf /etc/nginx/conf.d/vhost.conf
+COPY --from=frontend-builder /usr/src/app/dist /usr/src/app

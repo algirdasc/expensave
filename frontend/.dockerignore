@@ -1,4 +1,4 @@
-build/
+.angular/
 node_modules/
 .git
 .gitignore
