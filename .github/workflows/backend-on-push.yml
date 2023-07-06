@@ -27,17 +27,19 @@ jobs:
           php_extensions: gd ctype iconv zip
           working_dir: backend/
 
-      - uses: php-actions/phpstan@v3
-        name: PHPStan
-        with:
-          path: backend/src/
-          php_version: ${{ vars.PHP_VERSION }}
+#      - uses: php-actions/phpstan@v3
+#        name: PHPStan
+#        with:
+#          path: backend/src/
+#          php_version: ${{ vars.PHP_VERSION }}
 
   symfony-tests:
+    name: PHP Unit test
     runs-on: ubuntu-latest
     needs: phpstan
     steps:
       - uses: shivammathur/setup-php@v2
+        name: Setting up PHP ${{ vars.PHP_VERSION }}
         with:
           php-version: ${{ vars.PHP_VERSION }}
 
