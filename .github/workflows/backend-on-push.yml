@@ -17,16 +17,14 @@ jobs:
       - uses: actions/cache@v3
         name: Caching
         with:
-          path: backend/vendor
+          path: /tmp/composer-cache
           key: ${{ runner.os }}-php-${{ hashFiles('**/composer.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-php-${{ hashFiles('**/composer.lock') }}
 
       - uses: php-actions/composer@v6
         name: Composer install
         with:
           php_version: ${{ vars.PHP_VERSION }}
-          php_extensions: gd ctype iconv
+          php_extensions: gd ctype iconv zip
           working_dir: backend/
 
       - uses: php-actions/phpstan@v3
