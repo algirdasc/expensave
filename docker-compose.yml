@@ -1,0 +1,31 @@
+version: '3.8'
+services:
+  frontend:
+    build: './frontend'
+    ports:
+      - '4200:4200'
+    depends_on:
+      - 'database'
+    networks:
+      - 'expensave'
+  backend:
+    build: './backend'
+    ports:
+      - '4201:4201'
+    networks:
+      - 'expensave'
+  database:
+    image: 'mysql:8'
+    environment:
+      MYSQL_USER: 'expensave'
+      MYSQL_PASSWORD: 'expensave'
+      MYSQL_DATABASE: 'expensave'
+      MYSQL_RANDOM_ROOT_PASSWORD: 'yes'
+    volumes:
+      - './database:/var/lib/mysql'
+    networks:
+      - 'expensave'
+
+networks:
+  expensave:
+    name: 'expensave'
