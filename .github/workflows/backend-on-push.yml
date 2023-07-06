@@ -15,21 +15,22 @@ jobs:
         name: Repo checkout
 
       - uses: actions/cache@v3
+        name: Caching
         with:
           path: vendor
           key: ${{ runner.os }}-php-${{ hashFiles('**/composer.lock') }}
           restore-keys: |
-            ${{ runner.os }}-php-
+            ${{ runner.os }}-php-${{ hashFiles('**/composer.lock') }}
 
       - uses: php-actions/composer@v6
         with:
-          php_version: $PHP_VERSION
+          php_version: ${{ env.PHP_VERSION }}
           args: -d backend/
 
       - uses: php-actions/phpstan@v3
         with:
           path: src/
-          php_version: $PHP_VERSION
+          php_version: ${{ env.PHP_VERSION }}
 
   symfony-tests:
     runs-on: ubuntu-latest
@@ -37,7 +38,7 @@ jobs:
     steps:
       - uses: shivammathur/setup-php@v2
         with:
-          php-version: $PHP_VERSION
+          php-version: ${{ env.PHP_VERSION }}
 
 #      - uses: actions/checkout@v3
 
