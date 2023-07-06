@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Response\Error\Handler;
 
+use App\Response\Error\ErrorResponseMessage;
 use RuntimeException;
 use Symfony\Component\HttpFoundation\Response;
 use Throwable;
@@ -37,8 +38,14 @@ class RuntimeExceptionHandler implements ErrorHandlerInterface
         return Response::HTTP_INTERNAL_SERVER_ERROR;
     }
 
+    /**
+     * @return array<ErrorResponseMessage>
+     */
     public function getMessages(): array
     {
-        return [$this->exception->getMessage()];
+        return [
+            (new ErrorResponseMessage())
+                ->setMessage($this->exception->getMessage())
+        ];
     }
 }

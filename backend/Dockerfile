@@ -4,8 +4,6 @@ ENV WEB_DOCUMENT_ROOT '/usr/src/app'
 ENV LOG_STDOUT 'stdout'
 ENV LOG_STDERR 'stderr'
 
-EXPOSE 4201
-
 WORKDIR /usr/src/app
 
 # Copy files

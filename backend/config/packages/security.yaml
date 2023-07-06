@@ -26,14 +26,13 @@ security:
             stateless: true
             entry_point: jwt
             provider: app_user_provider
-            # access_denied_handler: App\Security\AccessDeniedHandler
+            access_denied_handler: App\Security\AccessDeniedHandler
             jwt: ~
             refresh_jwt:
                 check_path: refresh_token_index
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
     access_control:
-        - { path: ^/api, roles: PUBLIC_ACCESS }
         - { path: ^/auth, roles: PUBLIC_ACCESS }
         - { path: ^/, roles: IS_AUTHENTICATED_FULLY }
 

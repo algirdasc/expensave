@@ -7,6 +7,7 @@ namespace App\Request;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Mapping\MappingException;
 use LogicException;
+use ReflectionClass;
 use ReflectionNamedType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\PropertyAccess\PropertyAccess;
@@ -26,13 +27,10 @@ abstract class AbstractRequest
         return Request::createFromGlobals();
     }
 
-    /**
-     * @throws MappingException
-     */
     protected function populate(): void
     {
         $propertyAccessor = PropertyAccess::createPropertyAccessor();
-        $reflection = new \ReflectionClass($this);
+        $reflection = new ReflectionClass($this);
 
         $requestAsArray = $this->getRequest()->toArray();
 
@@ -54,9 +52,11 @@ abstract class AbstractRequest
 
             if (!$type->isBuiltin()) {
                 $format = null;
+
                 if ($types !== null) {
                     $format = $types[0]->getCollectionValueTypes()[0]->getClassName();
                 }
+
                 $value = $this->serializer->denormalize($value, $type->getName(), $format);
             } elseif ($type->getName() === 'array') {
 //                $phpDocExtractor = new PhpDocExtractor();

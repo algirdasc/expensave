@@ -5,7 +5,8 @@ declare(strict_types=1);
 namespace App\Response\Error\Handler;
 
 use App\Exception\RequestValidationException;
-use App\Response\Error\RequestValidationErrorResponse;
+use App\Response\Error\ErrorResponseMessage;
+use App\Response\Error\Response\RequestValidationErrorResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Throwable;
 
@@ -38,12 +39,15 @@ class RequestValidationHandler implements ErrorHandlerInterface
         return Response::HTTP_UNPROCESSABLE_ENTITY;
     }
 
+    /**
+     * @return array<ErrorResponseMessage>
+     */
     public function getMessages(): array
     {
         $errors = [];
 
         foreach ($this->exception->getValidationErrors() as $error) {
-            $validationError = (new RequestValidationErrorResponse())
+            $validationError = (new ErrorResponseMessage())
                 ->setMessage((string) $error->getMessage())
                 ->setPropertyPath($error->getPropertyPath())
             ;

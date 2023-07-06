@@ -5,9 +5,10 @@ declare(strict_types=1);
 namespace App\Response\StatementImport;
 
 use App\Const\ContextGroupConst;
+use App\Response\AbstractResponse;
 use Symfony\Component\Serializer\Annotation\Groups;
 
-class StatementImportResponse
+class StatementImportResponse extends AbstractResponse
 {
     /**
      * @var array<string, array<string>>

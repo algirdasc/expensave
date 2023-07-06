@@ -8,7 +8,7 @@ use App\Controller\AbstractApiController;
 use App\Entity\User;
 use App\Repository\UserRepository;
 use App\Request\Auth\RegistrationRequest;
-use App\Response\AuthTokenResponse;
+use App\Response\Auth\AuthTokenResponse;
 use Lexik\Bundle\JWTAuthenticationBundle\Services\JWTTokenManagerInterface;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use Nelmio\ApiDocBundle\Annotation\Security;
@@ -33,9 +33,6 @@ class RegistrationController extends AbstractApiController
     )]
     public function index(RegistrationRequest $request, JWTTokenManagerInterface $JWTManager, UserRepository $userRepository): JsonResponse
     {
-        /** @noinspection PhpUnhandledExceptionInspection */
-        $this->validateRequest($request);
-
         $user = (new User())
             ->setEmail($request->getEmail())
             ->setName($request->getFullName())

@@ -7,6 +7,7 @@ namespace App\Controller\User;
 use App\Const\ContextGroup\UserContextGroupConst;
 use App\Controller\AbstractApiController;
 use App\Repository\UserRepository;
+use App\Response\EntityResponse;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -24,13 +25,18 @@ class ProfileController extends AbstractApiController
     #[Route('', methods: Request::METHOD_GET)]
     public function list(): JsonResponse
     {
-        return $this->respond($this->userRepository->findAll());
+        return $this->respond(
+            new EntityResponse($this->userRepository->findAll())
+        );
     }
 
     #[Route('/profile', methods: Request::METHOD_GET)]
     public function profile(): JsonResponse
     {
-        return $this->respond($this->getUser(), [UserContextGroupConst::DETAILS]);
+        return $this->respond(
+            new EntityResponse($this->getUser()),
+            [UserContextGroupConst::DETAILS]
+        );
     }
 
     #[Route('/profile', methods: Request::METHOD_PUT)]
@@ -39,6 +45,9 @@ class ProfileController extends AbstractApiController
         sleep(2);
         // TODO: save
 
-        return $this->respond($this->getUser(), [UserContextGroupConst::DETAILS]);
+        return $this->respond(
+            new EntityResponse($this->getUser()),
+            [UserContextGroupConst::DETAILS]
+        );
     }
 }

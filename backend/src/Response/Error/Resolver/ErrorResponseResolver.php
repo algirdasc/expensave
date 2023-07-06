@@ -38,6 +38,6 @@ class ErrorResponseResolver
 
         throw new RuntimeException($throwable->getMessage(), 500, $throwable);
 
-        throw new RuntimeException(sprintf('Handler for %s not found', $throwable::class), 500, $throwable);
+        // throw new RuntimeException(sprintf('Handler for %s not found', $throwable::class), 500, $throwable);
     }
 }

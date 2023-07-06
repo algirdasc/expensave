@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Response\Error\Handler;
 
+use App\Response\Error\ErrorResponseMessage;
 use Symfony\Component\HttpKernel\Exception\HttpExceptionInterface;
 use Throwable;
 
@@ -36,8 +37,14 @@ class HttpExceptionHandler implements ErrorHandlerInterface
         return $this->exception->getStatusCode();
     }
 
+    /**
+     * @return array<ErrorResponseMessage>
+     */
     public function getMessages(): array
     {
-        return [$this->exception->getMessage()];
+        return [
+            (new ErrorResponseMessage())
+                ->setMessage($this->exception->getMessage())
+        ];
     }
 }

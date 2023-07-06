@@ -10,6 +10,7 @@ use App\Entity\User;
 use App\Repository\CalendarRepository;
 use App\Request\Calendar\CreateCalendarRequest;
 use App\Request\Calendar\UpdateCalendarRequest;
+use App\Response\EntityResponse;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -27,13 +28,17 @@ class CalendarController extends AbstractApiController
     {
         $calendars = $this->calendarRepository->findAll();
 
-        return $this->respond($calendars);
+        return $this->respond(
+            new EntityResponse($calendars)
+        );
     }
 
     #[Route('/{calendar}', name: 'get', methods: Request::METHOD_GET)]
     public function get(Calendar $calendar): JsonResponse
     {
-        return $this->respond($calendar);
+        return $this->respond(
+            new EntityResponse($calendar)
+        );
     }
 
     #[Route('', name: 'create', methods: Request::METHOD_POST)]
@@ -53,7 +58,9 @@ class CalendarController extends AbstractApiController
 
         $this->calendarRepository->save($calendar, true);
 
-        return $this->respond($calendar);
+        return $this->respond(
+            new EntityResponse($calendar)
+        );
     }
 
     #[Route('/{calendar}', name: 'update', methods: Request::METHOD_PUT)]
@@ -73,7 +80,9 @@ class CalendarController extends AbstractApiController
 
         $this->calendarRepository->save($calendar, true);
 
-        return $this->respond($calendar);
+        return $this->respond(
+            new EntityResponse($calendar)
+        );
     }
 
     #[Route('/{calendar}', name: 'remove', methods: Request::METHOD_DELETE)]
@@ -81,6 +90,8 @@ class CalendarController extends AbstractApiController
     {
         $this->calendarRepository->remove($calendar, true);
 
-        return $this->respond($this->calendarRepository->findAll());
+        return $this->respond(
+            new EntityResponse($this->calendarRepository->findAll())
+        );
     }
 }

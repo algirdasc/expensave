@@ -5,13 +5,18 @@ declare(strict_types=1);
 namespace App\EventListener;
 
 use App\Entity\Expense;
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\Event\LifecycleEventArgs;
 
 class CalendarBalanceListener
 {
     public function postUpdate(Expense $expense, LifecycleEventArgs $eventArgs): void
     {
-        $changes = $eventArgs->getObjectManager()->getUnitOfWork()->getEntityChangeSet($expense);
+        // TODO: phpstan fixes needed
+        /** @var EntityManagerInterface $entityManager */
+        $entityManager = $eventArgs->getObjectManager();
+
+        $changes = $entityManager->getUnitOfWork()->getEntityChangeSet($expense);
 
         if (empty($changes['amount'])) {
             return;

@@ -4,27 +4,30 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
-use App\Const\ContextGroup\ExpenseContextGroupConst;
 use App\Const\ContextGroupConst;
-use App\Exception\RequestValidationException;
-use App\Request\AbstractRequest;
+use App\Response\AbstractResponse;
 use App\Response\Error\ErrorResponse;
+use App\Response\ResponseInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Validator\ConstraintViolationListInterface;
-use Symfony\Component\Validator\Validator\ValidatorInterface;
-use Symfony\Contracts\Service\Attribute\Required;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Serializer\Encoder\JsonEncoder;
 
 abstract class AbstractApiController extends AbstractController
 {
-    public function respond(mixed $data = null, array $groups = []): JsonResponse
+    /**
+     * @param array<string> $groups
+     */
+    public function respond(Response $data, array $groups = []): JsonResponse
     {
         return $this
             ->json(
                 data: $data,
                 context: [
-                    'groups' => [ContextGroupConst::BASIC, ...$groups],
+                    'groups' => array_unique([
+                        ContextGroupConst::ALWAYS,
+                        ...$groups
+                    ]),
                 ]
             )
             ->setEncodingOptions(JSON_PRETTY_PRINT)
@@ -47,11 +50,11 @@ abstract class AbstractApiController extends AbstractController
 
     public function getAllowedContentTypeFormat(): string
     {
-        return 'json';
+        return JsonEncoder::FORMAT;
     }
 
     public function getDisallowedContentTypeError(): string
     {
-        return 'Invalid JSON';
+        return 'Invalid JSON format';
     }
 }

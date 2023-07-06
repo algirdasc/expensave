@@ -1,8 +1,8 @@
 import {HttpClient, HttpResponse} from '@angular/common/http';
 import {Injectable} from '@angular/core';
-import {plainToClass, plainToInstance} from 'class-transformer';
+import {plainToInstance} from 'class-transformer';
 import {Observable, Subject} from 'rxjs';
-import {delay, finalize, map, tap} from 'rxjs/operators';
+import {finalize, map} from 'rxjs/operators';
 import {EntityInterface} from './entities/entity.interface';
 
 @Injectable()

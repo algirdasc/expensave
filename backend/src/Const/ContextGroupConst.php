@@ -11,8 +11,7 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class ContextGroupConst
 {
-    public const BASIC = 'basic';
-
+    public const ALWAYS = 'always';
     public const API_CREATE = 'api_create';
     public const API_READ = 'api_read';
     public const API_UPDATE = 'api_update';
@@ -28,16 +27,28 @@ class ContextGroupConst
     public const API_ERROR = 'api_error';
 
     /**
-     * @return string|array<string>
+     * @return array<string>
      */
-    public static function fromRequest(Request $request): string|array
+    public static function fromRequest(Request $request): array
     {
         return match ($request->getMethod())
         {
-            Request::METHOD_POST => self::API_CREATE,
-            Request::METHOD_GET => self::API_READ,
-            Request::METHOD_PUT => self::API_UPDATE,
-            Request::METHOD_DELETE => self::API_DELETE,
+            Request::METHOD_POST => [
+                self::ALWAYS,
+                self::API_CREATE
+            ],
+            Request::METHOD_GET => [
+                self::ALWAYS,
+                self::API_READ
+            ],
+            Request::METHOD_PUT => [
+                self::ALWAYS,
+                self::API_UPDATE
+            ],
+            Request::METHOD_DELETE => [
+                self::ALWAYS,
+                self::API_DELETE
+            ],
             default => self::API_ALL,
         };
     }

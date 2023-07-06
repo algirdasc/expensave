@@ -4,13 +4,10 @@ declare(strict_types=1);
 
 namespace App\Serializer;
 
-use _PHPStan_4dd92cd93\Symfony\Contracts\Service\Attribute\Required;
-use CodeIgniter\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
-use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 
 class RequestCollectionDenormalizer implements DenormalizerInterface
 {
@@ -24,9 +21,12 @@ class RequestCollectionDenormalizer implements DenormalizerInterface
         return $type === Collection::class;
     }
 
+    /**
+     * @phpstan-param class-string $format
+     */
     public function denormalize(mixed $data, string $type, string $format = null, array $context = []): ?Collection
     {
-        if ($data === null) {
+        if (null === $data || null === $format) {
             return null;
         }
 
@@ -34,6 +34,9 @@ class RequestCollectionDenormalizer implements DenormalizerInterface
             return is_int($item);
         });
 
-        return new ArrayCollection($this->entityManager->getRepository($format)->findBy(['id' => $data]));
+        $repository = $this->entityManager->getRepository($format);
+        $data = $repository->findBy(['id' => $data]);
+
+        return new ArrayCollection($data);
     }
 }

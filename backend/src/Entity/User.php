@@ -3,7 +3,6 @@
 namespace App\Entity;
 
 use App\Const\ContextGroup\UserContextGroupConst;
-use App\Const\ContextGroupConst;
 use App\Repository\UserRepository;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;

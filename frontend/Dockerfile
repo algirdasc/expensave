@@ -6,7 +6,6 @@ RUN npm install --include=dev
 RUN npm run build
 
 FROM nginx:alpine
-EXPOSE 4200
 RUN rm -rf /etc/nginx/conf.d/default.conf
 COPY ./build/nginx/vhost.conf /etc/nginx/conf.d/vhost.conf
 COPY --from=frontend-builder /usr/src/app/dist /usr/src/app

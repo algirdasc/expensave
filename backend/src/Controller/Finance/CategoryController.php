@@ -10,6 +10,7 @@ use App\Entity\Category;
 use App\Repository\CategoryRepository;
 use App\Request\Category\CreateCategoryRequest;
 use App\Request\Category\UpdateCategoryRequest;
+use App\Response\EntityResponse;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -29,13 +30,17 @@ class CategoryController extends AbstractApiController
     {
         $categories = $this->categoryRepository->findAll();
 
-        return $this->respond($categories);
+        return $this->respond(
+            new EntityResponse($categories)
+        );
     }
 
     #[Route('/{category}', name: 'get', methods: Request::METHOD_GET)]
     public function get(Category $category): JsonResponse
     {
-        return $this->respond($category);
+        return $this->respond(
+            new EntityResponse($category)
+        );
     }
 
     #[Route('', name: 'create', methods: Request::METHOD_POST)]
@@ -48,7 +53,9 @@ class CategoryController extends AbstractApiController
 
         $this->categoryRepository->save($category, true);
 
-        return $this->respond($category);
+        return $this->respond(
+            new EntityResponse($category)
+        );
     }
 
     #[Route('/{category}', name: 'update', methods: Request::METHOD_PUT)]
@@ -61,7 +68,9 @@ class CategoryController extends AbstractApiController
 
         $this->categoryRepository->save($category, true);
 
-        return $this->respond($category);
+        return $this->respond(
+            new EntityResponse($category)
+        );
     }
 
     #[Route('/{category}', name: 'remove', methods: Request::METHOD_DELETE)]
@@ -69,6 +78,8 @@ class CategoryController extends AbstractApiController
     {
         $this->categoryRepository->remove($category, true);
 
-        return $this->respond($this->categoryRepository->findAll());
+        return $this->respond(
+            new EntityResponse($this->categoryRepository->findAll())
+        );
     }
 }

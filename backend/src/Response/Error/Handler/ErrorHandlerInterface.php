@@ -14,8 +14,5 @@ interface ErrorHandlerInterface
 
     public function getStatusCode(): int;
 
-    /**
-     * @return array<string>
-     */
-    public function getMessages(): array;
+    public function getMessages(): mixed;
 }

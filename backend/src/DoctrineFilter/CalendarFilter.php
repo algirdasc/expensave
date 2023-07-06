@@ -39,7 +39,7 @@ class CalendarFilter extends SQLFilter
         return $this;
     }
 
-    public function addFilterConstraint(ClassMetadata $targetEntity, $targetTableAlias)
+    public function addFilterConstraint(ClassMetadata $targetEntity, $targetTableAlias): string
     {
         if ($targetEntity->getName() !== Calendar::class) {
             return '';

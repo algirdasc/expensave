@@ -2,9 +2,7 @@
 
 php bin/console lexik:jwt:generate-keypair -n --skip-if-exists
 
-composer dump-env prod
-
-sed "s/{REGENERATE_SECRET}/"$(openssl rand -hex 32)"/" .env.local.php
+sed "s/{REGENERATE_SECRET}/"$(openssl rand -hex 32)"/" .env.dist
 
 # wait-for-it database:3306 -t 30
 

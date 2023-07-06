@@ -5,9 +5,7 @@ declare(strict_types=1);
 namespace App\Request\Auth;
 
 use App\Const\AssertConst;
-use App\Entity\User;
 use App\Request\AbstractRequest;
-use App\Validator\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 
 class RegistrationRequest extends AbstractRequest
@@ -15,7 +13,6 @@ class RegistrationRequest extends AbstractRequest
     #[Assert\NotBlank]
     #[Assert\Email]
     #[Assert\Length(max: AssertConst::MAX_STRING_LENGTH)]
-    #[UniqueEntity(entity: User::class, field: 'email', message: AssertConst::MSG_NON_UNIQUE_EMAIL)]
     private string $email;
 
     #[Assert\NotBlank]

@@ -15,6 +15,8 @@ use App\Repository\CalendarRepository;
 use App\Repository\ExpenseRepository;
 use App\Request\Expense\CreateExpenseRequest;
 use App\Request\Expense\UpdateExpenseRequest;
+use App\Response\EmptyResponse;
+use App\Response\EntityResponse;
 use DateTime;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -38,7 +40,9 @@ class ExpenseController extends AbstractApiController
             (new DateTime())->setTimestamp($toTs)
         );
 
-        return $this->respond($expenses);
+        return $this->respond(
+            new EntityResponse($expenses)
+        );
     }
 
     #[Route('', name: 'create', methods: Request::METHOD_POST)]
@@ -47,6 +51,7 @@ class ExpenseController extends AbstractApiController
         /** @var User $user */
         $user = $this->getUser(); // TODO: maybe use #[CurrentUser]
 
+        /** @var Calendar $calendar */
         $calendar = $calendarRepository->find(22);
 
         $expense = (new Expense())
@@ -59,7 +64,9 @@ class ExpenseController extends AbstractApiController
 
         $this->expenseRepository->save($expense, true);
 
-        return $this->respond($expense);
+        return $this->respond(
+            new EntityResponse($expense)
+        );
     }
 
     #[Route('/{expense}', name: 'update', methods: Request::METHOD_PUT)]
@@ -74,7 +81,9 @@ class ExpenseController extends AbstractApiController
 
         $this->expenseRepository->save($expense, true);
 
-        return $this->respond($expense);
+        return $this->respond(
+            new EntityResponse($expense)
+        );
     }
 
     #[Route('/{calendar}/{expense}', name: 'delete', methods: Request::METHOD_DELETE)]
@@ -82,6 +91,6 @@ class ExpenseController extends AbstractApiController
     {
         $this->expenseRepository->remove($expense, true);
 
-        return $this->respond('');
+        return $this->respond(new EmptyResponse());
     }
 }
