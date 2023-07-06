@@ -5,10 +5,6 @@ EXPOSE 4201
 
 WORKDIR /usr/src/app
 
-RUN pwd
-RUN ls -la ./build/
-RUN ls -la ./build/nginx
-
 # Copy files
 COPY ./build/symfony-entrypoint.sh /entrypoint.d/symfony-entrypoint.sh
 COPY ./build/wait-for-it.sh /usr/local/bin/wait-for-it
