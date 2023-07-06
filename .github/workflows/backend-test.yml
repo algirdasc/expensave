@@ -1,4 +1,4 @@
-name: Backend CI
+name: Backend Test
 
 on:
   push:
@@ -10,12 +10,9 @@ jobs:
   symfony-tests:
       runs-on: ubuntu-latest
       steps:
-      #  To automatically get bug fixes and new Php versions for shivammathur/setup-php,
-      # change this to (see https://github.com/shivammathur/setup-php#bookmark-versioning):
-      # uses: shivammathur/setup-php@v2
-      - uses: shivammathur/setup-php@2cb9b829437ee246e9b3cac53555a39208ca6d28
+      - uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.0'
+          php-version: '8.1'
       - uses: actions/checkout@v3
       - name: Copy .env.test.local
         run: php -r "file_exists('.env.test.local') || copy('.env.test', '.env.test.local');"
@@ -37,9 +34,3 @@ jobs:
         env:
           DATABASE_URL: sqlite:///%kernel.project_dir%/data/database.sqlite
         run: vendor/bin/phpunit
-  build-docker:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - name: Build the Docker image
-        run: docker build . --file backend/Dockerfile --tag algirdasc/expensave-backend:$(date +%s)
