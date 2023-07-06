@@ -30,7 +30,7 @@ jobs:
       - uses: php-actions/phpstan@v3
         name: PHPStan
         with:
-          path: src/
+          path: backend/src/
           php_version: ${{ vars.PHP_VERSION }}
 
   symfony-tests:
