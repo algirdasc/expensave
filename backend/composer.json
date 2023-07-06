@@ -5,6 +5,7 @@
     "prefer-stable": true,
     "require": {
         "php": ">=8.1",
+        "ext-gd": "*",
         "ext-ctype": "*",
         "ext-iconv": "*",
         "doctrine/annotations": "^1.0",
