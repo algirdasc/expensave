@@ -26,6 +26,7 @@ jobs:
         name: Composer install
         with:
           php_version: ${{ vars.PHP_VERSION }}
+          php_extensions: gd ctype iconv
           working_dir: backend/
 
       - uses: php-actions/phpstan@v3
