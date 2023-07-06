@@ -5,17 +5,21 @@ EXPOSE 4201
 
 WORKDIR /usr/src/app
 
-# Entry point
+RUN pwd
+RUN ls -la ./build/
+RUN ls -la ./build/nginx
+
+# Copy files
 COPY ./build/symfony-entrypoint.sh /entrypoint.d/symfony-entrypoint.sh
 COPY ./build/wait-for-it.sh /usr/local/bin/wait-for-it
+COPY ./build/nginx/vhost.conf /opt/docker/etc/nginx/vhost.conf
+COPY . /usr/src/app
+
+# Entry point
 RUN chmod +x /entrypoint.d/symfony-entrypoint.sh
 RUN chmod +x /usr/local/bin/wait-for-it
 
-# Source dode
-COPY . /usr/src/app
-
-# Web server
-COPY ./build/nginx/vhost.conf /opt/docker/etc/nginx/vhost.conf
+# Setup web server
 RUN rm /opt/docker/etc/nginx/vhost.ssl.conf
 RUN chown -R application:application /usr/src/app
 
