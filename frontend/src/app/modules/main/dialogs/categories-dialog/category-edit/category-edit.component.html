@@ -1,11 +1,12 @@
-<form #categoriesForm="ngForm" (submit)="onSubmit()" class="dialog-responsive">
-    <nb-card>
+<form #categoryForm="ngForm" (submit)="save.emit(this.category)" class="dialog-responsive" autocomplete="off">
+    <nb-card size="medium" style="width: 335px;">
         <nb-card-header i18n>
-            <button nbButton status="primary" ghost (click)="categoryChange.emit()">
+            <button nbButton status="primary" ghost (click)="back.emit(true)">
                 <nb-icon icon="arrow-back-outline"></nb-icon>
             </button>
-            Manage categories
+            Manage category
         </nb-card-header>
+
         <nb-card-body>
             <div class="d-flex align-items-center mb-3">
                 <nb-icon icon="radio-button-on" class="flex-shrink-0 me-3" [style.color]="category.color"></nb-icon>
@@ -31,8 +32,9 @@
                 <div class="clearfix"></div>
             </div>
         </nb-card-body>
+
         <nb-card-footer class="text-right">
-            <button nbButton type="submit" status="primary" [disabled]="isBusy || !categoriesForm.valid">
+            <button nbButton type="submit" status="primary" [disabled]="saveButtonEnabled || !categoryForm.valid">
                 <nb-icon icon="save-outline"></nb-icon>
                 Save
             </button>

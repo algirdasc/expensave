@@ -4,18 +4,18 @@ import {NbDialogService} from '@nebular/theme';
 import {CalendarApiService} from '../../../../api/calendar.api.service';
 import {Calendar} from '../../../../api/entities/calendar.entity';
 import {User} from '../../../../api/entities/user.entity';
-import {CalendarDialogComponent} from '../../dialogs/calendar-dialog/calendar-dialog.component';
+import {CalendarEditComponent} from '../../dialogs/calendars-dialog/calendar-edit/calendar-edit.component';
 import {ConfirmDialogComponent} from '../../dialogs/confirm-dialog/confirm-dialog.component';
 import {StatementImportDialogComponent} from '../../dialogs/statement-import-dialog/statement-import-dialog.component';
 import {CategoriesDialogComponent} from '../../dialogs/categories-dialog/categories-dialog.component';
 import {EntityUtil} from '../../../../util/entity.util';
 
 @Component({
-    selector: 'app-calendar-list',
+    selector: 'app-sidebar-calendar-list',
     styleUrls: ['calendar-list.component.scss'],
     templateUrl: 'calendar-list.component.html'
 })
-export class CalendarListComponent {
+export class CalendarSidebarListComponent {
     @Input() public calendar: Calendar;
     @Output() public calendarsChange: EventEmitter<Calendar[]> = new EventEmitter<Calendar[]>();
     @Output() public calendarChange: EventEmitter<Calendar> = new EventEmitter<Calendar>();
@@ -80,7 +80,7 @@ export class CalendarListComponent {
 
     public createCalendar(): void {
         this.dialogService
-            .open(CalendarDialogComponent, { context: { calendar: new Calendar() } })
+            .open(CalendarEditComponent, { context: { calendar: new Calendar() } })
             .onClose
             .subscribe((result: Calendar) => {
                 if (result) {
@@ -92,7 +92,7 @@ export class CalendarListComponent {
 
     public editCalendar(calendar: Calendar): void {
         this.dialogService
-            .open(CalendarDialogComponent, { context: { calendar: calendar } })
+            .open(CalendarEditComponent, { context: { calendar: calendar } })
             .onClose
             .subscribe((result: Calendar) => {
                 if (result) {
@@ -115,7 +115,7 @@ export class CalendarListComponent {
 
     public manageCategories(): void {
         this.dialogService
-            .open(CategoriesDialogComponent)
+            .open(CategoriesDialogComponent, { context: { isSelectable: false } })
             .onClose
             .subscribe(() => {
 

@@ -1,0 +1,16 @@
+<div style="min-width: 290px" [nbSpinner]="isBusy">
+    <app-calendar-list
+        *ngIf="!editableCalendar"
+        [selectedCalendar]="this.selectedCalendar"
+        [calendars]="this.calendars"
+        (newCalendarClick)="editCalendar()"
+        (calendarClick)="dialogRef.close($event)">
+    </app-calendar-list>
+    <app-calendar-edit
+        *ngIf="editableCalendar"
+        [calendar]="editableCalendar"
+        [saveButtonEnabled]="isBusy"
+        (back)="editableCalendar = undefined"
+        (save)="saveCalendar($event)">
+    </app-calendar-edit>
+</div>

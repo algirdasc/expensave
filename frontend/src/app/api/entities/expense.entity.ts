@@ -32,4 +32,7 @@ export class Expense implements EntityInterface {
 
     @Expose()
     public confirmed: boolean;
+
+    @Expose()
+    public description: string;
 }

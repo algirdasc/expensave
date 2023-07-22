@@ -5,24 +5,30 @@ declare(strict_types=1);
 namespace App\Request;
 
 use App\Attribute\Request\ResolveEntity;
-use App\Resolver\Request\PopulationResolver;
+use App\Handler\Request\TransformationHandlerInterface;
 use Doctrine\ORM\EntityManagerInterface;
-use Doctrine\ORM\Mapping\MappingException;
 use LogicException;
 use ReflectionClass;
 use ReflectionNamedType;
+use Symfony\Component\DependencyInjection\Attribute\TaggedIterator;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\PropertyAccess\PropertyAccess;
-use Symfony\Component\PropertyInfo\Extractor\PhpDocExtractor;
-use Symfony\Component\Serializer\SerializerInterface;
 
 abstract class AbstractRequest
 {
+    /**
+     * @var iterable<TransformationHandlerInterface>
+     */
+    private iterable $transformationHandlers;
+
+    /**
+     * @param iterable<TransformationHandlerInterface> $transformationHandlers
+     */
     public function __construct(
-        private SerializerInterface $serializer,
-        private EntityManagerInterface $entityManager,
-        private PopulationResolver $populationResolver
+        #[TaggedIterator('app.handlers.request.transformation')] iterable $transformationHandler
     ) {
+        $this->transformationHandlers = $transformationHandler;
+
         $this->populate();
     }
 
@@ -53,36 +59,21 @@ abstract class AbstractRequest
 
             $value = $requestAsArray[$propertyName] ?? null;
 
-            if (!$type->isBuiltin()) {
-                $types = (new PhpDocExtractor())->getTypes(static::class, $propertyName);
-                $collectionValueType = null;
-
-                if ($types !== null) {
-                    $collectionValueType = $types[0]->getCollectionValueTypes()[0]->getClassName();
-                }
-
-                $shouldResolveEntity = (bool) $property->getAttributes(ResolveEntity::class);
-                if ($shouldResolveEntity && (is_int($value) || is_string($value))) {
-                    $repository = $this->entityManager->getRepository($type->getName());
-                    $value = $repository->find($value);
-                }
-
-                if (!$type->allowsNull() && null === $value) {
+            foreach ($this->transformationHandlers as $transformationHandler) {
+                if (!$transformationHandler->supportsProperty($property)) {
                     continue;
                 }
 
-                if (!$shouldResolveEntity) {
-                    $value = $this->serializer->denormalize($value, $type->getName(), $collectionValueType);
-                }
-            } else {
-                if ($type->allowsNull() && null === $value) {
-                    continue;
+                $transformedValue = $transformationHandler->transform($this, $property, $value);
+
+                if (!$type->allowsNull() && null === $transformedValue) {
+                    break;
                 }
 
-                settype($value, $type->getName());
+                $propertyAccessor->setValue($this, $propertyName, $transformedValue);
+
+                break;
             }
-
-            $propertyAccessor->setValue($this, $propertyName, $value);
         }
     }
 }

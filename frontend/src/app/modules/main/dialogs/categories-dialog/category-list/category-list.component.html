@@ -1,14 +1,22 @@
-<nb-card class="mb-0">
+<nb-card size="medium" style="width: 335px;">
     <nb-list>
-        <nb-list-item *ngFor="let category of categories" (click)="categoryClick.emit(category)">
+        <nb-list-item
+            *ngFor="let category of categories"
+            [class.active]="isActive(category)"
+            [style.background-color]="isActive(category) ? category.color : ''"
+            (click)="categoryClick.emit(category)">
             <div class="d-flex align-items-center w-100">
-                <nb-icon icon="radio-button-on" class="flex-shrink-0 me-3" [style.color]="category.color"></nb-icon>
+                <nb-icon
+                    icon="radio-button-on"
+                    class="flex-shrink-0 me-3"
+                    [style.color]="isActive(category) ? '' : category.color">
+                </nb-icon>
                 <div class="text-truncate">{{ category.name }}</div>
             </div>
         </nb-list-item>
     </nb-list>
     <nb-card-footer class="text-right">
-        <button nbButton status="primary" ghost (click)="categoryClick.emit()">
+        <button nbButton status="primary" ghost (click)="newCategoryClick.emit(true)">
             <nb-icon icon="plus"></nb-icon> Add category
         </button>
     </nb-card-footer>

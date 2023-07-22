@@ -1,0 +1,22 @@
+<nb-card size="medium">
+    <nb-list>
+        <nb-list-item
+            *ngFor="let calendar of calendars"
+            [class.active]="isActive(calendar)"
+            (click)="calendarClick.emit(calendar)">
+            <div class="d-flex align-items-center w-100">
+                <nb-icon
+                    [icon]="isActive(calendar) ? 'radio-button-on' : 'radio-button-off'"
+                    [style]="isActive(calendar) ? 'primary' : ''"
+                    class="flex-shrink-0 me-3">
+                </nb-icon>
+                <div class="text-truncate">{{ calendar.name }}</div>
+            </div>
+        </nb-list-item>
+    </nb-list>
+    <nb-card-footer class="text-right">
+        <button nbButton status="primary" ghost (click)="newCalendarClick.emit(true)">
+            <nb-icon icon="plus"></nb-icon> Add calendar
+        </button>
+    </nb-card-footer>
+</nb-card>

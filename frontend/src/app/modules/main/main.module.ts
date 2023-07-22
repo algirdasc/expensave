@@ -5,8 +5,7 @@ import {RouterModule} from '@angular/router';
 import {NbEvaIconsModule} from '@nebular/eva-icons';
 import {
     NbActionsModule, NbAutocompleteModule, NbButtonGroupModule,
-    NbButtonModule,
-    NbCalendarKitModule,
+    NbButtonModule, NbCalendarComponent, NbCalendarKitModule, NbCalendarModule,
     NbCardModule, NbDatepickerModule,
     NbIconModule,
     NbInputModule,
@@ -17,7 +16,6 @@ import {
     NbUserModule
 } from '@nebular/theme';
 import {AngularResizeEventModule} from 'angular-resize-event';
-import {UserApiService} from '../../api/user.api.service';
 import {ShortNumberPipe} from '../../pipes/shortnumber.pipe';
 import {UserResolver} from '../../resolvers/user.resolver';
 import {CalendarDayNamesComponent} from './calendar/calendar-day-names/calendar-day-names.component';
@@ -26,17 +24,21 @@ import {ExpenseItemComponent} from './calendar/calendar-grid-row-cell/expense-it
 import {CalendarGridRowComponent} from './calendar/calendar-grid-row/calendar-grid-row.component';
 import {CalendarGridComponent} from './calendar/calendar-grid/calendar-grid.component';
 import {CalendarComponent} from './calendar/calendar.component';
-import {CalendarDialogComponent} from './dialogs/calendar-dialog/calendar-dialog.component';
+import {CalendarEditComponent} from './dialogs/calendars-dialog/calendar-edit/calendar-edit.component';
+import {CalendarListComponent} from './dialogs/calendars-dialog/calendar-list/calendar-list.component';
+import {CalendarsDialogComponent} from './dialogs/calendars-dialog/calendars-dialog.component';
 import {ConfirmDialogComponent} from './dialogs/confirm-dialog/confirm-dialog.component';
+import {DatepickerDialogComponent} from './dialogs/datepicker-dialog/datepicker-dialog.component';
 import {ExpenseDialogComponent} from './dialogs/expense-dialog/expense-dialog.component';
 import {ExpenseListDialogComponent} from './dialogs/expense-list-dialog/expense-list-dialog.component';
+import {InputDialogComponent} from './dialogs/input-dialog/input-dialog.component';
 import {ProfileDialogComponent} from './dialogs/profile-dialog/profile-dialog.component';
 import {StatementImportDialogComponent} from './dialogs/statement-import-dialog/statement-import-dialog.component';
 import {HeaderComponent} from './header/header.component';
 import {MainComponent} from './main.component';
 import {mainRoutes} from './main.routes';
 import {MainService} from './main.service';
-import {CalendarListComponent} from './sidebar/calendar-list/calendar-list.component';
+import {CalendarSidebarListComponent} from './sidebar/calendar-list/calendar-list.component';
 import {ProfileComponent} from './sidebar/profile/profile.component';
 import {CategoriesDialogComponent} from './dialogs/categories-dialog/categories-dialog.component';
 import {CategoryEditComponent} from './dialogs/categories-dialog/category-edit/category-edit.component';
@@ -47,11 +49,9 @@ import {CategoryListComponent} from './dialogs/categories-dialog/category-list/c
         // UI Components
         MainComponent,
         HeaderComponent,
-        CalendarListComponent,
+        CalendarSidebarListComponent,
         ProfileComponent,
         CalendarComponent,
-        CategoryEditComponent,
-        CategoryListComponent,
 
         // CalendarComponent Components
         CalendarDayNamesComponent,
@@ -65,9 +65,17 @@ import {CategoryListComponent} from './dialogs/categories-dialog/category-list/c
         ExpenseDialogComponent,
         ExpenseListDialogComponent,
         ProfileDialogComponent,
-        CalendarDialogComponent,
         CategoriesDialogComponent,
+        CalendarsDialogComponent,
         StatementImportDialogComponent,
+        InputDialogComponent,
+        DatepickerDialogComponent,
+
+        // Dialog components
+        CalendarListComponent,
+        CalendarEditComponent,
+        CategoryEditComponent,
+        CategoryListComponent,
 
         // Pipes
         ShortNumberPipe,
@@ -78,7 +86,7 @@ import {CategoryListComponent} from './dialogs/categories-dialog/category-list/c
         FormsModule,
         NbLayoutModule,
         NbSidebarModule.forRoot(),
-        NbDatepickerModule.forRoot(),
+        NbCalendarModule,
         NbRadioModule,
         NbButtonModule,
         NbEvaIconsModule,

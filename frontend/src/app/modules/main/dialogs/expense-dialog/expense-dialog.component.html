@@ -1,30 +1,36 @@
 <form #expenseForm="ngForm" (ngSubmit)="onSubmit()" autocomplete="off">
-    <nb-card [nbSpinner]="isBusy">
+    <nb-card size="medium" [nbSpinner]="isBusy" status="warning" style="width: 335px;">
         <nb-card-header>
-            <input nbInput name="label" [(ngModel)]="expense.label">
+            <input nbInput name="amount" [(ngModel)]="expense.amount" />
+            <input nbInput name="label" [(ngModel)]="expense.label" />
         </nb-card-header>
         <nb-card-body class="p-0">
             <nb-list>
-                <nb-list-item>
+                <nb-list-item (click)="selectCalendar()" class="actionable">
                     <nb-icon icon="calendar-outline"></nb-icon>
-                    {{ expense.calendar.name }}
+                    <div class="text-truncate">{{ expense.calendar.name }}</div>
                 </nb-list-item>
-                <nb-list-item (click)="expense.confirmed = !expense.confirmed">
-                    <nb-icon [icon]="expense.confirmed ? 'checkmark-circle-2' : 'checkmark-circle-2-outline'"></nb-icon>
-                    {{ expense.confirmed | json }}
+
+                <nb-list-item (click)="expense.confirmed = !expense.confirmed" class="actionable">
+                    <nb-icon [icon]="expense.confirmed ? 'checkmark-circle-2' : 'radio-button-off'" [status]="expense.confirmed ? 'primary' : ''" [class.active]="expense.confirmed"></nb-icon>
+                    <div>{{ expense.confirmed ? 'Confirmed' : 'Unconfirmed' }}</div>
                 </nb-list-item>
-                <nb-list-item>
-                    <nb-icon icon="radio-button-on" [ngStyle]="{'color': expense.category?.color}"></nb-icon>
-                    {{ expense.category?.name | json }}
+
+                <nb-list-item (click)="selectCategory()" class="actionable">
+                    <nb-icon icon="radio-button-on" [ngStyle]="{'color': expense.category?.color}" class="active"></nb-icon>
+                    <div class="text-truncate">{{ expense.category?.name ?? 'Uncategorized' }}</div>
                 </nb-list-item>
-                <nb-list-item>
+
+                <nb-list-item (click)="selectDateTime()" class="actionable">
                     <nb-icon icon="calendar-outline"></nb-icon>
-                    {{ expense.createdAt }}
+                    <div class="text-truncate">{{ expense.createdAt|date:'fullDate' }}</div>
                 </nb-list-item>
-                <nb-list-item>
+
+                <nb-list-item (click)="addDescription()" class="actionable">
                     <nb-icon icon="file-text-outline"></nb-icon>
-                    <span>Add description</span>
+                    <div class="text-truncate">{{ expense.description ?? 'Add description' }}</div>
                 </nb-list-item>
+
                 <nb-list-item>
                     <nb-icon icon="person-outline"></nb-icon>
                     <nb-user [name]="expense.user.name"
@@ -34,11 +40,18 @@
                 </nb-list-item>
             </nb-list>
         </nb-card-body>
-        <nb-card-footer class="text-right">
-            <button nbButton type="submit" status="primary" [disabled]="isBusy || !expenseForm.valid">
-                <nb-icon icon="save-outline"></nb-icon>
-                Save
-            </button>
+
+        <nb-card-footer>
+            <div class="d-flex flex-row-reverse justify-content-between">
+                <button nbButton type="submit" status="primary" [disabled]="isBusy || !expenseForm.valid">
+                    <nb-icon icon="save-outline"></nb-icon>
+                    Save
+                </button>
+
+                <button nbButton type="button" ghost status="danger" *ngIf="expense.id" (click)="deleteExpense()">
+                    <nb-icon icon="trash-2-outline"></nb-icon>
+                </button>
+            </div>
         </nb-card-footer>
     </nb-card>
 </form>

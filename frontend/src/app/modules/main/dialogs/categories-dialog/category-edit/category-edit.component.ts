@@ -8,19 +8,27 @@ import {CategoryApiService} from '../../../../../api/category.api.service';
     selector: 'app-category-edit'
 })
 export class CategoryEditComponent {
+    @Input() public saveButtonEnabled: boolean = true;
     @Input() public category: Category;
     @Output() public save: EventEmitter<Category> = new EventEmitter<Category>();
+    @Output() public back: EventEmitter<boolean> = new EventEmitter<boolean>();
     public usedColors: object = {};
     public isBusy: boolean = false;
     public colors: string[] = [
-        '#f3d04f', '#f9c463', '#f39c12', '#dd8a06', '#d35400', '#b24902', '#a63414',
-        '#f46262', '#da4040', '#c3193a', '#700b1e'
+        '#f3d04f', '#f9c463', '#f39c12', '#dd8a06',
+        '#d35400', '#b24902', '#a63414', '#f46262',
+        '#da4040', '#c3193a', '#700b1e', '#f288b1',
+        '#d34d81', '#bd66a8', '#a33d8a', '#7359b6',
+        '#5e4a92', '#6687e7', '#3960d1', '#52bce8',
+        '#169dd5', '#0070b1', '#56cdd0', '#009ea2',
+        '#57dabb', '#19bc96', '#329d69', '#297541',
+        '#27ae60', '#5bc953', '#a8c85b', '#adb749',
+        '#9ca66e', '#9b882b', '#745015', '#905d65',
+        '#b19993', '#a8c0a8', '#668686', '#b0b6ba',
+        '#616d75', '#394852'
     ];
-    private _categories: Category[];
 
-    constructor(private readonly categoryApiService: CategoryApiService) {
-        this.categoryApiService.onBusyChange.subscribe((isBusy: boolean) => this.isBusy = isBusy);
-    }
+    private _categories: Category[];
 
     @Input()
     get categories(): Category[] {
@@ -32,15 +40,5 @@ export class CategoryEditComponent {
         for (const category of this._categories) {
             this.usedColors[category.color] = true;
         }
-    }
-
-    public onSubmit(): void {
-        this.categoryApiService
-            .save(this.category)
-            .subscribe((category: Category) => {
-                this.category = category;
-                this.save.emit(this.category);
-            })
-        ;
     }
 }

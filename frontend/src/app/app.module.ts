@@ -6,6 +6,7 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {RouterModule} from '@angular/router';
 import {NbAuthJWTInterceptor, NB_AUTH_TOKEN_INTERCEPTOR_FILTER} from '@nebular/auth';
 import {
+    NbDatepickerModule,
     NbDialogModule,
     NbLayoutModule,
     NbThemeModule,
@@ -49,6 +50,7 @@ const apiServices = [
         AuthModule.forRoot(),
         NbDialogModule.forRoot(),
         NbToastrModule.forRoot(),
+        NbDatepickerModule.forRoot(),
         NbLayoutModule,
     ],
     providers: [

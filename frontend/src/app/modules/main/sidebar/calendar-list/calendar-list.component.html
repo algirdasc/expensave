@@ -5,12 +5,12 @@
   <div>
     <nb-list class="mb-3">
       <nb-list-item
-              *ngFor="let c of calendars">
-        <nb-radio-group class="w-100">
+        *ngFor="let c of calendars">
+        <nb-radio-group name="sidebar-calendar" class="w-100">
           <nb-radio
-                  [value]="c"
-                  (valueChange)="calendarChange.emit($event)"
-                  [checked]="calendar?.id === c.id">
+            [value]="c"
+            (valueChange)="calendarChange.emit($event)"
+            [checked]="calendar?.id === c.id">
             <div class="d-flex align-items-center justify-content-between w-100">
               <div class="calendar-name text-truncate">{{ c.name }}</div>
               <div class="calendar-balance text-hint">{{ c.balance | currency }}</div>

@@ -1,13 +1,17 @@
-<div style="width: 290px" [nbSpinner]="isBusy">
+<div style="min-width: 290px" [nbSpinner]="isBusy">
     <app-category-list
-            *ngIf="!category"
+            *ngIf="!editableCategory"
             [categories]="categories"
-            (categoryClick)="editCategory($event)">
+            [selectedCategory]="selectedCategory"
+            (newCategoryClick)="editCategory()"
+            (categoryClick)="categoryClick($event)">
     </app-category-list>
     <app-category-edit
-            *ngIf="category"
+            *ngIf="editableCategory"
             [categories]="categories"
-            [category]="category"
-            (save)="category = undefined; fetch()">
+            [category]="editableCategory"
+            [saveButtonEnabled]="isBusy"
+            (back)="editableCategory = undefined"
+            (save)="saveCategory($event)">
     </app-category-edit>
 </div>

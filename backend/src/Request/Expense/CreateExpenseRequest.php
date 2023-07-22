@@ -17,9 +17,8 @@ class CreateExpenseRequest extends AbstractRequest
     #[ResolveEntity]
     private Calendar $calendar;
 
-    #[Assert\NotBlank]
     #[ResolveEntity]
-    private Category $category;
+    private ?Category $category = null;
 
     #[Assert\NotBlank]
     private string $label;
@@ -46,12 +45,12 @@ class CreateExpenseRequest extends AbstractRequest
         return $this;
     }
 
-    public function getCategory(): Category
+    public function getCategory(): ?Category
     {
         return $this->category;
     }
 
-    public function setCategory(Category $category): self
+    public function setCategory(?Category $category): self
     {
         $this->category = $category;
 

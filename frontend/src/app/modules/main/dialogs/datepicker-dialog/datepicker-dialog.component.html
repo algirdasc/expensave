@@ -1,0 +1,14 @@
+<nb-card size="medium">
+    <nb-card-header i18n>
+        <button nbButton status="primary" ghost (click)="dialogRef.close()">
+            <nb-icon icon="arrow-back-outline"></nb-icon>
+        </button>
+        Pick a date
+    </nb-card-header>
+
+    <nb-calendar
+        size="medium"
+        [(date)]="date"
+        (dateChange)="dialogRef.close(date)">
+    </nb-calendar>
+</nb-card>

@@ -1,4 +1,5 @@
 import {Component, OnInit} from '@angular/core';
+import {NbDialogRef} from '@nebular/theme';
 import {CategoryApiService} from '../../../../api/category.api.service';
 import {Category} from '../../../../api/entities/category.entity';
 
@@ -8,10 +9,15 @@ import {Category} from '../../../../api/entities/category.entity';
 })
 export class CategoriesDialogComponent implements OnInit {
     public isBusy: boolean = false;
+    public isSelectable: boolean = true;
     public categories: Category[];
-    public category: Category;
+    public selectedCategory: Category;
+    public editableCategory: Category;
 
-    constructor(private readonly categoryApiService: CategoryApiService) {
+    constructor(
+      private readonly dialogRef: NbDialogRef<CategoriesDialogComponent>,
+      private readonly categoryApiService: CategoryApiService
+    ) {
         this.categoryApiService.onBusyChange.subscribe((isBusy: boolean) => this.isBusy = isBusy);
     }
 
@@ -19,8 +25,26 @@ export class CategoriesDialogComponent implements OnInit {
         this.fetch();
     }
 
+    public categoryClick(category: Category): void {
+      if (!this.isSelectable) {
+        this.editCategory(category);
+      } else {
+        this.dialogRef.close(category);
+      }
+    }
+
     public editCategory(category?: Category): void {
-        this.category = category ?? new Category();
+        this.editableCategory = category ?? new Category();
+    }
+
+    public saveCategory(category: Category): void {
+        this.categoryApiService
+            .save(category)
+            .subscribe((response: Category) => {
+                this.editableCategory = undefined;
+                this.fetch();
+            })
+        ;
     }
 
     public fetch(): void {

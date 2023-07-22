@@ -81,8 +81,8 @@ class ExpenseController extends AbstractApiController
         return $this->respond($expense, groups: ExpenseContextGroupConst::DETAILS);
     }
 
-    #[Route('/{calendar}/{expense}', name: 'delete', methods: Request::METHOD_DELETE)]
-    public function delete(Calendar $calendar, Expense $expense): JsonResponse
+    #[Route('/{expense}', name: 'delete', methods: Request::METHOD_DELETE)]
+    public function delete(Expense $expense): JsonResponse
     {
         $this->expenseRepository->remove($expense, true);
 

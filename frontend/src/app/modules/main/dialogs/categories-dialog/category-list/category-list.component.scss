@@ -1,3 +1,5 @@
+@import '../../../../../../themes';
+
 nb-list-item {
   cursor: pointer;
 }
@@ -6,4 +8,12 @@ nb-list-item {
   width: 24px;
   height: 24px;
   border-radius: 50%;
+}
+
+nb-list-item.active {
+  color: nb-theme(text-alternate-color);
+
+  nb-icon {
+    color: nb-theme(text-alternate-color) !important;
+  }
 }

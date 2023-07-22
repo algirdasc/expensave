@@ -20,11 +20,11 @@
 
   <nb-sidebar class="menu-sidebar" tag="menu-sidebar" state="collapsed" responsive>
     <div class="d-flex flex-column justify-content-between h-100">
-      <app-calendar-list
+      <app-sidebar-calendar-list
               [(calendars)]="mainService.user.calendars"
               [calendar]="calendar"
               (calendarChange)="calendar = $event; fetchExpenses()">
-      </app-calendar-list>
+      </app-sidebar-calendar-list>
       <app-profile
               [(user)]="mainService.user">
       </app-profile>
