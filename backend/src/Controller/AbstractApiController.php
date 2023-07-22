@@ -5,9 +5,7 @@ declare(strict_types=1);
 namespace App\Controller;
 
 use App\Const\ContextGroupConst;
-use App\Response\AbstractResponse;
 use App\Response\Error\ErrorResponse;
-use App\Response\ResponseInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
@@ -16,18 +14,18 @@ use Symfony\Component\Serializer\Encoder\JsonEncoder;
 abstract class AbstractApiController extends AbstractController
 {
     /**
-     * @param array<string> $groups
+     * @param array<string>|string $groups
      */
-    public function respond(Response $data, array $groups = []): JsonResponse
+    public function respond(mixed $data, int $status = Response::HTTP_OK, array|string $groups = []): JsonResponse
     {
+        $groups = (array) $groups;
+
         return $this
             ->json(
                 data: $data,
+                status: $status,
                 context: [
-                    'groups' => array_unique([
-                        ContextGroupConst::ALWAYS,
-                        ...$groups
-                    ]),
+                    'groups' => ContextGroupConst::fromRequest($groups),
                 ]
             )
             ->setEncodingOptions(JSON_PRETTY_PRINT)

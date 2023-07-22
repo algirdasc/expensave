@@ -12,8 +12,8 @@ services:
         autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
 
     _instanceof:
-        App\Response\Error\Handler\ErrorHandlerInterface:
-            tags: ['app.response.error.handlers']
+        App\Handler\Error\ErrorHandlerInterface:
+            tags: ['app.handlers.error']
         App\Service\Statement\Import\Handler\StatementImportHandlerInterface:
             tags: ['app.statement.import.handlers']
 

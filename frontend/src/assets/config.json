@@ -1,5 +1,5 @@
 {
-  "apiUrl": "http://localhost:4201",
+  "apiUrl": "http://host.docker.internal:8005",
   "currency": "EUR",
   "locale": "lt"
 }

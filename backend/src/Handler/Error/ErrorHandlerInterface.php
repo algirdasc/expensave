@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Response\Error\Handler;
+namespace App\Handler\Error;
 
 use Throwable;
 

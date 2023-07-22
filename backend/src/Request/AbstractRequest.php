@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Request;
 
+use App\Attribute\Request\ResolveEntity;
+use App\Resolver\Request\PopulationResolver;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Mapping\MappingException;
 use LogicException;
@@ -17,7 +19,9 @@ use Symfony\Component\Serializer\SerializerInterface;
 abstract class AbstractRequest
 {
     public function __construct(
-        private readonly SerializerInterface $serializer
+        private SerializerInterface $serializer,
+        private EntityManagerInterface $entityManager,
+        private PopulationResolver $populationResolver
     ) {
         $this->populate();
     }
@@ -29,6 +33,7 @@ abstract class AbstractRequest
 
     protected function populate(): void
     {
+        // TODO: use strategy to select value resolver
         $propertyAccessor = PropertyAccess::createPropertyAccessor();
         $reflection = new ReflectionClass($this);
 
@@ -37,37 +42,43 @@ abstract class AbstractRequest
         foreach ($reflection->getProperties() as $property) {
             $propertyName = $property->getName();
             $type = $property->getType();
+
             if ($type === null) {
                 throw new LogicException(sprintf('Property "%s" must have type set', $propertyName));
             }
-
-            $value = $requestAsArray[$propertyName] ?? null;
 
             if (!$type instanceof ReflectionNamedType) {
                 throw new LogicException(sprintf('Property "%s" must have named type set', $propertyName));
             }
 
-            $phpDocExtractor = new PhpDocExtractor();
-            $types = $phpDocExtractor->getTypes(static::class, $propertyName);
+            $value = $requestAsArray[$propertyName] ?? null;
 
             if (!$type->isBuiltin()) {
-                $format = null;
+                $types = (new PhpDocExtractor())->getTypes(static::class, $propertyName);
+                $collectionValueType = null;
 
                 if ($types !== null) {
-                    $format = $types[0]->getCollectionValueTypes()[0]->getClassName();
+                    $collectionValueType = $types[0]->getCollectionValueTypes()[0]->getClassName();
                 }
 
-                $value = $this->serializer->denormalize($value, $type->getName(), $format);
-            } elseif ($type->getName() === 'array') {
-//                $phpDocExtractor = new PhpDocExtractor();
-//                $types = $phpDocExtractor->getTypes(static::class, $propertyName);
-//                $collectionValueType = $types[0]->getCollectionValueTypes()[0];
-//
-//                if ($types !== null && $collectionValueType->getClassName() !== null) {
-//                    $class = sprintf('%s[]', $collectionValueType->getClassName());
-//                    $value = $this->serializer->denormalize($value, $class, 'something');
-//                }
+                $shouldResolveEntity = (bool) $property->getAttributes(ResolveEntity::class);
+                if ($shouldResolveEntity && (is_int($value) || is_string($value))) {
+                    $repository = $this->entityManager->getRepository($type->getName());
+                    $value = $repository->find($value);
+                }
+
+                if (!$type->allowsNull() && null === $value) {
+                    continue;
+                }
+
+                if (!$shouldResolveEntity) {
+                    $value = $this->serializer->denormalize($value, $type->getName(), $collectionValueType);
+                }
             } else {
+                if ($type->allowsNull() && null === $value) {
+                    continue;
+                }
+
                 settype($value, $type->getName());
             }
 

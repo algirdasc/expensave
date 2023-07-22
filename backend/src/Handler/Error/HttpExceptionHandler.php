@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Response\Error\Handler;
+namespace App\Handler\Error;
 
 use App\Response\Error\ErrorResponseMessage;
 use Symfony\Component\HttpKernel\Exception\HttpExceptionInterface;

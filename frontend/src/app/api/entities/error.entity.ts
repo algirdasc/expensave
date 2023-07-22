@@ -1,9 +1,11 @@
-import {Expose} from 'class-transformer';
+import {Expose, Type} from 'class-transformer';
+import {ErrorMessage} from './errormessage.entity';
 
 export class Error {
     @Expose()
     public throwable: string;
 
     @Expose()
-    public messages: string[];
+    @Type(() => ErrorMessage)
+    public messages: ErrorMessage[];
 }

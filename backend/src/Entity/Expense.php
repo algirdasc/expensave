@@ -20,6 +20,7 @@ class Expense
 
     #[ORM\ManyToOne(targetEntity: Category::class)]
     #[ORM\JoinColumn(nullable: true)]
+    #[Groups(ExpenseContextGroupConst::ALWAYS)]
     private ?Category $category = null;
 
     #[ORM\ManyToOne(targetEntity: Calendar::class, inversedBy: 'expenses')]

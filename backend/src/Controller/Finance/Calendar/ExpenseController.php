@@ -2,11 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Controller\Finance;
+namespace App\Controller\Finance\Calendar;
 
 use App\Const\ContextGroup\ExpenseContextGroupConst;
-use App\Const\ContextGroup\UserContextGroupConst;
-use App\Const\ContextGroupConst;
 use App\Controller\AbstractApiController;
 use App\Entity\Calendar;
 use App\Entity\Expense;
@@ -16,18 +14,18 @@ use App\Repository\ExpenseRepository;
 use App\Request\Expense\CreateExpenseRequest;
 use App\Request\Expense\UpdateExpenseRequest;
 use App\Response\EmptyResponse;
-use App\Response\EntityResponse;
 use DateTime;
+use PHPUnit\Util\Json;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Security\Core\Security;
+use Symfony\Component\Security\Http\Attribute\CurrentUser;
 
 #[Route('expense', name: 'expense_')]
 class ExpenseController extends AbstractApiController
 {
     public function __construct(
-        private ExpenseRepository $expenseRepository
+        private readonly ExpenseRepository $expenseRepository
     ) {
     }
 
@@ -40,33 +38,32 @@ class ExpenseController extends AbstractApiController
             (new DateTime())->setTimestamp($toTs)
         );
 
-        return $this->respond(
-            new EntityResponse($expenses)
-        );
+        return $this->respond($expenses);
+    }
+
+    #[Route('/{id}', name: 'get', methods: Request::METHOD_GET)]
+    public function get(Expense $expense): JsonResponse
+    {
+        return $this->respond($expense, groups: ExpenseContextGroupConst::DETAILS);
     }
 
     #[Route('', name: 'create', methods: Request::METHOD_POST)]
-    public function create(CreateExpenseRequest $request, CalendarRepository $calendarRepository): JsonResponse
+    public function create(#[CurrentUser] User $user, CreateExpenseRequest $request): JsonResponse
     {
-        /** @var User $user */
-        $user = $this->getUser(); // TODO: maybe use #[CurrentUser]
-
-        /** @var Calendar $calendar */
-        $calendar = $calendarRepository->find(22);
-
         $expense = (new Expense())
-            ->setCalendar($calendar)
+            ->setCalendar($request->getCalendar())
+            ->setCategory($request->getCategory())
             ->setUser($user)
             ->setLabel($request->getLabel())
             ->setAmount($request->getAmount())
             ->setCreatedAt($request->getCreatedAt())
+            ->setConfirmed($request->isConfirmed())
+            ->setDescription($request->getDescription())
         ;
 
         $this->expenseRepository->save($expense, true);
 
-        return $this->respond(
-            new EntityResponse($expense)
-        );
+        return $this->respond($expense, groups: ExpenseContextGroupConst::DETAILS);
     }
 
     #[Route('/{expense}', name: 'update', methods: Request::METHOD_PUT)]
@@ -81,9 +78,7 @@ class ExpenseController extends AbstractApiController
 
         $this->expenseRepository->save($expense, true);
 
-        return $this->respond(
-            new EntityResponse($expense)
-        );
+        return $this->respond($expense, groups: ExpenseContextGroupConst::DETAILS);
     }
 
     #[Route('/{calendar}/{expense}', name: 'delete', methods: Request::METHOD_DELETE)]

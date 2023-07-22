@@ -2,18 +2,18 @@
 
 declare(strict_types=1);
 
-namespace App\Controller\Finance;
+namespace App\Controller\Finance\Calendar;
 
+use App\Const\ContextGroup\CalendarContextGroupConst;
 use App\Controller\AbstractApiController;
 use App\Entity\Calendar;
 use App\Entity\User;
 use App\Repository\CalendarRepository;
 use App\Request\Calendar\CreateCalendarRequest;
-use App\Request\Calendar\UpdateCalendarRequest;
-use App\Response\EntityResponse;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Http\Attribute\CurrentUser;
 
 #[Route('calendar', name: 'calendar_')]
 class CalendarController extends AbstractApiController
@@ -26,27 +26,18 @@ class CalendarController extends AbstractApiController
     #[Route('', name: 'list', methods: Request::METHOD_GET)]
     public function list(): JsonResponse
     {
-        $calendars = $this->calendarRepository->findAll();
-
-        return $this->respond(
-            new EntityResponse($calendars)
-        );
+        return $this->respond($this->calendarRepository->findAll());
     }
 
     #[Route('/{calendar}', name: 'get', methods: Request::METHOD_GET)]
     public function get(Calendar $calendar): JsonResponse
     {
-        return $this->respond(
-            new EntityResponse($calendar)
-        );
+        return $this->respond($calendar, groups: CalendarContextGroupConst::DETAILS);
     }
 
     #[Route('', name: 'create', methods: Request::METHOD_POST)]
-    public function create(CreateCalendarRequest $request): JsonResponse
+    public function create(#[CurrentUser] User $user, CreateCalendarRequest $request): JsonResponse
     {
-        /** @var User $user */
-        $user = $this->getUser();
-
         $calendar = (new Calendar())
             ->setName($request->getName())
             ->addUser($user)
@@ -58,17 +49,12 @@ class CalendarController extends AbstractApiController
 
         $this->calendarRepository->save($calendar, true);
 
-        return $this->respond(
-            new EntityResponse($calendar)
-        );
+        return $this->respond($calendar, groups: CalendarContextGroupConst::DETAILS);
     }
 
     #[Route('/{calendar}', name: 'update', methods: Request::METHOD_PUT)]
-    public function update(Calendar $calendar, CreateCalendarRequest $request): JsonResponse
+    public function update(#[CurrentUser] User $user, Calendar $calendar, CreateCalendarRequest $request): JsonResponse
     {
-        /** @var User $user */
-        $user = $this->getUser();
-
         $calendar
             ->setName($request->getName())
             ->addUser($user)
@@ -80,9 +66,7 @@ class CalendarController extends AbstractApiController
 
         $this->calendarRepository->save($calendar, true);
 
-        return $this->respond(
-            new EntityResponse($calendar)
-        );
+        return $this->respond($calendar, groups: CalendarContextGroupConst::DETAILS);
     }
 
     #[Route('/{calendar}', name: 'remove', methods: Request::METHOD_DELETE)]
@@ -90,8 +74,6 @@ class CalendarController extends AbstractApiController
     {
         $this->calendarRepository->remove($calendar, true);
 
-        return $this->respond(
-            new EntityResponse($this->calendarRepository->findAll())
-        );
+        return $this->respond($this->calendarRepository->findAll());
     }
 }

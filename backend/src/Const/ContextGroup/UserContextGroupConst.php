@@ -8,6 +8,6 @@ use App\Const\ContextGroupConst;
 
 class UserContextGroupConst
 {
-    public const ALWAYS = [ContextGroupConst::ALWAYS, self::DETAILS];
+    public const ALWAYS = [ContextGroupConst::API_ALWAYS, self::DETAILS];
     public const DETAILS = 'user.details';
 }

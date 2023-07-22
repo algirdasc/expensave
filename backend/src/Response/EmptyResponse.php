@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Response;
 
-class EmptyResponse extends AbstractResponse
+class EmptyResponse
 {
 
 }

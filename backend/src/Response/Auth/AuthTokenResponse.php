@@ -5,12 +5,11 @@ declare(strict_types=1);
 namespace App\Response\Auth;
 
 use App\Const\ContextGroupConst;
-use App\Response\AbstractResponse;
 use Symfony\Component\Serializer\Annotation\Groups;
 
-class AuthTokenResponse extends AbstractResponse
+class AuthTokenResponse
 {
-    #[Groups(ContextGroupConst::ALWAYS)]
+    #[Groups(ContextGroupConst::API_ALWAYS)]
     private string $token;
 
     public function getToken(): string

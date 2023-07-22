@@ -6,25 +6,34 @@ import {Observable, throwError} from 'rxjs';
 import {catchError} from 'rxjs/operators';
 import {Error} from '../api/entities/error.entity';
 
+const REQUEST_VALIDATION_EXCEPTION: string = 'App\\Exception\\RequestValidationException';
+
 @Injectable()
 export class ErrorInterceptor implements HttpInterceptor {
-    constructor(
-        private toastrService: NbToastrService
-    ) {
-    }
+  constructor(
+    private toastrService: NbToastrService
+  ) {
+  }
 
-    public intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-        return next.handle(req)
-            .pipe(
-                catchError((response: HttpErrorResponse) => {
-                    //const errorEntity = plainToInstance(Error, errorResponse.error as Error, { excludeExtraneousValues: true });
+  public intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+    return next
+      .handle(req)
+      .pipe(
+        catchError((response: HttpErrorResponse) => {
+          const error: Error = plainToInstance(
+            Error,
+            response.error as Error,
+            { excludeExtraneousValues: true }
+          );
 
-                    //this.toastrService.danger(errorEntity.messages[0], errorEntity.throwable);
+          if (true || error.throwable !== REQUEST_VALIDATION_EXCEPTION) {
+            for (const errorMessage of error.messages) {
+              this.toastrService.danger(errorMessage.message, response.statusText);
+            }
+          }
 
-                    this.toastrService.danger(response.message, response.statusText);
-
-                    return throwError(response);
-                })
-            );
-    }
+          return throwError(response);
+        })
+      );
+  }
 }

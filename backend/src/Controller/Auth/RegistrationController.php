@@ -23,14 +23,6 @@ use Symfony\Component\Routing\Annotation\Route;
 class RegistrationController extends AbstractApiController
 {
     #[Route('', name: 'create', methods: Request::METHOD_POST)]
-    #[OA\Response(
-        response: 200,
-        description: 'Creates new user',
-        content: new OA\JsonContent(
-            type: 'array',
-            items: new OA\Items(ref: new Model(type: User::class, groups: ['full']))
-        )
-    )]
     public function index(RegistrationRequest $request, JWTTokenManagerInterface $JWTManager, UserRepository $userRepository): JsonResponse
     {
         $user = (new User())

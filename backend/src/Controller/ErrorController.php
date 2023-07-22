@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
-use App\Response\Error\Resolver\ErrorResponseResolver;
+use App\Resolver\Error\ErrorResponseResolver;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Throwable;
 

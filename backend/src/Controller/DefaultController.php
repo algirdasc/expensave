@@ -4,15 +4,15 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
-use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 
-#[Route('/', name: 'index_')]
-class DefaultController
+#[Route('', name: 'default')]
+class DefaultController extends AbstractController
 {
-    #[Route('', name: 'index')]
-    public function index(): JsonResponse
+    public function __invoke(): void
     {
-        return new JsonResponse(['Hello' => 'World']);
+        throw new NotFoundHttpException('This path does not exists');
     }
 }

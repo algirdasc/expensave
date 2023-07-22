@@ -8,6 +8,6 @@ use App\Const\ContextGroupConst;
 
 class CalendarContextGroupConst
 {
-    public const ALWAYS = [ContextGroupConst::ALWAYS, self::DETAILS];
+    public const ALWAYS = [ContextGroupConst::API_ALWAYS, self::DETAILS];
     public const DETAILS = 'calendar.details';
 }
