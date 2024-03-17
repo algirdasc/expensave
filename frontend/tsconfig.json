@@ -10,7 +10,7 @@
     "module": "esnext",
     "moduleResolution": "node",
     "importHelpers": true,
-    "target": "es2020",
+    "target": "ES2022",
     "typeRoots": [
       "node_modules/@types"
     ],
@@ -20,12 +20,23 @@
     ],
     "skipLibCheck": true,
     "paths": {
-      "timers": ["node_modules/timers-browserify"],
-      "path": ["node_modules/path-browserify"],
-      "util": ["node_modules/util"],
-      "stream-http": ["node_modules/stream-http"],
-      "url": ["node_modules/url"],
-    }
+      "timers": [
+        "node_modules/timers-browserify"
+      ],
+      "path": [
+        "node_modules/path-browserify"
+      ],
+      "util": [
+        "node_modules/util"
+      ],
+      "stream-http": [
+        "node_modules/stream-http"
+      ],
+      "url": [
+        "node_modules/url"
+      ]
+    },
+    "useDefineForClassFields": false
   },
   "angularCompilerOptions": {
     "fullTemplateTypeCheck": true,
