@@ -52,6 +52,6 @@ class CalendarFilter extends SQLFilter
 
         $userId = $this->entityManager->getConnection()->quote($user->getUserIdentifier());
 
-        return sprintf('EXISTS (SELECT 1 FROM `calendar_user` cu_99 WHERE cu_99.calendar_id = %s.id AND cu_99.user_id = %s)', $targetTableAlias, $userId);
+        return sprintf('EXISTS (SELECT 1 FROM `calendar_user` cu_99 LEFT JOIN `user` u ON u.id = cu_99.user_id WHERE cu_99.calendar_id = %s.id AND u.email = %s)', $targetTableAlias, $userId);
     }
 }

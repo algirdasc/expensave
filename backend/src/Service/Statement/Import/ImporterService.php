@@ -10,19 +10,21 @@ use App\Entity\Statement\Import\StatementImportRowInterface;
 use App\Entity\User;
 use App\Exception\StatementImportException;
 use App\Repository\CalendarRepository;
+use App\Repository\CategoryRepository;
 use App\Repository\CategoryRuleRepository;
 use App\Repository\ExpenseRepository;
 use Symfony\Bundle\SecurityBundle\Security;
 
-class ImporterService
+readonly class ImporterService
 {
     private User $user;
 
     public function __construct(
-        private readonly CalendarRepository     $calendarRepository,
-        private readonly ExpenseRepository      $expenseRepository,
-        private readonly CategoryRuleRepository $categoryRuleRepository,
-        private readonly Security               $security
+        private CalendarRepository     $calendarRepository,
+        private CategoryRepository $categoryRepository,
+        private ExpenseRepository      $expenseRepository,
+        private CategoryRuleRepository $categoryRuleRepository,
+        private Security               $security
     ) {
         $user = $this->security->getUser();
         if ($user instanceof User) {
@@ -37,14 +39,21 @@ class ImporterService
             $calendar = $this->calendarRepository->findByIdentification($row->getIdentification()) ?? $defaultCalendar;
         }
 
+        if ($row->getCategoryName() !== null) {
+            $category = $this->categoryRepository->findOrCreate($row->getCategoryName());
+        } else {
+            $category = $this->categoryRuleRepository->match($row->getLabel());
+        }
+
         $expense = ($this->expenseRepository->findByStatementHash($row->getStatementHash()) ?? new Expense())
             ->setCalendar($calendar)
-            ->setCategory($this->categoryRuleRepository->match($row->getLabel()))
+            ->setCategory($category)
             ->setStatementHash($row->getStatementHash())
             ->setCreatedAt($row->getCreatedAt())
             ->setConfirmed($row->isConfirmed())
             ->setLabel($row->getLabel())
             ->setAmount($row->getAmount())
+            ->setDescription($row->getDescription())
             ->setUser($this->user)
         ;
 

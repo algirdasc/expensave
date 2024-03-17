@@ -11,4 +11,12 @@ export class CalendarEditComponent {
     @Input() public calendar: Calendar;
     @Output() public save: EventEmitter<Calendar> = new EventEmitter<Calendar>();
     @Output() public back: EventEmitter<boolean> = new EventEmitter<boolean>();
+
+    onTagRemove(event): void {
+        // TODO:
+    }
+
+    onTagAdd(event): void {
+        // TODO:
+    }
 }

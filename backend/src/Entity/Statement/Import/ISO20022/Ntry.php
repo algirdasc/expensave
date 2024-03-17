@@ -163,4 +163,14 @@ class Ntry implements StatementImportRowInterface
     {
         return true;
     }
+
+    public function getCategoryName(): ?string
+    {
+        return null;
+    }
+
+    public function getDescription(): ?string
+    {
+        return null;
+    }
 }

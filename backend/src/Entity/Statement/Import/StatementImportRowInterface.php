@@ -19,4 +19,8 @@ interface StatementImportRowInterface
     public function getStatementHash(): string;
 
     public function isConfirmed(): bool;
+
+    public function getCategoryName(): ?string;
+
+    public function getDescription(): ?string;
 }

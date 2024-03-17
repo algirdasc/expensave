@@ -1,8 +1,13 @@
 <form #expenseForm="ngForm" (ngSubmit)="onSubmit()" autocomplete="off">
     <nb-card size="medium" [nbSpinner]="isBusy" status="warning" style="width: 335px;">
         <nb-card-header>
-            <input nbInput name="amount" [(ngModel)]="expense.amount" />
-            <input nbInput name="label" [(ngModel)]="expense.label" />
+            <div class="d-flex">
+                <button nbButton type="button" shape="semi-round" status="info" (click)="toggleExpense()">
+                    <nb-icon [icon]="isExpense ? 'minus' : 'plus'"></nb-icon>
+                </button>
+                <input nbInput fullWidth placeholder="Amount" name="amount" [(ngModel)]="expense.amount" />
+                <input nbInput fullWidth placeholder="Label" name="label" [(ngModel)]="expense.label" />
+            </div>
         </nb-card-header>
         <nb-card-body class="p-0">
             <nb-list>

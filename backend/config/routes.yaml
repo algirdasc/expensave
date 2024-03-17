@@ -1,3 +1,6 @@
 controllers:
     resource: ../src/Controller/
     type: attribute
+
+api_refresh_token:
+    path: /auth/refresh-token

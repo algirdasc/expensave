@@ -27,6 +27,7 @@ import {UnauthorizedInterceptor} from './interceptors/unauthorized.interceptor';
 import {AuthModule} from './modules/auth/auth.module';
 import {tokenFilter} from './modules/auth/token.filter';
 import {NotFoundComponent} from './modules/notfound.component';
+import {TestStrategy} from './token/strategy';
 
 const apiServices = [
     CalendarApiService,
@@ -72,7 +73,8 @@ const apiServices = [
         { provide: HTTP_INTERCEPTORS, useClass: UnauthorizedInterceptor, multi: true },
         { provide: HTTP_INTERCEPTORS, useClass: ApiInterceptor, multi: true },
         { provide: HTTP_INTERCEPTORS, useClass: NbAuthJWTInterceptor, multi: true },
-        ...apiServices
+        ...apiServices,
+        TestStrategy
     ],
     bootstrap: [
         AppComponent

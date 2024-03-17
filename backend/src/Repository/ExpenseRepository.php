@@ -26,25 +26,18 @@ class ExpenseRepository extends ServiceEntityRepository
     public function save(Expense $entity, bool $flush = false): void
     {
         $this->getEntityManager()->persist($entity);
-
-        if ($flush) {
-            $this->getEntityManager()->flush();
-        }
+        $this->getEntityManager()->flush();
     }
 
     public function remove(Expense $entity, bool $flush = false): void
     {
         $this->getEntityManager()->remove($entity);
-
-        if ($flush) {
-            $this->getEntityManager()->flush();
-        }
+        $this->getEntityManager()->flush();
     }
 
     public function findByStatementHash(string $statementHash): ?Expense
     {
-        return $this->findOneBy(['statementHash' => $statementHash])
-            ;
+        return $this->findOneBy(['statementHash' => $statementHash]);
     }
 
     /**
@@ -60,7 +53,6 @@ class ExpenseRepository extends ServiceEntityRepository
             ->setParameter('fromDate', $fromDate)
             ->setParameter('toDate', $toDate)
             ->getQuery()
-            ->getResult()
-            ;
+            ->getResult();
     }
 }

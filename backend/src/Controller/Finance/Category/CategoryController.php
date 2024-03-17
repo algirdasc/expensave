@@ -24,7 +24,7 @@ class CategoryController extends AbstractApiController
     #[Route('', name: 'list', methods: Request::METHOD_GET)]
     public function list(): JsonResponse
     {
-        return $this->respond($this->categoryRepository->findAll());
+        return $this->respond($this->categoryRepository->findBy([], ['name' => 'ASC']));
     }
 
     #[Route('/{category}', name: 'get', methods: Request::METHOD_GET)]

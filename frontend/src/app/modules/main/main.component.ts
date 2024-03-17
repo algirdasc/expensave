@@ -62,7 +62,5 @@ export class MainComponent implements OnInit, AfterViewInit {
             .list(this.calendar, this.dateRange.fromDate, this.dateRange.toDate)
             .subscribe((expenses: Expense[]) => this.expenses = expenses)
         ;
-
-        console.log('fetching expenses', this.calendar.id, this.dateRange.fromDate, this.dateRange.toDate);
     }
 }

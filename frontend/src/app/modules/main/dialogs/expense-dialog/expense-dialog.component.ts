@@ -18,6 +18,7 @@ export class ExpenseDialogComponent {
     public expense: Expense;
     public calendars: Calendar[];
     public isBusy: boolean = false;
+    public isExpense: boolean = true;
 
     constructor(
         private readonly expenseApiService: ExpenseApiService,
@@ -26,6 +27,10 @@ export class ExpenseDialogComponent {
     ) { }
 
     public onSubmit(): void {
+        if (this.isExpense) {
+            this.expense.amount = -1 * this.expense.amount;
+        }
+
         this.expenseApiService
             .save(this.expense)
             .subscribe((expense: Expense) => {
@@ -106,5 +111,9 @@ export class ExpenseDialogComponent {
                         .subscribe(() => this.dialogRef.close(true));
                 }
             });
+    }
+
+    public toggleExpense(): void {
+        this.isExpense = !this.isExpense;
     }
 }

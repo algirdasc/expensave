@@ -3,6 +3,7 @@ import {
 } from '@angular/core';
 import {NbCalendarDayPickerComponent, NbCalendarMonthModelService} from '@nebular/theme';
 import {Expense} from '../../../api/entities/expense.entity';
+import {DateUtil} from '../../../util/date.util';
 import {CalendarGridRowCellComponent} from './calendar-grid-row-cell/calendar-grid-row-cell.component';
 import {DateRangeChangeEvent} from './events/date-range-change.event';
 import {Calendar} from '../../../api/entities/calendar.entity';
@@ -34,7 +35,7 @@ export class CalendarComponent extends NbCalendarDayPickerComponent<any, any> im
       const lastWeek = this.weeks.length - 1;
 
       dateRangeChangeEvent.fromDate = this.weeks[0][0];
-      dateRangeChangeEvent.toDate = this.weeks[lastWeek][6];
+      dateRangeChangeEvent.toDate = DateUtil.endOfTheDay(this.weeks[lastWeek][6]);
 
       this.dateRangeChange.emit(dateRangeChangeEvent);
     }

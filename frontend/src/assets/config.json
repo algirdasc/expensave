@@ -1,5 +1,5 @@
 {
-  "apiUrl": "http://host.docker.internal:8005",
+  "apiUrl": "https://api.expensave.cici.lt",
   "currency": "EUR",
   "locale": "lt"
 }

@@ -1,4 +1,4 @@
-FROM webdevops/php-nginx:8.1-alpine
+FROM webdevops/php-nginx:8.2-alpine
 
 ENV APP_ENV 'prod'
 ENV WEB_DOCUMENT_ROOT '/usr/src/app'

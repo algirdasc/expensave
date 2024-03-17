@@ -196,4 +196,9 @@ class RevolutStatementRow implements StatementImportRowInterface
     {
         return $this->getState() === StateEnum::COMPLETED;
     }
+
+    public function getCategoryName(): ?string
+    {
+        return null;
+    }
 }

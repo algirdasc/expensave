@@ -11,25 +11,22 @@ security:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
-        auth:
-            pattern: ^/auth
-            stateless: true
-            json_login:
-                check_path: login_index
-                username_path: email
-                password_path: password
-                success_handler: lexik_jwt_authentication.handler.authentication_success
-                failure_handler: lexik_jwt_authentication.handler.authentication_failure
-            login_throttling:
-                max_attempts: 10
         main:
             stateless: true
             entry_point: jwt
             provider: app_user_provider
             access_denied_handler: App\Security\AccessDeniedHandler
             jwt: ~
+            json_login:
+                check_path: login_index
+                username_path: email
+                password_path: password
+                success_handler: lexik_jwt_authentication.handler.authentication_success
+                failure_handler: lexik_jwt_authentication.handler.authentication_failure
             refresh_jwt:
-                check_path: refresh_token_index
+                check_path: api_refresh_token
+            login_throttling:
+                max_attempts: 10
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
     access_control:

@@ -9,10 +9,10 @@ use PhpOffice\PhpSpreadsheet\IOFactory;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
 
-class RevolutImportHandler implements StatementImportHandlerInterface
+readonly class RevolutImportHandler implements StatementImportHandlerInterface
 {
     public function __construct(
-        private readonly DenormalizerInterface $denormalizer
+        private DenormalizerInterface $denormalizer
     ) {
     }
 

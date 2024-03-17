@@ -1,5 +1,5 @@
-<div class="expense-overlay" style="background-color: orange;"></div>
-<div class="expense-category" style="background-color: orange;"></div>
+<div class="expense-overlay" [style.background-color]="expense.category?.color ?? '#333333'"></div>
+<div class="expense-category" [style.background-color]="expense.category?.color ?? '#333333'"></div>
 <div class="expense-label ml-1 text-truncate">
     {{ expense.label }}
 </div>

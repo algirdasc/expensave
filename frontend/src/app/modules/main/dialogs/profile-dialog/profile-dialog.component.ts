@@ -31,4 +31,8 @@ export class ProfileDialogComponent implements OnInit {
             .subscribe((user: User) => this.dialogRef.close(user))
         ;
     }
+
+    public onAvatarSelected(event): void {
+        // TODO
+    }
 }

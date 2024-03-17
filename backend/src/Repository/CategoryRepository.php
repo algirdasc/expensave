@@ -40,4 +40,19 @@ class CategoryRepository extends ServiceEntityRepository
             $this->getEntityManager()->flush();
         }
     }
+
+    public function findOrCreate(string $categoryName): Category
+    {
+        $category = $this->findOneBy(['name' => $categoryName]);
+
+        if ($category === null) {
+            $category = new Category();
+            $category->setName($categoryName);
+            $category->setColor('#333333');
+
+            $this->save($category, true);
+        }
+
+        return $category;
+    }
 }

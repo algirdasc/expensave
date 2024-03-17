@@ -37,6 +37,7 @@ class ImportController extends AbstractApiController
 
             foreach ($importHandler->process($statementFile) as $row) {
                 try {
+                    set_time_limit(30); // prevent execution timeout
                     $this->importerService->import($row, $calendar);
                 } catch (StatementImportException $exception) {
                     $errors[$statementFile->getClientOriginalName()][] = $exception->getMessage();
