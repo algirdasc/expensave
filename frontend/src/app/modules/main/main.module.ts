@@ -1,3 +1,4 @@
+import {CdkTrapFocus} from '@angular/cdk/a11y';
 import {CommonModule} from '@angular/common';
 import {NgModule} from '@angular/core';
 import {FormsModule} from '@angular/forms';
@@ -102,7 +103,8 @@ import {ProfileComponent} from './sidebar/profile/profile.component';
         NbPopoverModule,
         NbTagModule,
         NbAutocompleteModule,
-        AngularResizeEventModule
+        AngularResizeEventModule,
+        CdkTrapFocus
     ],
     providers: [
         MainService,

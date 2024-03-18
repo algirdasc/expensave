@@ -10,30 +10,33 @@ const REQUEST_VALIDATION_EXCEPTION: string = 'App\\Exception\\RequestValidationE
 
 @Injectable()
 export class ErrorInterceptor implements HttpInterceptor {
-  constructor(
-    private toastrService: NbToastrService
-  ) {
-  }
+    constructor(
+        private toastrService: NbToastrService
+    ) {
+    }
 
-  public intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    return next
-      .handle(req)
-      .pipe(
-        catchError((response: HttpErrorResponse) => {
-          const error: Error = plainToInstance(
-            Error,
-            response.error as Error,
-            { excludeExtraneousValues: true }
-          );
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    public intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+        return next
+            .handle(req)
+            .pipe(
+                catchError((response: HttpErrorResponse) => {
+                    const error: Error = plainToInstance(
+                        Error,
+                        response.error as Error,
+                        { excludeExtraneousValues: true }
+                    );
 
-          if (true || error.throwable !== REQUEST_VALIDATION_EXCEPTION) {
-            for (const errorMessage of error.messages) {
-              this.toastrService.danger(errorMessage.message, response.statusText);
-            }
-          }
+                    if (error.throwable && error.throwable !== REQUEST_VALIDATION_EXCEPTION) {
+                        for (const errorMessage of error.messages) {
+                            this.toastrService.danger(errorMessage.message, response.statusText);
+                        }
+                    } else {
+                        this.toastrService.danger(response.message, response.statusText);
+                    }
 
-          return throwError(response);
-        })
-      );
-  }
+                    return throwError(response);
+                })
+            );
+    }
 }

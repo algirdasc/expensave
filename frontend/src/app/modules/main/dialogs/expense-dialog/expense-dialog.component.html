@@ -2,10 +2,10 @@
     <nb-card size="medium" [nbSpinner]="isBusy" status="warning" style="width: 335px;">
         <nb-card-header>
             <div class="d-flex">
-                <button nbButton type="button" shape="semi-round" status="info" (click)="toggleExpense()">
-                    <nb-icon [icon]="isExpense ? 'minus' : 'plus'"></nb-icon>
+                <button nbButton type="button" shape="semi-round" status="info" (click)="expense.isExpense = !expense.isExpense">
+                    <nb-icon [icon]="expense.isExpense ? 'minus' : 'plus'"></nb-icon>
                 </button>
-                <input nbInput fullWidth placeholder="Amount" name="amount" [(ngModel)]="expense.amount" />
+                <input nbInput fullWidth placeholder="Amount" name="amount" [(ngModel)]="expense.absoluteAmount" [cdkTrapFocusAutoCapture]="true" [cdkTrapFocus]="true" />
                 <input nbInput fullWidth placeholder="Label" name="label" [(ngModel)]="expense.label" />
             </div>
         </nb-card-header>
@@ -28,7 +28,7 @@
 
                 <nb-list-item (click)="selectDateTime()" class="actionable">
                     <nb-icon icon="calendar-outline"></nb-icon>
-                    <div class="text-truncate">{{ expense.createdAt|date:'fullDate' }}</div>
+                    <div class="text-truncate">{{ expense.createdAt | date:'fullDate' }}</div>
                 </nb-list-item>
 
                 <nb-list-item (click)="addDescription()" class="actionable">

@@ -13,7 +13,7 @@
     <div class="expense-list d-flex flex-column mt-1" [ngStyle]="{'height.px': expenseListHeight}">
         <app-calendar-expense-item
                 *ngFor="let expense of getVisibleExpenses()"
-                (click)="editExpense(expense)"
+                (click)="editExpense(expense.id)"
                 [expense]="expense">
         </app-calendar-expense-item>
         <a href="#" (click)="$event.preventDefault(); openInvisibleExpenses()" *ngIf="countInvisibleExpenses()" class="other-label px-1">

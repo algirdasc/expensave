@@ -1,17 +1,15 @@
-import {Component, ElementRef, HostListener, OnInit} from '@angular/core';
+import {Component} from '@angular/core';
+import {deepExtend} from '@nebular/auth';
 import {NbCalendarDayCellComponent, NbDateService, NbDialogService} from '@nebular/theme';
-import {ResizedEvent} from 'angular-resize-event';
-import {Observable, of} from 'rxjs';
-import {take} from 'rxjs/operators';
+import {plainToInstance} from 'class-transformer';
+import {Calendar} from '../../../../api/entities/calendar.entity';
 import {Expense} from '../../../../api/entities/expense.entity';
+import {ExpenseApiService} from '../../../../api/expense.api.service';
+import {DateUtil} from '../../../../util/date.util';
+import {EntityUtil} from '../../../../util/entity.util';
 import {ExpenseDialogComponent} from '../../dialogs/expense-dialog/expense-dialog.component';
 import {ExpenseListDialogComponent} from '../../dialogs/expense-list-dialog/expense-list-dialog.component';
-import {ExpenseItemComponent} from './expense-item/expense-item.component';
-import {Calendar} from '../../../../api/entities/calendar.entity';
-import {plainToInstance} from 'class-transformer';
-import {User} from '../../../../api/entities/user.entity';
 import {MainService} from '../../main.service';
-import {EntityUtil} from '../../../../util/entity.util';
 
 export const EXPENSE_LIST_OFFSET = 36;
 export const EXPENSE_LIST_ITEM_HEIGHT = 21;
@@ -30,7 +28,8 @@ export class CalendarGridRowCellComponent extends NbCalendarDayCellComponent<Dat
     constructor(
         public dateService: NbDateService<Date>,
         private dialogService: NbDialogService,
-        private mainService: MainService
+        private mainService: MainService,
+        private expenseApiService: ExpenseApiService
     ) {
         super(dateService);
     }
@@ -51,7 +50,7 @@ export class CalendarGridRowCellComponent extends NbCalendarDayCellComponent<Dat
             if (expense.confirmed) {
                 sum += expense.amount;
             }
-        })
+        });
 
         return sum.toFixed(2);
     }
@@ -91,32 +90,26 @@ export class CalendarGridRowCellComponent extends NbCalendarDayCellComponent<Dat
         );
     }
 
-    public editExpense(expense: Expense): void {
-        this.dialogService
-            .open(ExpenseDialogComponent, {
-                context: {
-                    expense: expense,
-                    calendars: this.mainService.user.calendars,
-                }
-            })
-            .onClose
-            .subscribe((result: Expense) => {
-                if (result) {
-                    EntityUtil.replaceInArray(this.expenses, result);
-                }
-            })
-        ;
+    public editExpense(expenseId: number): void {
+        this.expenseApiService
+            .get(expenseId)
+            .subscribe((expense: Expense) => {
+                this.openExpenseDialog(expense, () => this.mainService.fetchExpenses());
+            });
     }
 
     public createExpense(): void {
-        const currentDate = new Date();
         const expense = plainToInstance(Expense, {
-            createdAt: this.date.setTime(currentDate.getTime()),
+            createdAt: DateUtil.setTime(this.date, new Date()),
             calendar: this.calendar,
             user: this.mainService.user,
             confirmed: true,
         });
 
+        this.openExpenseDialog(expense, () => this.mainService.fetchExpenses());
+    }
+
+    private openExpenseDialog(expense: Expense, onClose: (result: Expense) => void): void {
         this.dialogService
             .open(ExpenseDialogComponent, {
                 context: {
@@ -127,7 +120,7 @@ export class CalendarGridRowCellComponent extends NbCalendarDayCellComponent<Dat
             .onClose
             .subscribe((result: Expense) => {
                 if (result) {
-                    this.expenses.push(result);
+                    onClose(result);
                 }
             })
         ;

@@ -5,6 +5,7 @@ import {EntityInterface} from './entity.interface';
 import {User} from './user.entity';
 
 export class Expense implements EntityInterface {
+
     @Expose()
     public id: number;
 
@@ -35,4 +36,26 @@ export class Expense implements EntityInterface {
 
     @Expose()
     public description: string;
+
+    private _isExpense: boolean = true;
+
+    get absoluteAmount(): number|undefined {
+        return this.amount ? Math.abs(this.amount) : undefined;
+    }
+
+    set absoluteAmount(value: number) {
+        const absoluteValue = Math.abs(value);
+        this.amount = this.isExpense ? absoluteValue * -1 : absoluteValue;
+    }
+
+    get isExpense(): boolean {
+        return this._isExpense;
+    }
+
+    set isExpense(value: boolean) {
+        this._isExpense = value;
+
+        const absoluteValue = Math.abs(this.amount ?? 0);
+        this.amount = this._isExpense ? absoluteValue * -1 : absoluteValue;
+    }
 }

@@ -1,9 +1,10 @@
 import {Component} from '@angular/core';
+import {NbDialogRef, NbDialogService} from '@nebular/theme';
 import {Calendar} from '../../../../api/entities/calendar.entity';
 import {Category} from '../../../../api/entities/category.entity';
 import {Expense} from '../../../../api/entities/expense.entity';
 import {ExpenseApiService} from '../../../../api/expense.api.service';
-import {NbDialogRef, NbDialogService} from '@nebular/theme';
+import {DateUtil} from '../../../../util/date.util';
 import {CalendarsDialogComponent} from '../calendars-dialog/calendars-dialog.component';
 import {CategoriesDialogComponent} from '../categories-dialog/categories-dialog.component';
 import {ConfirmDialogComponent} from '../confirm-dialog/confirm-dialog.component';
@@ -18,7 +19,6 @@ export class ExpenseDialogComponent {
     public expense: Expense;
     public calendars: Calendar[];
     public isBusy: boolean = false;
-    public isExpense: boolean = true;
 
     constructor(
         private readonly expenseApiService: ExpenseApiService,
@@ -27,10 +27,6 @@ export class ExpenseDialogComponent {
     ) { }
 
     public onSubmit(): void {
-        if (this.isExpense) {
-            this.expense.amount = -1 * this.expense.amount;
-        }
-
         this.expenseApiService
             .save(this.expense)
             .subscribe((expense: Expense) => {
@@ -91,7 +87,7 @@ export class ExpenseDialogComponent {
             .onClose
             .subscribe((result: Date) => {
                 if (result) {
-                    this.expense.createdAt = result;
+                    this.expense.createdAt = DateUtil.setTime(result, this.expense.createdAt);
                 }
             });
     }
@@ -111,9 +107,5 @@ export class ExpenseDialogComponent {
                         .subscribe(() => this.dialogRef.close(true));
                 }
             });
-    }
-
-    public toggleExpense(): void {
-        this.isExpense = !this.isExpense;
     }
 }

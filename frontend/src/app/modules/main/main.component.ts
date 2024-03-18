@@ -14,10 +14,6 @@ import {Expense} from '../../api/entities/expense.entity';
 })
 export class MainComponent implements OnInit, AfterViewInit {
     public user: User;
-    public selectedDate: Date;
-    public calendar: Calendar;
-    public dateRange: DateRangeChangeEvent;
-    public expenses: Expense[] = [];
     public isBusy: boolean = false;
 
     constructor(
@@ -46,21 +42,10 @@ export class MainComponent implements OnInit, AfterViewInit {
         this.activatedRoute.queryParams.subscribe(({ ts, calendar }) => {
             const date = new Date(parseInt(ts));
             if (date.toString() !== 'Invalid Date') {
-                this.selectedDate = date;
+                this.mainService.selectedDate = date;
             } else {
-                this.selectedDate = new Date();
+                this.mainService.selectedDate = new Date();
             }
         });
-    }
-
-    public fetchExpenses(): void {
-        if (!this.calendar || !this.dateRange) {
-            return;
-        }
-
-        this.expenseApiService
-            .list(this.calendar, this.dateRange.fromDate, this.dateRange.toDate)
-            .subscribe((expenses: Expense[]) => this.expenses = expenses)
-        ;
     }
 }
