@@ -10,7 +10,7 @@ export abstract class AbstractApiService<T extends EntityInterface> {
     public onBusyChange: Subject<boolean> = new Subject<boolean>();
     protected abstract backend: string;
     protected abstract entity: any;
-    private onBusyChangeTimeout: number;
+    private onBusyChangeTimeout: NodeJS.Timer;
 
     constructor(protected http: HttpClient) {
     }
