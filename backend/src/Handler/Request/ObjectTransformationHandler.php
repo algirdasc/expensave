@@ -6,16 +6,16 @@ use App\Request\AbstractRequest;
 use ReflectionProperty;
 use Symfony\Component\Serializer\SerializerInterface;
 
-class ObjectTransformationHandler implements TransformationHandlerInterface
+readonly class ObjectTransformationHandler implements TransformationHandlerInterface
 {
     public function __construct(
-        private readonly SerializerInterface $serializer
+        private SerializerInterface $serializer
     ) {
     }
 
     public function supportsProperty(ReflectionProperty $property): bool
     {
-        return !$property->getType()->isBuiltin();
+        return !$property->getType()?->isBuiltin();
     }
 
     public function transform(AbstractRequest $request, ReflectionProperty $property, mixed $value): mixed

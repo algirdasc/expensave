@@ -10,7 +10,7 @@ export class AuthGuard {
 
     public canLoad(): Observable<boolean> {
         return this.authService
-            .isAuthenticated()
+            .isAuthenticatedOrRefresh()
             .pipe(
                 tap((authenticated: boolean) => {
                     if (!authenticated) {

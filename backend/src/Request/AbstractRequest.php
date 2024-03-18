@@ -25,7 +25,7 @@ abstract class AbstractRequest
      * @param iterable<TransformationHandlerInterface> $transformationHandlers
      */
     public function __construct(
-        #[TaggedIterator('app.handlers.request.transformation')] iterable $transformationHandler
+        #[TaggedIterator('app.handler.request.transformation')] iterable $transformationHandler
     ) {
         $this->transformationHandlers = $transformationHandler;
 

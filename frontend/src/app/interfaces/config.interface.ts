@@ -1,4 +1,5 @@
 export interface ConfigInterface {
-  apiUrl: string;
-  locale: string;
+    apiUrl: string;
+    locale: string;
+    currencyCode: string;
 }

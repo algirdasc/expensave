@@ -21,7 +21,7 @@ class ErrorResponseResolver
      * @param iterable<ErrorHandlerInterface> $responseErrorHandlers
      */
     public function __construct(
-        #[TaggedIterator('app.handlers.error')] iterable $responseErrorHandlers
+        #[TaggedIterator('app.handler.error')] iterable $responseErrorHandlers
     ) {
         $this->responseErrorHandlers = $responseErrorHandlers;
     }

@@ -16,19 +16,29 @@ export class AppInitializer {
                 tap((config: ConfigInterface) => {
                     APP_CONFIG.locale = config.locale;
                     APP_CONFIG.apiUrl = config.apiUrl;
+                    APP_CONFIG.currencyCode = config.currencyCode;
 
-                    import(`/node_modules/@angular/common/locales/${config.locale}.mjs`)
+                    import(
+                        /* webpackInclude: /\.mjs$/ */
+                        /* webpackChunkName: "./assets/l10n/locales/[request]"*/
+                        `/node_modules/@angular/common/locales/${config.locale}.mjs`)
+                        // eslint-disable-next-line @typescript-eslint/no-explicit-any
                         .then((locale: any) => registerLocaleData(locale.default));
                 })
             );
     }
 
     public getLocaleId(): string {
-        return APP_CONFIG.locale;
+        return APP_CONFIG.locale ?? 'en';
+    }
+
+    public getCurrencyCode(): string {
+        return APP_CONFIG.currencyCode ?? 'EUR';
     }
 }
 
 export const APP_CONFIG: ConfigInterface = {
     apiUrl: '',
-    locale: ''
+    locale: '',
+    currencyCode: ''
 };

@@ -2,8 +2,11 @@
 
 namespace App\Handler\Error;
 
+use App\Response\Error\ErrorResponseMessage;
+use Symfony\Component\DependencyInjection\Attribute\AutoconfigureTag;
 use Throwable;
 
+#[AutoconfigureTag('app.handler.error')]
 interface ErrorHandlerInterface
 {
     public function isSupported(Throwable $throwable): bool;
@@ -14,5 +17,8 @@ interface ErrorHandlerInterface
 
     public function getStatusCode(): int;
 
-    public function getMessages(): mixed;
+    /**
+     * @return array<ErrorResponseMessage>
+     */
+    public function getMessages(): array;
 }

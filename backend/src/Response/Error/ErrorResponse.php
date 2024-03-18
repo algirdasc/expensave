@@ -8,10 +8,10 @@ use App\Const\ContextGroupConst;
 use App\Handler\Error\ErrorHandlerInterface;
 use Symfony\Component\Serializer\Annotation\Groups;
 
-class ErrorResponse
+readonly class ErrorResponse
 {
     public function __construct(
-        private readonly ErrorHandlerInterface $response
+        private ErrorHandlerInterface $response
     ) {
     }
 

@@ -37,9 +37,6 @@ class HttpExceptionHandler implements ErrorHandlerInterface
         return $this->exception->getStatusCode();
     }
 
-    /**
-     * @return array<ErrorResponseMessage>
-     */
     public function getMessages(): array
     {
         return [

@@ -1,5 +1,5 @@
 {
-  "apiUrl": "https://api.expensave.cici.lt",
-  "currency": "EUR",
-  "locale": "lt"
+    "apiUrl": "http://localhost:8000",
+    "locale": "lt",
+    "currencyCode": "EUR"
 }

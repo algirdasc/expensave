@@ -11,14 +11,6 @@ services:
         autowire: true      # Automatically injects dependencies in your services.
         autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
 
-    _instanceof:
-        App\Handler\Error\ErrorHandlerInterface:
-            tags: ['app.handlers.error']
-        App\Handler\Request\TransformationHandlerInterface:
-            tags: ['app.handlers.request.transformation']
-        App\Service\Statement\Import\Handler\StatementImportHandlerInterface:
-            tags: ['app.statement.import.handlers']
-
     App\:
         resource: '../src/'
         exclude:

@@ -1,14 +1,13 @@
+import {HttpResponse} from '@angular/common/http';
 import {ModuleWithProviders, NgModule} from '@angular/core';
 import {RouterModule} from '@angular/router';
-import {
-    NbAuthJWTToken,
-    NbAuthModule,
-    NbPasswordAuthStrategy
-} from '@nebular/auth';
+import {NbAuthModule, NbPasswordAuthStrategyOptions} from '@nebular/auth';
 import {NbEvaIconsModule} from '@nebular/eva-icons';
 import {NbIconModule} from '@nebular/theme';
-import {TestStrategy} from '../../token/strategy';
+import {LoginResponse} from '../../api/response/login.response';
+import {AuthStrategy} from './auth-strategy';
 import {authRoutes} from './auth.routes';
+import {JwtRefreshableToken} from './jwt-refreshable-token';
 
 @NgModule({
     declarations: [
@@ -26,23 +25,23 @@ export class AuthModule {
                 login: {
                     redirectDelay: 1500,
                     rememberMe: false,
-                    strategy: 'bemail'
+                    strategy: 'jwt'
                 },
                 register: {
                     redirectDelay: 1500,
-                    strategy: 'email',
+                    strategy: 'jwt',
                     terms: false
                 },
                 requestPassword: {
                     redirectDelay: 5000,
-                    strategy: 'email',
+                    strategy: 'jwt',
                 },
                 resetPassword: {
                     redirectDelay: 5000,
-                    strategy: 'email',
+                    strategy: 'jwt',
                 },
                 logout: {
-                    strategy: 'email',
+                    strategy: 'jwt',
                 },
                 validation: {
                     password: {
@@ -56,12 +55,17 @@ export class AuthModule {
                 }
             },
             strategies: [
-                TestStrategy.setup({
-                    name: 'bemail',
+                AuthStrategy.setup({
+                    name: 'jwt',
                     baseEndpoint: '/auth/',
                     token: {
-                        key: 'token',
-                        class: NbAuthJWTToken,
+                        class: JwtRefreshableToken,
+                        getter: (module: string, response: HttpResponse<LoginResponse>, options: NbPasswordAuthStrategyOptions) => {
+                            return response.body;
+                        }
+                    },
+                    refreshToken: {
+                        requireValidToken: true,
                     },
                     logout: {
                         endpoint: 'logout'

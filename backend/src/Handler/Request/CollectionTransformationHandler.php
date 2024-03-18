@@ -10,10 +10,10 @@ use Doctrine\ORM\EntityManagerInterface;
 use ReflectionProperty;
 use Symfony\Component\PropertyInfo\Extractor\PhpDocExtractor;
 
-class CollectionTransformationHandler implements TransformationHandlerInterface
+readonly class CollectionTransformationHandler implements TransformationHandlerInterface
 {
     public function __construct(
-        private readonly EntityManagerInterface $entityManager
+        private EntityManagerInterface $entityManager
     ) {
     }
 

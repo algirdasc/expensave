@@ -1,6 +1,6 @@
 import {CommonModule} from '@angular/common';
 import {HttpClientModule, HTTP_INTERCEPTORS} from '@angular/common/http';
-import {APP_INITIALIZER, LOCALE_ID, NgModule} from '@angular/core';
+import {APP_INITIALIZER, DEFAULT_CURRENCY_CODE, LOCALE_ID, NgModule} from '@angular/core';
 import {BrowserModule} from '@angular/platform-browser';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {RouterModule} from '@angular/router';
@@ -24,10 +24,10 @@ import {AuthGuard} from './guards/auth.guard';
 import {ApiInterceptor} from './interceptors/api.interceptor';
 import {ErrorInterceptor} from './interceptors/error.interceptor';
 import {UnauthorizedInterceptor} from './interceptors/unauthorized.interceptor';
+import {AuthStrategy} from './modules/auth/auth-strategy';
 import {AuthModule} from './modules/auth/auth.module';
 import {tokenFilter} from './modules/auth/token.filter';
 import {NotFoundComponent} from './modules/notfound.component';
-import {TestStrategy} from './token/strategy';
 
 const apiServices = [
     CalendarApiService,
@@ -57,6 +57,7 @@ const apiServices = [
     providers: [
         AppInitializer,
         AuthGuard,
+        AuthStrategy,
         {
             provide: APP_INITIALIZER,
             useFactory: (appInitializer: AppInitializer) => () => appInitializer.initializeApp(),
@@ -68,13 +69,17 @@ const apiServices = [
             useFactory: (appInitializer: AppInitializer) => appInitializer.getLocaleId(),
             deps: [AppInitializer]
         },
+        {
+            provide: DEFAULT_CURRENCY_CODE,
+            useFactory: (appInitializer: AppInitializer) => appInitializer.getCurrencyCode(),
+            deps: [AppInitializer]
+        },
         { provide: NB_AUTH_TOKEN_INTERCEPTOR_FILTER, useValue: tokenFilter },
+        { provide: HTTP_INTERCEPTORS, useClass: NbAuthJWTInterceptor, multi: true },
         { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
         { provide: HTTP_INTERCEPTORS, useClass: UnauthorizedInterceptor, multi: true },
         { provide: HTTP_INTERCEPTORS, useClass: ApiInterceptor, multi: true },
-        { provide: HTTP_INTERCEPTORS, useClass: NbAuthJWTInterceptor, multi: true },
-        ...apiServices,
-        TestStrategy
+        ...apiServices
     ],
     bootstrap: [
         AppComponent

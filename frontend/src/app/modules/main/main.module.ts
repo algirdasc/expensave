@@ -5,8 +5,8 @@ import {RouterModule} from '@angular/router';
 import {NbEvaIconsModule} from '@nebular/eva-icons';
 import {
     NbActionsModule, NbAutocompleteModule, NbButtonGroupModule,
-    NbButtonModule, NbCalendarComponent, NbCalendarKitModule, NbCalendarModule,
-    NbCardModule, NbDatepickerModule,
+    NbButtonModule, NbCalendarKitModule, NbCalendarModule,
+    NbCardModule,
     NbIconModule,
     NbInputModule,
     NbLayoutModule, NbListModule, NbPopoverModule,
@@ -27,6 +27,9 @@ import {CalendarComponent} from './calendar/calendar.component';
 import {CalendarEditComponent} from './dialogs/calendars-dialog/calendar-edit/calendar-edit.component';
 import {CalendarListComponent} from './dialogs/calendars-dialog/calendar-list/calendar-list.component';
 import {CalendarsDialogComponent} from './dialogs/calendars-dialog/calendars-dialog.component';
+import {CategoriesDialogComponent} from './dialogs/categories-dialog/categories-dialog.component';
+import {CategoryEditComponent} from './dialogs/categories-dialog/category-edit/category-edit.component';
+import {CategoryListComponent} from './dialogs/categories-dialog/category-list/category-list.component';
 import {ConfirmDialogComponent} from './dialogs/confirm-dialog/confirm-dialog.component';
 import {DatepickerDialogComponent} from './dialogs/datepicker-dialog/datepicker-dialog.component';
 import {ExpenseDialogComponent} from './dialogs/expense-dialog/expense-dialog.component';
@@ -40,9 +43,6 @@ import {mainRoutes} from './main.routes';
 import {MainService} from './main.service';
 import {CalendarSidebarListComponent} from './sidebar/calendar-list/calendar-list.component';
 import {ProfileComponent} from './sidebar/profile/profile.component';
-import {CategoriesDialogComponent} from './dialogs/categories-dialog/categories-dialog.component';
-import {CategoryEditComponent} from './dialogs/categories-dialog/category-edit/category-edit.component';
-import {CategoryListComponent} from './dialogs/categories-dialog/category-list/category-list.component';
 
 @NgModule({
     declarations: [

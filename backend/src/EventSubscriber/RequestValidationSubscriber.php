@@ -12,10 +12,10 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpKernel\Event\ControllerArgumentsEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
 
-class RequestValidationSubscriber implements EventSubscriberInterface
+readonly class RequestValidationSubscriber implements EventSubscriberInterface
 {
     public function __construct(
-        private readonly ValidationService $validator
+        private ValidationService $validator
     ) {
     }
 

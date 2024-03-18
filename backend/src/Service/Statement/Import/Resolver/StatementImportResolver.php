@@ -20,7 +20,7 @@ class StatementImportResolver
      * @param iterable<StatementImportHandlerInterface> $importHandlers
      */
     public function __construct(
-        #[TaggedIterator('app.statement.import.handlers')] iterable $importHandlers
+        #[TaggedIterator('app.statement.import.handler')] iterable $importHandlers
     ) {
         $this->importHandlers = $importHandlers;
     }

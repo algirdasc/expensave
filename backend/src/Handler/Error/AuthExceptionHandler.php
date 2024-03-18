@@ -1,25 +1,23 @@
 <?php
 
-declare(strict_types=1);
-
 namespace App\Handler\Error;
 
 use App\Response\Error\ErrorResponseMessage;
-use RuntimeException;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Security\Core\Exception\AuthenticationException;
 use Throwable;
 
-class RuntimeExceptionHandler implements ErrorHandlerInterface
+class AuthExceptionHandler implements ErrorHandlerInterface
 {
-    private RuntimeException $exception;
+    private AuthenticationException $exception;
 
-    public function getThrowable(): RuntimeException
+    public function isSupported(Throwable $throwable): bool
     {
-        return $this->exception;
+        return $throwable instanceof AuthenticationException;
     }
 
     /**
-     * @param RuntimeException $throwable
+     * @param AuthenticationException $throwable
      */
     public function setThrowable(Throwable $throwable): static
     {
@@ -28,14 +26,14 @@ class RuntimeExceptionHandler implements ErrorHandlerInterface
         return $this;
     }
 
-    public function isSupported(Throwable $throwable): bool
+    public function getThrowable(): Throwable
     {
-        return $throwable instanceof RuntimeException;
+        return $this->exception;
     }
 
     public function getStatusCode(): int
     {
-        return Response::HTTP_INTERNAL_SERVER_ERROR;
+        return Response::HTTP_UNAUTHORIZED;
     }
 
     public function getMessages(): array
