@@ -1,10 +1,6 @@
-import {EnvironmentInterface} from './environment.interface';
-
-export const environment: EnvironmentInterface = {
+export const environment = {
     production: false,
-    apiUrl: 'http://localhost:8000',
-    currencyCode: 'EUR',
-    locale: 'lt',
+    configFile: 'config.json',
 };
 
 /*

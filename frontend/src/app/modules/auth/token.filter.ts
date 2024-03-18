@@ -1,14 +1,14 @@
 import {HttpRequest} from '@angular/common/http';
-import {environment} from '../../../environments/environment';
+import {APP_CONFIG} from '../../app.initializer';
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const tokenFilter = (req: HttpRequest<any>) => {
-  const publicUrls = [
-    '/auth/login',
-    '/auth/refresh-token',
-  ];
+    const publicUrls = [
+        '/assets/config.json',
+        '/auth/login',
+        '/auth/refresh-token',
+    ];
 
-  const path = req.urlWithParams.replace(environment.apiUrl, '');
+    const path = req.urlWithParams.replace(APP_CONFIG.apiUrl, '');
 
-  return publicUrls.includes(path);
+    return publicUrls.includes(path);
 };

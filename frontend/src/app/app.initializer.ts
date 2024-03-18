@@ -1,26 +1,45 @@
 import {registerLocaleData} from '@angular/common';
 import {HttpClient} from '@angular/common/http';
 import {Injectable} from '@angular/core';
+import {Observable} from 'rxjs';
+import {tap} from 'rxjs/operators';
 import {environment} from '../environments/environment';
+import {ConfigInterface} from './interfaces/config.interface';
 
 @Injectable()
 export class AppInitializer {
     constructor(private http: HttpClient) { }
 
-    public initializeApp(): void {
-        import(
-            /* webpackInclude: /\.mjs$/ */
-            /* webpackChunkName: "./assets/l10n/locales/[request]"*/
-            `/node_modules/@angular/common/locales/${this.getLocaleId()}.mjs`)
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            .then((locale: any) => registerLocaleData(locale.default));
+    public initializeApp(): Observable<ConfigInterface> {
+        return this.http
+            .get(`/assets/${environment.configFile}`)
+            .pipe(
+                tap((config: ConfigInterface) => {
+                    APP_CONFIG.apiUrl = config.apiUrl;
+                    APP_CONFIG.locale = config.locale;
+                    APP_CONFIG.currencyCode = config.currencyCode;
+
+                    import(
+                        /* webpackInclude: /\.mjs$/ */
+                        /* webpackChunkName: "./assets/l10n/locales/[request]"*/
+                        `/node_modules/@angular/common/locales/${config.locale}.mjs`)
+                        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                        .then((locale: any) => registerLocaleData(locale.default));
+                })
+            );
     }
 
     public getLocaleId(): string {
-        return environment.locale;
+        return APP_CONFIG.locale ?? 'en';
     }
 
     public getCurrencyCode(): string {
-        return environment.currencyCode;
+        return APP_CONFIG.currencyCode ?? 'EUR';
     }
 }
+
+export const APP_CONFIG: ConfigInterface = {
+    apiUrl: '',
+    locale: '',
+    currencyCode: ''
+};
