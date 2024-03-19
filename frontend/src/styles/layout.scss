@@ -1,6 +1,4 @@
-@import 'node_modules/bootstrap/scss/functions';
-@import 'node_modules/bootstrap/scss/variables';
-@import 'node_modules/bootstrap/scss/mixins';
+@import 'bootstrap/scss/bootstrap-utilities';
 
 nb-sidebar > .main-container > .scrollable {
   padding: 0 !important;
@@ -25,4 +23,23 @@ nb-sidebar > .main-container > .scrollable {
       width: 24rem !important;
     }
   }
+}
+
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+input[type=number] {
+    -moz-appearance: textfield;
+}
+
+nb-list nb-list-item {
+    border: 0 !important;
+}
+
+nb-list-item.actionable {
+    cursor: pointer;
 }

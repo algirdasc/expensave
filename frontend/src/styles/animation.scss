@@ -76,3 +76,11 @@
     transform: scale3d(1, 1, 1);
   }
 }
+
+.t-input {
+    transition: color .35s ease-in-out 0s, border .35s ease-in-out 0s;
+}
+
+nb-card-header, button {
+    transition: background .35s ease-in-out 0s;
+}

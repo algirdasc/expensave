@@ -33,6 +33,6 @@ export class ShortNumberPipe implements PipeTransform {
             }
         }
 
-        return (isNegative ? '-' : '') + abs + key;
+        return (isNegative ? '-' : '') + abs.toFixed(args[0] ?? 0) + key;
     }
 }

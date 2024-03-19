@@ -1,0 +1,8 @@
+@use '../theme' as *;
+
+.t-input {
+    border: 0 !important;
+    border-radius: 0 !important;
+    border-bottom: 1px solid nb-theme(border-primary-color-2) !important;
+    background-color: transparent !important;
+}

@@ -1,17 +1,22 @@
-<nb-card size="medium">
+<nb-card size="medium" class="border-0">
+    <nb-card-header>
+        <button nbButton status="primary" ghost (click)="back.emit(true)">
+            <nb-icon icon="arrow-back-outline"></nb-icon>
+        </button>
+        Select calendar
+    </nb-card-header>
     <nb-list>
         <nb-list-item
+            class="actionable"
             *ngFor="let calendar of calendars"
             [class.active]="isActive(calendar)"
             (click)="calendarClick.emit(calendar)">
-            <div class="d-flex align-items-center w-100">
-                <nb-icon
-                    [icon]="isActive(calendar) ? 'radio-button-on' : 'radio-button-off'"
-                    [style]="isActive(calendar) ? 'primary' : ''"
-                    class="flex-shrink-0 me-3">
-                </nb-icon>
-                <div class="text-truncate">{{ calendar.name }}</div>
-            </div>
+            <nb-icon
+                [icon]="isActive(calendar) ? 'radio-button-on' : 'radio-button-off'"
+                [style]="isActive(calendar) ? 'primary' : ''"
+                class="flex-shrink-0 me-2">
+            </nb-icon>
+            <div class="text-truncate">{{ calendar.name }}</div>
         </nb-list-item>
     </nb-list>
     <nb-card-footer class="text-right">

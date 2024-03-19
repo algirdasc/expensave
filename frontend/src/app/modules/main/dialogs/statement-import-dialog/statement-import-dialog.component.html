@@ -1,5 +1,5 @@
 <form #importForm="ngForm" (ngSubmit)="onSubmit($event)">
-    <nb-card [nbSpinner]="isBusy">
+    <nb-card [nbSpinner]="isBusy" class="border-0">
         <nb-card-body>
             <div>
                 <input nbInput type="file" name="statements[]" multiple [fullWidth] required />

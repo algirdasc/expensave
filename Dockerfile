@@ -15,6 +15,7 @@ MAINTAINER Algirdas <algirdas.cic@gmail.com>
 ENV PHP_VERSION 8.2
 ENV COMPOSER_ALLOW_SUPERUSER 1
 ENV CORS_ALLOW_ORIGIN https://expensave.backend
+ENV DATA_DIR /opt/expensave/data
 
 RUN apt update && \
     apt install -y --no-install-recommends \
@@ -58,10 +59,15 @@ RUN mkdir -p /opt/expensave/backend/var/db
 
 # Forward symfony cache
 RUN mkdir /tmp/symfony-cache && ln -sf /tmp/symfony-cache /opt/expensave/backend/var/cache
+RUN mkdir /tmp/symfony-log && ln -sf /tmp/symfony-log /opt/expensave/backend/var/log
+
+# Set permissions
+RUN chown www-data:www-data /tmp/symfony-cache
+RUN chown www-data:www-data /tmp/symfony-log
 
 RUN composer install --optimize-autoloader --no-interaction --no-progress
 
-VOLUME /opt/expensave/backend/var/db
+VOLUME $DATA_DIR
 
 EXPOSE 18001
 EXPOSE 18002

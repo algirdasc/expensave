@@ -1,17 +1,24 @@
-<nb-card>
+<nb-card style="width: 335px;" class="border-0">
     <nb-card-header>
-        {{ visibleDate }}
+        {{ visibleDate | date: 'mediumDate'}}
     </nb-card-header>
     <nb-card-body class="p-0">
         <nb-list>
+            <nb-list-item>
+                <h6 class="text-muted text-uppercase">Confirmed transactions</h6>
+            </nb-list-item>
             <nb-list-item
-                    *ngFor="let expense of expenses"
-                    (click)="openExpense(expense)"
-                    class="justify-content-between">
-                <!-- TODO: confirmed! -->
-                <nb-icon icon="checkmark-circle-2-outline"></nb-icon>
-                {{ expense.label }}
-                <span>{{ expense.amount | shortNumber | currency }}</span>
+                class="actionable"
+                *ngFor="let expense of expenses"
+                (click)="openExpense(expense)">
+                <nb-icon
+                    icon="checkmark-circle-2"
+                    class="flex-shrink-0 me-2"
+                    [ngStyle]="{'color': expense.category?.color}"></nb-icon>
+                <div class="text-truncate w-100 mx-3">
+                    {{ expense.label }}
+                </div>
+                <span>{{ expense.amount | shortNumber:2 }}</span>
             </nb-list-item>
         </nb-list>
     </nb-card-body>

@@ -4,6 +4,7 @@ import {Calendar} from '../../../../api/entities/calendar.entity';
 import {Category} from '../../../../api/entities/category.entity';
 import {Expense} from '../../../../api/entities/expense.entity';
 import {ExpenseApiService} from '../../../../api/expense.api.service';
+import {UNCATEGORIZED_COLOR} from '../../../../util/color.util';
 import {DateUtil} from '../../../../util/date.util';
 import {CalendarsDialogComponent} from '../calendars-dialog/calendars-dialog.component';
 import {CategoriesDialogComponent} from '../categories-dialog/categories-dialog.component';
@@ -19,6 +20,8 @@ export class ExpenseDialogComponent {
     public expense: Expense;
     public calendars: Calendar[];
     public isBusy: boolean = false;
+
+    protected readonly UNCATEGORIZED_COLOR: string = UNCATEGORIZED_COLOR;
 
     constructor(
         private readonly expenseApiService: ExpenseApiService,

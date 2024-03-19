@@ -2,7 +2,7 @@
   "name": "expensave-frontend",
   "version": "1.0.0",
   "scripts": {
-    "dev": "ng serve",
+    "dev": "ng serve --port 18002",
     "analyze": "eslint src/",
     "build": "ng build --configuration production"
   },

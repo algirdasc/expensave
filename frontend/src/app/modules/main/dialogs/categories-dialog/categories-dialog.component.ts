@@ -15,7 +15,7 @@ export class CategoriesDialogComponent implements OnInit {
     public editableCategory: Category;
 
     constructor(
-      private readonly dialogRef: NbDialogRef<CategoriesDialogComponent>,
+      public readonly dialogRef: NbDialogRef<CategoriesDialogComponent>,
       private readonly categoryApiService: CategoryApiService
     ) {
         this.categoryApiService.onBusyChange.subscribe((isBusy: boolean) => this.isBusy = isBusy);
@@ -40,7 +40,7 @@ export class CategoriesDialogComponent implements OnInit {
     public saveCategory(category: Category): void {
         this.categoryApiService
             .save(category)
-            .subscribe((response: Category) => {
+            .subscribe(() => {
                 this.editableCategory = undefined;
                 this.fetch();
             })

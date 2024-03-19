@@ -1,17 +1,11 @@
 import {CommonModule} from '@angular/common';
-import {HttpClientModule, HTTP_INTERCEPTORS} from '@angular/common/http';
+import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {APP_INITIALIZER, DEFAULT_CURRENCY_CODE, LOCALE_ID, NgModule} from '@angular/core';
 import {BrowserModule} from '@angular/platform-browser';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {RouterModule} from '@angular/router';
-import {NbAuthJWTInterceptor, NB_AUTH_TOKEN_INTERCEPTOR_FILTER} from '@nebular/auth';
-import {
-    NbDatepickerModule,
-    NbDialogModule,
-    NbLayoutModule,
-    NbThemeModule,
-    NbToastrModule
-} from '@nebular/theme';
+import {NB_AUTH_TOKEN_INTERCEPTOR_FILTER, NbAuthJWTInterceptor} from '@nebular/auth';
+import {NbDatepickerModule, NbDialogModule, NbLayoutModule, NbThemeModule, NbToastrModule} from '@nebular/theme';
 import 'reflect-metadata';
 import {CalendarApiService} from './api/calendar.api.service';
 import {CategoryApiService} from './api/category.api.service';
@@ -47,7 +41,7 @@ const apiServices = [
         BrowserAnimationsModule,
         HttpClientModule,
         RouterModule.forRoot(appRoutes, { paramsInheritanceStrategy: 'always' }),
-        NbThemeModule.forRoot(),
+        NbThemeModule.forRoot({ name: 'expensave' }),
         AuthModule.forRoot(),
         NbDialogModule.forRoot(),
         NbToastrModule.forRoot(),

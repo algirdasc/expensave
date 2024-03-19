@@ -11,8 +11,9 @@ export class CategoryListComponent {
     @Input() public selectedCategory: Category;
     @Output() public categoryClick: EventEmitter<Category> = new EventEmitter<Category>();
     @Output() public newCategoryClick: EventEmitter<boolean> = new EventEmitter<boolean>();
+    @Output() public back: EventEmitter<boolean> = new EventEmitter<boolean>();
 
     public isActive(category: Category): boolean {
-      return category.id === this.selectedCategory?.id;
+        return category.id === this.selectedCategory?.id;
     }
 }

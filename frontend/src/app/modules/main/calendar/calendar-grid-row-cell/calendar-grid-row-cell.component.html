@@ -1,9 +1,9 @@
-<div class="day-content d-block overflow-hidden p-1" [ngStyle]="{'height.px': rowHeight}">
+<div class="day-content d-block overflow-hidden p-2" [ngStyle]="{'height.px': rowHeight}">
 
     <div class="day-header d-flex p-1 text-hint mr-2">
         <div class="day-number flex-fill text-left">{{ day }}</div>
         <div class="day-expenses flex-fill text-right d-none d-sm-block">
-            {{ expenseSum | shortNumber }} | {{ totalExpenseSum | shortNumber }}
+            {{ expenseSum | shortNumber:2 }} | {{ totalExpenseSum | shortNumber:2 }}
         </div>
         <button nbButton status="primary" class="add-button bounceIn" (click)="createExpense()">
             <nb-icon icon="plus-outline"></nb-icon>

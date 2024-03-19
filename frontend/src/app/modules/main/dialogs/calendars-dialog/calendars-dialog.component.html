@@ -4,7 +4,8 @@
         [selectedCalendar]="this.selectedCalendar"
         [calendars]="this.calendars"
         (newCalendarClick)="editCalendar()"
-        (calendarClick)="dialogRef.close($event)">
+        (calendarClick)="dialogRef.close($event)"
+        (back)="dialogRef.close(false)">
     </app-calendar-list>
     <app-calendar-edit
         *ngIf="editableCalendar"

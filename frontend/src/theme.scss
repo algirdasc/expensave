@@ -6,8 +6,11 @@ $nb-enable-css-custom-properties: true;
 
 $nb-themes: nb-register-theme(
                 (
-
+                    font-family-primary: Ubuntu,
+                    input-tiny-text-font-weight: 400,
+                    input-small-text-font-weight: 400,
+                    input-medium-text-font-weight: 400,
                 ),
-                default,
+                expensave,
                 default
 );

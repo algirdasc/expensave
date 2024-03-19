@@ -1,18 +1,23 @@
-<nb-card size="medium" style="width: 335px;">
+<nb-card size="medium" class="border-0" style="width: 335px;">
+    <nb-card-header>
+        <button nbButton status="primary" ghost (click)="back.emit(true)">
+            <nb-icon icon="arrow-back-outline"></nb-icon>
+        </button>
+        Select category
+    </nb-card-header>
     <nb-list>
         <nb-list-item
+            class="actionable"
             *ngFor="let category of categories"
             [class.active]="isActive(category)"
             [style.background-color]="isActive(category) ? category.color : ''"
             (click)="categoryClick.emit(category)">
-            <div class="d-flex align-items-center w-100">
-                <nb-icon
-                    icon="radio-button-on"
-                    class="flex-shrink-0 me-3"
-                    [style.color]="isActive(category) ? '' : category.color">
-                </nb-icon>
-                <div class="text-truncate">{{ category.name }}</div>
-            </div>
+            <nb-icon
+                icon="radio-button-on"
+                class="flex-shrink-0 me-2"
+                [style.color]="isActive(category) ? '' : category.color">
+            </nb-icon>
+            <div class="text-truncate">{{ category.name }}</div>
         </nb-list-item>
     </nb-list>
     <nb-card-footer class="text-right">

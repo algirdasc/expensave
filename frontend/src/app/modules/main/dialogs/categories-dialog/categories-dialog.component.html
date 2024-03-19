@@ -4,7 +4,8 @@
             [categories]="categories"
             [selectedCategory]="selectedCategory"
             (newCategoryClick)="editCategory()"
-            (categoryClick)="categoryClick($event)">
+            (categoryClick)="categoryClick($event)"
+            (back)="dialogRef.close(false)">
     </app-category-list>
     <app-category-edit
             *ngIf="editableCategory"

@@ -1,12 +1,30 @@
 <form #expenseForm="ngForm" (ngSubmit)="onSubmit()" autocomplete="off">
-    <nb-card size="medium" [nbSpinner]="isBusy" status="warning" style="width: 335px;">
-        <nb-card-header>
-            <div class="d-flex">
-                <button nbButton type="button" shape="semi-round" status="info" (click)="expense.isExpense = !expense.isExpense">
+    <nb-card size="medium" [nbSpinner]="isBusy" style="width: 335px;" class="border-0">
+        <nb-card-header class="px-0 pt-5 pb-3" [style.background-color]="expense.confirmed ? expense.category?.color ?? UNCATEGORIZED_COLOR : 'white'">
+            <div class="d-flex align-items-end justify-content-between expense-header" [class.confirmed]="expense.confirmed">
+                <button nbButton type="button" tabIndex="3"
+                        (click)="expense.isExpense = !expense.isExpense"
+                        class="toggle-sign mb-2">
                     <nb-icon [icon]="expense.isExpense ? 'minus' : 'plus'"></nb-icon>
                 </button>
-                <input nbInput fullWidth placeholder="Amount" name="amount" [(ngModel)]="expense.absoluteAmount" [cdkTrapFocusAutoCapture]="true" [cdkTrapFocus]="true" />
-                <input nbInput fullWidth placeholder="Label" name="label" [(ngModel)]="expense.label" />
+                <div class="d-flex">
+                    <div class="mx-3">
+                        <label for="expense-amount">Amount</label>
+                        <input nbInput fullWidth
+                               type="number" tabIndex="0"
+                               placeholder="0.00" name="amount" id="expense-amount"
+                               [(ngModel)]="expense.absoluteAmount"
+                               class="t-input px-0 pt-3 pb-2" />
+                    </div>
+                    <div class="mx-3">
+                        <label for="expense-label">Label</label>
+                        <input nbInput fullWidth
+                               tabIndex="1"
+                               placeholder="e.g. coffee" name="label" id="expense-label"
+                               [(ngModel)]="expense.label"
+                               class="t-input px-0 pt-3 pb-2" />
+                    </div>
+                </div>
             </div>
         </nb-card-header>
         <nb-card-body class="p-0">
@@ -48,12 +66,12 @@
 
         <nb-card-footer>
             <div class="d-flex flex-row-reverse justify-content-between">
-                <button nbButton type="submit" status="primary" [disabled]="isBusy || !expenseForm.valid">
+                <button nbButton type="submit" status="primary" [disabled]="isBusy || !expenseForm.valid" tabIndex="4">
                     <nb-icon icon="save-outline"></nb-icon>
                     Save
                 </button>
 
-                <button nbButton type="button" ghost status="danger" *ngIf="expense.id" (click)="deleteExpense()">
+                <button nbButton type="button" ghost status="danger" *ngIf="expense.id" (click)="deleteExpense()" tabIndex="99">
                     <nb-icon icon="trash-2-outline"></nb-icon>
                 </button>
             </div>

@@ -31,7 +31,7 @@ export class CalendarsDialogComponent implements OnInit {
     public saveCalendar(calendar: Calendar): void {
         this.calendarApiService
             .save(calendar)
-            .subscribe((response: Calendar) => {
+            .subscribe(() => {
                 this.editableCalendar = undefined;
                 this.fetch();
             })

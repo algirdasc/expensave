@@ -1,6 +1,5 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {Category} from '../../../../../api/entities/category.entity';
-import {CategoryApiService} from '../../../../../api/category.api.service';
 
 @Component({
     templateUrl: 'category-edit.component.html',
@@ -12,6 +11,7 @@ export class CategoryEditComponent {
     @Input() public category: Category;
     @Output() public save: EventEmitter<Category> = new EventEmitter<Category>();
     @Output() public back: EventEmitter<boolean> = new EventEmitter<boolean>();
+
     public usedColors: object = {};
     public isBusy: boolean = false;
     public colors: string[] = [
