@@ -4,7 +4,7 @@
   "scripts": {
     "dev": "ng serve",
     "analyze": "eslint src/",
-    "build": "ng build"
+    "build": "ng build --configuration production"
   },
   "private": true,
   "dependencies": {

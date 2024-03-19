@@ -1,0 +1,16 @@
+# Backend
+/backend/public/bundles
+/backend/var
+/backend/vendor
+/backend/config/secrets
+/backend/config/jwt/*.pem
+/backend/.env.local
+/backend/.env.local.php
+/backend/.env.*.local
+/backend/*.cache
+/backend/*.phar
+/backend/phpunit.xml
+
+# Frontend
+/frontend/.angular
+/frontend/dist

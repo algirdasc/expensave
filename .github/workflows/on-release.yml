@@ -22,7 +22,7 @@ jobs:
         id: meta-backend
         uses: docker/metadata-action@9ec57ed1fcdbf14dcef7dfbe97b2010124a938b7
         with:
-          images: algirdasc/expensave-backend
+          images: algirdasc/expensave
 
       - name: Build and push Docker image (Backend)
         uses: docker/build-push-action@3b5e8027fcad23fda98b2e3ac259d8d67585f671
@@ -31,17 +31,3 @@ jobs:
           push: true
           tags: ${{ steps.meta-backend.outputs.tags }}
           labels: ${{ steps.meta-backend.outputs.labels }}
-
-      - name: Extract metadata for Docker (Frontend)
-        id: meta-frontend
-        uses: docker/metadata-action@9ec57ed1fcdbf14dcef7dfbe97b2010124a938b7
-        with:
-          images: algirdasc/expensave-frontend
-
-      - name: Build and push Docker image (Frontend)
-        uses: docker/build-push-action@3b5e8027fcad23fda98b2e3ac259d8d67585f671
-        with:
-          context: ./frontend
-          push: true
-          tags: ${{ steps.meta-frontend.outputs.tags }}
-          labels: ${{ steps.meta-frontend.outputs.labels }}
