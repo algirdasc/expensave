@@ -1,5 +1,5 @@
 {
-    "apiUrl": "http://localhost:8000",
+    "apiUrl": "http://nl.sylius.local:18001",
     "locale": "lt",
     "currencyCode": "EUR"
 }

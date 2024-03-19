@@ -1,4 +1,4 @@
-FROM node:18-alpine as frontend
+FROM node:20-alpine as frontend
 
 WORKDIR /opt/expensave/frontend
 
@@ -12,8 +12,9 @@ FROM ubuntu:22.04
 
 MAINTAINER Algirdas <algirdas.cic@gmail.com>
 
-ENV PHP_VERSION php8.2
+ENV PHP_VERSION 8.2
 ENV COMPOSER_ALLOW_SUPERUSER 1
+ENV CORS_ALLOW_ORIGIN https://expensave.backend
 
 RUN apt update && \
     apt install -y --no-install-recommends \
@@ -24,21 +25,27 @@ RUN apt update && \
     supervisor
 RUN add-apt-repository ppa:ondrej/php
 RUN apt install -y \
-    ${PHP_VERSION}-fpm \
-    ${PHP_VERSION}-cli \
-    ${PHP_VERSION}-curl \
-    ${PHP_VERSION}-sqlite3 \
-    ${PHP_VERSION}-gd \
-    ${PHP_VERSION}-zip \
-    ${PHP_VERSION}-intl \
-    ${PHP_VERSION}-dom
+    php${PHP_VERSION}-fpm \
+    php${PHP_VERSION}-cli \
+    php${PHP_VERSION}-curl \
+    php${PHP_VERSION}-sqlite3 \
+    php${PHP_VERSION}-gd \
+    php${PHP_VERSION}-zip \
+    php${PHP_VERSION}-intl \
+    php${PHP_VERSION}-dom
 
 WORKDIR /opt/expensave/backend
 
 # Services
 COPY --from=composer:latest /usr/bin/composer /usr/local/bin/composer
+
+# Entry point
 COPY docker/entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
+
+# Config files
 COPY docker/supervisor/supervisor.conf /etc/supervisor/conf.d/supervisor.conf
+COPY docker/php/ /etc/php/${PHP_VERSION}/fpm
 COPY docker/nginx/ /etc/nginx
 
 # Application files
@@ -47,15 +54,12 @@ COPY --from=frontend /opt/expensave/frontend/dist /opt/expensave/frontend
 
 # Maintenance
 RUN rm /etc/nginx/sites-enabled/default
-RUN mkdir -p /run/php && touch /run/php/${PHP_VERSION}-fpm.sock && touch /run/php/${PHP_VERSION}-fpm.pid
 RUN mkdir -p /opt/expensave/backend/var/db
-RUN chmod +x /entrypoint.sh
-RUN composer install --optimize-autoloader --no-interaction --no-progress
 
-# Redirect logs
-RUN ln -sf /dev/stdout /var/log/nginx/access.log \
-	&& ln -sf /dev/stderr /var/log/nginx/error.log \
-	&& ln -sf /dev/stderr /var/log/${PHP_VERSION}-fpm.log
+# Forward symfony cache
+RUN mkdir /tmp/symfony-cache && ln -sf /tmp/symfony-cache /opt/expensave/backend/var/cache
+
+RUN composer install --optimize-autoloader --no-interaction --no-progress
 
 VOLUME /opt/expensave/backend/var/db
 

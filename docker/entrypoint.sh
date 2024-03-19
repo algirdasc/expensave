@@ -9,4 +9,4 @@ php bin/console doctrine:migrations:migrate --allow-no-migration -n
 
 php bin/console lexik:jwt:generate-keypair -n --skip-if-exists
 
-/usr/bin/supervisord -c /etc/supervisor/conf.d/supervisor.conf
+/usr/bin/supervisord -n -c /etc/supervisor/conf.d/supervisor.conf
