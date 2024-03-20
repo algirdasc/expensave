@@ -1,10 +1,9 @@
 import {HttpResponse} from '@angular/common/http';
 import {ModuleWithProviders, NgModule} from '@angular/core';
 import {RouterModule} from '@angular/router';
-import {NbAuthModule, NbPasswordAuthStrategyOptions} from '@nebular/auth';
+import {NbAuthModule} from '@nebular/auth';
 import {NbEvaIconsModule} from '@nebular/eva-icons';
 import {NbIconModule} from '@nebular/theme';
-import {LoginResponse} from '../../api/response/login.response';
 import {AuthStrategy} from './auth-strategy';
 import {authRoutes} from './auth.routes';
 import {JwtRefreshableToken} from './jwt-refreshable-token';
@@ -60,7 +59,10 @@ export class AuthModule {
                     baseEndpoint: '/auth/',
                     token: {
                         class: JwtRefreshableToken,
-                        getter: (module: string, response: HttpResponse<LoginResponse>, options: NbPasswordAuthStrategyOptions) => {
+                        getter: (
+                            module: string,
+                            response: HttpResponse<{ token: string; refreshToken: string }>,
+                        ) => {
                             return response.body;
                         }
                     },

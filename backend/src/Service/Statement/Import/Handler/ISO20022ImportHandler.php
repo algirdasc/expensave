@@ -4,16 +4,16 @@ declare(strict_types=1);
 
 namespace App\Service\Statement\Import\Handler;
 
-use App\Entity\Statement\Import\ISO20022\Document;
+use App\DTO\Statement\Import\ISO20022\Document;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Serializer\Encoder\XmlEncoder;
 use Symfony\Component\Serializer\Normalizer\AbstractObjectNormalizer;
 use Symfony\Component\Serializer\SerializerInterface;
 
-class ISO20022ImportHandler implements StatementImportHandlerInterface
+readonly class ISO20022ImportHandler implements StatementImportHandlerInterface
 {
     public function __construct(
-        private readonly SerializerInterface $serializer
+        private SerializerInterface $serializer
     ) {
     }
 

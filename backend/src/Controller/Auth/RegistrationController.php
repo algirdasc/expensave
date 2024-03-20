@@ -10,7 +10,6 @@ use App\Repository\UserRepository;
 use App\Request\Auth\RegistrationRequest;
 use App\Response\Auth\AuthTokenResponse;
 use Lexik\Bundle\JWTAuthenticationBundle\Services\JWTTokenManagerInterface;
-use Nelmio\ApiDocBundle\Annotation\Model;
 use Nelmio\ApiDocBundle\Annotation\Security;
 use OpenApi\Attributes as OA;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -34,9 +33,6 @@ class RegistrationController extends AbstractApiController
 
         $userRepository->save($user, true);
 
-        return $this->respond(
-            (new AuthTokenResponse())
-                ->setToken($JWTManager->create($user))
-        );
+        return $this->respond(new AuthTokenResponse($JWTManager->create($user)));
     }
 }

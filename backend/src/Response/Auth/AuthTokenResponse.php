@@ -7,20 +7,16 @@ namespace App\Response\Auth;
 use App\Const\ContextGroupConst;
 use Symfony\Component\Serializer\Annotation\Groups;
 
-class AuthTokenResponse
+readonly class AuthTokenResponse
 {
-    #[Groups(ContextGroupConst::API_ALWAYS)]
-    private string $token;
+    public function __construct(
+        private string $token
+    ) {
+    }
 
+    #[Groups(ContextGroupConst::API_ALWAYS)]
     public function getToken(): string
     {
         return $this->token;
-    }
-
-    public function setToken(string $token): self
-    {
-        $this->token = $token;
-
-        return $this;
     }
 }

@@ -12,4 +12,8 @@ export class DateUtil {
 
         return d;
     }
+
+    public static getDate(d: Date): string {
+        return `${d.getFullYear()}-${d.getMonth()}-${d.getDate()}`;
+    }
 }

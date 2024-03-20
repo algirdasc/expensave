@@ -12,6 +12,7 @@
       <app-calendar
               [calendar]="mainService.calendar"
               [expenses]="mainService.expenses"
+              [balances]="mainService.balances"
               [visibleDate]="mainService.selectedDate"
               (dateRangeChange)="mainService.dateRange = $event; mainService.fetchExpenses()">
       </app-calendar>

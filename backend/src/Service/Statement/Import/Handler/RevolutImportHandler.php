@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Service\Statement\Import\Handler;
 
-use App\Entity\Statement\Import\Revolut\RevolutStatementRow;
+use App\DTO\Statement\Import\Revolut\RevolutStatementRow;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;

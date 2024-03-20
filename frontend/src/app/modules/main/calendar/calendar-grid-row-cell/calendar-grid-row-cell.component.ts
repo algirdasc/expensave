@@ -1,12 +1,11 @@
 import {Component} from '@angular/core';
-import {deepExtend} from '@nebular/auth';
 import {NbCalendarDayCellComponent, NbDateService, NbDialogService} from '@nebular/theme';
 import {plainToInstance} from 'class-transformer';
 import {Calendar} from '../../../../api/entities/calendar.entity';
 import {Expense} from '../../../../api/entities/expense.entity';
 import {ExpenseApiService} from '../../../../api/expense.api.service';
+import {Balance} from '../../../../api/response/calendar-expense-list.response';
 import {DateUtil} from '../../../../util/date.util';
-import {EntityUtil} from '../../../../util/entity.util';
 import {ExpenseDialogComponent} from '../../dialogs/expense-dialog/expense-dialog.component';
 import {ExpenseListDialogComponent} from '../../dialogs/expense-list-dialog/expense-list-dialog.component';
 import {MainService} from '../../main.service';
@@ -23,7 +22,8 @@ export class CalendarGridRowCellComponent extends NbCalendarDayCellComponent<Dat
     public expenseListHeight: number = 0;
     public expenseListCapacity: number = 1;
     public calendar: Calendar;
-    private _expenses: Expense[] = [];
+    public balance: Balance = new Balance();
+    public expenses: Expense[] = [];
 
     constructor(
         public dateService: NbDateService<Date>,
@@ -34,38 +34,13 @@ export class CalendarGridRowCellComponent extends NbCalendarDayCellComponent<Dat
         super(dateService);
     }
 
-    get expenses(): Expense[] {
-        return this._expenses;
-    }
-
-    set expenses(value: Expense[]) {
-        this._expenses = value.filter((expense: Expense) => {
-            return expense.createdAt.toDateString() === this.date.toDateString();
-        });
-    }
-
-    get expenseSum(): string {
-        let sum = 0;
-        this._expenses.forEach((expense: Expense) => {
-            if (expense.confirmed) {
-                sum += expense.amount;
-            }
-        });
-
-        return sum.toFixed(2);
-    }
-
-    get totalExpenseSum(): number {
-        return 0;
-    }
-
     public getVisibleExpenses(): Expense[] {
-        return this._expenses.slice(0, this.expenseListCapacity);
+        return this.expenses.slice(0, this.expenseListCapacity);
     }
 
     public countInvisibleExpenses(): number {
         const visibleCount = this.getVisibleExpenses().length;
-        const totalCount = this._expenses.length;
+        const totalCount = this.expenses.length;
 
         if (totalCount > visibleCount) {
             return totalCount - visibleCount;
@@ -84,7 +59,7 @@ export class CalendarGridRowCellComponent extends NbCalendarDayCellComponent<Dat
         this.dialogService.open(ExpenseListDialogComponent, {
                 context: {
                     visibleDate: this.visibleDate,
-                    expenses: this._expenses,
+                    expenses: this.expenses,
                 }
             }
         );

@@ -15,6 +15,6 @@ class AccessDeniedHandler implements AccessDeniedHandlerInterface
     public function handle(Request $request, AccessDeniedException $accessDeniedException): ?Response
     {
         // return new JsonResponse($this->serializer->serialize(new Access('Access Denied'), JsonEncoder::class));
-        return new JsonResponse(['oops']);
+        return new JsonResponse(['ACcess Denied']);
     }
 }

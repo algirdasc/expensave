@@ -1,12 +1,11 @@
-import {
-  Component, EventEmitter, Input, OnChanges, Output, SimpleChanges
-} from '@angular/core';
+import {Component, EventEmitter, Input, OnChanges, Output, SimpleChanges} from '@angular/core';
 import {NbCalendarDayPickerComponent, NbCalendarMonthModelService} from '@nebular/theme';
+import {Calendar} from '../../../api/entities/calendar.entity';
 import {Expense} from '../../../api/entities/expense.entity';
+import {Balance} from '../../../api/response/calendar-expense-list.response';
 import {DateUtil} from '../../../util/date.util';
 import {CalendarGridRowCellComponent} from './calendar-grid-row-cell/calendar-grid-row-cell.component';
 import {DateRangeChangeEvent} from './events/date-range-change.event';
-import {Calendar} from '../../../api/entities/calendar.entity';
 
 @Component({
   styleUrls: ['calendar.component.scss'],
@@ -15,6 +14,7 @@ import {Calendar} from '../../../api/entities/calendar.entity';
 })
 export class CalendarComponent extends NbCalendarDayPickerComponent<any, any> implements OnChanges {
   @Input() public expenses: Expense[];
+  @Input() public balances: Balance[];
   @Input() public calendar: Calendar;
   @Output() public dateRangeChange: EventEmitter<DateRangeChangeEvent> = new EventEmitter<DateRangeChangeEvent>();
 

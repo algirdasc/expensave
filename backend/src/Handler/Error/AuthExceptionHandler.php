@@ -38,9 +38,6 @@ class AuthExceptionHandler implements ErrorHandlerInterface
 
     public function getMessages(): array
     {
-        return [
-            (new ErrorResponseMessage())
-                ->setMessage($this->exception->getMessage())
-        ];
+        return [new ErrorResponseMessage($this->exception->getMessage())];
     }
 }

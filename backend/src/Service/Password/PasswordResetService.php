@@ -7,10 +7,10 @@ namespace App\Service\Password;
 use App\Repository\UserRepository;
 use Symfony\Component\String\ByteString;
 
-class PasswordResetService
+readonly class PasswordResetService
 {
     public function __construct(
-        private readonly UserRepository $userRepository
+        private UserRepository $userRepository
     ) {
     }
 
@@ -24,7 +24,7 @@ class PasswordResetService
 
         $user->setPassword(ByteString::fromRandom(64)->toString());
 
-        $this->userRepository->save($user, true);
+        $this->userRepository->save($user);
 
         // TODO: send email
     }
@@ -39,7 +39,7 @@ class PasswordResetService
 
         $user->setPlainPassword($password);
 
-        $this->userRepository->save($user, true);
+        $this->userRepository->save($user);
 
         // TODO: send email
     }

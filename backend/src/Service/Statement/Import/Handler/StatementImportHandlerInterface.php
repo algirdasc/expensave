@@ -2,7 +2,7 @@
 
 namespace App\Service\Statement\Import\Handler;
 
-use App\Entity\Statement\Import\StatementImportRowInterface;
+use App\DTO\Statement\Import\StatementImportRowInterface;
 use Symfony\Component\DependencyInjection\Attribute\AutoconfigureTag;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 

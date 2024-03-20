@@ -43,10 +43,10 @@ class RequestValidationHandler implements ErrorHandlerInterface
         $errors = [];
 
         foreach ($this->exception->getValidationErrors() as $error) {
-            $validationError = (new ErrorResponseMessage())
-                ->setMessage((string) $error->getMessage())
-                ->setPropertyPath($error->getPropertyPath())
-            ;
+            $validationError = new ErrorResponseMessage(
+                message: (string) $error->getMessage(),
+                propertyPath: $error->getPropertyPath()
+            );
 
             $errors[] = $validationError;
         }

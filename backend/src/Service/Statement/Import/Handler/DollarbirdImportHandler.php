@@ -2,17 +2,15 @@
 
 namespace App\Service\Statement\Import\Handler;
 
-use App\Entity\Statement\Import\Dollarbird\DollarbirdStatementRow;
+use App\DTO\Statement\Import\Dollarbird\DollarbirdStatementRow;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Serializer\Encoder\CsvEncoder;
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
-use Symfony\Component\Serializer\SerializerInterface;
 
 readonly class DollarbirdImportHandler implements StatementImportHandlerInterface
 {
     public function __construct(
         private DenormalizerInterface $denormalizer,
-        private SerializerInterface $serializer,
     ) {
     }
 

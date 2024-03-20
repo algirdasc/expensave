@@ -15,7 +15,9 @@ doctrine:
         filters:
             calendar:
                 class: App\DoctrineFilter\CalendarFilter
-
+        dql:
+            datetime_functions:
+                date: DoctrineExtensions\Query\Sqlite\Date
 when@test:
     doctrine:
         dbal:

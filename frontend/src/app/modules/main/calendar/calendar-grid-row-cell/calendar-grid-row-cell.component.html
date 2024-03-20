@@ -3,7 +3,7 @@
     <div class="day-header d-flex p-1 text-hint mr-2">
         <div class="day-number flex-fill text-left">{{ day }}</div>
         <div class="day-expenses flex-fill text-right d-none d-sm-block">
-            {{ expenseSum | shortNumber:2 }} | {{ totalExpenseSum | shortNumber:2 }}
+            <span *ngIf="balance?.expenses">{{ balance?.expenses | shortNumber:2 }} | </span>{{ balance?.balance | shortNumber:2 }}
         </div>
         <button nbButton status="primary" class="add-button bounceIn" (click)="createExpense()">
             <nb-icon icon="plus-outline"></nb-icon>

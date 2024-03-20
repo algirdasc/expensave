@@ -2,7 +2,8 @@ import {HttpResponse} from '@angular/common/http';
 import {Injectable} from '@angular/core';
 import {
     NbAuthResult,
-    NbAuthStrategyClass, NbAuthToken,
+    NbAuthStrategyClass,
+    NbAuthToken,
     NbPasswordAuthStrategy,
     NbPasswordAuthStrategyOptions,
     passwordStrategyOptions
@@ -10,7 +11,6 @@ import {
 import {NbAuthRefreshableToken} from '@nebular/auth/services/token/token';
 import {Observable} from 'rxjs';
 import {catchError, map} from 'rxjs/operators';
-import {RefreshTokenResponse} from '../../api/response/refresh-token.response';
 
 type AuthRefreshToken = NbAuthRefreshableToken & NbAuthToken;
 
@@ -26,7 +26,7 @@ export class AuthStrategy extends NbPasswordAuthStrategy {
         return this.http
             .post(url, { refreshToken: token.getRefreshToken() }, { headers: this.getHeaders() })
             .pipe(
-                map((response: HttpResponse<RefreshTokenResponse>) => {
+                map((response: HttpResponse<{ token: string; refreshToken: string }>) => {
                     return new NbAuthResult(
                         true,
                         response,
@@ -41,7 +41,7 @@ export class AuthStrategy extends NbPasswordAuthStrategy {
     }
 
     private createRefreshedToken(
-        response: HttpResponse<RefreshTokenResponse>,
+        response: HttpResponse<{ token: string; refreshToken: string }>,
         existingToken: NbAuthRefreshableToken,
         requireValidToken: boolean
     ): NbAuthToken {

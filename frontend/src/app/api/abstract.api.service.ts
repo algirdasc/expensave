@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import {HttpClient, HttpResponse} from '@angular/common/http';
 import {Injectable} from '@angular/core';
 import {plainToInstance} from 'class-transformer';
@@ -15,6 +16,16 @@ export abstract class AbstractApiService<T extends EntityInterface> {
     constructor(protected http: HttpClient) {
     }
 
+    public request<K>(method: string, type: any,...args: any): Observable<K> {
+        this.changeIsBusy(true);
+
+        return this.http[method](args[0] ?? this.backend)
+            .pipe(
+                finalize(() => this.changeIsBusy(false)),
+                map((response: HttpResponse<K>) => this.convertToType<K>(type, response))
+            );
+    }
+
     public list(...args: any): Observable<T[]> {
         this.changeIsBusy(true);
 
@@ -22,7 +33,7 @@ export abstract class AbstractApiService<T extends EntityInterface> {
             .get(args[0] ?? this.backend)
             .pipe(
                 finalize(() => this.changeIsBusy(false)),
-                map((response: HttpResponse<object[]>) => this.responseArrayToType(response))
+                map((response: HttpResponse<T[]>) => this.convertToType<T[]>(this.entity, response))
             );
     }
 
@@ -33,7 +44,7 @@ export abstract class AbstractApiService<T extends EntityInterface> {
             .get(`${this.backend}/${id}`)
             .pipe(
                 finalize(() => this.changeIsBusy(false)),
-                map((response: HttpResponse<object>) => this.responseToType(response))
+                map((response: HttpResponse<T>) => this.convertToType<T>(this.entity, response))
             );
     }
 
@@ -47,27 +58,23 @@ export abstract class AbstractApiService<T extends EntityInterface> {
 
         return request.pipe(
             finalize(() => this.changeIsBusy(false)),
-            map((response: HttpResponse<object>) => this.responseToType(response))
+            map((response: HttpResponse<T>) => this.convertToType<T>(this.entity, response))
         );
     }
 
-    public delete(id: number): Observable<any> {
+    public delete(id: number): Observable<T[]> {
         this.changeIsBusy(true);
 
         return this.http
             .delete(`${this.backend}/${id}`)
             .pipe(
                 finalize(() => this.changeIsBusy(false)),
-                map((response: HttpResponse<object[]>) => this.responseToType(response))
+                map((response: HttpResponse<T[]>) => this.convertToType<T[]>(this.entity, response))
             );
     }
 
-    protected responseToType(response: HttpResponse<object>): T {
-        return plainToInstance(this.entity, response, { excludeExtraneousValues: true });
-    }
-
-    protected responseArrayToType(response: HttpResponse<object[]>): T[] {
-        return plainToInstance(this.entity, response, { excludeExtraneousValues: true });
+    protected convertToType<K>(type: any, response: HttpResponse<K>): K {
+        return plainToInstance(type, response, { excludeExtraneousValues: true });
     }
 
     protected changeIsBusy(isBusy: boolean): void {

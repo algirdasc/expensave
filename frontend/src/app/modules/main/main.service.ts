@@ -1,9 +1,9 @@
-import {ChangeDetectorRef, Injectable} from '@angular/core';
-import {ActivatedRoute} from '@angular/router';
+import {Injectable} from '@angular/core';
+import {CalendarApiService} from '../../api/calendar.api.service';
 import {Calendar} from '../../api/entities/calendar.entity';
 import {Expense} from '../../api/entities/expense.entity';
 import {User} from '../../api/entities/user.entity';
-import {ExpenseApiService} from '../../api/expense.api.service';
+import {Balance, CalendarExpenseListResponse} from '../../api/response/calendar-expense-list.response';
 import {DateRangeChangeEvent} from './calendar/events/date-range-change.event';
 
 @Injectable()
@@ -13,9 +13,10 @@ export class MainService {
     public calendar: Calendar;
     public dateRange: DateRangeChangeEvent;
     public expenses: Expense[] = [];
+    public balances: Balance[] = [];
 
     constructor(
-        private readonly expenseApiService: ExpenseApiService,
+        private readonly calendarApiService: CalendarApiService,
     ) {
     }
 
@@ -24,9 +25,12 @@ export class MainService {
             return;
         }
 
-        this.expenseApiService
-            .list(this.calendar, this.dateRange.fromDate, this.dateRange.toDate)
-            .subscribe((expenses: Expense[]) => this.expenses = expenses)
+        this.calendarApiService
+            .listExpenses(this.calendar, this.dateRange.fromDate, this.dateRange.toDate)
+            .subscribe((response: CalendarExpenseListResponse) => {
+                this.expenses = response.expenses;
+                this.balances = response.balances;
+            })
         ;
     }
 }

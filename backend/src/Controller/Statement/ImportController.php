@@ -47,10 +47,7 @@ class ImportController extends AbstractApiController
             $this->entityManager->flush();
         }
 
-        return $this->respond(
-            (new StatementImportResponse())
-                ->setErrors($errors)
-        );
+        return $this->respond(new StatementImportResponse($errors));
     }
 
     public function getAllowedContentTypeFormat(): string

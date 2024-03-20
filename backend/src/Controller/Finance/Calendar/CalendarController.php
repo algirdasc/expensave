@@ -9,7 +9,11 @@ use App\Controller\AbstractApiController;
 use App\Entity\Calendar;
 use App\Entity\User;
 use App\Repository\CalendarRepository;
+use App\Repository\ExpenseRepository;
 use App\Request\Calendar\CreateCalendarRequest;
+use App\Response\Statement\ExpenseListResponse;
+use App\Service\BalanceCalculatorService;
+use DateTime;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -19,7 +23,9 @@ use Symfony\Component\Security\Http\Attribute\CurrentUser;
 class CalendarController extends AbstractApiController
 {
     public function __construct(
-        private readonly CalendarRepository $calendarRepository
+        private readonly CalendarRepository $calendarRepository,
+        private readonly ExpenseRepository $expenseRepository,
+        private readonly BalanceCalculatorService $balanceCalculatorService,
     ) {
     }
 
@@ -35,6 +41,29 @@ class CalendarController extends AbstractApiController
         return $this->respond($calendar, groups: CalendarContextGroupConst::DETAILS);
     }
 
+    #[Route('/{calendar}/expenses/{fromTs}/{toTs}', name: 'expenses', methods: Request::METHOD_GET)]
+    public function expenses(Calendar $calendar, int $fromTs, int $toTs): JsonResponse
+    {
+        $expenses = $this->expenseRepository->findByCalendarAndInterval(
+            $calendar,
+            (new DateTime())->setTimestamp($fromTs),
+            (new DateTime())->setTimestamp($toTs)
+        );
+
+        $balances = $this->balanceCalculatorService->calculate(
+            $calendar,
+            (new DateTime())->setTimestamp($fromTs),
+            (new DateTime())->setTimestamp($toTs)
+        );
+
+        return $this->respond(
+            new ExpenseListResponse(
+                expenses: $expenses,
+                balances: $balances,
+            )
+        );
+    }
+
     #[Route('', name: 'create', methods: Request::METHOD_POST)]
     public function create(#[CurrentUser] User $user, CreateCalendarRequest $request): JsonResponse
     {
@@ -47,7 +76,7 @@ class CalendarController extends AbstractApiController
             $calendar->addUser($user);
         }
 
-        $this->calendarRepository->save($calendar, true);
+        $this->calendarRepository->save($calendar);
 
         return $this->respond($calendar, groups: CalendarContextGroupConst::DETAILS);
     }
@@ -64,7 +93,7 @@ class CalendarController extends AbstractApiController
             $calendar->addUser($user);
         }
 
-        $this->calendarRepository->save($calendar, true);
+        $this->calendarRepository->save($calendar);
 
         return $this->respond($calendar, groups: CalendarContextGroupConst::DETAILS);
     }
@@ -72,7 +101,7 @@ class CalendarController extends AbstractApiController
     #[Route('/{calendar}', name: 'remove', methods: Request::METHOD_DELETE)]
     public function remove(Calendar $calendar): JsonResponse
     {
-        $this->calendarRepository->remove($calendar, true);
+        $this->calendarRepository->remove($calendar);
 
         return $this->respond($this->calendarRepository->findAll());
     }

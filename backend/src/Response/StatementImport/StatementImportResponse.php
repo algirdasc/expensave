@@ -7,29 +7,20 @@ namespace App\Response\StatementImport;
 use App\Const\ContextGroupConst;
 use Symfony\Component\Serializer\Annotation\Groups;
 
-class StatementImportResponse
+readonly class StatementImportResponse
 {
-    /**
-     * @var array<string, array<string>>
-     */
-    #[Groups(ContextGroupConst::API_ALL)]
-    private array $errors = [];
-
-    /**
-     * @return array<string, array<string>>
-     */
-    public function getErrors(): array
-    {
-        return $this->errors;
-    }
-
     /**
      * @param array<string, array<string>> $errors
      */
-    public function setErrors(array $errors): self
-    {
-        $this->errors = $errors;
+    public function __construct(
+        private array $errors
+    ) {
 
-        return $this;
+    }
+
+    #[Groups(ContextGroupConst::API_ALL)]
+    public function getErrors(): array
+    {
+        return $this->errors;
     }
 }

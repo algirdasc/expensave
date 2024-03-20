@@ -1,10 +1,10 @@
-import {Component, ComponentFactoryResolver, ElementRef, Input, OnChanges, Type} from '@angular/core';
-import {NbCalendarCell, NbCalendarPickerRowComponent} from '@nebular/theme';
+import {Component, ComponentFactoryResolver, Input, OnChanges, Type} from '@angular/core';
+import {NbCalendarPickerRowComponent, NbDateService} from '@nebular/theme';
 import {ResizedEvent} from 'angular-resize-event';
-import {Expense} from '../../../../api/entities/expense.entity';
-import {DateUtil} from '../../../../util/date.util';
-import {CalendarGridRowCellComponent} from '../calendar-grid-row-cell/calendar-grid-row-cell.component';
 import {Calendar} from '../../../../api/entities/calendar.entity';
+import {Expense} from '../../../../api/entities/expense.entity';
+import {Balance} from '../../../../api/response/calendar-expense-list.response';
+import {CalendarGridRowCellComponent} from '../calendar-grid-row-cell/calendar-grid-row-cell.component';
 
 @Component({
     selector: 'app-calendar-grid-row',
@@ -15,24 +15,14 @@ export class CalendarGridRowComponent extends NbCalendarPickerRowComponent<Date,
     @Input() public component: Type<CalendarGridRowCellComponent>;
     @Input() public calendar: Calendar;
     @Input() public rowResizedEvent: ResizedEvent;
-    private _expenses: Expense[];
+    @Input() public balances: Balance[];
+    @Input() public expenses: Expense[];
 
-    constructor(private c: ComponentFactoryResolver, private _element: ElementRef) {
+    constructor(
+        private c: ComponentFactoryResolver,
+        private dateService: NbDateService<Date>
+    ) {
         super(c);
-    }
-
-    @Input()
-    get expenses(): Expense[] {
-        return this._expenses;
-    }
-
-    set expenses(value: Expense[]) {
-        const min = this.row[0].getTime();
-        const max = DateUtil.endOfTheDay(this.row[6]).getTime();
-
-        this._expenses = value.filter((expense: Expense) => {
-            return min <= expense.createdAt.getTime() && expense.createdAt.getTime() <= max;
-        });
     }
 
     public ngOnChanges(): void {
@@ -47,19 +37,36 @@ export class CalendarGridRowComponent extends NbCalendarPickerRowComponent<Date,
         });
     }
 
-    private patchContext(component: CalendarGridRowCellComponent, date: Date): void {
-        component.visibleDate = this.visibleDate;
-        component.selectedValue = this.selectedValue;
-        component.date = date;
-        component.min = this.min;
-        component.max = this.max;
-        component.filter = this.filter;
-        component.size = this.size;
-        component.select.subscribe(this.select.emit.bind(this.select));
+    private patchContext(gridRowCell: CalendarGridRowCellComponent, date: Date): void {
+        gridRowCell.visibleDate = this.visibleDate;
+        gridRowCell.selectedValue = this.selectedValue;
+        gridRowCell.date = date;
+        gridRowCell.min = this.min;
+        gridRowCell.max = this.max;
+        gridRowCell.filter = this.filter;
+        gridRowCell.size = this.size;
+        gridRowCell.select.subscribe(this.select.emit.bind(this.select));
 
-        component.calendar = this.calendar;
-        component.expenses = this.expenses;
+        gridRowCell.calendar = this.calendar;
+        gridRowCell.expenses = this.expenses.filter((expense: Expense) => {
 
-        component.onRowHeightChange(this.rowResizedEvent?.newRect.height ?? 0);
+            const a = this.dateService.isSameDaySafe(date, expense.createdAt);
+            if (a) {
+                console.log(date, expense.createdAt);
+            }
+
+            return a;
+        });
+
+        gridRowCell.balance = this.balances.filter((balance: Balance) => {
+            const a = this.dateService.isSameDaySafe(date, balance.balanceAt);
+            if (a) {
+                console.log(date, balance);
+            }
+
+            return a;
+        })[0];
+
+        gridRowCell.onRowHeightChange(this.rowResizedEvent?.newRect.height ?? 0);
     }
 }

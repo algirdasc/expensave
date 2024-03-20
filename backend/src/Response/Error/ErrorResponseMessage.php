@@ -7,35 +7,23 @@ namespace App\Response\Error;
 use App\Const\ContextGroupConst;
 use Symfony\Component\Serializer\Annotation\Groups;
 
-class ErrorResponseMessage
+readonly class ErrorResponseMessage
 {
-    #[Groups(ContextGroupConst::API_ERROR)]
-    private string $message;
+    public function __construct(
+        private string $message,
+        private ?string $propertyPath = null
+    ) {
+    }
 
     #[Groups(ContextGroupConst::API_ERROR)]
-    private ?string $propertyPath = null;
-
     public function getMessage(): string
     {
         return $this->message;
     }
 
-    public function setMessage(string $message): ErrorResponseMessage
-    {
-        $this->message = $message;
-
-        return $this;
-    }
-
+    #[Groups(ContextGroupConst::API_ERROR)]
     public function getPropertyPath(): ?string
     {
         return $this->propertyPath;
-    }
-
-    public function setPropertyPath(?string $propertyPath): ErrorResponseMessage
-    {
-        $this->propertyPath = $propertyPath;
-
-        return $this;
     }
 }
