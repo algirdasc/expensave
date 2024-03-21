@@ -93,7 +93,7 @@ export class CalendarGridRowCellComponent extends NbCalendarDayCellComponent<Dat
                 }
             })
             .onClose
-            .subscribe((result: Expense) => {
+            .subscribe((result?: Expense) => {
                 if (result) {
                     onClose(result);
                 }

@@ -50,7 +50,7 @@ export class ExpenseDialogComponent {
                 }
             })
             .onClose
-            .subscribe((result: Calendar) => {
+            .subscribe((result?: Calendar) => {
                 if (result) {
                     this.expense.calendar = result;
                 }
@@ -61,12 +61,13 @@ export class ExpenseDialogComponent {
         this.dialogService
             .open(CategoriesDialogComponent, {
                 context: {
-                    selectedCategory: this.expense.category
+                    selectedCategory: this.expense.category,
+                    showEmptyCategory: true,
                 }
             })
             .onClose
-            .subscribe((result: Category) => {
-                if (result) {
+            .subscribe((result: Category|null|false) => {
+                if (result !== false) {
                     this.expense.category = result;
                 }
             });
@@ -93,7 +94,7 @@ export class ExpenseDialogComponent {
                 }
             })
             .onClose
-            .subscribe((result: Date) => {
+            .subscribe((result?: Date) => {
                 if (result) {
                     this.expense.createdAt = DateUtil.setTime(result, this.expense.createdAt);
                 }
@@ -108,7 +109,7 @@ export class ExpenseDialogComponent {
                 }
             })
             .onClose
-            .subscribe((result: boolean) => {
+            .subscribe((result?: boolean) => {
                 if (result) {
                     this.expenseApiService
                         .delete(this.expense.id)

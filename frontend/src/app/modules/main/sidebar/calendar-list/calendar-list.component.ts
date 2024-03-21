@@ -1,14 +1,12 @@
-import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
-import {ActivatedRoute, Route, Router} from '@angular/router';
+import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {NbDialogService} from '@nebular/theme';
 import {CalendarApiService} from '../../../../api/calendar.api.service';
 import {Calendar} from '../../../../api/entities/calendar.entity';
-import {User} from '../../../../api/entities/user.entity';
+import {EntityUtil} from '../../../../util/entity.util';
 import {CalendarEditComponent} from '../../dialogs/calendars-dialog/calendar-edit/calendar-edit.component';
+import {CategoriesDialogComponent} from '../../dialogs/categories-dialog/categories-dialog.component';
 import {ConfirmDialogComponent} from '../../dialogs/confirm-dialog/confirm-dialog.component';
 import {StatementImportDialogComponent} from '../../dialogs/statement-import-dialog/statement-import-dialog.component';
-import {CategoriesDialogComponent} from '../../dialogs/categories-dialog/categories-dialog.component';
-import {EntityUtil} from '../../../../util/entity.util';
 
 @Component({
     selector: 'app-sidebar-calendar-list',
@@ -65,7 +63,7 @@ export class CalendarSidebarListComponent {
                 }
             })
             .onClose
-            .subscribe((result: boolean) => {
+            .subscribe((result?: boolean) => {
                 if (result) {
                     this.calendarApiService
                         .delete(calendar.id)
@@ -82,7 +80,7 @@ export class CalendarSidebarListComponent {
         this.dialogService
             .open(CalendarEditComponent, { context: { calendar: new Calendar() } })
             .onClose
-            .subscribe((result: Calendar) => {
+            .subscribe((result?: Calendar) => {
                 if (result) {
                     this.fetch();
                 }
@@ -94,7 +92,7 @@ export class CalendarSidebarListComponent {
         this.dialogService
             .open(CalendarEditComponent, { context: { calendar: calendar } })
             .onClose
-            .subscribe((result: Calendar) => {
+            .subscribe((result?: Calendar) => {
                 if (result) {
                     EntityUtil.replaceInArray(this.calendars, result);
                     this.calendarsChange.emit(this.calendars);

@@ -29,7 +29,7 @@ export class Expense implements EntityInterface {
 
     @Expose()
     @Type(() => Category)
-    public category: Category;
+    public category: Category|null;
 
     @Expose()
     public confirmed: boolean;

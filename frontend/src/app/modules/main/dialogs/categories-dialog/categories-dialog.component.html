@@ -3,6 +3,7 @@
             *ngIf="!editableCategory"
             [categories]="categories"
             [selectedCategory]="selectedCategory"
+            [showEmptyCategory]="showEmptyCategory"
             (newCategoryClick)="editCategory()"
             (categoryClick)="categoryClick($event)"
             (back)="dialogRef.close(false)">

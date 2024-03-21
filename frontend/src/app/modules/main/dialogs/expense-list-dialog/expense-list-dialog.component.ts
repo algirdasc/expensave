@@ -1,8 +1,8 @@
 import {Component} from '@angular/core';
 import {NbDialogService} from '@nebular/theme';
 import {Expense} from '../../../../api/entities/expense.entity';
-import {ExpenseDialogComponent} from '../expense-dialog/expense-dialog.component';
 import {EntityUtil} from '../../../../util/entity.util';
+import {ExpenseDialogComponent} from '../expense-dialog/expense-dialog.component';
 
 @Component({
     templateUrl: 'expense-list-dialog.component.html',
@@ -18,7 +18,7 @@ export class ExpenseListDialogComponent {
         this.dialogService
             .open(ExpenseDialogComponent, { context: { expense: expense} })
             .onClose
-            .subscribe((result: Expense) => {
+            .subscribe((result?: Expense) => {
                 if (result) {
                     EntityUtil.replaceInArray(this.expenses, expense);
                 }

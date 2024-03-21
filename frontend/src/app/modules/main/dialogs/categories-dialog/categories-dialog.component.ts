@@ -10,6 +10,7 @@ import {Category} from '../../../../api/entities/category.entity';
 export class CategoriesDialogComponent implements OnInit {
     public isBusy: boolean = false;
     public isSelectable: boolean = true;
+    public showEmptyCategory: boolean = false;
     public categories: Category[];
     public selectedCategory: Category;
     public editableCategory: Category;
