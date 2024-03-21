@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs';
 import {AbstractApiService} from './abstract.api.service';
@@ -10,6 +11,10 @@ export class ExpenseApiService extends AbstractApiService<Expense> {
     protected entity: any = Expense;
 
     public suggest(label: string): Observable<ExpenseSuggestResponse> {
-        return super.request<ExpenseSuggestResponse>('post', ExpenseSuggestResponse, `${this.backend}/suggest`, {'label': label});
+        return super.request<ExpenseSuggestResponse>(
+            'post',
+            ExpenseSuggestResponse,
+            `${this.backend}/suggest`, {'label': label}
+        );
     }
 }

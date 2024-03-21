@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {NbCalendarViewMode, NbDateService, NbSidebarService} from '@nebular/theme';
 import {Calendar} from '../../../api/entities/calendar.entity';
 

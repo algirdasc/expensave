@@ -24,6 +24,7 @@ export class UserApiService {
 
     public save(entity: User): Observable<User> {
         this.onBusyChange.next(true);
+
         return this.http.put(`${this.backend}/profile`, entity)
             .pipe(
                 finalize(() => this.onBusyChange.next(false)),

@@ -1,12 +1,8 @@
-import {AfterViewInit, ChangeDetectorRef, Component, OnChanges, OnInit, SimpleChanges} from '@angular/core';
-import {ActivatedRoute, Router} from '@angular/router';
-import {NbCalendarViewMode, NbDateService} from '@nebular/theme';
-import {Calendar} from '../../api/entities/calendar.entity';
+import {AfterViewInit, ChangeDetectorRef, Component, OnInit} from '@angular/core';
+import {ActivatedRoute} from '@angular/router';
 import {User} from '../../api/entities/user.entity';
-import {DateRangeChangeEvent} from './calendar/events/date-range-change.event';
-import {MainService} from './main.service';
 import {ExpenseApiService} from '../../api/expense.api.service';
-import {Expense} from '../../api/entities/expense.entity';
+import {MainService} from './main.service';
 
 @Component({
     templateUrl: 'main.component.html',
@@ -39,7 +35,7 @@ export class MainComponent implements OnInit, AfterViewInit {
             this.mainService.user = user;
         });
 
-        this.activatedRoute.queryParams.subscribe(({ ts, calendar }) => {
+        this.activatedRoute.queryParams.subscribe(({ts}) => {
             const date = new Date(parseInt(ts));
             if (date.toString() !== 'Invalid Date') {
                 this.mainService.selectedDate = date;

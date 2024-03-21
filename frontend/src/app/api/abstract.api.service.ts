@@ -10,7 +10,7 @@ import {EntityInterface} from './entities/entity.interface';
 export abstract class AbstractApiService<T extends EntityInterface> {
     public onBusyChange: Subject<boolean> = new Subject<boolean>();
     protected abstract backend: string;
-    protected abstract entity: any;
+    protected abstract entity: T;
     private onBusyChangeTimeout: NodeJS.Timer;
 
     constructor(protected http: HttpClient) {

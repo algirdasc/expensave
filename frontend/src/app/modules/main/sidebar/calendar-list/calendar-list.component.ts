@@ -47,9 +47,9 @@ export class CalendarSidebarListComponent {
             .open(StatementImportDialogComponent, { autoFocus: true, context: { calendar: calendar } })
             .onClose
             .subscribe((result: boolean) => {
-                //if (result) {
-                this.calendarChange.emit(this.calendar);
-                //}
+                if (result) {
+                    this.calendarChange.emit(this.calendar);
+                }
             })
         ;
     }
