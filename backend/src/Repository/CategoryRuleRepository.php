@@ -22,11 +22,11 @@ class CategoryRuleRepository extends AbstractRepository
         parent::__construct($registry, CategoryRule::class);
     }
 
-    public function match(string $remittanceInformation): ?Category
+    public function match(string $expenseLabel): ?Category
     {
         $rules = $this->findAll();
         foreach ($rules as $rule) {
-            if ($rule->hasMatch($remittanceInformation)) {
+            if ($rule->hasMatch($expenseLabel)) {
                 return $rule->getCategory();
             }
         }

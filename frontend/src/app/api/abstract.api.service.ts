@@ -19,7 +19,7 @@ export abstract class AbstractApiService<T extends EntityInterface> {
     public request<K>(method: string, type: any,...args: any): Observable<K> {
         this.changeIsBusy(true);
 
-        return this.http[method](args[0] ?? this.backend)
+        return this.http[method](args[0] ?? this.backend, args[1])
             .pipe(
                 finalize(() => this.changeIsBusy(false)),
                 map((response: HttpResponse<K>) => this.convertToType<K>(type, response))

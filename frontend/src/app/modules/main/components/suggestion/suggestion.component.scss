@@ -1,0 +1,29 @@
+@use '../../../../../theme' as *;
+
+.suggestion {
+    position: relative;
+
+    .suggest {
+        position: absolute;
+        z-index: 1;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        pointer-events: none;
+        overflow: hidden;
+        white-space: nowrap;
+        border-color: transparent !important;
+    }
+
+    .suggestion-prefix {
+        opacity: 0;
+        visibility: hidden;
+    }
+
+    .suggestion-suffix {
+        cursor: pointer;
+        pointer-events: auto;
+        user-select: none;
+        color: nb-theme(text-hint-color);
+    }
+}

@@ -65,7 +65,7 @@ class CategoryRule
 
     public function hasMatch(string $needle): bool
     {
-        @preg_match(sprintf('/%s/', $this->getPattern()), $needle, $matches);
+        @preg_match(sprintf('/%s/i', $this->getPattern()), $needle, $matches);
 
         return (bool) $matches;
     }

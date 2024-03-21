@@ -7,6 +7,7 @@ namespace App\Repository;
 use App\Entity\Calendar;
 use App\Entity\Expense;
 use DateTime;
+use Doctrine\ORM\Query;
 use Doctrine\Persistence\ManagerRegistry;
 use JetBrains\PhpStorm\ArrayShape;
 
@@ -55,10 +56,10 @@ class ExpenseRepository extends AbstractRepository
             ->setParameter('dateTo', $dateTo)
             ->orderBy('e.createdAt', 'ASC')
             ->getQuery()
-            ->getSingleScalarResult() ?? 0;
+            ->getOneOrNullResult(Query::HYDRATE_SINGLE_SCALAR) ?? 0;
     }
 
-    #[ArrayShape(['date' => 'string', 'balance' => 'float',])]
+    #[ArrayShape(['date' => 'string', 'balance' => 'float'])]
     public function getDailyBalances(Calendar $calendar, DateTime $dateFrom, DateTime $dateTo): array
     {
         return $this->createQueryBuilder('e')
@@ -73,5 +74,16 @@ class ExpenseRepository extends AbstractRepository
             ->groupBy('date')
             ->getQuery()
             ->getResult();
+    }
+
+    public function findSuggestion(string $label): ?Expense
+    {
+        return $this->createQueryBuilder('e')
+            ->where('e.label LIKE :label')
+            ->setParameter('label', "$label%")
+            ->orderBy('e.id', 'DESC')
+            ->setMaxResults(1)
+            ->getQuery()
+            ->getOneOrNullResult(Query::HYDRATE_OBJECT);
     }
 }

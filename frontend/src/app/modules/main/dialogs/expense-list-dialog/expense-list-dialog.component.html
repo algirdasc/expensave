@@ -1,4 +1,4 @@
-<nb-card style="width: 335px;" class="border-0">
+<nb-card class="dialog">
     <nb-card-header>
         {{ visibleDate | date: 'mediumDate'}}
     </nb-card-header>
@@ -18,7 +18,7 @@
                 <div class="text-truncate w-100 mx-3">
                     {{ expense.label }}
                 </div>
-                <span>{{ expense.amount | shortNumber:2 }}</span>
+                <span>{{ expense.amount | shortNumber }}</span>
             </nb-list-item>
         </nb-list>
     </nb-card-body>

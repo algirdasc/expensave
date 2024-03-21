@@ -4,9 +4,7 @@ declare(strict_types=1);
 
 namespace App\Request;
 
-use App\Attribute\Request\ResolveEntity;
 use App\Handler\Request\TransformationHandlerInterface;
-use Doctrine\ORM\EntityManagerInterface;
 use LogicException;
 use ReflectionClass;
 use ReflectionNamedType;
@@ -19,15 +17,15 @@ abstract class AbstractRequest
     /**
      * @var iterable<TransformationHandlerInterface>
      */
-    private iterable $transformationHandlers;
+    private iterable $transformationHandler;
 
     /**
-     * @param iterable<TransformationHandlerInterface> $transformationHandlers
+     * @param iterable<TransformationHandlerInterface> $transformationHandler
      */
     public function __construct(
         #[TaggedIterator('app.handler.request.transformation')] iterable $transformationHandler
     ) {
-        $this->transformationHandlers = $transformationHandler;
+        $this->transformationHandler = $transformationHandler;
 
         $this->populate();
     }
@@ -59,7 +57,7 @@ abstract class AbstractRequest
 
             $value = $requestAsArray[$propertyName] ?? null;
 
-            foreach ($this->transformationHandlers as $transformationHandler) {
+            foreach ($this->transformationHandler as $transformationHandler) {
                 if (!$transformationHandler->supportsProperty($property)) {
                     continue;
                 }

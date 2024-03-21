@@ -1,4 +1,6 @@
+import {formatNumber} from '@angular/common';
 import {Pipe, PipeTransform} from '@angular/core';
+import {APP_CONFIG} from '../app.initializer';
 
 @Pipe({
     name: 'shortNumber'
@@ -20,7 +22,6 @@ export class ShortNumberPipe implements PipeTransform {
             {key: 'T', value: Math.pow(10, 12)},
             {key: 'B', value: Math.pow(10, 9)},
             {key: 'M', value: Math.pow(10, 6)},
-            {key: 'K', value: 1000}
         ];
 
         for (const power of powers) {
@@ -33,6 +34,8 @@ export class ShortNumberPipe implements PipeTransform {
             }
         }
 
-        return (isNegative ? '-' : '') + abs.toFixed(args[0] ?? 0) + key;
+        const num = (isNegative ? -1 : 1) * abs;
+
+        return formatNumber(num, APP_CONFIG.locale, args[0] ?? '.2') + key;
     }
 }

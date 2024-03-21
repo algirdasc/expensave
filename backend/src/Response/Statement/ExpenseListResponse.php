@@ -12,7 +12,7 @@ readonly class ExpenseListResponse
 {
     /**
      * @param array<Expense> $expenses
-     * @param array $balances
+     * @param array<Balance> $balances
      */
     public function __construct(
         private array $expenses,

@@ -9,7 +9,7 @@ nb-list-item {
     }
 }
 
-.expense-header.confirmed {
+:host ::ng-deep .expense-header.confirmed {
     color: hsla(0, 0%, 100%, .8) !important;
 
     button.toggle-sign {
@@ -23,6 +23,10 @@ nb-list-item {
 
     input.t-input::placeholder {
         color: hsla(0, 0%, 100%, .4) !important;
+    }
+
+    .suggestion-suffix {
+        color: hsla(0, 0%, 100%, .6) !important;
     }
 }
 

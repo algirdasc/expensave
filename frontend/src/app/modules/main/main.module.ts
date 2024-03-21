@@ -5,15 +5,22 @@ import {FormsModule} from '@angular/forms';
 import {RouterModule} from '@angular/router';
 import {NbEvaIconsModule} from '@nebular/eva-icons';
 import {
-    NbActionsModule, NbAutocompleteModule, NbButtonGroupModule,
-    NbButtonModule, NbCalendarKitModule, NbCalendarModule,
+    NbActionsModule,
+    NbAutocompleteModule,
+    NbButtonGroupModule,
+    NbButtonModule,
+    NbCalendarKitModule,
+    NbCalendarModule,
     NbCardModule,
     NbIconModule,
     NbInputModule,
-    NbLayoutModule, NbListModule, NbPopoverModule,
+    NbLayoutModule,
+    NbListModule,
+    NbPopoverModule,
     NbRadioModule,
     NbSidebarModule,
-    NbSpinnerModule, NbTagModule,
+    NbSpinnerModule,
+    NbTagModule,
     NbUserModule
 } from '@nebular/theme';
 import {AngularResizeEventModule} from 'angular-resize-event';
@@ -25,6 +32,7 @@ import {ExpenseItemComponent} from './calendar/calendar-grid-row-cell/expense-it
 import {CalendarGridRowComponent} from './calendar/calendar-grid-row/calendar-grid-row.component';
 import {CalendarGridComponent} from './calendar/calendar-grid/calendar-grid.component';
 import {CalendarComponent} from './calendar/calendar.component';
+import {SuggestionComponent} from './components/suggestion/suggestion.component';
 import {CalendarEditComponent} from './dialogs/calendars-dialog/calendar-edit/calendar-edit.component';
 import {CalendarListComponent} from './dialogs/calendars-dialog/calendar-list/calendar-list.component';
 import {CalendarsDialogComponent} from './dialogs/calendars-dialog/calendars-dialog.component';
@@ -53,6 +61,7 @@ import {ProfileComponent} from './sidebar/profile/profile.component';
         CalendarSidebarListComponent,
         ProfileComponent,
         CalendarComponent,
+        SuggestionComponent,
 
         // CalendarComponent Components
         CalendarDayNamesComponent,

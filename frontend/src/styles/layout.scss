@@ -43,3 +43,11 @@ nb-list nb-list-item {
 nb-list-item.actionable {
     cursor: pointer;
 }
+
+nb-card.dialog {
+    width: 335px;
+    min-height: 530px;
+    max-height: 75vh;
+    border: 0 !important;
+    margin: 0;
+}

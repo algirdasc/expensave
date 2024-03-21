@@ -23,13 +23,14 @@ RUN apt update && \
     gpg-agent \
     software-properties-common \
     nginx \
+    mariadb-server-10.6 \
     supervisor
 RUN add-apt-repository ppa:ondrej/php
 RUN apt install -y \
     php${PHP_VERSION}-fpm \
     php${PHP_VERSION}-cli \
     php${PHP_VERSION}-curl \
-    php${PHP_VERSION}-sqlite3 \
+    php${PHP_VERSION}-mysql \
     php${PHP_VERSION}-gd \
     php${PHP_VERSION}-zip \
     php${PHP_VERSION}-intl \

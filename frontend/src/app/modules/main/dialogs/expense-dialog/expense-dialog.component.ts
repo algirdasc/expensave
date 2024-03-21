@@ -1,9 +1,11 @@
 import {Component} from '@angular/core';
 import {NbDialogRef, NbDialogService} from '@nebular/theme';
+import {Subscription} from 'rxjs';
 import {Calendar} from '../../../../api/entities/calendar.entity';
 import {Category} from '../../../../api/entities/category.entity';
 import {Expense} from '../../../../api/entities/expense.entity';
 import {ExpenseApiService} from '../../../../api/expense.api.service';
+import {ExpenseSuggestResponse} from '../../../../api/response/expense-suggest.response';
 import {UNCATEGORIZED_COLOR} from '../../../../util/color.util';
 import {DateUtil} from '../../../../util/date.util';
 import {CalendarsDialogComponent} from '../calendars-dialog/calendars-dialog.component';
@@ -20,8 +22,11 @@ export class ExpenseDialogComponent {
     public expense: Expense;
     public calendars: Calendar[];
     public isBusy: boolean = false;
+    public expenseSuggestionResponse: ExpenseSuggestResponse;
 
     protected readonly UNCATEGORIZED_COLOR: string = UNCATEGORIZED_COLOR;
+
+    private labelSuggestionSubscription: Subscription;
 
     constructor(
         private readonly expenseApiService: ExpenseApiService,
@@ -110,5 +115,37 @@ export class ExpenseDialogComponent {
                         .subscribe(() => this.dialogRef.close(true));
                 }
             });
+    }
+
+    public handleInputChange(input: string): void {
+        // 1. Deselect category when input change & is not equal to suggestion (new expense only)
+        if (this.expense.id === undefined && input !== this.expenseSuggestionResponse?.label) {
+            this.expense.category = undefined;
+        }
+
+        // 2. Delete expired suggestion
+        this.expenseSuggestionResponse = undefined;
+
+        // 3. Cancel pending suggestion request
+        if (this.labelSuggestionSubscription) {
+            this.labelSuggestionSubscription.unsubscribe();
+        }
+
+        // 4. Do not look for suggestion on empty input
+        if (!input) {
+            return;
+        }
+
+        // 5. Search for suggestions
+        this.labelSuggestionSubscription = this.expenseApiService
+            .suggest(input)
+            .subscribe((response: ExpenseSuggestResponse) => {
+                this.expenseSuggestionResponse = response;
+            });
+    }
+
+    public applyLabelSuggestion(): void {
+        this.expense.label = this.expenseSuggestionResponse.label;
+        this.expense.category = this.expenseSuggestionResponse.category;
     }
 }

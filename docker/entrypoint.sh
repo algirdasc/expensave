@@ -4,7 +4,7 @@ php bin/console app:secrets:regenerate --no-ansi .env
 
 composer dump-env prod
 
-php bin/console doctrine:database:create -n || true
+php bin/console doctrine:database:create --if-not-exists -n
 php bin/console doctrine:migrations:migrate --no-ansi --allow-no-migration -n
 
 php bin/console lexik:jwt:generate-keypair --no-ansi -n --skip-if-exists

@@ -1,0 +1,7 @@
+<div class="suggestion" (keydown.tab)="$event.preventDefault(); doSuggest()">
+    <ng-content></ng-content>
+    <div class="suggest {{ cssClasses }}">
+        <span class="suggestion-prefix">{{ input }}</span>
+        <span class="suggestion-suffix" (click)="doSuggest()">{{ suggestion }}</span>
+    </div>
+</div>

@@ -2,6 +2,9 @@ doctrine:
     dbal:
         url: '%env(resolve:DATABASE_URL)%'
         logging: '%kernel.debug%'
+        options:
+            1002: "SET time_zone = '%timezone%'"
+
     orm:
         auto_generate_proxy_classes: true
         naming_strategy: doctrine.orm.naming_strategy.underscore_number_aware
@@ -17,11 +20,10 @@ doctrine:
                 class: App\DoctrineFilter\CalendarFilter
         dql:
             datetime_functions:
-                date: DoctrineExtensions\Query\Sqlite\Date
+                date: DoctrineExtensions\Query\Mysql\Date
 when@test:
     doctrine:
         dbal:
-            # "TEST_TOKEN" is typically set by ParaTest
             dbname_suffix: '_test%env(default::TEST_TOKEN)%'
 
 when@prod:

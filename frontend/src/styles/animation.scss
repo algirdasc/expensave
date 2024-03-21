@@ -77,10 +77,14 @@
   }
 }
 
-.t-input {
+input {
     transition: color .35s ease-in-out 0s, border .35s ease-in-out 0s;
 }
 
 nb-card-header, button {
     transition: background .35s ease-in-out 0s;
+}
+
+label {
+    transition: opacity .35s ease-in-out 0s, visible .35s ease-in-out 0s, color .35s ease-in-out 0s
 }

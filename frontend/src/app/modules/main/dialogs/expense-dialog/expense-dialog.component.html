@@ -1,5 +1,5 @@
 <form #expenseForm="ngForm" (ngSubmit)="onSubmit()" autocomplete="off">
-    <nb-card size="medium" [nbSpinner]="isBusy" style="width: 335px;" class="border-0">
+    <nb-card [nbSpinner]="isBusy" class="dialog">
         <nb-card-header class="px-0 pt-5 pb-3" [style.background-color]="expense.confirmed ? expense.category?.color ?? UNCATEGORIZED_COLOR : 'white'">
             <div class="d-flex align-items-end justify-content-between expense-header" [class.confirmed]="expense.confirmed">
                 <button nbButton type="button" tabIndex="3"
@@ -8,21 +8,27 @@
                     <nb-icon [icon]="expense.isExpense ? 'minus' : 'plus'"></nb-icon>
                 </button>
                 <div class="d-flex">
-                    <div class="mx-3">
+                    <div class="mx-3 w-50">
                         <label for="expense-amount">Amount</label>
                         <input nbInput fullWidth
-                               type="number" tabIndex="0"
+                               type="number"
                                placeholder="0.00" name="amount" id="expense-amount"
                                [(ngModel)]="expense.absoluteAmount"
                                class="t-input px-0 pt-3 pb-2" />
                     </div>
                     <div class="mx-3">
                         <label for="expense-label">Label</label>
-                        <input nbInput fullWidth
-                               tabIndex="1"
-                               placeholder="e.g. coffee" name="label" id="expense-label"
-                               [(ngModel)]="expense.label"
-                               class="t-input px-0 pt-3 pb-2" />
+                        <app-input-suggestion
+                            [input]="expense.label"
+                            (inputChanged)="handleInputChange($event)"
+                            [suggestion]="expenseSuggestionResponse?.label"
+                            (suggest)="applyLabelSuggestion()"
+                            [cssClasses]="'t-input px-0 pt-3 pb-2'">
+                            <input nbInput fullWidth
+                                   placeholder="e.g. coffee" name="label" id="expense-label"
+                                   [(ngModel)]="expense.label"
+                                   class="t-input px-0 pt-3 pb-2" />
+                        </app-input-suggestion>
                     </div>
                 </div>
             </div>
@@ -66,12 +72,12 @@
 
         <nb-card-footer>
             <div class="d-flex flex-row-reverse justify-content-between">
-                <button nbButton type="submit" status="primary" [disabled]="isBusy || !expenseForm.valid" tabIndex="4">
+                <button nbButton type="submit" status="primary" [disabled]="isBusy || !expenseForm.valid">
                     <nb-icon icon="save-outline"></nb-icon>
                     Save
                 </button>
 
-                <button nbButton type="button" ghost status="danger" *ngIf="expense.id" (click)="deleteExpense()" tabIndex="99">
+                <button nbButton type="button" ghost status="danger" *ngIf="expense.id" (click)="deleteExpense()">
                     <nb-icon icon="trash-2-outline"></nb-icon>
                 </button>
             </div>

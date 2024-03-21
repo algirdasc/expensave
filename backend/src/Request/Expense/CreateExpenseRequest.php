@@ -15,23 +15,24 @@ class CreateExpenseRequest extends AbstractRequest
 {
     #[Assert\NotBlank]
     #[ResolveEntity]
-    private Calendar $calendar;
+    protected Calendar $calendar;
 
     #[ResolveEntity]
-    private ?Category $category = null;
+    protected ?Category $category = null;
 
     #[Assert\NotBlank]
-    private string $label;
+    protected string $label;
 
-    private ?string $description = null;
-
-    #[Assert\NotBlank]
-    private float $amount;
-
-    private bool $confirmed = true;
+    protected ?string $description = null;
 
     #[Assert\NotBlank]
-    private DateTime $createdAt;
+    #[Assert\NotEqualTo(0)]
+    protected float $amount;
+
+    protected bool $confirmed = true;
+
+    #[Assert\NotBlank]
+    protected DateTime $createdAt;
 
     public function getCalendar(): Calendar
     {
