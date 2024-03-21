@@ -31,12 +31,10 @@ COPY --from=composer:latest /usr/bin/composer /usr/local/bin/composer
 COPY docker/supervisor/supervisor.conf /etc/supervisor/conf.d/supervisor.conf
 COPY docker/php/ /etc/php/${PHP_VERSION}/fpm
 COPY docker/nginx/ /etc/nginx
+COPY docker/boot.sh /boot.sh
+RUN chmod +x /boot.sh
 
 RUN rm /etc/nginx/sites-enabled/default
-
-# Entry point
-COPY docker/entrypoint.sh /entrypoint.sh
-RUN chmod +x /entrypoint.sh
 
 # MariaDB config
 VOLUME /var/lib/mysql
@@ -68,11 +66,13 @@ COPY --from=frontend /opt/expensave/frontend/dist /opt/expensave/frontend
 # Forward symfony cache
 RUN mkdir -p /opt/expensave/backend/var/cache
 RUN mkdir /tmp/symfony-cache && ln -sf /tmp/symfony-cache /opt/expensave/backend/var/cache
+RUN mkdir /tmp/symfony-log && ln -sf /tmp/symfony-log /opt/expensave/backend/var/log
 RUN chown www-data:www-data /tmp/symfony-cache
+RUN chown www-data:www-data /tmp/symfony-log
 
 RUN composer install --optimize-autoloader --no-interaction --no-progress
 
 EXPOSE 18001
 EXPOSE 18002
 
-ENTRYPOINT ["/entrypoint.sh"]
+CMD ["supervisord", "-n", "-t", "-c", "/etc/supervisor/conf.d/supervisor.conf"]

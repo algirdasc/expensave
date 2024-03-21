@@ -1,7 +1,5 @@
 #!/bin/bash
 
-supervisord -s -e error -t -c /etc/supervisor/conf.d/supervisor.conf
-
 if [[ -z "${DATABASE_URL}" ]]; then
   while ! mysqladmin ping --silent; do
       sleep 1
@@ -14,14 +12,12 @@ if [[ -z "${DATABASE_URL}" ]]; then
   fi
 fi
 
-php bin/console app:secrets:regenerate --no-ansi .env
+php bin/console app:secrets:regenerate .env
 
 composer dump-env prod
 
-php bin/console doctrine:database:create --no-ansi --if-not-exists -n
-php bin/console doctrine:migrations:migrate --no-ansi --allow-no-migration -n
+php bin/console doctrine:database:create --if-not-exists -n
+php bin/console doctrine:migrations:migrate --allow-no-migration -n
 
-php bin/console lexik:jwt:generate-keypair --no-ansi -n --skip-if-exists
+php bin/console lexik:jwt:generate-keypair -n --skip-if-exists
 
-# Do not exist
-trap : TERM INT; sleep infinity & wait
