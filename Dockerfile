@@ -31,6 +31,8 @@ COPY --from=composer:latest /usr/bin/composer /usr/local/bin/composer
 COPY docker/supervisor/supervisor.conf /etc/supervisor/conf.d/supervisor.conf
 COPY docker/php/ /etc/php/${PHP_VERSION}/fpm
 COPY docker/nginx/ /etc/nginx
+COPY docker/mysql/start_mysql.sh /usr/sbin/start_mysql.sh
+RUN chmod +x /usr/sbin/start_mysql.sh
 
 RUN rm /etc/nginx/sites-enabled/default
 

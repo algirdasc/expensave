@@ -2,14 +2,16 @@
 
 supervisord -s -e error -t -c /etc/supervisor/conf.d/supervisor.conf
 
-while ! mysqladmin ping --silent; do
-    sleep 1
-done
+if [[ -z "${DATABASE_URL}" ]]; then
+  while ! mysqladmin ping --silent; do
+      sleep 1
+  done
 
-if ! test -f /mysql.initialized; then
-  mysql_tzinfo_to_sql /usr/share/zoneinfo | mysql -u root mysql
-  mysql -uroot -e "GRANT ALL PRIVILEGES ON expensave.* TO 'expensave'@'localhost' IDENTIFIED BY 'expensave'; FLUSH PRIVILEGES;"
-  touch /mysql.initialized
+  if ! test -f /mysql.initialized; then
+    mysql_tzinfo_to_sql /usr/share/zoneinfo | mysql -u root mysql
+    mysql -uroot -e "GRANT ALL PRIVILEGES ON expensave.* TO 'expensave'@'localhost' IDENTIFIED BY 'expensave'; FLUSH PRIVILEGES;"
+    touch /mysql.initialized
+  fi
 fi
 
 php bin/console app:secrets:regenerate --no-ansi .env
