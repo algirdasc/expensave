@@ -55,7 +55,5 @@ export class CalendarGridRowComponent extends NbCalendarPickerRowComponent<Date,
         gridRowCell.balance = this.balances.filter((balance: Balance) => {
             return this.dateService.isSameDaySafe(date, balance.balanceAt);
         })[0];
-
-        gridRowCell.onRowHeightChange(this.rowResizedEvent?.newRect.height ?? 0);
     }
 }

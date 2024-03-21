@@ -1,43 +1,35 @@
-<div class="p-3" [nbSpinner]="isBusy">
-  <div class="mb-3">
-    <nb-icon icon="calendar-outline"></nb-icon> <strong i18n>Your expense calendars:</strong>
-  </div>
-  <div>
+<div [nbSpinner]="isBusy">
     <nb-list class="mb-3">
-      <nb-list-item
-        *ngFor="let c of calendars">
-        <nb-radio-group name="sidebar-calendar" class="w-100">
-          <nb-radio
-            [value]="c"
-            (valueChange)="calendarChange.emit($event)"
-            [checked]="calendar?.id === c.id">
-            <div class="d-flex align-items-center justify-content-between w-100">
-              <div class="calendar-name text-truncate">{{ c.name }}</div>
-              <div class="calendar-balance text-hint">{{ c.balance | currency }}</div>
-              <div class="calendar-actions text-right">
-                <button nbButton ghost size="small" status="success" (click)="importStatement(c)">
-                  <nb-icon icon="attach-outline"></nb-icon>
-                </button>
-                <button nbButton ghost size="small" status="primary" (click)="editCalendar(c)">
-                  <nb-icon icon="edit-outline"></nb-icon>
-                </button>
-                <button nbButton ghost size="small" status="danger" (click)="deleteCalendar(c)">
-                  <nb-icon icon="trash-2-outline"></nb-icon>
-                </button>
-              </div>
-            </div>
-          </nb-radio>
-        </nb-radio-group>
-      </nb-list-item>
+        <nb-list-item
+            *ngFor="let c of calendars" class="py-0">
+            <nb-radio-group name="sidebar-calendar" class="w-100">
+                <nb-radio
+                    [value]="c"
+                    (valueChange)="calendarChange.emit($event)"
+                    [checked]="calendar?.id === c.id">
+                    <div class="d-flex align-items-center justify-content-between w-100">
+                        <div class="calendar-name text-truncate">{{ c.name }}</div>
+                        <div class="calendar-balance text-hint">{{ c.balance | shortNumber }}</div>
+                        <div class="calendar-actions text-right">
+                            <button nbButton ghost size="small" status="success" (click)="importStatement(c)" title="Import / export statements">
+                                <nb-icon icon="attach-outline"></nb-icon>
+                            </button>
+                            <button nbButton ghost size="small" status="primary" (click)="editCalendar(c)" title="Edit calendar">
+                                <nb-icon icon="edit-outline"></nb-icon>
+                            </button>
+                            <button nbButton ghost size="small" status="danger" (click)="deleteCalendar(c)" title="Delete calendar">
+                                <nb-icon icon="trash-2-outline"></nb-icon>
+                            </button>
+                        </div>
+                    </div>
+                </nb-radio>
+            </nb-radio-group>
+        </nb-list-item>
     </nb-list>
     <div class="d-flex justify-content-between">
-      <button nbButton fullWidth status="primary" ghost (click)="createCalendar()" class="pl-4" i18n>
-        <nb-icon icon="plus"></nb-icon>
-        Add a calendar...
-      </button>
-      <button nbButton status="success" ghost (click)="manageCategories()" title="Manage expense categories">
-        <nb-icon icon="pricetags-outline"></nb-icon>
-      </button>
+        <button nbButton fullWidth status="primary" ghost (click)="createCalendar()" class="pl-4" i18n>
+            <nb-icon icon="plus"></nb-icon>
+            Add a calendar...
+        </button>
     </div>
-  </div>
 </div>

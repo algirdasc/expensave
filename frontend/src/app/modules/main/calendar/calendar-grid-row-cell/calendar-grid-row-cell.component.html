@@ -1,8 +1,7 @@
-<div class="day-content d-block overflow-hidden p-2" [ngStyle]="{'height.px': rowHeight}">
-
+<div class="day-content d-flex flex-column h-100 p-1">
     <div class="day-header d-flex p-1 text-hint mr-2">
-        <div class="day-number flex-fill text-left">{{ day }}</div>
-        <div class="day-expenses flex-fill text-right d-none d-sm-block">
+        <div class="day-number flex-fill text-left me-2">{{ day }}</div>
+        <div class="day-expenses flex-fill text-right text-truncate d-none d-sm-block">
             <span *ngIf="balance?.expenses">{{ balance?.expenses | shortNumber }} | </span>{{ balance?.balance | shortNumber }}
         </div>
         <button nbButton status="primary" class="add-button bounceIn" (click)="createExpense()">
@@ -10,14 +9,14 @@
         </button>
     </div>
 
-    <div class="expense-list d-flex flex-column mt-1" [ngStyle]="{'height.px': expenseListHeight}">
+    <div class="expense-list d-flex flex-column mt-1 h-100" (resized)="onResized($event)">
         <app-calendar-expense-item
-                *ngFor="let expense of getVisibleExpenses()"
-                (click)="editExpense(expense.id)"
-                [expense]="expense">
+            *ngFor="let expense of getVisibleExpenses()"
+            (click)="editExpense(expense.id)"
+            [expense]="expense">
         </app-calendar-expense-item>
         <a href="#" (click)="$event.preventDefault(); openInvisibleExpenses()" *ngIf="countInvisibleExpenses()" class="other-label px-1">
-            + {{ countInvisibleExpenses() | shortNumber }} other
+            + {{ countInvisibleExpenses() | shortNumber:'.0' }} other
         </a>
     </div>
 

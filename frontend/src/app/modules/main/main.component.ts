@@ -18,9 +18,6 @@ export class MainComponent implements OnInit, AfterViewInit {
         private readonly expenseApiService: ExpenseApiService,
         public readonly mainService: MainService
     ) {
-        // dateSelectorService.onDateChange.subscribe((date: Date) => {
-        //     this.router.navigate([], { queryParams: { ts: date.getTime() }, queryParamsHandling: 'merge'});
-        // });
         this.expenseApiService.onBusyChange.subscribe((isBusy: boolean) => this.isBusy = isBusy);
     }
 
@@ -30,7 +27,6 @@ export class MainComponent implements OnInit, AfterViewInit {
     }
 
     public ngOnInit(): void {
-        // this.dateSelectorService.navigateToday();
         this.activatedRoute.data.subscribe(({ user }: { user: User }) => {
             this.mainService.user = user;
         });

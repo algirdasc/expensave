@@ -1,35 +1,34 @@
 <nb-layout>
 
-  <nb-layout-header fixed>
-    <app-header
+    <nb-layout-header fixed>
+        <app-header
             [calendar]="mainService.calendar"
             [(selectedDate)]="mainService.selectedDate">
-    </app-header>
-  </nb-layout-header>
+        </app-header>
+    </nb-layout-header>
 
-  <nb-layout-column class="p-0 p-sm-3" [nbSpinner]="isBusy">
-    <nb-card class="h-100 mb-0">
-      <app-calendar
-              [calendar]="mainService.calendar"
-              [expenses]="mainService.expenses"
-              [balances]="mainService.balances"
-              [visibleDate]="mainService.selectedDate"
-              (dateRangeChange)="mainService.dateRange = $event; mainService.fetchExpenses()">
-      </app-calendar>
-    </nb-card>
-  </nb-layout-column>
+    <nb-layout-column class="p-0 p-sm-3" [nbSpinner]="isBusy">
+        <nb-card class="h-100 mb-0">
+            <app-calendar
+                [calendar]="mainService.calendar"
+                [expenses]="mainService.expenses"
+                [balances]="mainService.balances"
+                [visibleDate]="mainService.selectedDate"
+                (dateRangeChange)="mainService.dateRange = $event; mainService.fetchExpenses()">
+            </app-calendar>
+        </nb-card>
+    </nb-layout-column>
 
-  <nb-sidebar class="menu-sidebar" tag="menu-sidebar" state="collapsed" responsive>
-    <div class="d-flex flex-column justify-content-between h-100">
-      <app-sidebar-calendar-list
-              [(calendars)]="mainService.user.calendars"
-              [calendar]="mainService.calendar"
-              (calendarChange)="mainService.calendar = $event; mainService.fetchExpenses()">
-      </app-sidebar-calendar-list>
-      <app-profile
-              [(user)]="mainService.user">
-      </app-profile>
-    </div>
-  </nb-sidebar>
+    <nb-sidebar tag="menu-sidebar" state="collapsed">
+        <div class="p-3">
+            <app-profile [(user)]="mainService.user"></app-profile>
+            <div class="border-bottom mb-2"></div>
+            <app-sidebar-calendar-list
+                [(calendars)]="mainService.user.calendars"
+                [calendar]="mainService.calendar"
+                (calendarChange)="mainService.calendar = $event; mainService.fetchExpenses()">
+            </app-sidebar-calendar-list>
+        </div>
+    </nb-sidebar>
 
 </nb-layout>

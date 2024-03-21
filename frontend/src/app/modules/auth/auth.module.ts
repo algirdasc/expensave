@@ -24,20 +24,32 @@ export class AuthModule {
                 login: {
                     redirectDelay: 1500,
                     rememberMe: false,
-                    strategy: 'jwt'
+                    strategy: 'jwt',
+                    showMessages: {
+                        error: false,
+                    }
                 },
                 register: {
                     redirectDelay: 1500,
                     strategy: 'jwt',
-                    terms: false
+                    terms: false,
+                    showMessages: {
+                        error: false,
+                    }
                 },
                 requestPassword: {
                     redirectDelay: 5000,
                     strategy: 'jwt',
+                    showMessages: {
+                        error: false,
+                    }
                 },
                 resetPassword: {
                     redirectDelay: 5000,
                     strategy: 'jwt',
+                    showMessages: {
+                        error: false,
+                    }
                 },
                 logout: {
                     strategy: 'jwt',

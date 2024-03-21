@@ -7,6 +7,7 @@ import {catchError} from 'rxjs/operators';
 import {Error} from '../api/entities/error.entity';
 
 const REQUEST_VALIDATION_EXCEPTION: string = 'App\\Exception\\RequestValidationException';
+const AUTH_EXCEPTION: string = 'Lexik\\Bundle\\JWTAuthenticationBundle\\Exception\\MissingTokenException';
 
 @Injectable()
 export class ErrorInterceptor implements HttpInterceptor {
@@ -21,18 +22,22 @@ export class ErrorInterceptor implements HttpInterceptor {
             .handle(req)
             .pipe(
                 catchError((response: HttpErrorResponse) => {
-                    const error: Error = plainToInstance(
-                        Error,
-                        response.error as Error,
-                        { excludeExtraneousValues: true }
-                    );
-
-                    if (error.throwable && error.throwable !== REQUEST_VALIDATION_EXCEPTION) {
-                        for (const errorMessage of error.messages) {
-                            this.toastrService.danger(errorMessage.message, response.statusText);
-                        }
+                    if (response.status === 0) {
+                        this.toastrService.danger('Cannot connect to server!', 'Connection error!');
                     } else {
-                        this.toastrService.danger(response.message, response.statusText);
+                        const error: Error = plainToInstance(
+                            Error,
+                            response.error as Error,
+                            { excludeExtraneousValues: true }
+                        );
+
+                        if (!error.throwable) {
+                            this.toastrService.danger(response.message, response.statusText);
+                        } else if (error.throwable !== REQUEST_VALIDATION_EXCEPTION) {
+                            for (const errorMessage of error.messages) {
+                                this.toastrService.danger(errorMessage.message, response.statusText);
+                            }
+                        }
                     }
 
                     return throwError(response);

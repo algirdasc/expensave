@@ -1,5 +1,5 @@
 {
-    "apiUrl": "http://localhost:18001",
+    "apiUrl": "http://192.168.8.15:18001",
     "locale": "lt",
     "currencyCode": "EUR"
 }

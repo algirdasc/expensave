@@ -2,7 +2,7 @@
   "name": "expensave-frontend",
   "version": "1.0.0",
   "scripts": {
-    "dev": "ng serve --port 18002",
+    "dev": "ng serve --host 0.0.0.0 --port 18002 --disable-host-check",
     "analyze": "eslint src/",
     "build": "ng build --configuration production"
   },

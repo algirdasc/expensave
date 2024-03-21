@@ -8,7 +8,7 @@ import {APP_CONFIG} from '../app.initializer';
 export class ShortNumberPipe implements PipeTransform {
     public transform(input: any, ...args: any[]): string {
 
-        if (isNaN(input) || input === null || input === 0) {
+        if (isNaN(input) || input === null) {
             return input;
         }
 
@@ -22,6 +22,7 @@ export class ShortNumberPipe implements PipeTransform {
             {key: 'T', value: Math.pow(10, 12)},
             {key: 'B', value: Math.pow(10, 9)},
             {key: 'M', value: Math.pow(10, 6)},
+            // {key: 'K', value: 1000},
         ];
 
         for (const power of powers) {

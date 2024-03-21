@@ -2,7 +2,7 @@
 @use '@nebular/theme/styles/theming' as *;
 @use '@nebular/theme/styles/themes/default';
 
-$nb-enable-css-custom-properties: true;
+//$nb-enable-css-custom-properties: true;
 
 $nb-themes: nb-register-theme(
                 (
@@ -10,7 +10,8 @@ $nb-themes: nb-register-theme(
                     input-tiny-text-font-weight: 400,
                     input-small-text-font-weight: 400,
                     input-medium-text-font-weight: 400,
-                    card-header-text-font-weight: 400,
+                    card-header-text-font-weight: 600,
+                    text-subtitle-font-weight: 400,
                 ),
                 expensave,
                 default

@@ -1,59 +1,67 @@
 <div class="d-flex justify-content-between">
-  <div class="d-flex align-items-center">
-    <button nbButton status="primary" (click)="toggleSidebar()">
-      <nb-icon icon="menu-2-outline"></nb-icon>
-    </button>
+    <div class="d-flex align-items-center">
+        <button nbButton status="primary" (click)="toggleSidebar()">
+            <nb-icon icon="menu-2-outline"></nb-icon>
+        </button>
 
-    <div class="mx-3">
-      <strong class="d-block">{{ calendar?.name }}</strong>
-      <small class="d-block text-hint">{{ calendar?.balance | currency }}</small>
+        <div class="mx-3">
+            <strong class="d-block" [nbPopover]="calendarListRef" nbPopoverPlacement="bottom">{{ calendar?.name }}</strong>
+            <small class="d-block text-hint">{{ calendar?.balance | currency }}</small>
+
+            <ng-template #calendarListRef>
+                <app-sidebar-calendar-list
+                    [(calendars)]="mainService.user.calendars"
+                    [calendar]="mainService.calendar"
+                    (calendarChange)="mainService.calendar = $event; mainService.fetchExpenses()">
+                </app-sidebar-calendar-list>
+            </ng-template>
+        </div>
     </div>
-  </div>
 
-  <div class="d-flex text-right">
+    <div class="d-flex text-right">
 
-    <nb-calendar-view-mode
+        <nb-calendar-view-mode
             class="d-none d-sm-block"
             [date]="selectedDate"
             [viewMode]="activeViewMode"
             [nbPopover]="templateRef"
             nbPopoverTrigger="hover"
             nbPopoverPlacement="bottom"
-            (changeMode)="onChangeViewMode()">
-    </nb-calendar-view-mode>
+            (changeMode)="changeViewMode()">
+        </nb-calendar-view-mode>
 
-    <ng-template #templateRef>
-      <div [ngSwitch]="activeViewMode">
-        <nb-calendar-year-picker
-                *ngSwitchCase="viewMode.YEAR"
-                [year]="selectedDate"
-                (yearChange)="selectedDate = $event; activeViewMode = viewMode.MONTH">
-        </nb-calendar-year-picker>
+        <ng-template #templateRef>
+            <div [ngSwitch]="activeViewMode">
+                <nb-calendar-year-picker
+                    *ngSwitchCase="viewMode.YEAR"
+                    [year]="selectedDate"
+                    (yearChange)="selectedDate = $event; activeViewMode = viewMode.MONTH">
+                </nb-calendar-year-picker>
 
-        <nb-calendar-month-picker
-                *ngSwitchCase="viewMode.MONTH"
-                [month]="selectedDate"
-                (monthChange)="selectedDate = $event; activeViewMode = viewMode.DATE">
-        </nb-calendar-month-picker>
-      </div>
-    </ng-template>
+                <nb-calendar-month-picker
+                    *ngSwitchCase="viewMode.MONTH"
+                    [month]="selectedDate"
+                    (monthChange)="selectedDate = $event; activeViewMode = viewMode.DATE">
+                </nb-calendar-month-picker>
+            </div>
+        </ng-template>
 
-    <nb-button-group class="mx-3">
-      <button nbButton>
-        <nb-icon icon="arrow-back-outline" (click)="navigatePrev()"></nb-icon>
-      </button>
+        <nb-button-group class="mx-3">
+            <button nbButton>
+                <nb-icon icon="arrow-back-outline" (click)="navigatePrev()"></nb-icon>
+            </button>
 
-      <button nbButton (click)="navigateToday()">
-        TODAY
-      </button>
+            <button nbButton (click)="navigateToday()">
+                TODAY
+            </button>
 
-      <button nbButton>
-        <nb-icon icon="arrow-forward-outline" (click)="navigateNext()"></nb-icon>
-      </button>
-    </nb-button-group>
+            <button nbButton>
+                <nb-icon icon="arrow-forward-outline" (click)="navigateNext()"></nb-icon>
+            </button>
+        </nb-button-group>
 
-    <nb-actions size="small">
-      <nb-action icon="bar-chart-outline"></nb-action>
-    </nb-actions>
-  </div>
+        <nb-actions size="small">
+            <nb-action icon="bar-chart-outline"></nb-action>
+        </nb-actions>
+    </div>
 </div>

@@ -1,5 +1,6 @@
 import {Component} from '@angular/core';
 import {NbCalendarDayCellComponent, NbDateService, NbDialogService} from '@nebular/theme';
+import {ResizedEvent} from 'angular-resize-event';
 import {plainToInstance} from 'class-transformer';
 import {Calendar} from '../../../../api/entities/calendar.entity';
 import {Expense} from '../../../../api/entities/expense.entity';
@@ -10,7 +11,6 @@ import {ExpenseDialogComponent} from '../../dialogs/expense-dialog/expense-dialo
 import {ExpenseListDialogComponent} from '../../dialogs/expense-list-dialog/expense-list-dialog.component';
 import {MainService} from '../../main.service';
 
-export const EXPENSE_LIST_OFFSET = 36;
 export const EXPENSE_LIST_ITEM_HEIGHT = 21;
 
 @Component({
@@ -18,8 +18,6 @@ export const EXPENSE_LIST_ITEM_HEIGHT = 21;
     styleUrls: ['calendar-grid-row-cell.component.scss']
 })
 export class CalendarGridRowCellComponent extends NbCalendarDayCellComponent<Date> {
-    public rowHeight: number = 0;
-    public expenseListHeight: number = 0;
     public expenseListCapacity: number = 1;
     public calendar: Calendar;
     public balance: Balance = new Balance();
@@ -32,6 +30,10 @@ export class CalendarGridRowCellComponent extends NbCalendarDayCellComponent<Dat
         private expenseApiService: ExpenseApiService
     ) {
         super(dateService);
+    }
+
+    public onResized(event: ResizedEvent): void {
+        this.expenseListCapacity = Math.floor(event.newRect.height / EXPENSE_LIST_ITEM_HEIGHT) - 1;
     }
 
     public getVisibleExpenses(): Expense[] {
@@ -47,12 +49,6 @@ export class CalendarGridRowCellComponent extends NbCalendarDayCellComponent<Dat
         }
 
         return 0;
-    }
-
-    public onRowHeightChange(newHeight: number): void {
-        this.rowHeight = newHeight;
-        this.expenseListHeight = newHeight - EXPENSE_LIST_OFFSET;
-        this.expenseListCapacity = Math.floor(this.expenseListHeight / EXPENSE_LIST_ITEM_HEIGHT) - 1;
     }
 
     public openInvisibleExpenses(): void {

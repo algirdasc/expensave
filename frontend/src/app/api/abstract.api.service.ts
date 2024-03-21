@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import {HttpClient, HttpResponse} from '@angular/common/http';
-import {Injectable} from '@angular/core';
+import {Injectable, Type} from '@angular/core';
 import {plainToInstance} from 'class-transformer';
 import {Observable, Subject} from 'rxjs';
 import {finalize, map} from 'rxjs/operators';
@@ -10,7 +10,7 @@ import {EntityInterface} from './entities/entity.interface';
 export abstract class AbstractApiService<T extends EntityInterface> {
     public onBusyChange: Subject<boolean> = new Subject<boolean>();
     protected abstract backend: string;
-    protected abstract entity: T;
+    protected abstract entity: Type<EntityInterface>;
     private onBusyChangeTimeout: NodeJS.Timer;
 
     constructor(protected http: HttpClient) {

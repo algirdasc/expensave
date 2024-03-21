@@ -10,8 +10,7 @@
                 <div class="d-flex">
                     <div class="mx-3 w-50">
                         <label for="expense-amount">Amount</label>
-                        <input nbInput fullWidth
-                               type="number"
+                        <input nbInput fullWidth required type="number"
                                placeholder="0.00" name="amount" id="expense-amount"
                                [(ngModel)]="expense.absoluteAmount"
                                class="t-input px-0 pt-3 pb-2" />
@@ -24,7 +23,7 @@
                             [suggestion]="expenseSuggestionResponse?.label"
                             (suggest)="applyLabelSuggestion()"
                             [cssClasses]="'t-input px-0 pt-3 pb-2'">
-                            <input nbInput fullWidth
+                            <input nbInput fullWidth required
                                    placeholder="e.g. coffee" name="label" id="expense-label"
                                    [(ngModel)]="expense.label"
                                    class="t-input px-0 pt-3 pb-2" />

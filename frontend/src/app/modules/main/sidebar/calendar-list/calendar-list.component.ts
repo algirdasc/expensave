@@ -4,7 +4,6 @@ import {CalendarApiService} from '../../../../api/calendar.api.service';
 import {Calendar} from '../../../../api/entities/calendar.entity';
 import {EntityUtil} from '../../../../util/entity.util';
 import {CalendarEditComponent} from '../../dialogs/calendars-dialog/calendar-edit/calendar-edit.component';
-import {CategoriesDialogComponent} from '../../dialogs/categories-dialog/categories-dialog.component';
 import {ConfirmDialogComponent} from '../../dialogs/confirm-dialog/confirm-dialog.component';
 import {StatementImportDialogComponent} from '../../dialogs/statement-import-dialog/statement-import-dialog.component';
 
@@ -107,16 +106,6 @@ export class CalendarSidebarListComponent {
             .subscribe((calendars: Calendar[]) => {
                 this.calendars = calendars;
                 this.calendarsChange.emit(this.calendars);
-            })
-        ;
-    }
-
-    public manageCategories(): void {
-        this.dialogService
-            .open(CategoriesDialogComponent, { context: { isSelectable: false } })
-            .onClose
-            .subscribe(() => {
-
             })
         ;
     }

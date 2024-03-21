@@ -1,6 +1,7 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {NbCalendarViewMode, NbDateService, NbSidebarService} from '@nebular/theme';
 import {Calendar} from '../../../api/entities/calendar.entity';
+import {MainService} from '../main.service';
 
 @Component({
     templateUrl: 'header.component.html',
@@ -16,7 +17,8 @@ export class HeaderComponent {
 
     constructor(
         private readonly dateService: NbDateService<Date>,
-        private readonly nbSidebarService: NbSidebarService
+        private readonly sidebarService: NbSidebarService,
+        public readonly mainService: MainService
     ) { }
 
     get activeViewMode(): NbCalendarViewMode {
@@ -32,14 +34,10 @@ export class HeaderComponent {
     }
 
     public toggleSidebar(): void {
-        this.nbSidebarService.toggle(false, 'menu-sidebar');
+        this.sidebarService.toggle(false, 'menu-sidebar');
     }
 
-    public onClick(): void {
-        console.log('heee');
-    }
-
-    public onChangeViewMode(): void {
+    public changeViewMode(): void {
         if (this._activeViewMode === NbCalendarViewMode.DATE) {
             this._activeViewMode = NbCalendarViewMode.YEAR;
 

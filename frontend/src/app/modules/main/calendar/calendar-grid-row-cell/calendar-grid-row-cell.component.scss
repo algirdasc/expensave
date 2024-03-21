@@ -1,31 +1,31 @@
 @import '../../../../../theme';
 
 :host.today {
-  .day-header {
-    background: nb-theme(background-primary-color-1);
-    color: nb-theme(text-alternate-color);
-  }
+    .day-header {
+        background: nb-theme(background-primary-color-1);
+        color: nb-theme(text-alternate-color);
+    }
 }
 
 :host.bounding-month {
-  opacity: .25;
+    opacity: .25;
 }
 
 :host:hover.bounding-month {
-  opacity: 1;
-  transition: opacity 1s;
+    opacity: 1;
+    transition: opacity 1s;
 }
 
 .day-header {
-  background: nb-theme(background-basic-color-3);
-  color: nb-theme(text-hint-color);
-  border-radius: nb-theme(border-radius);
-  position: relative;
+    background: nb-theme(background-basic-color-3);
+    color: nb-theme(text-hint-color);
+    border-radius: nb-theme(border-radius);
+    position: relative;
 }
 
 .day-number {
-  font-size: nb-theme(text-heading-6-font-size);
-  font-weight: nb-theme(text-heading-6-font-weight);
+    font-size: nb-theme(text-heading-6-font-size);
+    font-weight: nb-theme(text-heading-6-font-weight);
 }
 
 .add-button {
@@ -38,19 +38,20 @@
 }
 
 :host:hover {
-  .add-button {
-    display: block;
-  }
+    .add-button {
+        display: block;
+    }
 
-  .day-expenses {
-    display: none !important;
-  }
+    .day-expenses {
+        display: none !important;
+    }
 }
 
 .expense-list {
-  overflow: hidden;
+    overflow: hidden;
+    min-height: 24px;
 }
 
 .other-label {
-  font-size: 12px;
+    font-size: 12px;
 }
