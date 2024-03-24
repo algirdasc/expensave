@@ -5,6 +5,6 @@ button.create-expense {
     bottom: 30px;
     right: 30px;
     border-radius: 32px !important;
-    border: 3px dashed nb-theme(color-basic-default-border);
+    border: 3px solid nb-theme(color-basic-default-border) !important;
 }
 

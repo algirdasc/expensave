@@ -2,7 +2,7 @@
 @use '@nebular/theme/styles/theming' as *;
 @use '@nebular/theme/styles/themes/default';
 
-//$nb-enable-css-custom-properties: true;
+$nb-enable-css-custom-properties: true;
 
 $nb-themes: nb-register-theme(
                 (
@@ -12,6 +12,15 @@ $nb-themes: nb-register-theme(
                     input-medium-text-font-weight: 400,
                     card-header-text-font-weight: 600,
                     text-subtitle-font-weight: 400,
+                    color-primary-100: #82829f,
+                    color-primary-200: #6d6d8f,
+                    color-primary-300: #59587f,
+                    color-primary-400: #44436f,
+                    color-primary-500: #2f2e5f,
+                    color-primary-600: #2a2956,
+                    color-primary-700: #26254c,
+                    color-primary-800: #212043,
+                    color-primary-900: #1c1c39,
                 ),
                 expensave,
                 default
