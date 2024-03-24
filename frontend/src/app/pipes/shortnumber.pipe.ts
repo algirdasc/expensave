@@ -37,6 +37,6 @@ export class ShortNumberPipe implements PipeTransform {
 
         const num = (isNegative ? -1 : 1) * abs;
 
-        return formatNumber(num, APP_CONFIG.locale, args[0] ?? '.2') + key;
+        return formatNumber(num, APP_CONFIG.locale, args[0] ?? '.2-2') + key;
     }
 }

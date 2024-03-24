@@ -22,7 +22,7 @@ import {CalendarService} from '../calendar.service';
                           class="mb-2 rounded actionable">
                 <nb-icon class="flex-shrink-0" icon="{{ expense.category?.icon }}pricetags-outline"></nb-icon>
                 <div class="text-truncate w-100">
-                    <strong class="mx-2">{{ expense.amount | shortNumber:'.0-2' }}</strong>
+                    <strong class="mx-2">{{ expense.amount | shortNumber }}</strong>
                     <span>{{ expense.label }}</span>
                 </div>
                 <small class="w-50 text-right text-truncate">{{ expense.category?.name }}</small>
