@@ -5,16 +5,8 @@
         </button>
 
         <div class="mx-3">
-            <strong class="d-block" [nbPopover]="calendarListRef" nbPopoverPlacement="bottom">{{ calendar?.name }}</strong>
+            <strong class="d-block">{{ calendar?.name }}</strong>
             <small class="d-block text-hint">{{ calendar?.balance | currency }}</small>
-
-            <ng-template #calendarListRef>
-                <app-sidebar-calendar-list
-                    [(calendars)]="mainService.user.calendars"
-                    [calendar]="mainService.calendar"
-                    (calendarChange)="mainService.calendar = $event; mainService.fetchExpenses()">
-                </app-sidebar-calendar-list>
-            </ng-template>
         </div>
     </div>
 
@@ -46,17 +38,17 @@
             </div>
         </ng-template>
 
-        <nb-button-group class="mx-3">
-            <button nbButton>
-                <nb-icon icon="arrow-back-outline" (click)="navigatePrev()"></nb-icon>
+        <nb-button-group status="primary" class="mx-3">
+            <button nbButton (click)="navigatePrev()">
+                <nb-icon icon="arrow-back-outline"></nb-icon>
             </button>
 
             <button nbButton (click)="navigateToday()">
                 TODAY
             </button>
 
-            <button nbButton>
-                <nb-icon icon="arrow-forward-outline" (click)="navigateNext()"></nb-icon>
+            <button nbButton (click)="navigateNext()">
+                <nb-icon icon="arrow-forward-outline"></nb-icon>
             </button>
         </nb-button-group>
 

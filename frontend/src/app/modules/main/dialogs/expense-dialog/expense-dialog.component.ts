@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {AfterViewInit, Component, ElementRef, ViewChild} from '@angular/core';
 import {NbDialogRef, NbDialogService} from '@nebular/theme';
 import {Subscription} from 'rxjs';
 import {Calendar} from '../../../../api/entities/calendar.entity';
@@ -18,7 +18,7 @@ import {InputDialogComponent} from '../input-dialog/input-dialog.component';
     templateUrl: 'expense-dialog.component.html',
     styleUrls: ['expense-dialog.component.scss']
 })
-export class ExpenseDialogComponent {
+export class ExpenseDialogComponent implements AfterViewInit {
     public expense: Expense;
     public calendars: Calendar[];
     public isBusy: boolean = false;
@@ -27,12 +27,18 @@ export class ExpenseDialogComponent {
     protected readonly UNCATEGORIZED_COLOR: string = UNCATEGORIZED_COLOR;
 
     private labelSuggestionSubscription: Subscription;
+    @ViewChild('focus') private focusElement: ElementRef;
 
     constructor(
         private readonly expenseApiService: ExpenseApiService,
         private readonly dialogRef: NbDialogRef<ExpenseDialogComponent>,
         private dialogService: NbDialogService
     ) { }
+
+    public ngAfterViewInit(): void {
+        console.log(this.focusElement);
+        this.focusElement.nativeElement.focus();
+    }
 
     public onSubmit(): void {
         this.expenseApiService

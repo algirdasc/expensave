@@ -1,0 +1,5 @@
+<div class="cell p-1 h-100 text-right" [class.text-primary]="isCellSelected">
+    <strong class="d-block mb-2">{{ day }}</strong>
+    <small class="d-block" *ngIf="balance?.expenses || isCellSelected">{{ balance.expenses | shortNumber:'.0' }}</small>
+    <small class="d-block" *ngIf="balance?.expenses || isCellSelected">{{ balance.balance | shortNumber:'.0' }}</small>
+</div>

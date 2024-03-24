@@ -4,15 +4,15 @@ import {ResizedEvent} from 'angular-resize-event';
 import {Calendar} from '../../../../api/entities/calendar.entity';
 import {Expense} from '../../../../api/entities/expense.entity';
 import {Balance} from '../../../../api/response/calendar-expense-list.response';
-import {CalendarGridRowCellComponent} from '../calendar-grid-row-cell/calendar-grid-row-cell.component';
+import {CalendarCellInterface} from '../interfaces/calendar-cell.interface';
 
 @Component({
     selector: 'app-calendar-grid-row',
     styleUrls: ['calendar-grid-row.component.scss'],
     template: '<ng-template></ng-template>'
 })
-export class CalendarGridRowComponent extends NbCalendarPickerRowComponent<Date, any> implements OnChanges {
-    @Input() public component: Type<CalendarGridRowCellComponent>;
+export class CalendarGridRowComponent extends NbCalendarPickerRowComponent<Date, Date> implements OnChanges {
+    @Input() public component: Type<CalendarCellInterface>;
     @Input() public calendar: Calendar;
     @Input() public rowResizedEvent: ResizedEvent;
     @Input() public balances: Balance[];
@@ -37,7 +37,7 @@ export class CalendarGridRowComponent extends NbCalendarPickerRowComponent<Date,
         });
     }
 
-    private patchContext(gridRowCell: CalendarGridRowCellComponent, date: Date): void {
+    private patchContext(gridRowCell: CalendarCellInterface, date: Date): void {
         gridRowCell.visibleDate = this.visibleDate;
         gridRowCell.selectedValue = this.selectedValue;
         gridRowCell.date = date;
@@ -45,7 +45,7 @@ export class CalendarGridRowComponent extends NbCalendarPickerRowComponent<Date,
         gridRowCell.max = this.max;
         gridRowCell.filter = this.filter;
         gridRowCell.size = this.size;
-        gridRowCell.select.subscribe(this.select.emit.bind(this.select));
+        gridRowCell.select.subscribe((date: Date) => this.select.emit(date));
 
         gridRowCell.calendar = this.calendar;
         gridRowCell.expenses = this.expenses.filter((expense: Expense) => {

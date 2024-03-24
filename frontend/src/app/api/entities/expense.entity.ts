@@ -37,6 +37,7 @@ export class Expense implements EntityInterface {
     @Expose()
     public description: string;
 
+    // TODO: hide this from serialization
     private _isExpense: boolean = true;
 
     get absoluteAmount(): number|undefined {

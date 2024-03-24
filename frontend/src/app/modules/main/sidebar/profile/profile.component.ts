@@ -1,5 +1,5 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
-import {ActivatedRoute, Router} from '@angular/router';
+import {Router} from '@angular/router';
 import {NbDialogService} from '@nebular/theme';
 import {User} from '../../../../api/entities/user.entity';
 import {ConfirmDialogComponent} from '../../dialogs/confirm-dialog/confirm-dialog.component';
@@ -15,7 +15,6 @@ export class ProfileComponent {
     @Output() public userChange: EventEmitter<User> = new EventEmitter<User>();
 
     constructor(
-        private readonly activatedRoute: ActivatedRoute,
         private readonly dialogService: NbDialogService,
         private readonly router: Router
     ) { }

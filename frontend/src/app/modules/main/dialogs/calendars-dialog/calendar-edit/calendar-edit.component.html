@@ -1,4 +1,4 @@
-<form #calendarForm=ngForm (submit)="save.emit(this.calendar)" class="dialog-responsive" autocomplete="off">
+<form #calendarForm=ngForm (submit)="save.emit(this.calendar)" autocomplete="off">
     <nb-card class="dialog">
         <nb-card-header i18n>
             <button nbButton status="primary" ghost (click)="back.emit(true)">
@@ -27,7 +27,7 @@
         </nb-card-body>
 
         <nb-card-footer class="text-right">
-            <button nbButton type="submit" status="primary" [disabled]="saveButtonEnabled || !calendarForm.valid">
+            <button nbButton type="submit" status="primary" [disabled]="isBusy || !calendarForm.valid">
                 <nb-icon icon="save-outline"></nb-icon>
                 Save
             </button>

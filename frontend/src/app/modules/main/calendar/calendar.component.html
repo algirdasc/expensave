@@ -4,10 +4,12 @@
 
 <app-calendar-grid
         [data]="weeks"
+        [selectedValue]="selectedValue"
         [visibleDate]="visibleDate"
         [cellComponent]="cellComponent"
         [calendar]="calendar"
         [expenses]="expenses"
         [balances]="balances"
+        (resized)="onResize($event)"
         (select)="onSelect($event)">
 </app-calendar-grid>

@@ -7,7 +7,7 @@ import {Calendar} from '../../../../../api/entities/calendar.entity';
     selector: 'app-calendar-edit',
 })
 export class CalendarEditComponent {
-    @Input() public saveButtonEnabled: boolean = true;
+    @Input() public isBusy: boolean = false;
     @Input() public calendar: Calendar;
     @Output() public save: EventEmitter<Calendar> = new EventEmitter<Calendar>();
     @Output() public back: EventEmitter<boolean> = new EventEmitter<boolean>();

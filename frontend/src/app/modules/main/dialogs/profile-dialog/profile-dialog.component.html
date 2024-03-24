@@ -1,26 +1,13 @@
 <form #userForm="ngForm" (ngSubmit)="onSubmit()" autocomplete="off">
-    <nb-card [nbSpinner]="isBusy" class="dialog">
+    <nb-card [nbSpinner]="isBusy" class="dialog" style="min-height: 200px;">
+        <nb-card-header>
+            <nb-user [picture]="user.avatar"
+                     [name]="user.name"
+                     [title]="user.email"
+                     size="large">
+            </nb-user>
+        </nb-card-header>
         <nb-card-body>
-            <div class="d-flex justify-content-center">
-                <nb-user
-                        [name]="user.name"
-                        [picture]="user.avatar"
-                        (click)="avatarUpload.click()"
-                        size="large"
-                        onlyPicture
-                        style="cursor: pointer;"
-                        class="mb-3">
-                </nb-user>
-            </div>
-            <input type="file" #avatarUpload (change)="onAvatarSelected($event)" accept="image/jpeg" class="d-none" />
-            <h6 class="my-1 text-hint">Profile</h6>
-            <div class="mb-3">
-                <input nbInput fullWidth maxlength="255" name="name" placeholder="Name" [(ngModel)]="user.name" required />
-            </div>
-            <div class="mb-3">
-                <input nbInput fullWidth disabled maxlength="255" type="email" name="email" placeholder="Email address" [(ngModel)]="user.email" />
-            </div>
-            <h6 class="my-1 text-hint">Password</h6>
             <div class="mb-3">
                 <input nbInput fullWidth type="password" maxlength="255" id="current-password" placeholder="Current password" />
             </div>
@@ -33,8 +20,7 @@
         </nb-card-body>
         <nb-card-footer class="text-right">
             <button nbButton type="submit" status="primary" [disabled]="isBusy || !userForm.valid">
-                <nb-icon icon="save-outline"></nb-icon>
-                Save
+                <nb-icon icon="save-outline"></nb-icon> Save
             </button>
         </nb-card-footer>
     </nb-card>

@@ -27,8 +27,13 @@ import {AngularResizeEventModule} from 'angular-resize-event';
 import {ShortNumberPipe} from '../../pipes/shortnumber.pipe';
 import {UserResolver} from '../../resolvers/user.resolver';
 import {CalendarDayNamesComponent} from './calendar/calendar-day-names/calendar-day-names.component';
-import {CalendarGridRowCellComponent} from './calendar/calendar-grid-row-cell/calendar-grid-row-cell.component';
-import {ExpenseItemComponent} from './calendar/calendar-grid-row-cell/expense-item/expense-item.component';
+import {
+    CalendarGridRowCellDesktopComponent
+} from './calendar/calendar-grid-row-cell-desktop/calendar-grid-row-cell-desktop.component';
+import {ExpenseItemComponent} from './calendar/calendar-grid-row-cell-desktop/expense-item/expense-item.component';
+import {
+    CalendarGridRowCellMobileComponent
+} from './calendar/calendar-grid-row-cell-mobile/calendar-grid-row-cell-mobile.component';
 import {CalendarGridRowComponent} from './calendar/calendar-grid-row/calendar-grid-row.component';
 import {CalendarGridComponent} from './calendar/calendar-grid/calendar-grid.component';
 import {CalendarComponent} from './calendar/calendar.component';
@@ -67,7 +72,8 @@ import {ProfileComponent} from './sidebar/profile/profile.component';
         CalendarDayNamesComponent,
         CalendarGridComponent,
         CalendarGridRowComponent,
-        CalendarGridRowCellComponent,
+        CalendarGridRowCellDesktopComponent,
+        CalendarGridRowCellMobileComponent,
         ExpenseItemComponent,
 
         // Dialogs
@@ -101,14 +107,14 @@ import {ProfileComponent} from './sidebar/profile/profile.component';
         NbButtonModule,
         NbEvaIconsModule,
         NbIconModule,
-        NbSpinnerModule,
         NbActionsModule,
         NbCalendarKitModule,
-        NbCardModule,
         NbInputModule,
         NbUserModule,
         NbButtonGroupModule,
         NbListModule,
+        NbSpinnerModule,
+        NbCardModule,
         NbPopoverModule,
         NbTagModule,
         NbAutocompleteModule,

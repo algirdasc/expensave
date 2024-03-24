@@ -11,13 +11,12 @@
 
     <div class="expense-list d-flex flex-column mt-1 h-100" (resized)="onResized($event)">
         <app-calendar-expense-item
-            *ngFor="let expense of getVisibleExpenses()"
-            (click)="editExpense(expense.id)"
+            *ngFor="let expense of visibleExpenses"
+            (click)="editExpense(expense)"
             [expense]="expense">
         </app-calendar-expense-item>
-        <a href="#" (click)="$event.preventDefault(); openInvisibleExpenses()" *ngIf="countInvisibleExpenses()" class="other-label px-1">
-            + {{ countInvisibleExpenses() | shortNumber:'.0' }} other
+        <a href="#" (click)="$event.preventDefault(); openInvisibleExpenses()" *ngIf="!!invisibleExpensesCount" class="other-label px-1">
+            + {{ invisibleExpensesCount | shortNumber:'.0' }} other
         </a>
     </div>
-
 </div>

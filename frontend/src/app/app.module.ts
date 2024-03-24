@@ -5,7 +5,15 @@ import {BrowserModule} from '@angular/platform-browser';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {RouterModule} from '@angular/router';
 import {NB_AUTH_TOKEN_INTERCEPTOR_FILTER, NbAuthJWTInterceptor} from '@nebular/auth';
-import {NbDatepickerModule, NbDialogModule, NbLayoutModule, NbThemeModule, NbToastrModule} from '@nebular/theme';
+import {
+    NbCardModule,
+    NbDatepickerModule,
+    NbDialogModule,
+    NbLayoutModule,
+    NbSpinnerModule,
+    NbThemeModule,
+    NbToastrModule
+} from '@nebular/theme';
 import 'reflect-metadata';
 import {CalendarApiService} from './api/calendar.api.service';
 import {CategoryApiService} from './api/category.api.service';
@@ -14,7 +22,6 @@ import {UserApiService} from './api/user.api.service';
 import {AppComponent} from './app.component';
 import {AppInitializer} from './app.initializer';
 import {appRoutes} from './app.routes';
-import {AuthGuard} from './guards/auth.guard';
 import {ApiInterceptor} from './interceptors/api.interceptor';
 import {ErrorInterceptor} from './interceptors/error.interceptor';
 import {UnauthorizedInterceptor} from './interceptors/unauthorized.interceptor';
@@ -47,10 +54,11 @@ const apiServices = [
         NbToastrModule.forRoot(),
         NbDatepickerModule.forRoot(),
         NbLayoutModule,
+        NbCardModule,
+        NbSpinnerModule,
     ],
     providers: [
         AppInitializer,
-        AuthGuard,
         AuthStrategy,
         {
             provide: APP_INITIALIZER,

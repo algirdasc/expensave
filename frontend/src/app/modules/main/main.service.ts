@@ -1,4 +1,5 @@
 import {Injectable} from '@angular/core';
+import {Title} from '@angular/platform-browser';
 import {CalendarApiService} from '../../api/calendar.api.service';
 import {Calendar} from '../../api/entities/calendar.entity';
 import {Expense} from '../../api/entities/expense.entity';
@@ -10,13 +11,14 @@ import {DateRangeChangeEvent} from './calendar/events/date-range-change.event';
 export class MainService {
     public user: User;
     public selectedDate: Date;
-    public calendar: Calendar;
     public dateRange: DateRangeChangeEvent;
     public expenses: Expense[] = [];
     public balances: Balance[] = [];
+    private _calendar: Calendar;
 
     constructor(
         private readonly calendarApiService: CalendarApiService,
+        private readonly title: Title,
     ) {
     }
 
@@ -32,5 +34,14 @@ export class MainService {
                 this.balances = response.balances;
             })
         ;
+    }
+
+    get calendar(): Calendar {
+        return this._calendar;
+    }
+
+    set calendar(calendar: Calendar) {
+        this._calendar = calendar;
+        this.title.setTitle(`Expensave - ${this.calendar?.name ?? 'No calendar'}`);
     }
 }

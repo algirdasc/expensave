@@ -1,9 +1,9 @@
 nb-list-item {
     nb-icon {
         opacity: .25;
-        margin-right: 1em;
         min-width: 1em;
     }
+
     nb-icon.active {
         opacity: .75
     }
@@ -37,4 +37,8 @@ button.toggle-sign {
     color: #fff !important;
     border-radius: 0 100px 100px 0;
     border: 0;
+}
+
+nb-card-header {
+    font-weight: normal !important;
 }

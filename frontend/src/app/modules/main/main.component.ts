@@ -1,5 +1,6 @@
 import {AfterViewInit, ChangeDetectorRef, Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
+import {NbMediaBreakpointsService} from '@nebular/theme';
 import {User} from '../../api/entities/user.entity';
 import {ExpenseApiService} from '../../api/expense.api.service';
 import {MainService} from './main.service';
@@ -16,7 +17,8 @@ export class MainComponent implements OnInit, AfterViewInit {
         private readonly activatedRoute: ActivatedRoute,
         private readonly cd: ChangeDetectorRef,
         private readonly expenseApiService: ExpenseApiService,
-        public readonly mainService: MainService
+        private readonly breakpointService: NbMediaBreakpointsService,
+        public readonly mainService: MainService,
     ) {
         this.expenseApiService.onBusyChange.subscribe((isBusy: boolean) => this.isBusy = isBusy);
     }
@@ -27,6 +29,10 @@ export class MainComponent implements OnInit, AfterViewInit {
     }
 
     public ngOnInit(): void {
+        console.log(this.breakpointService.getBreakpoints());
+        console.log(this.breakpointService.getBreakpointsMap());
+        console.log(window.innerWidth);
+
         this.activatedRoute.data.subscribe(({ user }: { user: User }) => {
             this.mainService.user = user;
         });

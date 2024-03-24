@@ -10,18 +10,19 @@ import {DateUtil} from '../../../../util/date.util';
 import {ExpenseDialogComponent} from '../../dialogs/expense-dialog/expense-dialog.component';
 import {ExpenseListDialogComponent} from '../../dialogs/expense-list-dialog/expense-list-dialog.component';
 import {MainService} from '../../main.service';
+import {CalendarCellInterface} from '../interfaces/calendar-cell.interface';
 
 export const EXPENSE_LIST_ITEM_HEIGHT = 21;
 
 @Component({
-    templateUrl: 'calendar-grid-row-cell.component.html',
-    styleUrls: ['calendar-grid-row-cell.component.scss']
+    templateUrl: 'calendar-grid-row-cell-desktop.component.html',
+    styleUrls: ['calendar-grid-row-cell-desktop.component.scss']
 })
-export class CalendarGridRowCellComponent extends NbCalendarDayCellComponent<Date> {
+export class CalendarGridRowCellDesktopComponent extends NbCalendarDayCellComponent<Date> implements CalendarCellInterface {
     public expenseListCapacity: number = 1;
     public calendar: Calendar;
-    public balance: Balance = new Balance();
-    public expenses: Expense[] = [];
+    public balance: Balance;
+    public expenses: Expense[];
 
     constructor(
         public dateService: NbDateService<Date>,
@@ -36,12 +37,12 @@ export class CalendarGridRowCellComponent extends NbCalendarDayCellComponent<Dat
         this.expenseListCapacity = Math.floor(event.newRect.height / EXPENSE_LIST_ITEM_HEIGHT) - 1;
     }
 
-    public getVisibleExpenses(): Expense[] {
+    get visibleExpenses(): Expense[] {
         return this.expenses.slice(0, this.expenseListCapacity);
     }
 
-    public countInvisibleExpenses(): number {
-        const visibleCount = this.getVisibleExpenses().length;
+    get invisibleExpensesCount(): number {
+        const visibleCount = this.visibleExpenses.length;
         const totalCount = this.expenses.length;
 
         if (totalCount > visibleCount) {
@@ -61,9 +62,9 @@ export class CalendarGridRowCellComponent extends NbCalendarDayCellComponent<Dat
         );
     }
 
-    public editExpense(expenseId: number): void {
+    public editExpense(expense: Expense): void {
         this.expenseApiService
-            .get(expenseId)
+            .get(expense.id)
             .subscribe((expense: Expense) => {
                 this.openExpenseDialog(expense, () => this.mainService.fetchExpenses());
             });

@@ -1,6 +1,4 @@
-@import 'node_modules/bootstrap/scss/functions';
-@import 'node_modules/bootstrap/scss/variables';
-@import 'node_modules/bootstrap/scss/mixins';
+@import 'bootstrap/scss/bootstrap-utilities';
 
 :host {
   height: 100%;
@@ -8,7 +6,7 @@
   grid-template-rows: max-content 1fr;
 }
 
-@include media-breakpoint-only(xs) {
+@include media-breakpoint-up(xs) {
   :host {
     height: 50%;
   }

@@ -1,5 +1,5 @@
 import {Routes} from '@angular/router';
-import {AuthGuard} from './guards/auth.guard';
+import {canActivateAuthenticated} from './modules/auth/auth.functions';
 import {NotFoundComponent} from './modules/notfound.component';
 
 export const appRoutes: Routes = [
@@ -10,7 +10,7 @@ export const appRoutes: Routes = [
     },
     {
         path: 'calendar',
-        canLoad: [AuthGuard],
+        canActivate: [canActivateAuthenticated],
         loadChildren: () => import('./modules/main/main.module')
             .then(m => m.MainModule)
     },

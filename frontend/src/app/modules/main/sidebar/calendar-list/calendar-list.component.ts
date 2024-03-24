@@ -2,7 +2,6 @@ import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {NbDialogService} from '@nebular/theme';
 import {CalendarApiService} from '../../../../api/calendar.api.service';
 import {Calendar} from '../../../../api/entities/calendar.entity';
-import {EntityUtil} from '../../../../util/entity.util';
 import {CalendarEditComponent} from '../../dialogs/calendars-dialog/calendar-edit/calendar-edit.component';
 import {ConfirmDialogComponent} from '../../dialogs/confirm-dialog/confirm-dialog.component';
 import {StatementImportDialogComponent} from '../../dialogs/statement-import-dialog/statement-import-dialog.component';
@@ -76,28 +75,25 @@ export class CalendarSidebarListComponent {
     }
 
     public createCalendar(): void {
-        this.dialogService
-            .open(CalendarEditComponent, { context: { calendar: new Calendar() } })
-            .onClose
-            .subscribe((result?: Calendar) => {
-                if (result) {
-                    this.fetch();
-                }
-            })
-        ;
+        this.openCalendarDialog(new Calendar(), () => {});
+
+        // this.dialogService
+        //     .open(CalendarEditComponent, { context: { calendar: new Calendar() } })
+        //     .onClose
+        //     .subscribe((result?: Calendar) => {
+        //         if (result) {
+        //             this.fetch();
+        //         }
+        //     })
+        // ;
     }
 
     public editCalendar(calendar: Calendar): void {
-        this.dialogService
-            .open(CalendarEditComponent, { context: { calendar: calendar } })
-            .onClose
-            .subscribe((result?: Calendar) => {
-                if (result) {
-                    EntityUtil.replaceInArray(this.calendars, result);
-                    this.calendarsChange.emit(this.calendars);
-                }
-            })
-        ;
+        this.calendarApiService
+            .get(calendar.id)
+            .subscribe((calendar: Calendar) => {
+                this.openCalendarDialog(calendar, () => this.fetch()); // TODO: .fetchExpenses());
+            });
     }
 
     public fetch(): void {
@@ -106,6 +102,20 @@ export class CalendarSidebarListComponent {
             .subscribe((calendars: Calendar[]) => {
                 this.calendars = calendars;
                 this.calendarsChange.emit(this.calendars);
+            })
+        ;
+    }
+
+    private openCalendarDialog(calendar: Calendar, onClose: (calendar: Calendar) => void): void {
+        this.dialogService
+            .open(CalendarEditComponent, { context: { calendar: calendar } })
+            .onClose
+            .subscribe((calendar: Calendar) => {
+                onClose(calendar);
+                // if (result) {
+                //     EntityUtil.replaceInArray(this.calendars, result);
+                //     this.calendarsChange.emit(this.calendars);
+                // }
             })
         ;
     }

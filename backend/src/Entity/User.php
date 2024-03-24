@@ -8,10 +8,10 @@ use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Serializer\Annotation\Groups;
-use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\Table(name: '`user`')]
@@ -40,10 +40,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column]
     private string $password;
-
-    #[ORM\Column(type: 'text', nullable: true)]
-    #[Groups(UserContextGroupConst::ALWAYS)]
-    private ?string $avatar = null;
 
     private ?string $plainPassword = null;
 
@@ -183,18 +179,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setLastLoginAt(?DateTime $lastLoginAt): self
     {
         $this->lastLoginAt = $lastLoginAt;
-
-        return $this;
-    }
-
-    public function getAvatar(): ?string
-    {
-        return $this->avatar;
-    }
-
-    public function setAvatar(?string $avatar): self
-    {
-        $this->avatar = $avatar;
 
         return $this;
     }

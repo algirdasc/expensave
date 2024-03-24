@@ -1,6 +1,8 @@
 <app-calendar-grid-row
         *ngFor="let row of data"
         [row]="row"
+        (select)="selectedValue = $event;"
+        [selectedValue]="selectedValue"
         [visibleDate]="visibleDate"
         [component]="cellComponent"
         [calendar]="calendar"

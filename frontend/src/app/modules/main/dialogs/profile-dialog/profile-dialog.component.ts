@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
+import {NbDialogRef} from '@nebular/theme';
 import {User} from '../../../../api/entities/user.entity';
 import {UserApiService} from '../../../../api/user.api.service';
-import {NbDialogRef} from '@nebular/theme';
 
 @Component({
     templateUrl: 'profile-dialog.component.html',
@@ -9,7 +9,7 @@ import {NbDialogRef} from '@nebular/theme';
 })
 export class ProfileDialogComponent implements OnInit {
     public user: User = new User();
-    public isBusy: boolean = false;
+    public isBusy: boolean = true;
 
     constructor(
         private readonly userApiService: UserApiService,
@@ -30,9 +30,5 @@ export class ProfileDialogComponent implements OnInit {
             .save(this.user)
             .subscribe((user: User) => this.dialogRef.close(user))
         ;
-    }
-
-    public onAvatarSelected(event): void {
-        // TODO
     }
 }
