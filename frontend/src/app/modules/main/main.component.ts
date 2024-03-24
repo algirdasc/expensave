@@ -1,6 +1,7 @@
 import {AfterViewInit, ChangeDetectorRef, Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {NbMediaBreakpointsService} from '@nebular/theme';
+import {ResizedEvent} from 'angular-resize-event';
 import {User} from '../../api/entities/user.entity';
 import {ExpenseApiService} from '../../api/expense.api.service';
 import {MainService} from './main.service';
@@ -12,6 +13,7 @@ import {MainService} from './main.service';
 export class MainComponent implements OnInit, AfterViewInit {
     public user: User;
     public isBusy: boolean = false;
+    public isMobile: boolean = false;
 
     constructor(
         private readonly activatedRoute: ActivatedRoute,
@@ -29,21 +31,14 @@ export class MainComponent implements OnInit, AfterViewInit {
     }
 
     public ngOnInit(): void {
-        console.log(this.breakpointService.getBreakpoints());
-        console.log(this.breakpointService.getBreakpointsMap());
-        console.log(window.innerWidth);
-
         this.activatedRoute.data.subscribe(({ user }: { user: User }) => {
             this.mainService.user = user;
         });
 
-        this.activatedRoute.queryParams.subscribe(({ts}) => {
-            const date = new Date(parseInt(ts));
-            if (date.toString() !== 'Invalid Date') {
-                this.mainService.selectedDate = date;
-            } else {
-                this.mainService.selectedDate = new Date();
-            }
-        });
+        this.mainService.selectedValue = new Date();
+    }
+
+    public resized(event: ResizedEvent): void {
+        this.isMobile = this.breakpointService.getByName('md').width > event.newRect.width
     }
 }

@@ -1,15 +1,11 @@
 import {Component} from '@angular/core';
 import {NbCalendarDayCellComponent, NbDateService, NbDialogService} from '@nebular/theme';
 import {ResizedEvent} from 'angular-resize-event';
-import {plainToInstance} from 'class-transformer';
 import {Calendar} from '../../../../api/entities/calendar.entity';
 import {Expense} from '../../../../api/entities/expense.entity';
-import {ExpenseApiService} from '../../../../api/expense.api.service';
 import {Balance} from '../../../../api/response/calendar-expense-list.response';
-import {DateUtil} from '../../../../util/date.util';
-import {ExpenseDialogComponent} from '../../dialogs/expense-dialog/expense-dialog.component';
 import {ExpenseListDialogComponent} from '../../dialogs/expense-list-dialog/expense-list-dialog.component';
-import {MainService} from '../../main.service';
+import {CalendarService} from '../calendar.service';
 import {CalendarCellInterface} from '../interfaces/calendar-cell.interface';
 
 export const EXPENSE_LIST_ITEM_HEIGHT = 21;
@@ -26,9 +22,8 @@ export class CalendarGridRowCellDesktopComponent extends NbCalendarDayCellCompon
 
     constructor(
         public dateService: NbDateService<Date>,
+        public calendarService: CalendarService,
         private dialogService: NbDialogService,
-        private mainService: MainService,
-        private expenseApiService: ExpenseApiService
     ) {
         super(dateService);
     }
@@ -60,41 +55,5 @@ export class CalendarGridRowCellDesktopComponent extends NbCalendarDayCellCompon
                 }
             }
         );
-    }
-
-    public editExpense(expense: Expense): void {
-        this.expenseApiService
-            .get(expense.id)
-            .subscribe((expense: Expense) => {
-                this.openExpenseDialog(expense, () => this.mainService.fetchExpenses());
-            });
-    }
-
-    public createExpense(): void {
-        const expense = plainToInstance(Expense, {
-            createdAt: DateUtil.setTime(this.date, new Date()),
-            calendar: this.calendar,
-            user: this.mainService.user,
-            confirmed: true,
-        });
-
-        this.openExpenseDialog(expense, () => this.mainService.fetchExpenses());
-    }
-
-    private openExpenseDialog(expense: Expense, onClose: (result: Expense) => void): void {
-        this.dialogService
-            .open(ExpenseDialogComponent, {
-                context: {
-                    expense: expense,
-                    calendars: this.mainService.user.calendars,
-                }
-            })
-            .onClose
-            .subscribe((result?: Expense) => {
-                if (result) {
-                    onClose(result);
-                }
-            })
-        ;
     }
 }

@@ -1,6 +1,6 @@
 <form #expenseForm="ngForm" (ngSubmit)="onSubmit()" autocomplete="off">
     <nb-card [nbSpinner]="isBusy" class="dialog">
-        <nb-card-header class="px-0 pt-5 pb-3" [style.background-color]="expense.confirmed ? expense.category?.color ?? UNCATEGORIZED_COLOR : 'white'">
+        <nb-card-header class="px-0" [style.background-color]="expense.confirmed ? expense.category?.color ?? UNCATEGORIZED_COLOR : 'white'">
             <div class="d-flex align-items-end justify-content-between expense-header" [class.confirmed]="expense.confirmed">
                 <button nbButton type="button" tabIndex="3"
                         (click)="expense.isExpense = !expense.isExpense"

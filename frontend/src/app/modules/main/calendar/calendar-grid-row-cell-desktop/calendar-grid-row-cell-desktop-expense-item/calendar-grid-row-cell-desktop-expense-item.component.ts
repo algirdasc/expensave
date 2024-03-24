@@ -3,11 +3,11 @@ import {Expense} from '../../../../../api/entities/expense.entity';
 import {UNCATEGORIZED_COLOR} from '../../../../../util/color.util';
 
 @Component({
-    templateUrl: 'expense-item.component.html',
-    styleUrls: ['expense-item.component.scss'],
+    templateUrl: 'calendar-grid-row-cell-desktop-expense-item.component.html',
+    styleUrls: ['calendar-grid-row-cell-desktop-expense-item.component.scss'],
     selector: 'app-calendar-expense-item'
 })
-export class ExpenseItemComponent {
+export class CalendarGridRowCellDesktopExpenseItemComponent {
     @Input() public expense: Expense;
 
     protected readonly UNCATEGORIZED_COLOR: string = UNCATEGORIZED_COLOR;

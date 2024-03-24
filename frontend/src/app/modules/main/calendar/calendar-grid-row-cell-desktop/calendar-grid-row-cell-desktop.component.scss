@@ -28,7 +28,7 @@
     font-weight: nb-theme(text-heading-6-font-weight);
 }
 
-.add-button {
+.create-expense {
   display: none;
   position: absolute;
   border: 3px solid nb-theme(background-basic-color-1) !important;
@@ -38,7 +38,7 @@
 }
 
 :host:hover {
-    .add-button {
+    .create-expense {
         display: block;
     }
 

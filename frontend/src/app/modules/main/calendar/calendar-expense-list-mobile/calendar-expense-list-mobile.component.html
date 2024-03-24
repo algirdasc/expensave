@@ -1,0 +1,20 @@
+<div class="h-100">
+    <div *ngIf="unconfirmedExpenses.length">
+        <app-calendar-expense-list-mobile-items
+            [selectedValue]="selectedValue"
+            [confirmed]="false"
+            [expenses]="unconfirmedExpenses">
+        </app-calendar-expense-list-mobile-items>
+    </div>
+    <div *ngIf="confirmedExpenses.length">
+        <app-calendar-expense-list-mobile-items
+            [selectedValue]="selectedValue"
+            [confirmed]="true"
+            [expenses]="confirmedExpenses">
+        </app-calendar-expense-list-mobile-items>
+    </div>
+</div>
+
+<button nbButton status="primary" class="create-expense" (click)="calendarService.createExpense(calendar, selectedValue)">
+    <nb-icon icon="plus-outline"></nb-icon>
+</button>

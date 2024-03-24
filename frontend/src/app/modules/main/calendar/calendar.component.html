@@ -1,15 +1,29 @@
-<app-calendar-day-names
-        [size]="size">
-</app-calendar-day-names>
+<nb-card class="mb-0 h-100 border-0">
+    <nb-card-body class="d-flex flex-column p-0">
+        <app-calendar-day-names
+            class="p-2"
+            [size]="size">
+        </app-calendar-day-names>
 
-<app-calendar-grid
-        [data]="weeks"
-        [selectedValue]="selectedValue"
-        [visibleDate]="visibleDate"
-        [cellComponent]="cellComponent"
-        [calendar]="calendar"
-        [expenses]="expenses"
-        [balances]="balances"
-        (resized)="onResize($event)"
-        (select)="onSelect($event)">
-</app-calendar-grid>
+        <app-calendar-grid
+            class="p-2"
+            [data]="weeks"
+            [selectedValue]="selectedValue"
+            [visibleDate]="visibleDate"
+            [cellComponent]="cellComponent"
+            [calendar]="calendar"
+            [expenses]="expenses"
+            [balances]="balances"
+            (select)="onSelect($event)">
+        </app-calendar-grid>
+
+        <app-calendar-expense-list-mobile
+            class="flex-grow-1 p-3"
+            *ngIf="isMobile"
+            [selectedValue]="selectedValue"
+            [expenses]="expenses"
+            [balances]="balances"
+            [calendar]="calendar">
+        </app-calendar-expense-list-mobile>
+    </nb-card-body>
+</nb-card>

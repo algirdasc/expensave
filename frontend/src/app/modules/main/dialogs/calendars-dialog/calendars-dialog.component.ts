@@ -8,7 +8,7 @@ import {Calendar} from '../../../../api/entities/calendar.entity';
     styleUrls: ['calendars-dialog.component.scss'],
 })
 export class CalendarsDialogComponent implements OnInit {
-    public isBusy: boolean = false;
+    public isBusy: boolean = true;
     public calendars: Calendar[];
     public selectedCalendar: Calendar;
     public editableCalendar: Calendar;

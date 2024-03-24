@@ -16,4 +16,8 @@ export class CalendarGridComponent extends NbCalendarPickerComponent<Date, Date>
     @Input() public calendar: Calendar;
 
     public cellComponent: Type<CalendarCellInterface>;
+
+    public onSelect(date: Date): void {
+        this.select.emit(date);
+    }
 }

@@ -1,4 +1,3 @@
-import {CdkTrapFocus} from '@angular/cdk/a11y';
 import {CommonModule} from '@angular/common';
 import {NgModule} from '@angular/core';
 import {FormsModule} from '@angular/forms';
@@ -28,15 +27,24 @@ import {ShortNumberPipe} from '../../pipes/shortnumber.pipe';
 import {UserResolver} from '../../resolvers/user.resolver';
 import {CalendarDayNamesComponent} from './calendar/calendar-day-names/calendar-day-names.component';
 import {
+    CalendarExpenseListMobileItemsComponent
+} from './calendar/calendar-expense-list-mobile/calendar-expense-list-mobile-items.component';
+import {
+    CalendarExpenseListMobileComponent
+} from './calendar/calendar-expense-list-mobile/calendar-expense-list-mobile.component';
+import {
+    CalendarGridRowCellDesktopExpenseItemComponent
+} from './calendar/calendar-grid-row-cell-desktop/calendar-grid-row-cell-desktop-expense-item/calendar-grid-row-cell-desktop-expense-item.component';
+import {
     CalendarGridRowCellDesktopComponent
 } from './calendar/calendar-grid-row-cell-desktop/calendar-grid-row-cell-desktop.component';
-import {ExpenseItemComponent} from './calendar/calendar-grid-row-cell-desktop/expense-item/expense-item.component';
 import {
     CalendarGridRowCellMobileComponent
 } from './calendar/calendar-grid-row-cell-mobile/calendar-grid-row-cell-mobile.component';
 import {CalendarGridRowComponent} from './calendar/calendar-grid-row/calendar-grid-row.component';
 import {CalendarGridComponent} from './calendar/calendar-grid/calendar-grid.component';
 import {CalendarComponent} from './calendar/calendar.component';
+import {CalendarService} from './calendar/calendar.service';
 import {SuggestionComponent} from './components/suggestion/suggestion.component';
 import {CalendarEditComponent} from './dialogs/calendars-dialog/calendar-edit/calendar-edit.component';
 import {CalendarListComponent} from './dialogs/calendars-dialog/calendar-list/calendar-list.component';
@@ -74,7 +82,9 @@ import {ProfileComponent} from './sidebar/profile/profile.component';
         CalendarGridRowComponent,
         CalendarGridRowCellDesktopComponent,
         CalendarGridRowCellMobileComponent,
-        ExpenseItemComponent,
+        CalendarExpenseListMobileComponent,
+        CalendarGridRowCellDesktopExpenseItemComponent,
+        CalendarExpenseListMobileItemsComponent,
 
         // Dialogs
         ConfirmDialogComponent,
@@ -119,10 +129,10 @@ import {ProfileComponent} from './sidebar/profile/profile.component';
         NbTagModule,
         NbAutocompleteModule,
         AngularResizeEventModule,
-        CdkTrapFocus
     ],
     providers: [
         MainService,
+        CalendarService,
 
         // Resolvers
         UserResolver,

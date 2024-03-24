@@ -1,22 +1,21 @@
 <nb-card size="small">
     <nb-card-header i18n>
-        <button nbButton status="primary" ghost (click)="back.emit(true)">
+        <button nbButton status="primary" ghost (click)="dialogRef.close()">
             <nb-icon icon="arrow-back-outline"></nb-icon>
         </button>
         {{ title }}
     </nb-card-header>
 
-    <nb-card-body>
-        <textarea
-            nbInput
-            fullWidth
-            style="height: 95%; resize: none;"
-            [placeholder]="placeholder"
-            [(ngModel)]="text"></textarea>
+    <nb-card-body class="p-0 overflow-hidden">
+        <textarea nbInput fullWidth #focus
+                  class="p-3 h-100 w-100 border-0"
+                  style="resize: none;"
+                  [placeholder]="placeholder"
+                  [(ngModel)]="text"></textarea>
     </nb-card-body>
 
     <nb-card-footer class="text-right">
-        <button nbButton status="primary" (click)="dialogRef.close(text !== '' ? text : null)">
+        <button nbButton status="primary" (click)="dialogRef.close(text ?? '')">
             <nb-icon icon="save-outline"></nb-icon>
             Save
         </button>

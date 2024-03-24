@@ -1,13 +1,20 @@
 @import 'bootstrap/scss/bootstrap-utilities';
+@import '../../../../theme';
 
-:host {
-  height: 100%;
-  display: grid;
-  grid-template-rows: max-content 1fr;
+app-calendar-grid {
+    height: 100%;
 }
 
-@include media-breakpoint-up(xs) {
-  :host {
-    height: 390px;
-  }
+@include media-breakpoint-down(md) {
+    app-calendar-grid {
+        height: 380px !important;
+        border-bottom: 1px solid nb-theme(border-primary-color-1);
+    }
+
+    app-calendar-expense-list-mobile {
+        height: 0; // flex will recalculate height
+        overflow: auto;
+        background: nb-theme(background-basic-color-4);
+        box-shadow: inset nb-theme(shadow);
+    }
 }

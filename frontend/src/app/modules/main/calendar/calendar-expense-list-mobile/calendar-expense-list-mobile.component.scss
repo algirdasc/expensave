@@ -1,0 +1,10 @@
+@import '../../../../../theme';
+
+button.create-expense {
+    position: absolute;
+    bottom: 30px;
+    right: 30px;
+    border-radius: 32px !important;
+    border: 3px dashed nb-theme(color-basic-default-border);
+}
+

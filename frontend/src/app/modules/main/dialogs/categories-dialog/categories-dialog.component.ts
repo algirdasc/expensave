@@ -8,7 +8,7 @@ import {Category} from '../../../../api/entities/category.entity';
     styleUrls: ['categories-dialog.component.scss'],
 })
 export class CategoriesDialogComponent implements OnInit {
-    public isBusy: boolean = false;
+    public isBusy: boolean = true;
     public isSelectable: boolean = true;
     public showEmptyCategory: boolean = false;
     public categories: Category[];

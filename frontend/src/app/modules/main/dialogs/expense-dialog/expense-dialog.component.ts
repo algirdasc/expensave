@@ -20,7 +20,6 @@ import {InputDialogComponent} from '../input-dialog/input-dialog.component';
 })
 export class ExpenseDialogComponent implements AfterViewInit {
     public expense: Expense;
-    public calendars: Calendar[];
     public isBusy: boolean = false;
     public expenseSuggestionResponse: ExpenseSuggestResponse;
 
@@ -36,7 +35,6 @@ export class ExpenseDialogComponent implements AfterViewInit {
     ) { }
 
     public ngAfterViewInit(): void {
-        console.log(this.focusElement);
         this.focusElement.nativeElement.focus();
     }
 
@@ -72,8 +70,8 @@ export class ExpenseDialogComponent implements AfterViewInit {
                 }
             })
             .onClose
-            .subscribe((result: Category|null|false) => {
-                if (result !== false) {
+            .subscribe((result: Category|null) => {
+                if (result !== undefined) {
                     this.expense.category = result;
                 }
             });
@@ -89,7 +87,11 @@ export class ExpenseDialogComponent implements AfterViewInit {
                 }
             })
             .onClose
-            .subscribe((result: string) => this.expense.description = result);
+            .subscribe((result: string) => {
+                if (result !== undefined) {
+                    this.expense.description = result
+                }
+            });
     }
 
     public selectDateTime(): void {

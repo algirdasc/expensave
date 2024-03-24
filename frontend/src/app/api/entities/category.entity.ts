@@ -10,4 +10,7 @@ export class Category implements EntityInterface {
 
     @Expose()
     public color: string;
+
+    @Expose()
+    public icon: string;
 }

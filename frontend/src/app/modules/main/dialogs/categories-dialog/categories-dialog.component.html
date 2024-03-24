@@ -6,7 +6,7 @@
             [showEmptyCategory]="showEmptyCategory"
             (newCategoryClick)="editCategory()"
             (categoryClick)="categoryClick($event)"
-            (back)="dialogRef.close(false)">
+            (back)="dialogRef.close()">
     </app-category-list>
     <app-category-edit
             *ngIf="editableCategory"

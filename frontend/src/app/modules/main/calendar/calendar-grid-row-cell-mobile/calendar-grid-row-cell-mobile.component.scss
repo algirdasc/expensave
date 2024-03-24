@@ -2,6 +2,11 @@
     opacity: .25;
 }
 
+:host:hover.bounding-month {
+    opacity: 1;
+    transition: opacity 1s;
+}
+
 .cell.text-primary {
     border-right: 1px solid #0d5aa7;
 }

@@ -3,20 +3,20 @@
     <nb-layout-header fixed>
         <app-header
             [calendar]="mainService.calendar"
-            [(selectedDate)]="mainService.selectedDate">
+            [(selectedDate)]="mainService.selectedValue">
         </app-header>
     </nb-layout-header>
 
-    <nb-layout-column class="p-0 p-sm-3" [nbSpinner]="isBusy">
-        <nb-card class="h-100 mb-0">
-            <app-calendar
-                [calendar]="mainService.calendar"
-                [expenses]="mainService.expenses"
-                [balances]="mainService.balances"
-                [visibleDate]="mainService.selectedDate"
-                (dateRangeChange)="mainService.dateRange = $event; mainService.fetchExpenses()">
-            </app-calendar>
-        </nb-card>
+    <nb-layout-column class="p-0 p-sm-3" [nbSpinner]="isBusy" (resized)="resized($event)">
+        <app-calendar
+            [calendar]="mainService.calendar"
+            [expenses]="mainService.expenses"
+            [balances]="mainService.balances"
+            [selectedValue]="mainService.selectedValue"
+            [visibleDate]="mainService.selectedValue"
+            [isMobile]="isMobile"
+            (dateRangeChange)="mainService.dateRange = $event; mainService.fetchExpenses()">
+        </app-calendar>
     </nb-layout-column>
 
     <nb-sidebar tag="menu-sidebar" state="collapsed">

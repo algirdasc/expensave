@@ -10,7 +10,7 @@ import {DateRangeChangeEvent} from './calendar/events/date-range-change.event';
 @Injectable()
 export class MainService {
     public user: User;
-    public selectedDate: Date;
+    public selectedValue: Date;
     public dateRange: DateRangeChangeEvent;
     public expenses: Expense[] = [];
     public balances: Balance[] = [];
