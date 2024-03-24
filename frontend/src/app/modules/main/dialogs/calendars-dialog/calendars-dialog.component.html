@@ -10,7 +10,7 @@
     <app-calendar-edit
         *ngIf="editableCalendar"
         [calendar]="editableCalendar"
-        [saveButtonEnabled]="isBusy"
+        [isBusy]="isBusy"
         (back)="editableCalendar = undefined"
         (save)="saveCalendar($event)">
     </app-calendar-edit>
