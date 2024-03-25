@@ -5,17 +5,20 @@ declare(strict_types=1);
 namespace App\EventListener;
 
 use App\Entity\Expense;
+use Doctrine\Bundle\DoctrineBundle\Attribute\AsEntityListener;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\Events;
 use Doctrine\Persistence\Event\LifecycleEventArgs;
 
+#[AsEntityListener(event: Events::postUpdate, entity: Expense::class)]
+#[AsEntityListener(event: Events::postRemove, entity: Expense::class)]
+#[AsEntityListener(event: Events::postPersist, entity: Expense::class)]
 class CalendarBalanceListener
 {
     public function postUpdate(Expense $expense, LifecycleEventArgs $eventArgs): void
     {
-        // TODO: phpstan fixes needed
         /** @var EntityManagerInterface $entityManager */
         $entityManager = $eventArgs->getObjectManager();
-
         $changes = $entityManager->getUnitOfWork()->getEntityChangeSet($expense);
 
         if (empty($changes['amount'])) {
@@ -28,9 +31,12 @@ class CalendarBalanceListener
             ->addBalance($changes['amount'][1])
         ;
 
-        $eventArgs->getObjectManager()->flush();
+        $entityManager->flush();
     }
 
+    /**
+     * @SupressWarnings("unused")
+     */
     public function postRemove(Expense $expense, LifecycleEventArgs $eventArgs): void
     {
         $expense
@@ -41,6 +47,9 @@ class CalendarBalanceListener
         $eventArgs->getObjectManager()->flush();
     }
 
+    /**
+     * @SupressWarnings("unused")
+     */
     public function postPersist(Expense $expense, LifecycleEventArgs $eventArgs): void
     {
         /** @var Expense $expense */

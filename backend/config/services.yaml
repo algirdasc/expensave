@@ -25,9 +25,3 @@ services:
     App\Controller\:
         resource: '../src/Controller'
         tags: ['controller.service_arguments']
-
-    App\EventListener\CalendarBalanceListener:
-        tags:
-            - { name: doctrine.orm.entity_listener, event: postUpdate, entity: App\Entity\Expense }
-            - { name: doctrine.orm.entity_listener, event: postPersist, entity: App\Entity\Expense }
-            - { name: doctrine.orm.entity_listener, event: postRemove, entity: App\Entity\Expense }

@@ -8,13 +8,17 @@
             <strong class="d-block">{{ calendar?.name }}</strong>
             <small class="d-block text-hint">{{ calendar?.balance | currency }}</small>
         </div>
+
+        <div class="mx-3">
+            {{ monthBalance | shortNumber }}
+        </div>
     </div>
 
     <div class="d-flex text-right">
 
         <nb-calendar-view-mode
             class="d-none d-sm-block"
-            [date]="selectedDate"
+            [date]="selectedValue"
             [viewMode]="activeViewMode"
             [nbPopover]="templateRef"
             nbPopoverTrigger="hover"
@@ -26,14 +30,14 @@
             <div [ngSwitch]="activeViewMode">
                 <nb-calendar-year-picker
                     *ngSwitchCase="viewMode.YEAR"
-                    [year]="selectedDate"
-                    (yearChange)="selectedDate = $event; activeViewMode = viewMode.MONTH">
+                    [year]="selectedValue"
+                    (yearChange)="selectedValue = $event; activeViewMode = viewMode.MONTH">
                 </nb-calendar-year-picker>
 
                 <nb-calendar-month-picker
                     *ngSwitchCase="viewMode.MONTH"
-                    [month]="selectedDate"
-                    (monthChange)="selectedDate = $event; activeViewMode = viewMode.DATE">
+                    [month]="selectedValue"
+                    (monthChange)="selectedValue = $event; activeViewMode = viewMode.DATE">
                 </nb-calendar-month-picker>
             </div>
         </ng-template>

@@ -7,4 +7,5 @@ export interface CalendarCellInterface extends NbCalendarCell<Date, Date> {
     expenses: Expense[];
     balance: Balance;
     calendar: Calendar;
+    hasUnconfirmedExpenses: boolean;
 }

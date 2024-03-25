@@ -5,10 +5,7 @@ import {CalendarService} from '../calendar.service';
 
 @Component({
     selector: 'app-calendar-expense-list-mobile-items',
-    styles: `
-        nb-list-item {
-            color: #ffffff;
-        }`,
+    styleUrl: 'calendar-expense-list-mobile-items.component.scss',
     template: `
         <div class="d-flex justify-content-between mb-1 px-1">
             <small class="text-muted">{{ confirmed ? 'Spent on' : 'Planned for' }} {{ selectedValue | date:'MMMM dd, EEEE' }}</small>
@@ -17,7 +14,7 @@ import {CalendarService} from '../calendar.service';
         <nb-list>
             <nb-list-item *ngFor="let expense of expenses"
                           [style.background-color]="expense.category?.color ?? UNCATEGORIZED_COLOR"
-                          [style.opacity]="confirmed ? 1 : 0.3"
+                          [class.expense-unconfirmed]="!confirmed"
                           (click)="calendarService.editExpense(expense)"
                           class="mb-2 rounded actionable">
                 <nb-icon class="flex-shrink-0" icon="{{ expense.category?.icon }}pricetags-outline"></nb-icon>

@@ -44,22 +44,17 @@ class CalendarController extends AbstractApiController
     #[Route('/{calendar}/expenses/{fromTs}/{toTs}', name: 'expenses', methods: Request::METHOD_GET)]
     public function expenses(Calendar $calendar, int $fromTs, int $toTs): JsonResponse
     {
-        $expenses = $this->expenseRepository->findByCalendarAndInterval(
-            $calendar,
-            (new DateTime())->setTimestamp($fromTs),
-            (new DateTime())->setTimestamp($toTs)
-        );
+        $dateFrom = (new DateTime())->setTimestamp($fromTs);
+        $dateTo = (new DateTime())->setTimestamp($toTs);
 
-        $balances = $this->balanceCalculatorService->calculate(
-            $calendar,
-            (new DateTime())->setTimestamp($fromTs),
-            (new DateTime())->setTimestamp($toTs)
-        );
+        $expenses = $this->expenseRepository->findByCalendarAndInterval($calendar, $dateFrom, $dateTo);
+        $balances = $this->balanceCalculatorService->calculate($calendar, $dateFrom, $dateTo);
 
         return $this->respond(
             new ExpenseListResponse(
                 expenses: $expenses,
                 balances: $balances,
+                calendar: $calendar,
             )
         );
     }
@@ -67,8 +62,7 @@ class CalendarController extends AbstractApiController
     #[Route('', name: 'create', methods: Request::METHOD_POST)]
     public function create(#[CurrentUser] User $user, CreateCalendarRequest $request): JsonResponse
     {
-        $calendar = (new Calendar())
-            ->setName($request->getName())
+        $calendar = (new Calendar($request->getName()))
             ->addUser($user)
         ;
 

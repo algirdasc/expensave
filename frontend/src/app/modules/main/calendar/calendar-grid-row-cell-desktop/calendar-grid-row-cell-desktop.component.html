@@ -1,8 +1,11 @@
 <div class="day-content d-flex flex-column h-100 p-1">
-    <div class="day-header d-flex p-1 text-hint mr-2">
-        <div class="day-number flex-fill text-left me-2">{{ day }}</div>
+    <div class="day-header d-flex p-1 text-hint">
+        <div class="day-number d-flex align-items-center text-left me-2">
+            <span>{{ day }}</span>
+            <div *ngIf="hasUnconfirmedExpenses" class="unconfirmed-expenses ms-2"></div>
+        </div>
         <div class="day-expenses flex-fill text-right text-truncate d-none d-sm-block">
-            <span *ngIf="balance?.expenses">{{ balance?.expenses | shortNumber }} | </span>{{ balance?.balance | shortNumber }}
+            <span *ngIf="balance?.expenses">{{ balance?.expenses | shortNumber }} | </span>{{ balance?.balance ?? 0 | shortNumber }}
         </div>
         <button nbButton status="primary" class="create-expense bounceIn" (click)="calendarService.createExpense(calendar, date)">
             <nb-icon icon="plus-outline"></nb-icon>
@@ -11,6 +14,7 @@
 
     <div class="expense-list d-flex flex-column mt-1 h-100" (resized)="onResized($event)">
         <app-calendar-expense-item
+            [class.expense-unconfirmed]="!expense.confirmed"
             *ngFor="let expense of visibleExpenses"
             (click)="calendarService.editExpense(expense)"
             [expense]="expense">

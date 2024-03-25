@@ -12,9 +12,7 @@ use App\Response\EntityResponse;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Security\Core\Security;
 use Symfony\Component\Security\Http\Attribute\CurrentUser;
-use Symfony\Component\Validator\Constraints\Json;
 
 #[Route('user', name: 'user_')]
 class ProfileController extends AbstractApiController
@@ -39,8 +37,7 @@ class ProfileController extends AbstractApiController
     #[Route('/profile', methods: Request::METHOD_PUT)]
     public function update(#[CurrentUser] User $user): JsonResponse
     {
-        sleep(2);
-        // TODO: save
+        $this->userRepository->save($user);
 
         return $this->respond($user, groups: UserContextGroupConst::DETAILS);
     }

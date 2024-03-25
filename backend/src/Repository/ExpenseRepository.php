@@ -51,10 +51,22 @@ class ExpenseRepository extends AbstractRepository
         return $this->createQueryBuilder('e')
             ->select('SUM(e.amount)')
             ->where('e.calendar = :calendar')
+            ->andWhere('e.confirmed = true')
             ->andWhere('e.createdAt < :dateTo')
             ->setParameter('calendar', $calendar)
             ->setParameter('dateTo', $dateTo)
             ->orderBy('e.createdAt', 'ASC')
+            ->getQuery()
+            ->getOneOrNullResult(Query::HYDRATE_SINGLE_SCALAR) ?? 0;
+    }
+
+    public function getTotalBalance(Calendar $calendar): float
+    {
+        return $this->createQueryBuilder('e')
+            ->select('SUM(e.amount)')
+            ->where('e.calendar = :calendar')
+            ->andWhere('e.confirmed = true')
+            ->setParameter('calendar', $calendar)
             ->getQuery()
             ->getOneOrNullResult(Query::HYDRATE_SINGLE_SCALAR) ?? 0;
     }
@@ -65,6 +77,7 @@ class ExpenseRepository extends AbstractRepository
         return $this->createQueryBuilder('e')
             ->select('DATE(e.createdAt) AS date, SUM(e.amount) AS balance')
             ->where('e.calendar = :calendar')
+            ->andWhere('e.confirmed = true')
             ->andWhere('e.createdAt >= :dateFrom')
             ->andWhere('e.createdAt < :dateTo')
             ->setParameter('calendar', $calendar)

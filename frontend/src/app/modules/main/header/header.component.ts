@@ -1,7 +1,6 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {NbCalendarViewMode, NbDateService, NbSidebarService} from '@nebular/theme';
 import {Calendar} from '../../../api/entities/calendar.entity';
-import {MainService} from '../main.service';
 
 @Component({
     templateUrl: 'header.component.html',
@@ -10,15 +9,15 @@ import {MainService} from '../main.service';
 })
 export class HeaderComponent {
     @Input() public calendar: Calendar;
-    @Input() public selectedDate: Date;
-    @Output() public selectedDateChange: EventEmitter<Date> = new EventEmitter<Date>();
+    @Input() public selectedValue: Date;
+    @Input() public monthBalance: number = 0;
+    @Output() public selectedValueChange: EventEmitter<Date> = new EventEmitter<Date>();
     public viewMode: typeof NbCalendarViewMode = NbCalendarViewMode;
     private _activeViewMode: NbCalendarViewMode = NbCalendarViewMode.DATE;
 
     constructor(
         private readonly dateService: NbDateService<Date>,
         private readonly sidebarService: NbSidebarService,
-        public readonly mainService: MainService
     ) { }
 
     get activeViewMode(): NbCalendarViewMode {
@@ -29,7 +28,7 @@ export class HeaderComponent {
         this._activeViewMode = value;
 
         if (this._activeViewMode === this.viewMode.DATE) {
-            this.selectedDateChange.emit(this.selectedDate);
+            this.selectedValueChange.emit(this.selectedValue);
         }
     }
 
@@ -56,12 +55,12 @@ export class HeaderComponent {
     }
 
     public navigateToday(): void {
-        this.selectedDate = new Date();
-        this.selectedDateChange.emit(this.selectedDate);
+        this.selectedValue = new Date();
+        this.selectedValueChange.emit(this.selectedValue);
     }
 
     private changeVisibleMonth(direction: number): void {
-        this.selectedDate = this.dateService.addMonth(this.selectedDate, direction);
-        this.selectedDateChange.emit(this.selectedDate);
+        this.selectedValue = this.dateService.addMonth(this.selectedValue, direction);
+        this.selectedValueChange.emit(this.selectedValue);
     }
 }

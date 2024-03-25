@@ -1,5 +1,8 @@
-<div class="cell p-1 h-100 text-right" [class.text-primary]="isCellSelected">
-    <strong class="d-block mb-2">{{ day }}</strong>
+<div class="cell p-1 h-100 text-right">
+    <div class="d-flex align-items-center justify-content-end mb-2">
+        <div *ngIf="hasUnconfirmedExpenses" class="unconfirmed-expenses me-2"></div>
+        <strong>{{ day }}</strong>
+    </div>
     <small class="d-block" *ngIf="balance?.expenses || (balance && isCellSelected)">{{ balance.expenses | shortNumber:'.0-0' }}</small>
     <small class="d-block" *ngIf="balance?.expenses || (balance && isCellSelected)">{{ balance.balance | shortNumber:'.0-0' }}</small>
 </div>

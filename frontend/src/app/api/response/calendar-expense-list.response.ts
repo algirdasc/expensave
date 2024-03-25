@@ -1,4 +1,5 @@
 import {Expose, Type} from 'class-transformer';
+import {Calendar} from '../entities/calendar.entity';
 import {Expense} from '../entities/expense.entity';
 
 export class CalendarExpenseListResponse  {
@@ -9,6 +10,10 @@ export class CalendarExpenseListResponse  {
     @Expose()
     @Type(() => Balance)
     public balances: Balance[];
+
+    @Expose()
+    @Type(() => Calendar)
+    public calendar: Calendar;
 }
 
 export class Balance {

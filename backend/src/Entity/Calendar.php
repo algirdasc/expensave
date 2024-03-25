@@ -3,12 +3,10 @@
 namespace App\Entity;
 
 use App\Const\ContextGroup\CalendarContextGroupConst;
-use App\Const\ContextGroupConst;
 use App\Repository\CalendarRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use phpDocumentor\Reflection\Types\Boolean;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: CalendarRepository::class)]
@@ -22,7 +20,7 @@ class Calendar
 
     #[ORM\Column]
     #[Groups(CalendarContextGroupConst::ALWAYS)]
-    private ?string $name = null;
+    private string $name;
 
     /**
      * @var Collection<Expense>
@@ -48,8 +46,9 @@ class Calendar
         return $this->users->count() > 1;
     }
 
-    public function __construct()
+    public function __construct(string $name)
     {
+        $this->name = $name;
         $this->users = new ArrayCollection();
         $this->expenses = new ArrayCollection();
     }

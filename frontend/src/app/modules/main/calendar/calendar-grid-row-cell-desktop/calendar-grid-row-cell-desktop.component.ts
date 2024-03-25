@@ -19,6 +19,7 @@ export class CalendarGridRowCellDesktopComponent extends NbCalendarDayCellCompon
     public calendar: Calendar;
     public balance: Balance;
     public expenses: Expense[];
+    public hasUnconfirmedExpenses: boolean = false;
 
     constructor(
         public dateService: NbDateService<Date>,

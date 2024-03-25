@@ -1,41 +1,47 @@
 @import '../../../../../../theme';
 
 :host {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  position: relative;
-  cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+    cursor: pointer;
+}
+
+:host.expense-unconfirmed {
+    color: nb-theme(text-disabled-color);
 }
 
 :host:hover {
-  .expense-overlay {
-    display: block;
-  }
+    .expense-overlay {
+        display: block;
+    }
 }
 
 .expense-overlay {
-  display: none;
-  position: absolute;
-  opacity: 0.1;
-  border-radius: nb-theme(border-radius);
-  height: 100%;
-  width: 100%;
+    display: none;
+    position: absolute;
+    opacity: 0.1;
+    border-radius: nb-theme(border-radius);
+    height: 100%;
+    width: 100%;
 }
 
 .expense-category {
-  position: absolute;
-  border-radius: 50%;
-  height: 6px;
-  width: 6px;
-  left: 5px;
+    position: absolute;
+    border-radius: 50%;
+    border-style: solid;
+    border-width: 1px;
+    height: 6px;
+    width: 6px;
+    left: 5px;
 }
 
 .expense-label {
-  margin-left: 15px;
-  font-size: 12px;
+    margin-left: 15px;
+    font-size: 12px;
 }
 
 .expense-amount {
-  // font-size: nb-theme(text-subtitle-2-font-size);
+    // font-size: nb-theme(text-subtitle-2-font-size);
 }

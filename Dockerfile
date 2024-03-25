@@ -12,7 +12,8 @@ RUN apt update && \
     software-properties-common \
     nginx \
     mariadb-server-10.6 \
-    supervisor
+    cron \
+    supervisor \
 RUN add-apt-repository ppa:ondrej/php
 RUN apt install -y \
     php${PHP_VERSION}-fpm \
@@ -28,11 +29,14 @@ RUN apt install -y \
 COPY --from=composer:latest /usr/bin/composer /usr/local/bin/composer
 
 # Config files
+COPY docker/expensave-cron /etc/cron.d/expensave-cron
 COPY docker/supervisor/supervisor.conf /etc/supervisor/conf.d/supervisor.conf
 COPY docker/php/ /etc/php/${PHP_VERSION}/fpm
 COPY docker/nginx/ /etc/nginx
 COPY docker/boot.sh /boot.sh
 RUN chmod +x /boot.sh
+RUN chmod 0644 /etc/cron.d/expensave-cron
+RUN crontab /etc/cron.d/expensave-cron
 
 RUN rm /etc/nginx/sites-enabled/default
 

@@ -1,3 +1,5 @@
+@import '../../../../../theme';
+
 :host.bounding-month {
     opacity: .25;
 }
@@ -7,8 +9,13 @@
     transition: opacity 1s;
 }
 
-.cell.text-primary {
-    border-right: 1px solid #0d5aa7;
+:host.selected .cell {
+    color: nb-theme(color-info-500);
+    border-right: 1px solid nb-theme(color-info-500);
+
+    .unconfirmed-expenses {
+        border-color: nb-theme(color-info-500);
+    }
 }
 
 strong {
@@ -17,4 +24,11 @@ strong {
 
 small {
     line-height: 15px;
+}
+
+.unconfirmed-expenses {
+    border: 1px solid nb-theme(text-hint-color);
+    height: 8px;
+    width: 8px;
+    border-radius: 10px;
 }

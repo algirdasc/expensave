@@ -5,6 +5,10 @@
         background: nb-theme(background-primary-color-1);
         color: nb-theme(text-alternate-color);
     }
+
+    .unconfirmed-expenses {
+        border-color: nb-theme(text-alternate-color);
+    }
 }
 
 :host.bounding-month {
@@ -54,4 +58,12 @@
 
 .other-label {
     font-size: 12px;
+    color: nb-theme(text-info-color);
+}
+
+.unconfirmed-expenses {
+    border: 2px solid nb-theme(text-hint-color);
+    height: 10px;
+    width: 10px;
+    border-radius: 10px;
 }

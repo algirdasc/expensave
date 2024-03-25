@@ -41,7 +41,7 @@ class CategoryController extends AbstractApiController
             ->setColor($request->getColor())
         ;
 
-        $this->categoryRepository->save($category, true);
+        $this->categoryRepository->save($category);
 
         return $this->respond($category);
     }
@@ -54,7 +54,7 @@ class CategoryController extends AbstractApiController
             ->setColor($request->getColor())
         ;
 
-        $this->categoryRepository->save($category, true);
+        $this->categoryRepository->save($category);
 
         return $this->respond($category);
     }
@@ -62,7 +62,7 @@ class CategoryController extends AbstractApiController
     #[Route('/{category}', name: 'remove', methods: Request::METHOD_DELETE)]
     public function remove(Category $category): JsonResponse
     {
-        $this->categoryRepository->remove($category, true);
+        $this->categoryRepository->remove($category);
 
         return $this->respond($this->categoryRepository->findAll());
     }

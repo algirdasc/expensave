@@ -49,7 +49,12 @@ export class CalendarGridRowComponent extends NbCalendarPickerRowComponent<Date,
 
         gridRowCell.calendar = this.calendar;
         gridRowCell.expenses = this.expenses.filter((expense: Expense) => {
-            return this.dateService.isSameDaySafe(date, expense.createdAt);
+            const sameDay = this.dateService.isSameDaySafe(date, expense.createdAt);
+            if (sameDay && !expense.confirmed && !gridRowCell.hasUnconfirmedExpenses) {
+                gridRowCell.hasUnconfirmedExpenses = true;
+            }
+
+            return sameDay;
         });
 
         gridRowCell.balance = this.balances.filter((balance: Balance) => {

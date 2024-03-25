@@ -4,7 +4,7 @@ monolog:
     handlers:
         main:
             type: fingers_crossed
-            action_level: error
+            action_level: debug
             handler: nested
             excluded_http_codes: [404, 405]
             buffer_size: 50
@@ -22,3 +22,9 @@ monolog:
             type: stream
             channels: [deprecation]
             path: php://stderr
+
+when@prod:
+    monolog:
+        handlers:
+            main:
+                action_level: error

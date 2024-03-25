@@ -3,7 +3,6 @@
 namespace App\Entity;
 
 use App\Const\ContextGroup\ExpenseContextGroupConst;
-use App\Const\ContextGroupConst;
 use App\Repository\ExpenseRepository;
 use DateTime;
 use Doctrine\ORM\Mapping as ORM;
@@ -23,7 +22,7 @@ class Expense
     #[Groups(ExpenseContextGroupConst::ALWAYS)]
     private ?Category $category = null;
 
-    #[ORM\ManyToOne(targetEntity: Calendar::class, inversedBy: 'expenses')]
+    #[ORM\ManyToOne(targetEntity: Calendar::class, cascade: ['persist'], inversedBy: 'expenses')]
     #[Groups(ExpenseContextGroupConst::ALWAYS)]
     private Calendar $calendar;
 

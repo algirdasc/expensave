@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Controller\Auth;
 
 use App\Controller\AbstractApiController;
+use App\Entity\Calendar;
 use App\Entity\User;
 use App\Repository\UserRepository;
 use App\Request\Auth\RegistrationRequest;
@@ -29,9 +30,10 @@ class RegistrationController extends AbstractApiController
             ->setName($request->getFullName())
             ->setActive(true)
             ->setPlainPassword($request->getPassword())
+            ->addCalendar(new Calendar('Personal'))
         ;
 
-        $userRepository->save($user, true);
+        $userRepository->save($user);
 
         return $this->respond(new AuthTokenResponse($JWTManager->create($user)));
     }

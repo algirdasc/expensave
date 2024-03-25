@@ -10,10 +10,10 @@ use Doctrine\Bundle\DoctrineBundle\EventSubscriber\EventSubscriberInterface;
 use Doctrine\ORM\Events;
 use Doctrine\Persistence\Event\LifecycleEventArgs;
 
-class EntityValidationSubscriber implements EventSubscriberInterface
+readonly class EntityValidationSubscriber implements EventSubscriberInterface
 {
     public function __construct(
-        private readonly ValidationService $validator
+        private ValidationService $validator
     ) {
     }
 

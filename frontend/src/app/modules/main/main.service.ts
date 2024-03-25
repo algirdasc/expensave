@@ -1,5 +1,6 @@
 import {Injectable} from '@angular/core';
 import {Title} from '@angular/platform-browser';
+import {NbDateService} from '@nebular/theme';
 import {CalendarApiService} from '../../api/calendar.api.service';
 import {Calendar} from '../../api/entities/calendar.entity';
 import {Expense} from '../../api/entities/expense.entity';
@@ -14,10 +15,12 @@ export class MainService {
     public dateRange: DateRangeChangeEvent;
     public expenses: Expense[] = [];
     public balances: Balance[] = [];
+    public monthBalance: number = 0;
     private _calendar: Calendar;
 
     constructor(
         private readonly calendarApiService: CalendarApiService,
+        private readonly dateService: NbDateService<Date>,
         private readonly title: Title,
     ) {
     }
@@ -32,6 +35,19 @@ export class MainService {
             .subscribe((response: CalendarExpenseListResponse) => {
                 this.expenses = response.expenses;
                 this.balances = response.balances;
+                this.calendar = response.calendar;
+
+                this.monthBalance = 0;
+                response.balances
+                    .filter((balance: Balance) => {
+                        return this.dateService.isSameYearSafe(this.selectedValue, balance.balanceAt)
+                            && this.dateService.isSameMonthSafe(this.selectedValue, balance.balanceAt)
+                    })
+                    .forEach((balance: Balance) => {
+                        this.monthBalance += balance.expenses;
+                    });
+
+                console.log(this.monthBalance);
             })
         ;
     }

@@ -13,6 +13,7 @@ export class CalendarGridRowCellMobileComponent extends NbCalendarDayCellCompone
     public expenses: Expense[];
     public balance: Balance;
     public calendar: Calendar;
+    public hasUnconfirmedExpenses: boolean = false;
 
     public constructor(public dateService: NbDateService<Date>) {
         super(dateService);
