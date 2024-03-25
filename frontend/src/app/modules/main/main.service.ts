@@ -35,7 +35,8 @@ export class MainService {
             .subscribe((response: CalendarExpenseListResponse) => {
                 this.expenses = response.expenses;
                 this.balances = response.balances;
-                this.calendar = response.calendar;
+                // TODO: remove
+                // this.calendar = response.calendar;
 
                 this.monthBalance = 0;
                 response.balances
@@ -46,8 +47,6 @@ export class MainService {
                     .forEach((balance: Balance) => {
                         this.monthBalance += balance.expenses;
                     });
-
-                console.log(this.monthBalance);
             })
         ;
     }
