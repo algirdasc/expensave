@@ -4,13 +4,14 @@
             <nb-icon icon="menu-2-outline"></nb-icon>
         </button>
 
-        <div class="mx-3">
+        <div class="mx-3 calendar-info">
             <strong class="d-block">{{ calendar?.name }}</strong>
-            <small class="d-block text-hint">{{ calendar?.balance | currency }}</small>
-        </div>
-
-        <div class="mx-3">
-            {{ monthBalance | shortNumber }}
+            <small class="d-block text-hint">
+                <span title="Current balance">{{ calendar?.balance | shortNumber }}</span>
+                <span *ngIf="monthBalance"> |
+                    <span title="This months balance" [class.text-success]="monthBalance > 0" [class.text-danger]="monthBalance < 0">{{ monthBalance | shortNumber }}</span>
+                </span>
+            </small>
         </div>
     </div>
 

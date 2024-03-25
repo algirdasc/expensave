@@ -18,18 +18,18 @@ export class ShortNumberPipe implements PipeTransform {
         let key = '';
 
         const powers = [
-            {key: 'Q', value: Math.pow(10, 15)},
-            {key: 'T', value: Math.pow(10, 12)},
-            {key: 'B', value: Math.pow(10, 9)},
-            {key: 'M', value: Math.pow(10, 6)},
-            // {key: 'K', value: 1000},
+            {key: 'Q', value: Math.pow(10, 15), multiply: 1},
+            {key: 'T', value: Math.pow(10, 12), multiply: 1},
+            {key: 'B', value: Math.pow(10, 9), multiply: 1},
+            {key: 'M', value: Math.pow(10, 6), multiply: 1},
+            {key: 'K', value: 10000, multiply: 10},
         ];
 
         for (const power of powers) {
             let reduced = abs / power.value;
             reduced = Math.round(reduced * rounder) / rounder;
             if (reduced >= 1) {
-                abs = reduced;
+                abs = reduced * power.multiply;
                 key = power.key;
                 break;
             }
