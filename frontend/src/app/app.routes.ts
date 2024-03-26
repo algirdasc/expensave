@@ -1,6 +1,6 @@
 import {Routes} from '@angular/router';
 import {canActivateAuthenticated} from './modules/auth/auth.functions';
-import {NotFoundComponent} from './modules/notfound.component';
+import {Error404Component} from './modules/error-404.component';
 
 export const appRoutes: Routes = [
     {
@@ -21,6 +21,6 @@ export const appRoutes: Routes = [
     },
     {
         path: '**',
-        component: NotFoundComponent
+        component: Error404Component
     }
 ];

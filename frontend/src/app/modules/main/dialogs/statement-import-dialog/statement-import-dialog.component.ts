@@ -1,5 +1,5 @@
 import {Component, Input} from '@angular/core';
-import {Calendar} from '../../../../api/entities/calendar.entity';
+import {Calendar} from '../../../../api/objects/calendar';
 
 @Component({
     templateUrl: 'statement-import-dialog.component.html',

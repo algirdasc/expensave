@@ -1,9 +1,9 @@
 import {Component, ComponentFactoryResolver, Input, OnChanges, Type} from '@angular/core';
 import {NbCalendarPickerRowComponent, NbDateService} from '@nebular/theme';
 import {ResizedEvent} from 'angular-resize-event';
-import {Calendar} from '../../../../api/entities/calendar.entity';
-import {Expense} from '../../../../api/entities/expense.entity';
-import {Balance} from '../../../../api/response/calendar-expense-list.response';
+import {Balance} from '../../../../api/objects/balance';
+import {Calendar} from '../../../../api/objects/calendar';
+import {Expense} from '../../../../api/objects/expense';
 import {CalendarCellInterface} from '../interfaces/calendar-cell.interface';
 
 @Component({
@@ -12,15 +12,15 @@ import {CalendarCellInterface} from '../interfaces/calendar-cell.interface';
     template: '<ng-template></ng-template>'
 })
 export class CalendarGridRowComponent extends NbCalendarPickerRowComponent<Date, Date> implements OnChanges {
+    @Input({required: true}) public calendar: Calendar;
+    @Input({required: true}) public balances: Balance[];
+    @Input({required: true}) public expenses: Expense[];
     @Input() public component: Type<CalendarCellInterface>;
-    @Input() public calendar: Calendar;
     @Input() public rowResizedEvent: ResizedEvent;
-    @Input() public balances: Balance[];
-    @Input() public expenses: Expense[];
 
     constructor(
         private c: ComponentFactoryResolver,
-        private dateService: NbDateService<Date>
+        private dateService: NbDateService<Date>,
     ) {
         super(c);
     }
@@ -38,27 +38,28 @@ export class CalendarGridRowComponent extends NbCalendarPickerRowComponent<Date,
     }
 
     private patchContext(gridRowCell: CalendarCellInterface, date: Date): void {
+        // Nebular fields
         gridRowCell.visibleDate = this.visibleDate;
         gridRowCell.selectedValue = this.selectedValue;
         gridRowCell.date = date;
-        gridRowCell.min = this.min;
-        gridRowCell.max = this.max;
-        gridRowCell.filter = this.filter;
-        gridRowCell.size = this.size;
-        gridRowCell.select.subscribe((date: Date) => this.select.emit(date));
+        // gridRowCell.min = this.min;
+        // gridRowCell.max = this.max;
+        // gridRowCell.filter = this.filter;
+        // gridRowCell.size = this.size;
 
+        // Expensave fields
         gridRowCell.calendar = this.calendar;
+        gridRowCell.balance = this.balances.filter((balance: Balance) => this.dateService.isSameDaySafe(date, balance.balanceAt))[0];
         gridRowCell.expenses = this.expenses.filter((expense: Expense) => {
-            const sameDay = this.dateService.isSameDaySafe(date, expense.createdAt);
-            if (sameDay && !expense.confirmed && !gridRowCell.hasUnconfirmedExpenses) {
+            const isSameDay = this.dateService.isSameDaySafe(date, expense.createdAt);
+            if (isSameDay && !expense.confirmed && !gridRowCell.hasUnconfirmedExpenses) {
                 gridRowCell.hasUnconfirmedExpenses = true;
             }
 
-            return sameDay;
+            return isSameDay;
         });
 
-        gridRowCell.balance = this.balances.filter((balance: Balance) => {
-            return this.dateService.isSameDaySafe(date, balance.balanceAt);
-        })[0];
+        // Events
+        gridRowCell.select.subscribe((date: Date) => this.select.emit(date));
     }
 }

@@ -44,7 +44,7 @@ export class SuggestionComponent implements OnInit, OnChanges {
         this.suggestionSubject
             .pipe(
                 distinctUntilChanged(),
-                debounceTime(750)
+                debounceTime(300)
             )
             .subscribe((input: string) => {
                 this.inputChanged.emit(input);

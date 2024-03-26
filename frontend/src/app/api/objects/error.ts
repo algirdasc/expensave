@@ -1,5 +1,5 @@
 import {Expose, Type} from 'class-transformer';
-import {ErrorMessage} from './errormessage.entity';
+import {ErrorMessage} from './error-message.entity';
 
 export class Error {
     @Expose()

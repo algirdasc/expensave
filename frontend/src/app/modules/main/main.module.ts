@@ -23,6 +23,7 @@ import {
     NbUserModule
 } from '@nebular/theme';
 import {AngularResizeEventModule} from 'angular-resize-event';
+import {SwipeDirective} from '../../directives/swipe.directive';
 import {ShortNumberPipe} from '../../pipes/shortnumber.pipe';
 import {UserResolver} from '../../resolvers/user.resolver';
 import {CalendarDayNamesComponent} from './calendar/calendar-day-names/calendar-day-names.component';
@@ -43,6 +44,7 @@ import {
 } from './calendar/calendar-grid-row-cell-mobile/calendar-grid-row-cell-mobile.component';
 import {CalendarGridRowComponent} from './calendar/calendar-grid-row/calendar-grid-row.component';
 import {CalendarGridComponent} from './calendar/calendar-grid/calendar-grid.component';
+import {CalendarMonthModelService} from './calendar/calendar-month-model.service';
 import {CalendarComponent} from './calendar/calendar.component';
 import {CalendarService} from './calendar/calendar.service';
 import {SuggestionComponent} from './components/suggestion/suggestion.component';
@@ -105,6 +107,9 @@ import {ProfileComponent} from './sidebar/profile/profile.component';
 
         // Pipes
         ShortNumberPipe,
+
+        // Directives
+        SwipeDirective,
     ],
     imports: [
         CommonModule,
@@ -133,6 +138,7 @@ import {ProfileComponent} from './sidebar/profile/profile.component';
     providers: [
         MainService,
         CalendarService,
+        CalendarMonthModelService,
 
         // Resolvers
         UserResolver,

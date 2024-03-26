@@ -1,0 +1,22 @@
+@import 'bootstrap/scss/bootstrap-utilities';
+@import '../../../theme';
+
+nb-sidebar.expanded {
+    height: 100%;
+    position: fixed;
+    z-index: 1;
+
+    .main-container {
+        width: 100%;
+    }
+}
+
+@include media-breakpoint-down(md) {
+    nb-sidebar.expanded {
+        width: 100% !important;
+    }
+
+    :host ::ng-deep nb-sidebar > .main-container {
+        width: 100% !important;
+    }
+}

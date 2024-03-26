@@ -6,6 +6,7 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {RouterModule} from '@angular/router';
 import {NB_AUTH_TOKEN_INTERCEPTOR_FILTER, NbAuthJWTInterceptor} from '@nebular/auth';
 import {
+    NbButtonModule,
     NbCardModule,
     NbDatepickerModule,
     NbDialogModule,
@@ -28,7 +29,7 @@ import {UnauthorizedInterceptor} from './interceptors/unauthorized.interceptor';
 import {AuthStrategy} from './modules/auth/auth-strategy';
 import {AuthModule} from './modules/auth/auth.module';
 import {tokenFilter} from './modules/auth/token.filter';
-import {NotFoundComponent} from './modules/notfound.component';
+import {Error404Component} from './modules/error-404.component';
 
 const apiServices = [
     CalendarApiService,
@@ -40,7 +41,7 @@ const apiServices = [
 @NgModule({
     declarations: [
         AppComponent,
-        NotFoundComponent,
+        Error404Component,
     ],
     imports: [
         CommonModule,
@@ -55,6 +56,7 @@ const apiServices = [
         NbDatepickerModule.forRoot(),
         NbLayoutModule,
         NbCardModule,
+        NbButtonModule,
         NbSpinnerModule,
     ],
     providers: [

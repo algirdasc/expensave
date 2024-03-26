@@ -9,13 +9,20 @@
     transition: opacity 1s;
 }
 
-:host.selected .cell {
+:host.selected {
     color: nb-theme(color-info-500);
-    border-right: 1px solid nb-theme(color-info-500);
+
+    .cell {
+        border-right: 1px solid nb-theme(color-info-500);
+    }
 
     .unconfirmed-expenses {
         border-color: nb-theme(color-info-500);
     }
+}
+
+.cell {
+    border-right: 1px solid transparent;
 }
 
 strong {

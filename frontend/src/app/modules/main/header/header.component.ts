@@ -1,6 +1,8 @@
-import {Component, EventEmitter, Input, Output} from '@angular/core';
+import {Component, Input} from '@angular/core';
+import {ActivatedRoute, Router} from '@angular/router';
 import {NbCalendarViewMode, NbDateService, NbSidebarService} from '@nebular/theme';
-import {Calendar} from '../../../api/entities/calendar.entity';
+import {Calendar} from '../../../api/objects/calendar';
+import {DateUtil} from '../../../util/date.util';
 
 @Component({
     templateUrl: 'header.component.html',
@@ -9,41 +11,29 @@ import {Calendar} from '../../../api/entities/calendar.entity';
 })
 export class HeaderComponent {
     @Input() public calendar: Calendar;
-    @Input() public selectedValue: Date;
-    @Input() public monthBalance: number = 0;
-    @Output() public selectedValueChange: EventEmitter<Date> = new EventEmitter<Date>();
+    @Input() public visibleDateBalance: number;
+    @Input() public visibleDate: Date;
+
     public viewMode: typeof NbCalendarViewMode = NbCalendarViewMode;
-    private _activeViewMode: NbCalendarViewMode = NbCalendarViewMode.DATE;
+    public activeViewMode: NbCalendarViewMode = NbCalendarViewMode.DATE;
 
     constructor(
         private readonly dateService: NbDateService<Date>,
         private readonly sidebarService: NbSidebarService,
+        private readonly router: Router,
+        private readonly activatedRoute: ActivatedRoute,
     ) { }
-
-    get activeViewMode(): NbCalendarViewMode {
-        return this._activeViewMode;
-    }
-
-    set activeViewMode(value: NbCalendarViewMode) {
-        this._activeViewMode = value;
-
-        if (this._activeViewMode === this.viewMode.DATE) {
-            this.selectedValueChange.emit(this.selectedValue);
-        }
-    }
 
     public toggleSidebar(): void {
         this.sidebarService.toggle(false, 'menu-sidebar');
     }
 
     public changeViewMode(): void {
-        if (this._activeViewMode === NbCalendarViewMode.DATE) {
-            this._activeViewMode = NbCalendarViewMode.YEAR;
-
-            return;
+        if (this.activeViewMode === NbCalendarViewMode.DATE) {
+            this.activeViewMode = NbCalendarViewMode.YEAR;
+        } else {
+            this.activeViewMode = NbCalendarViewMode.DATE;
         }
-
-        this._activeViewMode = NbCalendarViewMode.DATE;
     }
 
     public navigatePrev(): void {
@@ -54,13 +44,20 @@ export class HeaderComponent {
         this.changeVisibleMonth(1);
     }
 
+    public navigateToDate(date?: Date): void {
+        this.router.navigate(['.'], {
+            relativeTo: this.activatedRoute,
+            queryParams: { date: this.dateService.format(date, DateUtil.DATE_MONTH_DAY_FORMAT) },
+            queryParamsHandling: 'merge',
+            replaceUrl: true,
+        })
+    }
+
     public navigateToday(): void {
-        this.selectedValue = new Date();
-        this.selectedValueChange.emit(this.selectedValue);
+        this.navigateToDate(new Date());
     }
 
     private changeVisibleMonth(direction: number): void {
-        this.selectedValue = this.dateService.addMonth(this.selectedValue, direction);
-        this.selectedValueChange.emit(this.selectedValue);
+        this.navigateToDate(this.dateService.addMonth(this.visibleDate, direction));
     }
 }

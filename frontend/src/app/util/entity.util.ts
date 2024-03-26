@@ -1,4 +1,4 @@
-import {EntityInterface} from '../api/entities/entity.interface';
+import {EntityInterface} from '../interfaces/entity.interface';
 
 // TODO: deprecated
 export class EntityUtil {

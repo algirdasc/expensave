@@ -4,7 +4,7 @@ import {Injectable, Type} from '@angular/core';
 import {plainToInstance} from 'class-transformer';
 import {Observable, Subject} from 'rxjs';
 import {finalize, map} from 'rxjs/operators';
-import {EntityInterface} from './entities/entity.interface';
+import {EntityInterface} from '../interfaces/entity.interface';
 
 @Injectable()
 export abstract class AbstractApiService<T extends EntityInterface> {

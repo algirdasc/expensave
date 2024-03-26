@@ -1,11 +1,11 @@
 import {Component, OnInit} from '@angular/core';
 import {NbDialogRef} from '@nebular/theme';
 import {CategoryApiService} from '../../../../api/category.api.service';
-import {Category} from '../../../../api/entities/category.entity';
+import {Category} from '../../../../api/objects/category';
 
 @Component({
     templateUrl: 'categories-dialog.component.html',
-    styleUrls: ['categories-dialog.component.scss'],
+    styleUrl: 'categories-dialog.component.scss',
 })
 export class CategoriesDialogComponent implements OnInit {
     public isBusy: boolean = true;

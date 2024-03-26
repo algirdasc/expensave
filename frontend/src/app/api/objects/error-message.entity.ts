@@ -5,5 +5,5 @@ export class ErrorMessage {
   public message: string;
 
   @Expose()
-  public propertyPath: string|null;
+  public propertyPath?: string;
 }

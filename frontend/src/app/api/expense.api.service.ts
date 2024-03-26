@@ -1,8 +1,8 @@
 import {Injectable, Type} from '@angular/core';
 import {Observable} from 'rxjs';
+import {EntityInterface} from '../interfaces/entity.interface';
 import {AbstractApiService} from './abstract.api.service';
-import {EntityInterface} from './entities/entity.interface';
-import {Expense} from './entities/expense.entity';
+import {Expense} from './objects/expense';
 import {ExpenseSuggestResponse} from './response/expense-suggest.response';
 
 @Injectable()

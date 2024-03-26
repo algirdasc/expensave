@@ -7,19 +7,6 @@
     </nb-card-header>
     <nb-list>
         <nb-list-item
-            class="actionable"
-            *ngFor="let category of categories"
-            [class.active]="isActive(category)"
-            [style.background-color]="isActive(category) ? category.color : ''"
-            (click)="categoryClick.emit(category)">
-            <nb-icon
-                icon="radio-button-on"
-                class="flex-shrink-0 me-2"
-                [style.color]="isActive(category) ? '' : category.color">
-            </nb-icon>
-            <div class="text-truncate">{{ category.name }}</div>
-        </nb-list-item>
-        <nb-list-item
             *ngIf="showEmptyCategory"
             class="actionable"
             [class.active]="selectedCategory === undefined"
@@ -31,6 +18,19 @@
                 [style.color]="selectedCategory === undefined ? '' : UNCATEGORIZED_COLOR">
             </nb-icon>
             <div class="text-truncate">Uncategorized</div>
+        </nb-list-item>
+        <nb-list-item
+            class="actionable"
+            *ngFor="let category of categories"
+            [class.active]="isActive(category)"
+            [style.background-color]="isActive(category) ? category.color : ''"
+            (click)="categoryClick.emit(category)">
+            <nb-icon
+                icon="radio-button-on"
+                class="flex-shrink-0 me-2"
+                [style.color]="isActive(category) ? '' : category.color">
+            </nb-icon>
+            <div class="text-truncate">{{ category.name }}</div>
         </nb-list-item>
     </nb-list>
     <nb-card-footer class="text-right">

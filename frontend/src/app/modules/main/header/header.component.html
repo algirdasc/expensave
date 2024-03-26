@@ -8,8 +8,8 @@
             <strong class="d-block">{{ calendar?.name }}</strong>
             <small class="d-block text-hint">
                 <span title="Current balance">{{ calendar?.balance | shortNumber }}</span>
-                <span *ngIf="monthBalance"> |
-                    <span title="This months balance" [class.text-success]="monthBalance > 0" [class.text-danger]="monthBalance < 0">{{ monthBalance | shortNumber }}</span>
+                <span *ngIf="visibleDateBalance"> |
+                    <span title="This months balance" [class.text-success]="visibleDateBalance > 0" [class.text-danger]="visibleDateBalance < 0">{{ visibleDateBalance | shortNumber }}</span>
                 </span>
             </small>
         </div>
@@ -18,8 +18,7 @@
     <div class="d-flex text-right">
 
         <nb-calendar-view-mode
-            class="d-none d-sm-block"
-            [date]="selectedValue"
+            [date]="visibleDate"
             [viewMode]="activeViewMode"
             [nbPopover]="templateRef"
             nbPopoverTrigger="hover"
@@ -31,19 +30,19 @@
             <div [ngSwitch]="activeViewMode">
                 <nb-calendar-year-picker
                     *ngSwitchCase="viewMode.YEAR"
-                    [year]="selectedValue"
-                    (yearChange)="selectedValue = $event; activeViewMode = viewMode.MONTH">
+                    [year]="visibleDate"
+                    (yearChange)="visibleDate = $event; activeViewMode = viewMode.MONTH">
                 </nb-calendar-year-picker>
 
                 <nb-calendar-month-picker
                     *ngSwitchCase="viewMode.MONTH"
-                    [month]="selectedValue"
-                    (monthChange)="selectedValue = $event; activeViewMode = viewMode.DATE">
+                    [month]="visibleDate"
+                    (monthChange)="navigateToDate($event); activeViewMode = viewMode.DATE">
                 </nb-calendar-month-picker>
             </div>
         </ng-template>
 
-        <nb-button-group status="primary" class="mx-3">
+        <nb-button-group status="primary" class="d-none d-sm-block mx-3">
             <button nbButton (click)="navigatePrev()">
                 <nb-icon icon="arrow-back-outline"></nb-icon>
             </button>

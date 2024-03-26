@@ -17,7 +17,6 @@ export class AppInitializer {
                 tap((config: ConfigInterface) => {
                     APP_CONFIG.apiUrl = config.apiUrl;
                     APP_CONFIG.locale = config.locale;
-                    APP_CONFIG.currencyCode = config.currencyCode;
 
                     import(
                         /* webpackInclude: /\.mjs$/ */
@@ -34,12 +33,11 @@ export class AppInitializer {
     }
 
     public getCurrencyCode(): string {
-        return APP_CONFIG.currencyCode ?? 'EUR';
+        return 'EUR';
     }
 }
 
 export const APP_CONFIG: ConfigInterface = {
     apiUrl: '',
     locale: '',
-    currencyCode: ''
 };

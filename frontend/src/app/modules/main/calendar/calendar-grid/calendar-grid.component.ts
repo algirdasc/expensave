@@ -1,8 +1,8 @@
 import {Component, Input, Type} from '@angular/core';
 import {NbCalendarPickerComponent} from '@nebular/theme';
-import {Calendar} from '../../../../api/entities/calendar.entity';
-import {Expense} from '../../../../api/entities/expense.entity';
-import {Balance} from '../../../../api/response/calendar-expense-list.response';
+import {Balance} from '../../../../api/objects/balance';
+import {Calendar} from '../../../../api/objects/calendar';
+import {Expense} from '../../../../api/objects/expense';
 import {CalendarCellInterface} from '../interfaces/calendar-cell.interface';
 
 @Component({
@@ -11,9 +11,9 @@ import {CalendarCellInterface} from '../interfaces/calendar-cell.interface';
     templateUrl: 'calendar-grid.component.html'
 })
 export class CalendarGridComponent extends NbCalendarPickerComponent<Date, Date> {
-    @Input() public expenses: Expense[];
-    @Input() public balances: Balance[];
-    @Input() public calendar: Calendar;
+    @Input({required: true}) public expenses: Expense[];
+    @Input({required: true}) public balances: Balance[];
+    @Input({required: true}) public calendar: Calendar;
 
     public cellComponent: Type<CalendarCellInterface>;
 

@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {NbDialogRef} from '@nebular/theme';
-import {User} from '../../../../api/entities/user.entity';
+import {User} from '../../../../api/objects/user';
 import {UserApiService} from '../../../../api/user.api.service';
 
 @Component({

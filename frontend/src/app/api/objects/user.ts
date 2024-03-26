@@ -1,7 +1,7 @@
 import {Expose, Type} from 'class-transformer';
 import {sha256} from 'js-sha256';
-import {Calendar} from './calendar.entity';
-import {EntityInterface} from './entity.interface';
+import {EntityInterface} from '../../interfaces/entity.interface';
+import {Calendar} from './calendar';
 
 export class User implements EntityInterface {
   @Expose()

@@ -1,5 +1,5 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
-import {Calendar} from '../../../../../api/entities/calendar.entity';
+import {Calendar} from '../../../../../api/objects/calendar';
 
 @Component({
     selector: 'app-calendar-list',
