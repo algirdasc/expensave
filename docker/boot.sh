@@ -12,6 +12,8 @@ if [[ -z "${DATABASE_URL}" ]]; then
   fi
 fi
 
+cron
+
 php bin/console app:secrets:regenerate .env
 
 composer dump-env prod

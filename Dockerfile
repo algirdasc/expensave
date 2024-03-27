@@ -13,7 +13,7 @@ RUN apt update && \
     nginx \
     mariadb-server-10.6 \
     cron \
-    supervisor \
+    supervisor
 RUN add-apt-repository ppa:ondrej/php
 RUN apt install -y \
     php${PHP_VERSION}-fpm \
