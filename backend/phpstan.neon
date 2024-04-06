@@ -6,4 +6,6 @@ parameters:
         containerXmlPath: var/cache/dev/App_KernelDevDebugContainer.xml
     scanDirectories:
         - var/cache/dev/Symfony/Config
+        - var/cache/test/Symfony/Config
+        - var/cache/prod/Symfony/Config
     checkGenericClassInNonGenericObjectType: false
