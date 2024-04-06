@@ -12,11 +12,11 @@ jobs:
           relative_dir: ./backend
           security_analysis: true
           composer_ignore_platform_reqs: true
-          report_file: results.sarif
-      - name: Upload Security Analysis results to GitHub
-        uses: github/codeql-action/upload-sarif@v2
-        with:
-          sarif_file: results.sarif
+#          report_file: results.sarif
+#      - name: Upload Security Analysis results to GitHub
+#        uses: github/codeql-action/upload-sarif@v2
+#        with:
+#          sarif_file: results.sarif
 
   phpcs:
     runs-on: ubuntu-latest
@@ -40,5 +40,5 @@ jobs:
       - uses: actions/checkout@v3
       - uses: php-actions/composer@v6
         with:
-          container_workdir: ./backend
+          container_workdir: /home/runner/work/expensave/expensave/backend
       - run: vendor/bin/phpunit
