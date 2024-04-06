@@ -20,6 +20,7 @@ jobs:
           mv backend/* .
           rm -rf backend/
           ls -lah
+          pwd
       - name: Composer
         uses: php-actions/composer@v6
         with:
