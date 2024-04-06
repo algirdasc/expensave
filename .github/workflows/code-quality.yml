@@ -66,4 +66,4 @@ jobs:
       - name: Packages Install
         run: npm ci
       - name: Run ESLint
-        run: npm run analyse
+        run: npm run analyze
