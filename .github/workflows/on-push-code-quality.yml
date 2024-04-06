@@ -16,6 +16,7 @@ jobs:
           sparse-checkout-cone-mode: false
       - name: Move backend to root
         run: |
+          shopt -s dotglob
           mv backend/* ./
           rm -rf backend/
       - name: Composer
