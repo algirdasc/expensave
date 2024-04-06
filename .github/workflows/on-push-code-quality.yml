@@ -22,7 +22,7 @@ jobs:
         uses: php-actions/composer@v6
         with:
           args: --profile --ignore-platform-reqs
-          working_dir: ./
+          container_workdir: ./
       - name: Run PHPStan
         uses: php-actions/phpstan@v3
 
