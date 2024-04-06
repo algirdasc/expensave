@@ -40,5 +40,9 @@ jobs:
       - uses: actions/checkout@v4
       - uses: php-actions/composer@v6
         with:
+          args: --profile --ignore-platform-reqs
           working_dir: ./backend
-      - run: vendor/bin/phpunit
+      - uses: php-actions/phpunit@v3
+        with:
+          php_extensions: "xdebug"
+#          coverage_clover: "coverage/clover.xml"
