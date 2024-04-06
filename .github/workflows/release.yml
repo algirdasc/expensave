@@ -9,7 +9,9 @@ jobs:
     uses: ./.github/workflows/code-quality.yml
   push-to-registry:
     name: Build & push image to Docker Hub
-    needs: code-quality
+    needs:
+      - backend-code-quality
+      - frontend-code-quality
     runs-on: ubuntu-latest
     steps:
       - name: Check out repo

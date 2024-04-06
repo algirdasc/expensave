@@ -9,8 +9,8 @@ env:
   APP_ENV: dev
 
 jobs:
-  code-quality:
-    name: Code quality checks
+  backend-code-quality:
+    name: Backend code quality checks
     runs-on: ubuntu-latest
     steps:
       - name: Code checkout
@@ -23,7 +23,7 @@ jobs:
           shopt -s dotglob
           mv backend/* ./
           rm -rf backend/
-      - name: Composer
+      - name: Packages install
         uses: php-actions/composer@v6
         with:
           args: --profile --ignore-platform-reqs
@@ -39,3 +39,21 @@ jobs:
         with:
           php_extensions: "xdebug"
 #          coverage_clover: "coverage/clover.xml"
+
+  frontend-code-quality:
+    name: Frontend code quality checks
+    runs-on: ubuntu-latest
+    steps:
+      - name: Code checkout
+        uses: actions/checkout@v4
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 20
+      - name: Packages Install
+        run: npm ci
+      - name: Run ESLint
+        uses: sibiraj-s/action-eslint@v3
+        with:
+          extensions: 'ts,tsx'
+          annotations: true
