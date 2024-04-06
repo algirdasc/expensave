@@ -6,7 +6,7 @@ on:
 
 jobs:
   psalm:
-    name: PHPStan check
+    name: Code quality checks
     runs-on: ubuntu-latest
     steps:
       - name: Code checkout
@@ -19,46 +19,20 @@ jobs:
           shopt -s dotglob
           mv backend/* ./
           rm -rf backend/
+          mkdir -p var/cache
       - name: Composer
         uses: php-actions/composer@v6
         with:
           args: --profile --ignore-platform-reqs
       - name: Run PHPStan
         uses: php-actions/phpstan@v3
-
-  phpcs:
-    name: PHPCS check
-    runs-on: ubuntu-latest
-    steps:
-      - name: Code checkout
-        uses: actions/checkout@v4
-      - name: Composer
-        uses: php-actions/composer@v6
-        with:
-          args: --profile --ignore-platform-reqs
-          working_dir: ./backend
       - name: Run PHPCS
         uses: php-actions/phpcs@v1
         with:
-          basepath: ./backend/
-          path: ./backend/src/
+          path: ./src/
           args: -d memory_limit=-1
- 
-  phpunit:
-    name: PHPUnit tests
-    runs-on: ubuntu-latest
-    steps:
-      - name: Code checkout
-        uses: actions/checkout@v4
-      - name: Composer
-        uses: php-actions/composer@v6
-        with:
-          args: --profile --ignore-platform-reqs
-          working_dir: ./backend
       - name: Run PHPUnit
         uses: php-actions/phpunit@v3
         with:
           php_extensions: "xdebug"
-          configuration: ./backend/phpunit.xml.dist
-          args: ./backend
 #          coverage_clover: "coverage/clover.xml"
