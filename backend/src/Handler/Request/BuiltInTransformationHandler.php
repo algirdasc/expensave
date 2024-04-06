@@ -24,6 +24,7 @@ readonly class BuiltInTransformationHandler implements TransformationHandlerInte
 
         /** @var ReflectionNamedType $propertyType */
         $propertyType = $property->getType();
+
         settype($value, $propertyType->getName());
 
         return $value;
@@ -31,6 +32,6 @@ readonly class BuiltInTransformationHandler implements TransformationHandlerInte
 
     public static function getDefaultPriority(): int
     {
-        return -256;
+        return PHP_INT_MIN;
     }
 }
