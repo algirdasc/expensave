@@ -17,26 +17,28 @@ as well as improve motivation and helps me understand, that this project is usef
 ## Desktop version
 
 <a href="https://raw.githubusercontent.com/algirdasc/expensave/main/docs/screenshots/desktop-calendar.png">
-    <img alt="Calendar view" src="https://raw.githubusercontent.com/algirdasc/expensave/main/docs/screenshots/desktop-calendar.png" style="width: 32%" />
+    <img alt="Calendar view" src="https://raw.githubusercontent.com/algirdasc/expensave/main/docs/screenshots/desktop-calendar.png" />
 </a>
 <a href="https://raw.githubusercontent.com/algirdasc/expensave/main/docs/screenshots/desktop-expense-dialog.png">
-    <img alt="Expense dialog" src="https://raw.githubusercontent.com/algirdasc/expensave/main/docs/screenshots/desktop-expense-dialog.png" style="width: 32%" />
+    <img alt="Expense dialog" src="https://raw.githubusercontent.com/algirdasc/expensave/main/docs/screenshots/desktop-expense-dialog.png" style="width: 49%; float: left;" />
 </a>
 <a href="https://raw.githubusercontent.com/algirdasc/expensave/main/docs/screenshots/desktop-sidebar.png">
-    <img alt="Calendar list" src="https://raw.githubusercontent.com/algirdasc/expensave/main/docs/screenshots/desktop-sidebar.png" style="width: 32%" />
+    <img alt="Calendar list" src="https://raw.githubusercontent.com/algirdasc/expensave/main/docs/screenshots/desktop-sidebar.png" style="width: 49%; float: right;" />
 </a>
+<div style="clear: both;"></div>
 
 ## Mobile version
 
 <a href="https://raw.githubusercontent.com/algirdasc/expensave/main/docs/screenshots/mobile-calendar.png">
-    <img alt="Mobile version calendar view" src="https://raw.githubusercontent.com/algirdasc/expensave/main/docs/screenshots/mobile-calendar.png" style="width: 32%" />
+    <img alt="Mobile version calendar view" src="https://raw.githubusercontent.com/algirdasc/expensave/main/docs/screenshots/mobile-calendar.png" style="width: 33%; float: left;" />
 </a>
 <a href="https://raw.githubusercontent.com/algirdasc/expensave/main/docs/screenshots/mobile-expense-dialog.png">
-    <img alt="Mobile version expense dialog" src="https://raw.githubusercontent.com/algirdasc/expensave/main/docs/screenshots/mobile-expense-dialog.png" style="width: 32%" />
+    <img alt="Mobile version expense dialog" src="https://raw.githubusercontent.com/algirdasc/expensave/main/docs/screenshots/mobile-expense-dialog.png" style="width: 33%; float: left;" />
 </a>
 <a href="https://raw.githubusercontent.com/algirdasc/expensave/main/docs/screenshots/mobile-sidebar.png">
-    <img alt="Mobile version calendar list" src="https://raw.githubusercontent.com/algirdasc/expensave/main/docs/screenshots/mobile-sidebar.png" style="width: 32%" />
+    <img alt="Mobile version calendar list" src="https://raw.githubusercontent.com/algirdasc/expensave/main/docs/screenshots/mobile-sidebar.png" style="width: 33%; float: left;" />
 </a>
+<div style="clear: both;"></div>
 
 # Features
 
@@ -83,10 +85,9 @@ See [USING_MOBILE_VERSION.md](docs/USING_MOBILE_VERSION.md).
 Contributions from the community are more than welcomed! If you'd like to contribute to Expensave, please fork the repository and submit a pull request with your changes. Before submitting a pull request, make sure to:
 
 - Follow the [contribution guidelines](docs/CONTRIBUTING.md).
+- Follow coding standards: [Symfony](https://symfony.com/doc/current/contributing/code/standards.html) and [Angular](https://angular.io/guide/styleguide).
 - Write clear and concise commit messages.
 - Test your changes thoroughly.
-- Coding standard checks & tests must succeed.
-- Code must follow coding standards: [Symfony](https://symfony.com/doc/current/contributing/code/standards.html) and [Angular](https://angular.io/guide/styleguide). 
 
 # Support
 
