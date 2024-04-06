@@ -12,7 +12,8 @@ as well as improve motivation and helps me understand, that this project is usef
 
 # Screenshots
 
-![App Screenshot](https://via.placeholder.com/468x300?text=App+Screenshot+Here)
+![Main view](https://raw.githubusercontent.com/algirdasc/expensave/main/docs/screenshots/calendar.png)
+![Expense dialog](https://raw.githubusercontent.com/algirdasc/expensave/main/docs/screenshots/expense_dialog.png)
 
 # Features
 
