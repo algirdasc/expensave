@@ -14,8 +14,29 @@ as well as improve motivation and helps me understand, that this project is usef
 
 # Screenshots
 
-![Main view](https://raw.githubusercontent.com/algirdasc/expensave/main/docs/screenshots/calendar.png)
-![Expense dialog](https://raw.githubusercontent.com/algirdasc/expensave/main/docs/screenshots/expense_dialog.png)
+## Desktop version
+
+<a href="https://raw.githubusercontent.com/algirdasc/expensave/main/docs/screenshots/desktop-calendar.png">
+    <img alt="Calendar view" src="https://raw.githubusercontent.com/algirdasc/expensave/main/docs/screenshots/desktop-calendar.png" style="width: 32%" />
+</a>
+<a href="https://raw.githubusercontent.com/algirdasc/expensave/main/docs/screenshots/desktop-expense-dialog.png">
+    <img alt="Expense dialog" src="https://raw.githubusercontent.com/algirdasc/expensave/main/docs/screenshots/desktop-expense-dialog.png" style="width: 32%" />
+</a>
+<a href="https://raw.githubusercontent.com/algirdasc/expensave/main/docs/screenshots/desktop-sidebar.png">
+    <img alt="Calendar list" src="https://raw.githubusercontent.com/algirdasc/expensave/main/docs/screenshots/desktop-sidebar.png" style="width: 32%" />
+</a>
+
+## Mobile version
+
+<a href="https://raw.githubusercontent.com/algirdasc/expensave/main/docs/screenshots/mobile-calendar.png">
+    <img alt="Mobile version calendar view" src="https://raw.githubusercontent.com/algirdasc/expensave/main/docs/screenshots/mobile-calendar.png" style="width: 32%" />
+</a>
+<a href="https://raw.githubusercontent.com/algirdasc/expensave/main/docs/screenshots/mobile-expense-dialog.png">
+    <img alt="Mobile version expense dialog" src="https://raw.githubusercontent.com/algirdasc/expensave/main/docs/screenshots/mobile-expense-dialog.png" style="width: 32%" />
+</a>
+<a href="https://raw.githubusercontent.com/algirdasc/expensave/main/docs/screenshots/mobile-sidebar.png">
+    <img alt="Mobile version calendar list" src="https://raw.githubusercontent.com/algirdasc/expensave/main/docs/screenshots/mobile-sidebar.png" style="width: 32%" />
+</a>
 
 # Features
 
