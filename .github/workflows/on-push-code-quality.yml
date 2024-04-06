@@ -6,7 +6,7 @@ jobs:
   psalm:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
       - uses: docker://ghcr.io/psalm/psalm-github-actions
         with:
           relative_dir: ./backend
@@ -21,7 +21,7 @@ jobs:
   phpcs:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 0 # important!
       - name: Install PHP_CodeSniffer
@@ -37,8 +37,8 @@ jobs:
   phpunit:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - uses: php-actions/composer@v6
         with:
-          container_workdir: /home/runner/work/expensave/expensave/backend
+          workdir: ./backend
       - run: vendor/bin/phpunit
