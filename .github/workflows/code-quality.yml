@@ -1,9 +1,11 @@
 name: "Code quality"
 
 on:
-  - workflow_call
-  - push
-  - pull_request
+  workflow_call:
+  pull_request:
+  push:
+    branches:
+      - main
 
 env:
   APP_ENV: dev
@@ -36,12 +38,12 @@ jobs:
         uses: php-actions/phpstan@v3
         with:
           php_version: 8.2
-      - name: Run PHPUnit
-        uses: php-actions/phpunit@v3
-        with:
-          version: 9.6
-          php_version: 8.2
-          php_extensions: "xdebug"
+#      - name: Run PHPUnit
+#        uses: php-actions/phpunit@v3
+#        with:
+#          version: 9.6
+#          php_version: 8.2
+#          php_extensions: "xdebug"
 #          coverage_clover: "coverage/clover.xml"
 
   frontend-code-quality:

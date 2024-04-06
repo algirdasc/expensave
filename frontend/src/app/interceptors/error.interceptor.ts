@@ -7,7 +7,7 @@ import {catchError} from 'rxjs/operators';
 import {Error} from '../api/objects/error';
 
 const REQUEST_VALIDATION_EXCEPTION: string = 'App\\Exception\\RequestValidationException';
-const AUTH_EXCEPTION: string = 'Lexik\\Bundle\\JWTAuthenticationBundle\\Exception\\MissingTokenException';
+// const AUTH_EXCEPTION: string = 'Lexik\\Bundle\\JWTAuthenticationBundle\\Exception\\MissingTokenException';
 
 @Injectable()
 export class ErrorInterceptor implements HttpInterceptor {

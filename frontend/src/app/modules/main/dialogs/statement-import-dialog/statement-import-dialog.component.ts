@@ -9,7 +9,7 @@ export class StatementImportDialogComponent {
     @Input() public calendar: Calendar;
     public isBusy: boolean = false;
 
-    public onSubmit(event): void
+    public onSubmit(): void
     {
         // TODO
     }

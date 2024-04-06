@@ -6,10 +6,10 @@ import {APP_CONFIG} from '../app.initializer';
     name: 'shortNumber'
 })
 export class ShortNumberPipe implements PipeTransform {
-    public transform(input: any, ...args: any[]): string {
+    public transform(input: number, ...args: string[]): string {
 
         if (isNaN(input) || input === null) {
-            return input;
+            return '';
         }
 
         let abs: number = Math.abs(input);

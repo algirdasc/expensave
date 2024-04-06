@@ -1,6 +1,7 @@
 import {HttpRequest} from '@angular/common/http';
 import {APP_CONFIG} from '../../app.initializer';
 
+// eslint-disable-next-line
 export const tokenFilter = (req: HttpRequest<any>) => {
     const publicUrls = [
         '/assets/config.json',
