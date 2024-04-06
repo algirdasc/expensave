@@ -43,7 +43,7 @@ See [USING_MOBILE_VERSION.md](docs/USING_MOBILE_VERSION.md).
 
 You should set following environment variables:
 
-- `TZ` - Your time zone. Full list can be found [here](https://www.php.net/manual/en/timezones.europe.php).
+- `TZ` - Your time zone. Full list can be found [here](https://www.php.net/manual/en/timezones.php).
 - `CORS_ALLOW_ORIGIN` - Allowed [CORS](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS) domains in regex notation. Default is `.*` - all domain names are allowed.
 - `DATABASE_URL` - In case you want to use external MySQL/MariaDB, you can provide custom DSN for DB connection.
 
