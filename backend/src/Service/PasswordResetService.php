@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Service\Password;
+namespace App\Service;
 
 use App\Repository\UserRepository;
 use Symfony\Component\String\ByteString;
