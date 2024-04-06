@@ -29,7 +29,6 @@ jobs:
       - uses: php-actions/phpcs@v1
         with:
           path: ./backend
-          standard: phpcs.xml
 
   phpunit:
     runs-on: ubuntu-latest
