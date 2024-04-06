@@ -1,10 +1,10 @@
 import {AfterViewInit, Component, ElementRef, ViewChild} from '@angular/core';
 import {NbDialogRef, NbDialogService} from '@nebular/theme';
 import {Subscription} from 'rxjs';
-import {Calendar} from '../../../../api/entities/calendar.entity';
-import {Category} from '../../../../api/entities/category.entity';
-import {Expense} from '../../../../api/entities/expense.entity';
 import {ExpenseApiService} from '../../../../api/expense.api.service';
+import {Calendar} from '../../../../api/objects/calendar';
+import {Category} from '../../../../api/objects/category';
+import {Expense} from '../../../../api/objects/expense';
 import {ExpenseSuggestResponse} from '../../../../api/response/expense-suggest.response';
 import {UNCATEGORIZED_COLOR} from '../../../../util/color.util';
 import {DateUtil} from '../../../../util/date.util';

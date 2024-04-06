@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {NbDialogRef} from '@nebular/theme';
 import {CalendarApiService} from '../../../../api/calendar.api.service';
-import {Calendar} from '../../../../api/entities/calendar.entity';
+import {Calendar} from '../../../../api/objects/calendar';
 
 @Component({
     templateUrl: 'calendars-dialog.component.html',
@@ -13,7 +13,7 @@ export class CalendarsDialogComponent implements OnInit {
     public selectedCalendar: Calendar;
     public editableCalendar: Calendar;
 
-    constructor(
+    public constructor(
         public readonly dialogRef: NbDialogRef<CalendarsDialogComponent>,
         private readonly calendarApiService: CalendarApiService
     ) {

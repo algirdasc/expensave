@@ -1,6 +1,7 @@
 import {Expose, Type} from 'class-transformer';
-import {Calendar} from '../entities/calendar.entity';
-import {Expense} from '../entities/expense.entity';
+import {Balance} from '../objects/balance';
+import {Calendar} from '../objects/calendar';
+import {Expense} from '../objects/expense';
 
 export class CalendarExpenseListResponse  {
     @Expose()
@@ -16,14 +17,3 @@ export class CalendarExpenseListResponse  {
     public calendar: Calendar;
 }
 
-export class Balance {
-    @Expose()
-    @Type(() => Date)
-    public balanceAt: Date;
-
-    @Expose()
-    public balance: number;
-
-    @Expose()
-    public expenses: number;
-}

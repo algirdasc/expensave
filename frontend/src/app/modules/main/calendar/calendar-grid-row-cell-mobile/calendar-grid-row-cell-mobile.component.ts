@@ -1,8 +1,8 @@
 import {Component} from '@angular/core';
 import {NbCalendarDayCellComponent, NbDateService} from '@nebular/theme';
-import {Calendar} from 'src/app/api/entities/calendar.entity';
-import {Expense} from 'src/app/api/entities/expense.entity';
-import {Balance} from 'src/app/api/response/calendar-expense-list.response';
+import {Balance} from '../../../../api/objects/balance';
+import {Calendar} from '../../../../api/objects/calendar';
+import {Expense} from '../../../../api/objects/expense';
 import {CalendarCellInterface} from '../interfaces/calendar-cell.interface';
 
 @Component({

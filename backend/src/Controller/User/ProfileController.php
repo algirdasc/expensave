@@ -8,7 +8,6 @@ use App\Const\ContextGroup\UserContextGroupConst;
 use App\Controller\AbstractApiController;
 use App\Entity\User;
 use App\Repository\UserRepository;
-use App\Response\EntityResponse;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -34,11 +33,19 @@ class ProfileController extends AbstractApiController
         return $this->respond($user, groups: UserContextGroupConst::DETAILS);
     }
 
-    #[Route('/profile', methods: Request::METHOD_PUT)]
-    public function update(#[CurrentUser] User $user): JsonResponse
+    #[Route('/change-password', methods: Request::METHOD_PUT)]
+    public function changePassword(#[CurrentUser] User $user): JsonResponse
     {
         $this->userRepository->save($user);
 
         return $this->respond($user, groups: UserContextGroupConst::DETAILS);
+    }
+
+    #[Route('/search', methods: Request::METHOD_POST)]
+    public function search(#[CurrentUser] User $user): JsonResponse
+    {
+        $users = $this->userRepository->findAll();
+
+        return $this->respond($this->userRepository->findAll());
     }
 }

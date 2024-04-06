@@ -1,8 +1,8 @@
 import {Component, EventEmitter, Input, OnChanges, Output, SimpleChanges, Type} from '@angular/core';
 import {NbCalendarCell, NbCalendarDayPickerComponent, NbCalendarMonthModelService,} from '@nebular/theme';
-import {Calendar} from '../../../api/entities/calendar.entity';
-import {Expense} from '../../../api/entities/expense.entity';
-import {Balance} from '../../../api/response/calendar-expense-list.response';
+import {Balance} from '../../../api/objects/balance';
+import {Calendar} from '../../../api/objects/calendar';
+import {Expense} from '../../../api/objects/expense';
 import {DateUtil} from '../../../util/date.util';
 import {
     CalendarGridRowCellDesktopComponent
@@ -10,7 +10,7 @@ import {
 import {
     CalendarGridRowCellMobileComponent
 } from './calendar-grid-row-cell-mobile/calendar-grid-row-cell-mobile.component';
-import {DateRangeChangeEvent} from './events/date-range-change.event';
+import {CalendarMonthModelService} from './calendar-month-model.service';
 
 @Component({
     styleUrls: ['calendar.component.scss'],
@@ -18,41 +18,45 @@ import {DateRangeChangeEvent} from './events/date-range-change.event';
     selector: 'app-calendar'
 })
 export class CalendarComponent extends NbCalendarDayPickerComponent<Date, Date> implements OnChanges {
-    @Input() public expenses: Expense[];
-    @Input() public balances: Balance[];
-    @Input() public calendar: Calendar;
     @Input() public isMobile: boolean;
-    @Input() public selectedValue: Date;
-    @Output() public dateRangeChange: EventEmitter<DateRangeChangeEvent> = new EventEmitter<DateRangeChangeEvent>();
+    @Input({required: true}) public expenses: Expense[];
+    @Input({required: true}) public balances: Balance[];
+    @Input({required: true}) public calendar: Calendar;
+    @Output() public calendarChange: EventEmitter<Calendar> = new EventEmitter<Calendar>();
+    @Output() public rangeChange: EventEmitter<{ dateFrom: Date, dateTo: Date }> = new EventEmitter<{dateFrom: Date; dateTo: Date}>();
+    public selectedDate: Date;
     public cellComponent: Type<NbCalendarCell<Date, Date>> = CalendarGridRowCellDesktopComponent;
 
     constructor(
-        private readonly monthModelService: NbCalendarMonthModelService<Date>,
+        private readonly unusedMonthModelService: NbCalendarMonthModelService<Date>,
+        private readonly monthModelService: CalendarMonthModelService<Date>,
     ) {
-        super(monthModelService);
+        super(unusedMonthModelService);
     }
 
     public onSelect(day: Date) {
         super.onSelect(day);
-        this.selectedValue = day;
+        this.selectedDate = day;
     }
 
     public ngOnChanges(changes: SimpleChanges): void {
+        console.log(changes);
         if (changes?.visibleDate || changes?.boundingMonths) {
             // TODO: resolve first day of week from locale
             this.weeks = this.monthModelService.createDaysGrid(this.visibleDate, this.boundingMonths);
 
-            const dateRangeChangeEvent = new DateRangeChangeEvent();
-            const lastWeek = this.weeks.length - 1;
+            const dateFrom = this.weeks[0][0];
+            const dateTo = DateUtil.endOfTheDay(this.weeks[this.weeks.length - 1][6]);
 
-            dateRangeChangeEvent.fromDate = this.weeks[0][0];
-            dateRangeChangeEvent.toDate = DateUtil.endOfTheDay(this.weeks[lastWeek][6]);
-
-            this.dateRangeChange.emit(dateRangeChangeEvent);
+            this.rangeChange.emit({dateFrom: dateFrom, dateTo: dateTo});
         }
 
         if (changes?.isMobile) {
             this.cellComponent = this.isMobile ? CalendarGridRowCellMobileComponent : CalendarGridRowCellDesktopComponent;
+        }
+
+        if (changes?.calendar) {
+            // this.calendarChange.emit(changes?.calendar.currentValue);
         }
     }
 }

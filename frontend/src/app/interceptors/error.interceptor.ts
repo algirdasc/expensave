@@ -4,7 +4,7 @@ import {NbToastrService} from '@nebular/theme';
 import {plainToInstance} from 'class-transformer';
 import {Observable, throwError} from 'rxjs';
 import {catchError} from 'rxjs/operators';
-import {Error} from '../api/entities/error.entity';
+import {Error} from '../api/objects/error';
 
 const REQUEST_VALIDATION_EXCEPTION: string = 'App\\Exception\\RequestValidationException';
 const AUTH_EXCEPTION: string = 'Lexik\\Bundle\\JWTAuthenticationBundle\\Exception\\MissingTokenException';

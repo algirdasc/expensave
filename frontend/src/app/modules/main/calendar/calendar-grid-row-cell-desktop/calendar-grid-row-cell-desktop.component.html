@@ -14,8 +14,8 @@
 
     <div class="expense-list d-flex flex-column mt-1 h-100" (resized)="onResized($event)">
         <app-calendar-expense-item
-            [class.expense-unconfirmed]="!expense.confirmed"
             *ngFor="let expense of visibleExpenses"
+            [class.expense-unconfirmed]="!expense.confirmed"
             (click)="calendarService.editExpense(expense)"
             [expense]="expense">
         </app-calendar-expense-item>

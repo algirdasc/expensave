@@ -1,6 +1,6 @@
 import {Component} from '@angular/core';
 import {NbDialogService} from '@nebular/theme';
-import {Expense} from '../../../../api/entities/expense.entity';
+import {Expense} from '../../../../api/objects/expense';
 import {EntityUtil} from '../../../../util/entity.util';
 import {ExpenseDialogComponent} from '../expense-dialog/expense-dialog.component';
 

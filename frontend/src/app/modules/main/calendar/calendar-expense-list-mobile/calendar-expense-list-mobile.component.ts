@@ -1,8 +1,8 @@
 import {Component, Input, OnChanges, SimpleChanges} from '@angular/core';
 import {NbDateService} from '@nebular/theme';
-import {Calendar} from '../../../../api/entities/calendar.entity';
-import {Expense} from '../../../../api/entities/expense.entity';
-import {Balance} from '../../../../api/response/calendar-expense-list.response';
+import {Balance} from '../../../../api/objects/balance';
+import {Calendar} from '../../../../api/objects/calendar';
+import {Expense} from '../../../../api/objects/expense';
 import {UNCATEGORIZED_COLOR} from '../../../../util/color.util';
 import {CalendarService} from '../calendar.service';
 

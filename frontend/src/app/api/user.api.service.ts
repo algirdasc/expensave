@@ -3,7 +3,8 @@ import {Injectable} from '@angular/core';
 import {plainToInstance} from 'class-transformer';
 import {Observable, Subject} from 'rxjs';
 import {finalize, map} from 'rxjs/operators';
-import {User} from './entities/user.entity';
+import {User} from './objects/user';
+import {PasswordRequest} from './request/password.request';
 
 @Injectable()
 export class UserApiService {
@@ -18,21 +19,31 @@ export class UserApiService {
         return this.http.get(`${this.backend}/profile`)
             .pipe(
                 finalize(() => this.onBusyChange.next(false)),
-                map((response: HttpResponse<User>) => this.responseToType(response))
+                map((response: HttpResponse<User>) => this.convertToType(response))
             );
     }
 
-    public save(entity: User): Observable<User> {
+    public changePassword(password: PasswordRequest): Observable<User> {
         this.onBusyChange.next(true);
 
-        return this.http.put(`${this.backend}/profile`, entity)
+        return this.http.put(`${this.backend}/change-password`, password)
             .pipe(
                 finalize(() => this.onBusyChange.next(false)),
-                map((response: HttpResponse<User>) => this.responseToType(response))
+                map((response: HttpResponse<User>) => this.convertToType(response))
             );
     }
 
-    private responseToType(response: HttpResponse<object>): User {
+    public search(name: string): Observable<User[]> {
+        this.onBusyChange.next(true);
+
+        return this.http.post(`${this.backend}/search`, {'name': name})
+            .pipe(
+                finalize(() => this.onBusyChange.next(false)),
+                map((response) => plainToInstance(User, <User[]>response, { excludeExtraneousValues: true }))
+            );
+    }
+
+    private convertToType(response: HttpResponse<User>): User {
         return plainToInstance(User, response, { excludeExtraneousValues: true });
     }
 }

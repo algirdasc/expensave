@@ -1,7 +1,7 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {Router} from '@angular/router';
 import {NbDialogService} from '@nebular/theme';
-import {User} from '../../../../api/entities/user.entity';
+import {User} from '../../../../api/objects/user';
 import {ConfirmDialogComponent} from '../../dialogs/confirm-dialog/confirm-dialog.component';
 import {ProfileDialogComponent} from '../../dialogs/profile-dialog/profile-dialog.component';
 

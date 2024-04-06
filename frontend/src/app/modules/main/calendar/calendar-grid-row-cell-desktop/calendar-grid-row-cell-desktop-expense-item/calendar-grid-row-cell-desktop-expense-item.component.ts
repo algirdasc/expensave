@@ -1,5 +1,5 @@
 import {Component, Input} from '@angular/core';
-import {Expense} from '../../../../../api/entities/expense.entity';
+import {Expense} from '../../../../../api/objects/expense';
 import {UNCATEGORIZED_COLOR} from '../../../../../util/color.util';
 
 @Component({

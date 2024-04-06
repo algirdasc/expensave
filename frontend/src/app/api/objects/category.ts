@@ -1,5 +1,5 @@
 import {Expose} from 'class-transformer';
-import {EntityInterface} from './entity.interface';
+import {EntityInterface} from '../../interfaces/entity.interface';
 
 export class Category implements EntityInterface {
     @Expose()

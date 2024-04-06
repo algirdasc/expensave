@@ -1,14 +1,11 @@
 <nb-card class="mb-0 h-100 border-0">
     <nb-card-body class="d-flex flex-column p-0">
-        <app-calendar-day-names
-            class="p-2"
-            [size]="size">
-        </app-calendar-day-names>
+        <app-calendar-day-names class="p-2"></app-calendar-day-names>
 
         <app-calendar-grid
             class="p-2"
             [data]="weeks"
-            [selectedValue]="selectedValue"
+            [selectedValue]="selectedDate"
             [visibleDate]="visibleDate"
             [cellComponent]="cellComponent"
             [calendar]="calendar"
@@ -20,7 +17,7 @@
         <app-calendar-expense-list-mobile
             class="flex-grow-1 p-3"
             *ngIf="isMobile"
-            [selectedValue]="selectedValue"
+            [selectedValue]="selectedDate"
             [expenses]="expenses"
             [balances]="balances"
             [calendar]="calendar">

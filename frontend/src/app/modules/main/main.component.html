@@ -3,31 +3,33 @@
     <nb-layout-header fixed>
         <app-header
             [calendar]="mainService.calendar"
-            [monthBalance]="mainService.monthBalance"
-            [(selectedValue)]="mainService.selectedValue">
+            [visibleDateBalance]="mainService.visibleDateBalance"
+            [visibleDate]="mainService.visibleDate">
         </app-header>
     </nb-layout-header>
 
-    <nb-layout-column class="p-0 p-sm-3" [nbSpinner]="isBusy" (resized)="resized($event)">
+    <nb-layout-column class="p-0 p-sm-3"
+                      [nbSpinner]="isBusy"
+                      (resized)="onResized($event)"
+                      appSwipe (swipeEnd)="onSwipeEnd($event)">
         <app-calendar
             [calendar]="mainService.calendar"
             [expenses]="mainService.expenses"
             [balances]="mainService.balances"
-            [selectedValue]="mainService.selectedValue"
-            [visibleDate]="mainService.selectedValue"
-            [isMobile]="isMobile"
-            (dateRangeChange)="mainService.dateRange = $event; mainService.fetchExpenses()">
+            [visibleDate]="mainService.visibleDate"
+            (rangeChange)="onRangeChange($event)"
+            [isMobile]="isMobile">
         </app-calendar>
     </nb-layout-column>
 
     <nb-sidebar tag="menu-sidebar" state="collapsed">
         <div class="p-3">
-            <app-profile [(user)]="mainService.user"></app-profile>
-            <div class="border-bottom mb-2"></div>
+            <app-profile [user]="mainService.user"></app-profile>
+            <div class="border-bottom my-3"></div>
             <app-sidebar-calendar-list
                 [(calendars)]="mainService.user.calendars"
                 [calendar]="mainService.calendar"
-                (calendarChange)="mainService.calendar = $event; mainService.fetchExpenses()">
+                (calendarChange)="onCalendarChange($event)">
             </app-sidebar-calendar-list>
         </div>
     </nb-sidebar>

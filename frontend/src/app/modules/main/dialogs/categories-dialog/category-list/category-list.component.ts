@@ -1,5 +1,5 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
-import {Category} from '../../../../../api/entities/category.entity';
+import {Category} from '../../../../../api/objects/category';
 import {UNCATEGORIZED_COLOR} from '../../../../../util/color.util';
 
 @Component({

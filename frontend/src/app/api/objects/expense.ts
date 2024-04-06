@@ -1,8 +1,8 @@
 import {Expose, Type} from 'class-transformer';
-import {Calendar} from './calendar.entity';
-import {Category} from './category.entity';
-import {EntityInterface} from './entity.interface';
-import {User} from './user.entity';
+import {EntityInterface} from '../../interfaces/entity.interface';
+import {Calendar} from './calendar';
+import {Category} from './category';
+import {User} from './user';
 
 export class Expense implements EntityInterface {
 
@@ -35,12 +35,11 @@ export class Expense implements EntityInterface {
     public confirmed: boolean;
 
     @Expose()
-    public description: string;
+    public description?: string;
 
-    // TODO: hide this from serialization
-    private _isExpense: boolean = true;
+    private _isExpense: boolean;
 
-    get absoluteAmount(): number|undefined {
+    get absoluteAmount(): number {
         return this.amount ? Math.abs(this.amount) : undefined;
     }
 
@@ -50,13 +49,18 @@ export class Expense implements EntityInterface {
     }
 
     get isExpense(): boolean {
+        if (this._isExpense === undefined) {
+            this._isExpense = !(this.amount > 0);
+        }
+
         return this._isExpense;
     }
 
     set isExpense(value: boolean) {
         this._isExpense = value;
 
-        const absoluteValue = Math.abs(this.amount ?? 0);
-        this.amount = this._isExpense ? absoluteValue * -1 : absoluteValue;
+        if ((value && this.amount > 0) || (!value && this.amount <= 0)) {
+            this.amount *= -1;
+        }
     }
 }

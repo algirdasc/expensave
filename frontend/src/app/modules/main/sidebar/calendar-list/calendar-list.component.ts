@@ -1,7 +1,7 @@
-import {Component, EventEmitter, Input, Output} from '@angular/core';
+import {Component, EventEmitter, Input, Output,} from '@angular/core';
 import {NbDialogService} from '@nebular/theme';
 import {CalendarApiService} from '../../../../api/calendar.api.service';
-import {Calendar} from '../../../../api/entities/calendar.entity';
+import {Calendar} from '../../../../api/objects/calendar';
 import {CalendarEditComponent} from '../../dialogs/calendars-dialog/calendar-edit/calendar-edit.component';
 import {ConfirmDialogComponent} from '../../dialogs/confirm-dialog/confirm-dialog.component';
 import {StatementImportDialogComponent} from '../../dialogs/statement-import-dialog/statement-import-dialog.component';
@@ -13,31 +13,18 @@ import {StatementImportDialogComponent} from '../../dialogs/statement-import-dia
 })
 export class CalendarSidebarListComponent {
     @Input() public calendar: Calendar;
-    @Output() public calendarsChange: EventEmitter<Calendar[]> = new EventEmitter<Calendar[]>();
     @Output() public calendarChange: EventEmitter<Calendar> = new EventEmitter<Calendar>();
+
+    @Input() public calendars: Calendar[];
+    @Output() public calendarsChange: EventEmitter<Calendar[]> = new EventEmitter<Calendar[]>();
+
     public isBusy: boolean = false;
-    private _calendars: Calendar[] = [];
 
     constructor(
         public readonly dialogService: NbDialogService,
         public readonly calendarApiService: CalendarApiService
     ) {
         this.calendarApiService.onBusyChange.subscribe((isBusy: boolean) => this.isBusy = isBusy);
-    }
-
-    @Input()
-    get calendars(): Calendar[] {
-        return this._calendars;
-    }
-
-    set calendars(value: Calendar[]) {
-        this._calendars = value;
-
-        const selectedCalendar = this.calendars.find((c: Calendar) => c.id === this.calendar?.id);
-        if (!selectedCalendar) {
-            this.calendar = this._calendars[0];
-            this.calendarChange.emit(this.calendar);
-        }
     }
 
     public importStatement(calendar: Calendar): void {
@@ -108,14 +95,14 @@ export class CalendarSidebarListComponent {
 
     private openCalendarDialog(calendar: Calendar, onClose: (calendar: Calendar) => void): void {
         this.dialogService
-            .open(CalendarEditComponent, { context: { calendar: calendar } })
+            .open(CalendarEditComponent, {
+                context: {
+                    calendar: calendar,
+                }
+            })
             .onClose
             .subscribe((calendar: Calendar) => {
                 onClose(calendar);
-                // if (result) {
-                //     EntityUtil.replaceInArray(this.calendars, result);
-                //     this.calendarsChange.emit(this.calendars);
-                // }
             })
         ;
     }

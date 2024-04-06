@@ -1,9 +1,10 @@
 <div [nbSpinner]="isBusy">
     <nb-list class="mb-3">
         <nb-list-item
-            *ngFor="let c of calendars" class="py-0">
+            *ngFor="let c of calendars" class="p-0">
             <nb-radio-group name="sidebar-calendar" class="w-100">
                 <nb-radio
+                    class="ms-2"
                     [value]="c"
                     (valueChange)="calendarChange.emit($event)"
                     [checked]="calendar?.id === c.id">

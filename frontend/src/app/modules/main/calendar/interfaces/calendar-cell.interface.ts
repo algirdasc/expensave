@@ -1,7 +1,7 @@
 import {NbCalendarCell} from '@nebular/theme';
-import {Calendar} from '../../../../api/entities/calendar.entity';
-import {Expense} from '../../../../api/entities/expense.entity';
-import {Balance} from '../../../../api/response/calendar-expense-list.response';
+import {Balance} from '../../../../api/objects/balance';
+import {Calendar} from '../../../../api/objects/calendar';
+import {Expense} from '../../../../api/objects/expense';
 
 export interface CalendarCellInterface extends NbCalendarCell<Date, Date> {
     expenses: Expense[];

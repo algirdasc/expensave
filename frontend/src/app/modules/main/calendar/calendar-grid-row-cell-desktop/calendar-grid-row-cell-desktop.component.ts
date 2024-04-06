@@ -1,9 +1,9 @@
 import {Component} from '@angular/core';
 import {NbCalendarDayCellComponent, NbDateService, NbDialogService} from '@nebular/theme';
 import {ResizedEvent} from 'angular-resize-event';
-import {Calendar} from '../../../../api/entities/calendar.entity';
-import {Expense} from '../../../../api/entities/expense.entity';
-import {Balance} from '../../../../api/response/calendar-expense-list.response';
+import {Balance} from '../../../../api/objects/balance';
+import {Calendar} from '../../../../api/objects/calendar';
+import {Expense} from '../../../../api/objects/expense';
 import {ExpenseListDialogComponent} from '../../dialogs/expense-list-dialog/expense-list-dialog.component';
 import {CalendarService} from '../calendar.service';
 import {CalendarCellInterface} from '../interfaces/calendar-cell.interface';
@@ -15,11 +15,11 @@ export const EXPENSE_LIST_ITEM_HEIGHT = 21;
     styleUrls: ['calendar-grid-row-cell-desktop.component.scss']
 })
 export class CalendarGridRowCellDesktopComponent extends NbCalendarDayCellComponent<Date> implements CalendarCellInterface {
-    public expenseListCapacity: number = 1;
     public calendar: Calendar;
     public balance: Balance;
     public expenses: Expense[];
     public hasUnconfirmedExpenses: boolean = false;
+    private expenseListCapacity: number = 1;
 
     constructor(
         public dateService: NbDateService<Date>,

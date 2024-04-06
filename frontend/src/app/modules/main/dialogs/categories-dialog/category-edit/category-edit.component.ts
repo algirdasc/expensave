@@ -1,5 +1,5 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
-import {Category} from '../../../../../api/entities/category.entity';
+import {Category} from '../../../../../api/objects/category';
 
 @Component({
     templateUrl: 'category-edit.component.html',

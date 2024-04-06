@@ -1,7 +1,7 @@
 <form #calendarForm=ngForm (submit)="save.emit(this.calendar)" autocomplete="off">
     <nb-card class="dialog">
         <nb-card-header i18n>
-            <button nbButton status="primary" ghost (click)="back.emit(true)">
+            <button nbButton status="primary" ghost (click)="back.emit()">
                 <nb-icon icon="arrow-back-outline"></nb-icon>
             </button>
             Manage calendar
@@ -9,20 +9,24 @@
 
         <nb-card-body>
             <div class="mb-3">
-                <input
-                    nbInput
-                    fullWidth
-                    maxlength="255"
-                    required
-                    name="name"
-                    [(ngModel)]="calendar.name"
-                    placeholder="Calendar name, ex. Vacation" />
+                <input nbInput fullWidth
+                       maxlength="255" required name="name"
+                       [(ngModel)]="calendar.name"
+                       placeholder="Calendar name, ex. Vacation" />
             </div>
             <div>
+                <small class="sub-title">Share calendar with users:</small>
                 <nb-tag-list (tagRemove)="onTagRemove($event)">
-                    <nb-tag *ngFor="let user of calendar.users" [text]="user.name" removable></nb-tag>
-                    <input fullWidth nbTagInput (tagAdd)="onTagAdd($event)">
+                    <nb-tag status="primary" *ngFor="let user of calendar.users" [text]="user.name" [removable]="true"></nb-tag>
+                    <input fullWidth nbTagInput
+                           [ngModel]="tagInput" (ngModelChange)="onUserInput($event)" [ngModelOptions]="{standalone: true}"
+                           [nbAutocomplete]="userAutoComplete">
                 </nb-tag-list>
+                <nb-autocomplete #userAutoComplete (selectedChange)="onUserSelect($event)">
+                    <nb-option *ngFor="let user of availableUsers" [value]="user">
+                        {{ user.name }}
+                    </nb-option>
+                </nb-autocomplete>
             </div>
         </nb-card-body>
 
