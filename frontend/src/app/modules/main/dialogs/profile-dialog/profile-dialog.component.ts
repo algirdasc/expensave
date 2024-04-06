@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {NbDialogRef} from '@nebular/theme';
 import {User} from '../../../../api/objects/user';
+import {PasswordRequest} from '../../../../api/request/password.request';
 import {UserApiService} from '../../../../api/user.api.service';
 
 @Component({
@@ -10,6 +11,7 @@ import {UserApiService} from '../../../../api/user.api.service';
 export class ProfileDialogComponent implements OnInit {
     public user: User = new User();
     public isBusy: boolean = true;
+    public passwordRequest: PasswordRequest = new PasswordRequest();
 
     constructor(
         private readonly userApiService: UserApiService,
@@ -27,7 +29,7 @@ export class ProfileDialogComponent implements OnInit {
 
     public onSubmit(): void {
         this.userApiService
-            .save(this.user)
+            .changePassword(this.passwordRequest)
             .subscribe((user: User) => this.dialogRef.close(user))
         ;
     }

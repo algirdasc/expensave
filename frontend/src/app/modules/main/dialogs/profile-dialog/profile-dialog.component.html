@@ -9,17 +9,29 @@
         </nb-card-header>
         <nb-card-body>
             <div class="mb-3">
-                <input nbInput fullWidth required type="password" maxlength="255" id="current-password" placeholder="Current password" />
+                <input nbInput fullWidth required
+                       type="password" maxlength="255"
+                       [(ngModel)]="passwordRequest.currentPassword"
+                       name="currentPassword"
+                       placeholder="Current password" />
             </div>
             <div class="mb-3">
-                <input nbInput fullWidth required type="password" minlength="8" maxlength="255" id="new-password-1" placeholder="New password" />
+                <input nbInput fullWidth required
+                       type="password" minlength="8" maxlength="255"
+                       [(ngModel)]="passwordRequest.newPassword"
+                       name="newPassword"
+                       placeholder="New password" />
             </div>
             <div class="mb-0">
-                <input nbInput fullWidth required type="password" minlength="8" maxlength="255" id="new-password-2" placeholder="Confirm new password" />
+                <input nbInput fullWidth required
+                       type="password" minlength="8" maxlength="255"
+                       [(ngModel)]="passwordRequest.confirmPassword"
+                       name="confirmPassword"
+                       placeholder="Confirm new password" />
             </div>
         </nb-card-body>
         <nb-card-footer class="text-right">
-            <button nbButton type="submit" status="primary" [disabled]="isBusy || !userForm.valid">
+            <button nbButton type="submit" status="primary" [disabled]="isBusy || !userForm.form.valid">
                 <nb-icon icon="save-outline"></nb-icon> Save
             </button>
         </nb-card-footer>

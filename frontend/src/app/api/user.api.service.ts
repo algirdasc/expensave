@@ -4,6 +4,7 @@ import {plainToInstance} from 'class-transformer';
 import {Observable, Subject} from 'rxjs';
 import {finalize, map} from 'rxjs/operators';
 import {User} from './objects/user';
+import {PasswordRequest} from './request/password.request';
 
 @Injectable()
 export class UserApiService {
@@ -22,10 +23,10 @@ export class UserApiService {
             );
     }
 
-    public save(entity: User): Observable<User> {
+    public changePassword(password: PasswordRequest): Observable<User> {
         this.onBusyChange.next(true);
 
-        return this.http.put(`${this.backend}/profile`, entity)
+        return this.http.put(`${this.backend}/change-password`, password)
             .pipe(
                 finalize(() => this.onBusyChange.next(false)),
                 map((response: HttpResponse<User>) => this.convertToType(response))
