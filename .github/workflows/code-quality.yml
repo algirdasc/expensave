@@ -29,10 +29,6 @@ jobs:
 #        with:
 #          path: ./src/
 #          args: -d memory_limit=-1
-      - run: |
-          ls -lah var/
-          ls -lah var/cache/
-          ls -lah var/cache/dev/
       - name: Run PHPStan
         uses: php-actions/phpstan@v3
       - name: Run PHPUnit
