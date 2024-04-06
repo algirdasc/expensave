@@ -3,6 +3,7 @@
 namespace App\Service\Statement\Import\Handler;
 
 use App\DTO\Statement\Import\Dollarbird\DollarbirdStatementRow;
+use Symfony\Component\Filesystem\Exception\IOException;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Serializer\Encoder\CsvEncoder;
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
@@ -21,9 +22,16 @@ readonly class DollarbirdImportHandler implements StatementImportHandlerInterfac
         }
 
         $handle = fopen($file->getRealPath(), 'r');
-        $firstLine = trim(fgets($handle));
+        if ($handle === false) {
+            throw new IOException('Could not read file', path: $file->getRealPath());
+        }
 
-        return $firstLine === 'Date,"Value","Label","Confirmed","Category","Description","Owner Name","Owner Email","Receipt"';
+        $firstLine = fgets($handle);
+        if ($firstLine === false) {
+            throw new IOException('Could not read first line of the file', path: $file->getRealPath());
+        }
+
+        return trim($firstLine) === 'Date,"Value","Label","Confirmed","Category","Description","Owner Name","Owner Email","Receipt"';
     }
 
     public function process(UploadedFile $file): iterable

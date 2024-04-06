@@ -13,8 +13,8 @@ use Doctrine\Persistence\ManagerRegistry;
  * @extends AbstractRepository<Calendar>
  * @method Calendar|null find($id, $lockMode = null, $lockVersion = null)
  * @method Calendar|null findOneBy(array $criteria, array $orderBy = null)
- * @method Calendar[]    findAll()
- * @method Calendar[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method array<Calendar> findAll()
+ * @method array<Calendar> findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
 class CalendarRepository extends AbstractRepository
 {

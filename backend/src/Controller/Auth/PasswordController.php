@@ -8,7 +8,7 @@ use App\Controller\AbstractApiController;
 use App\Request\Auth\PasswordForgotRequest;
 use App\Request\Auth\PasswordResetRequest;
 use App\Response\EmptyResponse;
-use App\Service\Password\PasswordResetService;
+use App\Service\PasswordResetService;
 use Nelmio\ApiDocBundle\Annotation\Security;
 use OpenApi\Attributes as OA;
 use Symfony\Component\HttpFoundation\JsonResponse;

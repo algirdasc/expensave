@@ -22,6 +22,11 @@ class RegenerateSecretsCommand extends Command
         $io = new SymfonyStyle($input, $output);
 
         $contents = file_get_contents($input->getArgument('file'));
+        if ($contents === false) {
+            $io->error('Could not find env file');
+
+            return Command::FAILURE;
+        }
 
         $contents = preg_replace_callback('/\{REGENERATE_SECRET\}/', function ($matches) {
             return $this->generateSecret();
