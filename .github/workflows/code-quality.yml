@@ -34,9 +34,13 @@ jobs:
 #          args: -d memory_limit=-1
       - name: Run PHPStan
         uses: php-actions/phpstan@v3
+        with:
+          php_version: 8.2
       - name: Run PHPUnit
         uses: php-actions/phpunit@v3
         with:
+          version: 9.6
+          php_version: 8.2
           php_extensions: "xdebug"
 #          coverage_clover: "coverage/clover.xml"
 
@@ -62,7 +66,4 @@ jobs:
       - name: Packages Install
         run: npm ci
       - name: Run ESLint
-        uses: sibiraj-s/action-eslint@v3
-        with:
-          extensions: 'ts,tsx'
-          annotations: true
+        run: npm run analyse
