@@ -1,11 +1,12 @@
 name: "Code quality"
 
 on:
+  - workflow_call
   - push
   - pull_request
 
 jobs:
-  psalm:
+  code-quality:
     name: Code quality checks
     runs-on: ubuntu-latest
     steps:
