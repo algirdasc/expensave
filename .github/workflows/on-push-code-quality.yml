@@ -29,7 +29,8 @@ jobs:
       - uses: php-actions/phpcs@v1
         with:
           path: ./backend
-
+          args: -d memory_limit=512M
+ 
   phpunit:
     runs-on: ubuntu-latest
     steps:
