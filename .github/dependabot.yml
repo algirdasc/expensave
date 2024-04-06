@@ -15,17 +15,17 @@ updates:
           - minor
           - patch
       major:
-        update-typeS:
+        update-types:
           - major
   - package-ecosystem: "npm"
     directory: "/frontend"
     schedule:
-      interval: "weekly
+      interval: "weekly"
     groups:
       minor:
         update-types: 
           - minor
           - patch
       major:
-        update-typeS:
+        update-types:
           - major
