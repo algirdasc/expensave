@@ -11,13 +11,14 @@ jobs:
         uses: actions/checkout@v4
       - name: Change working dir
         run: |
+          pwd
           ls -lah
           cd backend
       - name: Composer
         uses: php-actions/composer@v6
         with:
           args: --profile --ignore-platform-reqs
-          working_dir: .
+          working_dir: ./backend
       - name: Run PHPStan
         uses: php-actions/phpstan@v3
 
