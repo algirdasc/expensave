@@ -4,10 +4,13 @@ on: [push, pull_request]
 
 jobs:
   psalm:
+    name: Psalm check
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: docker://ghcr.io/psalm/psalm-github-actions
+      - name: Code checkout
+        uses: actions/checkout@v4
+      - name: Psalm check
+        uses: docker://ghcr.io/psalm/psalm-github-actions
         with:
           relative_dir: ./backend
           security_analysis: true
@@ -19,27 +22,36 @@ jobs:
 #          sarif_file: results.sarif
 
   phpcs:
+    name: PHPCS check
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: php-actions/composer@v6
+      - name: Code checkout
+        uses: actions/checkout@v4
+      - name: Composer
+        uses: php-actions/composer@v6
         with:
           args: --profile --ignore-platform-reqs
           working_dir: ./backend
-      - uses: php-actions/phpcs@v1
+      - name: PHPCS
+        uses: php-actions/phpcs@v1
         with:
           path: ./backend
-          args: -d memory_limit=512M
+          args: -d memory_limit=-1
  
   phpunit:
+    name: PHPUnit tests
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: php-actions/composer@v6
+      - name: Code checkout
+        uses: actions/checkout@v4
+      - name: Composer
+        uses: php-actions/composer@v6
         with:
           args: --profile --ignore-platform-reqs
           working_dir: ./backend
-      - uses: php-actions/phpunit@v3
+      - name: PHPUnit
+        uses: php-actions/phpunit@v3
         with:
           php_extensions: "xdebug"
+          args: ./backend
 #          coverage_clover: "coverage/clover.xml"

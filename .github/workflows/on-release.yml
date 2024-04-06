@@ -1,4 +1,4 @@
-name: "Backend: Publish Docker image"
+name: "Publish Docker image"
 
 on:
   release:
