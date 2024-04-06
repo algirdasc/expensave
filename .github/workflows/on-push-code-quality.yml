@@ -6,14 +6,12 @@ jobs:
   psalm:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-
-      - name: Psalm
-        uses: docker://ghcr.io/psalm/psalm-github-actions
+      - uses: actions/checkout@v2
+      - uses: docker://ghcr.io/psalm/psalm-github-actions
         with:
           relative_dir: ./backend
           security_analysis: true
+          composer_ignore_platform_reqs: true
           report_file: results.sarif
       - name: Upload Security Analysis results to GitHub
         uses: github/codeql-action/upload-sarif@v2
@@ -41,4 +39,6 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - uses: php-actions/composer@v6
+        with:
+          container_workdir: ./backend
       - run: vendor/bin/phpunit
