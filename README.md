@@ -5,7 +5,7 @@ Expensave is an open-source application designed to help you track your personal
 # Support 
 
 This open-source project is developed in my free time. 
-You can support this project by choosing your preferred sponsorship method on GitHub sidebar (see: *Sponsor this project*). 
+You can support this project by click on "Sponsor" button above.
 Your sponsorship would help me dedicate more time and resources to improve project, add new features, fix bugs, 
 as well as improve motivation and helps me understand, that this project is useful not only for me, but for more users.
 
