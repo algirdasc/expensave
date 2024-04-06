@@ -5,6 +5,9 @@ on:
   - push
   - pull_request
 
+env:
+  APP_ENV: dev
+
 jobs:
   code-quality:
     name: Code quality checks

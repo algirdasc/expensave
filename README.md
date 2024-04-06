@@ -60,6 +60,7 @@ Contributions from the community are more than welcomed! If you'd like to contri
 - Write clear and concise commit messages.
 - Test your changes thoroughly.
 - Coding standard checks & tests must succeed.
+- Code must follow coding standards: [Symfony](https://symfony.com/doc/current/contributing/code/standards.html) and [Angular](https://angular.io/guide/styleguide). 
 
 # Support
 
