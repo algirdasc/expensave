@@ -30,9 +30,9 @@ jobs:
           php phpcs.phar --version
       - uses: thenabeel/action-phpcs@v8
         with:
-          files: "**.php"
+          files: "./backend/**.php"
           phpcs_path: php phpcs.phar
-          standard: phpcs.xml
+          standard: "./backend/phpcs.xml"
 
   phpunit:
     runs-on: ubuntu-latest
@@ -40,5 +40,5 @@ jobs:
       - uses: actions/checkout@v4
       - uses: php-actions/composer@v6
         with:
-          workdir: ./backend
+          working_dir: ./backend
       - run: vendor/bin/phpunit
