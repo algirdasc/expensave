@@ -16,7 +16,7 @@ jobs:
           sparse-checkout-cone-mode: false
       - name: Move backend to root
         run: |
-          mv backend/ ./
+          mv backend/* ./
           rm -rf backend/
       - name: Composer
         uses: php-actions/composer@v6
