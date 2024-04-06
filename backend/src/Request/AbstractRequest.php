@@ -15,18 +15,11 @@ use Symfony\Component\PropertyAccess\PropertyAccess;
 abstract class AbstractRequest
 {
     /**
-     * @var iterable<TransformationHandlerInterface>
-     */
-    private iterable $transformationHandler;
-
-    /**
      * @param iterable<TransformationHandlerInterface> $transformationHandler
      */
     public function __construct(
-        #[TaggedIterator('app.handler.request.transformation')] iterable $transformationHandler
+        #[TaggedIterator('app.handler.request.transformation')] protected iterable $transformationHandler
     ) {
-        $this->transformationHandler = $transformationHandler;
-
         $this->populate();
     }
 
@@ -37,7 +30,6 @@ abstract class AbstractRequest
 
     protected function populate(): void
     {
-        // TODO: use strategy to select value resolver
         $propertyAccessor = PropertyAccess::createPropertyAccessor();
         $reflection = new ReflectionClass($this);
 

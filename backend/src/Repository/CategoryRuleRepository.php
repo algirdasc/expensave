@@ -12,8 +12,8 @@ use Doctrine\Persistence\ManagerRegistry;
  * @extends AbstractRepository<CategoryRule>
  * @method CategoryRule|null find($id, $lockMode = null, $lockVersion = null)
  * @method CategoryRule|null findOneBy(array $criteria, array $orderBy = null)
- * @method CategoryRule[]    findAll()
- * @method CategoryRule[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method array<CategoryRule> findAll()
+ * @method array<CategoryRule> findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
 class CategoryRuleRepository extends AbstractRepository
 {

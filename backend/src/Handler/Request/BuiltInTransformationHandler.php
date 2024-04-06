@@ -3,13 +3,17 @@
 namespace App\Handler\Request;
 
 use App\Request\AbstractRequest;
+use ReflectionNamedType;
 use ReflectionProperty;
 
-class BuiltInTransformationHandler implements TransformationHandlerInterface
+readonly class BuiltInTransformationHandler implements TransformationHandlerInterface
 {
     public function supportsProperty(ReflectionProperty $property): bool
     {
-        return $property->getType()?->isBuiltin();
+        /** @var ReflectionNamedType $propertyType */
+        $propertyType = $property->getType();
+
+        return $propertyType->isBuiltin();
     }
 
     public function transform(AbstractRequest $request, ReflectionProperty $property, mixed $value): mixed
@@ -18,7 +22,9 @@ class BuiltInTransformationHandler implements TransformationHandlerInterface
             return null;
         }
 
-        settype($value, $property->getType()?->getName());
+        /** @var ReflectionNamedType $propertyType */
+        $propertyType = $property->getType();
+        settype($value, $propertyType->getName());
 
         return $value;
     }

@@ -6,7 +6,6 @@ use App\Const\ContextGroupConst;
 use App\DTO\Balance;
 use App\Entity\Calendar;
 use App\Entity\Expense;
-use JetBrains\PhpStorm\ArrayShape;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 readonly class ExpenseListResponse
@@ -22,14 +21,19 @@ readonly class ExpenseListResponse
     ) {
     }
 
+    /**
+     * @return array<Expense>
+     */
     #[Groups(ContextGroupConst::API_ALL)]
     public function getExpenses(): array
     {
         return $this->expenses;
     }
 
+    /**
+     * @return array<Balance>
+     */
     #[Groups(ContextGroupConst::API_ALL)]
-    #[ArrayShape([Balance::class])]
     public function getBalances(): array
     {
         return $this->balances;

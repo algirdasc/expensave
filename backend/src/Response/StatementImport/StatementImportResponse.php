@@ -18,6 +18,9 @@ readonly class StatementImportResponse
 
     }
 
+    /**
+     * @return array<string, array<string>>
+     */
     #[Groups(ContextGroupConst::API_ALL)]
     public function getErrors(): array
     {

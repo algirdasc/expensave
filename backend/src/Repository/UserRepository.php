@@ -16,8 +16,8 @@ use Symfony\Component\Security\Core\User\PasswordUpgraderInterface;
  * @extends AbstractRepository<User>
  * @method User|null find($id, $lockMode = null, $lockVersion = null)
  * @method User|null findOneBy(array $criteria, array $orderBy = null)
- * @method User[]    findAll()
- * @method User[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method array<User> findAll()
+ * @method array<User> findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
 class UserRepository extends AbstractRepository implements PasswordUpgraderInterface
 {
@@ -28,7 +28,7 @@ class UserRepository extends AbstractRepository implements PasswordUpgraderInter
         parent::__construct($registry, User::class);
     }
 
-    public function create(RegistrationRequest $request, bool $flush = false): User
+    public function create(RegistrationRequest $request): User
     {
         $user = (new User())
             ->setEmail($request->getEmail())
@@ -61,6 +61,6 @@ class UserRepository extends AbstractRepository implements PasswordUpgraderInter
 
         $user->setPassword($newHashedPassword);
 
-        $this->save($user, true);
+        $this->save($user);
     }
 }

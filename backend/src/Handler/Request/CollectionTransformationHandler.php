@@ -2,11 +2,11 @@
 
 namespace App\Handler\Request;
 
-use App\Attribute\Request\ResolveEntity;
 use App\Request\AbstractRequest;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\EntityManagerInterface;
+use ReflectionNamedType;
 use ReflectionProperty;
 use Symfony\Component\PropertyInfo\Extractor\PhpDocExtractor;
 
@@ -19,7 +19,10 @@ readonly class CollectionTransformationHandler implements TransformationHandlerI
 
     public function supportsProperty(ReflectionProperty $property): bool
     {
-        return !$property->getType()?->isBuiltin() && Collection::class === $property->getType()?->getName();
+        /** @var ReflectionNamedType $propertyType */
+        $propertyType = $property->getType();
+
+        return !$propertyType->isBuiltin() && Collection::class === $propertyType->getName();
     }
 
     public function transform(AbstractRequest $request, ReflectionProperty $property, mixed $value): mixed
@@ -30,9 +33,10 @@ readonly class CollectionTransformationHandler implements TransformationHandlerI
             return $value;
         }
 
-        $collectionValueType = $collectionTypes[0]->getCollectionValueTypes()[0]->getClassName();
+        /** @var class-string $entityClassName */
+        $entityClassName = $collectionTypes[0]->getCollectionValueTypes()[0]->getClassName();
 
-        $repository = $this->entityManager->getRepository($collectionValueType);
+        $repository = $this->entityManager->getRepository($entityClassName);
 
         return new ArrayCollection($repository->findBy(['id' => $value]));
     }

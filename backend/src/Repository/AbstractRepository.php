@@ -13,7 +13,7 @@ use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 abstract class AbstractRepository extends ServiceEntityRepository
 {
     /**
-     * @psalm-param T $entity
+     * @param T $entity
      */
     public function save(mixed $entity): void
     {
@@ -22,11 +22,11 @@ abstract class AbstractRepository extends ServiceEntityRepository
     }
 
     /**
-     * @psalm-param T $entity
+     * @param T $entity
      */
-    public function remove(mixed $calendar): void
+    public function remove(mixed $entity): void
     {
-        $this->getEntityManager()->remove($calendar);
+        $this->getEntityManager()->remove($entity);
         $this->getEntityManager()->flush();
     }
 }

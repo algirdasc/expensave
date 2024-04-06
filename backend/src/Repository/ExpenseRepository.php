@@ -9,14 +9,13 @@ use App\Entity\Expense;
 use DateTime;
 use Doctrine\ORM\Query;
 use Doctrine\Persistence\ManagerRegistry;
-use JetBrains\PhpStorm\ArrayShape;
 
 /**
  * @extends AbstractRepository<Expense>
  * @method Expense|null find($id, $lockMode = null, $lockVersion = null)
  * @method Expense|null findOneBy(array $criteria, array $orderBy = null)
- * @method Expense[]    findAll()
- * @method Expense[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method array<Expense> findAll()
+ * @method array<Expense> findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
 class ExpenseRepository extends AbstractRepository
 {
@@ -71,7 +70,12 @@ class ExpenseRepository extends AbstractRepository
             ->getOneOrNullResult(Query::HYDRATE_SINGLE_SCALAR) ?? 0;
     }
 
-    #[ArrayShape(['date' => 'string', 'balance' => 'float'])]
+    /**
+     * @return array<array{
+     *     date: string,
+     *     balance: float
+     * }>
+     */
     public function getDailyBalances(Calendar $calendar, DateTime $dateFrom, DateTime $dateTo): array
     {
         return $this->createQueryBuilder('e')

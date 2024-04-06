@@ -54,6 +54,7 @@ jobs:
           shopt -s dotglob
           mv frontend/* ./
           rm -rf frontend/
+          ls -lah
       - name: Setup Node
         uses: actions/setup-node@v3
         with:

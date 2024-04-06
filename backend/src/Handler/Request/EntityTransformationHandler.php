@@ -5,18 +5,22 @@ namespace App\Handler\Request;
 use App\Attribute\Request\ResolveEntity;
 use App\Request\AbstractRequest;
 use Doctrine\ORM\EntityManagerInterface;
+use ReflectionNamedType;
 use ReflectionProperty;
 
-class EntityTransformationHandler implements TransformationHandlerInterface
+readonly class EntityTransformationHandler implements TransformationHandlerInterface
 {
     public function __construct(
-        private readonly EntityManagerInterface $entityManager
+        private EntityManagerInterface $entityManager
     ) {
     }
 
     public function supportsProperty(ReflectionProperty $property): bool
     {
-        return !$property->getType()?->isBuiltin() && $property->getAttributes(ResolveEntity::class);
+        /** @var ReflectionNamedType $propertyType */
+        $propertyType = $property->getType();
+
+        return !$propertyType->isBuiltin() && $property->getAttributes(ResolveEntity::class);
     }
 
     public function transform(AbstractRequest $request, ReflectionProperty $property, mixed $value): mixed
@@ -29,7 +33,13 @@ class EntityTransformationHandler implements TransformationHandlerInterface
             return null;
         }
 
-        $repository = $this->entityManager->getRepository((string) $property->getType()?->getName());
+        /** @var ReflectionNamedType $propertyType */
+        $propertyType = $property->getType();
+
+        /** @var class-string $entityClassName */
+        $entityClassName = $propertyType->getName();
+
+        $repository = $this->entityManager->getRepository($entityClassName);
 
         return $repository->find($value);
     }

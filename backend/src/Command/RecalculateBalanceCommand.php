@@ -8,7 +8,6 @@ use App\Repository\CalendarRepository;
 use App\Repository\ExpenseRepository;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
@@ -23,21 +22,11 @@ class RecalculateBalanceCommand extends Command
         parent::__construct();
     }
 
-    protected function configure(): void
-    {
-        $this->addArgument('calendar', InputArgument::OPTIONAL, 'Calendar ID');
-    }
-
     public function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);
 
-        $calendarId = $input->getArgument('calendar');
-        if ($calendarId !== null) {
-            $calendars = [$this->calendarRepository->find($calendarId)];
-        } else {
-            $calendars = $this->calendarRepository->findAll();
-        }
+        $calendars = $this->calendarRepository->findAll();
 
         foreach ($calendars as $calendar) {
             $balance = $this->expenseRepository->getTotalBalance($calendar);
