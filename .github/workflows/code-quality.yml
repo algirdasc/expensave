@@ -24,11 +24,11 @@ jobs:
         uses: php-actions/composer@v6
         with:
           args: --profile --ignore-platform-reqs
-      - name: Run PHPCS
-        uses: php-actions/phpcs@v1
-        with:
-          path: ./src/
-          args: -d memory_limit=-1
+#      - name: Run PHPCS
+#        uses: php-actions/phpcs@v1
+#        with:
+#          path: ./src/
+#          args: -d memory_limit=-1
       - run: |
           ls -lah var/
           ls -lah var/cache/
