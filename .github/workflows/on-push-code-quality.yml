@@ -25,7 +25,7 @@ jobs:
         uses: php-actions/composer@v6
         with:
           args: --profile --ignore-platform-reqs
-          container_workdir: /home/runner/work/expensave/expensave
+          working_dir: /home/runner/work/expensave/expensave
       - name: Run PHPStan
         uses: php-actions/phpstan@v3
 
