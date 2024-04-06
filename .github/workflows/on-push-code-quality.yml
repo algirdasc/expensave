@@ -16,16 +16,12 @@ jobs:
           sparse-checkout-cone-mode: false
       - name: Move backend to root
         run: |
-          ls -lah
-          mv backend/* .
+          mv backend/ /app/
           rm -rf backend/
-          ls -lah
-          pwd
       - name: Composer
         uses: php-actions/composer@v6
         with:
           args: --profile --ignore-platform-reqs
-          working_dir: /home/runner/work/expensave/expensave
       - name: Run PHPStan
         uses: php-actions/phpstan@v3
 
