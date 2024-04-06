@@ -1,11 +1,13 @@
 # About Expensave
 
-Expensave is an open-source application designed to help you track your personal and family expenses effortlessly, enabling better budgeting and financial management. Highly inspired by [Dollarbird](https://dollarbird.co/), Expensave offers intuitive features to monitor your spending habits and stay on top of your finances.
+Expensave is an open-source application designed to help you track your personal and family expenses effortlessly, 
+enabling better budgeting and financial management. Highly inspired by [Dollarbird](https://dollarbird.co/), 
+Expensave offers intuitive features to monitor your spending habits and stay on top of your finances.
 
 # Support 
 
 This open-source project is developed in my free time. 
-You can support this project by click on "Sponsor" button above.
+You can support this project by clicking "Sponsor" button above.
 Your sponsorship would help me dedicate more time and resources to improve project, add new features, fix bugs, 
 as well as improve motivation and helps me understand, that this project is useful not only for me, but for more users.
 
@@ -18,40 +20,42 @@ as well as improve motivation and helps me understand, that this project is usef
 # Features
 
 - Multiple users
-- Calendar sharing between users
-- Exepnse import from financial institutions (still work in progress)
-- Expense reports in various pivots (still work in progress)
+- Expense calendar sharing between users
+- Import your balance from financial institutions in various formats (still work in progress)
+- Reports on your spending and income habits (still work in progress)
 - Responsive design
 - Mobile [PWA](https://web.dev/explore/progressive-web-apps) application
 
 # Installation
 
-1. Run Docker image
+1. Run Docker image. Feel free to add or change environment variables according to your needs:
 ```bash
   docker run \
     -p 18001:18001 \
     -p 18002:18002 \
+    -e LOCALE=en
+    -e API_URL=http://localhost:18001
     -v <desired path for DB data>:/var/lib/mysql
     algirdasc/expensave:latest
 ```
 2. Open your browser: [http://localhost:18002](http://localhost:18002)
 
-# Using mobile version
-
-See [USING_MOBILE_VERSION.md](docs/USING_MOBILE_VERSION.md).
-
 ## Environment variables
-
-You should set following environment variables:
 
 - `TZ` - Your time zone. Full list can be found [here](https://www.php.net/manual/en/timezones.php).
 - `CORS_ALLOW_ORIGIN` - Allowed [CORS](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS) domains in regex notation. Default is `.*` - all domain names are allowed.
 - `DATABASE_URL` - In case you want to use external MySQL/MariaDB, you can provide custom DSN for DB connection.
+- `LOCALE` - Locale used for date and number formatting. Full list can be found [here](https://unpkg.com/browse/@angular/common@17.3.3/locales/).
+- `API_URL` - Must be set if you want to Expensive be accessible outside your Docker machine. 
 
 ## Ports
 
 - `18001` - is used for backend (API). API reference coming soon.
 - `18002` - is used for frontend (UI)
+
+# Installing mobile version
+
+See [USING_MOBILE_VERSION.md](docs/USING_MOBILE_VERSION.md).
 
 # Contributing
 

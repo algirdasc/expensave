@@ -33,8 +33,10 @@ COPY docker/expensave-cron /etc/cron.d/expensave-cron
 COPY docker/supervisor/supervisor.conf /etc/supervisor/conf.d/supervisor.conf
 COPY docker/php/ /etc/php/${PHP_VERSION}/fpm
 COPY docker/nginx/ /etc/nginx
-COPY docker/boot.sh /boot.sh
-RUN chmod +x /boot.sh
+COPY docker/boot-backend.sh /boot-backend.sh
+COPY docker/boot-frontend.sh /boot-frontend.sh
+
+RUN chmod +x /boot-*.sh
 RUN chmod 0644 /etc/cron.d/expensave-cron
 RUN crontab /etc/cron.d/expensave-cron
 
@@ -46,6 +48,9 @@ RUN mkdir -p /run/mysqld && chown mysql:mysql /run/mysqld
 RUN mysql_install_db
 
 FROM node:20-alpine as frontend
+
+ENV API_URL http://localhost:18001
+ENV LOCALE en
 
 WORKDIR /opt/expensave/frontend
 
@@ -59,7 +64,7 @@ FROM base
 
 ARG COMPOSER_ALLOW_SUPERUSER=1
 
-ENV CORS_ALLOW_ORIGIN https://expensave.backend
+ENV CORS_ALLOW_ORIGIN .*
 
 WORKDIR /opt/expensave/backend
 

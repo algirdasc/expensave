@@ -1,8 +1,10 @@
+import {getLocaleFirstDayOfWeek} from '@angular/common';
 import {Component, EventEmitter, Input, OnChanges, Output, SimpleChanges, Type} from '@angular/core';
 import {NbCalendarCell, NbCalendarDayPickerComponent, NbCalendarMonthModelService,} from '@nebular/theme';
 import {Balance} from '../../../api/objects/balance';
 import {Calendar} from '../../../api/objects/calendar';
 import {Expense} from '../../../api/objects/expense';
+import {APP_CONFIG} from '../../../app.initializer';
 import {DateUtil} from '../../../util/date.util';
 import {
     CalendarGridRowCellDesktopComponent
@@ -40,10 +42,8 @@ export class CalendarComponent extends NbCalendarDayPickerComponent<Date, Date> 
     }
 
     public ngOnChanges(changes: SimpleChanges): void {
-        console.log(changes);
         if (changes?.visibleDate || changes?.boundingMonths) {
-            // TODO: resolve first day of week from locale
-            this.weeks = this.monthModelService.createDaysGrid(this.visibleDate, this.boundingMonths);
+            this.weeks = this.monthModelService.createDaysGrid(this.visibleDate, this.boundingMonths, getLocaleFirstDayOfWeek(APP_CONFIG.locale));
 
             const dateFrom = this.weeks[0][0];
             const dateTo = DateUtil.endOfTheDay(this.weeks[this.weeks.length - 1][6]);
