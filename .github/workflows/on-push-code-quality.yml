@@ -1,6 +1,8 @@
 name: "Code quality"
 
-on: [push, pull_request]
+on:
+  - push
+  - pull_request
 
 jobs:
   psalm:
@@ -22,7 +24,7 @@ jobs:
         uses: php-actions/composer@v6
         with:
           args: --profile --ignore-platform-reqs
-          container_workdir: ./
+          container_workdir: /home/runner/work/expensave/expensave
       - name: Run PHPStan
         uses: php-actions/phpstan@v3
 
