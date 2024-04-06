@@ -35,7 +35,8 @@ jobs:
       - name: PHPCS
         uses: php-actions/phpcs@v1
         with:
-          path: ./backend
+          basepath: ./backend/
+          path: ./backend/src/
           args: -d memory_limit=-1
  
   phpunit:
@@ -53,5 +54,6 @@ jobs:
         uses: php-actions/phpunit@v3
         with:
           php_extensions: "xdebug"
+          configuration: ./backend/phpunit.xml.dist
           args: ./backend
 #          coverage_clover: "coverage/clover.xml"
