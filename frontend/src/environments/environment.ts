@@ -1,6 +1,6 @@
 export const environment = {
     production: false,
-    configFile: 'config.json',
+    configFile: 'config.dev.json',
 };
 
 /*

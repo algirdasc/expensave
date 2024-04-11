@@ -15,7 +15,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
-#[Route('auth/password', name: 'password_')]
+#[Route('api/auth/password', name: 'password_')]
 #[OA\Tag(name: 'Authentication')]
 #[Security(name: '')]
 class PasswordController extends AbstractApiController

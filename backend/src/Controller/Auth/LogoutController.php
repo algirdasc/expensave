@@ -7,13 +7,11 @@ namespace App\Controller\Auth;
 use App\Controller\AbstractApiController;
 use App\Response\EmptyResponse;
 use OpenApi\Attributes as OA;
-use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
-#[Route('auth/logout', name: 'logout_')]
+#[Route('api/auth/logout', name: 'logout_')]
 #[OA\Tag(name: 'Authentication')]
 class LogoutController extends AbstractApiController
 {

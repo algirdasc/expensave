@@ -10,6 +10,7 @@ RUN apt update && \
     apt-utils \
     gpg-agent \
     software-properties-common \
+    jq \
     nginx \
     mariadb-server-10.6 \
     cron \
@@ -49,9 +50,6 @@ RUN mysql_install_db
 
 FROM node:20-alpine as frontend
 
-ENV API_URL http://localhost:18001
-ENV LOCALE en
-
 WORKDIR /opt/expensave/frontend
 
 COPY frontend/ /opt/expensave/frontend
@@ -64,24 +62,23 @@ FROM base
 
 ARG COMPOSER_ALLOW_SUPERUSER=1
 
-ENV CORS_ALLOW_ORIGIN .*
+ENV LOCALE en
 
-WORKDIR /opt/expensave/backend
+WORKDIR /opt/expensave
 
 # Application files
-COPY backend/ /opt/expensave/backend
-COPY --from=frontend /opt/expensave/frontend/dist /opt/expensave/frontend
+COPY backend/ /opt/expensave
+COPY --from=frontend /opt/expensave/frontend/dist /opt/expensave/public/ui
 
 # Forward symfony cache
-RUN mkdir -p /opt/expensave/backend/var/cache
-RUN mkdir /tmp/symfony-cache && ln -sf /tmp/symfony-cache /opt/expensave/backend/var/cache
-RUN mkdir /tmp/symfony-log && ln -sf /tmp/symfony-log /opt/expensave/backend/var/log
+RUN mkdir -p /opt/expensave/var/cache
+RUN mkdir /tmp/symfony-cache && ln -sf /tmp/symfony-cache /opt/expensave/var/cache
+RUN mkdir /tmp/symfony-log && ln -sf /tmp/symfony-log /opt/expensave/var/log
 RUN chown www-data:www-data /tmp/symfony-cache
 RUN chown www-data:www-data /tmp/symfony-log
 
 RUN composer install --optimize-autoloader --no-interaction --no-progress
 
-EXPOSE 18001
-EXPOSE 18002
+EXPOSE 18000
 
 CMD ["supervisord", "-n", "-t", "-c", "/etc/supervisor/conf.d/supervisor.conf"]

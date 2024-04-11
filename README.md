@@ -54,27 +54,18 @@ as well as improve motivation and helps me understand, that this project is usef
 1. Run Docker image. Feel free to add or change environment variables according to your needs:
 ```bash
   docker run \
-    -p 18001:18001 \
-    -p 18002:18002 \
+    -p 18000:18000 \
     -e LOCALE=en
-    -e API_URL=http://localhost:18001
     -v <desired path for DB data>:/var/lib/mysql
     algirdasc/expensave:latest
 ```
-2. Open your browser: [http://localhost:18002](http://localhost:18002)
+2. Open your browser: [http://localhost:18000](http://localhost:18000)
 
 ## Environment variables
 
 - `TZ` - Your time zone. Full list can be found [here](https://www.php.net/manual/en/timezones.php).
-- `CORS_ALLOW_ORIGIN` - Allowed [CORS](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS) domains in regex notation. Default is `.*` - all domain names are allowed.
 - `DATABASE_URL` - In case you want to use external MySQL/MariaDB, you can provide custom DSN for DB connection.
 - `LOCALE` - Locale used for date and number formatting. Full list can be found [here](https://unpkg.com/browse/@angular/common@17.3.3/locales/).
-- `API_URL` - Must be set if you want to Expensive be accessible outside your Docker machine. 
-
-## Ports
-
-- `18001` - is used for backend (API). API reference coming soon.
-- `18002` - is used for frontend (UI)
 
 # Installing mobile version
 

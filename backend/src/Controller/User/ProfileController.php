@@ -13,7 +13,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Attribute\CurrentUser;
 
-#[Route('user', name: 'user_')]
+#[Route('api/user', name: 'user_')]
 class ProfileController extends AbstractApiController
 {
     public function __construct(

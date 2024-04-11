@@ -1,8 +1,8 @@
 #!/bin/bash
 
-cd /opt/expensave/frontend || exit 1
+cd /opt/expensave/public/ui || exit 1
 
 jq -n \
-  --arg apiUrl "$API_URL" \
   --arg locale "$LOCALE" \
-  '{apiUrl: $apiUrl, locale: $locale}' > assets/config.prod.json
+  --arg apiUrl "$API_URL" \
+  '{apiUrl: $apiUrl, locale: $locale}' > config.json
