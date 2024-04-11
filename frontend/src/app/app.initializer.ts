@@ -12,10 +12,10 @@ export class AppInitializer {
 
     public initializeApp(): Observable<ConfigInterface> {
         return this.http
-            .get(`/assets/${environment.configFile}`)
+            .get(environment.configFile)
             .pipe(
                 tap((config: ConfigInterface) => {
-                    APP_CONFIG.apiUrl = config.apiUrl;
+                    APP_CONFIG.apiUrl = config.apiUrl || '/api';
                     APP_CONFIG.locale = config.locale;
 
                     import(

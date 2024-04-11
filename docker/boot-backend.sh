@@ -1,5 +1,7 @@
 #!/bin/bash
 
+cd /opt/expensave || exit 1
+
 if [[ -z "${DATABASE_URL}" ]]; then
   while ! mysqladmin ping --silent; do
       sleep 1

@@ -41,4 +41,4 @@ $_SERVER['PHP_SELF'] = \DIRECTORY_SEPARATOR.$script;
 
 require $script;
 
-error_log(sprintf('%s:%d [%d]: %s', $_SERVER['REMOTE_ADDR'], $_SERVER['REMOTE_PORT'], http_response_code(), $_SERVER['REQUEST_URI']), 4);
+error_log(sprintf('%s:%d [%d] [%s]: %s', $_SERVER['REMOTE_ADDR'], $_SERVER['REMOTE_PORT'], http_response_code(), $script, $_SERVER['REQUEST_URI']), 4);

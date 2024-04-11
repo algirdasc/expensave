@@ -16,7 +16,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-#[Route('statement', name: 'statement_')]
+#[Route('api/statement', name: 'statement_')]
 class ImportController extends AbstractApiController
 {
     public function __construct(

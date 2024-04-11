@@ -19,7 +19,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Attribute\CurrentUser;
 
-#[Route('calendar', name: 'calendar_')]
+#[Route('api/calendar', name: 'calendar_')]
 class CalendarController extends AbstractApiController
 {
     public function __construct(

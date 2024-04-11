@@ -13,7 +13,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
-#[Route('category', name: 'category_')]
+#[Route('api/category', name: 'category_')]
 class CategoryController extends AbstractApiController
 {
     public function __construct(

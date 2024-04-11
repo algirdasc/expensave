@@ -1,4 +1,4 @@
 /dist
 /node_modules
 /.angular
-/src/assets/config*.json
+/src/assets/config.dev.json

@@ -20,7 +20,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Attribute\CurrentUser;
 
-#[Route('expense', name: 'expense_')]
+#[Route('api/expense', name: 'expense_')]
 class ExpenseController extends AbstractApiController
 {
     public function __construct(

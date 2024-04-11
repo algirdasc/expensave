@@ -17,7 +17,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
-#[Route('auth/register', name: 'registration_')]
+#[Route('api/auth/register', name: 'registration_')]
 #[OA\Tag(name: 'Authentication')]
 #[Security(name: '')]
 class RegistrationController extends AbstractApiController
