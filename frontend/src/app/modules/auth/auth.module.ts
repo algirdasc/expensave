@@ -1,20 +1,41 @@
+import {CommonModule, NgOptimizedImage} from '@angular/common';
 import {HttpResponse} from '@angular/common/http';
 import {ModuleWithProviders, NgModule} from '@angular/core';
+import {FormsModule} from '@angular/forms';
 import {RouterModule} from '@angular/router';
 import {NbAuthModule} from '@nebular/auth';
 import {NbEvaIconsModule} from '@nebular/eva-icons';
-import {NbIconModule} from '@nebular/theme';
+import {
+    NbAlertModule,
+    NbButtonModule,
+    NbCardModule,
+    NbCheckboxModule,
+    NbIconModule,
+    NbInputModule,
+    NbLayoutModule
+} from '@nebular/theme';
 import {AuthStrategy} from './auth-strategy';
 import {authRoutes} from './auth.routes';
+import {LoginComponent} from './components/login/login.component';
 import {JwtRefreshableToken} from './jwt-refreshable-token';
 
 @NgModule({
     declarations: [
+        LoginComponent,
     ],
     imports: [
+        CommonModule,
+        FormsModule,
+        NbLayoutModule,
+        NbCardModule,
+        NbAlertModule,
+        NbInputModule,
+        NbButtonModule,
         NbEvaIconsModule,
         NbIconModule,
-        RouterModule.forChild(authRoutes)
+        NbCheckboxModule,
+        RouterModule.forChild(authRoutes),
+        NgOptimizedImage
     ],
 })
 export class AuthModule {

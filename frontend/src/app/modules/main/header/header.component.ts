@@ -1,6 +1,6 @@
-import {Component, Input} from '@angular/core';
+import {Component, Input, ViewChild} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
-import {NbCalendarViewMode, NbDateService, NbSidebarService} from '@nebular/theme';
+import {NbCalendarViewMode, NbDateService, NbPopoverDirective, NbSidebarService} from '@nebular/theme';
 import {Calendar} from '../../../api/objects/calendar';
 import {DateUtil} from '../../../util/date.util';
 
@@ -13,6 +13,7 @@ export class HeaderComponent {
     @Input() public calendar: Calendar;
     @Input() public visibleDateBalance: number;
     @Input() public visibleDate: Date;
+    @ViewChild(NbPopoverDirective) popover: NbPopoverDirective;
 
     public viewMode: typeof NbCalendarViewMode = NbCalendarViewMode;
     public activeViewMode: NbCalendarViewMode = NbCalendarViewMode.DATE;
@@ -29,8 +30,10 @@ export class HeaderComponent {
     }
 
     public changeViewMode(): void {
+        console.log('change');
         if (this.activeViewMode === NbCalendarViewMode.DATE) {
             this.activeViewMode = NbCalendarViewMode.YEAR;
+            this.popover.show();
         } else {
             this.activeViewMode = NbCalendarViewMode.DATE;
         }
@@ -47,7 +50,7 @@ export class HeaderComponent {
     public navigateToDate(date?: Date): void {
         this.router.navigate(['.'], {
             relativeTo: this.activatedRoute,
-            queryParams: { date: this.dateService.format(date, DateUtil.DATE_MONTH_DAY_FORMAT) },
+            queryParams: { date: this.dateService.format(date, DateUtil.MONTH_DAY_FORMAT) },
             queryParamsHandling: 'merge',
             replaceUrl: true,
         })

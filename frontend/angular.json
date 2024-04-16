@@ -23,7 +23,8 @@
                         "assets": [
                             "src/manifest.json",
                             "src/favicon.ico",
-                            "src/assets"
+                            "src/assets",
+                            "src/config.dev.json"
                         ],
                         "styles": [
                             "src/styles.scss"

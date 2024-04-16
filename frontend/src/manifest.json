@@ -1,5 +1,5 @@
 {
-    "background_color": "blue",
+    "background_color": "#2f2e5f",
     "description": "Manage personal & family budget and expenses",
     "display": "standalone",
     "orientation": "portrait",
