@@ -3,6 +3,7 @@ import {NbDialogRef} from '@nebular/theme';
 import {User} from '../../../../api/objects/user';
 import {PasswordRequest} from '../../../../api/request/password.request';
 import {UserApiService} from '../../../../api/user.api.service';
+import {AuthOptionsService} from '../../../../services/auth-options.service';
 
 @Component({
     templateUrl: 'profile-dialog.component.html',
@@ -15,7 +16,8 @@ export class ProfileDialogComponent implements OnInit {
 
     constructor(
         private readonly userApiService: UserApiService,
-        private readonly dialogRef: NbDialogRef<ProfileDialogComponent>
+        private readonly dialogRef: NbDialogRef<ProfileDialogComponent>,
+        public authOptions: AuthOptionsService,
     ) {
         this.userApiService.onBusyChange.subscribe((isBusy: boolean) => this.isBusy = isBusy);
     }

@@ -3,4 +3,5 @@ controllers:
     type: attribute
 
 api_refresh_token:
-    path: /auth/refresh-token
+    path: /api/auth/refresh-token
+#    methods: GET|POST

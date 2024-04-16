@@ -1,11 +1,8 @@
 import {Expose, Type} from 'class-transformer';
-import {Category} from '../objects/category';
+import {Expense} from '../objects/expense';
 
 export class ExpenseSuggestResponse {
     @Expose()
-    public label?: string;
-
-    @Expose()
-    @Type(() => Category)
-    public category?: Category;
+    @Type(() => Expense)
+    public expense?: Expense;
 }

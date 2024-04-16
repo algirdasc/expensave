@@ -24,9 +24,9 @@ export class CalendarComponent extends NbCalendarDayPickerComponent<Date, Date> 
     @Input({required: true}) public expenses: Expense[];
     @Input({required: true}) public balances: Balance[];
     @Input({required: true}) public calendar: Calendar;
+    @Input({required: true}) public selectedDate: Date;
     @Output() public calendarChange: EventEmitter<Calendar> = new EventEmitter<Calendar>();
     @Output() public rangeChange: EventEmitter<{ dateFrom: Date, dateTo: Date }> = new EventEmitter<{dateFrom: Date; dateTo: Date}>();
-    public selectedDate: Date;
     public cellComponent: Type<NbCalendarCell<Date, Date>> = CalendarGridRowCellDesktopComponent;
 
     constructor(

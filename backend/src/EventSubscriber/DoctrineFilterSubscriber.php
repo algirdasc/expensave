@@ -10,11 +10,11 @@ use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpKernel\KernelEvents;
 
-class DoctrineFilterSubscriber implements EventSubscriberInterface
+readonly class DoctrineFilterSubscriber implements EventSubscriberInterface
 {
     public function __construct(
-        private readonly EntityManagerInterface $entityManager,
-        private readonly Security $security,
+        private EntityManagerInterface $entityManager,
+        private Security $security,
     ) {
     }
 

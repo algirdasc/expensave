@@ -30,6 +30,7 @@ import {AuthStrategy} from './modules/auth/auth-strategy';
 import {AuthModule} from './modules/auth/auth.module';
 import {tokenFilter} from './modules/auth/token.filter';
 import {Error404Component} from './modules/error-404.component';
+import {AuthOptionsService} from './services/auth-options.service';
 
 const apiServices = [
     CalendarApiService,
@@ -61,7 +62,6 @@ const apiServices = [
     ],
     providers: [
         AppInitializer,
-        AuthStrategy,
         {
             provide: APP_INITIALIZER,
             useFactory: (appInitializer: AppInitializer) => () => appInitializer.initializeApp(),
@@ -79,10 +79,12 @@ const apiServices = [
             deps: [AppInitializer]
         },
         { provide: NB_AUTH_TOKEN_INTERCEPTOR_FILTER, useValue: tokenFilter },
-        { provide: HTTP_INTERCEPTORS, useClass: NbAuthJWTInterceptor, multi: true },
         { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
-        { provide: HTTP_INTERCEPTORS, useClass: UnauthorizedInterceptor, multi: true },
         { provide: HTTP_INTERCEPTORS, useClass: ApiInterceptor, multi: true },
+        { provide: HTTP_INTERCEPTORS, useClass: NbAuthJWTInterceptor, multi: true },
+        { provide: HTTP_INTERCEPTORS, useClass: UnauthorizedInterceptor, multi: true },
+        AuthStrategy,
+        AuthOptionsService,
         ...apiServices
     ],
     bootstrap: [

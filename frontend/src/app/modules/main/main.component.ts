@@ -37,8 +37,9 @@ export class MainComponent implements OnInit {
 
         this.activatedRoute.queryParams.subscribe(({ date }: { date?: string }) => {
             if (date) {
-                const parsedDate = this.dateService.parse(date, DateUtil.DATE_MONTH_DAY_FORMAT);
+                const parsedDate = this.dateService.parse(date, DateUtil.MONTH_DAY_FORMAT);
                 if (DateUtil.valid(parsedDate)) {
+                    parsedDate.setDate(this.mainService.visibleDate.getDate());
                     this.mainService.visibleDate = parsedDate;
                 }
             }
@@ -55,7 +56,7 @@ export class MainComponent implements OnInit {
                 const newVisibleDate = this.dateService.addMonth(this.mainService.visibleDate, event.distance < 0 ? 1 : -1);
                 this.router.navigate(['.'], {
                     relativeTo: this.activatedRoute,
-                    queryParams: { date: this.dateService.format(newVisibleDate, DateUtil.DATE_MONTH_DAY_FORMAT) },
+                    queryParams: { date: this.dateService.format(newVisibleDate, DateUtil.MONTH_DAY_FORMAT) },
                     queryParamsHandling: 'merge',
                     replaceUrl: true,
                 })

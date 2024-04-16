@@ -84,11 +84,7 @@ class ExpenseController extends AbstractApiController
     public function suggest(SuggestRequest $request): JsonResponse
     {
         $suggestedExpense = $this->expenseRepository->findSuggestion($request->getLabel());
-        $matchedCategory = $this->categoryRuleRepository->match($request->getLabel());
 
-        return $this->respond(new SuggestResponse(
-            $suggestedExpense?->getLabel() ?? '',
-            $matchedCategory ?? $suggestedExpense?->getCategory()
-        ));
+        return $this->respond($suggestedExpense);
     }
 }

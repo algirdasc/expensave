@@ -5,7 +5,6 @@ import {ExpenseApiService} from '../../../../api/expense.api.service';
 import {Calendar} from '../../../../api/objects/calendar';
 import {Category} from '../../../../api/objects/category';
 import {Expense} from '../../../../api/objects/expense';
-import {ExpenseSuggestResponse} from '../../../../api/response/expense-suggest.response';
 import {UNCATEGORIZED_COLOR} from '../../../../util/color.util';
 import {DateUtil} from '../../../../util/date.util';
 import {CalendarsDialogComponent} from '../calendars-dialog/calendars-dialog.component';
@@ -21,11 +20,11 @@ import {InputDialogComponent} from '../input-dialog/input-dialog.component';
 export class ExpenseDialogComponent implements AfterViewInit {
     public expense: Expense;
     public isBusy: boolean = false;
-    public expenseSuggestionResponse: ExpenseSuggestResponse;
+    public suggestedExpense: Expense;
 
     protected readonly UNCATEGORIZED_COLOR: string = UNCATEGORIZED_COLOR;
 
-    private labelSuggestionSubscription: Subscription;
+    private expenseSuggestionSubscription: Subscription;
     @ViewChild('focus') private focusElement: ElementRef;
 
     constructor(
@@ -128,16 +127,16 @@ export class ExpenseDialogComponent implements AfterViewInit {
 
     public handleInputChange(input: string): void {
         // 1. Deselect category when input change & is not equal to suggestion (new expense only)
-        if (this.expense.id === undefined && input !== this.expenseSuggestionResponse?.label) {
+        if (this.expense.id === undefined && input !== this.suggestedExpense?.label) {
             this.expense.category = undefined;
         }
 
         // 2. Delete expired suggestion
-        this.expenseSuggestionResponse = undefined;
+        this.suggestedExpense = undefined;
 
         // 3. Cancel pending suggestion request
-        if (this.labelSuggestionSubscription) {
-            this.labelSuggestionSubscription.unsubscribe();
+        if (this.expenseSuggestionSubscription) {
+            this.expenseSuggestionSubscription.unsubscribe();
         }
 
         // 4. Do not look for suggestion on empty input
@@ -146,15 +145,16 @@ export class ExpenseDialogComponent implements AfterViewInit {
         }
 
         // 5. Search for suggestions
-        this.labelSuggestionSubscription = this.expenseApiService
+        this.expenseSuggestionSubscription = this.expenseApiService
             .suggest(input)
-            .subscribe((response: ExpenseSuggestResponse) => {
-                this.expenseSuggestionResponse = response;
+            .subscribe((response: Expense) => {
+                this.suggestedExpense = response;
             });
     }
 
     public applyLabelSuggestion(): void {
-        this.expense.label = this.expenseSuggestionResponse.label;
-        this.expense.category = this.expenseSuggestionResponse.category;
+        this.expense.label = this.suggestedExpense.label;
+        this.expense.category = this.suggestedExpense.category;
+        this.expense.isExpense = this.suggestedExpense.isExpense;
     }
 }

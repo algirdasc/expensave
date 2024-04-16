@@ -20,7 +20,7 @@
                         <app-input-suggestion
                             [input]="expense.label"
                             (inputChanged)="handleInputChange($event)"
-                            [suggestion]="expenseSuggestionResponse?.label"
+                            [suggestion]="suggestedExpense?.label ?? ''"
                             (suggest)="applyLabelSuggestion()"
                             [cssClasses]="'t-input px-0 pt-3 pb-2'">
                             <input nbInput fullWidth required tabIndex="2"
