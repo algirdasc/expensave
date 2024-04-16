@@ -8,13 +8,11 @@ use App\Const\ContextGroup\ExpenseContextGroupConst;
 use App\Controller\AbstractApiController;
 use App\Entity\Expense;
 use App\Entity\User;
-use App\Repository\CategoryRuleRepository;
 use App\Repository\ExpenseRepository;
 use App\Request\Expense\CreateExpenseRequest;
 use App\Request\Expense\SuggestRequest;
 use App\Request\Expense\UpdateExpenseRequest;
 use App\Response\EmptyResponse;
-use App\Response\Expense\SuggestResponse;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -25,7 +23,6 @@ class ExpenseController extends AbstractApiController
 {
     public function __construct(
         private readonly ExpenseRepository $expenseRepository,
-        private readonly CategoryRuleRepository $categoryRuleRepository,
     ) {
     }
 
