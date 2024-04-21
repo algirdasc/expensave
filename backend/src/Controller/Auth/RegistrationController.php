@@ -30,8 +30,9 @@ class RegistrationController extends AbstractApiController
             ->setName($request->getFullName())
             ->setActive(true)
             ->setPlainPassword($request->getPassword())
-            ->addCalendar(new Calendar('Personal'))
         ;
+
+        new Calendar('Personal', $user);
 
         $userRepository->save($user);
 

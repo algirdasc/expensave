@@ -30,7 +30,7 @@ class ProfileController extends AbstractApiController
     #[Route('', methods: Request::METHOD_GET)]
     public function list(): JsonResponse
     {
-        return $this->respond($this->userRepository->findAll());
+        return $this->respond($this->userRepository->findBy([], ['name' => 'ASC']));
     }
 
     #[Route('/profile', methods: Request::METHOD_GET)]
@@ -42,8 +42,6 @@ class ProfileController extends AbstractApiController
     #[Route('/change-password', methods: Request::METHOD_PUT)]
     public function changePassword(#[CurrentUser] User $user, PasswordChangeRequest $request): JsonResponse
     {
-        $a = 0;
-
         if (!$this->passwordHasher->isPasswordValid($user, $request->getCurrentPassword())) {
             throw new RequestValidationException(
                 ConstraintViolationList::createFromMessage(AssertConst::MSG_PASSWORD_INVALID)
@@ -57,13 +55,5 @@ class ProfileController extends AbstractApiController
 
 
         return $this->respond($user, groups: UserContextGroupConst::DETAILS);
-    }
-
-    #[Route('/search', methods: Request::METHOD_POST)]
-    public function search(#[CurrentUser] User $user): JsonResponse
-    {
-        $users = $this->userRepository->findAll();
-
-        return $this->respond($this->userRepository->findAll());
     }
 }

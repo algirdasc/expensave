@@ -30,9 +30,10 @@ export class MainComponent implements OnInit {
     }
 
     public ngOnInit(): void {
-        this.activatedRoute.data.subscribe(({ user }: { user: User }) => {
+        this.activatedRoute.data.subscribe(({ user, calendars }: { user: User, calendars: Calendar[] }) => {
             this.mainService.user = user;
-            this.mainService.calendar = user.calendars[0];
+            this.mainService.calendars = calendars;
+            this.mainService.calendar = this.mainService.calendars[0];
         });
 
         this.activatedRoute.queryParams.subscribe(({ date }: { date?: string }) => {

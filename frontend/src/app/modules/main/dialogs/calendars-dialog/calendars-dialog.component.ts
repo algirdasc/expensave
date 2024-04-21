@@ -25,6 +25,7 @@ export class CalendarsDialogComponent implements OnInit {
     }
 
     public editCalendar(calendar?: Calendar): void {
+        // TODO: create calendar with user
         this.editableCalendar = calendar ?? new Calendar();
     }
 

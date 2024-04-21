@@ -6,9 +6,6 @@ import {Observable, throwError} from 'rxjs';
 import {catchError} from 'rxjs/operators';
 import {Error} from '../api/objects/error';
 
-const REQUEST_VALIDATION_EXCEPTION: string = 'App\\Exception\\RequestValidationException';
-// const AUTH_EXCEPTION: string = 'Lexik\\Bundle\\JWTAuthenticationBundle\\Exception\\MissingTokenException';
-
 @Injectable()
 export class ErrorInterceptor implements HttpInterceptor {
     constructor(
@@ -23,7 +20,7 @@ export class ErrorInterceptor implements HttpInterceptor {
             .pipe(
                 catchError((response: HttpErrorResponse) => {
                     if (response.status === 0) {
-                        this.toastrService.danger('Cannot connect to server!', 'Connection error!');
+                        this.toastrService.danger('Unable to connect to Expensave server!', 'Connection error!');
                     } else {
                         const error: Error = plainToInstance(
                             Error,
@@ -33,7 +30,7 @@ export class ErrorInterceptor implements HttpInterceptor {
 
                         if (!error.throwable) {
                             this.toastrService.danger(response.message, response.statusText);
-                        } else if (error.throwable === REQUEST_VALIDATION_EXCEPTION) {
+                        } else {
                             for (const errorMessage of error.messages) {
                                 this.toastrService.danger(errorMessage.message, response.statusText);
                             }

@@ -1,17 +1,18 @@
-import {Component, EventEmitter, Input, Output,} from '@angular/core';
-import {NbDialogService} from '@nebular/theme';
+import {Component, EventEmitter, Input, OnInit, Output,} from '@angular/core';
+import {NbDialogRef, NbDialogService} from '@nebular/theme';
 import {CalendarApiService} from '../../../../api/calendar.api.service';
 import {Calendar} from '../../../../api/objects/calendar';
 import {CalendarEditComponent} from '../../dialogs/calendars-dialog/calendar-edit/calendar-edit.component';
 import {ConfirmDialogComponent} from '../../dialogs/confirm-dialog/confirm-dialog.component';
 import {StatementImportDialogComponent} from '../../dialogs/statement-import-dialog/statement-import-dialog.component';
+import {MainService} from '../../main.service';
 
 @Component({
     selector: 'app-sidebar-calendar-list',
     styleUrls: ['calendar-list.component.scss'],
     templateUrl: 'calendar-list.component.html'
 })
-export class CalendarSidebarListComponent {
+export class CalendarSidebarListComponent implements OnInit {
     @Input() public calendar: Calendar;
     @Output() public calendarChange: EventEmitter<Calendar> = new EventEmitter<Calendar>();
 
@@ -19,12 +20,29 @@ export class CalendarSidebarListComponent {
     @Output() public calendarsChange: EventEmitter<Calendar[]> = new EventEmitter<Calendar[]>();
 
     public isBusy: boolean = false;
+    private dialogRef: NbDialogRef<CalendarEditComponent>;
+    private dialogBack: EventEmitter<boolean> = new EventEmitter<boolean>();
+    private dialogSave: EventEmitter<Calendar> = new EventEmitter<Calendar>();
 
     constructor(
         public readonly dialogService: NbDialogService,
-        public readonly calendarApiService: CalendarApiService
+        public readonly mainService: MainService,
+        public readonly calendarApiService: CalendarApiService,
     ) {
         this.calendarApiService.onBusyChange.subscribe((isBusy: boolean) => this.isBusy = isBusy);
+
+        this.dialogBack.subscribe(() => this.dialogRef.close());
+        this.dialogSave.subscribe((calendar: Calendar) => {
+            this.calendarApiService
+                .save(calendar)
+                .subscribe((calendar: Calendar) => {
+                    this.dialogRef.close(calendar);
+                })
+        })
+    }
+
+    public ngOnInit(): void {
+        this.fetch();
     }
 
     public importStatement(calendar: Calendar): void {
@@ -62,24 +80,22 @@ export class CalendarSidebarListComponent {
     }
 
     public createCalendar(): void {
-        this.openCalendarDialog(new Calendar(), () => {});
-
-        // this.dialogService
-        //     .open(CalendarEditComponent, { context: { calendar: new Calendar() } })
-        //     .onClose
-        //     .subscribe((result?: Calendar) => {
-        //         if (result) {
-        //             this.fetch();
-        //         }
-        //     })
-        // ;
+        this.openCalendarDialog(Calendar.create(this.mainService.user), (calendar: Calendar) => {
+            if (calendar !== undefined) {
+                this.fetch();
+            }
+        });
     }
 
     public editCalendar(calendar: Calendar): void {
         this.calendarApiService
             .get(calendar.id)
             .subscribe((calendar: Calendar) => {
-                this.openCalendarDialog(calendar, () => this.fetch()); // TODO: .fetchExpenses());
+                this.openCalendarDialog(calendar, () => {
+                    if (calendar !== undefined) {
+                        this.fetch();
+                    }
+                });
             });
     }
 
@@ -94,14 +110,19 @@ export class CalendarSidebarListComponent {
     }
 
     private openCalendarDialog(calendar: Calendar, onClose: (calendar: Calendar) => void): void {
-        this.dialogService
+        this.dialogRef = this.dialogService
             .open(CalendarEditComponent, {
                 context: {
                     calendar: calendar,
+                    back: this.dialogBack,
+                    save: this.dialogSave,
                 }
-            })
+            });
+
+        this.dialogRef
             .onClose
             .subscribe((calendar: Calendar) => {
+                console.log('a', calendar);
                 onClose(calendar);
             })
         ;

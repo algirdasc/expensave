@@ -22,19 +22,22 @@ class Calendar
     #[Groups(CalendarContextGroupConst::ALWAYS)]
     private string $name;
 
+    #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'calendars')]
+    #[Groups(CalendarContextGroupConst::ALWAYS)]
+    private User $owner;
+
     /**
      * @var Collection<Expense>
      */
     #[ORM\OneToMany(mappedBy: 'calendar', targetEntity: Expense::class)]
-    #[Groups(CalendarContextGroupConst::DETAILS)]
     private Collection $expenses;
 
     /**
      * @var Collection<User>
      */
-    #[ORM\ManyToMany(targetEntity: User::class, inversedBy: 'calendars')]
+    #[ORM\ManyToMany(targetEntity: User::class, inversedBy: 'sharedCalendars')]
     #[Groups(CalendarContextGroupConst::DETAILS)]
-    private Collection $users;
+    private Collection $collaborators;
 
     #[ORM\Column]
     #[Groups(CalendarContextGroupConst::ALWAYS)]
@@ -43,13 +46,14 @@ class Calendar
     #[Groups(CalendarContextGroupConst::ALWAYS)]
     public function isShared(): bool
     {
-        return $this->users->count() > 1;
+        return $this->collaborators->count() > 0;
     }
 
-    public function __construct(string $name)
+    public function __construct(string $name, User $owner)
     {
         $this->name = $name;
-        $this->users = new ArrayCollection();
+        $this->owner = $owner;
+        $this->collaborators = new ArrayCollection();
         $this->expenses = new ArrayCollection();
     }
 
@@ -91,23 +95,23 @@ class Calendar
         return $this;
     }
 
-    public function getUsers(): Collection
+    public function getCollaborators(): Collection
     {
-        return $this->users;
+        return $this->collaborators;
     }
 
-    public function addUser(User $user): self
+    public function addCollaborator(User $user): self
     {
-        if (!$this->users->contains($user)) {
-            $this->users->add($user);
+        if (!$this->collaborators->contains($user)) {
+            $this->collaborators->add($user);
         }
 
         return $this;
     }
 
-    public function removeUser(User $user): self
+    public function removeCollaborator(User $user): self
     {
-        $this->users->removeElement($user);
+        $this->collaborators->removeElement($user);
 
         return $this;
     }
@@ -136,5 +140,10 @@ class Calendar
         $this->balance -= $balance;
 
         return $this;
+    }
+
+    public function getOwner(): User
+    {
+        return $this->owner;
     }
 }

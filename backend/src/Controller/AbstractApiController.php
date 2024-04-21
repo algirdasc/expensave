@@ -10,6 +10,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
+use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
+use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
 abstract class AbstractApiController extends AbstractController
 {
@@ -20,12 +22,21 @@ abstract class AbstractApiController extends AbstractController
     {
         $groups = (array) $groups;
 
+        /**
+         * @noinspection PhpUnhandledExceptionInspection
+         * @var NormalizerInterface $normalizer
+         */
+        $normalizer = $this->container->get('serializer');
+
         return $this
             ->json(
                 data: $data,
                 status: $status,
                 context: [
                     'groups' => ContextGroupConst::fromRequest($groups),
+                    AbstractNormalizer::CIRCULAR_REFERENCE_HANDLER => function (object $object, string $format, array $context) use ($normalizer): array {
+                        return (array) $normalizer->normalize($object, $format, ['groups' => ContextGroupConst::fromRequest()]);
+                    }
                 ]
             )
             ->setEncodingOptions(JSON_PRETTY_PRINT)
