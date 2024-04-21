@@ -30,7 +30,6 @@ export class HeaderComponent {
     }
 
     public changeViewMode(): void {
-        console.log('change');
         if (this.activeViewMode === NbCalendarViewMode.DATE) {
             this.activeViewMode = NbCalendarViewMode.YEAR;
             this.popover.show();

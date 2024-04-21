@@ -7,10 +7,12 @@ namespace App\Repository;
 use App\Entity\User;
 use App\Request\Auth\RegistrationRequest;
 use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Bridge\Doctrine\Security\User\UserLoaderInterface;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\PasswordUpgraderInterface;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * @extends AbstractRepository<User>
@@ -19,7 +21,7 @@ use Symfony\Component\Security\Core\User\PasswordUpgraderInterface;
  * @method array<User> findAll()
  * @method array<User> findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class UserRepository extends AbstractRepository implements PasswordUpgraderInterface
+class UserRepository extends AbstractRepository implements PasswordUpgraderInterface, UserLoaderInterface
 {
     public function __construct(
         ManagerRegistry $registry,
@@ -62,5 +64,10 @@ class UserRepository extends AbstractRepository implements PasswordUpgraderInter
         $user->setPassword($newHashedPassword);
 
         $this->save($user);
+    }
+
+    public function loadUserByIdentifier(string $identifier): ?UserInterface
+    {
+        return $this->findOneBy(['email' => $identifier, 'active' => true]);
     }
 }

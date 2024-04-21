@@ -4,7 +4,6 @@ namespace App\Entity;
 
 use App\Const\ContextGroup\UserContextGroupConst;
 use App\Repository\UserRepository;
-use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -46,15 +45,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @var Collection<Calendar>
      */
-    #[ORM\ManyToMany(targetEntity: Calendar::class, mappedBy: 'users')]
+    #[ORM\ManyToMany(targetEntity: Calendar::class, mappedBy: 'users', cascade: ['persist'])]
     #[Groups(UserContextGroupConst::DETAILS)]
     private Collection $calendars;
 
     #[ORM\Column]
     private bool $active = false;
-
-    #[ORM\Column(nullable: true)]
-    private ?DateTime $lastLoginAt = null;
 
     public function __construct()
     {
@@ -167,18 +163,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setActive(bool $active): self
     {
         $this->active = $active;
-
-        return $this;
-    }
-
-    public function getLastLoginAt(): ?DateTime
-    {
-        return $this->lastLoginAt;
-    }
-
-    public function setLastLoginAt(?DateTime $lastLoginAt): self
-    {
-        $this->lastLoginAt = $lastLoginAt;
 
         return $this;
     }

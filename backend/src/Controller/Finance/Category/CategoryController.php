@@ -11,7 +11,7 @@ use App\Request\Category\CreateCategoryRequest;
 use App\Request\Category\UpdateCategoryRequest;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 
 #[Route('api/category', name: 'category_')]
 class CategoryController extends AbstractApiController

@@ -33,7 +33,7 @@ export class ErrorInterceptor implements HttpInterceptor {
 
                         if (!error.throwable) {
                             this.toastrService.danger(response.message, response.statusText);
-                        } else if (error.throwable !== REQUEST_VALIDATION_EXCEPTION) {
+                        } else if (error.throwable === REQUEST_VALIDATION_EXCEPTION) {
                             for (const errorMessage of error.messages) {
                                 this.toastrService.danger(errorMessage.message, response.statusText);
                             }
