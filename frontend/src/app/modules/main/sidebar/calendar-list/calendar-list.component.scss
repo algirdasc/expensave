@@ -16,7 +16,7 @@
 
 :host ::ng-deep label .calendar-actions {
   display: none;
-  width: 120px;
+  max-width: 140px;
 }
 
 :host ::ng-deep label:hover .calendar-actions {

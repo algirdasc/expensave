@@ -3,6 +3,7 @@ import {Injectable} from '@angular/core';
 import {plainToInstance} from 'class-transformer';
 import {Observable, Subject} from 'rxjs';
 import {finalize, map} from 'rxjs/operators';
+import {Calendar} from './objects/calendar';
 import {User} from './objects/user';
 import {PasswordRequest} from './request/password.request';
 
@@ -27,6 +28,16 @@ export class UserApiService {
         this.onBusyChange.next(true);
 
         return this.http.put(`${this.backend}/change-password`, password)
+            .pipe(
+                finalize(() => this.onBusyChange.next(false)),
+                map((response: HttpResponse<User>) => this.convertToType(response))
+            );
+    }
+
+    public defaultCalendar(calendar: Calendar): Observable<User> {
+        this.onBusyChange.next(true);
+
+        return this.http.put(`${this.backend}/default-calendar/${calendar.id}`, {})
             .pipe(
                 finalize(() => this.onBusyChange.next(false)),
                 map((response: HttpResponse<User>) => this.convertToType(response))

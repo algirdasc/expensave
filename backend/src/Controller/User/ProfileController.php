@@ -7,6 +7,7 @@ namespace App\Controller\User;
 use App\Const\AssertConst;
 use App\Const\ContextGroup\UserContextGroupConst;
 use App\Controller\AbstractApiController;
+use App\Entity\Calendar;
 use App\Entity\User;
 use App\Exception\RequestValidationException;
 use App\Repository\UserRepository;
@@ -49,6 +50,16 @@ class ProfileController extends AbstractApiController
         }
 
         $user->setPlainPassword($request->getNewPassword());
+
+        $this->userRepository->save($user);
+
+        return $this->respond($user, groups: UserContextGroupConst::DETAILS);
+    }
+
+    #[Route('/default-calendar/{calendar}', methods: Request::METHOD_PUT)]
+    public function defaultCalendar(#[CurrentUser] User $user, Calendar $calendar): JsonResponse
+    {
+        $user->setDefaultCalendarId($calendar->getId());
 
         $this->userRepository->save($user);
 

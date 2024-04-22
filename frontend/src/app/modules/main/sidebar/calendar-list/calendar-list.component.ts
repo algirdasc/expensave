@@ -2,6 +2,7 @@ import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {NbDialogRef, NbDialogService, NbToastrService} from '@nebular/theme';
 import {CalendarApiService} from '../../../../api/calendar.api.service';
 import {Calendar} from '../../../../api/objects/calendar';
+import {UserApiService} from '../../../../api/user.api.service';
 import {CalendarEditComponent} from '../../dialogs/calendars-dialog/calendar-edit/calendar-edit.component';
 import {ConfirmDialogComponent} from '../../dialogs/confirm-dialog/confirm-dialog.component';
 import {StatementImportDialogComponent} from '../../dialogs/statement-import-dialog/statement-import-dialog.component';
@@ -28,6 +29,7 @@ export class CalendarSidebarListComponent {
         public readonly dialogService: NbDialogService,
         public readonly mainService: MainService,
         public readonly calendarApiService: CalendarApiService,
+        public readonly userApiService: UserApiService,
         public readonly toastrService: NbToastrService,
     ) {
         this.calendarApiService.onBusyChange.subscribe((isBusy: boolean) => this.isBusy = isBusy);
@@ -73,6 +75,15 @@ export class CalendarSidebarListComponent {
                         })
                     ;
                 }
+            });
+    }
+
+    public makeDefault(calendar: Calendar): void {
+        this.userApiService
+            .defaultCalendar(calendar)
+            .subscribe(() => {
+                this.calendarChange.emit(calendar);
+                this.toastrService.success(`Calendar '${calendar.name}' is now default`, 'You changed your default calendar');
             });
     }
 

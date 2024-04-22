@@ -12,6 +12,9 @@ export class User implements EntityInterface {
     @Expose()
     public email: string;
 
+    @Expose()
+    public defaultCalendarId?: number;
+
     get avatar(): string {
         const email = this.email?.trim().toLowerCase() ?? '';
 
