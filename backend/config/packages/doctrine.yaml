@@ -18,6 +18,8 @@ doctrine:
         filters:
             calendar:
                 class: App\DoctrineFilter\CalendarFilter
+            expense:
+                class: App\DoctrineFilter\ExpenseFilter
         dql:
             datetime_functions:
                 date: DoctrineExtensions\Query\Mysql\Date

@@ -35,9 +35,16 @@ readonly class CollectionTransformationHandler implements TransformationHandlerI
 
         /** @var class-string $entityClassName */
         $entityClassName = $collectionTypes[0]->getCollectionValueTypes()[0]->getClassName();
+        $classMetadata = $this->entityManager->getClassMetadata($entityClassName);
+        $idField = $classMetadata->getSingleIdentifierFieldName();
 
         $repository = $this->entityManager->getRepository($entityClassName);
 
-        return new ArrayCollection($repository->findBy(['id' => $value]));
+        $idValues = [];
+        foreach ($value as $item) {
+            $idValues[] = is_array($item) ? $item[$idField] : $item;
+        }
+
+        return new ArrayCollection($repository->findBy([$idField => $idValues]));
     }
 }

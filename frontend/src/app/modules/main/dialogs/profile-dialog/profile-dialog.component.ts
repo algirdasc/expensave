@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {NbDialogRef} from '@nebular/theme';
+import {NbDialogRef, NbToastrService} from '@nebular/theme';
 import {User} from '../../../../api/objects/user';
 import {PasswordRequest} from '../../../../api/request/password.request';
 import {UserApiService} from '../../../../api/user.api.service';
@@ -17,6 +17,7 @@ export class ProfileDialogComponent implements OnInit {
     constructor(
         private readonly userApiService: UserApiService,
         private readonly dialogRef: NbDialogRef<ProfileDialogComponent>,
+        private readonly toastrService: NbToastrService,
         public authOptions: AuthOptionsService,
     ) {
         this.userApiService.onBusyChange.subscribe((isBusy: boolean) => this.isBusy = isBusy);
@@ -32,7 +33,10 @@ export class ProfileDialogComponent implements OnInit {
     public onSubmit(): void {
         this.userApiService
             .changePassword(this.passwordRequest)
-            .subscribe((user: User) => this.dialogRef.close(user))
+            .subscribe((user: User) => {
+                this.toastrService.success('Password changed successfully!', 'Password change');
+                this.dialogRef.close(user)
+            })
         ;
     }
 }

@@ -11,7 +11,6 @@ export const tokenFilter = (req: HttpRequest<any>) => {
     ];
 
     const path = req.urlWithParams.replace(APP_CONFIG.apiUrl, '');
-    console.log(path);
 
     return publicUrls.includes(path);
 };

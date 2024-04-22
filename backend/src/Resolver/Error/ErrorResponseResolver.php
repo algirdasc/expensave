@@ -13,17 +13,11 @@ use Throwable;
 class ErrorResponseResolver
 {
     /**
-     * @var iterable<ErrorHandlerInterface>
-     */
-    private iterable $responseErrorHandlers;
-
-    /**
      * @param iterable<ErrorHandlerInterface> $responseErrorHandlers
      */
     public function __construct(
-        #[TaggedIterator('app.handler.error')] iterable $responseErrorHandlers
+        #[TaggedIterator('app.handler.error')] private readonly iterable $responseErrorHandlers
     ) {
-        $this->responseErrorHandlers = $responseErrorHandlers;
     }
 
     public function getFromThrowable(Throwable $throwable): ErrorResponse

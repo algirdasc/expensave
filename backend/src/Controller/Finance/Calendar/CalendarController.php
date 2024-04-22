@@ -11,12 +11,15 @@ use App\Entity\User;
 use App\Repository\CalendarRepository;
 use App\Repository\ExpenseRepository;
 use App\Request\Calendar\CreateCalendarRequest;
+use App\Request\Calendar\UpdateCalendarRequest;
+use App\Response\EmptyResponse;
 use App\Response\Statement\ExpenseListResponse;
 use App\Service\BalanceCalculatorService;
 use DateTime;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\Security\Http\Attribute\CurrentUser;
 
 #[Route('api/calendar', name: 'calendar_')]
@@ -32,7 +35,7 @@ class CalendarController extends AbstractApiController
     #[Route('', name: 'list', methods: Request::METHOD_GET)]
     public function list(): JsonResponse
     {
-        return $this->respond($this->calendarRepository->findAll());
+        return $this->respond($this->calendarRepository->findBy([], ['name' => 'ASC']));
     }
 
     #[Route('/{calendar}', name: 'get', methods: Request::METHOD_GET)]
@@ -62,13 +65,9 @@ class CalendarController extends AbstractApiController
     #[Route('', name: 'create', methods: Request::METHOD_POST)]
     public function create(#[CurrentUser] User $user, CreateCalendarRequest $request): JsonResponse
     {
-        $calendar = (new Calendar($request->getName()))
-            ->addUser($user)
-        ;
-
-        foreach ($request->getUsers() as $user) {
-            $calendar->addUser($user);
-        }
+        $calendar = (new Calendar($request->getName(), $user))
+            ->setCollaborators($request->getCollaborators())
+            ;
 
         $this->calendarRepository->save($calendar);
 
@@ -76,16 +75,16 @@ class CalendarController extends AbstractApiController
     }
 
     #[Route('/{calendar}', name: 'update', methods: Request::METHOD_PUT)]
-    public function update(#[CurrentUser] User $user, Calendar $calendar, CreateCalendarRequest $request): JsonResponse
+    public function update(#[CurrentUser] User $user, Calendar $calendar, UpdateCalendarRequest $request): JsonResponse
     {
+        if ($calendar->getOwner() !== $user) {
+            throw new AccessDeniedException();
+        }
+
         $calendar
             ->setName($request->getName())
-            ->addUser($user)
+            ->setCollaborators($request->getCollaborators())
         ;
-
-        foreach ($request->getUsers() as $user) {
-            $calendar->addUser($user);
-        }
 
         $this->calendarRepository->save($calendar);
 
@@ -93,10 +92,14 @@ class CalendarController extends AbstractApiController
     }
 
     #[Route('/{calendar}', name: 'remove', methods: Request::METHOD_DELETE)]
-    public function remove(Calendar $calendar): JsonResponse
+    public function remove(#[CurrentUser] User $user, Calendar $calendar): JsonResponse
     {
+        if ($calendar->getOwner() !== $user) {
+            throw new AccessDeniedException();
+        }
+
         $this->calendarRepository->remove($calendar);
 
-        return $this->respond($this->calendarRepository->findAll());
+        return $this->respond(new EmptyResponse());
     }
 }

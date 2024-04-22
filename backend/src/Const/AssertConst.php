@@ -13,4 +13,5 @@ class AssertConst
     public const MSG_NON_UNIQUE_EMAIL = 'Email is already taken';
     public const MSG_NON_UNIQUE_NAME = 'Name is already taken';
     public const MSG_PASSWORD_MISMATCH = 'Passwords do not match';
+    public const MSG_PASSWORD_INVALID = 'Current password is invalid';
 }

@@ -9,8 +9,17 @@
                     (valueChange)="calendarChange.emit($event)"
                     [checked]="calendar?.id === c.id">
                     <div class="d-flex align-items-center justify-content-between w-100">
-                        <div class="calendar-name text-truncate">{{ c.name }}</div>
-                        <div class="calendar-balance text-hint">{{ c.balance | shortNumber }}</div>
+                        <div class="calendar-name text-truncate">
+                            <nb-icon *ngIf="c.shared"
+                                     [icon]="c.isOwner(mainService.user) ? 'people' : 'people-outline'"
+                                     [title]="c.isOwner(mainService.user) ? 'Owned by me & shared with others' : 'Shared with me'"
+                                     class="me-1 text-hint"></nb-icon>
+                            <nb-icon *ngIf="!c.shared" icon="person-outline" class="me-1 text-hint" title="Owned by me"></nb-icon>
+                            {{ c.name }}
+                        </div>
+                        <div class="calendar-balance text-hint">
+                            {{ c.balance | shortNumber }}
+                        </div>
                         <div class="calendar-actions text-right">
                             <button nbButton ghost size="small" status="success" (click)="importStatement(c)" title="Import / export statements">
                                 <nb-icon icon="attach-outline"></nb-icon>

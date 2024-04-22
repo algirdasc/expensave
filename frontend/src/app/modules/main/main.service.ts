@@ -11,13 +11,15 @@ import {CalendarExpenseListResponse} from '../../api/response/calendar-expense-l
 @Injectable()
 export class MainService {
     public user: User;
-    private _calendar: Calendar;
+    public calendars: Calendar[];
     public calendarDateFrom: Date;
     public calendarDateTo: Date;
     public visibleDate: Date = new Date();
     public visibleDateBalance: number = 0;
     public expenses: Expense[] = [];
     public balances: Balance[] = [];
+
+    private _calendar: Calendar;
 
     constructor(
         private readonly calendarApiService: CalendarApiService,

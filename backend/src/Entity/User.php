@@ -4,7 +4,6 @@ namespace App\Entity;
 
 use App\Const\ContextGroup\UserContextGroupConst;
 use App\Repository\UserRepository;
-use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -32,12 +31,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[Groups(UserContextGroupConst::ALWAYS)]
     private string $name;
 
-    /**
-     * @var array<string>
-     */
-    #[ORM\Column]
-    private array $roles = [];
-
     #[ORM\Column]
     private string $password;
 
@@ -46,19 +39,23 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @var Collection<Calendar>
      */
-    #[ORM\ManyToMany(targetEntity: Calendar::class, mappedBy: 'users')]
-    #[Groups(UserContextGroupConst::DETAILS)]
+    #[ORM\OneToMany(mappedBy: 'owner', targetEntity: Calendar::class)]
     private Collection $calendars;
 
-    #[ORM\Column]
-    private bool $active = false;
+    /**
+     * @var Collection<Calendar>
+     */
+    #[ORM\ManyToMany(targetEntity: Calendar::class, mappedBy: 'collaborators')]
+    private Collection $sharedCalendars;
 
-    #[ORM\Column(nullable: true)]
-    private ?DateTime $lastLoginAt = null;
+    #[ORM\Column]
+    #[Groups(UserContextGroupConst::ALWAYS)]
+    private bool $active = false;
 
     public function __construct()
     {
         $this->calendars = new ArrayCollection();
+        $this->sharedCalendars = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -97,21 +94,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function getRoles(): array
     {
-        $roles = $this->roles;
-        // guarantee every user at least has ROLE_USER
-        $roles[] = 'ROLE_USER';
-
-        return array_unique($roles);
-    }
-
-    /**
-     * @param array<string> $roles
-     */
-    public function setRoles(array $roles): self
-    {
-        $this->roles = $roles;
-
-        return $this;
+        return ['ROLE_USER'];
     }
 
     public function getPassword(): string
@@ -143,20 +126,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->calendars;
     }
 
-    public function addCalendar(Calendar $calendar): self
+    public function getSharedCalendars(): Collection
     {
-        if (!$this->calendars->contains($calendar)) {
-            $this->calendars->add($calendar);
-        }
-
-        return $this;
-    }
-
-    public function removeCalendar(Calendar $calendar): self
-    {
-        $this->calendars->removeElement($calendar);
-
-        return $this;
+        return $this->sharedCalendars;
     }
 
     public function isActive(): bool
@@ -167,18 +139,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setActive(bool $active): self
     {
         $this->active = $active;
-
-        return $this;
-    }
-
-    public function getLastLoginAt(): ?DateTime
-    {
-        return $this->lastLoginAt;
-    }
-
-    public function setLastLoginAt(?DateTime $lastLoginAt): self
-    {
-        $this->lastLoginAt = $lastLoginAt;
 
         return $this;
     }

@@ -15,7 +15,7 @@ use Nelmio\ApiDocBundle\Annotation\Security;
 use OpenApi\Attributes as OA;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 
 #[Route('api/auth/register', name: 'registration_')]
 #[OA\Tag(name: 'Authentication')]
@@ -30,8 +30,9 @@ class RegistrationController extends AbstractApiController
             ->setName($request->getFullName())
             ->setActive(true)
             ->setPlainPassword($request->getPassword())
-            ->addCalendar(new Calendar('Personal'))
         ;
+
+        new Calendar('Personal', $user);
 
         $userRepository->save($user);
 

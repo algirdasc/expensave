@@ -2,10 +2,9 @@ security:
     password_hashers:
         Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface: 'auto'
     providers:
-        app_user_provider:
+        user_provider:
             entity:
                 class: App\Entity\User
-                property: email
     firewalls:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
@@ -13,7 +12,7 @@ security:
         main:
             stateless: true
             entry_point: jwt
-            provider: app_user_provider
+            provider: user_provider
             access_denied_handler: App\Security\AccessDeniedHandler
             jwt: ~
             json_login:
@@ -29,6 +28,7 @@ security:
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
     access_control:
+        - { path: ^/api/auth, roles: PUBLIC_ACCESS }
         - { path: ^/api, roles: IS_AUTHENTICATED_FULLY }
 
 when@test:

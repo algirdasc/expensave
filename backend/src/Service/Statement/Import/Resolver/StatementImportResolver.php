@@ -12,17 +12,11 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 class StatementImportResolver
 {
     /**
-     * @var iterable<StatementImportHandlerInterface>
-     */
-    private iterable $importHandlers;
-
-    /**
      * @param iterable<StatementImportHandlerInterface> $importHandlers
      */
     public function __construct(
-        #[TaggedIterator('app.statement.import.handler')] iterable $importHandlers
+        #[TaggedIterator('app.statement.import.handler')] private readonly iterable $importHandlers
     ) {
-        $this->importHandlers = $importHandlers;
     }
 
     public function getHandler(UploadedFile $uploadedFile): StatementImportHandlerInterface

@@ -33,10 +33,10 @@ export class UserApiService {
             );
     }
 
-    public search(name: string): Observable<User[]> {
+    public list(): Observable<User[]> {
         this.onBusyChange.next(true);
 
-        return this.http.post(`${this.backend}/search`, {'name': name})
+        return this.http.get(`${this.backend}`)
             .pipe(
                 finalize(() => this.onBusyChange.next(false)),
                 map((response) => plainToInstance(User, <User[]>response, { excludeExtraneousValues: true }))

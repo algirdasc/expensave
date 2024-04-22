@@ -11,6 +11,7 @@ import {
     NbCalendarKitModule,
     NbCalendarModule,
     NbCardModule,
+    NbFormFieldModule,
     NbIconModule,
     NbInputModule,
     NbLayoutModule,
@@ -25,6 +26,7 @@ import {
 import {AngularResizeEventModule} from 'angular-resize-event';
 import {SwipeDirective} from '../../directives/swipe.directive';
 import {ShortNumberPipe} from '../../pipes/shortnumber.pipe';
+import {CalendarResolver} from '../../resolvers/calendar.resolver';
 import {UserResolver} from '../../resolvers/user.resolver';
 import {CalendarDayNamesComponent} from './calendar/calendar-day-names/calendar-day-names.component';
 import {
@@ -133,6 +135,7 @@ import {ProfileComponent} from './sidebar/profile/profile.component';
         NbPopoverModule,
         NbTagModule,
         NbAutocompleteModule,
+        NbFormFieldModule,
         AngularResizeEventModule,
     ],
     providers: [
@@ -142,6 +145,7 @@ import {ProfileComponent} from './sidebar/profile/profile.component';
 
         // Resolvers
         UserResolver,
+        CalendarResolver,
     ]
 })
 export class MainModule { }

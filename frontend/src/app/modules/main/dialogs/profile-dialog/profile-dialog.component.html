@@ -9,26 +9,18 @@
         </nb-card-header>
         <nb-card-body>
             <div class="mb-3">
-                <input nbInput fullWidth required
-                       #password="ngModel"
-                       type="password"
-                       [minlength]="authOptions.getConfigValue('forms.validation.password.minLength')"
-                       [maxlength]="authOptions.getConfigValue('forms.validation.password.maxLength')"
-                       [(ngModel)]="passwordRequest.currentPassword"
-                       [status]="password.dirty ? (password.invalid  ? 'danger' : 'success') : 'basic'"
-                       name="currentPassword"
-                       placeholder="Current password" />
-            </div>
-            <div class="mb-3">
-                <input nbInput fullWidth required
-                       #newPassword="ngModel"
-                       type="password"
-                       [minlength]="authOptions.getConfigValue('forms.validation.password.minLength')"
-                       [maxlength]="authOptions.getConfigValue('forms.validation.password.maxLength')"
-                       [(ngModel)]="passwordRequest.newPassword"
-                       [status]="newPassword.dirty ? (newPassword.invalid  ? 'danger' : 'success') : 'basic'"
-                       name="newPassword"
-                       placeholder="New password" />
+                <nb-form-field>
+                    <nb-icon nbPrefix icon="shield-outline"></nb-icon>
+                    <input nbInput fullWidth required
+                           #password="ngModel"
+                           type="password"
+                           [minlength]="authOptions.getConfigValue('forms.validation.password.minLength')"
+                           [maxlength]="authOptions.getConfigValue('forms.validation.password.maxLength')"
+                           [(ngModel)]="passwordRequest.currentPassword"
+                           [status]="password.dirty ? (password.invalid  ? 'danger' : 'success') : 'basic'"
+                           name="currentPassword"
+                           placeholder="Current password" />
+                </nb-form-field>
                 <ng-container *ngIf="password.invalid && password.touched ">
                     <p class="caption status-danger" *ngIf="password.errors?.minlength || password.errors?.maxlength">
                         Password should contain
@@ -38,18 +30,43 @@
                     </p>
                 </ng-container>
             </div>
+            <div class="mb-3">
+                <nb-form-field>
+                    <nb-icon nbPrefix icon="checkmark-outline"></nb-icon>
+                    <input nbInput fullWidth required
+                           #newPassword="ngModel"
+                           type="password"
+                           [minlength]="authOptions.getConfigValue('forms.validation.password.minLength')"
+                           [maxlength]="authOptions.getConfigValue('forms.validation.password.maxLength')"
+                           [(ngModel)]="passwordRequest.newPassword"
+                           [status]="newPassword.dirty ? (newPassword.invalid  ? 'danger' : 'success') : 'basic'"
+                           name="newPassword"
+                           placeholder="New password" />
+                </nb-form-field>
+                <ng-container *ngIf="newPassword.invalid && newPassword.touched ">
+                    <p class="caption status-danger" *ngIf="newPassword.errors?.minlength || newPassword.errors?.maxlength">
+                        Password should contain
+                        from {{ authOptions.getConfigValue('forms.validation.password.minLength') }}
+                        to {{ authOptions.getConfigValue('forms.validation.password.maxLength') }}
+                        characters
+                    </p>
+                </ng-container>
+            </div>
             <div class="mb-0">
-                <input nbInput fullWidth required
-                       #confirmPassword="ngModel"
-                       type="password"
-                       [minlength]="authOptions.getConfigValue('forms.validation.password.minLength')"
-                       [maxlength]="authOptions.getConfigValue('forms.validation.password.maxLength')"
-                       [(ngModel)]="passwordRequest.confirmPassword"
-                       [status]="confirmPassword.dirty ? (confirmPassword.invalid  ? 'danger' : 'success') : 'basic'"
-                       name="confirmPassword"
-                       placeholder="Confirm new password" />
-                <ng-container *ngIf="password.invalid && password.touched ">
-                    <p class="caption status-danger" *ngIf="password.errors?.minlength || password.errors?.maxlength">
+                <nb-form-field>
+                    <nb-icon nbPrefix icon="done-all-outline"></nb-icon>
+                    <input nbInput fullWidth required
+                           #confirmPassword="ngModel"
+                           type="password"
+                           [minlength]="authOptions.getConfigValue('forms.validation.password.minLength')"
+                           [maxlength]="authOptions.getConfigValue('forms.validation.password.maxLength')"
+                           [(ngModel)]="passwordRequest.confirmPassword"
+                           [status]="confirmPassword.dirty ? (confirmPassword.invalid  ? 'danger' : 'success') : 'basic'"
+                           name="confirmPassword"
+                           placeholder="Confirm new password" />
+                </nb-form-field>
+                <ng-container *ngIf="confirmPassword.invalid && confirmPassword.touched ">
+                    <p class="caption status-danger" *ngIf="confirmPassword.errors?.minlength || confirmPassword.errors?.maxlength">
                         Password should contain
                         from {{ authOptions.getConfigValue('forms.validation.password.minLength') }}
                         to {{ authOptions.getConfigValue('forms.validation.password.maxLength') }}

@@ -10,7 +10,7 @@ use Doctrine\ORM\Mapping\ClassMetadata;
 use Doctrine\ORM\Query\Filter\SQLFilter;
 use Symfony\Component\Security\Core\User\UserInterface;
 
-class CalendarFilter extends SQLFilter
+class CalendarFilter extends SQLFilter implements DoctrineFilterInterface
 {
     private ?UserInterface $user;
     private EntityManagerInterface $entityManager;
@@ -50,8 +50,21 @@ class CalendarFilter extends SQLFilter
             return '1 = 0';
         }
 
-        $userId = $this->entityManager->getConnection()->quote($user->getUserIdentifier());
+        $userEmail = $this->entityManager->getConnection()->quote($user->getUserIdentifier());
 
-        return sprintf('EXISTS (SELECT 1 FROM `calendar_user` cu_99 LEFT JOIN `user` u ON u.id = cu_99.user_id WHERE cu_99.calendar_id = %s.id AND u.email = %s)', $targetTableAlias, $userId);
+        $existsInSharedCalendars = sprintf('EXISTS (SELECT 1 FROM `calendar_user` cu_99 LEFT JOIN `user` u ON u.id = cu_99.user_id WHERE cu_99.calendar_id = %s.id AND u.email = %s)', $targetTableAlias, $userEmail);
+        $isOwner = sprintf('%s.%s IN (SELECT c_99.%s FROM `%s` c_99 LEFT JOIN `user` u ON u.id = c_99.owner_id WHERE u.email = %s)',
+            $targetTableAlias,
+            $targetEntity->getSingleIdentifierColumnName(),
+            $targetEntity->getSingleIdentifierColumnName(),
+            $targetEntity->getTableName(), $userEmail
+        );
+
+        return sprintf('(%s OR %s)', $existsInSharedCalendars, $isOwner);
+    }
+
+    public function getName(): string
+    {
+        return 'calendar';
     }
 }

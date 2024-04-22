@@ -25,19 +25,21 @@ readonly class EntityTransformationHandler implements TransformationHandlerInter
 
     public function transform(AbstractRequest $request, ReflectionProperty $property, mixed $value): mixed
     {
-        if (is_array($value)) {
-            $value = $value['id'] ?? null;
-        }
-
-        if (null === $value) {
-            return null;
-        }
-
         /** @var ReflectionNamedType $propertyType */
         $propertyType = $property->getType();
 
         /** @var class-string $entityClassName */
         $entityClassName = $propertyType->getName();
+        $classMetadata = $this->entityManager->getClassMetadata($entityClassName);
+        $idField = $classMetadata->getSingleIdentifierFieldName();
+
+        if (is_array($value)) {
+            $value = $value[$idField] ?? null;
+        }
+
+        if (null === $value) {
+            return null;
+        }
 
         $repository = $this->entityManager->getRepository($entityClassName);
 

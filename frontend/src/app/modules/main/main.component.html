@@ -28,7 +28,7 @@
             <app-profile [user]="mainService.user"></app-profile>
             <div class="border-bottom my-3"></div>
             <app-sidebar-calendar-list
-                [(calendars)]="mainService.user.calendars"
+                [(calendars)]="mainService.calendars"
                 [calendar]="mainService.calendar"
                 (calendarChange)="onCalendarChange($event)">
             </app-sidebar-calendar-list>

@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {NbDialogRef} from '@nebular/theme';
+import {NbDialogRef, NbToastrService} from '@nebular/theme';
 import {CalendarApiService} from '../../../../api/calendar.api.service';
 import {Calendar} from '../../../../api/objects/calendar';
 
@@ -15,6 +15,7 @@ export class CalendarsDialogComponent implements OnInit {
 
     public constructor(
         public readonly dialogRef: NbDialogRef<CalendarsDialogComponent>,
+        public readonly toastrService: NbToastrService,
         private readonly calendarApiService: CalendarApiService
     ) {
         this.calendarApiService.onBusyChange.subscribe((isBusy: boolean) => this.isBusy = isBusy);
@@ -25,6 +26,7 @@ export class CalendarsDialogComponent implements OnInit {
     }
 
     public editCalendar(calendar?: Calendar): void {
+        // TODO: create calendar with user
         this.editableCalendar = calendar ?? new Calendar();
     }
 
@@ -33,6 +35,7 @@ export class CalendarsDialogComponent implements OnInit {
             .save(calendar)
             .subscribe(() => {
                 this.editableCalendar = undefined;
+                this.toastrService.success('Calendar deleted successfully', 'Calendar delete');
                 this.fetch();
             })
         ;

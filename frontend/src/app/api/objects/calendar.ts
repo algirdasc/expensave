@@ -17,5 +17,25 @@ export class Calendar implements EntityInterface {
 
     @Expose()
     @Type(() => User)
-    public users: User[];
+    public owner: User;
+
+    @Expose()
+    @Type(() => User)
+    public collaborators: User[];
+
+    public isOwner(user: User): boolean {
+        return user.id === this.owner.id;
+    }
+
+    public hasCollaborator(user: User): boolean {
+        return !!this.collaborators.filter(collaborator => collaborator.id === user.id).length;
+    }
+
+    public static create(user: User): Calendar {
+        const calendar = new Calendar();
+        calendar.owner = user;
+        calendar.collaborators = [];
+
+        return calendar;
+    }
 }

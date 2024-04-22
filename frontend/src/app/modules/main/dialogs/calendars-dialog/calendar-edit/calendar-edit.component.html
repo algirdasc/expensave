@@ -9,22 +9,66 @@
 
         <nb-card-body>
             <div class="mb-3">
-                <input nbInput fullWidth
-                       maxlength="255" required name="name"
-                       [(ngModel)]="calendar.name"
-                       placeholder="Calendar name, ex. Vacation" />
+                <nb-form-field>
+                    <nb-icon nbPrefix icon="calendar-outline"></nb-icon>
+                    <input nbInput fullWidth
+                           name="name"
+                           #name="ngModel"
+                           maxlength="255" required
+                           [(ngModel)]="calendar.name"
+                           [status]="name.dirty ? (name.invalid  ? 'danger' : 'success') : 'basic'"
+                           placeholder="Calendar name, ex. Vacation" />
+                </nb-form-field>
+                <ng-container *ngIf="name.invalid && name.touched ">
+                    <p class="caption status-danger" *ngIf="name.errors?.required">
+                        Name is required!
+                    </p>
+                </ng-container>
             </div>
-            <div>
-                <small class="sub-title">Share calendar with users:</small>
-                <nb-tag-list (tagRemove)="onTagRemove($event)">
-                    <nb-tag status="primary" *ngFor="let user of calendar.users" [text]="user.name" [removable]="true"></nb-tag>
-                    <input fullWidth nbTagInput
-                           [ngModel]="tagInput" (ngModelChange)="onUserInput($event)" [ngModelOptions]="{standalone: true}"
-                           [nbAutocomplete]="userAutoComplete">
-                </nb-tag-list>
+            <div class="mb-3">
+                <div class="caption-2 mb-1">Owner</div>
+                <nb-user
+                    [picture]="calendar.owner.avatar"
+                    [name]="calendar.owner.name"
+                    [title]="calendar.owner.email" />
+            </div>
+            <div *ngIf="calendar.collaborators.length" class="mb-3">
+                <div class="caption-2 mb-1">Shared with</div>
+                <nb-list>
+                    <nb-list-item class="p-0 mb-2 justify-content-between" *ngFor="let user of calendar.collaborators">
+                        <nb-user
+                            [picture]="user.avatar"
+                            [name]="user.name"
+                            [title]="user.email" />
+                        <button nbButton
+                                type="button"
+                                ghost
+                                size="small"
+                                status="danger"
+                                class="me-3"
+                                title="Remove user"
+                                (click)="removeUser(user)">
+                            <nb-icon icon="person-remove-outline"></nb-icon>
+                        </button>
+                    </nb-list-item>
+                </nb-list>
+            </div>
+            <div class="border-top pt-3">
+                <nb-form-field>
+                    <nb-icon nbPrefix icon="person-add-outline"></nb-icon>
+                    <input nbInput
+                           #userAutoCompleteInput
+                           fullWidth
+                           (focus)="onInputChange()"
+                           (input)="onInputChange()"
+                           type="text"
+                           fieldSize="small"
+                           placeholder="Share calendar with..."
+                           [nbAutocomplete]="userAutoComplete" />
+                </nb-form-field>
                 <nb-autocomplete #userAutoComplete (selectedChange)="onUserSelect($event)">
-                    <nb-option *ngFor="let user of availableUsers" [value]="user">
-                        {{ user.name }}
+                    <nb-option *ngFor="let user of filteredOptions | async" [value]="user" class="justify-content-between">
+                        {{ user.name }} <small>({{ user.email }})</small>
                     </nb-option>
                 </nb-autocomplete>
             </div>
