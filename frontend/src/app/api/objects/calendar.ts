@@ -27,6 +27,10 @@ export class Calendar implements EntityInterface {
         return user.id === this.owner.id;
     }
 
+    public hasCollaborator(user: User): boolean {
+        return !!this.collaborators.filter(collaborator => collaborator.id === user.id).length;
+    }
+
     public static create(user: User): Calendar {
         const calendar = new Calendar();
         calendar.owner = user;

@@ -35,13 +35,19 @@
             <div *ngIf="calendar.collaborators.length" class="mb-3">
                 <div class="caption-2 mb-1">Shared with</div>
                 <nb-list>
-                    <nb-list-item class="p-0" *ngFor="let user of calendar.collaborators">
+                    <nb-list-item class="p-0 mb-2 justify-content-between" *ngFor="let user of calendar.collaborators">
                         <nb-user
-                            class="mb-2"
                             [picture]="user.avatar"
                             [name]="user.name"
                             [title]="user.email" />
-                        <button nbButton type="button" ghost status="danger">
+                        <button nbButton
+                                type="button"
+                                ghost
+                                size="small"
+                                status="danger"
+                                class="me-3"
+                                title="Remove user"
+                                (click)="removeUser(user)">
                             <nb-icon icon="person-remove-outline"></nb-icon>
                         </button>
                     </nb-list-item>
@@ -56,6 +62,7 @@
                            (focus)="onInputChange()"
                            (input)="onInputChange()"
                            type="text"
+                           fieldSize="small"
                            placeholder="Share calendar with..."
                            [nbAutocomplete]="userAutoComplete" />
                 </nb-form-field>

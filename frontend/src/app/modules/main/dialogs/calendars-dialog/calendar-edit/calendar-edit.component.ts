@@ -35,18 +35,26 @@ export class CalendarEditComponent implements OnInit {
         this.filteredOptions = this.getFilteredOptions(this.userAutoCompleteInput.nativeElement.value);
     }
 
-    public getFilteredOptions(value: string): Observable<User[]> {
-        return of(value).pipe(
-            map(filterString => {
-                const filterValue = filterString.toLowerCase();
-                return this.availableUsers.filter(optionValue => optionValue.name.toLowerCase().includes(filterValue) || optionValue.email.toLowerCase().includes(filterValue));
-            }),
-        );
-    }
-
     public onUserSelect(user: User): void {
         this.calendar.collaborators.push(user);
         this.userAutoCompleteInput.nativeElement.value = '';
         this.onInputChange();
+    }
+
+    public getFilteredOptions(value: string): Observable<User[]> {
+        return of(value).pipe(
+            map(filterString => {
+                const filterValue = filterString.toLowerCase();
+                return this.availableUsers.filter(user => {
+                    const containsValue = user.name.toLowerCase().includes(filterValue) || user.email.toLowerCase().includes(filterValue);
+
+                    return containsValue && !this.calendar.hasCollaborator(user) && !this.calendar.isOwner(user);
+                });
+            }),
+        );
+    }
+
+    public removeUser(user: User): void {
+        this.calendar.collaborators.splice(this.calendar.collaborators.indexOf(user), 1);
     }
 }

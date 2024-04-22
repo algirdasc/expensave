@@ -27,7 +27,7 @@ class ProfileController extends AbstractApiController
     ) {
     }
 
-    #[Route('', methods: Request::METHOD_GET)]
+    #[Route('/', methods: Request::METHOD_GET)]
     public function list(): JsonResponse
     {
         return $this->respond($this->userRepository->findBy([], ['name' => 'ASC']));

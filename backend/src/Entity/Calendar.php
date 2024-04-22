@@ -100,6 +100,13 @@ class Calendar
         return $this->collaborators;
     }
 
+    public function setCollaborators(Collection $collaborators): self
+    {
+        $this->collaborators = $collaborators;
+
+        return $this;
+    }
+
     public function addCollaborator(User $user): self
     {
         if (!$this->collaborators->contains($user)) {

@@ -21,7 +21,7 @@ class CategoryController extends AbstractApiController
     ) {
     }
 
-    #[Route('', name: 'list', methods: Request::METHOD_GET)]
+    #[Route('/', name: 'list', methods: Request::METHOD_GET)]
     public function list(): JsonResponse
     {
         return $this->respond($this->categoryRepository->findBy([], ['name' => 'ASC']));
@@ -33,7 +33,7 @@ class CategoryController extends AbstractApiController
         return $this->respond($category);
     }
 
-    #[Route('', name: 'create', methods: Request::METHOD_POST)]
+    #[Route('/', name: 'create', methods: Request::METHOD_POST)]
     public function create(CreateCategoryRequest $request): JsonResponse
     {
         $category = (new Category())

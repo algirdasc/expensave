@@ -31,10 +31,10 @@ class CalendarController extends AbstractApiController
     ) {
     }
 
-    #[Route('', name: 'list', methods: Request::METHOD_GET)]
+    #[Route('/', name: 'list', methods: Request::METHOD_GET)]
     public function list(): JsonResponse
     {
-        return $this->respond($this->calendarRepository->findAll());
+        return $this->respond($this->calendarRepository->findBy([], ['name' => 'ASC']));
     }
 
     #[Route('/{calendar}', name: 'get', methods: Request::METHOD_GET)]
@@ -61,7 +61,7 @@ class CalendarController extends AbstractApiController
         );
     }
 
-    #[Route('', name: 'create', methods: Request::METHOD_POST)]
+    #[Route('/', name: 'create', methods: Request::METHOD_POST)]
     public function create(#[CurrentUser] User $user, CreateCalendarRequest $request): JsonResponse
     {
         $calendar = new Calendar($request->getName(), $user);
@@ -82,11 +82,10 @@ class CalendarController extends AbstractApiController
             throw new AccessDeniedException();
         }
 
-        $calendar->setName($request->getName());
-
-        foreach ($request->getCollaborators() as $collaborator) {
-            $calendar->addCollaborator($collaborator);
-        }
+        $calendar
+            ->setName($request->getName())
+            ->setCollaborators($request->getCollaborators())
+        ;
 
         $this->calendarRepository->save($calendar);
 

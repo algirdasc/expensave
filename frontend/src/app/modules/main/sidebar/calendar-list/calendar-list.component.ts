@@ -1,5 +1,5 @@
-import {Component, EventEmitter, Input, OnInit, Output,} from '@angular/core';
-import {NbDialogRef, NbDialogService} from '@nebular/theme';
+import {Component, EventEmitter, Input, Output} from '@angular/core';
+import {NbDialogRef, NbDialogService, NbToastrService} from '@nebular/theme';
 import {CalendarApiService} from '../../../../api/calendar.api.service';
 import {Calendar} from '../../../../api/objects/calendar';
 import {CalendarEditComponent} from '../../dialogs/calendars-dialog/calendar-edit/calendar-edit.component';
@@ -12,7 +12,7 @@ import {MainService} from '../../main.service';
     styleUrls: ['calendar-list.component.scss'],
     templateUrl: 'calendar-list.component.html'
 })
-export class CalendarSidebarListComponent implements OnInit {
+export class CalendarSidebarListComponent {
     @Input() public calendar: Calendar;
     @Output() public calendarChange: EventEmitter<Calendar> = new EventEmitter<Calendar>();
 
@@ -28,6 +28,7 @@ export class CalendarSidebarListComponent implements OnInit {
         public readonly dialogService: NbDialogService,
         public readonly mainService: MainService,
         public readonly calendarApiService: CalendarApiService,
+        public readonly toastrService: NbToastrService,
     ) {
         this.calendarApiService.onBusyChange.subscribe((isBusy: boolean) => this.isBusy = isBusy);
 
@@ -36,15 +37,11 @@ export class CalendarSidebarListComponent implements OnInit {
             this.calendarApiService
                 .save(calendar)
                 .subscribe((calendar: Calendar) => {
+                    this.toastrService.success('Calendar saved successfully', 'Calendar update')
                     this.dialogRef.close(calendar);
                 })
         })
     }
-
-    public ngOnInit(): void {
-        this.fetch();
-    }
-
     public importStatement(calendar: Calendar): void {
         this.dialogService
             .open(StatementImportDialogComponent, { autoFocus: true, context: { calendar: calendar } })
@@ -73,6 +70,7 @@ export class CalendarSidebarListComponent implements OnInit {
                         .subscribe((calendars: Calendar[]) => {
                             this.calendars = calendars;
                             this.calendarsChange.emit(this.calendars);
+                            this.toastrService.success('Calendar deleted successfully', 'Calendar delete')
                         })
                     ;
                 }
@@ -80,23 +78,13 @@ export class CalendarSidebarListComponent implements OnInit {
     }
 
     public createCalendar(): void {
-        this.openCalendarDialog(Calendar.create(this.mainService.user), (calendar: Calendar) => {
-            if (calendar !== undefined) {
-                this.fetch();
-            }
-        });
+        this.openCalendarDialog(Calendar.create(this.mainService.user));
     }
 
     public editCalendar(calendar: Calendar): void {
         this.calendarApiService
             .get(calendar.id)
-            .subscribe((calendar: Calendar) => {
-                this.openCalendarDialog(calendar, () => {
-                    if (calendar !== undefined) {
-                        this.fetch();
-                    }
-                });
-            });
+            .subscribe((calendar: Calendar) => this.openCalendarDialog(calendar));
     }
 
     public fetch(): void {
@@ -109,7 +97,7 @@ export class CalendarSidebarListComponent implements OnInit {
         ;
     }
 
-    private openCalendarDialog(calendar: Calendar, onClose: (calendar: Calendar) => void): void {
+    private openCalendarDialog(calendar: Calendar, onClose?: (calendar: Calendar) => void): void {
         this.dialogRef = this.dialogService
             .open(CalendarEditComponent, {
                 context: {
@@ -122,8 +110,13 @@ export class CalendarSidebarListComponent implements OnInit {
         this.dialogRef
             .onClose
             .subscribe((calendar: Calendar) => {
-                console.log('a', calendar);
-                onClose(calendar);
+                if (onClose !== undefined) {
+                    onClose(calendar);
+                }
+
+                if (calendar !== undefined) {
+                    this.fetch();
+                }
             })
         ;
     }
