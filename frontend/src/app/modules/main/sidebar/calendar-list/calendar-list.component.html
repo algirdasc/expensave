@@ -12,7 +12,7 @@
                         <div class="calendar-name text-truncate">
                             <nb-icon *ngIf="c.shared"
                                      [icon]="c.isOwner(mainService.user) ? 'people' : 'people-outline'"
-                                     [title]="c.isOwner(mainService.user) ? 'Owned by me & shared with others' : 'Shared with me'"
+                                     [title]="c.isOwner(mainService.user) ? 'Owned by me & shared with others' : 'Shared with me by ' + c.owner.name + ' (' + c.owner.email + ')'"
                                      class="me-1 text-hint"></nb-icon>
                             <nb-icon *ngIf="!c.shared" icon="person-outline" class="me-1 text-hint" title="Owned by me"></nb-icon>
                             {{ c.name }}
@@ -21,13 +21,16 @@
                             {{ c.balance | shortNumber }}
                         </div>
                         <div class="calendar-actions text-right">
+                            <button nbButton ghost size="small" status="danger" (click)="makeDefault(c)" title="Make default">
+                                <nb-icon icon="heart-outline"></nb-icon>
+                            </button>
                             <button nbButton ghost size="small" status="success" (click)="importStatement(c)" title="Import / export statements">
                                 <nb-icon icon="attach-outline"></nb-icon>
                             </button>
-                            <button nbButton ghost size="small" status="primary" (click)="editCalendar(c)" title="Edit calendar">
+                            <button *ngIf="c.isOwner(mainService.user)" nbButton ghost size="small" status="primary" (click)="editCalendar(c)" title="Edit calendar">
                                 <nb-icon icon="edit-outline"></nb-icon>
                             </button>
-                            <button nbButton ghost size="small" status="danger" (click)="deleteCalendar(c)" title="Delete calendar">
+                            <button *ngIf="c.isOwner(mainService.user)" nbButton ghost size="small" status="danger" (click)="deleteCalendar(c)" title="Delete calendar">
                                 <nb-icon icon="trash-2-outline"></nb-icon>
                             </button>
                         </div>

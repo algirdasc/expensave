@@ -33,7 +33,9 @@ export class MainComponent implements OnInit {
         this.activatedRoute.data.subscribe(({ user, calendars }: { user: User, calendars: Calendar[] }) => {
             this.mainService.user = user;
             this.mainService.calendars = calendars;
-            this.mainService.calendar = this.mainService.calendars[0];
+            this.mainService.calendar = this.mainService.calendars.filter((calendar: Calendar) => {
+                return calendar.id === user.defaultCalendarId;
+            })[0] || this.mainService.calendars[0];
         });
 
         this.activatedRoute.queryParams.subscribe(({ date }: { date?: string }) => {

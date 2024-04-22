@@ -24,7 +24,11 @@ export class Calendar implements EntityInterface {
     public collaborators: User[];
 
     public isOwner(user: User): boolean {
-        return user.id === this.owner.id;
+        return user.id === this.owner?.id;
+    }
+
+    public isDefault(user: User): boolean {
+        return user.defaultCalendarId === this.id;
     }
 
     public hasCollaborator(user: User): boolean {

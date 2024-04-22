@@ -52,6 +52,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[Groups(UserContextGroupConst::ALWAYS)]
     private bool $active = false;
 
+    #[ORM\Column(nullable: true)]
+    #[Groups(UserContextGroupConst::DETAILS)]
+    private ?int $defaultCalendarId = null;
+
     public function __construct()
     {
         $this->calendars = new ArrayCollection();
@@ -139,6 +143,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setActive(bool $active): self
     {
         $this->active = $active;
+
+        return $this;
+    }
+
+    public function getDefaultCalendarId(): ?int
+    {
+        return $this->defaultCalendarId;
+    }
+
+    public function setDefaultCalendarId(?int $defaultCalendarId): self
+    {
+        $this->defaultCalendarId = $defaultCalendarId;
 
         return $this;
     }
