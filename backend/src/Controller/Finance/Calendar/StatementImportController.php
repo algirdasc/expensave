@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Controller\Statement;
+namespace App\Controller\Finance\Calendar;
 
 use App\Controller\AbstractApiController;
 use App\Entity\Calendar;
@@ -16,8 +16,8 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
-#[Route('api/statement', name: 'statement_')]
-class ImportController extends AbstractApiController
+#[Route('api/calendar', name: 'calendar_statement_')]
+class StatementImportController extends AbstractApiController
 {
     public function __construct(
         private readonly ImporterService $importerService,
@@ -25,7 +25,7 @@ class ImportController extends AbstractApiController
     ) {
     }
 
-    #[Route('/import/{calendar}', name: 'import', methods: Request::METHOD_POST)]
+    #[Route('/{calendar}/import', name: 'import', methods: Request::METHOD_POST)]
     public function import(Calendar $calendar, StatementImportResolver $statementImportResolver, Request $request): Response
     {
         $errors = [];
@@ -57,6 +57,6 @@ class ImportController extends AbstractApiController
 
     public function getDisallowedContentTypeError(): string
     {
-        return 'Invalid FORM';
+        return 'Invalid content type. Content type must be form-data.';
     }
 }

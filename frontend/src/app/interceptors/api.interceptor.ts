@@ -8,7 +8,8 @@ import {APP_CONFIG} from '../app.initializer';
 export class ApiInterceptor implements HttpInterceptor {
   public intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     let headers = req.headers;
-    if (!req.headers.has('Content-Type')) {
+
+    if (!req.headers.has('Content-Type') && !(req.body instanceof FormData)) {
       headers = req.headers.set('Content-Type', 'application/json');
     }
 

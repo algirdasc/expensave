@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Repository;
 
+use App\DTO\Statement\Import\StatementImportRowInterface;
 use App\Entity\Calendar;
 use App\Entity\Expense;
 use DateTime;
@@ -24,9 +25,19 @@ class ExpenseRepository extends AbstractRepository
         parent::__construct($registry, Expense::class);
     }
 
-    public function findByStatementHash(string $statementHash): ?Expense
+    public function findByCalendarAndStatementRow(Calendar $calendar, StatementImportRowInterface $row): ?Expense
     {
-        return $this->findOneBy(['statementHash' => $statementHash]);
+        $queryBuilder = $this->createQueryBuilder('e')
+            ->where('e.calendar = :calendar')
+            ->andWhere('e.amount = :amount')
+            ->andWhere('DATE(e.createdAt) = DATE(:createdAtDate)')
+            ->setParameter('calendar', $calendar)
+            ->setParameter('amount', $row->getAmount())
+            ->setParameter('createdAtDate', $row->getCreatedAt())
+            ->setMaxResults(1)
+        ;
+
+        return $queryBuilder->getQuery()->getOneOrNullResult();
     }
 
     /**

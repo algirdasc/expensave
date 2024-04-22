@@ -1,12 +1,22 @@
 <form #importForm="ngForm" (ngSubmit)="onSubmit()">
-    <nb-card [nbSpinner]="isBusy" class="dialog">
+    <nb-card [nbSpinner]="isBusy" class="dialog" style="min-height: 200px;">
+        <nb-card-header i18n>
+            <button nbButton status="primary" ghost (click)="dialogRef.close()">
+                <nb-icon icon="arrow-back-outline"></nb-icon>
+            </button>
+            Import statements to calendar
+        </nb-card-header>
         <nb-card-body>
             <div>
-                <input nbInput type="file" name="statements[]" multiple [fullWidth] required />
+                <input nbInput fullWidth required multiple
+                       (change)="onChange($event)"
+                       type="file"
+                       accept="text/csv, text/xml, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+                       name="statements[]" />
             </div>
         </nb-card-body>
         <nb-card-footer class="text-right">
-            <button nbButton type="submit" status="primary" [disabled]="isBusy || !importForm.valid">
+            <button nbButton type="submit" status="primary" [disabled]="isBusy || !importForm.form.valid">
                 <nb-icon icon="attach-outline"></nb-icon>
                 Import
             </button>

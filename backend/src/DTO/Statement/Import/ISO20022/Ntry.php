@@ -10,9 +10,6 @@ use App\DTO\Statement\Import\ISO20022\Ntry\NtryDtls;
 use App\DTO\Statement\Import\ISO20022\Ntry\ValDt;
 use App\DTO\Statement\Import\StatementImportRowInterface;
 use DateTime;
-use Symfony\Component\Serializer\Encoder\XmlEncoder;
-use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
-use Symfony\Component\Serializer\Serializer;
 
 class Ntry implements StatementImportRowInterface
 {
@@ -110,22 +107,6 @@ class Ntry implements StatementImportRowInterface
         return $this->getNtryDtls()[0] ?? null;
     }
 
-    public function getStatementId(): string
-    {
-        $refs = $this->getEntryDetails()?->getTxDetails()?->getRefs();
-
-        $statementId = $refs?->getAcctSvcrRef() ?? $refs?->getTxId() ?? $refs?->getInstrId();
-
-        if ($statementId === null) {
-            $serializer = new Serializer([new ObjectNormalizer()], [new XmlEncoder()]);
-            $innerXml = $serializer->serialize($this->getNtryDtls(), XmlEncoder::FORMAT);
-
-            $statementId = md5($innerXml);
-        }
-
-        return $statementId;
-    }
-
     public function getLabel(): string
     {
         $relatedParty = match ($this->cdtDbtInd) {
@@ -147,16 +128,6 @@ class Ntry implements StatementImportRowInterface
     public function getCreatedAt(): DateTime
     {
         return $this->getValDt()->getDateTime() ?? $this->getBookgDt()->getDateTime() ?? new DateTime();
-    }
-
-    public function getIdentification(): string
-    {
-        return (string) $this->getStmt()->getAcct()->getId();
-    }
-
-    public function getStatementHash(): string
-    {
-        return $this->getIdentification().'_'.$this->getStatementId();
     }
 
     public function isConfirmed(): bool
