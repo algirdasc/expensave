@@ -32,7 +32,7 @@ class ExpenseController extends AbstractApiController
         return $this->respond($expense, groups: ExpenseContextGroupConst::DETAILS);
     }
 
-    #[Route('/', name: 'create', methods: Request::METHOD_POST)]
+    #[Route('', name: 'create', methods: Request::METHOD_POST)]
     public function create(#[CurrentUser] User $user, CreateExpenseRequest $request): JsonResponse
     {
         $expense = (new Expense())

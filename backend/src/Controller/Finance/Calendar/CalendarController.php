@@ -12,6 +12,7 @@ use App\Repository\CalendarRepository;
 use App\Repository\ExpenseRepository;
 use App\Request\Calendar\CreateCalendarRequest;
 use App\Request\Calendar\UpdateCalendarRequest;
+use App\Response\EmptyResponse;
 use App\Response\Statement\ExpenseListResponse;
 use App\Service\BalanceCalculatorService;
 use DateTime;
@@ -31,7 +32,7 @@ class CalendarController extends AbstractApiController
     ) {
     }
 
-    #[Route('/', name: 'list', methods: Request::METHOD_GET)]
+    #[Route('', name: 'list', methods: Request::METHOD_GET)]
     public function list(): JsonResponse
     {
         return $this->respond($this->calendarRepository->findBy([], ['name' => 'ASC']));
@@ -61,14 +62,12 @@ class CalendarController extends AbstractApiController
         );
     }
 
-    #[Route('/', name: 'create', methods: Request::METHOD_POST)]
+    #[Route('', name: 'create', methods: Request::METHOD_POST)]
     public function create(#[CurrentUser] User $user, CreateCalendarRequest $request): JsonResponse
     {
-        $calendar = new Calendar($request->getName(), $user);
-
-        foreach ($request->getCollaborators() as $collaborator) {
-            $calendar->addCollaborator($collaborator);
-        }
+        $calendar = (new Calendar($request->getName(), $user))
+            ->setCollaborators($request->getCollaborators())
+            ;
 
         $this->calendarRepository->save($calendar);
 
@@ -101,6 +100,6 @@ class CalendarController extends AbstractApiController
 
         $this->calendarRepository->remove($calendar);
 
-        return $this->respond($this->calendarRepository->findAll());
+        return $this->respond(new EmptyResponse());
     }
 }

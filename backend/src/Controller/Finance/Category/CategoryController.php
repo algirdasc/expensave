@@ -9,6 +9,7 @@ use App\Entity\Category;
 use App\Repository\CategoryRepository;
 use App\Request\Category\CreateCategoryRequest;
 use App\Request\Category\UpdateCategoryRequest;
+use App\Response\EmptyResponse;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Attribute\Route;
@@ -21,7 +22,7 @@ class CategoryController extends AbstractApiController
     ) {
     }
 
-    #[Route('/', name: 'list', methods: Request::METHOD_GET)]
+    #[Route('', name: 'list', methods: Request::METHOD_GET)]
     public function list(): JsonResponse
     {
         return $this->respond($this->categoryRepository->findBy([], ['name' => 'ASC']));
@@ -33,7 +34,7 @@ class CategoryController extends AbstractApiController
         return $this->respond($category);
     }
 
-    #[Route('/', name: 'create', methods: Request::METHOD_POST)]
+    #[Route('', name: 'create', methods: Request::METHOD_POST)]
     public function create(CreateCategoryRequest $request): JsonResponse
     {
         $category = (new Category())
@@ -64,6 +65,6 @@ class CategoryController extends AbstractApiController
     {
         $this->categoryRepository->remove($category);
 
-        return $this->respond($this->categoryRepository->findAll());
+        return $this->respond(new EmptyResponse());
     }
 }

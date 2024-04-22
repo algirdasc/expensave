@@ -27,7 +27,7 @@ class ProfileController extends AbstractApiController
     ) {
     }
 
-    #[Route('/', methods: Request::METHOD_GET)]
+    #[Route('', methods: Request::METHOD_GET)]
     public function list(): JsonResponse
     {
         return $this->respond($this->userRepository->findBy([], ['name' => 'ASC']));
@@ -51,8 +51,6 @@ class ProfileController extends AbstractApiController
         $user->setPlainPassword($request->getNewPassword());
 
         $this->userRepository->save($user);
-
-
 
         return $this->respond($user, groups: UserContextGroupConst::DETAILS);
     }

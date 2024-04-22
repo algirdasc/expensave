@@ -15,7 +15,7 @@ use Symfony\Component\Routing\Attribute\Route;
 #[OA\Tag(name: 'Authentication')]
 class LogoutController extends AbstractApiController
 {
-    #[Route('/', name: 'index', methods: Request::METHOD_DELETE)]
+    #[Route('', name: 'index', methods: Request::METHOD_DELETE)]
     public function index(): JsonResponse
     {
         return $this->respond(new EmptyResponse());

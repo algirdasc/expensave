@@ -18,7 +18,7 @@ use Symfony\Component\Routing\Attribute\Route;
 #[Security(name: '')]
 class LoginController extends AbstractApiController
 {
-    #[Route('/', name: 'index', methods: Request::METHOD_POST)]
+    #[Route('', name: 'index', methods: Request::METHOD_POST)]
     public function index(): JsonResponse
     {
         // JWT will take care of everything, so this error should not happen

@@ -67,10 +67,9 @@ export class CalendarSidebarListComponent {
                 if (result) {
                     this.calendarApiService
                         .delete(calendar.id)
-                        .subscribe((calendars: Calendar[]) => {
-                            this.calendars = calendars;
-                            this.calendarsChange.emit(this.calendars);
+                        .subscribe(() => {
                             this.toastrService.success('Calendar deleted successfully', 'Calendar delete')
+                            this.fetch();
                         })
                     ;
                 }
