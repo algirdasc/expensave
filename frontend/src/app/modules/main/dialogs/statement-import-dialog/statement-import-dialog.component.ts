@@ -12,7 +12,7 @@ export class StatementImportDialogComponent {
     @Input() public calendar: Calendar;
 
     public isBusy: boolean = false;
-    private files: File[] = [];
+    private files: FileList;
 
     constructor(
         public readonly dialogRef: NbDialogRef<StatementImportDialogComponent>,
@@ -25,7 +25,8 @@ export class StatementImportDialogComponent {
     public onSubmit(): void
     {
         const formData = new FormData();
-        for (const file of this.files) {
+        for (const f in this.files) {
+            const file = this.files[f];
             formData.append('statements', file, file.name);
         }
 
@@ -36,9 +37,8 @@ export class StatementImportDialogComponent {
             });
     }
 
-    public onChange(event: any): void
+    public onChange(event: Event): void
     {
-        console.log(event);
-        this.files = event.target.files;
+        this.files = (event.target as HTMLInputElement).files;
     }
 }
