@@ -39,7 +39,7 @@ class CalendarFilter extends SQLFilter implements DoctrineFilterInterface
         return $this;
     }
 
-    public function addFilterConstraint(ClassMetadata $targetEntity, $targetTableAlias): string
+    public function addFilterConstraint(ClassMetadata $targetEntity, string $targetTableAlias): string
     {
         if ($targetEntity->getName() !== Calendar::class) {
             return '';
