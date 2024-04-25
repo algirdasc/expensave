@@ -136,21 +136,6 @@ class DollarbirdStatementRow implements StatementImportRowInterface
         return $this;
     }
 
-    public function getStatementId(): string
-    {
-        $arr = [
-            'Date' => $this->getDate(),
-            'Value' => $this->getValue(),
-            'Label' => $this->getLabel(),
-            'Category' => $this->getCategoryName(),
-            'Description' => $this->getDescription(),
-            'Owner Name' => $this->getOwnerName(),
-            'Owner Email' => $this->getOwnerEmail(),
-        ];
-
-        return md5(json_encode($arr, JSON_THROW_ON_ERROR));
-    }
-
     public function getAmount(): float
     {
         return $this->value;
@@ -159,15 +144,5 @@ class DollarbirdStatementRow implements StatementImportRowInterface
     public function getCreatedAt(): DateTime
     {
         return $this->date;
-    }
-
-    public function getIdentification(): ?string
-    {
-        return null;
-    }
-
-    public function getStatementHash(): string
-    {
-        return 'DOLLARBIRD_'.$this->getStatementId();
     }
 }

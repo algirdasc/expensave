@@ -1,11 +1,16 @@
 <form #userForm="ngForm" (ngSubmit)="onSubmit()" autocomplete="off">
     <nb-card [nbSpinner]="isBusy" class="dialog" style="min-height: 200px;">
         <nb-card-header>
-            <nb-user [picture]="user.avatar"
-                     [name]="user.name"
-                     [title]="user.email"
-                     size="large">
-            </nb-user>
+            <div class="d-flex">
+                <button nbButton status="primary" ghost (click)="dialogRef.close()">
+                    <nb-icon icon="arrow-back-outline"></nb-icon>
+                </button>
+                <nb-user [picture]="user.avatar"
+                         [name]="user.name"
+                         [title]="user.email"
+                         class="ms-1">
+                </nb-user>
+            </div>
         </nb-card-header>
         <nb-card-body>
             <div class="mb-3">

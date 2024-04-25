@@ -5,8 +5,6 @@ declare(strict_types=1);
 namespace App\Repository;
 
 use App\Entity\Calendar;
-use App\Entity\CalendarIdentification;
-use Doctrine\ORM\Query\Expr\Join;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -21,16 +19,5 @@ class CalendarRepository extends AbstractRepository
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Calendar::class);
-    }
-
-    public function findByIdentification(string $identification): ?Calendar
-    {
-        return $this->createQueryBuilder('c')
-            ->leftJoin(CalendarIdentification::class, 'ci', Join::WITH, 'c = ci.calendar')
-            ->where('ci.identification = :identification')
-            ->setParameter('identification', $identification)
-            ->getQuery()
-            ->getOneOrNullResult()
-            ;
     }
 }

@@ -15,8 +15,8 @@ export class ProfileDialogComponent implements OnInit {
     public passwordRequest: PasswordRequest = new PasswordRequest();
 
     constructor(
+        public readonly dialogRef: NbDialogRef<ProfileDialogComponent>,
         private readonly userApiService: UserApiService,
-        private readonly dialogRef: NbDialogRef<ProfileDialogComponent>,
         private readonly toastrService: NbToastrService,
         public authOptions: AuthOptionsService,
     ) {

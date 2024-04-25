@@ -11,21 +11,19 @@ use Symfony\Component\Serializer\Annotation\SerializedName;
 class RevolutStatementRow implements StatementImportRowInterface
 {
     private TypeEnum $type;
-    private string $product;
+    private ProductEnum $product;
 
     #[SerializedName('Started Date')]
     private DateTime $startedDate;
 
     #[SerializedName('Completed Date')]
-    private DateTime $completedDate;
+    private ?DateTime $completedDate;
     private string $description;
     private float $amount;
     private float $fee;
     private string $currency;
     private StateEnum $state;
     private float $balance;
-
-    private ?string $statementId = null;
 
     public function getType(): TypeEnum
     {
@@ -39,12 +37,12 @@ class RevolutStatementRow implements StatementImportRowInterface
         return $this;
     }
 
-    public function getProduct(): string
+    public function getProduct(): ProductEnum
     {
         return $this->product;
     }
 
-    public function setProduct(string $product): self
+    public function setProduct(ProductEnum $product): self
     {
         $this->product = $product;
 
@@ -63,12 +61,12 @@ class RevolutStatementRow implements StatementImportRowInterface
         return $this;
     }
 
-    public function getCompletedDate(): DateTime
+    public function getCompletedDate(): ?DateTime
     {
         return $this->completedDate;
     }
 
-    public function setCompletedDate(DateTime $completedDate): self
+    public function setCompletedDate(?DateTime $completedDate): self
     {
         $this->completedDate = $completedDate;
 
@@ -92,7 +90,7 @@ class RevolutStatementRow implements StatementImportRowInterface
         return $this->fee;
     }
 
-    public function setFee(float|int $fee): self
+    public function setFee(float|int|string $fee): self
     {
         $this->fee = (float) $fee;
 
@@ -128,43 +126,18 @@ class RevolutStatementRow implements StatementImportRowInterface
         return $this->balance;
     }
 
-    public function setBalance(float|int|null $balance): self
+    public function setBalance(float|int|string|null $balance): self
     {
         $this->balance = (float) $balance;
 
         return $this;
     }
 
-    public function setAmount(float|int $amount): self
+    public function setAmount(float|int|string $amount): self
     {
         $this->amount = (float) $amount;
 
         return $this;
-    }
-
-    public function getStatementId(): string
-    {
-        if ($this->statementId === null) {
-
-            $arr = [
-                'Type' => $this->getType(),
-                'Product' => $this->getProduct(),
-                'StartedDate' => $this->getStartedDate(),
-                'CompletedDate' => $this->getCompletedDate(),
-                'Amount' => $this->amount,
-                'Fee' => $this->getFee(),
-                'Currency' => $this->getCurrency(),
-                'Balance' => $this->getBalance(),
-            ];
-
-            $this->statementId = md5(json_encode($arr, JSON_THROW_ON_ERROR));
-
-            if ($this->statementId === '8a17120b2abd12d940dad76de5ed4a0a') {
-                $a = 0;
-            }
-        }
-
-        return $this->statementId;
     }
 
     public function getLabel(): string
@@ -180,16 +153,6 @@ class RevolutStatementRow implements StatementImportRowInterface
     public function getCreatedAt(): DateTime
     {
         return $this->getStartedDate();
-    }
-
-    public function getIdentification(): ?string
-    {
-        return null;
-    }
-
-    public function getStatementHash(): string
-    {
-        return 'REVOLUT_'.$this->getType()->value.'_'.$this->getStatementId();
     }
 
     public function isConfirmed(): bool

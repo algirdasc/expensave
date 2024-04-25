@@ -46,9 +46,6 @@ class Expense
     #[Groups(ExpenseContextGroupConst::ALWAYS)]
     private ?string $description = null;
 
-    #[ORM\Column(unique: true, nullable: true)]
-    private ?string $statementHash = null;
-
     #[ORM\Column]
     #[Groups(ExpenseContextGroupConst::ALWAYS)]
     private DateTime $createdAt;
@@ -143,18 +140,6 @@ class Expense
     public function setDescription(?string $description): self
     {
         $this->description = $description;
-
-        return $this;
-    }
-
-    public function getStatementHash(): ?string
-    {
-        return $this->statementHash;
-    }
-
-    public function setStatementHash(?string $statementHash): self
-    {
-        $this->statementHash = $statementHash;
 
         return $this;
     }
