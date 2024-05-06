@@ -1,9 +1,9 @@
 import {getLocaleFirstDayOfWeek} from '@angular/common';
 import {Component, EventEmitter, Input, OnChanges, Output, SimpleChanges, Type} from '@angular/core';
 import {NbCalendarCell, NbCalendarDayPickerComponent, NbCalendarMonthModelService,} from '@nebular/theme';
-import {Balance} from '../../../api/objects/balance';
 import {Calendar} from '../../../api/objects/calendar';
 import {Expense} from '../../../api/objects/expense';
+import {ExpenseBalance} from '../../../api/objects/expense-balance';
 import {APP_CONFIG} from '../../../app.initializer';
 import {DateUtil} from '../../../util/date.util';
 import {
@@ -22,7 +22,7 @@ import {CalendarMonthModelService} from './calendar-month-model.service';
 export class CalendarComponent extends NbCalendarDayPickerComponent<Date, Date> implements OnChanges {
     @Input() public isMobile: boolean;
     @Input({required: true}) public expenses: Expense[];
-    @Input({required: true}) public balances: Balance[];
+    @Input({required: true}) public expenseBalances: ExpenseBalance[];
     @Input({required: true}) public calendar: Calendar;
     @Input({required: true}) public selectedDate: Date;
     @Output() public calendarChange: EventEmitter<Calendar> = new EventEmitter<Calendar>();

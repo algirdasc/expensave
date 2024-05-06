@@ -1,0 +1,22 @@
+<nb-layout>
+    <nb-layout-header fixed>
+        <a routerLink="/calendar">Back</a>
+    </nb-layout-header>
+
+    <nb-layout-column class="p-0 p-sm-3">
+        <nb-card class="mb-0 h-100 border-0">
+            <nb-card-body>
+                <nb-list class="mb-3">
+                    <nb-list-item
+                        *ngFor="let c of reportsService.calendars">
+                        <nb-checkbox [checked]="selectedCalendars.indexOf(c) !== -1" (checkedChange)="onCheckedChange(c, $event)">{{ c.name }}</nb-checkbox>
+                    </nb-list-item>
+                </nb-list>
+
+                <app-reports-daily-expenses [calendars]="selectedCalendars"></app-reports-daily-expenses>
+                <app-reports-monthly-expenses [calendars]="selectedCalendars"></app-reports-monthly-expenses>
+                <app-reports-category-expenses [calendars]="selectedCalendars"></app-reports-category-expenses>
+            </nb-card-body>
+        </nb-card>
+    </nb-layout-column>
+</nb-layout>

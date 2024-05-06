@@ -1,0 +1,23 @@
+<nb-card [nbSpinner]="isBusy">
+    <nb-card-header class="d-flex align-content-center justify-content-between">
+        <span style="line-height: 32px;">Monthly income & expense</span>
+        <nb-button-group size="small" status="primary" ghost class="d-none d-sm-block mx-3">
+            <button nbButton (click)="navigatePrev()">
+                <nb-icon icon="arrow-back-outline"></nb-icon>
+            </button>
+
+            <button nbButton (click)="navigateToday()">
+                {{ dateRange?.start.getFullYear() }}
+            </button>
+
+            <button nbButton (click)="navigateNext()">
+                <nb-icon icon="arrow-forward-outline"></nb-icon>
+            </button>
+        </nb-button-group>
+    </nb-card-header>
+    <nb-card-body>
+        <div class="mb-3">
+        </div>
+        <canvas style="max-height: 400px;" baseChart [options]="barChartOptions" [data]="barChartData" type="bar"></canvas>
+    </nb-card-body>
+</nb-card>

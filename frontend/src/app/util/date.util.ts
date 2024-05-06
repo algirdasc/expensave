@@ -20,4 +20,16 @@ export class DateUtil {
     public static valid(date: Date): boolean {
         return date instanceof Date && !isNaN(date.getTime())
     }
+
+    public static firstDayOfWeek(date: Date, firstDayOfWeekIndex: number = 0) {
+
+        const dayOfWeek = date.getDay();
+        const firstDayOfWeek = new Date(date);
+        const diff = dayOfWeek - firstDayOfWeekIndex;
+
+        firstDayOfWeek.setDate(date.getDate() - diff)
+        firstDayOfWeek.setHours(0,0,0,0)
+
+        return firstDayOfWeek
+    }
 }

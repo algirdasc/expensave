@@ -41,29 +41,34 @@ class ExpenseRepository extends AbstractRepository
     }
 
     /**
+     * @param array<Calendar> $calendars
+     *
      * @return array<Expense>
      */
-    public function findByCalendarAndInterval(Calendar $calendar, DateTime $dateFrom, DateTime $dateTo): array
+    public function findByCalendarsAndInterval(array $calendars, DateTime $dateFrom, DateTime $dateTo): array
     {
         return $this->createQueryBuilder('e')
-            ->where('e.calendar = :calendar')
+            ->where('e.calendar IN (:calendars)')
             ->andWhere('e.createdAt >= :dateFrom')
             ->andWhere('e.createdAt <= :dateTo')
-            ->setParameter('calendar', $calendar)
+            ->setParameter('calendars', $calendars)
             ->setParameter('dateFrom', $dateFrom)
             ->setParameter('dateTo', $dateTo)
             ->getQuery()
             ->getResult();
     }
 
-    public function getTotalBalanceToDate(Calendar $calendar, DateTime $dateTo): float
+    /**
+     * @param array<Calendar> $calendars
+     */
+    public function getTotalBalanceToDate(array $calendars, DateTime $dateTo): float
     {
         return $this->createQueryBuilder('e')
             ->select('SUM(e.amount)')
-            ->where('e.calendar = :calendar')
+            ->where('e.calendar IN (:calendars)')
             ->andWhere('e.confirmed = true')
             ->andWhere('e.createdAt < :dateTo')
-            ->setParameter('calendar', $calendar)
+            ->setParameter('calendars', $calendars)
             ->setParameter('dateTo', $dateTo)
             ->orderBy('e.createdAt', 'ASC')
             ->getQuery()

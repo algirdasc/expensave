@@ -1,8 +1,8 @@
 import {Component, Input, OnChanges, SimpleChanges} from '@angular/core';
 import {NbDateService} from '@nebular/theme';
-import {Balance} from '../../../../api/objects/balance';
 import {Calendar} from '../../../../api/objects/calendar';
 import {Expense} from '../../../../api/objects/expense';
+import {ExpenseBalance} from '../../../../api/objects/expense-balance';
 import {UNCATEGORIZED_COLOR} from '../../../../util/color.util';
 import {CalendarService} from '../calendar.service';
 
@@ -16,11 +16,11 @@ export class CalendarExpenseListMobileComponent implements OnChanges {
     @Input() public calendar: Calendar;
     @Input() public selectedValue: Date;
     @Input() public expenses: Expense[] = [];
-    @Input() public balances: Balance[] = [];
+    @Input() public balances: ExpenseBalance[] = [];
 
     public confirmedExpenses: Expense[];
     public unconfirmedExpenses: Expense[];
-    public balance: Balance;
+    public balance: ExpenseBalance;
 
     public constructor(
         public calendarService: CalendarService,
@@ -38,7 +38,7 @@ export class CalendarExpenseListMobileComponent implements OnChanges {
                 return this.dateService.isSameDaySafe(this.selectedValue, expense.createdAt) && !expense.confirmed;
             });
 
-            this.balance = this.balances.filter((balance: Balance) => {
+            this.balance = this.balances.filter((balance: ExpenseBalance) => {
                 return this.dateService.isSameDaySafe(this.selectedValue, balance.balanceAt);
             })[0];
         }

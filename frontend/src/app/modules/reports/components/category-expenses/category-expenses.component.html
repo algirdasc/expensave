@@ -1,0 +1,12 @@
+<nb-card [nbSpinner]="isBusy">
+    <nb-card-header class="d-flex align-content-center justify-content-between">
+        <span style="line-height: 32px;">Expenses by category</span>
+        <app-reports-period-selector period="month" (dateRangeChange)="onDateRangeChange($event)"></app-reports-period-selector>
+    </nb-card-header>
+    <nb-card-body>
+        <div class="mb-3">
+            <app-date-range [dateRange]="dateRange" />
+        </div>
+        <canvas style="max-height: 400px;" baseChart [options]="barChartOptions" [data]="barChartData" type="bar"></canvas>
+    </nb-card-body>
+</nb-card>

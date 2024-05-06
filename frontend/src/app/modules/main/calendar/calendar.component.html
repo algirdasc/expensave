@@ -10,7 +10,7 @@
             [cellComponent]="cellComponent"
             [calendar]="calendar"
             [expenses]="expenses"
-            [balances]="balances"
+            [expenseBalances]="expenseBalances"
             (select)="onSelect($event)">
         </app-calendar-grid>
 
@@ -19,7 +19,7 @@
             *ngIf="isMobile"
             [selectedValue]="selectedDate"
             [expenses]="expenses"
-            [balances]="balances"
+            [expenseBalances]="expenseBalances"
             [calendar]="calendar">
         </app-calendar-expense-list-mobile>
     </nb-card-body>

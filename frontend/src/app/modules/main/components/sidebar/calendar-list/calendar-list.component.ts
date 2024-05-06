@@ -1,12 +1,14 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {NbDialogRef, NbDialogService, NbToastrService} from '@nebular/theme';
-import {CalendarApiService} from '../../../../api/calendar.api.service';
-import {Calendar} from '../../../../api/objects/calendar';
-import {UserApiService} from '../../../../api/user.api.service';
-import {CalendarEditComponent} from '../../dialogs/calendars-dialog/calendar-edit/calendar-edit.component';
-import {ConfirmDialogComponent} from '../../dialogs/confirm-dialog/confirm-dialog.component';
-import {StatementImportDialogComponent} from '../../dialogs/statement-import-dialog/statement-import-dialog.component';
-import {MainService} from '../../main.service';
+import {CalendarApiService} from '../../../../../api/calendar.api.service';
+import {Calendar} from '../../../../../api/objects/calendar';
+import {UserApiService} from '../../../../../api/user.api.service';
+import {CalendarEditComponent} from '../../../dialogs/calendars-dialog/calendar-edit/calendar-edit.component';
+import {ConfirmDialogComponent} from '../../../dialogs/confirm-dialog/confirm-dialog.component';
+import {
+    StatementImportDialogComponent
+} from '../../../dialogs/statement-import-dialog/statement-import-dialog.component';
+import {MainService} from '../../../main.service';
 
 @Component({
     selector: 'app-sidebar-calendar-list',

@@ -1,8 +1,8 @@
 import {Component} from '@angular/core';
 import {NbCalendarDayCellComponent, NbDateService} from '@nebular/theme';
-import {Balance} from '../../../../api/objects/balance';
 import {Calendar} from '../../../../api/objects/calendar';
 import {Expense} from '../../../../api/objects/expense';
+import {ExpenseBalance} from '../../../../api/objects/expense-balance';
 import {CalendarCellInterface} from '../interfaces/calendar-cell.interface';
 
 @Component({
@@ -11,7 +11,7 @@ import {CalendarCellInterface} from '../interfaces/calendar-cell.interface';
 })
 export class CalendarGridRowCellMobileComponent extends NbCalendarDayCellComponent<Date> implements CalendarCellInterface {
     public expenses: Expense[];
-    public balance: Balance;
+    public expenseBalance: ExpenseBalance;
     public calendar: Calendar;
     public hasUnconfirmedExpenses: boolean = false;
 

@@ -5,11 +5,13 @@ import {BrowserModule} from '@angular/platform-browser';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {RouterModule} from '@angular/router';
 import {NB_AUTH_TOKEN_INTERCEPTOR_FILTER, NbAuthJWTInterceptor} from '@nebular/auth';
+import {NbEvaIconsModule} from '@nebular/eva-icons';
 import {
     NbButtonModule,
     NbCardModule,
     NbDatepickerModule,
     NbDialogModule,
+    NbIconModule,
     NbLayoutModule,
     NbSpinnerModule,
     NbThemeModule,
@@ -19,6 +21,7 @@ import 'reflect-metadata';
 import {CalendarApiService} from './api/calendar.api.service';
 import {CategoryApiService} from './api/category.api.service';
 import {ExpenseApiService} from './api/expense.api.service';
+import {ReportsApiService} from './api/reports.api.service';
 import {UserApiService} from './api/user.api.service';
 import {AppComponent} from './app.component';
 import {AppInitializer} from './app.initializer';
@@ -30,6 +33,8 @@ import {AuthStrategy} from './modules/auth/auth-strategy';
 import {AuthModule} from './modules/auth/auth.module';
 import {tokenFilter} from './modules/auth/token.filter';
 import {Error404Component} from './modules/error-404.component';
+import {CalendarResolver} from './resolvers/calendar.resolver';
+import {UserResolver} from './resolvers/user.resolver';
 import {AuthOptionsService} from './services/auth-options.service';
 
 const apiServices = [
@@ -37,6 +42,7 @@ const apiServices = [
     UserApiService,
     ExpenseApiService,
     CategoryApiService,
+    ReportsApiService,
 ];
 
 @NgModule({
@@ -59,6 +65,8 @@ const apiServices = [
         NbCardModule,
         NbButtonModule,
         NbSpinnerModule,
+        NbEvaIconsModule,
+        NbIconModule,
     ],
     providers: [
         AppInitializer,
@@ -85,6 +93,8 @@ const apiServices = [
         { provide: HTTP_INTERCEPTORS, useClass: UnauthorizedInterceptor, multi: true },
         AuthStrategy,
         AuthOptionsService,
+        UserResolver,
+        CalendarResolver,
         ...apiServices
     ],
     bootstrap: [

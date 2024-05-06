@@ -14,7 +14,7 @@ use App\Request\Calendar\CreateCalendarRequest;
 use App\Request\Calendar\UpdateCalendarRequest;
 use App\Response\EmptyResponse;
 use App\Response\Statement\ExpenseListResponse;
-use App\Service\BalanceCalculatorService;
+use App\Service\Report\DailyExpenseReportService;
 use DateTime;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -26,9 +26,9 @@ use Symfony\Component\Security\Http\Attribute\CurrentUser;
 class CalendarController extends AbstractApiController
 {
     public function __construct(
-        private readonly CalendarRepository $calendarRepository,
-        private readonly ExpenseRepository $expenseRepository,
-        private readonly BalanceCalculatorService $balanceCalculatorService,
+        private readonly CalendarRepository        $calendarRepository,
+        private readonly ExpenseRepository         $expenseRepository,
+        private readonly DailyExpenseReportService $cashFlowReportService,
     ) {
     }
 
@@ -50,13 +50,13 @@ class CalendarController extends AbstractApiController
         $dateFrom = (new DateTime())->setTimestamp($fromTs);
         $dateTo = (new DateTime())->setTimestamp($toTs);
 
-        $expenses = $this->expenseRepository->findByCalendarAndInterval($calendar, $dateFrom, $dateTo);
-        $balances = $this->balanceCalculatorService->calculate($calendar, $dateFrom, $dateTo);
+        $expenses = $this->expenseRepository->findByCalendarsAndInterval([$calendar], $dateFrom, $dateTo);
+        $expensesBalances = $this->cashFlowReportService->generate([$calendar], $dateFrom, $dateTo);
 
         return $this->respond(
             new ExpenseListResponse(
                 expenses: $expenses,
-                balances: $balances,
+                balances: $expensesBalances,
                 calendar: $calendar,
             )
         );

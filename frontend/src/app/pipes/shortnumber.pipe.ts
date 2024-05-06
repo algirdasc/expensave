@@ -6,7 +6,11 @@ import {APP_CONFIG} from '../app.initializer';
     name: 'shortNumber'
 })
 export class ShortNumberPipe implements PipeTransform {
-    public transform(input: number, ...args: string[]): string {
+    public transform(input: number|string, ...args: string[]): string {
+
+        if (typeof input === 'string') {
+            input = parseFloat(input);
+        }
 
         if (isNaN(input) || input === null) {
             return '';
