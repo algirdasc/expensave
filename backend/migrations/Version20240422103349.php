@@ -24,6 +24,7 @@ final class Version20240422103349 extends AbstractMigration
         $this->addSql('DROP TABLE calendar_identification');
         $this->addSql('DROP INDEX UNIQ_2D3A8DA6C3986294 ON expense');
         $this->addSql('ALTER TABLE expense DROP statement_hash');
+        $this->addSql('ALTER TABLE user DROP roles');
     }
 
     public function down(Schema $schema): void
@@ -33,5 +34,6 @@ final class Version20240422103349 extends AbstractMigration
         $this->addSql('ALTER TABLE calendar_identification ADD CONSTRAINT FK_FB652D5DA40A2C8 FOREIGN KEY (calendar_id) REFERENCES calendar (id)');
         $this->addSql('ALTER TABLE expense ADD statement_hash VARCHAR(255) DEFAULT NULL');
         $this->addSql('CREATE UNIQUE INDEX UNIQ_2D3A8DA6C3986294 ON expense (statement_hash)');
+        $this->addSql('ALTER TABLE user ADD roles JSON NOT NULL');
     }
 }
