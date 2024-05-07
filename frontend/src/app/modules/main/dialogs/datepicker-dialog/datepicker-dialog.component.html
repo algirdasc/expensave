@@ -9,6 +9,7 @@
     <nb-calendar
         size="medium"
         [(date)]="date"
+        [visibleDate]="date"
         (dateChange)="dialogRef.close(date)">
     </nb-calendar>
 </nb-card>
