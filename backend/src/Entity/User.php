@@ -39,7 +39,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @var Collection<Calendar>
      */
-    #[ORM\OneToMany(mappedBy: 'owner', targetEntity: Calendar::class)]
+    #[ORM\OneToMany(targetEntity: Calendar::class, mappedBy: 'owner')]
     private Collection $calendars;
 
     /**
