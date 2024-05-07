@@ -63,3 +63,5 @@ export class MainService {
         this.title.setTitle(`Expensave - ${calendar?.name ?? 'No calendar'}`);
     }
 }
+
+export const SIDEBAR_TAG = 'menu-sidebar';
