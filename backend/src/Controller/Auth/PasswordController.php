@@ -9,15 +9,11 @@ use App\Request\Auth\PasswordForgotRequest;
 use App\Request\Auth\PasswordResetRequest;
 use App\Response\EmptyResponse;
 use App\Service\PasswordResetService;
-use Nelmio\ApiDocBundle\Annotation\Security;
-use OpenApi\Attributes as OA;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Attribute\Route;
 
 #[Route('api/auth/password', name: 'password_')]
-#[OA\Tag(name: 'Authentication')]
-#[Security(name: '')]
 class PasswordController extends AbstractApiController
 {
     #[Route('/forgot', name: 'forgot', methods: Request::METHOD_POST)]
