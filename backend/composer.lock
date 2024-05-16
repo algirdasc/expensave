@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "20a0d2f852e1c2ebe6a45bbca7ab6a24",
+    "content-hash": "32ca4c1574e003b2f035cea7ec12d8e9",
     "packages": [
         {
             "name": "beberlei/doctrineextensions",
@@ -6476,7 +6476,7 @@
         },
         {
             "name": "symfony/serializer",
-            "version": "7.0.x-dev",
+            "version": "v7.0.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/serializer.git",
@@ -6525,7 +6525,6 @@
                 "symfony/var-exporter": "^6.4|^7.0",
                 "symfony/yaml": "^6.4|^7.0"
             },
-            "default-branch": true,
             "type": "library",
             "autoload": {
                 "psr-4": {
@@ -6552,7 +6551,7 @@
             "description": "Handles serializing and deserializing data structures, including object graphs, into array structures or other formats like XML and JSON.",
             "homepage": "https://symfony.com",
             "support": {
-                "source": "https://github.com/symfony/serializer/tree/7.0"
+                "source": "https://github.com/symfony/serializer/tree/v7.0.7"
             },
             "funding": [
                 {
@@ -10670,7 +10669,6 @@
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
-        "symfony/serializer": 20,
         "roave/security-advisories": 20
     },
     "prefer-stable": true,
