@@ -131,20 +131,17 @@ export class ExpenseDialogComponent implements AfterViewInit {
             this.expense.category = undefined;
         }
 
-        // 2. Delete expired suggestion
-        this.suggestedExpense = undefined;
-
-        // 3. Cancel pending suggestion request
+        // 2. Cancel pending suggestion request
         if (this.expenseSuggestionSubscription) {
             this.expenseSuggestionSubscription.unsubscribe();
         }
 
-        // 4. Do not look for suggestion on empty input
+        // 3. Do not look for suggestion on empty input
         if (!input) {
             return;
         }
 
-        // 5. Search for suggestions
+        // 4. Search for suggestions
         this.expenseSuggestionSubscription = this.expenseApiService
             .suggest(input)
             .subscribe((response: Expense) => {
