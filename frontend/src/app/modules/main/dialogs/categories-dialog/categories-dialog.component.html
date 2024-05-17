@@ -13,7 +13,7 @@
             [categories]="categories"
             [category]="editableCategory"
             [saveButtonEnabled]="isBusy"
-            (back)="editableCategory = undefined"
+            (back)="editableCategory = undefined; fetch()"
             (save)="saveCategory($event)">
     </app-category-edit>
 </div>

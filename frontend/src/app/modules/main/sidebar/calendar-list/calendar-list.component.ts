@@ -4,6 +4,7 @@ import {CalendarApiService} from '../../../../api/calendar.api.service';
 import {Calendar} from '../../../../api/objects/calendar';
 import {UserApiService} from '../../../../api/user.api.service';
 import {CalendarEditComponent} from '../../dialogs/calendars-dialog/calendar-edit/calendar-edit.component';
+import {CategoriesDialogComponent} from '../../dialogs/categories-dialog/categories-dialog.component';
 import {ConfirmDialogComponent} from '../../dialogs/confirm-dialog/confirm-dialog.component';
 import {StatementImportDialogComponent} from '../../dialogs/statement-import-dialog/statement-import-dialog.component';
 import {MainService} from '../../main.service';
@@ -95,6 +96,15 @@ export class CalendarSidebarListComponent {
         this.calendarApiService
             .get(calendar.id)
             .subscribe((calendar: Calendar) => this.openCalendarDialog(calendar));
+    }
+
+    public editCategories(): void {
+        this.dialogService
+            .open(CategoriesDialogComponent, {
+                context: {
+                    isSelectable: false,
+                }
+            });
     }
 
     public fetch(): void {
