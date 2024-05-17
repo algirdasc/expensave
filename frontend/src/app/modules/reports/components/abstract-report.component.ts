@@ -1,8 +1,9 @@
-import {Input, OnChanges, SimpleChanges} from '@angular/core';
+import {Component, Input, OnChanges, SimpleChanges} from '@angular/core';
 import {NbCalendarRange} from '@nebular/theme';
 import {Subscription} from 'rxjs';
 import {Calendar} from '../../../api/objects/calendar';
 
+@Component({ template: '' })
 export abstract class AbstractReportComponent implements OnChanges {
 
     @Input({ required: true }) calendars: Calendar[];
