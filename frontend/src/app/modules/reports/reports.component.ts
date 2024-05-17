@@ -5,7 +5,8 @@ import {User} from '../../api/objects/user';
 import {ReportsService} from './reports.service';
 
 @Component({
-    templateUrl: 'reports.component.html'
+    templateUrl: 'reports.component.html',
+    styleUrl: 'reports.component.scss',
 })
 export class ReportsComponent implements OnInit {
 

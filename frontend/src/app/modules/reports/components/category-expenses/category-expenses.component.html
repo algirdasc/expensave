@@ -1,6 +1,6 @@
-<nb-card [nbSpinner]="isBusy">
-    <nb-card-header class="d-flex align-content-center justify-content-between">
-        <span style="line-height: 32px;">Expenses by category</span>
+<nb-card class="mb-0" [nbSpinner]="isBusy">
+    <nb-card-header class="d-sm-flex align-content-center justify-content-between">
+        <span style="line-height: 32px;" class="d-block mb-3 mb-sm-0">Expenses by category</span>
         <app-reports-period-selector period="month" (dateRangeChange)="onDateRangeChange($event)"></app-reports-period-selector>
     </nb-card-header>
     <nb-card-body>

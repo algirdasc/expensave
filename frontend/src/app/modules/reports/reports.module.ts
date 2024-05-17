@@ -2,6 +2,7 @@ import {CommonModule} from '@angular/common';
 import {NgModule} from '@angular/core';
 import {RouterModule} from '@angular/router';
 import {
+    NbActionsModule,
     NbButtonGroupModule,
     NbButtonModule,
     NbCalendarKitModule,
@@ -52,6 +53,7 @@ import {ReportsService} from './reports.service';
         NbCheckboxModule,
         NbSpinnerModule,
         BaseChartDirective,
+        NbActionsModule,
     ],
     providers: [
         ReportsService,

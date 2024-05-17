@@ -1,9 +1,9 @@
-<nb-card>
-    <nb-card-header class="d-flex align-content-center justify-content-between">
-        <span style="line-height: 32px;">Cash flow</span>
+<nb-card class="mb-0" [nbSpinner]="isBusy">
+    <nb-card-header class="d-sm-flex align-content-center justify-content-between">
+        <span style="line-height: 32px;" class="d-block mb-3 mb-sm-0">Cash flow</span>
         <app-reports-period-selector period="month" (dateRangeChange)="onDateRangeChange($event)"></app-reports-period-selector>
     </nb-card-header>
-    <nb-card-body [nbSpinner]="isBusy">
+    <nb-card-body>
         <div class="mb-3">
             <app-date-range [dateRange]="dateRange" />
         </div>

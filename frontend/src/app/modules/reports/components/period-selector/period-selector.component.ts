@@ -7,6 +7,7 @@ import {DateUtil} from '../../../../util/date.util';
 @Component({
     selector: 'app-reports-period-selector',
     templateUrl: 'period-selector.component.html',
+    styleUrl: 'period-selector.component.scss',
 })
 export class PeriodSelectorComponent implements AfterViewInit {
     public dateRange: NbCalendarRange<Date>;

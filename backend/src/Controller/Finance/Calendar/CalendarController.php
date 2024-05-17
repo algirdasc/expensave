@@ -56,7 +56,7 @@ class CalendarController extends AbstractApiController
         return $this->respond(
             new ExpenseListResponse(
                 expenses: $expenses,
-                balances: $expensesBalances,
+                expenseBalances: $expensesBalances,
                 calendar: $calendar,
             )
         );

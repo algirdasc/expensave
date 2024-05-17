@@ -1,5 +1,6 @@
 import {Component, OnChanges} from '@angular/core';
 import {ChartConfiguration} from 'chart.js';
+import {finalize} from 'rxjs/operators';
 import {ReportsApiService} from '../../../../api/reports.api.service';
 import {CategoryExpenseReportResponse} from '../../../../api/response/category-expense-report.response';
 import {ShortNumberPipe} from '../../../../pipes/shortnumber.pipe';
@@ -58,10 +59,11 @@ export class CategoryExpensesComponent extends AbstractReportComponent implement
         private readonly reportsApiService: ReportsApiService,
     ) {
         super();
-        this.reportsApiService.onBusyChange.subscribe((isBusy: boolean) => this.isBusy = isBusy);
     }
 
     public fetchReport(): void {
+        this.isBusy = true;
+
         if (this.fetchSubscription) {
             this.fetchSubscription.unsubscribe();
             this.fetchSubscription = undefined;
@@ -69,6 +71,9 @@ export class CategoryExpensesComponent extends AbstractReportComponent implement
 
         this.fetchSubscription = this.reportsApiService
             .categoryExpenses(this.calendars, this.dateRange.start, this.dateRange.end)
+            .pipe(
+                finalize(() => this.isBusy = false)
+            )
             .subscribe((response: CategoryExpenseReportResponse) => {
                 const backgroundColors: string[] = [];
                 const expenseLabels: string[] = [];

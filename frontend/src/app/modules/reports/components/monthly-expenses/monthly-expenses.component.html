@@ -1,7 +1,7 @@
-<nb-card [nbSpinner]="isBusy">
-    <nb-card-header class="d-flex align-content-center justify-content-between">
-        <span style="line-height: 32px;">Monthly income & expense</span>
-        <nb-button-group size="small" status="primary" ghost class="d-none d-sm-block mx-3">
+<nb-card class="mb-0" [nbSpinner]="isBusy">
+    <nb-card-header class="d-sm-flex align-content-center justify-content-between">
+        <span style="line-height: 32px;" class="d-block mb-3 mb-sm-0">Monthly income & expense</span>
+        <nb-button-group size="small" status="primary" ghost class="d-block text-center mx-3">
             <button nbButton (click)="navigatePrev()">
                 <nb-icon icon="arrow-back-outline"></nb-icon>
             </button>

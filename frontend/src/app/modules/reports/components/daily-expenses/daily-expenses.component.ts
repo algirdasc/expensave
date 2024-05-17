@@ -3,6 +3,7 @@ import {Component, Input, OnChanges, SimpleChanges} from '@angular/core';
 import {NbCalendarRange, NbDateService} from '@nebular/theme';
 import {ChartConfiguration, ScriptableLineSegmentContext} from 'chart.js';
 import {Subscription} from 'rxjs';
+import {finalize} from 'rxjs/operators';
 import {Calendar} from '../../../../api/objects/calendar';
 import {ExpenseBalance} from '../../../../api/objects/expense-balance';
 import {ReportsApiService} from '../../../../api/reports.api.service';
@@ -71,7 +72,6 @@ export class DailyExpensesComponent implements OnChanges {
         private readonly dateService: NbDateService<Date>,
         private readonly reportsApiService: ReportsApiService,
     ) {
-        this.reportsApiService.onBusyChange.subscribe((isBusy: boolean) => this.isBusy = isBusy);
     }
 
     public ngOnChanges(changes: SimpleChanges): void {
@@ -86,6 +86,8 @@ export class DailyExpensesComponent implements OnChanges {
     }
 
     private fetchReport(): void {
+        this.isBusy = true;
+
         if (this.fetchSubscription) {
             this.fetchSubscription.unsubscribe();
             this.fetchSubscription = undefined;
@@ -93,6 +95,9 @@ export class DailyExpensesComponent implements OnChanges {
 
         this.fetchSubscription = this.reportsApiService
             .dailyExpenses(this.calendars, this.dateRange.start, this.dateRange.end)
+            .pipe(
+                finalize(() => this.isBusy = false)
+            )
             .subscribe((response: ExpenseReportResponse) => {
                 this.income = response.meta.income;
                 this.change = response.meta.change;

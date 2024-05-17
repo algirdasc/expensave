@@ -2,6 +2,7 @@ import {FormStyle, getLocaleMonthNames, TranslationWidth} from '@angular/common'
 import {Component, OnChanges, OnInit} from '@angular/core';
 import {NbCalendarRange, NbDateService} from '@nebular/theme';
 import {ChartConfiguration} from 'chart.js';
+import {finalize} from 'rxjs/operators';
 import {ReportsApiService} from '../../../../api/reports.api.service';
 import {ExpenseReportResponse} from '../../../../api/response/expense-report.response';
 import {APP_CONFIG} from '../../../../app.initializer';
@@ -80,10 +81,11 @@ export class MonthlyExpensesComponent extends AbstractReportComponent implements
         private readonly dateService: NbDateService<Date>,
     ) {
         super();
-        this.reportsApiService.onBusyChange.subscribe((isBusy: boolean) => this.isBusy = isBusy);
     }
 
     public fetchReport(): void {
+        this.isBusy = true;
+
         if (this.fetchSubscription) {
             this.fetchSubscription.unsubscribe();
             this.fetchSubscription = undefined;
@@ -91,6 +93,9 @@ export class MonthlyExpensesComponent extends AbstractReportComponent implements
 
         this.fetchSubscription = this.reportsApiService
             .monthlyExpenses(this.calendars, this.dateRange.start, this.dateRange.end)
+            .pipe(
+                finalize(() => this.isBusy = false)
+            )
             .subscribe((response: ExpenseReportResponse) => {
                 const xAxisData: string[] = [...getLocaleMonthNames(APP_CONFIG.locale, FormStyle.Format, TranslationWidth.Short)];
                 const incomeData: number[] = [];
