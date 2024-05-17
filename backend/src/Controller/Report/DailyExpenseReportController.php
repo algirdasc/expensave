@@ -21,6 +21,7 @@ class DailyExpenseReportController extends AbstractReportController
         protected readonly ExpenseRepository $expenseRepository,
         private readonly DailyExpenseReportService $dailyExpenseReportService,
     ) {
+        parent::__construct($calendarRepository, $this->expenseRepository);
     }
 
     public function __invoke(string $calendarIds, int $fromTs, int $toTs): JsonResponse

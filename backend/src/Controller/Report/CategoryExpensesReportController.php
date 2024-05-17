@@ -21,6 +21,7 @@ class CategoryExpensesReportController extends AbstractReportController
         protected readonly ExpenseRepository $expenseRepository,
         private readonly CategoryExpenseReportService $categoryExpenseReportService,
     ) {
+        parent::__construct($calendarRepository, $this->expenseRepository);
     }
 
     public function __invoke(string $calendarIds, int $fromTs, int $toTs): JsonResponse

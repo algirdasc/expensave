@@ -12,9 +12,11 @@ use DateTime;
 
 abstract class AbstractReportController extends AbstractApiController
 {
-    protected readonly CalendarRepository $calendarRepository;
-
-    protected readonly ExpenseRepository $expenseRepository;
+    public function __construct(
+        protected readonly CalendarRepository $calendarRepository,
+        protected readonly ExpenseRepository $expenseRepository,
+    ) {
+    }
 
     /**
      * @return array{
