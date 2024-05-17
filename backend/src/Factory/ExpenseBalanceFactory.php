@@ -6,14 +6,14 @@ namespace App\Factory;
 
 use App\DTO\Report\ExpenseBalance;
 use App\Entity\Expense;
-use DateTimeInterface;
+use DateTime;
 
 class ExpenseBalanceFactory
 {
     /**
      * @param array<Expense> $expenses
      */
-    public static function createFromExpenseArray(DateTimeInterface $balanceAt, array $expenses): ExpenseBalance
+    public static function createFromExpenseArray(DateTime $balanceAt, array $expenses): ExpenseBalance
     {
         $dailyIncome = 0;
         $dailyExpense = 0;

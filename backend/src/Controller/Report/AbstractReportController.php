@@ -12,8 +12,10 @@ use DateTime;
 
 abstract class AbstractReportController extends AbstractApiController
 {
+    /** @phpstan-ignore-next-line */
     protected readonly CalendarRepository $calendarRepository;
 
+    /** @phpstan-ignore-next-line */
     protected readonly ExpenseRepository $expenseRepository;
 
     /**

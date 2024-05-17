@@ -35,6 +35,7 @@ readonly abstract class AbstractExpenseReportService extends AbstractReportServi
         $expenses = new ArrayCollection($this->expenseRepository->findByCalendarsAndInterval($calendars, $dateFrom, $dateTo));
         $balanceToDate = $this->expenseRepository->getTotalBalanceToDate($calendars, $dateFrom);
 
+        /** @var DateTime $dt */
         foreach ($period as $dt) {
             $dailyExpenses = $expenses
                 ->filter(function (Expense $expense) use ($dt) {
