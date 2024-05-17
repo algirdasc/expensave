@@ -3,7 +3,6 @@ import {NbDateService} from '@nebular/theme';
 import {Calendar} from '../../../../api/objects/calendar';
 import {Expense} from '../../../../api/objects/expense';
 import {ExpenseBalance} from '../../../../api/objects/expense-balance';
-import {UNCATEGORIZED_COLOR} from '../../../../util/color.util';
 import {CalendarService} from '../calendar.service';
 
 @Component({
@@ -16,11 +15,11 @@ export class CalendarExpenseListMobileComponent implements OnChanges {
     @Input() public calendar: Calendar;
     @Input() public selectedValue: Date;
     @Input() public expenses: Expense[] = [];
-    @Input() public balances: ExpenseBalance[] = [];
+    @Input() public expenseBalances: ExpenseBalance[] = [];
 
     public confirmedExpenses: Expense[];
     public unconfirmedExpenses: Expense[];
-    public balance: ExpenseBalance;
+    public expenseBalance: ExpenseBalance;
 
     public constructor(
         public calendarService: CalendarService,
@@ -38,11 +37,9 @@ export class CalendarExpenseListMobileComponent implements OnChanges {
                 return this.dateService.isSameDaySafe(this.selectedValue, expense.createdAt) && !expense.confirmed;
             });
 
-            this.balance = this.balances.filter((balance: ExpenseBalance) => {
+            this.expenseBalance = this.expenseBalances.filter((balance: ExpenseBalance) => {
                 return this.dateService.isSameDaySafe(this.selectedValue, balance.balanceAt);
             })[0];
         }
     }
-
-    protected readonly UNCATEGORIZED_COLOR = UNCATEGORIZED_COLOR;
 }
