@@ -42,11 +42,17 @@
             </div>
         </nb-card-body>
 
-        <nb-card-footer class="text-right">
-            <button nbButton type="submit" status="primary" [disabled]="saveButtonEnabled || !categoryForm.valid">
-                <nb-icon icon="save-outline"></nb-icon>
-                Save
-            </button>
+        <nb-card-footer>
+            <div class="d-flex flex-row-reverse justify-content-between">
+                <button nbButton type="submit" status="primary" [disabled]="saveButtonEnabled || !categoryForm.valid">
+                    <nb-icon icon="save-outline"></nb-icon>
+                    Save
+                </button>
+
+                <button nbButton type="button" ghost status="danger" *ngIf="category.id" (click)="deleteCategory()">
+                    <nb-icon icon="trash-2-outline"></nb-icon>
+                </button>
+            </div>
         </nb-card-footer>
     </nb-card>
 </form>

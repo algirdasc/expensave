@@ -1,5 +1,8 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
+import {NbDialogService} from '@nebular/theme';
+import {CategoryApiService} from '../../../../../api/category.api.service';
 import {Category} from '../../../../../api/objects/category';
+import {ConfirmDialogComponent} from '../../confirm-dialog/confirm-dialog.component';
 
 @Component({
     templateUrl: 'category-edit.component.html',
@@ -30,6 +33,12 @@ export class CategoryEditComponent {
 
     private _categories: Category[];
 
+    public constructor(
+        private dialogService: NbDialogService,
+        private categoryApiService: CategoryApiService,
+    ) {
+    }
+
     @Input()
     get categories(): Category[] {
         return this._categories;
@@ -40,5 +49,22 @@ export class CategoryEditComponent {
         for (const category of this._categories) {
             this.usedColors[category.color] = true;
         }
+    }
+
+    public deleteCategory(): void {
+        this.dialogService
+            .open(ConfirmDialogComponent, {
+                context: {
+                    question: 'Are you sure you want delete this category?',
+                }
+            })
+            .onClose
+            .subscribe((result?: boolean) => {
+                if (result) {
+                    this.categoryApiService
+                        .delete(this.category.id)
+                        .subscribe(() => this.back.emit(true));
+                }
+            });
     }
 }
