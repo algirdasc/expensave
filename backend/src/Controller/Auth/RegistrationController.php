@@ -7,23 +7,26 @@ namespace App\Controller\Auth;
 use App\Controller\AbstractApiController;
 use App\Entity\Calendar;
 use App\Entity\User;
+use App\Repository\CalendarRepository;
 use App\Repository\UserRepository;
 use App\Request\Auth\RegistrationRequest;
 use App\Response\Auth\AuthTokenResponse;
 use Lexik\Bundle\JWTAuthenticationBundle\Services\JWTTokenManagerInterface;
-use Nelmio\ApiDocBundle\Annotation\Security;
-use OpenApi\Attributes as OA;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Attribute\Route;
 
 #[Route('api/auth/register', name: 'registration_')]
-#[OA\Tag(name: 'Authentication')]
-#[Security(name: '')]
 class RegistrationController extends AbstractApiController
 {
+    public function __construct(
+        private readonly CalendarRepository $calendarRepository,
+        private readonly UserRepository $userRepository,
+    ) {
+    }
+
     #[Route('', name: 'create', methods: Request::METHOD_POST)]
-    public function index(RegistrationRequest $request, JWTTokenManagerInterface $JWTManager, UserRepository $userRepository): JsonResponse
+    public function index(RegistrationRequest $request, JWTTokenManagerInterface $JWTManager): JsonResponse
     {
         $user = (new User())
             ->setEmail($request->getEmail())
@@ -32,10 +35,15 @@ class RegistrationController extends AbstractApiController
             ->setPlainPassword($request->getPassword())
         ;
 
-        new Calendar('Personal', $user);
+        $calendar = new Calendar('Personal', $user);
 
-        $userRepository->save($user);
+        $this->userRepository->save($user);
+        $this->calendarRepository->save($calendar);
 
-        return $this->respond(new AuthTokenResponse($JWTManager->create($user)));
+        return $this->respond(
+            new AuthTokenResponse(
+                $JWTManager->create($user)
+            )
+        );
     }
 }

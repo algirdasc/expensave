@@ -17,30 +17,32 @@
 
     <div class="d-flex text-right">
 
-        <nb-calendar-view-mode
-            [date]="visibleDate"
-            [viewMode]="activeViewMode"
-            [nbPopover]="templateRef"
-            nbPopoverTrigger="noop"
-            nbPopoverPlacement="bottom"
-            (changeMode)="changeViewMode()">
-        </nb-calendar-view-mode>
+        <div appOutsideClick (outsideClick)="navigateToDate(visibleDate); activeViewMode = viewMode.DATE">
+            <nb-calendar-view-mode
+                [date]="visibleDate"
+                [viewMode]="activeViewMode"
+                [nbPopover]="templateRef"
+                nbPopoverTrigger="noop"
+                nbPopoverPlacement="bottom"
+                (changeMode)="changeViewMode()">
+            </nb-calendar-view-mode>
 
-        <ng-template #templateRef>
-            <div [ngSwitch]="activeViewMode">
-                <nb-calendar-year-picker
-                    *ngSwitchCase="viewMode.YEAR"
-                    [year]="visibleDate"
-                    (yearChange)="visibleDate = $event; activeViewMode = viewMode.MONTH">
-                </nb-calendar-year-picker>
+            <ng-template #templateRef>
+                <div [ngSwitch]="activeViewMode">
+                    <nb-calendar-year-picker
+                        *ngSwitchCase="viewMode.YEAR"
+                        [year]="visibleDate"
+                        (yearChange)="visibleDate = $event; activeViewMode = viewMode.MONTH">
+                    </nb-calendar-year-picker>
 
-                <nb-calendar-month-picker
-                    *ngSwitchCase="viewMode.MONTH"
-                    [month]="visibleDate"
-                    (monthChange)="navigateToDate($event); activeViewMode = viewMode.DATE">
-                </nb-calendar-month-picker>
-            </div>
-        </ng-template>
+                    <nb-calendar-month-picker
+                        *ngSwitchCase="viewMode.MONTH"
+                        [month]="visibleDate"
+                        (monthChange)="navigateToDate($event); activeViewMode = viewMode.DATE">
+                    </nb-calendar-month-picker>
+                </div>
+            </ng-template>
+        </div>
 
         <nb-button-group status="primary" class="d-none d-sm-block mx-3">
             <button nbButton (click)="navigatePrev()">

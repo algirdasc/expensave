@@ -23,6 +23,7 @@ import {
     NbUserModule
 } from '@nebular/theme';
 import {AngularResizeEventModule} from 'angular-resize-event';
+import {OutsideClickDirective} from '../../directives/outside-click.directive';
 import {SwipeDirective} from '../../directives/swipe.directive';
 import {ShortNumberModule} from '../../pipes/shortnumber.module';
 import {CalendarResolver} from '../../resolvers/calendar.resolver';
@@ -108,6 +109,7 @@ import {MainService} from './main.service';
 
         // Directives
         SwipeDirective,
+        OutsideClickDirective,
     ],
     imports: [
         CommonModule,

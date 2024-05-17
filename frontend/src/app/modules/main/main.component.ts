@@ -1,13 +1,13 @@
 import {Component, NgZone, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
-import {NbDateService, NbMediaBreakpointsService} from '@nebular/theme';
+import {NbDateService, NbMediaBreakpointsService, NbSidebarService} from '@nebular/theme';
 import {ResizedEvent} from 'angular-resize-event';
 import {ExpenseApiService} from '../../api/expense.api.service';
 import {Calendar} from '../../api/objects/calendar';
 import {User} from '../../api/objects/user';
 import {SwipeEvent} from '../../interfaces/swipe.interface';
 import {DateUtil} from '../../util/date.util';
-import {MainService} from './main.service';
+import {MainService, SIDEBAR_TAG} from './main.service';
 
 @Component({
     templateUrl: 'main.component.html',
@@ -24,6 +24,7 @@ export class MainComponent implements OnInit {
         private readonly breakpointService: NbMediaBreakpointsService,
         private readonly dateService: NbDateService<Date>,
         private readonly zone: NgZone,
+        private readonly sidebarService: NbSidebarService,
         public readonly mainService: MainService,
     ) {
         this.expenseApiService.onBusyChange.subscribe((isBusy: boolean) => this.isBusy = isBusy);
@@ -77,4 +78,16 @@ export class MainComponent implements OnInit {
     public onCalendarChange(calendar: Calendar): void {
         this.mainService.refreshCalendar(calendar);
     }
+
+    public onSidebarOutsideClick(): void {
+        this.sidebarService
+            .getSidebarState(SIDEBAR_TAG)
+            .subscribe(state => {
+                if (state !== 'collapsed') {
+                    this.sidebarService.collapse(SIDEBAR_TAG);
+                }
+            });
+    }
+
+    protected readonly SIDEBAR_TAG = SIDEBAR_TAG;
 }

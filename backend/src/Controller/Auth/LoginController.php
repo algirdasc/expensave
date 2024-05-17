@@ -7,15 +7,11 @@ namespace App\Controller\Auth;
 use App\Controller\AbstractApiController;
 use App\Enum\ErrorEnum;
 use LogicException;
-use Nelmio\ApiDocBundle\Annotation\Security;
-use OpenApi\Attributes as OA;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Attribute\Route;
 
 #[Route('api/auth/login', name: 'login_')]
-#[OA\Tag(name: 'Authentication')]
-#[Security(name: '')]
 class LoginController extends AbstractApiController
 {
     #[Route('', name: 'index', methods: Request::METHOD_POST)]

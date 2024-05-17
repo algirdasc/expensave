@@ -11,7 +11,7 @@
                     <div class="mx-3 w-50">
                         <label for="expense-amount">Amount</label>
                         <input #focus nbInput fullWidth required type="number" tabIndex="1"
-                               placeholder="0.00" name="amount" id="expense-amount"
+                               placeholder="{{ 0|shortNumber }}" name="amount" id="expense-amount"
                                [(ngModel)]="expense.absoluteAmount"
                                class="t-input px-0 pt-3 pb-2" />
                     </div>
@@ -20,7 +20,7 @@
                         <app-input-suggestion
                             [input]="expense.label"
                             (inputChanged)="handleInputChange($event)"
-                            [suggestion]="suggestedExpense?.label ?? ''"
+                            [suggestion]="suggestedExpense?.label"
                             (suggest)="applyLabelSuggestion()"
                             [cssClasses]="'t-input px-0 pt-3 pb-2'">
                             <input nbInput fullWidth required tabIndex="2"
