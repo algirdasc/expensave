@@ -10,7 +10,7 @@ import {ReportsApiService} from '../../../../api/reports.api.service';
 import {ExpenseReportResponse} from '../../../../api/response/expense-report.response';
 import {APP_CONFIG} from '../../../../app.initializer';
 import {ShortNumberPipe} from '../../../../pipes/shortnumber.pipe';
-import {chartTooltipHandler} from '../chart-tooltip';
+import {chartTooltipHandler} from './daily-expenses-tooltip';
 
 @Component({
     selector: 'app-reports-daily-expenses',
@@ -114,8 +114,6 @@ export class DailyExpensesComponent implements OnChanges {
                     xAxisData.push(date);
                     balances.push(expenseBalance);
                 }
-
-                console.log(balances);
 
                 this.lineChartData = {
                     datasets: [

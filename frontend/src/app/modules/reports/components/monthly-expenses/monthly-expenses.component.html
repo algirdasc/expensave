@@ -15,9 +15,15 @@
             </button>
         </nb-button-group>
     </nb-card-header>
-    <nb-card-body>
-        <div class="mb-3">
+    <nb-card-body class="overflow-hidden">
+        <div class="chart">
+            <canvas style="max-height: 400px;" baseChart [options]="barChartOptions" [data]="barChartData" type="bar"></canvas>
+            <div class="chart-tooltip">
+                <h6 class="m-0 text-hint text-center title"></h6>
+                <div><strong>Income: </strong><span class="income">{{ 0|shortNumber }}</span></div>
+                <div><strong>Expense: </strong><span class="expense">{{ 0|shortNumber }}</span></div>
+                <div><strong>Change: </strong><span class="change">{{ 0|shortNumber }}</span></div>
+            </div>
         </div>
-        <canvas style="max-height: 400px;" baseChart [options]="barChartOptions" [data]="barChartData" type="bar"></canvas>
     </nb-card-body>
 </nb-card>

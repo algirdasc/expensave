@@ -6,7 +6,7 @@ import {CategoryExpenseReportResponse} from '../../../../api/response/category-e
 import {ShortNumberPipe} from '../../../../pipes/shortnumber.pipe';
 import {UNCATEGORIZED_COLOR} from '../../../../util/color.util';
 import {AbstractReportComponent} from '../abstract-report.component';
-import {chartTooltipHandler} from '../chart-tooltip';
+import {chartTooltipHandler} from './category-expenses-tooltip';
 
 @Component({
     selector: 'app-reports-category-expenses',

@@ -3,10 +3,15 @@
         <span style="line-height: 32px;" class="d-block mb-3 mb-sm-0">Expenses by category</span>
         <app-reports-period-selector period="month" (dateRangeChange)="onDateRangeChange($event)"></app-reports-period-selector>
     </nb-card-header>
-    <nb-card-body>
+    <nb-card-body class="overflow-hidden">
         <div class="mb-3">
             <app-date-range [dateRange]="dateRange" />
         </div>
-        <canvas style="max-height: 400px;" baseChart [options]="barChartOptions" [data]="barChartData" type="bar"></canvas>
+        <div class="chart">
+            <canvas style="max-height: 400px;" baseChart [options]="barChartOptions" [data]="barChartData" type="bar"></canvas>
+            <div class="chart-tooltip">
+                <strong class="title"></strong>: <span class="raw">{{ 0|shortNumber }}</span>
+            </div>
+        </div>
     </nb-card-body>
 </nb-card>

@@ -9,7 +9,7 @@ import {APP_CONFIG} from '../../../../app.initializer';
 import {ShortNumberPipe} from '../../../../pipes/shortnumber.pipe';
 import {DateUtil} from '../../../../util/date.util';
 import {AbstractReportComponent} from '../abstract-report.component';
-import {chartTooltipHandler} from '../chart-tooltip';
+import {chartTooltipHandler} from './monthly-expenses-tooltip';
 
 @Component({
     selector: 'app-reports-monthly-expenses',
