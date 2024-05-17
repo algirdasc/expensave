@@ -3,7 +3,7 @@
 namespace App\Response\Statement;
 
 use App\Const\ContextGroupConst;
-use App\DTO\Balance;
+use App\DTO\Report\ExpenseBalance;
 use App\Entity\Calendar;
 use App\Entity\Expense;
 use Symfony\Component\Serializer\Annotation\Groups;
@@ -12,11 +12,11 @@ readonly class ExpenseListResponse
 {
     /**
      * @param array<Expense> $expenses
-     * @param array<Balance> $balances
+     * @param array<ExpenseBalance> $expenseBalances
      */
     public function __construct(
         private array $expenses,
-        private array $balances,
+        private array $expenseBalances,
         private Calendar $calendar,
     ) {
     }
@@ -31,12 +31,12 @@ readonly class ExpenseListResponse
     }
 
     /**
-     * @return array<Balance>
+     * @return array<ExpenseBalance>
      */
     #[Groups(ContextGroupConst::API_ALL)]
-    public function getBalances(): array
+    public function getExpenseBalances(): array
     {
-        return $this->balances;
+        return $this->expenseBalances;
     }
 
     #[Groups(ContextGroupConst::API_ALL)]

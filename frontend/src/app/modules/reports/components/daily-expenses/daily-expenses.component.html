@@ -1,0 +1,33 @@
+<nb-card class="mb-0" [nbSpinner]="isBusy">
+    <nb-card-header class="d-sm-flex align-content-center justify-content-between">
+        <span style="line-height: 32px;" class="d-block mb-3 mb-sm-0">Cash flow</span>
+        <app-reports-period-selector period="month" (dateRangeChange)="onDateRangeChange($event)"></app-reports-period-selector>
+    </nb-card-header>
+    <nb-card-body class="overflow-hidden">
+        <div class="mb-3">
+            <app-date-range [dateRange]="dateRange" />
+        </div>
+        <div class="d-flex justify-content-center">
+            <div class="text-center">
+                <div class="text-hint mb-0">INCOME</div>
+                <strong>{{ income|shortNumber }}</strong>
+            </div>
+            <div class="text-center mx-5">
+                <div class="text-hint mb-0">EXPENSE</div>
+                <strong>{{ expense|shortNumber }}</strong>
+            </div>
+            <div class="text-center">
+                <div class="text-hint mb-0">CHANGE</div>
+                <strong>{{ change|shortNumber }}</strong>
+            </div>
+        </div>
+        <div class="chart">
+            <canvas style="max-height: 400px;" baseChart [options]="lineChartOptions" [data]="lineChartData" type="line"></canvas>
+            <div class="chart-tooltip">
+                <h6 class="m-0 text-hint text-center title"></h6>
+                <div><strong>Balance: </strong><span class="balance">{{ 0|shortNumber }}</span></div>
+                <div><strong>Change: </strong><span class="change">{{ 0|shortNumber }}</span></div>
+            </div>
+        </div>
+    </nb-card-body>
+</nb-card>

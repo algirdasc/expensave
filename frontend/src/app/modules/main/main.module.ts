@@ -2,7 +2,6 @@ import {CommonModule} from '@angular/common';
 import {NgModule} from '@angular/core';
 import {FormsModule} from '@angular/forms';
 import {RouterModule} from '@angular/router';
-import {NbEvaIconsModule} from '@nebular/eva-icons';
 import {
     NbActionsModule,
     NbAutocompleteModule,
@@ -26,7 +25,7 @@ import {
 import {AngularResizeEventModule} from 'angular-resize-event';
 import {OutsideClickDirective} from '../../directives/outside-click.directive';
 import {SwipeDirective} from '../../directives/swipe.directive';
-import {ShortNumberPipe} from '../../pipes/shortnumber.pipe';
+import {ShortNumberModule} from '../../pipes/shortnumber.module';
 import {CalendarResolver} from '../../resolvers/calendar.resolver';
 import {UserResolver} from '../../resolvers/user.resolver';
 import {CalendarDayNamesComponent} from './calendar/calendar-day-names/calendar-day-names.component';
@@ -50,6 +49,8 @@ import {CalendarGridComponent} from './calendar/calendar-grid/calendar-grid.comp
 import {CalendarMonthModelService} from './calendar/calendar-month-model.service';
 import {CalendarComponent} from './calendar/calendar.component';
 import {CalendarService} from './calendar/calendar.service';
+import {CalendarSidebarListComponent} from './components/sidebar/calendar-list/calendar-list.component';
+import {ProfileComponent} from './components/sidebar/profile/profile.component';
 import {SuggestionComponent} from './components/suggestion/suggestion.component';
 import {CalendarEditComponent} from './dialogs/calendars-dialog/calendar-edit/calendar-edit.component';
 import {CalendarListComponent} from './dialogs/calendars-dialog/calendar-list/calendar-list.component';
@@ -68,8 +69,6 @@ import {HeaderComponent} from './header/header.component';
 import {MainComponent} from './main.component';
 import {mainRoutes} from './main.routes';
 import {MainService} from './main.service';
-import {CalendarSidebarListComponent} from './sidebar/calendar-list/calendar-list.component';
-import {ProfileComponent} from './sidebar/profile/profile.component';
 
 @NgModule({
     declarations: [
@@ -108,9 +107,6 @@ import {ProfileComponent} from './sidebar/profile/profile.component';
         CategoryEditComponent,
         CategoryListComponent,
 
-        // Pipes
-        ShortNumberPipe,
-
         // Directives
         SwipeDirective,
         OutsideClickDirective,
@@ -124,7 +120,6 @@ import {ProfileComponent} from './sidebar/profile/profile.component';
         NbCalendarModule,
         NbRadioModule,
         NbButtonModule,
-        NbEvaIconsModule,
         NbIconModule,
         NbActionsModule,
         NbCalendarKitModule,
@@ -139,6 +134,7 @@ import {ProfileComponent} from './sidebar/profile/profile.component';
         NbAutocompleteModule,
         NbFormFieldModule,
         AngularResizeEventModule,
+        ShortNumberModule,
     ],
     providers: [
         MainService,

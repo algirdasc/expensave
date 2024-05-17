@@ -1,9 +1,9 @@
 import {Component, ComponentFactoryResolver, Input, OnChanges, Type} from '@angular/core';
 import {NbCalendarPickerRowComponent, NbDateService} from '@nebular/theme';
 import {ResizedEvent} from 'angular-resize-event';
-import {Balance} from '../../../../api/objects/balance';
 import {Calendar} from '../../../../api/objects/calendar';
 import {Expense} from '../../../../api/objects/expense';
+import {ExpenseBalance} from '../../../../api/objects/expense-balance';
 import {CalendarCellInterface} from '../interfaces/calendar-cell.interface';
 
 @Component({
@@ -13,7 +13,7 @@ import {CalendarCellInterface} from '../interfaces/calendar-cell.interface';
 })
 export class CalendarGridRowComponent extends NbCalendarPickerRowComponent<Date, Date> implements OnChanges {
     @Input({required: true}) public calendar: Calendar;
-    @Input({required: true}) public balances: Balance[];
+    @Input({required: true}) public expenseBalances: ExpenseBalance[];
     @Input({required: true}) public expenses: Expense[];
     @Input() public component: Type<CalendarCellInterface>;
     @Input() public rowResizedEvent: ResizedEvent;
@@ -49,7 +49,7 @@ export class CalendarGridRowComponent extends NbCalendarPickerRowComponent<Date,
 
         // Expensave fields
         gridRowCell.calendar = this.calendar;
-        gridRowCell.balance = this.balances.filter((balance: Balance) => this.dateService.isSameDaySafe(date, balance.balanceAt))[0];
+        gridRowCell.expenseBalance = this.expenseBalances.filter((balance: ExpenseBalance) => this.dateService.isSameDaySafe(date, balance.balanceAt))[0];
         gridRowCell.expenses = this.expenses.filter((expense: Expense) => {
             const isSameDay = this.dateService.isSameDaySafe(date, expense.createdAt);
             if (isSameDay && !expense.confirmed && !gridRowCell.hasUnconfirmedExpenses) {

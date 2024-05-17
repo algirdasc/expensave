@@ -5,7 +5,7 @@
             <div *ngIf="hasUnconfirmedExpenses" class="unconfirmed-expenses ms-2"></div>
         </div>
         <div class="day-expenses flex-fill text-right text-truncate d-none d-sm-block">
-            <span *ngIf="balance?.expenses">{{ balance?.expenses | shortNumber }} | </span>{{ balance?.balance ?? 0 | shortNumber }}
+            <span *ngIf="expenseBalance?.change">{{ expenseBalance?.change | shortNumber }} | </span>{{ expenseBalance?.balance ?? 0 | shortNumber }}
         </div>
         <button nbButton status="primary" class="create-expense bounceIn" (click)="calendarService.createExpense(calendar, date)">
             <nb-icon icon="plus-outline"></nb-icon>

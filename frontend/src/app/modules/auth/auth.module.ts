@@ -4,7 +4,6 @@ import {ModuleWithProviders, NgModule} from '@angular/core';
 import {FormsModule} from '@angular/forms';
 import {RouterModule} from '@angular/router';
 import {NbAuthModule} from '@nebular/auth';
-import {NbEvaIconsModule} from '@nebular/eva-icons';
 import {
     NbAlertModule,
     NbButtonModule,
@@ -31,7 +30,6 @@ import {JwtRefreshableToken} from './jwt-refreshable-token';
         NbAlertModule,
         NbInputModule,
         NbButtonModule,
-        NbEvaIconsModule,
         NbIconModule,
         NbCheckboxModule,
         RouterModule.forChild(authRoutes),

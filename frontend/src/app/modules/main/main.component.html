@@ -15,7 +15,7 @@
         <app-calendar
             [calendar]="mainService.calendar"
             [expenses]="mainService.expenses"
-            [balances]="mainService.balances"
+            [expenseBalances]="mainService.expenseBalances"
             [visibleDate]="mainService.visibleDate"
             [selectedDate]="mainService.visibleDate"
             (rangeChange)="onRangeChange($event)"

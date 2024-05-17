@@ -2,9 +2,9 @@ import {Injectable} from '@angular/core';
 import {Title} from '@angular/platform-browser';
 import {NbDateService} from '@nebular/theme';
 import {CalendarApiService} from '../../api/calendar.api.service';
-import {Balance} from '../../api/objects/balance';
 import {Calendar} from '../../api/objects/calendar';
 import {Expense} from '../../api/objects/expense';
+import {ExpenseBalance} from '../../api/objects/expense-balance';
 import {User} from '../../api/objects/user';
 import {CalendarExpenseListResponse} from '../../api/response/calendar-expense-list.response';
 
@@ -17,7 +17,7 @@ export class MainService {
     public visibleDate: Date = new Date();
     public visibleDateBalance: number = 0;
     public expenses: Expense[] = [];
-    public balances: Balance[] = [];
+    public expenseBalances: ExpenseBalance[] = [];
 
     private _calendar: Calendar;
 
@@ -37,17 +37,18 @@ export class MainService {
             .listExpenses(calendar ?? this.calendar, this.calendarDateFrom, this.calendarDateTo)
             .subscribe((response: CalendarExpenseListResponse) => {
                 this.expenses = response.expenses;
-                this.balances = response.balances;
+                this.expenseBalances = response.expenseBalances;
                 this.calendar = response.calendar;
 
                 this.visibleDateBalance = 0;
-                response.balances
-                    .filter((balance: Balance) => {
+                response.expenseBalances
+                    .filter((balance: ExpenseBalance) => {
                         return this.dateService.isSameYearSafe(this.visibleDate, balance.balanceAt)
                             && this.dateService.isSameMonthSafe(this.visibleDate, balance.balanceAt)
                     })
-                    .forEach((balance: Balance) => {
-                        this.visibleDateBalance += balance.expenses;
+                    .forEach((balance: ExpenseBalance) => {
+                        this.visibleDateBalance += balance.income;
+                        this.visibleDateBalance += balance.expense;
                     });
             })
         ;

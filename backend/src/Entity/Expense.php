@@ -155,4 +155,9 @@ class Expense
 
         return $this;
     }
+
+    public function isIncome(): bool
+    {
+        return $this->getAmount() > 0;
+    }
 }

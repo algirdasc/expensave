@@ -1,0 +1,32 @@
+<nb-layout>
+    <nb-layout-header fixed>
+        <div class="d-flex justify-content-between align-items-center w-100">
+            <h1 class="m-0"><nb-icon class="text-hint" icon="bar-chart-outline"></nb-icon> Reports</h1>
+
+            <nb-icon icon="close-outline" size="giant" routerLink="/calendar" class="actionable"></nb-icon>
+        </div>
+    </nb-layout-header>
+
+    <nb-layout-column class="p-0 p-sm-3">
+        <nb-card class="mb-0 h-100 border-0">
+            <nb-card-body>
+                <div class="d-md-flex">
+                    <div class="calendar-selection">
+                        <h6 class="text-hint m-3">Calendars:</h6>
+                        <nb-list class="mb-3">
+                            <nb-list-item
+                                *ngFor="let c of reportsService.calendars">
+                                <nb-checkbox [checked]="selectedCalendars.indexOf(c) !== -1" (checkedChange)="onCheckedChange(c, $event)">{{ c.name }}</nb-checkbox>
+                            </nb-list-item>
+                        </nb-list>
+                    </div>
+                    <div class="flex-grow-1">
+                        <app-reports-daily-expenses [calendars]="selectedCalendars" class="d-block mb-3"></app-reports-daily-expenses>
+                        <app-reports-monthly-expenses [calendars]="selectedCalendars" class="d-block mb-3"></app-reports-monthly-expenses>
+                        <app-reports-category-expenses [calendars]="selectedCalendars"></app-reports-category-expenses>
+                    </div>
+                </div>
+            </nb-card-body>
+        </nb-card>
+    </nb-layout-column>
+</nb-layout>

@@ -1,7 +1,7 @@
 import {Expose, Type} from 'class-transformer';
-import {Balance} from '../objects/balance';
 import {Calendar} from '../objects/calendar';
 import {Expense} from '../objects/expense';
+import {ExpenseBalance} from '../objects/expense-balance';
 
 export class CalendarExpenseListResponse  {
     @Expose()
@@ -9,8 +9,8 @@ export class CalendarExpenseListResponse  {
     public expenses: Expense[];
 
     @Expose()
-    @Type(() => Balance)
-    public balances: Balance[];
+    @Type(() => ExpenseBalance)
+    public expenseBalances: ExpenseBalance[];
 
     @Expose()
     @Type(() => Calendar)

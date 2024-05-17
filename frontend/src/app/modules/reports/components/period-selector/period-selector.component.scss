@@ -1,0 +1,14 @@
+@import 'bootstrap/scss/bootstrap-utilities';
+@import '../../../../../theme';
+
+@include media-breakpoint-down(md) {
+    :host ::ng-deep nb-button-group {
+        display: inline-grid;
+        width: 100%;
+    }
+
+    :host ::ng-deep nb-button-group > button {
+        border-radius: nb-theme(border-radius) !important;
+        border: 1px solid nb-theme(border-basic-color-3) !important;
+    }
+}
