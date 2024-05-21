@@ -1,11 +1,11 @@
 import {Component, OnChanges} from '@angular/core';
 import {ChartConfiguration} from 'chart.js';
-import {finalize} from 'rxjs/operators';
 import {ReportsApiService} from '../../../../api/reports.api.service';
 import {CategoryExpenseReportResponse} from '../../../../api/response/category-expense-report.response';
 import {ShortNumberPipe} from '../../../../pipes/shortnumber.pipe';
 import {UNCATEGORIZED_COLOR} from '../../../../util/color.util';
 import {AbstractReportComponent} from '../abstract-report.component';
+import {PeriodEnum} from '../period-selector/period-selector.component';
 import {chartTooltipHandler} from './category-expenses-tooltip';
 
 @Component({
@@ -45,7 +45,7 @@ export class CategoryExpensesComponent extends AbstractReportComponent implement
             },
             tooltip: {
                 enabled: false,
-                position: 'nearest',
+                position: 'average',
                 external: chartTooltipHandler
             }
         },
@@ -55,45 +55,40 @@ export class CategoryExpensesComponent extends AbstractReportComponent implement
         datasets: [],
     };
 
+    protected PeriodEnum = PeriodEnum;
+    protected reportsApiMethod: string = 'categoryExpenses';
+
     public constructor(
-        private readonly reportsApiService: ReportsApiService,
+        protected readonly reportsApiService: ReportsApiService,
     ) {
         super();
     }
 
-    public fetchReport(): void {
-        this.isBusy = true;
+    protected cleanUp(): void {
+        this.barChartData = {
+            datasets: [],
+        };
+    }
 
-        if (this.fetchSubscription) {
-            this.fetchSubscription.unsubscribe();
-            this.fetchSubscription = undefined;
+    protected parseReport(response: CategoryExpenseReportResponse): void {
+        const backgroundColors: string[] = [];
+        const expenseLabels: string[] = [];
+        const absoluteExpenseValues: number[] = [];
+
+        for (const categoryBalance of response.categoryBalances) {
+            expenseLabels.push(categoryBalance.category?.name);
+            absoluteExpenseValues.push(Math.abs(categoryBalance.expense));
+            backgroundColors.push(categoryBalance.category?.color ?? UNCATEGORIZED_COLOR);
         }
 
-        this.fetchSubscription = this.reportsApiService
-            .categoryExpenses(this.calendars, this.dateRange.start, this.dateRange.end)
-            .pipe(
-                finalize(() => this.isBusy = false)
-            )
-            .subscribe((response: CategoryExpenseReportResponse) => {
-                const backgroundColors: string[] = [];
-                const expenseLabels: string[] = [];
-                const absoluteExpenseValues: number[] = [];
-
-                for (const categoryBalance of response.categoryBalances) {
-                    expenseLabels.push(categoryBalance.category?.name);
-                    absoluteExpenseValues.push(Math.abs(categoryBalance.expense));
-                    backgroundColors.push(categoryBalance.category?.color ?? UNCATEGORIZED_COLOR);
+        this.barChartData = {
+            labels: expenseLabels,
+            datasets: [
+                {
+                    data: absoluteExpenseValues,
+                    backgroundColor: backgroundColors,
                 }
-
-                this.barChartData = {
-                    labels: expenseLabels,
-                    datasets: [
-                        {
-                            data: absoluteExpenseValues,
-                            backgroundColor: backgroundColors,
-                        }
-                    ],
-                }
-            });
+            ],
+        }
     }
 }

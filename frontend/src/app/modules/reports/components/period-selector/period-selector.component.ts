@@ -4,6 +4,15 @@ import {NbCalendarRange, NbDateService, NbRangepickerComponent} from '@nebular/t
 import {APP_CONFIG} from '../../../../app.initializer';
 import {DateUtil} from '../../../../util/date.util';
 
+export enum PeriodEnum {
+    THIS_WEEK = 'week',
+    THIS_MONTH = 'month',
+    LAST_MONTH = 'last-month',
+    THIS_YEAR = 'year',
+    LIFETIME = 'lifetime',
+    CUSTOM = 'custom',
+}
+
 @Component({
     selector: 'app-reports-period-selector',
     templateUrl: 'period-selector.component.html',
@@ -12,8 +21,9 @@ import {DateUtil} from '../../../../util/date.util';
 export class PeriodSelectorComponent implements AfterViewInit {
     public dateRange: NbCalendarRange<Date>;
     public firstDayOfWeek: WeekDay;
+    public periods: typeof PeriodEnum = PeriodEnum;
 
-    @Input({required: true}) period: 'month' | 'year' | 'week' | 'lifetime';
+    @Input({ required: true }) period: PeriodEnum;
     @Output() dateRangeChange: EventEmitter<NbCalendarRange<Date>> = new EventEmitter<NbCalendarRange<Date>>();
 
     @ViewChild('rangePicker') rangePicker: NbRangepickerComponent<Date>;
@@ -35,12 +45,13 @@ export class PeriodSelectorComponent implements AfterViewInit {
         }
     }
 
-    public onPeriodChange(event: string[]): void {
-        const period: string = event.pop();
+    public onPeriodChange(event: PeriodEnum[]): void {
+        const period: PeriodEnum = event.pop();
         const currentDate = new Date();
+        const lastMonth = this.dateService.addMonth(currentDate, -1);
 
         switch (period) {
-            case 'week':
+            case PeriodEnum.THIS_WEEK:
                 this.dateRange = <NbCalendarRange<Date>> {
                     start: DateUtil.firstDayOfWeek(currentDate, this.firstDayOfWeek),
                     end: DateUtil.firstDayOfWeek(currentDate, this.firstDayOfWeek + 6),
@@ -48,7 +59,15 @@ export class PeriodSelectorComponent implements AfterViewInit {
 
                 this.dateRangeChange.emit(this.dateRange);
                 break;
-            case 'month':
+            case PeriodEnum.LAST_MONTH:
+                this.dateRange = <NbCalendarRange<Date>> {
+                    start: this.dateService.createDate(lastMonth.getFullYear(), lastMonth.getMonth(), 1),
+                    end: DateUtil.endOfTheDay(this.dateService.createDate(lastMonth.getFullYear(), lastMonth.getMonth() + 1, 0)),
+                }
+
+                this.dateRangeChange.emit(this.dateRange);
+                break;
+            case PeriodEnum.THIS_MONTH:
                 this.dateRange = <NbCalendarRange<Date>> {
                     start: this.dateService.createDate(currentDate.getFullYear(), currentDate.getMonth(), 1),
                     end: DateUtil.endOfTheDay(this.dateService.createDate(currentDate.getFullYear(), currentDate.getMonth() + 1, 0)),
@@ -56,7 +75,7 @@ export class PeriodSelectorComponent implements AfterViewInit {
 
                 this.dateRangeChange.emit(this.dateRange);
                 break;
-            case 'year':
+            case PeriodEnum.THIS_YEAR:
                 this.dateRange = <NbCalendarRange<Date>> {
                     start: this.dateService.createDate(currentDate.getFullYear(), 0, 1),
                     end: DateUtil.endOfTheDay(this.dateService.createDate(currentDate.getFullYear(), 11, 31)),
@@ -64,14 +83,14 @@ export class PeriodSelectorComponent implements AfterViewInit {
 
                 this.dateRangeChange.emit(this.dateRange);
                 break;
-            case 'lifetime':
+            case PeriodEnum.LIFETIME:
                 this.dateRange = <NbCalendarRange<Date>> {
                     end: DateUtil.endOfTheDay(this.dateService.createDate(currentDate.getFullYear(), currentDate.getMonth() + 1, 0)),
                 }
 
                 this.dateRangeChange.emit(this.dateRange);
                 break;
-            case 'custom':
+            case PeriodEnum.CUSTOM:
                 this.rangePicker.show();
                 break;
         }

@@ -1,7 +1,7 @@
 @import '../../../theme';
 
 .calendar-selection {
-    width: 300px;
+    width: 250px;
 }
 
 :host ::ng-deep .chart-tooltip {
@@ -25,14 +25,12 @@
 }
 
 :host ::ng-deep .chart-tooltip:after {
-    //border-color: rgba(21, 0, 213, 0);
     border-top-color: nb-theme(background-basic-color-1);
     border-width: 10px;
     margin-left: -10px;
 }
 
 :host ::ng-deep .chart-tooltip:before {
-    //border-color: rgba(245, 27, 27, 0);
     border-top-color: nb-theme(color-basic-default-border);
     border-width: 11px;
     margin-left: -11px;

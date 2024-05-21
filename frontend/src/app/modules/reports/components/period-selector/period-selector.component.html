@@ -1,9 +1,10 @@
 <nb-button-group size="small" (valueChange)="onPeriodChange($event)">
-    <button nbButtonToggle value="week" [pressed]="period === 'week'">This week</button>
-    <button nbButtonToggle value="month" [pressed]="period === 'month'">This month</button>
-    <button nbButtonToggle value="year" [pressed]="period === 'year'">This year</button>
-    <button nbButtonToggle value="lifetime" [pressed]="period === 'lifetime'">Lifetime</button>
-    <button nbButtonToggle value="custom" #customDateRange>Custom</button>
+    <button nbButtonToggle [value]="periods.LAST_MONTH" [pressed]="period === periods.LAST_MONTH">Last month</button>
+    <button nbButtonToggle [value]="periods.THIS_WEEK" [pressed]="period === periods.THIS_WEEK">This week</button>
+    <button nbButtonToggle [value]="periods.THIS_MONTH" [pressed]="period === periods.THIS_MONTH">This month</button>
+    <button nbButtonToggle [value]="periods.THIS_YEAR" [pressed]="period === periods.THIS_YEAR">This year</button>
+    <button nbButtonToggle [value]="periods.LIFETIME" [pressed]="period === periods.LIFETIME">Lifetime</button>
+    <button nbButtonToggle [value]="periods.CUSTOM" #customDateRange>Custom</button>
 </nb-button-group>
 
 <nb-rangepicker #rangePicker

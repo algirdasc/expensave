@@ -1,32 +1,25 @@
 import {FormatWidth, getLocaleDateFormat} from '@angular/common';
-import {Component, Input, OnChanges, SimpleChanges} from '@angular/core';
-import {NbCalendarRange, NbDateService} from '@nebular/theme';
+import {Component, OnChanges} from '@angular/core';
+import {NbDateService} from '@nebular/theme';
 import {ChartConfiguration, ScriptableLineSegmentContext} from 'chart.js';
-import {Subscription} from 'rxjs';
-import {finalize} from 'rxjs/operators';
-import {Calendar} from '../../../../api/objects/calendar';
 import {ExpenseBalance} from '../../../../api/objects/expense-balance';
 import {ReportsApiService} from '../../../../api/reports.api.service';
 import {ExpenseReportResponse} from '../../../../api/response/expense-report.response';
 import {APP_CONFIG} from '../../../../app.initializer';
 import {ShortNumberPipe} from '../../../../pipes/shortnumber.pipe';
+import {AbstractReportComponent} from '../abstract-report.component';
+import {PeriodEnum} from '../period-selector/period-selector.component';
 import {chartTooltipHandler} from './daily-expenses-tooltip';
 
 @Component({
     selector: 'app-reports-daily-expenses',
     templateUrl: 'daily-expenses.component.html'
 })
-export class DailyExpensesComponent implements OnChanges {
-
-    @Input({ required: true }) calendars: Calendar[];
+export class DailyExpensesComponent extends AbstractReportComponent implements OnChanges {
 
     public income: number = 0;
     public expense: number = 0;
     public change: number = 0;
-    public isBusy: boolean = false;
-    public dateRange: NbCalendarRange<Date>;
-
-    private fetchSubscription: Subscription;
 
     public lineChartOptions: ChartConfiguration<'line', ExpenseBalance>['options'] = {
         responsive: true,
@@ -68,84 +61,58 @@ export class DailyExpensesComponent implements OnChanges {
         datasets: [],
     };
 
+    protected PeriodEnum = PeriodEnum;
+    protected reportsApiMethod: string = 'dailyExpenses';
+
     public constructor(
         private readonly dateService: NbDateService<Date>,
-        private readonly reportsApiService: ReportsApiService,
+        protected readonly reportsApiService: ReportsApiService,
     ) {
+        super();
     }
 
-    public ngOnChanges(changes: SimpleChanges): void {
-        if (changes?.calendars && !changes?.calendars.isFirstChange()) {
-            this.fetchReport();
+    protected cleanUp(): void {
+        this.income = this.change = this.expense = 0;
+        this.lineChartData = {
+            datasets: [],
+        };
+    }
+
+    protected parseReport(response: ExpenseReportResponse): void {
+        this.income = response.meta.income;
+        this.change = response.meta.change;
+        this.expense = Math.abs(response.meta.expense);
+
+        const currentDate = new Date();
+
+        const xAxisData: string[] = [];
+        const balances: ExpenseBalance[] = [];
+
+        for (const expenseBalance of response.expenseBalances) {
+            const date = this.dateService.format(expenseBalance.balanceAt, getLocaleDateFormat(APP_CONFIG.locale, FormatWidth.Short));
+
+            xAxisData.push(date);
+            balances.push(expenseBalance);
         }
-    }
 
-    public onDateRangeChange(event: NbCalendarRange<Date>): void {
-        this.dateRange = event;
-        this.fetchReport();
-    }
-
-    private fetchReport(): void {
-        this.isBusy = true;
-
-        if (this.fetchSubscription) {
-            this.fetchSubscription.unsubscribe();
-            this.fetchSubscription = undefined;
-        }
-
-        this.fetchSubscription = this.reportsApiService
-            .dailyExpenses(this.calendars, this.dateRange.start, this.dateRange.end)
-            .pipe(
-                finalize(() => this.isBusy = false)
-            )
-            .subscribe((response: ExpenseReportResponse) => {
-                this.income = response.meta.income;
-                this.change = response.meta.change;
-                this.expense = Math.abs(response.meta.expense);
-
-                const currentDate = new Date();
-
-                const xAxisData: string[] = [];
-                const balances: ExpenseBalance[] = [];
-
-                for (const expenseBalance of response.expenseBalances) {
-                    const date = this.dateService.format(expenseBalance.balanceAt, getLocaleDateFormat(APP_CONFIG.locale, FormatWidth.Short));
-
-                    xAxisData.push(date);
-                    balances.push(expenseBalance);
-                }
-
-                this.lineChartData = {
-                    datasets: [
-                        {
-                            data: balances,
-                            cubicInterpolationMode: 'monotone',
-                            backgroundColor: 'rgba(47, 46, 95, .5)',
-                            borderColor: '#2f2e5f',
-                            pointRadius: 0,
-                            pointHoverRadius: 5,
-                            fill: 'origin',
-                            segment: {
-                                borderDash: (ctx: ScriptableLineSegmentContext) => {
-                                    if (balances[ctx.p0DataIndex].balanceAt > currentDate) {
-                                        return [8, 8]
-                                    }
-                                },
-                                borderColor: (ctx: ScriptableLineSegmentContext) => {
-                                    if (balances[ctx.p0DataIndex].balanceAt > currentDate) {
-                                        return '#59587f';
-                                    }
-                                },
-                                backgroundColor: (ctx: ScriptableLineSegmentContext) => {
-                                    if (balances[ctx.p0DataIndex].balanceAt > currentDate) {
-                                        return 'rgba(89, 88, 127, .5)';
-                                    }
-                                }
+        this.lineChartData = {
+            datasets: [
+                {
+                    data: balances,
+                    cubicInterpolationMode: 'monotone',
+                    pointRadius: 0,
+                    pointHoverRadius: 5,
+                    fill: 'origin',
+                    segment: {
+                        borderDash: (ctx: ScriptableLineSegmentContext) => {
+                            if (balances[ctx.p0DataIndex].balanceAt > currentDate) {
+                                return [8, 8]
                             }
-                        }
-                    ],
-                    labels: xAxisData,
+                        },
+                    }
                 }
-            });
+            ],
+            labels: xAxisData,
+        }
     }
 }
