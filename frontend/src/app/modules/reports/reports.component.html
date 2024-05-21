@@ -7,7 +7,7 @@
         </div>
     </nb-layout-header>
 
-    <nb-layout-column class="p-0 p-sm-3">
+    <nb-layout-column class="p-0 p-md-3">
         <nb-card class="mb-0 h-100 border-0">
             <nb-card-body>
                 <div class="d-md-flex">
@@ -16,7 +16,7 @@
                         <nb-list class="mb-3">
                             <nb-list-item
                                 *ngFor="let c of reportsService.calendars">
-                                <nb-checkbox [checked]="selectedCalendars.indexOf(c) !== -1" (checkedChange)="onCheckedChange(c, $event)">{{ c.name }}</nb-checkbox>
+                                <nb-checkbox [checked]="selectedCalendars.indexOf(c) !== -1" (checkedChange)="onCheckedChange(c, $event)" class="text-truncate">{{ c.name }}</nb-checkbox>
                             </nb-list-item>
                         </nb-list>
                     </div>

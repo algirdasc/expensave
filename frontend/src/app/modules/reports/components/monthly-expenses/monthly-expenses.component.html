@@ -1,6 +1,6 @@
 <nb-card class="mb-0" [nbSpinner]="isBusy">
-    <nb-card-header class="d-sm-flex align-content-center justify-content-between">
-        <span style="line-height: 32px;" class="d-block mb-3 mb-sm-0">Monthly income & expense</span>
+    <nb-card-header class="d-md-flex align-content-center justify-content-between">
+        <span style="line-height: 32px;" class="d-block mb-3 mb-md-0">Monthly income & expense</span>
         <nb-button-group size="small" status="primary" ghost class="d-block text-center mx-3">
             <button nbButton (click)="navigatePrev()">
                 <nb-icon icon="arrow-back-outline"></nb-icon>
@@ -16,6 +16,20 @@
         </nb-button-group>
     </nb-card-header>
     <nb-card-body class="overflow-hidden">
+        <div class="d-flex justify-content-center">
+            <div class="text-center">
+                <div class="text-hint mb-0">INCOME</div>
+                <strong>{{ income|shortNumber }}</strong>
+            </div>
+            <div class="text-center mx-5">
+                <div class="text-hint mb-0">EXPENSE</div>
+                <strong>{{ expense|shortNumber }}</strong>
+            </div>
+            <div class="text-center">
+                <div class="text-hint mb-0">CHANGE</div>
+                <strong>{{ change|shortNumber }}</strong>
+            </div>
+        </div>
         <div class="chart">
             <canvas style="max-height: 400px;" baseChart [options]="barChartOptions" [data]="barChartData" type="bar"></canvas>
             <div class="chart-tooltip">

@@ -1,8 +1,7 @@
 import {FormStyle, getLocaleMonthNames, TranslationWidth} from '@angular/common';
 import {Component, OnChanges, OnInit} from '@angular/core';
 import {NbCalendarRange, NbDateService} from '@nebular/theme';
-import {ChartConfiguration} from 'chart.js';
-import {finalize} from 'rxjs/operators';
+import {ChartConfiguration,} from 'chart.js';
 import {ReportsApiService} from '../../../../api/reports.api.service';
 import {ExpenseReportResponse} from '../../../../api/response/expense-report.response';
 import {APP_CONFIG} from '../../../../app.initializer';
@@ -16,6 +15,10 @@ import {chartTooltipHandler} from './monthly-expenses-tooltip';
     templateUrl: 'monthly-expenses.component.html'
 })
 export class MonthlyExpensesComponent extends AbstractReportComponent implements OnInit, OnChanges {
+
+    public income: number = 0;
+    public expense: number = 0;
+    public change: number = 0;
 
     public barChartOptions: ChartConfiguration['options'] = {
         responsive: true,
@@ -49,6 +52,8 @@ export class MonthlyExpensesComponent extends AbstractReportComponent implements
         datasets: [],
     };
 
+    protected reportsApiMethod: string = 'monthlyExpenses';
+
     public ngOnInit(): void {
         this.navigateToday();
     }
@@ -71,56 +76,51 @@ export class MonthlyExpensesComponent extends AbstractReportComponent implements
             end: DateUtil.endOfTheDay(this.dateService.getYearEnd(date)),
         };
 
-        console.log('navigating to', date, this.dateRange);
-
         this.fetchReport();
     }
 
     public constructor(
-        private readonly reportsApiService: ReportsApiService,
+        protected readonly reportsApiService: ReportsApiService,
         private readonly dateService: NbDateService<Date>,
     ) {
         super();
     }
 
-    public fetchReport(): void {
-        this.isBusy = true;
+    protected cleanUp(): void {
+        this.income = this.change = this.expense = 0;
+        this.barChartData = {
+            datasets: [],
+        };
+    }
 
-        if (this.fetchSubscription) {
-            this.fetchSubscription.unsubscribe();
-            this.fetchSubscription = undefined;
+    protected parseReport(response: ExpenseReportResponse): void {
+        const xAxisData: string[] = [...getLocaleMonthNames(APP_CONFIG.locale, FormStyle.Format, TranslationWidth.Short)];
+        const incomeData: number[] = [];
+        const expenseData: number[] = [];
+
+        for (const expenseBalance of response.expenseBalances) {
+            this.income = response.meta.income;
+            this.change = response.meta.change;
+            this.expense = Math.abs(response.meta.expense);
+
+            incomeData.push(expenseBalance.income);
+            expenseData.push(Math.abs(expenseBalance.expense));
         }
 
-        this.fetchSubscription = this.reportsApiService
-            .monthlyExpenses(this.calendars, this.dateRange.start, this.dateRange.end)
-            .pipe(
-                finalize(() => this.isBusy = false)
-            )
-            .subscribe((response: ExpenseReportResponse) => {
-                const xAxisData: string[] = [...getLocaleMonthNames(APP_CONFIG.locale, FormStyle.Format, TranslationWidth.Short)];
-                const incomeData: number[] = [];
-                const expenseData: number[] = [];
-
-                for (const expenseBalance of response.expenseBalances) {
-                    incomeData.push(expenseBalance.income);
-                    expenseData.push(Math.abs(expenseBalance.expense));
+        this.barChartData = {
+            datasets: [
+                {
+                    data: incomeData,
+                    label: 'Income',
+                    backgroundColor: '#00D68F',
+                },
+                {
+                    data: expenseData,
+                    label: 'Expense',
+                    backgroundColor: '#FF3D71',
                 }
-
-                this.barChartData = {
-                    datasets: [
-                        {
-                            data: incomeData,
-                            label: 'Income',
-                            backgroundColor: 'rgba(0, 214, 143, .5)',
-                        },
-                        {
-                            data: expenseData,
-                            label: 'Expense',
-                            backgroundColor: 'rgba(255, 61, 113, .5)',
-                        }
-                    ],
-                    labels: xAxisData,
-                }
-            });
+            ],
+            labels: xAxisData,
+        }
     }
 }
