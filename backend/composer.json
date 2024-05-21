@@ -15,7 +15,7 @@
         "doctrine/doctrine-migrations-bundle": "^3.2",
         "doctrine/orm": "^3.1",
         "gesdinet/jwt-refresh-token-bundle": "^1.1",
-        "lexik/jwt-authentication-bundle": "^2.16",
+        "lexik/jwt-authentication-bundle": "^3.0",
         "nelmio/api-doc-bundle": "^4.10",
         "phpdocumentor/reflection-docblock": "^5.3",
         "phpoffice/phpspreadsheet": "^2.0",

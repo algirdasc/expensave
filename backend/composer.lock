@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "32ca4c1574e003b2f035cea7ec12d8e9",
+    "content-hash": "55e5ee5cd3298a1a38dea4c38d906562",
     "packages": [
         {
             "name": "beberlei/doctrineextensions",
@@ -600,16 +600,16 @@
         },
         {
             "name": "doctrine/doctrine-migrations-bundle",
-            "version": "3.3.0",
+            "version": "3.3.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/DoctrineMigrationsBundle.git",
-                "reference": "1dd42906a5fb9c5960723e2ebb45c68006493835"
+                "reference": "715b62c31a5894afcb2b2cdbbc6607d7dd0580c0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/DoctrineMigrationsBundle/zipball/1dd42906a5fb9c5960723e2ebb45c68006493835",
-                "reference": "1dd42906a5fb9c5960723e2ebb45c68006493835",
+                "url": "https://api.github.com/repos/doctrine/DoctrineMigrationsBundle/zipball/715b62c31a5894afcb2b2cdbbc6607d7dd0580c0",
+                "reference": "715b62c31a5894afcb2b2cdbbc6607d7dd0580c0",
                 "shasum": ""
             },
             "require": {
@@ -620,6 +620,7 @@
                 "symfony/framework-bundle": "^5.4 || ^6.0 || ^7.0"
             },
             "require-dev": {
+                "composer/semver": "^3.0",
                 "doctrine/coding-standard": "^12",
                 "doctrine/orm": "^2.6 || ^3",
                 "doctrine/persistence": "^2.0 || ^3 ",
@@ -671,7 +672,7 @@
             ],
             "support": {
                 "issues": "https://github.com/doctrine/DoctrineMigrationsBundle/issues",
-                "source": "https://github.com/doctrine/DoctrineMigrationsBundle/tree/3.3.0"
+                "source": "https://github.com/doctrine/DoctrineMigrationsBundle/tree/3.3.1"
             },
             "funding": [
                 {
@@ -687,7 +688,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2023-11-13T19:44:41+00:00"
+            "time": "2024-05-14T20:32:18+00:00"
         },
         {
             "name": "doctrine/event-manager",
@@ -1308,23 +1309,26 @@
         },
         {
             "name": "doctrine/sql-formatter",
-            "version": "1.2.0",
+            "version": "1.4.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/sql-formatter.git",
-                "reference": "a321d114e0a18e6497f8a2cd6f890e000cc17ecc"
+                "reference": "d1ac84aef745c69ea034929eb6d65a6908b675cc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/sql-formatter/zipball/a321d114e0a18e6497f8a2cd6f890e000cc17ecc",
-                "reference": "a321d114e0a18e6497f8a2cd6f890e000cc17ecc",
+                "url": "https://api.github.com/repos/doctrine/sql-formatter/zipball/d1ac84aef745c69ea034929eb6d65a6908b675cc",
+                "reference": "d1ac84aef745c69ea034929eb6d65a6908b675cc",
                 "shasum": ""
             },
             "require": {
-                "php": "^7.1 || ^8.0"
+                "php": "^8.1"
             },
             "require-dev": {
-                "bamarni/composer-bin-plugin": "^1.4"
+                "doctrine/coding-standard": "^12",
+                "phpstan/phpstan": "^1.10",
+                "phpunit/phpunit": "^10.5",
+                "vimeo/psalm": "^5.24"
             },
             "bin": [
                 "bin/sql-formatter"
@@ -1354,9 +1358,9 @@
             ],
             "support": {
                 "issues": "https://github.com/doctrine/sql-formatter/issues",
-                "source": "https://github.com/doctrine/sql-formatter/tree/1.2.0"
+                "source": "https://github.com/doctrine/sql-formatter/tree/1.4.0"
             },
-            "time": "2023-08-16T21:49:04+00:00"
+            "time": "2024-05-08T08:12:09+00:00"
         },
         {
             "name": "egulias/email-validator",
@@ -1644,47 +1648,43 @@
         },
         {
             "name": "lexik/jwt-authentication-bundle",
-            "version": "v2.21.0",
+            "version": "v3.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/lexik/LexikJWTAuthenticationBundle.git",
-                "reference": "d57159da3f572b42ab609630edb6e27d71b37eca"
+                "reference": "b20c4ae7fdfe1d7422c7099a141cc9eb64627310"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/lexik/LexikJWTAuthenticationBundle/zipball/d57159da3f572b42ab609630edb6e27d71b37eca",
-                "reference": "d57159da3f572b42ab609630edb6e27d71b37eca",
+                "url": "https://api.github.com/repos/lexik/LexikJWTAuthenticationBundle/zipball/b20c4ae7fdfe1d7422c7099a141cc9eb64627310",
+                "reference": "b20c4ae7fdfe1d7422c7099a141cc9eb64627310",
                 "shasum": ""
             },
             "require": {
                 "ext-openssl": "*",
-                "lcobucci/clock": "^1.2|^2.0|^3.0",
-                "lcobucci/jwt": "^3.4.6|^4.1|^5.0",
-                "namshi/jose": "^7.2",
-                "php": ">=7.1",
-                "symfony/config": "^4.4|^5.4|^6.0|^7.0",
-                "symfony/dependency-injection": "^4.4|^5.4|^6.0|^7.0",
+                "lcobucci/clock": "^3.0",
+                "lcobucci/jwt": "^5.0",
+                "php": ">=8.2",
+                "symfony/config": "^6.4|^7.0",
+                "symfony/dependency-injection": "^6.4|^7.0",
                 "symfony/deprecation-contracts": "^2.4|^3.0",
-                "symfony/event-dispatcher": "^4.4|^5.4|^6.0|^7.0",
-                "symfony/http-foundation": "^4.4|^5.4|^6.0|^7.0",
-                "symfony/http-kernel": "^4.4|^5.4|^6.0|^7.0",
-                "symfony/property-access": "^4.4|^5.4|^6.0|^7.0",
-                "symfony/security-bundle": "^4.4|^5.4|^6.0|^7.0",
+                "symfony/event-dispatcher": "^6.4|^7.0",
+                "symfony/http-foundation": "^6.4|^7.0",
+                "symfony/http-kernel": "^6.4|^7.0",
+                "symfony/property-access": "^6.4|^7.0",
+                "symfony/security-bundle": "^6.4|^7.0",
                 "symfony/translation-contracts": "^1.0|^2.0|^3.0"
             },
-            "conflict": {
-                "symfony/console": "<4.4"
-            },
             "require-dev": {
-                "symfony/browser-kit": "^5.4|^6.0|^7.0",
-                "symfony/console": "^4.4|^5.4|^6.0|^7.0",
-                "symfony/dom-crawler": "^5.4|^6.0|^7.0",
-                "symfony/filesystem": "^4.4|^5.4|^6.0|^7.0",
-                "symfony/framework-bundle": "^4.4|^5.4|^6.0|^7.0",
-                "symfony/phpunit-bridge": "^7.0.1",
-                "symfony/security-guard": "^4.4|^5.4|^6.0|^7.0",
-                "symfony/var-dumper": "^4.4|^5.4|^6.0|^7.0",
-                "symfony/yaml": "^4.4|^5.4|^6.0|^7.0"
+                "api-platform/core": "^3.0",
+                "symfony/browser-kit": "^6.4|^7.0",
+                "symfony/console": "^6.4|^7.0",
+                "symfony/dom-crawler": "^6.4|^7.0",
+                "symfony/filesystem": "^6.4|^7.0",
+                "symfony/framework-bundle": "^6.4|^7.0",
+                "symfony/phpunit-bridge": "^6.4|^7.0",
+                "symfony/var-dumper": "^6.4|^7.0",
+                "symfony/yaml": "^6.4|^7.0"
             },
             "suggest": {
                 "gesdinet/jwt-refresh-token-bundle": "Implements a refresh token system over Json Web Tokens in Symfony",
@@ -1747,7 +1747,7 @@
             ],
             "support": {
                 "issues": "https://github.com/lexik/LexikJWTAuthenticationBundle/issues",
-                "source": "https://github.com/lexik/LexikJWTAuthenticationBundle/tree/v2.21.0"
+                "source": "https://github.com/lexik/LexikJWTAuthenticationBundle/tree/v3.0.0"
             },
             "funding": [
                 {
@@ -1759,7 +1759,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2024-04-27T15:46:45+00:00"
+            "time": "2024-05-05T17:49:24+00:00"
         },
         {
             "name": "maennchen/zipstream-php",
@@ -2049,73 +2049,6 @@
                 }
             ],
             "time": "2023-10-27T15:32:31+00:00"
-        },
-        {
-            "name": "namshi/jose",
-            "version": "7.2.3",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/namshi/jose.git",
-                "reference": "89a24d7eb3040e285dd5925fcad992378b82bcff"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/namshi/jose/zipball/89a24d7eb3040e285dd5925fcad992378b82bcff",
-                "reference": "89a24d7eb3040e285dd5925fcad992378b82bcff",
-                "shasum": ""
-            },
-            "require": {
-                "ext-date": "*",
-                "ext-hash": "*",
-                "ext-json": "*",
-                "ext-pcre": "*",
-                "ext-spl": "*",
-                "php": ">=5.5",
-                "symfony/polyfill-php56": "^1.0"
-            },
-            "require-dev": {
-                "phpseclib/phpseclib": "^2.0",
-                "phpunit/phpunit": "^4.5|^5.0",
-                "satooshi/php-coveralls": "^1.0"
-            },
-            "suggest": {
-                "ext-openssl": "Allows to use OpenSSL as crypto engine.",
-                "phpseclib/phpseclib": "Allows to use Phpseclib as crypto engine, use version ^2.0."
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Namshi\\JOSE\\": "src/Namshi/JOSE/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Alessandro Nadalin",
-                    "email": "alessandro.nadalin@gmail.com"
-                },
-                {
-                    "name": "Alessandro Cinelli (cirpo)",
-                    "email": "alessandro.cinelli@gmail.com"
-                }
-            ],
-            "description": "JSON Object Signing and Encryption library for PHP.",
-            "keywords": [
-                "JSON Web Signature",
-                "JSON Web Token",
-                "JWS",
-                "json",
-                "jwt",
-                "token"
-            ],
-            "support": {
-                "issues": "https://github.com/namshi/jose/issues",
-                "source": "https://github.com/namshi/jose/tree/master"
-            },
-            "time": "2016-12-05T07:27:31+00:00"
         },
         {
             "name": "nelmio/api-doc-bundle",
@@ -2409,16 +2342,16 @@
         },
         {
             "name": "phpoffice/phpspreadsheet",
-            "version": "2.0.0",
+            "version": "2.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/PHPOffice/PhpSpreadsheet.git",
-                "reference": "4a77798f835119754961a97714f135826a323caa"
+                "reference": "dbed77bd3a0f68f96c0dd68ad4499d5674fecc3e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/PHPOffice/PhpSpreadsheet/zipball/4a77798f835119754961a97714f135826a323caa",
-                "reference": "4a77798f835119754961a97714f135826a323caa",
+                "url": "https://api.github.com/repos/PHPOffice/PhpSpreadsheet/zipball/dbed77bd3a0f68f96c0dd68ad4499d5674fecc3e",
+                "reference": "dbed77bd3a0f68f96c0dd68ad4499d5674fecc3e",
                 "shasum": ""
             },
             "require": {
@@ -2441,8 +2374,7 @@
                 "php": "^8.0",
                 "psr/http-client": "^1.0",
                 "psr/http-factory": "^1.0",
-                "psr/simple-cache": "^1.0 || ^2.0 || ^3.0",
-                "voku/anti-xss": "^4.1"
+                "psr/simple-cache": "^1.0 || ^2.0 || ^3.0"
             },
             "require-dev": {
                 "dealerdirect/phpcodesniffer-composer-installer": "dev-main",
@@ -2508,22 +2440,22 @@
             ],
             "support": {
                 "issues": "https://github.com/PHPOffice/PhpSpreadsheet/issues",
-                "source": "https://github.com/PHPOffice/PhpSpreadsheet/tree/2.0.0"
+                "source": "https://github.com/PHPOffice/PhpSpreadsheet/tree/2.1.0"
             },
-            "time": "2024-01-24T10:41:42+00:00"
+            "time": "2024-05-11T04:17:56+00:00"
         },
         {
             "name": "phpstan/phpdoc-parser",
-            "version": "1.28.0",
+            "version": "1.29.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpstan/phpdoc-parser.git",
-                "reference": "cd06d6b1a1b3c75b0b83f97577869fd85a3cd4fb"
+                "reference": "536889f2b340489d328f5ffb7b02bb6b183ddedc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpdoc-parser/zipball/cd06d6b1a1b3c75b0b83f97577869fd85a3cd4fb",
-                "reference": "cd06d6b1a1b3c75b0b83f97577869fd85a3cd4fb",
+                "url": "https://api.github.com/repos/phpstan/phpdoc-parser/zipball/536889f2b340489d328f5ffb7b02bb6b183ddedc",
+                "reference": "536889f2b340489d328f5ffb7b02bb6b183ddedc",
                 "shasum": ""
             },
             "require": {
@@ -2555,9 +2487,9 @@
             "description": "PHPDoc parser with support for nullable, intersection and generic types",
             "support": {
                 "issues": "https://github.com/phpstan/phpdoc-parser/issues",
-                "source": "https://github.com/phpstan/phpdoc-parser/tree/1.28.0"
+                "source": "https://github.com/phpstan/phpdoc-parser/tree/1.29.0"
             },
-            "time": "2024-04-03T18:51:33+00:00"
+            "time": "2024-05-06T12:04:23+00:00"
         },
         {
             "name": "psr/cache",
@@ -2813,20 +2745,20 @@
         },
         {
             "name": "psr/http-factory",
-            "version": "1.0.2",
+            "version": "1.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-fig/http-factory.git",
-                "reference": "e616d01114759c4c489f93b099585439f795fe35"
+                "reference": "2b4765fddfe3b508ac62f829e852b1501d3f6e8a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-fig/http-factory/zipball/e616d01114759c4c489f93b099585439f795fe35",
-                "reference": "e616d01114759c4c489f93b099585439f795fe35",
+                "url": "https://api.github.com/repos/php-fig/http-factory/zipball/2b4765fddfe3b508ac62f829e852b1501d3f6e8a",
+                "reference": "2b4765fddfe3b508ac62f829e852b1501d3f6e8a",
                 "shasum": ""
             },
             "require": {
-                "php": ">=7.0.0",
+                "php": ">=7.1",
                 "psr/http-message": "^1.0 || ^2.0"
             },
             "type": "library",
@@ -2850,7 +2782,7 @@
                     "homepage": "https://www.php-fig.org/"
                 }
             ],
-            "description": "Common interfaces for PSR-7 HTTP message factories",
+            "description": "PSR-17: Common interfaces for PSR-7 HTTP message factories",
             "keywords": [
                 "factory",
                 "http",
@@ -2862,9 +2794,9 @@
                 "response"
             ],
             "support": {
-                "source": "https://github.com/php-fig/http-factory/tree/1.0.2"
+                "source": "https://github.com/php-fig/http-factory"
             },
-            "time": "2023-04-10T20:10:41+00:00"
+            "time": "2024-04-15T12:06:14+00:00"
         },
         {
             "name": "psr/http-message",
@@ -5530,74 +5462,6 @@
             "time": "2024-01-29T20:11:03+00:00"
         },
         {
-            "name": "symfony/polyfill-php56",
-            "version": "v1.20.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/symfony/polyfill-php56.git",
-                "reference": "54b8cd7e6c1643d78d011f3be89f3ef1f9f4c675"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/symfony/polyfill-php56/zipball/54b8cd7e6c1643d78d011f3be89f3ef1f9f4c675",
-                "reference": "54b8cd7e6c1643d78d011f3be89f3ef1f9f4c675",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=7.1"
-            },
-            "type": "metapackage",
-            "extra": {
-                "branch-alias": {
-                    "dev-main": "1.20-dev"
-                },
-                "thanks": {
-                    "name": "symfony/polyfill",
-                    "url": "https://github.com/symfony/polyfill"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Nicolas Grekas",
-                    "email": "p@tchwork.com"
-                },
-                {
-                    "name": "Symfony Community",
-                    "homepage": "https://symfony.com/contributors"
-                }
-            ],
-            "description": "Symfony polyfill backporting some PHP 5.6+ features to lower PHP versions",
-            "homepage": "https://symfony.com",
-            "keywords": [
-                "compatibility",
-                "polyfill",
-                "portable",
-                "shim"
-            ],
-            "support": {
-                "source": "https://github.com/symfony/polyfill-php56/tree/v1.20.0"
-            },
-            "funding": [
-                {
-                    "url": "https://symfony.com/sponsor",
-                    "type": "custom"
-                },
-                {
-                    "url": "https://github.com/fabpot",
-                    "type": "github"
-                },
-                {
-                    "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
-                    "type": "tidelift"
-                }
-            ],
-            "time": "2020-10-23T14:02:19+00:00"
-        },
-        {
             "name": "symfony/polyfill-php83",
             "version": "v1.29.0",
             "source": {
@@ -7203,266 +7067,6 @@
             "time": "2024-04-28T11:44:19+00:00"
         },
         {
-            "name": "voku/anti-xss",
-            "version": "4.1.42",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/voku/anti-xss.git",
-                "reference": "bca1f8607e55a3c5077483615cd93bd8f11bd675"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/voku/anti-xss/zipball/bca1f8607e55a3c5077483615cd93bd8f11bd675",
-                "reference": "bca1f8607e55a3c5077483615cd93bd8f11bd675",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=7.0.0",
-                "voku/portable-utf8": "~6.0.2"
-            },
-            "require-dev": {
-                "phpunit/phpunit": "~6.0 || ~7.0 || ~9.0"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "4.1.x-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "voku\\helper\\": "src/voku/helper/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "EllisLab Dev Team",
-                    "homepage": "http://ellislab.com/"
-                },
-                {
-                    "name": "Lars Moelleken",
-                    "email": "lars@moelleken.org",
-                    "homepage": "https://www.moelleken.org/"
-                }
-            ],
-            "description": "anti xss-library",
-            "homepage": "https://github.com/voku/anti-xss",
-            "keywords": [
-                "anti-xss",
-                "clean",
-                "security",
-                "xss"
-            ],
-            "support": {
-                "issues": "https://github.com/voku/anti-xss/issues",
-                "source": "https://github.com/voku/anti-xss/tree/4.1.42"
-            },
-            "funding": [
-                {
-                    "url": "https://www.paypal.me/moelleken",
-                    "type": "custom"
-                },
-                {
-                    "url": "https://github.com/voku",
-                    "type": "github"
-                },
-                {
-                    "url": "https://opencollective.com/anti-xss",
-                    "type": "open_collective"
-                },
-                {
-                    "url": "https://www.patreon.com/voku",
-                    "type": "patreon"
-                },
-                {
-                    "url": "https://tidelift.com/funding/github/packagist/voku/anti-xss",
-                    "type": "tidelift"
-                }
-            ],
-            "time": "2023-07-03T14:40:46+00:00"
-        },
-        {
-            "name": "voku/portable-ascii",
-            "version": "2.0.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/voku/portable-ascii.git",
-                "reference": "b56450eed252f6801410d810c8e1727224ae0743"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/voku/portable-ascii/zipball/b56450eed252f6801410d810c8e1727224ae0743",
-                "reference": "b56450eed252f6801410d810c8e1727224ae0743",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=7.0.0"
-            },
-            "require-dev": {
-                "phpunit/phpunit": "~6.0 || ~7.0 || ~9.0"
-            },
-            "suggest": {
-                "ext-intl": "Use Intl for transliterator_transliterate() support"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "voku\\": "src/voku/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Lars Moelleken",
-                    "homepage": "http://www.moelleken.org/"
-                }
-            ],
-            "description": "Portable ASCII library - performance optimized (ascii) string functions for php.",
-            "homepage": "https://github.com/voku/portable-ascii",
-            "keywords": [
-                "ascii",
-                "clean",
-                "php"
-            ],
-            "support": {
-                "issues": "https://github.com/voku/portable-ascii/issues",
-                "source": "https://github.com/voku/portable-ascii/tree/2.0.1"
-            },
-            "funding": [
-                {
-                    "url": "https://www.paypal.me/moelleken",
-                    "type": "custom"
-                },
-                {
-                    "url": "https://github.com/voku",
-                    "type": "github"
-                },
-                {
-                    "url": "https://opencollective.com/portable-ascii",
-                    "type": "open_collective"
-                },
-                {
-                    "url": "https://www.patreon.com/voku",
-                    "type": "patreon"
-                },
-                {
-                    "url": "https://tidelift.com/funding/github/packagist/voku/portable-ascii",
-                    "type": "tidelift"
-                }
-            ],
-            "time": "2022-03-08T17:03:00+00:00"
-        },
-        {
-            "name": "voku/portable-utf8",
-            "version": "6.0.13",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/voku/portable-utf8.git",
-                "reference": "b8ce36bf26593e5c2e81b1850ef0ffb299d2043f"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/voku/portable-utf8/zipball/b8ce36bf26593e5c2e81b1850ef0ffb299d2043f",
-                "reference": "b8ce36bf26593e5c2e81b1850ef0ffb299d2043f",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=7.0.0",
-                "symfony/polyfill-iconv": "~1.0",
-                "symfony/polyfill-intl-grapheme": "~1.0",
-                "symfony/polyfill-intl-normalizer": "~1.0",
-                "symfony/polyfill-mbstring": "~1.0",
-                "symfony/polyfill-php72": "~1.0",
-                "voku/portable-ascii": "~2.0.0"
-            },
-            "require-dev": {
-                "phpstan/phpstan": "1.9.*@dev",
-                "phpstan/phpstan-strict-rules": "1.4.*@dev",
-                "phpunit/phpunit": "~6.0 || ~7.0 || ~9.0",
-                "thecodingmachine/phpstan-strict-rules": "1.0.*@dev",
-                "voku/phpstan-rules": "3.1.*@dev"
-            },
-            "suggest": {
-                "ext-ctype": "Use Ctype for e.g. hexadecimal digit detection",
-                "ext-fileinfo": "Use Fileinfo for better binary file detection",
-                "ext-iconv": "Use iconv for best performance",
-                "ext-intl": "Use Intl for best performance",
-                "ext-json": "Use JSON for string detection",
-                "ext-mbstring": "Use Mbstring for best performance"
-            },
-            "type": "library",
-            "autoload": {
-                "files": [
-                    "bootstrap.php"
-                ],
-                "psr-4": {
-                    "voku\\": "src/voku/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "(Apache-2.0 or GPL-2.0)"
-            ],
-            "authors": [
-                {
-                    "name": "Nicolas Grekas",
-                    "email": "p@tchwork.com"
-                },
-                {
-                    "name": "Hamid Sarfraz",
-                    "homepage": "http://pageconfig.com/"
-                },
-                {
-                    "name": "Lars Moelleken",
-                    "homepage": "http://www.moelleken.org/"
-                }
-            ],
-            "description": "Portable UTF-8 library - performance optimized (unicode) string functions for php.",
-            "homepage": "https://github.com/voku/portable-utf8",
-            "keywords": [
-                "UTF",
-                "clean",
-                "php",
-                "unicode",
-                "utf-8",
-                "utf8"
-            ],
-            "support": {
-                "issues": "https://github.com/voku/portable-utf8/issues",
-                "source": "https://github.com/voku/portable-utf8/tree/6.0.13"
-            },
-            "funding": [
-                {
-                    "url": "https://www.paypal.me/moelleken",
-                    "type": "custom"
-                },
-                {
-                    "url": "https://github.com/voku",
-                    "type": "github"
-                },
-                {
-                    "url": "https://opencollective.com/portable-utf8",
-                    "type": "open_collective"
-                },
-                {
-                    "url": "https://www.patreon.com/voku",
-                    "type": "patreon"
-                },
-                {
-                    "url": "https://tidelift.com/funding/github/packagist/voku/portable-utf8",
-                    "type": "tidelift"
-                }
-            ],
-            "time": "2023-03-08T08:35:38+00:00"
-        },
-        {
             "name": "webmozart/assert",
             "version": "1.11.0",
             "source": {
@@ -7951,16 +7555,16 @@
         },
         {
             "name": "phpstan/phpstan",
-            "version": "1.10.67",
+            "version": "1.11.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpstan/phpstan.git",
-                "reference": "16ddbe776f10da6a95ebd25de7c1dbed397dc493"
+                "reference": "e524358f930e41a2b4cca1320e3b04fc26b39e0b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/16ddbe776f10da6a95ebd25de7c1dbed397dc493",
-                "reference": "16ddbe776f10da6a95ebd25de7c1dbed397dc493",
+                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/e524358f930e41a2b4cca1320e3b04fc26b39e0b",
+                "reference": "e524358f930e41a2b4cca1320e3b04fc26b39e0b",
                 "shasum": ""
             },
             "require": {
@@ -8005,25 +7609,25 @@
                     "type": "github"
                 }
             ],
-            "time": "2024-04-16T07:22:02+00:00"
+            "time": "2024-05-15T08:00:59+00:00"
         },
         {
             "name": "phpstan/phpstan-doctrine",
-            "version": "1.3.69",
+            "version": "1.4.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpstan/phpstan-doctrine.git",
-                "reference": "ac567407e750b94e2133dace33b19082ad9ed751"
+                "reference": "4b66f5c996865a6085983cc90b5c8a242d1959e7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpstan-doctrine/zipball/ac567407e750b94e2133dace33b19082ad9ed751",
-                "reference": "ac567407e750b94e2133dace33b19082ad9ed751",
+                "url": "https://api.github.com/repos/phpstan/phpstan-doctrine/zipball/4b66f5c996865a6085983cc90b5c8a242d1959e7",
+                "reference": "4b66f5c996865a6085983cc90b5c8a242d1959e7",
                 "shasum": ""
             },
             "require": {
                 "php": "^7.2 || ^8.0",
-                "phpstan/phpstan": "^1.10.64"
+                "phpstan/phpstan": "^1.11"
             },
             "conflict": {
                 "doctrine/collections": "<1.0",
@@ -8075,28 +7679,28 @@
             "description": "Doctrine extensions for PHPStan",
             "support": {
                 "issues": "https://github.com/phpstan/phpstan-doctrine/issues",
-                "source": "https://github.com/phpstan/phpstan-doctrine/tree/1.3.69"
+                "source": "https://github.com/phpstan/phpstan-doctrine/tree/1.4.0"
             },
-            "time": "2024-04-18T12:56:14+00:00"
+            "time": "2024-04-24T14:05:48+00:00"
         },
         {
             "name": "phpstan/phpstan-symfony",
-            "version": "1.3.12",
+            "version": "1.4.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpstan/phpstan-symfony.git",
-                "reference": "f4b9407fa3203aebafd422ae8f0eb1ef94659a80"
+                "reference": "51183fefbaf4713aa81eddbd273dc59dd5e5ff71"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpstan-symfony/zipball/f4b9407fa3203aebafd422ae8f0eb1ef94659a80",
-                "reference": "f4b9407fa3203aebafd422ae8f0eb1ef94659a80",
+                "url": "https://api.github.com/repos/phpstan/phpstan-symfony/zipball/51183fefbaf4713aa81eddbd273dc59dd5e5ff71",
+                "reference": "51183fefbaf4713aa81eddbd273dc59dd5e5ff71",
                 "shasum": ""
             },
             "require": {
                 "ext-simplexml": "*",
                 "php": "^7.2 || ^8.0",
-                "phpstan/phpstan": "^1.10.62"
+                "phpstan/phpstan": "^1.11"
             },
             "conflict": {
                 "symfony/framework-bundle": "<3.0"
@@ -8147,9 +7751,9 @@
             "description": "Symfony Framework extensions and rules for PHPStan",
             "support": {
                 "issues": "https://github.com/phpstan/phpstan-symfony/issues",
-                "source": "https://github.com/phpstan/phpstan-symfony/tree/1.3.12"
+                "source": "https://github.com/phpstan/phpstan-symfony/tree/1.4.0"
             },
-            "time": "2024-04-14T13:30:23+00:00"
+            "time": "2024-04-20T06:38:35+00:00"
         },
         {
             "name": "phpunit/php-code-coverage",
