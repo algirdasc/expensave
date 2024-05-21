@@ -1,4 +1,5 @@
 {
     "apiUrl": "http://localhost:18001/api",
-    "locale": "en"
+    "locale": "en",
+    "registrationDisabled": false
 }

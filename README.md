@@ -42,10 +42,10 @@ as well as improve motivation and helps me understand, that this project is usef
 
 # Features
 
-- Multiple users
-- Expense calendar sharing between users
+- Multiple user support
+- Shared expense calendars between family members
 - Import your balance from financial institutions in various formats (still work in progress)
-- Reports on your spending and income habits (still work in progress)
+- Reports on your spending and income habits
 - Responsive design
 - Mobile [PWA](https://web.dev/explore/progressive-web-apps) application
 
@@ -66,6 +66,7 @@ as well as improve motivation and helps me understand, that this project is usef
 - `TZ` - Your time zone. Full list can be found [here](https://www.php.net/manual/en/timezones.php).
 - `DATABASE_URL` - In case you want to use external MySQL/MariaDB, you can provide custom DSN for DB connection.
 - `LOCALE` - Locale used for date and number formatting. Full list can be found [here](https://unpkg.com/browse/@angular/common@17.3.3/locales/).
+- `REGISTRATION_DISABLED=yes/no` - Disable new user registration
 
 # Installing mobile version
 

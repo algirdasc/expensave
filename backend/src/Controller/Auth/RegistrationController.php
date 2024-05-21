@@ -12,6 +12,7 @@ use App\Repository\UserRepository;
 use App\Request\Auth\RegistrationRequest;
 use App\Response\Auth\AuthTokenResponse;
 use Lexik\Bundle\JWTAuthenticationBundle\Services\JWTTokenManagerInterface;
+use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Attribute\Route;
@@ -26,8 +27,16 @@ class RegistrationController extends AbstractApiController
     }
 
     #[Route('', name: 'create', methods: Request::METHOD_POST)]
-    public function index(RegistrationRequest $request, JWTTokenManagerInterface $JWTManager): JsonResponse
+    public function index(
+        RegistrationRequest $request,
+        JWTTokenManagerInterface $JWTManager,
+        #[Autowire('%registrationDisabled%')] bool $registrationDisabled
+    ): JsonResponse
     {
+        if ($registrationDisabled) {
+            throw $this->createNotFoundException();
+        }
+
         $user = (new User())
             ->setEmail($request->getEmail())
             ->setName($request->getFullName())
