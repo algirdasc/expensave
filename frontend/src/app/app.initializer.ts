@@ -17,6 +17,7 @@ export class AppInitializer {
                 tap((config: ConfigInterface) => {
                     APP_CONFIG.apiUrl = config.apiUrl || '/api';
                     APP_CONFIG.locale = config.locale;
+                    APP_CONFIG.registrationDisabled = config.registrationDisabled;
 
                     import(
                         /* webpackInclude: /\.mjs$/ */
@@ -40,4 +41,5 @@ export class AppInitializer {
 export const APP_CONFIG: ConfigInterface = {
     apiUrl: '',
     locale: '',
+    registrationDisabled: false
 };

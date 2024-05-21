@@ -19,7 +19,6 @@ use DateTime;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Attribute\Route;
-use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\Security\Http\Attribute\CurrentUser;
 
 #[Route('api/calendar', name: 'calendar_')]
@@ -78,7 +77,7 @@ class CalendarController extends AbstractApiController
     public function update(#[CurrentUser] User $user, Calendar $calendar, UpdateCalendarRequest $request): JsonResponse
     {
         if ($calendar->getOwner() !== $user) {
-            throw new AccessDeniedException();
+            throw $this->createAccessDeniedException();
         }
 
         $calendar
@@ -95,7 +94,7 @@ class CalendarController extends AbstractApiController
     public function remove(#[CurrentUser] User $user, Calendar $calendar): JsonResponse
     {
         if ($calendar->getOwner() !== $user) {
-            throw new AccessDeniedException();
+            throw $this->createAccessDeniedException();
         }
 
         $this->calendarRepository->remove($calendar);
