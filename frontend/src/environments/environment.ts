@@ -1,6 +1,9 @@
+import pkg from '../../package.json';
+
 export const environment = {
     production: false,
     configFile: 'config.dev.json',
+    version: pkg.version
 };
 
 /*

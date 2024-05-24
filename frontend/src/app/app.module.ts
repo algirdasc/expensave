@@ -27,6 +27,7 @@ import {AppComponent} from './app.component';
 import {AppInitializer} from './app.initializer';
 import {appRoutes} from './app.routes';
 import {ApiInterceptor} from './interceptors/api.interceptor';
+import {DateInterceptor} from './interceptors/date.interceptor';
 import {ErrorInterceptor} from './interceptors/error.interceptor';
 import {UnauthorizedInterceptor} from './interceptors/unauthorized.interceptor';
 import {AuthStrategy} from './modules/auth/auth-strategy';
@@ -88,6 +89,7 @@ const apiServices = [
         },
         { provide: NB_AUTH_TOKEN_INTERCEPTOR_FILTER, useValue: tokenFilter },
         { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
+        { provide: HTTP_INTERCEPTORS, useClass: DateInterceptor, multi: true },
         { provide: HTTP_INTERCEPTORS, useClass: ApiInterceptor, multi: true },
         { provide: HTTP_INTERCEPTORS, useClass: NbAuthJWTInterceptor, multi: true },
         { provide: HTTP_INTERCEPTORS, useClass: UnauthorizedInterceptor, multi: true },

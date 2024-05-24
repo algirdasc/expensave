@@ -31,3 +31,7 @@ services:
         arguments:
             $environment: '%kernel.environment%'
 
+    Symfony\Component\Serializer\Normalizer\DateTimeNormalizer:
+        arguments:
+            $defaultContext:
+                datetime_format: 'Y-m-d H:i:s'

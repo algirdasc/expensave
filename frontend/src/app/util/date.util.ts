@@ -1,6 +1,7 @@
 export class DateUtil {
 
     public static readonly DATE_FORMAT: string = 'yyyy-MM-dd';
+    public static readonly DATE_TIME_FORMAT: string = 'yyyy-MM-dd HH:mm:ss';
     public static readonly MONTH_DAY_FORMAT: string = 'yyyy-MM';
 
     public static endOfTheDay(date: Date): Date {

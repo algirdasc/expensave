@@ -9,7 +9,7 @@ use RuntimeException;
 use Symfony\Component\DependencyInjection\Attribute\TaggedIterator;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
-class StatementImportResolver
+readonly class StatementImportResolver
 {
     /**
      * @param iterable<StatementImportHandlerInterface> $importHandlers
