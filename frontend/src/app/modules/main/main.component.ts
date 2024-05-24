@@ -41,7 +41,7 @@ export class MainComponent implements OnInit {
 
         this.activatedRoute.queryParams.subscribe(({ date }: { date?: string }) => {
             if (date) {
-                const parsedDate = this.dateService.parse(date, DateUtil.MONTH_DAY_FORMAT);
+                const parsedDate = new Date(`${date}-01 00:00:00`);
                 if (DateUtil.valid(parsedDate)) {
                     parsedDate.setDate(this.mainService.visibleDate.getDate());
                     this.mainService.visibleDate = parsedDate;

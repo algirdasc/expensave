@@ -54,6 +54,10 @@
                     <div class="text-truncate">{{ expense.createdAt | date:'fullDate' }}</div>
                 </nb-list-item>
 
+                <nb-list-item>
+                    {{ expense.createdAt }}
+                </nb-list-item>
+
                 <nb-list-item (click)="addDescription()" class="actionable">
                     <nb-icon icon="file-text-outline" class="me-3"></nb-icon>
                     <div class="text-truncate">{{ expense.description ?? 'Add description' }}</div>
