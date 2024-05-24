@@ -24,11 +24,11 @@ export class DateInterceptor implements HttpInterceptor {
 
     private shiftDates(body: any): void {
         if (body === null || body === undefined) {
-            return body;
+            return;
         }
 
         if (typeof body !== 'object') {
-            return body;
+            return;
         }
 
         for (const key of Object.keys(body)) {
