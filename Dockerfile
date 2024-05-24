@@ -55,7 +55,7 @@ WORKDIR /opt/expensave/frontend
 COPY frontend/ /opt/expensave/frontend
 
 RUN npm ci
-# RUN npm run analyze
+RUN npm run analyze
 RUN npm run build
 
 FROM base

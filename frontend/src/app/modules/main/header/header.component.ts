@@ -61,6 +61,7 @@ export class HeaderComponent {
     }
 
     private changeVisibleMonth(direction: number): void {
+        console.log(this.visibleDate, this.dateService.addMonth(this.visibleDate, direction), direction);
         this.navigateToDate(this.dateService.addMonth(this.visibleDate, direction));
     }
 }

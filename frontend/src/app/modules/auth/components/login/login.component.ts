@@ -1,5 +1,6 @@
 import {Component} from '@angular/core';
 import {NbLoginComponent} from '@nebular/auth';
+import {environment} from '../../../../../environments/environment';
 import {APP_CONFIG} from '../../../../app.initializer';
 
 @Component({
@@ -8,4 +9,5 @@ import {APP_CONFIG} from '../../../../app.initializer';
 })
 export class LoginComponent extends NbLoginComponent {
     protected readonly APP_CONFIG = APP_CONFIG;
+    protected readonly environment = environment;
 }

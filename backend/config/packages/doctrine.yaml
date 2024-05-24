@@ -3,7 +3,7 @@ doctrine:
         url: '%env(resolve:DATABASE_URL)%'
         logging: '%kernel.debug%'
         options:
-            1002: "SET time_zone = '%timezone%'"
+            1002: "SET time_zone = 'UTC'"
 
     orm:
         auto_generate_proxy_classes: true
