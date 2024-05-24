@@ -34,8 +34,6 @@ export class CalendarService {
             confirmed: true,
         });
 
-        console.log(expense.createdAt.toString());
-
         this.openExpenseDialog(expense, () => this.mainService.refreshCalendar());
     }
 
