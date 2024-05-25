@@ -1,9 +1,9 @@
-import {Expose, Type} from 'class-transformer';
-import {Calendar} from '../objects/calendar';
-import {Expense} from '../objects/expense';
-import {ExpenseBalance} from '../objects/expense-balance';
+import { Expose, Type } from 'class-transformer';
+import { Calendar } from '../objects/calendar';
+import { Expense } from '../objects/expense';
+import { ExpenseBalance } from '../objects/expense-balance';
 
-export class CalendarExpenseListResponse  {
+export class CalendarExpenseListResponse {
     @Expose()
     @Type(() => Expense)
     public expenses: Expense[];
@@ -16,4 +16,3 @@ export class CalendarExpenseListResponse  {
     @Type(() => Calendar)
     public calendar: Calendar;
 }
-

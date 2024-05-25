@@ -1,9 +1,9 @@
-import {CommonModule, NgOptimizedImage} from '@angular/common';
-import {HttpResponse} from '@angular/common/http';
-import {ModuleWithProviders, NgModule} from '@angular/core';
-import {FormsModule} from '@angular/forms';
-import {RouterModule} from '@angular/router';
-import {NbAuthModule} from '@nebular/auth';
+import { CommonModule, NgOptimizedImage } from '@angular/common';
+import { HttpResponse } from '@angular/common/http';
+import { ModuleWithProviders, NgModule } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { RouterModule } from '@angular/router';
+import { NbAuthModule } from '@nebular/auth';
 import {
     NbAlertModule,
     NbButtonModule,
@@ -11,17 +11,15 @@ import {
     NbCheckboxModule,
     NbIconModule,
     NbInputModule,
-    NbLayoutModule
+    NbLayoutModule,
 } from '@nebular/theme';
-import {AuthStrategy} from './auth-strategy';
-import {authRoutes} from './auth.routes';
-import {LoginComponent} from './components/login/login.component';
-import {JwtRefreshableToken} from './jwt-refreshable-token';
+import { AuthStrategy } from './auth-strategy';
+import { authRoutes } from './auth.routes';
+import { LoginComponent } from './components/login/login.component';
+import { JwtRefreshableToken } from './jwt-refreshable-token';
 
 @NgModule({
-    declarations: [
-        LoginComponent,
-    ],
+    declarations: [LoginComponent],
     imports: [
         CommonModule,
         FormsModule,
@@ -33,7 +31,7 @@ import {JwtRefreshableToken} from './jwt-refreshable-token';
         NbIconModule,
         NbCheckboxModule,
         RouterModule.forChild(authRoutes),
-        NgOptimizedImage
+        NgOptimizedImage,
     ],
 })
 export class AuthModule {
@@ -46,7 +44,7 @@ export class AuthModule {
                     strategy: 'jwt',
                     showMessages: {
                         error: false,
-                    }
+                    },
                 },
                 register: {
                     redirectDelay: 1500,
@@ -54,21 +52,21 @@ export class AuthModule {
                     terms: false,
                     showMessages: {
                         error: false,
-                    }
+                    },
                 },
                 requestPassword: {
                     redirectDelay: 5000,
                     strategy: 'jwt',
                     showMessages: {
                         error: false,
-                    }
+                    },
                 },
                 resetPassword: {
                     redirectDelay: 5000,
                     strategy: 'jwt',
                     showMessages: {
                         error: false,
-                    }
+                    },
                 },
                 logout: {
                     strategy: 'jwt',
@@ -76,13 +74,13 @@ export class AuthModule {
                 validation: {
                     password: {
                         minLength: 6,
-                        maxLength: 255
+                        maxLength: 255,
                     },
                     fullName: {
                         required: true,
-                        maxLength: 255
-                    }
-                }
+                        maxLength: 255,
+                    },
+                },
             },
             strategies: [
                 AuthStrategy.setup({
@@ -90,31 +88,28 @@ export class AuthModule {
                     baseEndpoint: '/auth/',
                     token: {
                         class: JwtRefreshableToken,
-                        getter: (
-                            module: string,
-                            response: HttpResponse<{ token: string; refreshToken: string }>,
-                        ) => {
+                        getter: (module: string, response: HttpResponse<{ token: string; refreshToken: string }>) => {
                             return response.body;
-                        }
+                        },
                     },
                     refreshToken: {
                         requireValidToken: true,
                     },
                     logout: {
-                        endpoint: 'logout'
+                        endpoint: 'logout',
                     },
                     register: {
-                        endpoint: 'register'
+                        endpoint: 'register',
                     },
                     requestPass: {
-                        endpoint: 'password/forgot'
+                        endpoint: 'password/forgot',
                     },
                     resetPass: {
                         endpoint: 'password/reset',
-                        resetPasswordTokenKey: 'hash'
-                    }
-                })
-            ]
+                        resetPasswordTokenKey: 'hash',
+                    },
+                }),
+            ],
         });
     }
 }

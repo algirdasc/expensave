@@ -1,7 +1,7 @@
-import {Component, OnInit} from '@angular/core';
-import {NbDialogRef, NbToastrService} from '@nebular/theme';
-import {CalendarApiService} from '../../../../api/calendar.api.service';
-import {Calendar} from '../../../../api/objects/calendar';
+import { Component, OnInit } from '@angular/core';
+import { NbDialogRef, NbToastrService } from '@nebular/theme';
+import { CalendarApiService } from '../../../../api/calendar.api.service';
+import { Calendar } from '../../../../api/objects/calendar';
 
 @Component({
     templateUrl: 'calendars-dialog.component.html',
@@ -18,7 +18,7 @@ export class CalendarsDialogComponent implements OnInit {
         public readonly toastrService: NbToastrService,
         private readonly calendarApiService: CalendarApiService
     ) {
-        this.calendarApiService.onBusyChange.subscribe((isBusy: boolean) => this.isBusy = isBusy);
+        this.calendarApiService.onBusyChange.subscribe((isBusy: boolean) => (this.isBusy = isBusy));
     }
 
     public ngOnInit(): void {
@@ -31,20 +31,14 @@ export class CalendarsDialogComponent implements OnInit {
     }
 
     public saveCalendar(calendar: Calendar): void {
-        this.calendarApiService
-            .save(calendar)
-            .subscribe(() => {
-                this.editableCalendar = undefined;
-                this.toastrService.success('Calendar deleted successfully', 'Calendar delete');
-                this.fetch();
-            })
-        ;
+        this.calendarApiService.save(calendar).subscribe(() => {
+            this.editableCalendar = undefined;
+            this.toastrService.success('Calendar deleted successfully', 'Calendar delete');
+            this.fetch();
+        });
     }
 
     public fetch(): void {
-        this.calendarApiService
-            .list()
-            .subscribe((calendars: Calendar[]) => this.calendars = calendars)
-        ;
+        this.calendarApiService.list().subscribe((calendars: Calendar[]) => (this.calendars = calendars));
     }
 }

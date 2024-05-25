@@ -1,9 +1,9 @@
-import {Component, Input, ViewChild} from '@angular/core';
-import {ActivatedRoute, Router} from '@angular/router';
-import {NbCalendarViewMode, NbDateService, NbPopoverDirective, NbSidebarService} from '@nebular/theme';
-import {Calendar} from '../../../api/objects/calendar';
-import {DateUtil} from '../../../util/date.util';
-import {SIDEBAR_TAG} from '../main.service';
+import { Component, Input, ViewChild } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { NbCalendarViewMode, NbDateService, NbPopoverDirective, NbSidebarService } from '@nebular/theme';
+import { Calendar } from '../../../api/objects/calendar';
+import { DateUtil } from '../../../util/date.util';
+import { SIDEBAR_TAG } from '../main.service';
 
 @Component({
     templateUrl: 'header.component.html',
@@ -23,8 +23,8 @@ export class HeaderComponent {
         private readonly dateService: NbDateService<Date>,
         private readonly sidebarService: NbSidebarService,
         private readonly router: Router,
-        private readonly activatedRoute: ActivatedRoute,
-    ) { }
+        private readonly activatedRoute: ActivatedRoute
+    ) {}
 
     public toggleSidebar(): void {
         this.sidebarService.toggle(false, SIDEBAR_TAG);
@@ -53,7 +53,7 @@ export class HeaderComponent {
             queryParams: { date: this.dateService.format(date, DateUtil.MONTH_DAY_FORMAT) },
             queryParamsHandling: 'merge',
             replaceUrl: true,
-        })
+        });
     }
 
     public navigateToday(): void {

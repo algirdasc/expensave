@@ -5,9 +5,14 @@
             <div *ngIf="hasUnconfirmedExpenses" class="unconfirmed-expenses ms-2"></div>
         </div>
         <div class="day-expenses flex-fill text-right text-truncate d-none d-sm-block">
-            <span *ngIf="expenseBalance?.change">{{ expenseBalance?.change | shortNumber }} | </span>{{ expenseBalance?.balance ?? 0 | shortNumber }}
+            <span *ngIf="expenseBalance?.change">{{ expenseBalance?.change | shortNumber }} | </span
+            >{{ expenseBalance?.balance ?? 0 | shortNumber }}
         </div>
-        <button nbButton status="primary" class="create-expense bounceIn" (click)="calendarService.createExpense(calendar, date)">
+        <button
+            nbButton
+            status="primary"
+            class="create-expense bounceIn"
+            (click)="calendarService.createExpense(calendar, date)">
             <nb-icon icon="plus-outline"></nb-icon>
         </button>
     </div>
@@ -19,8 +24,12 @@
             (click)="calendarService.editExpense(expense)"
             [expense]="expense">
         </app-calendar-expense-item>
-        <a href="#" (click)="$event.preventDefault(); openInvisibleExpenses()" *ngIf="!!invisibleExpensesCount" class="other-label px-1">
-            + {{ invisibleExpensesCount | shortNumber:'.0-0' }} other
+        <a
+            href="#"
+            (click)="$event.preventDefault(); openInvisibleExpenses()"
+            *ngIf="!!invisibleExpensesCount"
+            class="other-label px-1">
+            + {{ invisibleExpensesCount | shortNumber: '.0-0' }} other
         </a>
     </div>
 </div>

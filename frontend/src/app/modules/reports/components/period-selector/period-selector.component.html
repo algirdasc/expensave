@@ -7,9 +7,10 @@
     <button nbButtonToggle [value]="periods.CUSTOM" #customDateRange>Custom</button>
 </nb-button-group>
 
-<nb-rangepicker #rangePicker
-                [firstDayOfWeek]="firstDayOfWeek"
-                [hideOnSelect]="true"
-                [range]="this.dateRange"
-                (rangeChange)="onRangeChange($event)">
+<nb-rangepicker
+    #rangePicker
+    [firstDayOfWeek]="firstDayOfWeek"
+    [hideOnSelect]="true"
+    [range]="this.dateRange"
+    (rangeChange)="onRangeChange($event)">
 </nb-rangepicker>

@@ -5,7 +5,7 @@ export interface SwipeCoordinates {
 
 export enum SwipeDirection {
     X = 'x',
-    Y = 'y'
+    Y = 'y',
 }
 
 export interface SwipeStartEvent {

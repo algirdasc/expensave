@@ -1,5 +1,4 @@
 export class DateUtil {
-
     public static readonly DATE_FORMAT: string = 'yyyy-MM-dd';
     public static readonly DATE_TIME_FORMAT: string = 'yyyy-MM-dd HH:mm:ss';
     public static readonly MONTH_DAY_FORMAT: string = 'yyyy-MM';
@@ -19,18 +18,17 @@ export class DateUtil {
     }
 
     public static valid(date: Date): boolean {
-        return date instanceof Date && !isNaN(date.getTime())
+        return date instanceof Date && !isNaN(date.getTime());
     }
 
     public static firstDayOfWeek(date: Date, firstDayOfWeekIndex: number = 0) {
-
         const dayOfWeek = date.getDay();
         const firstDayOfWeek = new Date(date);
         const diff = dayOfWeek - firstDayOfWeekIndex;
 
-        firstDayOfWeek.setDate(date.getDate() - diff)
-        firstDayOfWeek.setHours(0,0,0,0)
+        firstDayOfWeek.setDate(date.getDate() - diff);
+        firstDayOfWeek.setHours(0, 0, 0, 0);
 
-        return firstDayOfWeek
+        return firstDayOfWeek;
     }
 }

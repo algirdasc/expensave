@@ -1,12 +1,10 @@
-import {Injectable} from '@angular/core';
-import {NbDateService} from '@nebular/theme';
-import {batch, range} from './helpers/helpers';
+import { Injectable } from '@angular/core';
+import { NbDateService } from '@nebular/theme';
+import { batch, range } from './helpers/helpers';
 
 @Injectable()
 export class CalendarMonthModelService<D> {
-
-    constructor(protected dateService: NbDateService<D>) {
-    }
+    constructor(protected dateService: NbDateService<D>) {}
 
     createDaysGrid(activeMonth: D, boundingMonth: boolean = true, firstDayOfWeek?: number): D[][] {
         const weeks = this.createDates(activeMonth, firstDayOfWeek);
@@ -58,14 +56,19 @@ export class CalendarMonthModelService<D> {
         const daysInMonth = this.dateService.getNumberOfDaysInMonth(month);
         return this.createDateRangeForMonth(month)
             .slice(daysInMonth - requiredItems)
-            .map(date => boundingMonth ? date : null);
+            .map(date => (boundingMonth ? date : null));
     }
 
-    private createNextBoundingDays(activeMonth: D, boundingMonth: boolean, requiredFrom: number, requiredItems: number): D[] {
+    private createNextBoundingDays(
+        activeMonth: D,
+        boundingMonth: boolean,
+        requiredFrom: number,
+        requiredItems: number
+    ): D[] {
         const month = this.dateService.addMonth(activeMonth, 1);
         return this.createDateRangeForMonth(month)
             .slice(requiredFrom, requiredFrom + requiredItems)
-            .map(date => boundingMonth ? date : null);
+            .map(date => (boundingMonth ? date : null));
     }
 
     private getStartOfWeekDayDiff(date: D, firstDayOfWeek?: number): number {
@@ -91,7 +94,7 @@ export class CalendarMonthModelService<D> {
         return range(daysInMonth, i => {
             const year = this.dateService.getYear(date);
             const month = this.dateService.getMonth(date);
-            return this.dateService.createDate(year, month, i + 1)
+            return this.dateService.createDate(year, month, i + 1);
         });
     }
 }

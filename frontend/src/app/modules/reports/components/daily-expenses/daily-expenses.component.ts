@@ -1,22 +1,21 @@
-import {FormatWidth, getLocaleDateFormat} from '@angular/common';
-import {Component, OnChanges} from '@angular/core';
-import {NbDateService} from '@nebular/theme';
-import {ChartConfiguration, ScriptableLineSegmentContext} from 'chart.js';
-import {ExpenseBalance} from '../../../../api/objects/expense-balance';
-import {ReportsApiService} from '../../../../api/reports.api.service';
-import {ExpenseReportResponse} from '../../../../api/response/expense-report.response';
-import {APP_CONFIG} from '../../../../app.initializer';
-import {ShortNumberPipe} from '../../../../pipes/shortnumber.pipe';
-import {AbstractReportComponent} from '../abstract-report.component';
-import {PeriodEnum} from '../period-selector/period-selector.component';
-import {chartTooltipHandler} from './daily-expenses-tooltip';
+import { FormatWidth, getLocaleDateFormat } from '@angular/common';
+import { Component, OnChanges } from '@angular/core';
+import { NbDateService } from '@nebular/theme';
+import { ChartConfiguration, ScriptableLineSegmentContext } from 'chart.js';
+import { ExpenseBalance } from '../../../../api/objects/expense-balance';
+import { ReportsApiService } from '../../../../api/reports.api.service';
+import { ExpenseReportResponse } from '../../../../api/response/expense-report.response';
+import { APP_CONFIG } from '../../../../app.initializer';
+import { ShortNumberPipe } from '../../../../pipes/shortnumber.pipe';
+import { AbstractReportComponent } from '../abstract-report.component';
+import { PeriodEnum } from '../period-selector/period-selector.component';
+import { chartTooltipHandler } from './daily-expenses-tooltip';
 
 @Component({
     selector: 'app-reports-daily-expenses',
-    templateUrl: 'daily-expenses.component.html'
+    templateUrl: 'daily-expenses.component.html',
 })
 export class DailyExpensesComponent extends AbstractReportComponent implements OnChanges {
-
     public income: number = 0;
     public expense: number = 0;
     public change: number = 0;
@@ -25,7 +24,7 @@ export class DailyExpensesComponent extends AbstractReportComponent implements O
         responsive: true,
         parsing: {
             yAxisKey: 'balance',
-            xAxisKey: 'balanceAt'
+            xAxisKey: 'balanceAt',
         },
         scales: {
             x: {
@@ -37,8 +36,8 @@ export class DailyExpensesComponent extends AbstractReportComponent implements O
                     dash: [5],
                 },
                 ticks: {
-                    callback: (value: string|number) => (new ShortNumberPipe()).transform(value)
-                }
+                    callback: (value: string | number) => new ShortNumberPipe().transform(value),
+                },
             },
         },
         interaction: {
@@ -47,13 +46,13 @@ export class DailyExpensesComponent extends AbstractReportComponent implements O
         },
         plugins: {
             legend: {
-                display: false
+                display: false,
             },
             tooltip: {
                 enabled: false,
                 position: 'nearest',
-                external: chartTooltipHandler
-            }
+                external: chartTooltipHandler,
+            },
         },
     };
 
@@ -66,7 +65,7 @@ export class DailyExpensesComponent extends AbstractReportComponent implements O
 
     public constructor(
         private readonly dateService: NbDateService<Date>,
-        protected readonly reportsApiService: ReportsApiService,
+        protected readonly reportsApiService: ReportsApiService
     ) {
         super();
     }
@@ -89,7 +88,10 @@ export class DailyExpensesComponent extends AbstractReportComponent implements O
         const balances: ExpenseBalance[] = [];
 
         for (const expenseBalance of response.expenseBalances) {
-            const date = this.dateService.format(expenseBalance.balanceAt, getLocaleDateFormat(APP_CONFIG.locale, FormatWidth.Short));
+            const date = this.dateService.format(
+                expenseBalance.balanceAt,
+                getLocaleDateFormat(APP_CONFIG.locale, FormatWidth.Short)
+            );
 
             xAxisData.push(date);
             balances.push(expenseBalance);
@@ -106,13 +108,13 @@ export class DailyExpensesComponent extends AbstractReportComponent implements O
                     segment: {
                         borderDash: (ctx: ScriptableLineSegmentContext) => {
                             if (balances[ctx.p0DataIndex].balanceAt > currentDate) {
-                                return [8, 8]
+                                return [8, 8];
                             }
                         },
-                    }
-                }
+                    },
+                },
             ],
             labels: xAxisData,
-        }
+        };
     }
 }

@@ -1,5 +1,5 @@
-import {Expose, Type} from 'class-transformer';
-import {Category} from './category';
+import { Expose, Type } from 'class-transformer';
+import { Category } from './category';
 
 export class CategoryBalance {
     @Expose()

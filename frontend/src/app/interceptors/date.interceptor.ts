@@ -1,13 +1,12 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import {DatePipe} from '@angular/common';
-import {HttpEvent, HttpHandler, HttpInterceptor, HttpRequest} from '@angular/common/http';
-import {Injectable} from '@angular/core';
-import {Observable} from 'rxjs';
-import {DateUtil} from '../util/date.util';
+import { DatePipe } from '@angular/common';
+import { HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
+import { DateUtil } from '../util/date.util';
 
 @Injectable()
 export class DateInterceptor implements HttpInterceptor {
-
     private datePipe: DatePipe;
 
     constructor() {

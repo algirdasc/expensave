@@ -1,5 +1,5 @@
-import {Expose, Type} from 'class-transformer';
-import {Expense} from '../objects/expense';
+import { Expose, Type } from 'class-transformer';
+import { Expense } from '../objects/expense';
 
 export class ExpenseSuggestResponse {
     @Expose()

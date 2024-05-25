@@ -1,6 +1,6 @@
-import {Expose} from 'class-transformer';
-import {sha256} from 'js-sha256';
-import {EntityInterface} from '../../interfaces/entity.interface';
+import { Expose } from 'class-transformer';
+import { sha256 } from 'js-sha256';
+import { EntityInterface } from '../../interfaces/entity.interface';
 
 export class User implements EntityInterface {
     @Expose()

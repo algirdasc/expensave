@@ -1,25 +1,23 @@
-import {Component, OnInit} from '@angular/core';
-import {ActivatedRoute} from '@angular/router';
-import {Calendar} from '../../api/objects/calendar';
-import {User} from '../../api/objects/user';
-import {ReportsService} from './reports.service';
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { Calendar } from '../../api/objects/calendar';
+import { User } from '../../api/objects/user';
+import { ReportsService } from './reports.service';
 
 @Component({
     templateUrl: 'reports.component.html',
     styleUrl: 'reports.component.scss',
 })
 export class ReportsComponent implements OnInit {
-
     public selectedCalendars: Calendar[] = [];
 
     public constructor(
         public readonly reportsService: ReportsService,
-        private readonly activatedRoute: ActivatedRoute,
-    ) {
-    }
+        private readonly activatedRoute: ActivatedRoute
+    ) {}
 
     public ngOnInit(): void {
-        this.activatedRoute.data.subscribe(({user, calendars}: { user: User, calendars: Calendar[] }) => {
+        this.activatedRoute.data.subscribe(({ user, calendars }: { user: User; calendars: Calendar[] }) => {
             this.reportsService.user = user;
             this.reportsService.calendars = calendars;
 

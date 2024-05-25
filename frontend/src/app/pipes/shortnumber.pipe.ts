@@ -1,13 +1,12 @@
-import {formatNumber} from '@angular/common';
-import {Pipe, PipeTransform} from '@angular/core';
-import {APP_CONFIG} from '../app.initializer';
+import { formatNumber } from '@angular/common';
+import { Pipe, PipeTransform } from '@angular/core';
+import { APP_CONFIG } from '../app.initializer';
 
 @Pipe({
-    name: 'shortNumber'
+    name: 'shortNumber',
 })
 export class ShortNumberPipe implements PipeTransform {
-    public transform(input: number|string, ...args: string[]): string {
-
+    public transform(input: number | string, ...args: string[]): string {
         if (typeof input === 'string') {
             input = parseFloat(input);
         }
@@ -22,11 +21,11 @@ export class ShortNumberPipe implements PipeTransform {
         let key = '';
 
         const powers = [
-            {key: 'Q', value: Math.pow(10, 15), multiply: 1},
-            {key: 'T', value: Math.pow(10, 12), multiply: 1},
-            {key: 'B', value: Math.pow(10, 9), multiply: 1},
-            {key: 'M', value: Math.pow(10, 6), multiply: 1},
-            {key: 'K', value: 10000, multiply: 10},
+            { key: 'Q', value: Math.pow(10, 15), multiply: 1 },
+            { key: 'T', value: Math.pow(10, 12), multiply: 1 },
+            { key: 'B', value: Math.pow(10, 9), multiply: 1 },
+            { key: 'M', value: Math.pow(10, 6), multiply: 1 },
+            { key: 'K', value: 10000, multiply: 10 },
         ];
 
         for (const power of powers) {

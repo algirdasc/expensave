@@ -1,16 +1,16 @@
-import {HttpResponse} from '@angular/common/http';
-import {Injectable} from '@angular/core';
+import { HttpResponse } from '@angular/common/http';
+import { Injectable } from '@angular/core';
 import {
     NbAuthResult,
     NbAuthStrategyClass,
     NbAuthToken,
     NbPasswordAuthStrategy,
     NbPasswordAuthStrategyOptions,
-    passwordStrategyOptions
+    passwordStrategyOptions,
 } from '@nebular/auth';
-import {NbAuthRefreshableToken} from '@nebular/auth/services/token/token';
-import {Observable} from 'rxjs';
-import {catchError, map} from 'rxjs/operators';
+import { NbAuthRefreshableToken } from '@nebular/auth/services/token/token';
+import { Observable } from 'rxjs';
+import { catchError, map } from 'rxjs/operators';
 
 type AuthRefreshToken = NbAuthRefreshableToken & NbAuthToken;
 
@@ -23,21 +23,19 @@ export class AuthStrategy extends NbPasswordAuthStrategy {
         const url = this.getActionEndpoint(module);
         const requireValidToken = this.getOption(`${module}.requireValidToken`);
 
-        return this.http
-            .post(url, { refreshToken: token.getRefreshToken() }, { headers: this.getHeaders() })
-            .pipe(
-                map((response: HttpResponse<{ token: string; refreshToken: string }>) => {
-                    return new NbAuthResult(
-                        true,
-                        response,
-                        this.getOption('redirect.success'),
-                        [],
-                        this.getOption('defaultMessages'),
-                        this.createRefreshedToken(response, token, requireValidToken),
-                    );
-                }),
-                catchError((error: Error) => this.handleResponseError(error, module)),
-            );
+        return this.http.post(url, { refreshToken: token.getRefreshToken() }, { headers: this.getHeaders() }).pipe(
+            map((response: HttpResponse<{ token: string; refreshToken: string }>) => {
+                return new NbAuthResult(
+                    true,
+                    response,
+                    this.getOption('redirect.success'),
+                    [],
+                    this.getOption('defaultMessages'),
+                    this.createRefreshedToken(response, token, requireValidToken)
+                );
+            }),
+            catchError((error: Error) => this.handleResponseError(error, module))
+        );
     }
 
     private createRefreshedToken(

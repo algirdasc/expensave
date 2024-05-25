@@ -1,7 +1,7 @@
-import {Component} from '@angular/core';
-import {NbLoginComponent} from '@nebular/auth';
-import {environment} from '../../../../../environments/environment';
-import {APP_CONFIG} from '../../../../app.initializer';
+import { Component } from '@angular/core';
+import { NbLoginComponent } from '@nebular/auth';
+import { environment } from '../../../../../environments/environment';
+import { APP_CONFIG } from '../../../../app.initializer';
 
 @Component({
     selector: 'app-login',

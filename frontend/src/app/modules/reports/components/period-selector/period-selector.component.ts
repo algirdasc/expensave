@@ -1,8 +1,8 @@
-import {getLocaleFirstDayOfWeek, WeekDay} from '@angular/common';
-import {AfterViewInit, Component, ElementRef, EventEmitter, Input, Output, ViewChild} from '@angular/core';
-import {NbCalendarRange, NbDateService, NbRangepickerComponent} from '@nebular/theme';
-import {APP_CONFIG} from '../../../../app.initializer';
-import {DateUtil} from '../../../../util/date.util';
+import { getLocaleFirstDayOfWeek, WeekDay } from '@angular/common';
+import { AfterViewInit, Component, ElementRef, EventEmitter, Input, Output, ViewChild } from '@angular/core';
+import { NbCalendarRange, NbDateService, NbRangepickerComponent } from '@nebular/theme';
+import { APP_CONFIG } from '../../../../app.initializer';
+import { DateUtil } from '../../../../util/date.util';
 
 export enum PeriodEnum {
     THIS_WEEK = 'week',
@@ -29,10 +29,8 @@ export class PeriodSelectorComponent implements AfterViewInit {
     @ViewChild('rangePicker') rangePicker: NbRangepickerComponent<Date>;
     @ViewChild('customDateRange') customDateRangeButton: ElementRef;
 
-    public constructor(
-        private readonly dateService: NbDateService<Date>,
-    ) {
-       this.firstDayOfWeek = getLocaleFirstDayOfWeek(APP_CONFIG.locale);
+    public constructor(private readonly dateService: NbDateService<Date>) {
+        this.firstDayOfWeek = getLocaleFirstDayOfWeek(APP_CONFIG.locale);
     }
 
     public ngAfterViewInit(): void {
@@ -52,41 +50,47 @@ export class PeriodSelectorComponent implements AfterViewInit {
 
         switch (period) {
             case PeriodEnum.THIS_WEEK:
-                this.dateRange = <NbCalendarRange<Date>> {
+                this.dateRange = <NbCalendarRange<Date>>{
                     start: DateUtil.firstDayOfWeek(currentDate, this.firstDayOfWeek),
                     end: DateUtil.firstDayOfWeek(currentDate, this.firstDayOfWeek + 6),
-                }
+                };
 
                 this.dateRangeChange.emit(this.dateRange);
                 break;
             case PeriodEnum.LAST_MONTH:
-                this.dateRange = <NbCalendarRange<Date>> {
+                this.dateRange = <NbCalendarRange<Date>>{
                     start: this.dateService.createDate(lastMonth.getFullYear(), lastMonth.getMonth(), 1),
-                    end: DateUtil.endOfTheDay(this.dateService.createDate(lastMonth.getFullYear(), lastMonth.getMonth() + 1, 0)),
-                }
+                    end: DateUtil.endOfTheDay(
+                        this.dateService.createDate(lastMonth.getFullYear(), lastMonth.getMonth() + 1, 0)
+                    ),
+                };
 
                 this.dateRangeChange.emit(this.dateRange);
                 break;
             case PeriodEnum.THIS_MONTH:
-                this.dateRange = <NbCalendarRange<Date>> {
+                this.dateRange = <NbCalendarRange<Date>>{
                     start: this.dateService.createDate(currentDate.getFullYear(), currentDate.getMonth(), 1),
-                    end: DateUtil.endOfTheDay(this.dateService.createDate(currentDate.getFullYear(), currentDate.getMonth() + 1, 0)),
-                }
+                    end: DateUtil.endOfTheDay(
+                        this.dateService.createDate(currentDate.getFullYear(), currentDate.getMonth() + 1, 0)
+                    ),
+                };
 
                 this.dateRangeChange.emit(this.dateRange);
                 break;
             case PeriodEnum.THIS_YEAR:
-                this.dateRange = <NbCalendarRange<Date>> {
+                this.dateRange = <NbCalendarRange<Date>>{
                     start: this.dateService.createDate(currentDate.getFullYear(), 0, 1),
                     end: DateUtil.endOfTheDay(this.dateService.createDate(currentDate.getFullYear(), 11, 31)),
-                }
+                };
 
                 this.dateRangeChange.emit(this.dateRange);
                 break;
             case PeriodEnum.LIFETIME:
-                this.dateRange = <NbCalendarRange<Date>> {
-                    end: DateUtil.endOfTheDay(this.dateService.createDate(currentDate.getFullYear(), currentDate.getMonth() + 1, 0)),
-                }
+                this.dateRange = <NbCalendarRange<Date>>{
+                    end: DateUtil.endOfTheDay(
+                        this.dateService.createDate(currentDate.getFullYear(), currentDate.getMonth() + 1, 0)
+                    ),
+                };
 
                 this.dateRangeChange.emit(this.dateRange);
                 break;
