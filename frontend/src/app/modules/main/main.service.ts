@@ -47,8 +47,7 @@ export class MainService {
                             && this.dateService.isSameMonthSafe(this.visibleDate, balance.balanceAt)
                     })
                     .forEach((balance: ExpenseBalance) => {
-                        this.visibleDateBalance += balance.income;
-                        this.visibleDateBalance += balance.expense;
+                        this.visibleDateBalance += balance.change;
                     });
             })
         ;

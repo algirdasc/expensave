@@ -3,6 +3,6 @@
         <div *ngIf="hasUnconfirmedExpenses" class="unconfirmed-expenses me-2"></div>
         <strong>{{ day }}</strong>
     </div>
-    <small class="d-block" *ngIf="expenseBalance?.expense || (expenseBalance && isCellSelected)">{{ expenseBalance.expense | shortNumber:'.0-0' }}</small>
-    <small class="d-block" *ngIf="expenseBalance?.expense || (expenseBalance && isCellSelected)">{{ expenseBalance.balance | shortNumber:'.0-0' }}</small>
+    <small class="d-block" *ngIf="expenseBalance?.change || (expenseBalance && isCellSelected)">{{ expenseBalance.change | shortNumber:'.0-0' }}</small>
+    <small class="d-block" *ngIf="expenseBalance?.balance || (expenseBalance && isCellSelected)">{{ expenseBalance.balance | shortNumber:'.0-0' }}</small>
 </div>
