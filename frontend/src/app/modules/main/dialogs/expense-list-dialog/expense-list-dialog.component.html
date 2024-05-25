@@ -3,26 +3,23 @@
         {{ visibleDate | date: 'mediumDate'}}
     </nb-card-header>
     <nb-card-body class="p-0">
-        <nb-list>
-            <nb-list-item>
-                <h6 class="text-muted text-uppercase">Confirmed transactions</h6>
-            </nb-list-item>
-            <nb-list-item
-                class="actionable"
-                *ngFor="let expense of expenses"
-                (click)="openExpense(expense)">
-                <nb-icon
-                    icon="checkmark-circle-2"
-                    class="flex-shrink-0 me-2"
-                    [ngStyle]="{'color': expense.category?.color}"></nb-icon>
-                <div class="text-truncate w-100 mx-3">
-                    {{ expense.label }}
-                </div>
-                <span>{{ expense.amount | shortNumber }}</span>
-            </nb-list-item>
-        </nb-list>
+        <app-expense-list-items
+            header="UNCONFIRMED TRANSACTIONS"
+            [expenses]="unconfirmedExpenses"
+            (expenseClick)="editExpense($event)"
+            icon="radio-button-off" />
+        <app-expense-list-items
+            header="CONFIRMED TRANSACTIONS"
+            [expenses]="confirmedExpenses"
+            (expenseClick)="editExpense($event)" />
     </nb-card-body>
-    <nb-card-footer class="text-right">
-        Daily change:
+    <nb-card-footer class="d-flex justify-content-between align-items-center">
+        <div>
+            <a href="#" (click)="$event.preventDefault(); createExpense()">Add new transaction</a>
+        </div>
+        <div class="text-center">
+            <small class="d-block text-hint">DAILY CHANGE</small>
+            {{ totalExpensesAmount | shortNumber }}
+        </div>
     </nb-card-footer>
 </nb-card>

@@ -62,6 +62,7 @@ import {ConfirmDialogComponent} from './dialogs/confirm-dialog/confirm-dialog.co
 import {DatepickerDialogComponent} from './dialogs/datepicker-dialog/datepicker-dialog.component';
 import {ExpenseDialogComponent} from './dialogs/expense-dialog/expense-dialog.component';
 import {ExpenseListDialogComponent} from './dialogs/expense-list-dialog/expense-list-dialog.component';
+import {ExpenseListItemsComponent} from './dialogs/expense-list-dialog/expense-list-items.component';
 import {InputDialogComponent} from './dialogs/input-dialog/input-dialog.component';
 import {ProfileDialogComponent} from './dialogs/profile-dialog/profile-dialog.component';
 import {StatementImportDialogComponent} from './dialogs/statement-import-dialog/statement-import-dialog.component';
@@ -94,6 +95,7 @@ import {MainService} from './main.service';
         ConfirmDialogComponent,
         ExpenseDialogComponent,
         ExpenseListDialogComponent,
+        ExpenseListItemsComponent,
         ProfileDialogComponent,
         CategoriesDialogComponent,
         CalendarsDialogComponent,
