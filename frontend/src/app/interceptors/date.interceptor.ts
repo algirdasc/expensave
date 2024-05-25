@@ -35,7 +35,6 @@ export class DateInterceptor implements HttpInterceptor {
             const value = body[key];
             if (value instanceof Date) {
                 body[key] = this.datePipe.transform(body[key], DateUtil.DATE_TIME_FORMAT);
-                console.log(key, body[key]);
             } else if (typeof value === 'object') {
                 this.shiftDates(value);
             }

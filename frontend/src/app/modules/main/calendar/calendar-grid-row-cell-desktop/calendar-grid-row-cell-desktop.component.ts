@@ -51,8 +51,10 @@ export class CalendarGridRowCellDesktopComponent extends NbCalendarDayCellCompon
     public openInvisibleExpenses(): void {
         this.dialogService.open(ExpenseListDialogComponent, {
                 context: {
+                    calendar: this.calendar,
                     visibleDate: this.visibleDate,
                     expenses: this.expenses,
+                    calendarService: this.calendarService,
                 }
             }
         );
