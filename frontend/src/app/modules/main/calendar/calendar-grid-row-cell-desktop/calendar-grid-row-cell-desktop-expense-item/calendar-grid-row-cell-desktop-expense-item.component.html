@@ -1,8 +1,9 @@
 <div class="expense-overlay" [style.background-color]="expense.category?.color ?? UNCATEGORIZED_COLOR"></div>
 
-<div class="expense-category"
-     [style.border-color]="expense.category?.color ?? UNCATEGORIZED_COLOR"
-     [style.background-color]="expense.confirmed ? (expense.category?.color ?? UNCATEGORIZED_COLOR) : undefined"></div>
+<div
+    class="expense-category"
+    [style.border-color]="expense.category?.color ?? UNCATEGORIZED_COLOR"
+    [style.background-color]="expense.confirmed ? expense.category?.color ?? UNCATEGORIZED_COLOR : undefined"></div>
 
 <div class="expense-label text-truncate">
     {{ expense.label }}

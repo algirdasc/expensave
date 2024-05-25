@@ -16,27 +16,29 @@
                         <nb-icon nbPrefix icon="pricetags-outline"></nb-icon>
                         <input
                             #categoryName="ngModel"
-                            nbInput fullWidth
-                            maxlength="255" required
+                            nbInput
+                            fullWidth
+                            maxlength="255"
+                            required
                             placeholder="Category name"
-                            [(ngModel)]="category.name" name="name"
-                            [status]="categoryName.dirty ? (categoryName.invalid  ? 'danger' : 'success') : 'basic'" />
+                            [(ngModel)]="category.name"
+                            name="name"
+                            [status]="categoryName.dirty ? (categoryName.invalid ? 'danger' : 'success') : 'basic'" />
                     </nb-form-field>
                 </div>
             </div>
             <div class="color-picker">
-                <div class="color-picker-color d-flex justify-content-center align-items-center m-1"
-                     *ngFor="let color of colors"
-                     (click)="category.color = color"
-                     [style.background-color]="color">
-                    <nb-icon icon="radio-button-on"
-                             *ngIf="category.color !== color && usedColors[color]"
-                             style="color: white; opacity: 0.5">
+                <div
+                    class="color-picker-color d-flex justify-content-center align-items-center m-1"
+                    *ngFor="let color of colors"
+                    (click)="category.color = color"
+                    [style.background-color]="color">
+                    <nb-icon
+                        icon="radio-button-on"
+                        *ngIf="category.color !== color && usedColors[color]"
+                        style="color: white; opacity: 0.5">
                     </nb-icon>
-                    <nb-icon icon="checkmark-outline"
-                             *ngIf="category.color === color"
-                             style="color: white;">
-                    </nb-icon>
+                    <nb-icon icon="checkmark-outline" *ngIf="category.color === color" style="color: white"> </nb-icon>
                 </div>
                 <div class="clearfix"></div>
             </div>

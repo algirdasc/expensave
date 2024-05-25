@@ -1,4 +1,4 @@
-import {Expose, Type} from 'class-transformer';
+import { Expose, Type } from 'class-transformer';
 
 export class ExpenseBalance {
     @Expose()

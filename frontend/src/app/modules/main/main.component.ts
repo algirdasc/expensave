@@ -1,17 +1,17 @@
-import {Component, NgZone, OnInit} from '@angular/core';
-import {ActivatedRoute, Router} from '@angular/router';
-import {NbDateService, NbMediaBreakpointsService, NbSidebarService} from '@nebular/theme';
-import {ResizedEvent} from 'angular-resize-event';
-import {ExpenseApiService} from '../../api/expense.api.service';
-import {Calendar} from '../../api/objects/calendar';
-import {User} from '../../api/objects/user';
-import {SwipeEvent} from '../../interfaces/swipe.interface';
-import {DateUtil} from '../../util/date.util';
-import {MainService, SIDEBAR_TAG} from './main.service';
+import { Component, NgZone, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { NbDateService, NbMediaBreakpointsService, NbSidebarService } from '@nebular/theme';
+import { ResizedEvent } from 'angular-resize-event';
+import { ExpenseApiService } from '../../api/expense.api.service';
+import { Calendar } from '../../api/objects/calendar';
+import { User } from '../../api/objects/user';
+import { SwipeEvent } from '../../interfaces/swipe.interface';
+import { DateUtil } from '../../util/date.util';
+import { MainService, SIDEBAR_TAG } from './main.service';
 
 @Component({
     templateUrl: 'main.component.html',
-    styleUrls: ['main.component.scss']
+    styleUrls: ['main.component.scss'],
 })
 export class MainComponent implements OnInit {
     public isBusy: boolean = false;
@@ -25,18 +25,19 @@ export class MainComponent implements OnInit {
         private readonly dateService: NbDateService<Date>,
         private readonly zone: NgZone,
         private readonly sidebarService: NbSidebarService,
-        public readonly mainService: MainService,
+        public readonly mainService: MainService
     ) {
-        this.expenseApiService.onBusyChange.subscribe((isBusy: boolean) => this.isBusy = isBusy);
+        this.expenseApiService.onBusyChange.subscribe((isBusy: boolean) => (this.isBusy = isBusy));
     }
 
     public ngOnInit(): void {
-        this.activatedRoute.data.subscribe(({ user, calendars }: { user: User, calendars: Calendar[] }) => {
+        this.activatedRoute.data.subscribe(({ user, calendars }: { user: User; calendars: Calendar[] }) => {
             this.mainService.user = user;
             this.mainService.calendars = calendars;
-            this.mainService.calendar = this.mainService.calendars.filter((calendar: Calendar) => {
-                return calendar.id === user.defaultCalendarId;
-            })[0] || this.mainService.calendars[0];
+            this.mainService.calendar =
+                this.mainService.calendars.filter((calendar: Calendar) => {
+                    return calendar.id === user.defaultCalendarId;
+                })[0] || this.mainService.calendars[0];
         });
 
         this.activatedRoute.queryParams.subscribe(({ date }: { date?: string }) => {
@@ -51,24 +52,27 @@ export class MainComponent implements OnInit {
     }
 
     public onResized(event: ResizedEvent): void {
-        this.isMobile = this.breakpointService.getByName('md').width > event.newRect.width
+        this.isMobile = this.breakpointService.getByName('md').width > event.newRect.width;
     }
 
     public onSwipeEnd(event: SwipeEvent): void {
         if (event.direction === 'x') {
             this.zone.run(() => {
-                const newVisibleDate = this.dateService.addMonth(this.mainService.visibleDate, event.distance < 0 ? 1 : -1);
+                const newVisibleDate = this.dateService.addMonth(
+                    this.mainService.visibleDate,
+                    event.distance < 0 ? 1 : -1
+                );
                 this.router.navigate(['.'], {
                     relativeTo: this.activatedRoute,
                     queryParams: { date: this.dateService.format(newVisibleDate, DateUtil.MONTH_DAY_FORMAT) },
                     queryParamsHandling: 'merge',
                     replaceUrl: true,
-                })
+                });
             });
         }
     }
 
-    public onRangeChange({ dateFrom, dateTo} : { dateFrom: Date, dateTo: Date }): void {
+    public onRangeChange({ dateFrom, dateTo }: { dateFrom: Date; dateTo: Date }): void {
         this.mainService.calendarDateFrom = dateFrom;
         this.mainService.calendarDateTo = dateTo;
 
@@ -80,13 +84,11 @@ export class MainComponent implements OnInit {
     }
 
     public onSidebarOutsideClick(): void {
-        this.sidebarService
-            .getSidebarState(SIDEBAR_TAG)
-            .subscribe(state => {
-                if (state !== 'collapsed') {
-                    this.sidebarService.collapse(SIDEBAR_TAG);
-                }
-            });
+        this.sidebarService.getSidebarState(SIDEBAR_TAG).subscribe(state => {
+            if (state !== 'collapsed') {
+                this.sidebarService.collapse(SIDEBAR_TAG);
+            }
+        });
     }
 
     protected readonly SIDEBAR_TAG = SIDEBAR_TAG;

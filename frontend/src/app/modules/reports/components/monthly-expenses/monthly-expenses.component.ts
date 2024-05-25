@@ -1,21 +1,20 @@
-import {FormStyle, getLocaleMonthNames, TranslationWidth} from '@angular/common';
-import {Component, OnChanges, OnInit} from '@angular/core';
-import {NbCalendarRange, NbDateService} from '@nebular/theme';
-import {ChartConfiguration,} from 'chart.js';
-import {ReportsApiService} from '../../../../api/reports.api.service';
-import {ExpenseReportResponse} from '../../../../api/response/expense-report.response';
-import {APP_CONFIG} from '../../../../app.initializer';
-import {ShortNumberPipe} from '../../../../pipes/shortnumber.pipe';
-import {DateUtil} from '../../../../util/date.util';
-import {AbstractReportComponent} from '../abstract-report.component';
-import {chartTooltipHandler} from './monthly-expenses-tooltip';
+import { FormStyle, getLocaleMonthNames, TranslationWidth } from '@angular/common';
+import { Component, OnChanges, OnInit } from '@angular/core';
+import { NbCalendarRange, NbDateService } from '@nebular/theme';
+import { ChartConfiguration } from 'chart.js';
+import { ReportsApiService } from '../../../../api/reports.api.service';
+import { ExpenseReportResponse } from '../../../../api/response/expense-report.response';
+import { APP_CONFIG } from '../../../../app.initializer';
+import { ShortNumberPipe } from '../../../../pipes/shortnumber.pipe';
+import { DateUtil } from '../../../../util/date.util';
+import { AbstractReportComponent } from '../abstract-report.component';
+import { chartTooltipHandler } from './monthly-expenses-tooltip';
 
 @Component({
     selector: 'app-reports-monthly-expenses',
-    templateUrl: 'monthly-expenses.component.html'
+    templateUrl: 'monthly-expenses.component.html',
 })
 export class MonthlyExpensesComponent extends AbstractReportComponent implements OnInit, OnChanges {
-
     public income: number = 0;
     public expense: number = 0;
     public change: number = 0;
@@ -28,8 +27,8 @@ export class MonthlyExpensesComponent extends AbstractReportComponent implements
                     dash: [5],
                 },
                 ticks: {
-                    callback: (value: string|number) => (new ShortNumberPipe()).transform(value)
-                }
+                    callback: (value: string | number) => new ShortNumberPipe().transform(value),
+                },
             },
         },
         interaction: {
@@ -71,7 +70,7 @@ export class MonthlyExpensesComponent extends AbstractReportComponent implements
     }
 
     public navigateTo(date: Date): void {
-        this.dateRange = <NbCalendarRange<Date>> {
+        this.dateRange = <NbCalendarRange<Date>>{
             start: this.dateService.getYearStart(date),
             end: DateUtil.endOfTheDay(this.dateService.getYearEnd(date)),
         };
@@ -81,7 +80,7 @@ export class MonthlyExpensesComponent extends AbstractReportComponent implements
 
     public constructor(
         protected readonly reportsApiService: ReportsApiService,
-        private readonly dateService: NbDateService<Date>,
+        private readonly dateService: NbDateService<Date>
     ) {
         super();
     }
@@ -94,7 +93,9 @@ export class MonthlyExpensesComponent extends AbstractReportComponent implements
     }
 
     protected parseReport(response: ExpenseReportResponse): void {
-        const xAxisData: string[] = [...getLocaleMonthNames(APP_CONFIG.locale, FormStyle.Format, TranslationWidth.Short)];
+        const xAxisData: string[] = [
+            ...getLocaleMonthNames(APP_CONFIG.locale, FormStyle.Format, TranslationWidth.Short),
+        ];
         const incomeData: number[] = [];
         const expenseData: number[] = [];
 
@@ -118,9 +119,9 @@ export class MonthlyExpensesComponent extends AbstractReportComponent implements
                     data: expenseData,
                     label: 'Expense',
                     backgroundColor: '#FF3D71',
-                }
+                },
             ],
             labels: xAxisData,
-        }
+        };
     }
 }

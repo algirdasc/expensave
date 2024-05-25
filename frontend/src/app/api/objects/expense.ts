@@ -1,11 +1,10 @@
-import {Expose, Type} from 'class-transformer';
-import {EntityInterface} from '../../interfaces/entity.interface';
-import {Calendar} from './calendar';
-import {Category} from './category';
-import {User} from './user';
+import { Expose, Type } from 'class-transformer';
+import { EntityInterface } from '../../interfaces/entity.interface';
+import { Calendar } from './calendar';
+import { Category } from './category';
+import { User } from './user';
 
 export class Expense implements EntityInterface {
-
     @Expose()
     public id: number;
 
@@ -29,7 +28,7 @@ export class Expense implements EntityInterface {
 
     @Expose()
     @Type(() => Category)
-    public category: Category|null;
+    public category: Category | null;
 
     @Expose()
     public confirmed: boolean;

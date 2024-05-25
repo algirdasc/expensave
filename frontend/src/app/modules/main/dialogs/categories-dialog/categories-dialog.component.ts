@@ -1,7 +1,7 @@
-import {Component, OnInit} from '@angular/core';
-import {NbDialogRef} from '@nebular/theme';
-import {CategoryApiService} from '../../../../api/category.api.service';
-import {Category} from '../../../../api/objects/category';
+import { Component, OnInit } from '@angular/core';
+import { NbDialogRef } from '@nebular/theme';
+import { CategoryApiService } from '../../../../api/category.api.service';
+import { Category } from '../../../../api/objects/category';
 
 @Component({
     templateUrl: 'categories-dialog.component.html',
@@ -16,10 +16,10 @@ export class CategoriesDialogComponent implements OnInit {
     public editableCategory: Category;
 
     constructor(
-      public readonly dialogRef: NbDialogRef<CategoriesDialogComponent>,
-      private readonly categoryApiService: CategoryApiService
+        public readonly dialogRef: NbDialogRef<CategoriesDialogComponent>,
+        private readonly categoryApiService: CategoryApiService
     ) {
-        this.categoryApiService.onBusyChange.subscribe((isBusy: boolean) => this.isBusy = isBusy);
+        this.categoryApiService.onBusyChange.subscribe((isBusy: boolean) => (this.isBusy = isBusy));
     }
 
     public ngOnInit(): void {
@@ -27,11 +27,11 @@ export class CategoriesDialogComponent implements OnInit {
     }
 
     public categoryClick(category: Category): void {
-      if (!this.isSelectable) {
-        this.editCategory(category);
-      } else {
-        this.dialogRef.close(category);
-      }
+        if (!this.isSelectable) {
+            this.editCategory(category);
+        } else {
+            this.dialogRef.close(category);
+        }
     }
 
     public editCategory(category?: Category): void {
@@ -39,19 +39,13 @@ export class CategoriesDialogComponent implements OnInit {
     }
 
     public saveCategory(category: Category): void {
-        this.categoryApiService
-            .save(category)
-            .subscribe(() => {
-                this.editableCategory = undefined;
-                this.fetch();
-            })
-        ;
+        this.categoryApiService.save(category).subscribe(() => {
+            this.editableCategory = undefined;
+            this.fetch();
+        });
     }
 
     public fetch(): void {
-        this.categoryApiService
-            .list()
-            .subscribe((categories: Category[]) => this.categories = categories)
-        ;
+        this.categoryApiService.list().subscribe((categories: Category[]) => (this.categories = categories));
     }
 }

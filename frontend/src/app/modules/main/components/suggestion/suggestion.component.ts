@@ -1,11 +1,11 @@
-import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
-import {Subject} from 'rxjs';
-import {debounceTime, distinctUntilChanged} from 'rxjs/operators';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
+import { Subject } from 'rxjs';
+import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 
 @Component({
     selector: 'app-input-suggestion',
     templateUrl: 'suggestion.component.html',
-    styleUrls: ['suggestion.component.scss']
+    styleUrls: ['suggestion.component.scss'],
 })
 export class SuggestionComponent implements OnInit, OnChanges {
     @Input() public input: string = '';
@@ -21,7 +21,7 @@ export class SuggestionComponent implements OnInit, OnChanges {
     get suggestion(): string {
         if (this.input && this._suggestion) {
             const suggestionSubstring = this._suggestion.substring(0, this.input.length);
-            if (this.input.localeCompare(suggestionSubstring, undefined, {sensitivity: 'base'}) === 0) {
+            if (this.input.localeCompare(suggestionSubstring, undefined, { sensitivity: 'base' }) === 0) {
                 return this._suggestion.substring(this.input.length);
             }
         }
@@ -29,7 +29,7 @@ export class SuggestionComponent implements OnInit, OnChanges {
         return '';
     }
 
-    set suggestion(value: string|null) {
+    set suggestion(value: string | null) {
         this._suggestion = value === null ? '' : value;
     }
 
@@ -40,14 +40,9 @@ export class SuggestionComponent implements OnInit, OnChanges {
     }
 
     public ngOnInit(): void {
-        this.suggestionSubject
-            .pipe(
-                distinctUntilChanged(),
-                debounceTime(300)
-            )
-            .subscribe((input: string) => {
-                this.inputChanged.emit(input);
-            });
+        this.suggestionSubject.pipe(distinctUntilChanged(), debounceTime(300)).subscribe((input: string) => {
+            this.inputChanged.emit(input);
+        });
     }
 
     public ngOnChanges(changes: SimpleChanges): void {

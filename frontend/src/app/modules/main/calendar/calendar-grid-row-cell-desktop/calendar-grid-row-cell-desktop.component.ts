@@ -1,20 +1,23 @@
-import {Component} from '@angular/core';
-import {NbCalendarDayCellComponent, NbDateService, NbDialogService} from '@nebular/theme';
-import {ResizedEvent} from 'angular-resize-event';
-import {Calendar} from '../../../../api/objects/calendar';
-import {Expense} from '../../../../api/objects/expense';
-import {ExpenseBalance} from '../../../../api/objects/expense-balance';
-import {ExpenseListDialogComponent} from '../../dialogs/expense-list-dialog/expense-list-dialog.component';
-import {CalendarService} from '../calendar.service';
-import {CalendarCellInterface} from '../interfaces/calendar-cell.interface';
+import { Component } from '@angular/core';
+import { NbCalendarDayCellComponent, NbDateService, NbDialogService } from '@nebular/theme';
+import { ResizedEvent } from 'angular-resize-event';
+import { Calendar } from '../../../../api/objects/calendar';
+import { Expense } from '../../../../api/objects/expense';
+import { ExpenseBalance } from '../../../../api/objects/expense-balance';
+import { ExpenseListDialogComponent } from '../../dialogs/expense-list-dialog/expense-list-dialog.component';
+import { CalendarService } from '../calendar.service';
+import { CalendarCellInterface } from '../interfaces/calendar-cell.interface';
 
 export const EXPENSE_LIST_ITEM_HEIGHT = 21;
 
 @Component({
     templateUrl: 'calendar-grid-row-cell-desktop.component.html',
-    styleUrls: ['calendar-grid-row-cell-desktop.component.scss']
+    styleUrls: ['calendar-grid-row-cell-desktop.component.scss'],
 })
-export class CalendarGridRowCellDesktopComponent extends NbCalendarDayCellComponent<Date> implements CalendarCellInterface {
+export class CalendarGridRowCellDesktopComponent
+    extends NbCalendarDayCellComponent<Date>
+    implements CalendarCellInterface
+{
     public calendar: Calendar;
     public expenseBalance: ExpenseBalance;
     public expenses: Expense[];
@@ -24,7 +27,7 @@ export class CalendarGridRowCellDesktopComponent extends NbCalendarDayCellCompon
     constructor(
         public dateService: NbDateService<Date>,
         public calendarService: CalendarService,
-        private dialogService: NbDialogService,
+        private dialogService: NbDialogService
     ) {
         super(dateService);
     }
@@ -50,13 +53,12 @@ export class CalendarGridRowCellDesktopComponent extends NbCalendarDayCellCompon
 
     public openInvisibleExpenses(): void {
         this.dialogService.open(ExpenseListDialogComponent, {
-                context: {
-                    calendar: this.calendar,
-                    visibleDate: this.visibleDate,
-                    expenses: this.expenses,
-                    calendarService: this.calendarService,
-                }
-            }
-        );
+            context: {
+                calendar: this.calendar,
+                visibleDate: this.visibleDate,
+                expenses: this.expenses,
+                calendarService: this.calendarService,
+            },
+        });
     }
 }

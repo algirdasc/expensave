@@ -3,7 +3,7 @@
     "version": "0.0.23",
     "scripts": {
         "dev": "ng serve --host 0.0.0.0 --port 18002 --disable-host-check",
-        "analyze": "eslint src/",
+        "analyze": "eslint",
         "build": "ng build --configuration production"
     },
     "private": true,
@@ -54,6 +54,10 @@
         "@typescript-eslint/eslint-plugin": "^7.9.0",
         "@typescript-eslint/parser": "^7.9.0",
         "eslint": "^8.57.0",
+        "eslint-config-prettier": "^9.1.0",
+        "eslint-plugin-prettier": "^5.1.3",
+        "prettier": "^3.2.5",
+        "prettier-eslint": "^16.3.0",
         "ts-node": "~7.0.0",
         "typescript": "~5.4.5"
     }

@@ -1,19 +1,18 @@
-import {Component, OnChanges} from '@angular/core';
-import {ChartConfiguration} from 'chart.js';
-import {ReportsApiService} from '../../../../api/reports.api.service';
-import {CategoryExpenseReportResponse} from '../../../../api/response/category-expense-report.response';
-import {ShortNumberPipe} from '../../../../pipes/shortnumber.pipe';
-import {UNCATEGORIZED_COLOR} from '../../../../util/color.util';
-import {AbstractReportComponent} from '../abstract-report.component';
-import {PeriodEnum} from '../period-selector/period-selector.component';
-import {chartTooltipHandler} from './category-expenses-tooltip';
+import { Component, OnChanges } from '@angular/core';
+import { ChartConfiguration } from 'chart.js';
+import { ReportsApiService } from '../../../../api/reports.api.service';
+import { CategoryExpenseReportResponse } from '../../../../api/response/category-expense-report.response';
+import { ShortNumberPipe } from '../../../../pipes/shortnumber.pipe';
+import { UNCATEGORIZED_COLOR } from '../../../../util/color.util';
+import { AbstractReportComponent } from '../abstract-report.component';
+import { PeriodEnum } from '../period-selector/period-selector.component';
+import { chartTooltipHandler } from './category-expenses-tooltip';
 
 @Component({
     selector: 'app-reports-category-expenses',
-    templateUrl: 'category-expenses.component.html'
+    templateUrl: 'category-expenses.component.html',
 })
 export class CategoryExpensesComponent extends AbstractReportComponent implements OnChanges {
-
     public barChartOptions: ChartConfiguration['options'] = {
         responsive: true,
         indexAxis: 'y',
@@ -23,7 +22,7 @@ export class CategoryExpensesComponent extends AbstractReportComponent implement
                     dash: [5],
                 },
                 ticks: {
-                    callback: (value: string|number) => (new ShortNumberPipe()).transform(value)
+                    callback: (value: string | number) => new ShortNumberPipe().transform(value),
                 },
             },
             y: {
@@ -41,13 +40,13 @@ export class CategoryExpensesComponent extends AbstractReportComponent implement
         },
         plugins: {
             legend: {
-                display: false
+                display: false,
             },
             tooltip: {
                 enabled: false,
                 position: 'average',
-                external: chartTooltipHandler
-            }
+                external: chartTooltipHandler,
+            },
         },
     };
 
@@ -58,9 +57,7 @@ export class CategoryExpensesComponent extends AbstractReportComponent implement
     protected PeriodEnum = PeriodEnum;
     protected reportsApiMethod: string = 'categoryExpenses';
 
-    public constructor(
-        protected readonly reportsApiService: ReportsApiService,
-    ) {
+    public constructor(protected readonly reportsApiService: ReportsApiService) {
         super();
     }
 
@@ -87,8 +84,8 @@ export class CategoryExpensesComponent extends AbstractReportComponent implement
                 {
                     data: absoluteExpenseValues,
                     backgroundColor: backgroundColors,
-                }
+                },
             ],
-        }
+        };
     }
 }

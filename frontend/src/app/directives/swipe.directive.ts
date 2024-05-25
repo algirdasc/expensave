@@ -1,10 +1,10 @@
-import {Directive, ElementRef, EventEmitter, NgZone, OnDestroy, OnInit, Output} from '@angular/core';
-import {Subscription} from 'rxjs';
-import {SwipeEvent} from '../interfaces/swipe.interface';
-import {createSwipeSubscription} from './swipe/swipe.core';
+import { Directive, ElementRef, EventEmitter, NgZone, OnDestroy, OnInit, Output } from '@angular/core';
+import { Subscription } from 'rxjs';
+import { SwipeEvent } from '../interfaces/swipe.interface';
+import { createSwipeSubscription } from './swipe/swipe.core';
 
 @Directive({
-    selector: '[appSwipe]'
+    selector: '[appSwipe]',
 })
 export class SwipeDirective implements OnInit, OnDestroy {
     private swipeSubscription: Subscription | undefined;
@@ -22,7 +22,7 @@ export class SwipeDirective implements OnInit, OnDestroy {
             this.swipeSubscription = createSwipeSubscription({
                 domElement: this.elementRef.nativeElement,
                 onSwipeMove: (swipeMoveEvent: SwipeEvent) => this.swipeMove.emit(swipeMoveEvent),
-                onSwipeEnd: (swipeEndEvent: SwipeEvent) => this.swipeEnd.emit(swipeEndEvent)
+                onSwipeEnd: (swipeEndEvent: SwipeEvent) => this.swipeEnd.emit(swipeEndEvent),
             });
         });
     }

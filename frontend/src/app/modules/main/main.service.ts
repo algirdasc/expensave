@@ -1,12 +1,12 @@
-import {Injectable} from '@angular/core';
-import {Title} from '@angular/platform-browser';
-import {NbDateService} from '@nebular/theme';
-import {CalendarApiService} from '../../api/calendar.api.service';
-import {Calendar} from '../../api/objects/calendar';
-import {Expense} from '../../api/objects/expense';
-import {ExpenseBalance} from '../../api/objects/expense-balance';
-import {User} from '../../api/objects/user';
-import {CalendarExpenseListResponse} from '../../api/response/calendar-expense-list.response';
+import { Injectable } from '@angular/core';
+import { Title } from '@angular/platform-browser';
+import { NbDateService } from '@nebular/theme';
+import { CalendarApiService } from '../../api/calendar.api.service';
+import { Calendar } from '../../api/objects/calendar';
+import { Expense } from '../../api/objects/expense';
+import { ExpenseBalance } from '../../api/objects/expense-balance';
+import { User } from '../../api/objects/user';
+import { CalendarExpenseListResponse } from '../../api/response/calendar-expense-list.response';
 
 @Injectable()
 export class MainService {
@@ -24,9 +24,8 @@ export class MainService {
     constructor(
         private readonly calendarApiService: CalendarApiService,
         private readonly dateService: NbDateService<Date>,
-        private readonly title: Title,
-    ) {
-    }
+        private readonly title: Title
+    ) {}
 
     public refreshCalendar(calendar?: Calendar): void {
         if ((!this.calendar && calendar) || !this.calendarDateFrom || !this.calendarDateTo) {
@@ -43,14 +42,15 @@ export class MainService {
                 this.visibleDateBalance = 0;
                 response.expenseBalances
                     .filter((balance: ExpenseBalance) => {
-                        return this.dateService.isSameYearSafe(this.visibleDate, balance.balanceAt)
-                            && this.dateService.isSameMonthSafe(this.visibleDate, balance.balanceAt)
+                        return (
+                            this.dateService.isSameYearSafe(this.visibleDate, balance.balanceAt) &&
+                            this.dateService.isSameMonthSafe(this.visibleDate, balance.balanceAt)
+                        );
                     })
                     .forEach((balance: ExpenseBalance) => {
                         this.visibleDateBalance += balance.change;
                     });
-            })
-        ;
+            });
     }
 
     get calendar(): Calendar {

@@ -1,5 +1,4 @@
 <nb-layout>
-
     <nb-layout-header fixed>
         <app-header
             [calendar]="mainService.calendar"
@@ -8,10 +7,12 @@
         </app-header>
     </nb-layout-header>
 
-    <nb-layout-column class="p-0 p-sm-3"
-                      [nbSpinner]="isBusy"
-                      (resized)="onResized($event)"
-                      appSwipe (swipeEnd)="onSwipeEnd($event)">
+    <nb-layout-column
+        class="p-0 p-sm-3"
+        [nbSpinner]="isBusy"
+        (resized)="onResized($event)"
+        appSwipe
+        (swipeEnd)="onSwipeEnd($event)">
         <app-calendar
             [calendar]="mainService.calendar"
             [expenses]="mainService.expenses"
@@ -34,5 +35,4 @@
             </app-sidebar-calendar-list>
         </div>
     </nb-sidebar>
-
 </nb-layout>

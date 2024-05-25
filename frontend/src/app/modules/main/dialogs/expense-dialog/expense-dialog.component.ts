@@ -1,21 +1,21 @@
-import {AfterViewInit, Component, ElementRef, ViewChild} from '@angular/core';
-import {NbDialogRef, NbDialogService} from '@nebular/theme';
-import {Subscription} from 'rxjs';
-import {ExpenseApiService} from '../../../../api/expense.api.service';
-import {Calendar} from '../../../../api/objects/calendar';
-import {Category} from '../../../../api/objects/category';
-import {Expense} from '../../../../api/objects/expense';
-import {UNCATEGORIZED_COLOR} from '../../../../util/color.util';
-import {DateUtil} from '../../../../util/date.util';
-import {CalendarsDialogComponent} from '../calendars-dialog/calendars-dialog.component';
-import {CategoriesDialogComponent} from '../categories-dialog/categories-dialog.component';
-import {ConfirmDialogComponent} from '../confirm-dialog/confirm-dialog.component';
-import {DatepickerDialogComponent} from '../datepicker-dialog/datepicker-dialog.component';
-import {InputDialogComponent} from '../input-dialog/input-dialog.component';
+import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
+import { NbDialogRef, NbDialogService } from '@nebular/theme';
+import { Subscription } from 'rxjs';
+import { ExpenseApiService } from '../../../../api/expense.api.service';
+import { Calendar } from '../../../../api/objects/calendar';
+import { Category } from '../../../../api/objects/category';
+import { Expense } from '../../../../api/objects/expense';
+import { UNCATEGORIZED_COLOR } from '../../../../util/color.util';
+import { DateUtil } from '../../../../util/date.util';
+import { CalendarsDialogComponent } from '../calendars-dialog/calendars-dialog.component';
+import { CategoriesDialogComponent } from '../categories-dialog/categories-dialog.component';
+import { ConfirmDialogComponent } from '../confirm-dialog/confirm-dialog.component';
+import { DatepickerDialogComponent } from '../datepicker-dialog/datepicker-dialog.component';
+import { InputDialogComponent } from '../input-dialog/input-dialog.component';
 
 @Component({
     templateUrl: 'expense-dialog.component.html',
-    styleUrls: ['expense-dialog.component.scss']
+    styleUrls: ['expense-dialog.component.scss'],
 })
 export class ExpenseDialogComponent implements AfterViewInit {
     public expense: Expense;
@@ -31,29 +31,25 @@ export class ExpenseDialogComponent implements AfterViewInit {
         private readonly expenseApiService: ExpenseApiService,
         private readonly dialogRef: NbDialogRef<ExpenseDialogComponent>,
         private dialogService: NbDialogService
-    ) { }
+    ) {}
 
     public ngAfterViewInit(): void {
         this.focusElement.nativeElement.focus();
     }
 
     public onSubmit(): void {
-        this.expenseApiService
-            .save(this.expense)
-            .subscribe((expense: Expense) => {
-                this.dialogRef.close(expense);
-            })
-        ;
+        this.expenseApiService.save(this.expense).subscribe((expense: Expense) => {
+            this.dialogRef.close(expense);
+        });
     }
     public selectCalendar(): void {
         this.dialogService
             .open(CalendarsDialogComponent, {
                 context: {
                     selectedCalendar: this.expense.calendar,
-                }
+                },
             })
-            .onClose
-            .subscribe((result?: Calendar) => {
+            .onClose.subscribe((result?: Calendar) => {
                 if (result) {
                     this.expense.calendar = result;
                 }
@@ -66,10 +62,9 @@ export class ExpenseDialogComponent implements AfterViewInit {
                 context: {
                     selectedCategory: this.expense.category,
                     showEmptyCategory: true,
-                }
+                },
             })
-            .onClose
-            .subscribe((result: Category|null) => {
+            .onClose.subscribe((result: Category | null) => {
                 if (result !== undefined) {
                     this.expense.category = result;
                 }
@@ -83,12 +78,11 @@ export class ExpenseDialogComponent implements AfterViewInit {
                     title: 'Transaction description',
                     text: this.expense.description,
                     placeholder: 'Add details about this transaction',
-                }
+                },
             })
-            .onClose
-            .subscribe((result: string) => {
+            .onClose.subscribe((result: string) => {
                 if (result !== undefined) {
-                    this.expense.description = result
+                    this.expense.description = result;
                 }
             });
     }
@@ -98,10 +92,9 @@ export class ExpenseDialogComponent implements AfterViewInit {
             .open(DatepickerDialogComponent, {
                 context: {
                     date: this.expense.createdAt,
-                }
+                },
             })
-            .onClose
-            .subscribe((result?: Date) => {
+            .onClose.subscribe((result?: Date) => {
                 if (result) {
                     this.expense.createdAt = DateUtil.setTime(result, this.expense.createdAt);
                 }
@@ -113,14 +106,11 @@ export class ExpenseDialogComponent implements AfterViewInit {
             .open(ConfirmDialogComponent, {
                 context: {
                     question: 'Are you sure you want delete this transaction?',
-                }
+                },
             })
-            .onClose
-            .subscribe((result?: boolean) => {
+            .onClose.subscribe((result?: boolean) => {
                 if (result) {
-                    this.expenseApiService
-                        .delete(this.expense.id)
-                        .subscribe(() => this.dialogRef.close(true));
+                    this.expenseApiService.delete(this.expense.id).subscribe(() => this.dialogRef.close(true));
                 }
             });
     }
@@ -142,11 +132,9 @@ export class ExpenseDialogComponent implements AfterViewInit {
         }
 
         // 4. Search for suggestions
-        this.expenseSuggestionSubscription = this.expenseApiService
-            .suggest(input)
-            .subscribe((response: Expense) => {
-                this.suggestedExpense = response;
-            });
+        this.expenseSuggestionSubscription = this.expenseApiService.suggest(input).subscribe((response: Expense) => {
+            this.suggestedExpense = response;
+        });
     }
 
     public applyLabelSuggestion(): void {

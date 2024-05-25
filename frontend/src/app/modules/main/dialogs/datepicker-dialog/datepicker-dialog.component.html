@@ -6,10 +6,5 @@
         Pick a date
     </nb-card-header>
 
-    <nb-calendar
-        size="medium"
-        [(date)]="date"
-        [visibleDate]="date"
-        (dateChange)="dialogRef.close(date)">
-    </nb-calendar>
+    <nb-calendar size="medium" [(date)]="date" [visibleDate]="date" (dateChange)="dialogRef.close(date)"> </nb-calendar>
 </nb-card>

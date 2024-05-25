@@ -6,7 +6,7 @@ export const batch = <T>(target: T[], batchSize: number, offset: number = 0): T[
         }
         res[chunkIndex].push(item);
         return res;
-    }, [])
+    }, []);
 };
 
 /**

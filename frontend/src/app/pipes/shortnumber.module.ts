@@ -1,8 +1,8 @@
-import {NgModule} from '@angular/core';
-import {ShortNumberPipe} from './shortnumber.pipe';
+import { NgModule } from '@angular/core';
+import { ShortNumberPipe } from './shortnumber.pipe';
 
 @NgModule({
-    declarations: [ ShortNumberPipe ],
-    exports: [ ShortNumberPipe ]
+    declarations: [ShortNumberPipe],
+    exports: [ShortNumberPipe],
 })
-export class ShortNumberModule { }
+export class ShortNumberModule {}

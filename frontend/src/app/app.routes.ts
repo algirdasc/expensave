@@ -1,8 +1,8 @@
-import {Routes} from '@angular/router';
-import {canActivateAuthenticated} from './modules/auth/auth.functions';
-import {Error404Component} from './modules/error-404.component';
-import {CalendarResolver} from './resolvers/calendar.resolver';
-import {UserResolver} from './resolvers/user.resolver';
+import { Routes } from '@angular/router';
+import { canActivateAuthenticated } from './modules/auth/auth.functions';
+import { Error404Component } from './modules/error-404.component';
+import { CalendarResolver } from './resolvers/calendar.resolver';
+import { UserResolver } from './resolvers/user.resolver';
 
 export const appRoutes: Routes = [
     {
@@ -17,8 +17,7 @@ export const appRoutes: Routes = [
             user: UserResolver,
             calendars: CalendarResolver,
         },
-        loadChildren: () => import('./modules/main/main.module')
-            .then(m => m.MainModule)
+        loadChildren: () => import('./modules/main/main.module').then(m => m.MainModule),
     },
     {
         path: 'reports',
@@ -27,16 +26,14 @@ export const appRoutes: Routes = [
             user: UserResolver,
             calendars: CalendarResolver,
         },
-        loadChildren: () => import('./modules/reports/reports.module')
-            .then(m => m.ReportsModule)
+        loadChildren: () => import('./modules/reports/reports.module').then(m => m.ReportsModule),
     },
     {
         path: 'auth',
-        loadChildren: () => import('./modules/auth/auth.module')
-            .then(m => m.AuthModule)
+        loadChildren: () => import('./modules/auth/auth.module').then(m => m.AuthModule),
     },
     {
         path: '**',
-        component: Error404Component
-    }
+        component: Error404Component,
+    },
 ];

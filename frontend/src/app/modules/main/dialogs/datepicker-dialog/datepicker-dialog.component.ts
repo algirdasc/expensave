@@ -1,5 +1,5 @@
-import {Component, Input} from '@angular/core';
-import {NbDialogRef} from '@nebular/theme';
+import { Component, Input } from '@angular/core';
+import { NbDialogRef } from '@nebular/theme';
 
 @Component({
     templateUrl: 'datepicker-dialog.component.html',
@@ -8,8 +8,5 @@ import {NbDialogRef} from '@nebular/theme';
 export class DatepickerDialogComponent {
     @Input() public date: Date;
 
-    constructor(
-        public dialogRef: NbDialogRef<DatepickerDialogComponent>
-    ) {
-    }
+    constructor(public dialogRef: NbDialogRef<DatepickerDialogComponent>) {}
 }

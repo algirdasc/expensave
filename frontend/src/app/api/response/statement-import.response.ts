@@ -1,3 +1,1 @@
-export class StatementImportResponse {
-
-}
+export class StatementImportResponse {}

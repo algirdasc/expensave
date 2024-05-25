@@ -1,11 +1,11 @@
-import {Component, Input} from '@angular/core';
-import {Expense} from '../../../../../api/objects/expense';
-import {UNCATEGORIZED_COLOR} from '../../../../../util/color.util';
+import { Component, Input } from '@angular/core';
+import { Expense } from '../../../../../api/objects/expense';
+import { UNCATEGORIZED_COLOR } from '../../../../../util/color.util';
 
 @Component({
     templateUrl: 'calendar-grid-row-cell-desktop-expense-item.component.html',
     styleUrls: ['calendar-grid-row-cell-desktop-expense-item.component.scss'],
-    selector: 'app-calendar-expense-item'
+    selector: 'app-calendar-expense-item',
 })
 export class CalendarGridRowCellDesktopExpenseItemComponent {
     @Input() public expense: Expense;

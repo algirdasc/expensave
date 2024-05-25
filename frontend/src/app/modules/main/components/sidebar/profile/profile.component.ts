@@ -1,9 +1,9 @@
-import {Component, EventEmitter, Input, Output} from '@angular/core';
-import {Router} from '@angular/router';
-import {NbDialogService} from '@nebular/theme';
-import {User} from '../../../../../api/objects/user';
-import {ConfirmDialogComponent} from '../../../dialogs/confirm-dialog/confirm-dialog.component';
-import {ProfileDialogComponent} from '../../../dialogs/profile-dialog/profile-dialog.component';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Router } from '@angular/router';
+import { NbDialogService } from '@nebular/theme';
+import { User } from '../../../../../api/objects/user';
+import { ConfirmDialogComponent } from '../../../dialogs/confirm-dialog/confirm-dialog.component';
+import { ProfileDialogComponent } from '../../../dialogs/profile-dialog/profile-dialog.component';
 
 @Component({
     templateUrl: 'profile.component.html',
@@ -17,18 +17,15 @@ export class ProfileComponent {
     constructor(
         private readonly dialogService: NbDialogService,
         private readonly router: Router
-    ) { }
+    ) {}
 
     public showProfileDialog(): void {
-        this.dialogService
-            .open(ProfileDialogComponent, { autoFocus: false })
-            .onClose
-            .subscribe((user: User) => {
-                if (user) {
-                    this.user = user;
-                    this.userChange.emit(this.user);
-                }
-            });
+        this.dialogService.open(ProfileDialogComponent, { autoFocus: false }).onClose.subscribe((user: User) => {
+            if (user) {
+                this.user = user;
+                this.userChange.emit(this.user);
+            }
+        });
     }
 
     public showLogoutConfirmDialog(): void {
@@ -36,11 +33,10 @@ export class ProfileComponent {
             .open(ConfirmDialogComponent, {
                 autoFocus: true,
                 context: {
-                    question: 'Are you sure you want to logout?'
-                }
+                    question: 'Are you sure you want to logout?',
+                },
             })
-            .onClose
-            .subscribe((result: boolean) => {
+            .onClose.subscribe((result: boolean) => {
                 if (result) {
                     this.router.navigate(['/auth/logout']);
                 }

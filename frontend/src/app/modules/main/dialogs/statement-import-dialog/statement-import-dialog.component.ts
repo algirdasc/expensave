@@ -1,8 +1,8 @@
-import {Component, Input} from '@angular/core';
-import {NbDialogRef, NbToastrService} from '@nebular/theme';
-import {CalendarApiService} from '../../../../api/calendar.api.service';
-import {Calendar} from '../../../../api/objects/calendar';
-import {StatementImportResponse} from '../../../../api/response/statement-import.response';
+import { Component, Input } from '@angular/core';
+import { NbDialogRef, NbToastrService } from '@nebular/theme';
+import { CalendarApiService } from '../../../../api/calendar.api.service';
+import { Calendar } from '../../../../api/objects/calendar';
+import { StatementImportResponse } from '../../../../api/response/statement-import.response';
 
 @Component({
     templateUrl: 'statement-import-dialog.component.html',
@@ -17,13 +17,12 @@ export class StatementImportDialogComponent {
     constructor(
         public readonly dialogRef: NbDialogRef<StatementImportDialogComponent>,
         private readonly calendarApiService: CalendarApiService,
-        private readonly toastrService: NbToastrService,
+        private readonly toastrService: NbToastrService
     ) {
-        this.calendarApiService.onBusyChange.subscribe((isBusy: boolean) => this.isBusy = isBusy);
+        this.calendarApiService.onBusyChange.subscribe((isBusy: boolean) => (this.isBusy = isBusy));
     }
 
-    public onSubmit(): void
-    {
+    public onSubmit(): void {
         const formData = new FormData();
         for (const f in this.files) {
             const file = this.files[f];
@@ -37,8 +36,7 @@ export class StatementImportDialogComponent {
             });
     }
 
-    public onChange(event: Event): void
-    {
+    public onChange(event: Event): void {
         this.files = (event.target as HTMLInputElement).files;
     }
 }
