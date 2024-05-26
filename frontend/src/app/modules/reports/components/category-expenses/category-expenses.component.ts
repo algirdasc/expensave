@@ -34,17 +34,13 @@ export class CategoryExpensesComponent extends AbstractReportComponent implement
                 },
             },
         },
-        interaction: {
-            intersect: false,
-            mode: 'index',
-        },
         plugins: {
             legend: {
                 display: false,
             },
             tooltip: {
                 enabled: false,
-                position: 'average',
+                position: 'nearest',
                 external: chartTooltipHandler,
             },
         },

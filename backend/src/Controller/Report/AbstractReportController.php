@@ -22,22 +22,17 @@ abstract class AbstractReportController extends AbstractApiController
      * @return array{
      *     0: array<Calendar>,
      *     1: DateTime,
-     *     2: DateTime
      * }
      */
-    protected function getParameters(string $calendarIds, int $fromTs, int $toTs): array
+    protected function getParameters(string $calendarIds, DateTime $fromDate): array
     {
         $calendars = $this->calendarRepository->findBy(['id' => explode(',', $calendarIds)]);
 
-        if ($fromTs <= 0) {
+        if ($fromDate->getTimestamp() === 0) {
             $firstExpense = $this->expenseRepository->findOneBy(['calendar' => $calendars], ['createdAt' => 'ASC']);
-            $dateFrom = $firstExpense?->getCreatedAt() ?? (new DateTime())->setTimestamp($fromTs);
-        } else {
-            $dateFrom = (new DateTime())->setTimestamp($fromTs);
+            $fromDate = $firstExpense?->getCreatedAt() ?? $fromDate;
         }
 
-        $dateTo = (new DateTime())->setTimestamp($toTs);
-
-        return [$calendars, $dateFrom, $dateTo];
+        return [$calendars, $fromDate];
     }
 }

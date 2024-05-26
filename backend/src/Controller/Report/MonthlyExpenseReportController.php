@@ -9,11 +9,12 @@ use App\Repository\CalendarRepository;
 use App\Repository\ExpenseRepository;
 use App\Response\Report\ExpenseReportResponse;
 use App\Service\Report\MonthlyExpenseReportService;
+use DateTime;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Attribute\Route;
 
-#[Route('api/report/monthly-expenses/{calendarIds}/{fromTs}/{toTs}', methods: Request::METHOD_GET)]
+#[Route('api/report/monthly-expenses/{calendarIds}/{dateFrom}/{dateTo}', methods: Request::METHOD_GET)]
 class MonthlyExpenseReportController extends AbstractReportController
 {
     public function __construct(
@@ -23,9 +24,9 @@ class MonthlyExpenseReportController extends AbstractReportController
     ) {
     }
 
-    public function __invoke(string $calendarIds, int $fromTs, int $toTs): JsonResponse
+    public function __invoke(string $calendarIds, DateTime $dateFrom, DateTime $dateTo): JsonResponse
     {
-        [$calendars, $dateFrom, $dateTo] = $this->getParameters($calendarIds, $fromTs, $toTs);
+        [$calendars, $dateFrom] = $this->getParameters($calendarIds, $dateFrom);
 
         $expenseBalances = $this->monthlyExpenseReportService->generate($calendars, $dateFrom, $dateTo);
 

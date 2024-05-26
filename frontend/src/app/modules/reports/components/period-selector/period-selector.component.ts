@@ -52,7 +52,7 @@ export class PeriodSelectorComponent implements AfterViewInit {
             case PeriodEnum.THIS_WEEK:
                 this.dateRange = <NbCalendarRange<Date>>{
                     start: DateUtil.firstDayOfWeek(currentDate, this.firstDayOfWeek),
-                    end: DateUtil.firstDayOfWeek(currentDate, this.firstDayOfWeek + 6),
+                    end: DateUtil.endOfTheDay(DateUtil.firstDayOfWeek(currentDate, this.firstDayOfWeek + 6)),
                 };
 
                 this.dateRangeChange.emit(this.dateRange);

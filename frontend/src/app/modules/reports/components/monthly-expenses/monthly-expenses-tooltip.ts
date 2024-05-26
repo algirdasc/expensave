@@ -11,9 +11,6 @@ export const chartTooltipHandler = (context: { chart: Chart; tooltip: TooltipMod
         return;
     }
 
-    const titleElement = tooltipElement.querySelector('.title');
-    titleElement.innerHTML = tooltip.title[0];
-
     const shortNumberPipe = new ShortNumberPipe();
 
     const income = tooltip.dataPoints[0].raw as number;
