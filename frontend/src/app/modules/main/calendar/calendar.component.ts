@@ -6,12 +6,8 @@ import { Expense } from '../../../api/objects/expense';
 import { ExpenseBalance } from '../../../api/objects/expense-balance';
 import { APP_CONFIG } from '../../../app.initializer';
 import { DateUtil } from '../../../util/date.util';
-import {
-    CalendarGridRowCellDesktopComponent,
-} from './calendar-grid-row-cell-desktop/calendar-grid-row-cell-desktop.component';
-import {
-    CalendarGridRowCellMobileComponent,
-} from './calendar-grid-row-cell-mobile/calendar-grid-row-cell-mobile.component';
+import { CalendarGridRowCellDesktopComponent } from './calendar-grid-row-cell-desktop/calendar-grid-row-cell-desktop.component';
+import { CalendarGridRowCellMobileComponent } from './calendar-grid-row-cell-mobile/calendar-grid-row-cell-mobile.component';
 import { CalendarMonthModelService } from './calendar-month-model.service';
 
 @Component({
