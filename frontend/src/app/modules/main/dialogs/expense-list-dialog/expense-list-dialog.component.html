@@ -4,11 +4,13 @@
     </nb-card-header>
     <nb-card-body class="p-0">
         <app-expense-list-items
+            *ngIf="unconfirmedExpenses.length"
             header="UNCONFIRMED TRANSACTIONS"
             [expenses]="unconfirmedExpenses"
             (expenseClick)="editExpense($event)"
             icon="radio-button-off" />
         <app-expense-list-items
+            *ngIf="confirmedExpenses.length"
             header="CONFIRMED TRANSACTIONS"
             [expenses]="confirmedExpenses"
             (expenseClick)="editExpense($event)" />

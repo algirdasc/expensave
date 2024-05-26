@@ -29,21 +29,11 @@ import { ShortNumberModule } from '../../pipes/shortnumber.module';
 import { CalendarResolver } from '../../resolvers/calendar.resolver';
 import { UserResolver } from '../../resolvers/user.resolver';
 import { CalendarDayNamesComponent } from './calendar/calendar-day-names/calendar-day-names.component';
-import {
-    CalendarExpenseListMobileItemsComponent,
-} from './calendar/calendar-expense-list-mobile/calendar-expense-list-mobile-items.component';
-import {
-    CalendarExpenseListMobileComponent,
-} from './calendar/calendar-expense-list-mobile/calendar-expense-list-mobile.component';
-import {
-    CalendarGridRowCellDesktopExpenseItemComponent,
-} from './calendar/calendar-grid-row-cell-desktop/calendar-grid-row-cell-desktop-expense-item/calendar-grid-row-cell-desktop-expense-item.component';
-import {
-    CalendarGridRowCellDesktopComponent,
-} from './calendar/calendar-grid-row-cell-desktop/calendar-grid-row-cell-desktop.component';
-import {
-    CalendarGridRowCellMobileComponent,
-} from './calendar/calendar-grid-row-cell-mobile/calendar-grid-row-cell-mobile.component';
+import { CalendarExpenseListMobileItemsComponent } from './calendar/calendar-expense-list-mobile/calendar-expense-list-mobile-items.component';
+import { CalendarExpenseListMobileComponent } from './calendar/calendar-expense-list-mobile/calendar-expense-list-mobile.component';
+import { CalendarGridRowCellDesktopExpenseItemComponent } from './calendar/calendar-grid-row-cell-desktop/calendar-grid-row-cell-desktop-expense-item/calendar-grid-row-cell-desktop-expense-item.component';
+import { CalendarGridRowCellDesktopComponent } from './calendar/calendar-grid-row-cell-desktop/calendar-grid-row-cell-desktop.component';
+import { CalendarGridRowCellMobileComponent } from './calendar/calendar-grid-row-cell-mobile/calendar-grid-row-cell-mobile.component';
 import { CalendarGridRowComponent } from './calendar/calendar-grid-row/calendar-grid-row.component';
 import { CalendarGridComponent } from './calendar/calendar-grid/calendar-grid.component';
 import { CalendarMonthModelService } from './calendar/calendar-month-model.service';

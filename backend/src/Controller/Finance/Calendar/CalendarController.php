@@ -43,12 +43,9 @@ class CalendarController extends AbstractApiController
         return $this->respond($calendar, groups: CalendarContextGroupConst::DETAILS);
     }
 
-    #[Route('/{calendar}/expenses/{fromTs}/{toTs}', name: 'expenses', methods: Request::METHOD_GET)]
-    public function expenses(Calendar $calendar, int $fromTs, int $toTs): JsonResponse
+    #[Route('/{calendar}/expenses/{dateFrom}/{dateTo}', name: 'expenses', methods: Request::METHOD_GET)]
+    public function expenses(Calendar $calendar, DateTime $dateFrom, DateTime $dateTo): JsonResponse
     {
-        $dateFrom = (new DateTime())->setTimestamp($fromTs);
-        $dateTo = (new DateTime())->setTimestamp($toTs);
-
         $expenses = $this->expenseRepository->findByCalendarsAndInterval([$calendar], $dateFrom, $dateTo);
         $expensesBalances = $this->cashFlowReportService->generate([$calendar], $dateFrom, $dateTo);
 
