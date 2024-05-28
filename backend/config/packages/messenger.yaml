@@ -1,0 +1,20 @@
+framework:
+    messenger:
+        transports:
+            queue: 'sync://'
+        routing:
+            App\Message\*: sync
+
+when@prod:
+    framework:
+        messenger:
+            transports:
+                async: '%env(MESSENGER_TRANSPORT_DSN)%'
+            routing:
+                App\Message\*: async
+
+when@test:
+    framework:
+        messenger:
+            transports:
+                async: 'in-memory://'
