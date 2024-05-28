@@ -10,6 +10,7 @@ use App\Entity\Expense;
 use DateTime;
 use Doctrine\ORM\Query;
 use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * @extends AbstractRepository<Expense>
@@ -109,11 +110,13 @@ class ExpenseRepository extends AbstractRepository
             ->getResult();
     }
 
-    public function findSuggestion(string $label): ?Expense
+    public function findUserSuggestion(UserInterface $user, string $label): ?Expense
     {
         return $this->createQueryBuilder('e')
             ->where('e.label LIKE :label')
+            ->andWhere('e.user = :user')
             ->setParameter('label', "$label%")
+            ->setParameter('user', $user)
             ->orderBy('e.id', 'DESC')
             ->setMaxResults(1)
             ->getQuery()

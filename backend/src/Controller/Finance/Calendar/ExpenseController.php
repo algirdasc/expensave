@@ -16,6 +16,7 @@ use App\Response\EmptyResponse;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Http\Attribute\CurrentUser;
 
 #[Route('api/expense', name: 'expense_')]
@@ -78,9 +79,9 @@ class ExpenseController extends AbstractApiController
     }
 
     #[Route('/suggest', name: 'suggest', methods: Request::METHOD_POST)]
-    public function suggest(SuggestRequest $request): JsonResponse
+    public function suggest(#[CurrentUser] UserInterface $user, SuggestRequest $request): JsonResponse
     {
-        $suggestedExpense = $this->expenseRepository->findSuggestion($request->getLabel());
+        $suggestedExpense = $this->expenseRepository->findUserSuggestion($user, $request->getLabel());
 
         return $this->respond($suggestedExpense);
     }
