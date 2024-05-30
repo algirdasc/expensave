@@ -20,6 +20,7 @@
         "@nebular/auth": "^13.0.0",
         "@nebular/eva-icons": "^13.0.0",
         "@nebular/theme": "^13.0.0",
+        "@ngneat/content-loader": "^7.0.0",
         "angular-resize-event": "git+https://git@github.com/dereekb/angular-resize-event#00ef5139ccd6a02f0afd7639ae1bd365ac8b13f9",
         "bootstrap": "^5.2.2",
         "chart.js": "^4.4.3",

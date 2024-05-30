@@ -1,6 +1,6 @@
 <div class="d-flex justify-content-between">
     <div class="d-flex align-items-center">
-        <button nbButton status="primary" (click)="toggleSidebar()">
+        <button nbButton status="primary" (click)="toggleSidebar()" id="sidebar-toggler">
             <nb-icon icon="menu-2-outline"></nb-icon>
         </button>
 
@@ -10,12 +10,16 @@
                 <span title="Current balance">{{ calendar?.balance | shortNumber }}</span>
                 <span *ngIf="visibleDateBalance">
                     |
-                    <span
+                    <a
+                        href="#"
                         title="This months balance"
+                        [nbPopover]="expenseReportComponent"
+                        nbPopoverPlacement="bottom"
+                        (click)="$event.preventDefault()"
                         [class.text-success]="visibleDateBalance > 0"
-                        [class.text-danger]="visibleDateBalance < 0"
-                        >{{ visibleDateBalance | shortNumber }}</span
-                    >
+                        [class.text-danger]="visibleDateBalance < 0">
+                        {{ visibleDateBalance | shortNumber }}
+                    </a>
                 </span>
             </small>
         </div>
@@ -26,13 +30,14 @@
             <nb-calendar-view-mode
                 [date]="visibleDate"
                 [viewMode]="activeViewMode"
-                [nbPopover]="templateRef"
+                [nbPopover]="viewModeRef"
+                nbPopoverContext="viewModePopover"
                 nbPopoverTrigger="noop"
                 nbPopoverPlacement="bottom"
                 (changeMode)="changeViewMode()">
             </nb-calendar-view-mode>
 
-            <ng-template #templateRef>
+            <ng-template #viewModeRef>
                 <div [ngSwitch]="activeViewMode">
                     <nb-calendar-year-picker
                         *ngSwitchCase="viewMode.YEAR"
