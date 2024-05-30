@@ -1,0 +1,7 @@
+@import 'bootstrap/scss/bootstrap-utilities';
+@import '../../../../../theme';
+
+:host > div {
+    max-height: 640px;
+    width: 300px;
+}
