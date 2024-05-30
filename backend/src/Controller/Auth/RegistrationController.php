@@ -49,6 +49,10 @@ class RegistrationController extends AbstractApiController
         $this->userRepository->save($user);
         $this->calendarRepository->save($calendar);
 
+        $user->setDefaultCalendarId($calendar->getId());
+        $this->userRepository->save($user);
+
+
         return $this->respond(
             new AuthTokenResponse(
                 $JWTManager->create($user)
