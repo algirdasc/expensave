@@ -18,9 +18,8 @@ class Expense
     private ?int $id = null;
 
     #[ORM\ManyToOne(targetEntity: Category::class)]
-    #[ORM\JoinColumn(nullable: true)]
     #[Groups(ExpenseContextGroupConst::ALWAYS)]
-    private ?Category $category = null;
+    private Category $category;
 
     #[ORM\ManyToOne(targetEntity: Calendar::class, cascade: ['persist'], inversedBy: 'expenses')]
     #[Groups(ExpenseContextGroupConst::ALWAYS)]
@@ -60,12 +59,12 @@ class Expense
         return $this->id;
     }
 
-    public function getCategory(): ?Category
+    public function getCategory(): Category
     {
         return $this->category;
     }
 
-    public function setCategory(?Category $category): self
+    public function setCategory(Category $category): self
     {
         $this->category = $category;
 

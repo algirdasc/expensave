@@ -1,3 +1,4 @@
+import { HttpParams } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { NbDialogRef } from '@nebular/theme';
 import { CategoryApiService } from '../../../../api/category.api.service';
@@ -10,7 +11,6 @@ import { Category } from '../../../../api/objects/category';
 export class CategoriesDialogComponent implements OnInit {
     public isBusy: boolean = true;
     public isSelectable: boolean = true;
-    public showEmptyCategory: boolean = false;
     public categories: Category[];
     public selectedCategory: Category;
     public editableCategory: Category;
@@ -46,6 +46,11 @@ export class CategoriesDialogComponent implements OnInit {
     }
 
     public fetch(): void {
-        this.categoryApiService.list().subscribe((categories: Category[]) => (this.categories = categories));
+        let params = new HttpParams();
+        if (!this.isSelectable) {
+            params = params.append('userCategoriesOnly', 0);
+        }
+
+        this.categoryApiService.list(params).subscribe((categories: Category[]) => (this.categories = categories));
     }
 }

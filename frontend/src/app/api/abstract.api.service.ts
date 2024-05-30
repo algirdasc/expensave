@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { HttpClient, HttpResponse } from '@angular/common/http';
+import { HttpClient, HttpParams, HttpResponse } from '@angular/common/http';
 import { Injectable, Type } from '@angular/core';
 import { plainToInstance } from 'class-transformer';
 import { Observable, Subject } from 'rxjs';
@@ -24,10 +24,10 @@ export abstract class AbstractApiService<T extends EntityInterface> {
         );
     }
 
-    public list(...args: any): Observable<T[]> {
+    public list(params?: HttpParams): Observable<T[]> {
         this.changeIsBusy(true);
 
-        return this.http.get(args[0] ?? this.backend).pipe(
+        return this.http.get(this.backend, { params: params }).pipe(
             finalize(() => this.changeIsBusy(false)),
             map((response: HttpResponse<T[]>) => this.convertToType<T[]>(this.entity, response))
         );

@@ -19,6 +19,7 @@ import {
     NbRadioModule,
     NbSidebarModule,
     NbSpinnerModule,
+    NbTabsetModule,
     NbTagModule,
     NbUserModule,
 } from '@nebular/theme';
@@ -128,6 +129,7 @@ import { MainService } from './main.service';
         NbTagModule,
         NbAutocompleteModule,
         NbFormFieldModule,
+        NbTabsetModule,
         AngularResizeEventModule,
         ShortNumberModule,
         ContentLoaderModule,

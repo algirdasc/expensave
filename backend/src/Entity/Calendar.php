@@ -7,6 +7,7 @@ use App\Repository\CalendarRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: CalendarRepository::class)]
@@ -27,13 +28,13 @@ class Calendar
     private User $owner;
 
     /**
-     * @var Collection<Expense>
+     * @var Collection<array-key, Expense>
      */
-    #[ORM\OneToMany(mappedBy: 'calendar', targetEntity: Expense::class)]
+    #[ORM\OneToMany(targetEntity: Expense::class, mappedBy: 'calendar')]
     private Collection $expenses;
 
     /**
-     * @var Collection<User>
+     * @var Collection<array-key, User>
      */
     #[ORM\ManyToMany(targetEntity: User::class, inversedBy: 'sharedCalendars')]
     #[Groups(CalendarContextGroupConst::DETAILS)]
@@ -74,6 +75,9 @@ class Calendar
         return $this;
     }
 
+    /**
+     * @return Collection<array-key, Expense>
+     */
     public function getExpenses(): Collection
     {
         return $this->expenses;
@@ -95,11 +99,17 @@ class Calendar
         return $this;
     }
 
+    /**
+     * @return Collection<array-key, User>
+     */
     public function getCollaborators(): Collection
     {
         return $this->collaborators;
     }
 
+    /**
+     * @param Collection<array-key, User> $collaborators
+     */
     public function setCollaborators(Collection $collaborators): self
     {
         $this->collaborators = $collaborators;

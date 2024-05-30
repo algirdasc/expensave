@@ -5,6 +5,7 @@ namespace App\Handler\Request;
 use App\Attribute\Request\ResolveEntity;
 use App\Request\AbstractRequest;
 use Doctrine\ORM\EntityManagerInterface;
+use ReflectionAttribute;
 use ReflectionNamedType;
 use ReflectionProperty;
 
@@ -37,7 +38,17 @@ readonly class EntityTransformationHandler implements TransformationHandlerInter
             $value = $value[$idField] ?? null;
         }
 
+        /** @var array<ReflectionAttribute<ResolveEntity>> $attribute */
+        $attribute = $property->getAttributes(ResolveEntity::class);
+        $resolveEntityAttribute = $attribute[0]->newInstance();
+
+        $repository = $this->entityManager->getRepository($entityClassName);
+
         if (null === $value) {
+            if ($resolveEntityAttribute->getDefaultCriteria()) {
+                return $repository->findOneBy($resolveEntityAttribute->getDefaultCriteria());
+            }
+
             return null;
         }
 

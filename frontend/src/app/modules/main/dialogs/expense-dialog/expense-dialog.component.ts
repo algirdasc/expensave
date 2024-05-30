@@ -61,7 +61,6 @@ export class ExpenseDialogComponent implements AfterViewInit {
             .open(CategoriesDialogComponent, {
                 context: {
                     selectedCategory: this.expense.category,
-                    showEmptyCategory: true,
                 },
             })
             .onClose.subscribe((result: Category | null) => {
