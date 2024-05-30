@@ -25,7 +25,7 @@
     </nb-layout-column>
 
     <nb-sidebar tag="{{ SIDEBAR_TAG }}" state="collapsed" appOutsideClick (outsideClick)="onSidebarOutsideClick($event)">
-        <div class="p-3">
+        <div class="d-flex flex-column h-100 p-3">
             <app-profile [user]="mainService.user"></app-profile>
             <div class="border-bottom my-3"></div>
             <app-sidebar-calendar-list
@@ -33,6 +33,9 @@
                 [calendar]="mainService.calendar"
                 (calendarChange)="onCalendarChange($event)">
             </app-sidebar-calendar-list>
+            <div class="mt-auto text-center">
+                <small class="very-small text-hint">v{{ environment.version }}</small>
+            </div>
         </div>
     </nb-sidebar>
 </nb-layout>
