@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { NbCalendarViewMode, NbDateService, NbPopoverDirective, NbSidebarService } from '@nebular/theme';
 import { Calendar } from '../../../api/objects/calendar';
 import { DateUtil } from '../../../util/date.util';
+import { ExpenseReportComponent } from '../components/expense-report/expense-report.component';
 import { SIDEBAR_TAG } from '../main.service';
 
 @Component({
@@ -18,6 +19,7 @@ export class HeaderComponent {
 
     public viewMode: typeof NbCalendarViewMode = NbCalendarViewMode;
     public activeViewMode: NbCalendarViewMode = NbCalendarViewMode.DATE;
+    public expenseReportComponent = ExpenseReportComponent;
 
     constructor(
         private readonly dateService: NbDateService<Date>,

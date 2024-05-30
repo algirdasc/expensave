@@ -22,6 +22,7 @@ import {
     NbTagModule,
     NbUserModule,
 } from '@nebular/theme';
+import { ContentLoaderModule } from '@ngneat/content-loader';
 import { AngularResizeEventModule } from 'angular-resize-event';
 import { OutsideClickDirective } from '../../directives/outside-click.directive';
 import { SwipeDirective } from '../../directives/swipe.directive';
@@ -39,6 +40,7 @@ import { CalendarGridComponent } from './calendar/calendar-grid/calendar-grid.co
 import { CalendarMonthModelService } from './calendar/calendar-month-model.service';
 import { CalendarComponent } from './calendar/calendar.component';
 import { CalendarService } from './calendar/calendar.service';
+import { ExpenseReportComponent } from './components/expense-report/expense-report.component';
 import { CalendarSidebarListComponent } from './components/sidebar/calendar-list/calendar-list.component';
 import { ProfileComponent } from './components/sidebar/profile/profile.component';
 import { SuggestionComponent } from './components/suggestion/suggestion.component';
@@ -70,6 +72,7 @@ import { MainService } from './main.service';
         ProfileComponent,
         CalendarComponent,
         SuggestionComponent,
+        ExpenseReportComponent,
 
         // CalendarComponent Components
         CalendarDayNamesComponent,
@@ -127,6 +130,7 @@ import { MainService } from './main.service';
         NbFormFieldModule,
         AngularResizeEventModule,
         ShortNumberModule,
+        ContentLoaderModule,
     ],
     providers: [
         MainService,

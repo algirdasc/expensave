@@ -10,12 +10,16 @@
                 <span title="Current balance">{{ calendar?.balance | shortNumber }}</span>
                 <span *ngIf="visibleDateBalance">
                     |
-                    <span
+                    <a
+                        href="#"
                         title="This months balance"
+                        [nbPopover]="expenseReportComponent"
+                        nbPopoverPlacement="bottom"
+                        (click)="$event.preventDefault()"
                         [class.text-success]="visibleDateBalance > 0"
-                        [class.text-danger]="visibleDateBalance < 0"
-                        >{{ visibleDateBalance | shortNumber }}</span
-                    >
+                        [class.text-danger]="visibleDateBalance < 0">
+                        {{ visibleDateBalance | shortNumber }}
+                    </a>
                 </span>
             </small>
         </div>

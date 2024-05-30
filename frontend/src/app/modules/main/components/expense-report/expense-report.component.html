@@ -1,0 +1,41 @@
+<div class="overflow-auto">
+    <div *ngIf="isBusy" class="p-3">
+        <content-loader viewBox="0 0 300 88" *ngFor="let arr of createRange(3)">
+            <svg:circle cx="10" cy="20" r="8" />
+            <svg:rect x="25" y="15" rx="5" ry="5" width="270" height="10" />
+            <svg:circle cx="10" cy="50" r="8" />
+            <svg:rect x="25" y="45" rx="5" ry="5" width="270" height="10" />
+            <svg:circle cx="10" cy="80" r="8" />
+            <svg:rect x="25" y="75" rx="5" ry="5" width="270" height="10" />
+        </content-loader>
+    </div>
+    <div *ngIf="!isBusy">
+        <nb-list>
+            <nb-list-item
+                *ngFor="let categoryBalance of categoryBalances">
+                <nb-icon
+                    icon="radio-button-on"
+                    class="flex-shrink-0 me-2"
+                    [style.color]="categoryBalance.category.color"></nb-icon>
+                <div class="text-truncate w-100 mx-3">
+                    {{ categoryBalance.category?.name }}
+                </div>
+                <span>{{ categoryBalance.change | shortNumber }}</span>
+            </nb-list-item>
+            <nb-list-item class="d-flex justify-content-between" [class.border-top]="categoryBalances.length > 0">
+                <div class="text-center">
+                    <div class="text-hint mb-0">INCOME</div>
+                    <strong>{{ income | shortNumber }}</strong>
+                </div>
+                <div class="text-center">
+                    <div class="text-hint mb-0">EXPENSE</div>
+                    <strong>{{ expense | shortNumber }}</strong>
+                </div>
+                <div class="text-center">
+                    <div class="text-hint mb-0">CHANGE</div>
+                    <strong>{{ change | shortNumber }}</strong>
+                </div>
+            </nb-list-item>
+        </nb-list>
+    </div>
+</div>
