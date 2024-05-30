@@ -18,6 +18,8 @@ export class ExpenseReportComponent implements OnInit {
     public income: number = 0;
     public expense: number = 0;
     public change: number = 0;
+    public dateFrom: Date;
+    public dateTo: Date;
 
     constructor(
         private dateService: NbDateService<Date>,
@@ -28,19 +30,25 @@ export class ExpenseReportComponent implements OnInit {
     public ngOnInit(): void {
         const currentDate = this.mainService.visibleDate;
 
-        const dateFrom = this.dateService.createDate(currentDate.getFullYear(), currentDate.getMonth(), 1);
-        const dateTo = DateUtil.endOfTheDay(
+        this.dateFrom = this.dateService.createDate(currentDate.getFullYear(), currentDate.getMonth(), 1);
+        this.dateTo = DateUtil.endOfTheDay(
             this.dateService.createDate(currentDate.getFullYear(), currentDate.getMonth() + 1, 0)
         );
 
         this.reportsApiService
-            .categoryExpenses([this.mainService.calendar], dateFrom, dateTo)
+            .categoryExpenses([this.mainService.calendar], this.dateFrom, this.dateTo)
             .pipe(finalize(() => (this.isBusy = false)))
             .subscribe((response: CategoryExpenseReportResponse) => {
                 const balances = response.categoryBalances.filter(
                     (categoryBalance: CategoryBalance) => categoryBalance.change !== 0
                 );
-                balances.sort((a: CategoryBalance, b: CategoryBalance) => Math.abs(b.change) - Math.abs(a.change));
+                balances.sort((a: CategoryBalance, b: CategoryBalance) => {
+                    if (a.change > 0 && b.change < 0) {
+                        return -1;
+                    }
+
+                    return Math.abs(b.change) - Math.abs(a.change);
+                });
 
                 this.categoryBalances = balances;
                 this.income = response.meta.income;

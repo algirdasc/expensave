@@ -43,6 +43,8 @@ readonly class CategoryExpenseReportService extends AbstractReportService
             $categoriesBalances[] = CategoryBalanceFactory::createFromExpenseArray($category, $categoryExpenses->toArray());
         }
 
+
+
         return $categoriesBalances;
     }
 }

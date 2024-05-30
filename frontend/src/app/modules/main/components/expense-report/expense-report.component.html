@@ -11,8 +11,12 @@
     </div>
     <div *ngIf="!isBusy">
         <nb-list>
-            <nb-list-item
-                *ngFor="let categoryBalance of categoryBalances">
+            <nb-list-item class="d-flex justify-content-between border-bottom">
+                <span class="text-hint">{{ dateFrom | date: 'mediumDate' }}</span>
+                <nb-icon icon="arrow-forward-outline" class="mx-3"></nb-icon>
+                <span class="text-hint">{{ dateTo | date: 'mediumDate' }}</span>
+            </nb-list-item>
+            <nb-list-item *ngFor="let categoryBalance of categoryBalances">
                 <nb-icon
                     icon="radio-button-on"
                     class="flex-shrink-0 me-2"

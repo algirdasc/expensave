@@ -24,7 +24,7 @@
         </app-calendar>
     </nb-layout-column>
 
-    <nb-sidebar tag="{{ SIDEBAR_TAG }}" state="collapsed" appOutsideClick (outsideClick)="onSidebarOutsideClick()">
+    <nb-sidebar tag="{{ SIDEBAR_TAG }}" state="collapsed" appOutsideClick (outsideClick)="onSidebarOutsideClick($event)">
         <div class="p-3">
             <app-profile [user]="mainService.user"></app-profile>
             <div class="border-bottom my-3"></div>

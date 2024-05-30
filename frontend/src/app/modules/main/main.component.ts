@@ -83,7 +83,12 @@ export class MainComponent implements OnInit {
         this.mainService.refreshCalendar(calendar);
     }
 
-    public onSidebarOutsideClick(): void {
+    public onSidebarOutsideClick(event: MouseEvent): void {
+        const sidebarToggler = document.getElementById('sidebar-toggler');
+        if (sidebarToggler.contains(event.target as HTMLElement)) {
+            return;
+        }
+
         this.sidebarService.getSidebarState(SIDEBAR_TAG).subscribe(state => {
             if (state !== 'collapsed') {
                 this.sidebarService.collapse(SIDEBAR_TAG);

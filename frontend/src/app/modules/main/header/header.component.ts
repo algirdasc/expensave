@@ -1,4 +1,4 @@
-import { Component, Input, ViewChild } from '@angular/core';
+import { Component, Input, QueryList, ViewChildren } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NbCalendarViewMode, NbDateService, NbPopoverDirective, NbSidebarService } from '@nebular/theme';
 import { Calendar } from '../../../api/objects/calendar';
@@ -15,7 +15,7 @@ export class HeaderComponent {
     @Input() public calendar: Calendar;
     @Input() public visibleDateBalance: number;
     @Input() public visibleDate: Date;
-    @ViewChild(NbPopoverDirective) popover: NbPopoverDirective;
+    @ViewChildren(NbPopoverDirective) popovers: QueryList<NbPopoverDirective>;
 
     public viewMode: typeof NbCalendarViewMode = NbCalendarViewMode;
     public activeViewMode: NbCalendarViewMode = NbCalendarViewMode.DATE;
@@ -35,7 +35,10 @@ export class HeaderComponent {
     public changeViewMode(): void {
         if (this.activeViewMode === NbCalendarViewMode.DATE) {
             this.activeViewMode = NbCalendarViewMode.YEAR;
-            this.popover.show();
+            const viewModePopover: NbPopoverDirective = this.popovers.find(
+                element => element.context === 'viewModePopover'
+            );
+            viewModePopover.show();
         } else {
             this.activeViewMode = NbCalendarViewMode.DATE;
         }
