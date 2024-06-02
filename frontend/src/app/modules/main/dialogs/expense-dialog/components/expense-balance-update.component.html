@@ -1,0 +1,23 @@
+<app-expense-input [expense]="expense" />
+
+<nb-list>
+    <nb-list-item (click)="selectCalendar()" class="actionable">
+        <nb-icon icon="calendar-outline" class="me-3"></nb-icon>
+        <div class="text-truncate">{{ expense.calendar.name }}</div>
+    </nb-list-item>
+
+    <nb-list-item>
+        <nb-icon icon="radio-button-on" [ngStyle]="{ color: expense.category?.color }" class="active me-3"></nb-icon>
+        <div class="text-truncate text-hint">{{ expense.category?.name ?? 'Uncategorized' }}</div>
+    </nb-list-item>
+
+    <nb-list-item (click)="selectDateTime()" class="actionable">
+        <nb-icon icon="calendar-outline" class="me-3"></nb-icon>
+        <div class="text-truncate">{{ expense.createdAt | date: 'fullDate' }}</div>
+    </nb-list-item>
+
+    <nb-list-item>
+        <nb-user [picture]="expense.user.avatar" onlyPicture size="tiny" class="me-2"></nb-user>
+        <div class="text-truncate text-hint">{{ expense.user.name }}</div>
+    </nb-list-item>
+</nb-list>

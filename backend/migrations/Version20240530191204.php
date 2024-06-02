@@ -21,7 +21,7 @@ final class Version20240530191204 extends AbstractMigration
     {
         $this->addSql('ALTER TABLE category ADD type VARCHAR(255) NULL');
         $this->addSql("INSERT INTO category (name, color, type) VALUES ('Transfer', '#394852', 'transfer') ON DUPLICATE KEY UPDATE type = VALUES(`type`)");
-        $this->addSql("INSERT INTO category (name, color, type) VALUES ('Balance Update', '#394852', 'balance_update') ON DUPLICATE KEY UPDATE type = VALUES(`type`)");
+        $this->addSql("INSERT INTO category (name, color, type) VALUES ('Balance Update', '#24485d', 'balance_update') ON DUPLICATE KEY UPDATE type = VALUES(`type`)");
         $this->addSql("INSERT INTO category (name, color, type) VALUES ('Uncategorized', '#394852', 'uncategorized') ON DUPLICATE KEY UPDATE type = VALUES(`type`)");
         $this->addSql("UPDATE category SET type = 'user' WHERE type IS NULL");
         $this->addSql('ALTER TABLE category CHANGE type type VARCHAR(255) NOT NULL;');

@@ -53,6 +53,10 @@ import { CategoryEditComponent } from './dialogs/categories-dialog/category-edit
 import { CategoryListComponent } from './dialogs/categories-dialog/category-list/category-list.component';
 import { ConfirmDialogComponent } from './dialogs/confirm-dialog/confirm-dialog.component';
 import { DatepickerDialogComponent } from './dialogs/datepicker-dialog/datepicker-dialog.component';
+import { ExpenseBalanceUpdateComponent } from './dialogs/expense-dialog/components/expense-balance-update.component';
+import { ExpenseInputComponent } from './dialogs/expense-dialog/components/expense-input.component';
+import { ExpenseTransferComponent } from './dialogs/expense-dialog/components/expense-transfer.component';
+import { ExpenseComponent } from './dialogs/expense-dialog/components/expense.component';
 import { ExpenseDialogComponent } from './dialogs/expense-dialog/expense-dialog.component';
 import { ExpenseListDialogComponent } from './dialogs/expense-list-dialog/expense-list-dialog.component';
 import { ExpenseListItemsComponent } from './dialogs/expense-list-dialog/expense-list-items.component';
@@ -102,6 +106,10 @@ import { MainService } from './main.service';
         CalendarEditComponent,
         CategoryEditComponent,
         CategoryListComponent,
+        ExpenseComponent,
+        ExpenseInputComponent,
+        ExpenseBalanceUpdateComponent,
+        ExpenseTransferComponent,
 
         // Directives
         SwipeDirective,
