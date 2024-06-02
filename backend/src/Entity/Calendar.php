@@ -29,7 +29,7 @@ class Calendar
     /**
      * @var Collection<Expense>
      */
-    #[ORM\OneToMany(mappedBy: 'calendar', targetEntity: Expense::class)]
+    #[ORM\OneToMany(targetEntity: Expense::class, mappedBy: 'calendar')]
     private Collection $expenses;
 
     /**

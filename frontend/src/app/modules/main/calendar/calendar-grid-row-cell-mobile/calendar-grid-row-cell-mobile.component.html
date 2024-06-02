@@ -6,7 +6,7 @@
     <small class="d-block" *ngIf="expenseBalance?.change || (expenseBalance && isCellSelected)">{{
         expenseBalance.change | shortNumber: '.0-0'
     }}</small>
-    <small class="d-block" *ngIf="expenseBalance?.balance || (expenseBalance && isCellSelected)">{{
+    <small class="d-block" *ngIf="expenseBalance?.change || (expenseBalance && isCellSelected)">{{
         expenseBalance.balance | shortNumber: '.0-0'
     }}</small>
 </div>

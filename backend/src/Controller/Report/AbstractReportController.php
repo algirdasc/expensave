@@ -6,6 +6,7 @@ namespace App\Controller\Report;
 
 use App\Controller\AbstractApiController;
 use App\Entity\Calendar;
+use App\Helper\DateHelper;
 use App\Repository\CalendarRepository;
 use App\Repository\ExpenseRepository;
 use DateTime;
@@ -19,20 +20,26 @@ abstract class AbstractReportController extends AbstractApiController
     protected readonly ExpenseRepository $expenseRepository;
 
     /**
-     * @return array{
-     *     0: array<Calendar>,
-     *     1: DateTime,
-     * }
+     * @return array<Calendar>
      */
-    protected function getParameters(string $calendarIds, DateTime $fromDate): array
+    protected function getCalendarsFromIds(string $calendarIds): array
     {
-        $calendars = $this->calendarRepository->findBy(['id' => explode(',', $calendarIds)]);
+        return $this->calendarRepository->findBy(['id' => explode(',', $calendarIds)]);
+    }
 
-        if ($fromDate->getTimestamp() === 0) {
+    /**
+     * @param array<Calendar> $calendars
+     */
+    protected function parseDateRange(array $calendars, DateTime $dateFrom, DateTime $dateTo): void
+    {
+        if ($dateFrom->getTimestamp() === 0) {
             $firstExpense = $this->expenseRepository->findOneBy(['calendar' => $calendars], ['createdAt' => 'ASC']);
-            $fromDate = $firstExpense?->getCreatedAt() ?? $fromDate;
+            if ($firstExpense !== null) {
+                $firstExpenseDate = $firstExpense->getCreatedAt();
+                $dateFrom->modify($firstExpenseDate->format('c'));
+            }
         }
 
-        return [$calendars, $fromDate];
+        DateHelper::setRange($dateFrom, $dateTo);
     }
 }
