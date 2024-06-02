@@ -87,29 +87,6 @@ class ExpenseRepository extends AbstractRepository
             ->getOneOrNullResult(Query::HYDRATE_SINGLE_SCALAR) ?? 0;
     }
 
-    /**
-     * @return array<array{
-     *     date: string,
-     *     balance: float
-     * }>
-     */
-    public function getDailyBalances(Calendar $calendar, DateTime $dateFrom, DateTime $dateTo): array
-    {
-        return $this->createQueryBuilder('e')
-            ->select('DATE(e.createdAt) AS date, SUM(e.amount) AS balance')
-            ->where('e.calendar = :calendar')
-            ->andWhere('e.confirmed = true')
-            ->andWhere('e.createdAt >= :dateFrom')
-            ->andWhere('e.createdAt < :dateTo')
-            ->setParameter('calendar', $calendar)
-            ->setParameter('dateFrom', $dateFrom)
-            ->setParameter('dateTo', $dateTo)
-            ->orderBy('e.createdAt', 'ASC')
-            ->groupBy('date')
-            ->getQuery()
-            ->getResult();
-    }
-
     public function findUserSuggestion(UserInterface $user, string $label): ?Expense
     {
         return $this->createQueryBuilder('e')

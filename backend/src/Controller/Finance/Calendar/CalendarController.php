@@ -8,6 +8,7 @@ use App\Const\ContextGroup\CalendarContextGroupConst;
 use App\Controller\AbstractApiController;
 use App\Entity\Calendar;
 use App\Entity\User;
+use App\Helper\DateHelper;
 use App\Repository\CalendarRepository;
 use App\Repository\ExpenseRepository;
 use App\Request\Calendar\CreateCalendarRequest;
@@ -46,6 +47,8 @@ class CalendarController extends AbstractApiController
     #[Route('/{calendar}/expenses/{dateFrom}/{dateTo}', name: 'expenses', methods: Request::METHOD_GET)]
     public function expenses(Calendar $calendar, DateTime $dateFrom, DateTime $dateTo): JsonResponse
     {
+        DateHelper::setRange($dateFrom, $dateTo);
+
         $expenses = $this->expenseRepository->findByCalendarsAndInterval([$calendar], $dateFrom, $dateTo);
         $expensesBalances = $this->cashFlowReportService->generate([$calendar], $dateFrom, $dateTo);
 
