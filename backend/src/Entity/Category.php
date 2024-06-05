@@ -31,6 +31,7 @@ class Category
     private string $color;
 
     #[ORM\Column]
+    #[Groups(ContextGroupConst::API_ALL)]
     private CategoryType $type = CategoryType::USER;
 
     /**

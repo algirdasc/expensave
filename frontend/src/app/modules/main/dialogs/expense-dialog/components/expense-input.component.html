@@ -1,9 +1,17 @@
-<div>
-    <button nbButton type="button" tabIndex="3" (click)="expense.isExpense = !expense.isExpense" class="toggle-sign mb-2">
-        <nb-icon [icon]="expense.isExpense ? 'minus' : 'plus'"></nb-icon>
-    </button>
-    <div class="d-flex">
-        <div class="mx-3 w-50">
+<div
+    class="expense-header animated-bg"
+    [class.confirmed]="expense.confirmed"
+    [style.background-color]="expense.confirmed ? expense.category?.color ?? UNCATEGORIZED_COLOR : 'white'">
+    <div class="d-flex w-100">
+        <button
+            nbButton
+            type="button"
+            tabIndex="3"
+            (click)="expense.isExpense = !expense.isExpense"
+            class="toggle-sign me-1">
+            <nb-icon [icon]="expense.isExpense ? 'minus' : 'plus'"></nb-icon>
+        </button>
+        <div class="mx-3 w-100">
             <label for="expense-amount">Amount</label>
             <input
                 #focus
@@ -18,7 +26,7 @@
                 [(ngModel)]="expense.absoluteAmount"
                 class="t-input px-0 pt-3 pb-2" />
         </div>
-        <div class="mx-3" *ngIf="labelEditable">
+        <div class="me-3 w-100" *ngIf="labelEditable">
             <label for="expense-label">Label</label>
             <app-input-suggestion
                 [input]="expense.label"

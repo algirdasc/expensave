@@ -1,5 +1,35 @@
-:host ::ng-deep .tab-text {
-    font-size: 11px;
+:host ::ng-deep .tabset {
+    position: absolute;
+    border-bottom: 0 !important;
+    justify-content: flex-end !important;
+    width: 100%;
+    padding: 0 1rem !important;
+}
+
+:host ::ng-deep .tab {
+    .tab-link {
+        color: hsla(0, 0%, 100%, .4) !important;
+        font-size: 11px;
+        padding: 1.5em 2em;
+    }
+
+    .tab-link:hover {
+        color: hsla(0, 0%, 100%, .8) !important;
+    }
+
+    .tab-link:hover:before {
+        background-color: transparent !important;
+    }
+}
+
+:host ::ng-deep .tab.active {
+    .tab-link {
+        color: hsla(0, 0%, 100%, .8) !important;
+    }
+
+    .tab-link:before {
+        background-color: hsla(0, 0%, 100%, .8) !important;
+    }
 }
 
 nb-list-item {
@@ -11,38 +41,4 @@ nb-list-item {
     nb-icon.active {
         opacity: .75
     }
-}
-
-:host ::ng-deep .expense-header.confirmed {
-    color: hsla(0, 0%, 100%, .8) !important;
-
-    button.toggle-sign {
-        background-color: rgba(0, 0, 0, .05);
-    }
-
-    input.t-input {
-        color: hsla(0, 0%, 100%, .8) !important;
-        border-color: hsla(0, 0%, 100%, .4) !important;
-    }
-
-    input.t-input::placeholder {
-        color: hsla(0, 0%, 100%, .4) !important;
-    }
-
-    .suggestion-suffix {
-        color: hsla(0, 0%, 100%, .6) !important;
-    }
-}
-
-button.toggle-sign {
-    padding: 0 12px 0 23px !important;
-    height: 30px;
-    margin-right: 10px;
-    color: #fff !important;
-    border-radius: 0 100px 100px 0;
-    border: 0;
-}
-
-nb-card-header {
-    font-weight: normal !important;
 }

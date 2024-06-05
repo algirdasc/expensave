@@ -1,16 +1,13 @@
 import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
-import { NbDialogRef, NbDialogService } from '@nebular/theme';
-import { Subscription } from 'rxjs';
+import { NbDialogRef, NbDialogService, NbTabComponent } from '@nebular/theme';
 import { ExpenseApiService } from '../../../../api/expense.api.service';
 import { Calendar } from '../../../../api/objects/calendar';
 import { Category } from '../../../../api/objects/category';
 import { Expense } from '../../../../api/objects/expense';
 import { UNCATEGORIZED_COLOR } from '../../../../util/color.util';
-import { DateUtil } from '../../../../util/date.util';
 import { CalendarsDialogComponent } from '../calendars-dialog/calendars-dialog.component';
 import { CategoriesDialogComponent } from '../categories-dialog/categories-dialog.component';
 import { ConfirmDialogComponent } from '../confirm-dialog/confirm-dialog.component';
-import { DatepickerDialogComponent } from '../datepicker-dialog/datepicker-dialog.component';
 import { InputDialogComponent } from '../input-dialog/input-dialog.component';
 
 @Component({
@@ -20,11 +17,9 @@ import { InputDialogComponent } from '../input-dialog/input-dialog.component';
 export class ExpenseDialogComponent implements AfterViewInit {
     public expense: Expense;
     public isBusy: boolean = false;
-    public suggestedExpense: Expense;
 
-    protected readonly UNCATEGORIZED_COLOR: string = UNCATEGORIZED_COLOR;
+    private apiMethod: string = 'save';
 
-    private expenseSuggestionSubscription: Subscription;
     @ViewChild('focus') private focusElement: ElementRef;
 
     constructor(
@@ -34,11 +29,11 @@ export class ExpenseDialogComponent implements AfterViewInit {
     ) {}
 
     public ngAfterViewInit(): void {
-        this.focusElement.nativeElement.focus();
+        // this.focusElement.nativeElement.focus();
     }
 
     public onSubmit(): void {
-        this.expenseApiService.save(this.expense).subscribe((expense: Expense) => {
+        this.expenseApiService[this.apiMethod](this.expense).subscribe((expense: Expense) => {
             this.dialogRef.close(expense);
         });
     }
@@ -86,20 +81,6 @@ export class ExpenseDialogComponent implements AfterViewInit {
             });
     }
 
-    public selectDateTime(): void {
-        this.dialogService
-            .open(DatepickerDialogComponent, {
-                context: {
-                    date: this.expense.createdAt,
-                },
-            })
-            .onClose.subscribe((result?: Date) => {
-                if (result) {
-                    this.expense.createdAt = DateUtil.setTime(result, this.expense.createdAt);
-                }
-            });
-    }
-
     public deleteExpense(): void {
         this.dialogService
             .open(ConfirmDialogComponent, {
@@ -114,31 +95,7 @@ export class ExpenseDialogComponent implements AfterViewInit {
             });
     }
 
-    public handleInputChange(input: string): void {
-        // 1. Deselect category when input change & is not equal to suggestion (new expense only)
-        if (this.expense.id === undefined && input !== this.suggestedExpense?.label) {
-            this.expense.category = undefined;
-        }
-
-        // 2. Cancel pending suggestion request
-        if (this.expenseSuggestionSubscription) {
-            this.expenseSuggestionSubscription.unsubscribe();
-        }
-
-        // 3. Do not look for suggestion on empty input
-        if (!input) {
-            return;
-        }
-
-        // 4. Search for suggestions
-        this.expenseSuggestionSubscription = this.expenseApiService.suggest(input).subscribe((response: Expense) => {
-            this.suggestedExpense = response;
-        });
-    }
-
-    public applyLabelSuggestion(): void {
-        this.expense.label = this.suggestedExpense.label;
-        this.expense.category = this.suggestedExpense.category;
-        this.expense.isExpense = this.suggestedExpense.isExpense;
+    public onTabChange(event: NbTabComponent): void {
+        this.apiMethod = event.tabId;
     }
 }

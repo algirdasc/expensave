@@ -16,4 +16,7 @@ export class Category implements EntityInterface {
 
     @Expose()
     public definedByUser: boolean;
+
+    @Expose()
+    public type: string;
 }

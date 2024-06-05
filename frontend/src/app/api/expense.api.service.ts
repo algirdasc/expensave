@@ -12,4 +12,12 @@ export class ExpenseApiService extends AbstractApiService<Expense> {
     public suggest(label: string): Observable<Expense> {
         return super.request<Expense>('post', Expense, `${this.backend}/suggest`, { label: label });
     }
+
+    public saveBalance(): Observable<Expense> {
+        return super.request<Expense>('post', Expense, `${this.backend}/save/balance`);
+    }
+
+    public saveTransfer(): Observable<Expense> {
+        return super.request<Expense>('post', Expense, `${this.backend}/save/transfer`);
+    }
 }

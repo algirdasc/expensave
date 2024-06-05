@@ -1,7 +1,35 @@
+@import '../../../../../../theme';
+
+.expense-header {
+    display: block;
+    font-weight: normal !important;
+    padding: 5em 0 1em;
+    border-radius: nb-theme(border-radius) nb-theme(border-radius) 0 0;
+}
+
+.expense-header.confirmed {
+    color: hsla(0, 0%, 100%, .8) !important;
+
+    button.toggle-sign {
+        background-color: rgba(0, 0, 0, .05);
+    }
+
+    input.t-input {
+        color: hsla(0, 0%, 100%, .8) !important;
+        border-color: hsla(0, 0%, 100%, .4) !important;
+    }
+
+    input.t-input::placeholder {
+        color: hsla(0, 0%, 100%, .4) !important;
+    }
+
+    .suggestion-suffix {
+        color: hsla(0, 0%, 100%, .6) !important;
+    }
+}
+
 button.toggle-sign {
-    padding: 0 12px 0 23px !important;
-    height: 30px;
-    margin-right: 10px;
+    padding: 20px 25px !important;
     color: #fff !important;
     border-radius: 0 100px 100px 0;
     border: 0;

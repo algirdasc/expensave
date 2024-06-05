@@ -1,14 +1,14 @@
 <form #expenseForm="ngForm" (ngSubmit)="onSubmit()" autocomplete="off">
     <nb-card [nbSpinner]="isBusy" class="dialog">
         <nb-card-body class="p-0">
-            <nb-tabset fullWidth>
-                <nb-tab tabTitle="Event" class="p-0" *ngIf="!expense.id">
+            <nb-tabset (changeTab)="onTabChange($event)">
+                <nb-tab tabTitle="Expense" class="p-0" *ngIf="!expense.id" tabId="save">
                     <app-expense [expense]="expense" *nbTabContent></app-expense>
                 </nb-tab>
-                <nb-tab tabTitle="Balance" class="p-0" *ngIf="!expense.id">
+                <nb-tab tabTitle="Balance" class="p-0" *ngIf="!expense.id" tabId="saveBalanceUpdate">
                     <app-expense-balance-update [expense]="expense" *nbTabContent></app-expense-balance-update>
                 </nb-tab>
-                <nb-tab tabTitle="Transfer" class="p-0" *ngIf="!expense.id">
+                <nb-tab tabTitle="Transfer" class="p-0" *ngIf="!expense.id" tabId="saveTransfer">
                     <app-expense-transfer [expense]="expense" *nbTabContent></app-expense-transfer>
                 </nb-tab>
             </nb-tabset>
