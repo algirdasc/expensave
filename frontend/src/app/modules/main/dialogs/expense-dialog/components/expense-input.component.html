@@ -1,7 +1,7 @@
 <div
     class="expense-header animated-bg"
-    [class.confirmed]="expense.confirmed"
-    [style.background-color]="expense.confirmed ? expense.category?.color ?? UNCATEGORIZED_COLOR : 'white'">
+    [class.confirmed]="colorize && expense.confirmed"
+    [style.background-color]="backgroundColor()">
     <div class="d-flex w-100">
         <button
             nbButton
@@ -11,7 +11,7 @@
             class="toggle-sign me-1">
             <nb-icon [icon]="expense.isExpense ? 'minus' : 'plus'"></nb-icon>
         </button>
-        <div class="mx-3 w-100">
+        <div class="mx-3" [class.w-50]="labelEditable" [class.w-100]="!labelEditable">
             <label for="expense-amount">Amount</label>
             <input
                 #focus

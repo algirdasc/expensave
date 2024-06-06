@@ -8,17 +8,26 @@ import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
     styleUrls: ['suggestion.component.scss'],
 })
 export class SuggestionComponent implements OnInit, OnChanges {
-    @Input() public input: string = '';
-    @Input() public cssClasses: string = '';
-    @Output() public suggestionChange: EventEmitter<string> = new EventEmitter<string>();
-    @Output() public inputChanged: EventEmitter<string> = new EventEmitter<string>();
-    @Output() public suggest: EventEmitter<string> = new EventEmitter<string>();
+    @Input()
+    public input: string = '';
+
+    @Input()
+    public cssClasses: string = '';
+
+    @Output()
+    public suggestionChange: EventEmitter<string> = new EventEmitter<string>();
+
+    @Output()
+    public inputChanged: EventEmitter<string> = new EventEmitter<string>();
+
+    @Output()
+    public suggest: EventEmitter<string> = new EventEmitter<string>();
 
     private _suggestion: string = '';
     private suggestionSubject: Subject<string> = new Subject<string>();
 
     @Input()
-    get suggestion(): string {
+    public get suggestion(): string {
         if (this.input && this._suggestion) {
             const suggestionSubstring = this._suggestion.substring(0, this.input.length);
             if (this.input.localeCompare(suggestionSubstring, undefined, { sensitivity: 'base' }) === 0) {
@@ -29,7 +38,7 @@ export class SuggestionComponent implements OnInit, OnChanges {
         return '';
     }
 
-    set suggestion(value: string | null) {
+    public set suggestion(value: string | null) {
         this._suggestion = value === null ? '' : value;
     }
 

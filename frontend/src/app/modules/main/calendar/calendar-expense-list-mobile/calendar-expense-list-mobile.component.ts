@@ -11,11 +11,20 @@ import { CalendarService } from '../calendar.service';
     styleUrls: ['calendar-expense-list-mobile.component.scss'],
 })
 export class CalendarExpenseListMobileComponent implements OnChanges {
-    @Input() public isMobile: boolean;
-    @Input() public calendar: Calendar;
-    @Input() public selectedValue: Date;
-    @Input() public expenses: Expense[] = [];
-    @Input() public expenseBalances: ExpenseBalance[] = [];
+    @Input()
+    public isMobile: boolean;
+
+    @Input()
+    public calendar: Calendar;
+
+    @Input()
+    public selectedValue: Date;
+
+    @Input()
+    public expenses: Expense[] = [];
+
+    @Input()
+    public expenseBalances: ExpenseBalance[] = [];
 
     public confirmedExpenses: Expense[];
     public unconfirmedExpenses: Expense[];
@@ -26,7 +35,7 @@ export class CalendarExpenseListMobileComponent implements OnChanges {
         private dateService: NbDateService<Date>
     ) {}
 
-    ngOnChanges(changes: SimpleChanges): void {
+    public ngOnChanges(changes: SimpleChanges): void {
         if (changes?.selectedValue || changes?.expenses || changes?.balances) {
             this.confirmedExpenses = this.expenses.filter((expense: Expense) => {
                 return this.dateService.isSameDaySafe(this.selectedValue, expense.createdAt) && expense.confirmed;

@@ -13,7 +13,7 @@ import { NbDateService } from '@nebular/theme';
 export class AppComponent {
     public isBusy: boolean = true;
 
-    constructor(
+    public constructor(
         private router: Router,
         private dateService: NbDateService<Date>
     ) {

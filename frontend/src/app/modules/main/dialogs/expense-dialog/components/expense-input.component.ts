@@ -1,4 +1,5 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { AfterViewInit, Component, EventEmitter, Input, Output } from '@angular/core';
+import { ControlContainer, NgForm } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { ExpenseApiService } from '../../../../../api/expense.api.service';
 import { Expense } from '../../../../../api/objects/expense';
@@ -8,8 +9,9 @@ import { UNCATEGORIZED_COLOR } from '../../../../../util/color.util';
     selector: 'app-expense-input',
     templateUrl: 'expense-input.component.html',
     styleUrl: 'expense-input.component.scss',
+    viewProviders: [{ provide: ControlContainer, useExisting: NgForm }],
 })
-export class ExpenseInputComponent {
+export class ExpenseInputComponent implements AfterViewInit {
     @Input({ required: true })
     public expense: Expense;
 
@@ -19,13 +21,24 @@ export class ExpenseInputComponent {
     @Input()
     public labelEditable: boolean = false;
 
+    @Input()
+    public colorize: boolean = true;
+
+    // @ViewChild('focus')
+    // private focusElement: ElementRef;
+
     public suggestedExpense: Expense;
 
     private expenseSuggestionSubscription: Subscription;
 
     protected readonly UNCATEGORIZED_COLOR = UNCATEGORIZED_COLOR;
 
-    constructor(private expenseApiService: ExpenseApiService) {}
+    public constructor(private expenseApiService: ExpenseApiService) {}
+
+    public ngAfterViewInit(): void {
+        return;
+        // this.focusElement.nativeElement.focus();
+    }
 
     public handleInputChange(input: string): void {
         // 1. Deselect category when input change & is not equal to suggestion (new expense only)
@@ -53,5 +66,11 @@ export class ExpenseInputComponent {
         this.expense.label = this.suggestedExpense.label;
         this.expense.category = this.suggestedExpense.category;
         this.expense.isExpense = this.suggestedExpense.isExpense;
+    }
+
+    public backgroundColor(): string {
+        return this.colorize && this.expense.confirmed
+            ? this.expense.category?.color ?? UNCATEGORIZED_COLOR
+            : 'transparent';
     }
 }

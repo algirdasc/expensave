@@ -1,30 +1,15 @@
-<form #expenseForm="ngForm" (ngSubmit)="onSubmit()" autocomplete="off">
-    <nb-card [nbSpinner]="isBusy" class="dialog">
-        <nb-card-body class="p-0">
-            <nb-tabset (changeTab)="onTabChange($event)">
-                <nb-tab tabTitle="Expense" class="p-0" *ngIf="!expense.id" tabId="save">
-                    <app-expense [expense]="expense" *nbTabContent></app-expense>
-                </nb-tab>
-                <nb-tab tabTitle="Balance" class="p-0" *ngIf="!expense.id" tabId="saveBalanceUpdate">
-                    <app-expense-balance-update [expense]="expense" *nbTabContent></app-expense-balance-update>
-                </nb-tab>
-                <nb-tab tabTitle="Transfer" class="p-0" *ngIf="!expense.id" tabId="saveTransfer">
-                    <app-expense-transfer [expense]="expense" *nbTabContent></app-expense-transfer>
-                </nb-tab>
-            </nb-tabset>
-        </nb-card-body>
-
-        <nb-card-footer>
-            <div class="d-flex flex-row-reverse justify-content-between">
-                <button nbButton type="submit" status="primary" [disabled]="isBusy || !expenseForm.valid" tabIndex="3">
-                    <nb-icon icon="save-outline"></nb-icon>
-                    Save
-                </button>
-
-                <button nbButton type="button" ghost status="danger" *ngIf="expense.id" (click)="deleteExpense()">
-                    <nb-icon icon="trash-2-outline"></nb-icon>
-                </button>
-            </div>
-        </nb-card-footer>
-    </nb-card>
-</form>
+<nb-card class="dialog">
+    <nb-card-body class="p-0">
+        <nb-tabset [class.confirmed]="colorize && expense.confirmed" class="h-100" (changeTab)="onTabChange($event)">
+            <nb-tab tabTitle="Expense" class="h-100 p-0" *ngIf="showTab(USER)" [tabId]="USER">
+                <app-expense [expense]="expense" *nbTabContent></app-expense>
+            </nb-tab>
+            <nb-tab tabTitle="Balance" class="h-100 p-0" *ngIf="showTab(BALANCE_UPDATE)" [tabId]="BALANCE_UPDATE">
+                <app-balance [expense]="expense" *nbTabContent></app-balance>
+            </nb-tab>
+            <nb-tab tabTitle="Transfer" class="h-100 p-0" *ngIf="showTab(TRANSFER)" [tabId]="TRANSFER">
+                <app-transfer [expense]="expense" *nbTabContent></app-transfer>
+            </nb-tab>
+        </nb-tabset>
+    </nb-card-body>
+</nb-card>

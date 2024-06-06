@@ -1,38 +1,59 @@
-:host ::ng-deep .tabset {
-    position: absolute;
-    border-bottom: 0 !important;
-    justify-content: flex-end !important;
-    width: 100%;
-    padding: 0 1rem !important;
+@import '../../../../../theme';
+
+:host ::ng-deep .dialog {
+    height: 560px;
 }
 
-:host ::ng-deep .tab {
+:host ::ng-deep nb-tabset {
+    .tabset {
+        position: absolute;
+        border-bottom: 0 !important;
+        justify-content: end !important;
+        width: 100%;
+        padding: 0 0.5em !important;
+    }
+
+    .tabset li:only-child {
+        display: none;
+    }
+
+    .tab-link {
+        font-size: 12px;
+        padding: 2em 0 1em;
+    }
+
+    .tab {
+        margin: 0 0.5em;
+    }
+
+    .tab.active {
+        border-bottom: 2px solid nb-theme(color-primary-default-border);
+    }
+
+    .tab-link:before {
+        background-color: transparent !important;
+    }
+}
+
+:host ::ng-deep nb-tabset.confirmed {
     .tab-link {
         color: hsla(0, 0%, 100%, .4) !important;
-        font-size: 11px;
-        padding: 1.5em 2em;
     }
 
     .tab-link:hover {
         color: hsla(0, 0%, 100%, .8) !important;
     }
 
-    .tab-link:hover:before {
-        background-color: transparent !important;
+    .tab.active {
+        border-color: hsla(0, 0%, 100%, .8) !important;
+
+        .tab-link {
+            color: hsla(0, 0%, 100%, .8) !important;
+        }
     }
 }
 
-:host ::ng-deep .tab.active {
-    .tab-link {
-        color: hsla(0, 0%, 100%, .8) !important;
-    }
-
-    .tab-link:before {
-        background-color: hsla(0, 0%, 100%, .8) !important;
-    }
-}
-
-nb-list-item {
+:host ::ng-deep nb-list-item {
     nb-icon {
         opacity: .25;
         min-width: 1em;

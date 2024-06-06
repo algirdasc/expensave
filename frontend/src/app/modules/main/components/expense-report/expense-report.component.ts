@@ -21,7 +21,7 @@ export class ExpenseReportComponent implements OnInit {
     public dateFrom: Date;
     public dateTo: Date;
 
-    constructor(
+    public constructor(
         private dateService: NbDateService<Date>,
         private reportsApiService: ReportsApiService,
         private mainService: MainService

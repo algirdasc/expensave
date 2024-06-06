@@ -1,8 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Enum;
 
-enum ErrorEnum
+enum Error
 {
     case AUTH_HANDLE_ERROR;
 

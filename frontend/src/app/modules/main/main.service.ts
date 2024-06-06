@@ -21,7 +21,7 @@ export class MainService {
 
     private _calendar: Calendar;
 
-    constructor(
+    public constructor(
         private readonly calendarApiService: CalendarApiService,
         private readonly dateService: NbDateService<Date>,
         private readonly title: Title
@@ -53,11 +53,11 @@ export class MainService {
             });
     }
 
-    get calendar(): Calendar {
+    public get calendar(): Calendar {
         return this._calendar;
     }
 
-    set calendar(calendar: Calendar) {
+    public set calendar(calendar: Calendar) {
         this._calendar = calendar;
 
         this.title.setTitle(`Expensave - ${calendar?.name ?? 'No calendar'}`);

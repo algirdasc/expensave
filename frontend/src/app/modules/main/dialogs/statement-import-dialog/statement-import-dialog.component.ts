@@ -14,7 +14,7 @@ export class StatementImportDialogComponent {
     public isBusy: boolean = false;
     private files: FileList;
 
-    constructor(
+    public constructor(
         public readonly dialogRef: NbDialogRef<StatementImportDialogComponent>,
         private readonly calendarApiService: CalendarApiService,
         private readonly toastrService: NbToastrService

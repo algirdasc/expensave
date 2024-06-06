@@ -9,15 +9,18 @@ import { createSwipeSubscription } from './swipe/swipe.core';
 export class SwipeDirective implements OnInit, OnDestroy {
     private swipeSubscription: Subscription | undefined;
 
-    @Output() swipeMove: EventEmitter<SwipeEvent> = new EventEmitter<SwipeEvent>();
-    @Output() swipeEnd: EventEmitter<SwipeEvent> = new EventEmitter<SwipeEvent>();
+    @Output()
+    public swipeMove: EventEmitter<SwipeEvent> = new EventEmitter<SwipeEvent>();
 
-    constructor(
+    @Output()
+    public swipeEnd: EventEmitter<SwipeEvent> = new EventEmitter<SwipeEvent>();
+
+    public constructor(
         private elementRef: ElementRef,
         private zone: NgZone
     ) {}
 
-    ngOnInit() {
+    public ngOnInit(): void {
         this.zone.runOutsideAngular(() => {
             this.swipeSubscription = createSwipeSubscription({
                 domElement: this.elementRef.nativeElement,
@@ -27,7 +30,7 @@ export class SwipeDirective implements OnInit, OnDestroy {
         });
     }
 
-    ngOnDestroy() {
+    public ngOnDestroy(): void {
         this.swipeSubscription?.unsubscribe?.();
     }
 }

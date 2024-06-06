@@ -1,37 +1,16 @@
-<app-expense-input [(expense)]="expense" [labelEditable]="true"></app-expense-input>
+<form #expenseForm="ngForm" (ngSubmit)="onSubmit()" autocomplete="off" class="h-100">
+    <div class="d-flex flex-column h-100">
+        <app-expense-input [(expense)]="expense" [labelEditable]="true" />
 
-<nb-list>
-    <nb-list-item (click)="selectCalendar()" class="actionable">
-        <nb-icon icon="calendar-outline" class="me-3"></nb-icon>
-        <div class="text-truncate">{{ expense.calendar.name }}</div>
-    </nb-list-item>
+        <div class="h-100 overflow-auto">
+            <app-expense-dialog-calendar-list-item [(calendar)]="expense.calendar" />
+            <app-expense-dialog-confirmed-list-item [(confirmed)]="expense.confirmed" />
+            <app-expense-dialog-category-list-item [(category)]="expense.category" />
+            <app-expense-dialog-date-list-item [(date)]="expense.createdAt" />
+            <app-expense-dialog-description-list-item [(description)]="expense.description" />
+            <app-expense-dialog-user-list-item [user]="expense.user" />
+        </div>
 
-    <nb-list-item (click)="expense.confirmed = !expense.confirmed" class="actionable">
-        <nb-icon
-            [icon]="expense.confirmed ? 'checkmark-circle-2' : 'radio-button-off'"
-            [status]="expense.confirmed ? 'primary' : ''"
-            [class.active]="expense.confirmed"
-            class="me-3"></nb-icon>
-        <div>{{ expense.confirmed ? 'Confirmed' : 'Unconfirmed' }}</div>
-    </nb-list-item>
-
-    <nb-list-item (click)="selectCategory()" class="actionable">
-        <nb-icon icon="radio-button-on" [ngStyle]="{ color: expense.category?.color }" class="active me-3"></nb-icon>
-        <div class="text-truncate">{{ expense.category?.name ?? 'Uncategorized' }}</div>
-    </nb-list-item>
-
-    <nb-list-item (click)="selectDateTime()" class="actionable">
-        <nb-icon icon="calendar-outline" class="me-3"></nb-icon>
-        <div class="text-truncate">{{ expense.createdAt | date: 'fullDate' }}</div>
-    </nb-list-item>
-
-    <nb-list-item (click)="addDescription()" class="actionable">
-        <nb-icon icon="file-text-outline" class="me-3"></nb-icon>
-        <div class="text-truncate">{{ expense.description ?? 'Add description' }}</div>
-    </nb-list-item>
-
-    <nb-list-item>
-        <nb-user [picture]="expense.user.avatar" onlyPicture size="tiny" class="me-2"></nb-user>
-        <div class="text-truncate text-hint">{{ expense.user.name }}</div>
-    </nb-list-item>
-</nb-list>
+        <app-expense-dialog-footer [form]="expenseForm" [expense]="expense" />
+    </div>
+</form>

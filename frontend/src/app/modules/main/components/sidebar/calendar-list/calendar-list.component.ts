@@ -26,7 +26,7 @@ export class CalendarSidebarListComponent {
     private dialogBack: EventEmitter<boolean> = new EventEmitter<boolean>();
     private dialogSave: EventEmitter<Calendar> = new EventEmitter<Calendar>();
 
-    constructor(
+    public constructor(
         public readonly dialogService: NbDialogService,
         public readonly mainService: MainService,
         public readonly calendarApiService: CalendarApiService,

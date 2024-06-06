@@ -13,7 +13,7 @@ export abstract class AbstractApiService<T extends EntityInterface> {
     protected abstract entity: Type<EntityInterface>;
     private onBusyChangeTimeout: NodeJS.Timer;
 
-    constructor(protected http: HttpClient) {}
+    public constructor(protected http: HttpClient) {}
 
     public request<K>(method: string, type: any, ...args: any): Observable<K> {
         this.changeIsBusy(true);
@@ -48,6 +48,7 @@ export abstract class AbstractApiService<T extends EntityInterface> {
         const request = entity.id
             ? this.http.put(`${this.backend}/${entity.id}`, entity)
             : this.http.post(this.backend, entity);
+
         return request.pipe(
             finalize(() => this.changeIsBusy(false)),
             map((response: HttpResponse<T>) => this.convertToType<T>(this.entity, response))

@@ -14,7 +14,7 @@ export class CalendarApiService extends AbstractApiService<Calendar> {
     protected backend: string = '/calendar';
     protected entity: Type<EntityInterface> = Calendar;
 
-    constructor(
+    public constructor(
         protected http: HttpClient,
         private dateService: NbDateService<Date>
     ) {

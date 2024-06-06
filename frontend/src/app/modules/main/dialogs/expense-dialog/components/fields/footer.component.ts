@@ -1,0 +1,42 @@
+import { Component, Input } from '@angular/core';
+import { NgForm } from '@angular/forms';
+import { NbDialogService } from '@nebular/theme';
+import { Expense } from '../../../../../../api/objects/expense';
+import { ConfirmDialogComponent } from '../../../confirm-dialog/confirm-dialog.component';
+
+@Component({
+    selector: 'app-expense-dialog-footer',
+    template: `<div class="d-flex flex-row-reverse justify-content-between p-3 border-top">
+        <button nbButton type="submit" status="primary" [disabled]="!form.valid" tabIndex="3">
+            <nb-icon icon="save-outline"></nb-icon>
+            Save
+        </button>
+
+        <button nbButton type="button" ghost status="danger" *ngIf="expense.id" (click)="deleteExpense()">
+            <nb-icon icon="trash-2-outline"></nb-icon>
+        </button>
+    </div>`,
+})
+export class FooterComponent {
+    @Input({ required: true })
+    public form: NgForm;
+
+    @Input({ required: true })
+    public expense: Expense;
+
+    public constructor(private dialogService: NbDialogService) {}
+
+    public deleteExpense(): void {
+        this.dialogService
+            .open(ConfirmDialogComponent, {
+                context: {
+                    question: 'Are you sure you want delete this transaction?',
+                },
+            })
+            .onClose.subscribe((result?: boolean) => {
+                if (result) {
+                    // this.expenseApiService.delete(this.expense.id).subscribe(() => this.dialogRef.close(true));
+                }
+            });
+    }
+}

@@ -22,7 +22,7 @@ export class CalendarGridRowCellMobileComponent
         super(dateService);
     }
 
-    get isCellSelected(): boolean {
+    public get isCellSelected(): boolean {
         return this.dateService.isSameDaySafe(this.selectedValue, this.date);
     }
 }

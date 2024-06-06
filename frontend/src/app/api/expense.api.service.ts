@@ -2,6 +2,7 @@ import { Injectable, Type } from '@angular/core';
 import { Observable } from 'rxjs';
 import { EntityInterface } from '../interfaces/entity.interface';
 import { AbstractApiService } from './abstract.api.service';
+import { Calendar } from './objects/calendar';
 import { Expense } from './objects/expense';
 
 @Injectable()
@@ -13,11 +14,7 @@ export class ExpenseApiService extends AbstractApiService<Expense> {
         return super.request<Expense>('post', Expense, `${this.backend}/suggest`, { label: label });
     }
 
-    public saveBalance(): Observable<Expense> {
-        return super.request<Expense>('post', Expense, `${this.backend}/save/balance`);
-    }
-
-    public saveTransfer(): Observable<Expense> {
-        return super.request<Expense>('post', Expense, `${this.backend}/save/transfer`);
+    public transfer(expense: Expense, destinationCalendar: Calendar): Observable<Expense> {
+        return super.request<Expense>('post', Expense, `${this.backend}/transfer/${destinationCalendar.id}`);
     }
 }

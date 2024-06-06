@@ -14,7 +14,7 @@ export class ProfileComponent {
     @Input() public user: User;
     @Output() public userChange: EventEmitter<User> = new EventEmitter<User>();
 
-    constructor(
+    public constructor(
         private readonly dialogService: NbDialogService,
         private readonly router: Router
     ) {}

@@ -15,7 +15,7 @@ export class CategoriesDialogComponent implements OnInit {
     public selectedCategory: Category;
     public editableCategory: Category;
 
-    constructor(
+    public constructor(
         public readonly dialogRef: NbDialogRef<CategoriesDialogComponent>,
         private readonly categoryApiService: CategoryApiService
     ) {
