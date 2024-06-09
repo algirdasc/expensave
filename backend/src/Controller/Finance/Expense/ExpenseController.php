@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Controller\Finance\Calendar;
+namespace App\Controller\Finance\Expense;
 
 use App\Const\ContextGroup\ExpenseContextGroupConst;
 use App\Controller\AbstractApiController;

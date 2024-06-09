@@ -1,8 +1,9 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { NbDialogService } from '@nebular/theme';
+import { NbDialogRef, NbDialogService } from '@nebular/theme';
 import { Expense } from '../../../../../../api/objects/expense';
 import { ConfirmDialogComponent } from '../../../confirm-dialog/confirm-dialog.component';
+import { ExpenseDialogComponent } from '../../expense-dialog.component';
 
 @Component({
     selector: 'app-expense-dialog-footer',
@@ -24,6 +25,9 @@ export class FooterComponent {
     @Input({ required: true })
     public expense: Expense;
 
+    @Output()
+    public delete: EventEmitter<void> = new EventEmitter<void>();
+
     public constructor(private dialogService: NbDialogService) {}
 
     public deleteExpense(): void {
@@ -35,7 +39,7 @@ export class FooterComponent {
             })
             .onClose.subscribe((result?: boolean) => {
                 if (result) {
-                    // this.expenseApiService.delete(this.expense.id).subscribe(() => this.dialogRef.close(true));
+                    this.delete.emit();
                 }
             });
     }

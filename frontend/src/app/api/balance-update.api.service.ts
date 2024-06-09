@@ -6,8 +6,8 @@ import { Category } from './objects/category';
 import { Expense } from './objects/expense';
 
 @Injectable()
-export class BalanceApiService extends AbstractApiService<Expense> {
-    protected backend: string = '/balance';
+export class BalanceUpdateApiService extends AbstractApiService<Expense> {
+    protected backend: string = '/balance-update';
     protected entity: Type<EntityInterface> = Expense;
 
     public category(): Observable<Category> {

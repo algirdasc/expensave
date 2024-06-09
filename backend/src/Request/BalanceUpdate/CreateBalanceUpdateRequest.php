@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Request\Balance;
+namespace App\Request\BalanceUpdate;
 
 use App\Attribute\Request\ResolveEntity;
 use App\Entity\Calendar;
@@ -10,7 +10,7 @@ use App\Request\AbstractRequest;
 use DateTime;
 use Symfony\Component\Validator\Constraints as Assert;
 
-class CreateBalanceRequest extends AbstractRequest
+class CreateBalanceUpdateRequest extends AbstractRequest
 {
     #[Assert\NotBlank]
     #[ResolveEntity]

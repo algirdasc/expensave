@@ -1,7 +1,7 @@
 <nb-card class="dialog">
     <nb-card-body class="p-0">
-        <nb-tabset [class.confirmed]="colorize && expense.confirmed" class="h-100" (changeTab)="onTabChange($event)">
-            <nb-tab tabTitle="Expense" class="h-100 p-0" *ngIf="showTab(USER)" [tabId]="USER">
+        <nb-tabset [class.confirmed]="expense.confirmed" class="h-100" (changeTab)="onTabChange($event)">
+            <nb-tab tabTitle="Expense" class="h-100 p-0" *ngIf="showTab()" [tabId]="UNCATEGORIZED">
                 <app-expense [expense]="expense" *nbTabContent></app-expense>
             </nb-tab>
             <nb-tab tabTitle="Balance" class="h-100 p-0" *ngIf="showTab(BALANCE_UPDATE)" [tabId]="BALANCE_UPDATE">

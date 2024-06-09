@@ -5,6 +5,7 @@ import { ResizedEvent } from 'angular-resize-event';
 import { environment } from '../../../environments/environment';
 import { ExpenseApiService } from '../../api/expense.api.service';
 import { Calendar } from '../../api/objects/calendar';
+import { Category } from '../../api/objects/category';
 import { User } from '../../api/objects/user';
 import { APP_CONFIG } from '../../app.initializer';
 import { SwipeEvent } from '../../interfaces/swipe.interface';
@@ -33,14 +34,25 @@ export class MainComponent implements OnInit {
     }
 
     public ngOnInit(): void {
-        this.activatedRoute.data.subscribe(({ user, calendars }: { user: User; calendars: Calendar[] }) => {
-            this.mainService.user = user;
-            this.mainService.calendars = calendars;
-            this.mainService.calendar =
-                this.mainService.calendars.filter((calendar: Calendar) => {
-                    return calendar.id === user.defaultCalendarId;
-                })[0] || this.mainService.calendars[0];
-        });
+        this.activatedRoute.data.subscribe(
+            ({
+                user,
+                calendars,
+                systemCategories,
+            }: {
+                user: User;
+                calendars: Calendar[];
+                systemCategories: Category[];
+            }) => {
+                this.mainService.user = user;
+                this.mainService.calendars = calendars;
+                this.mainService.systemCategories = systemCategories;
+                this.mainService.calendar =
+                    this.mainService.calendars.filter((calendar: Calendar) => {
+                        return calendar.id === user.defaultCalendarId;
+                    })[0] || this.mainService.calendars[0];
+            }
+        );
 
         this.activatedRoute.queryParams.subscribe(({ date }: { date?: string }) => {
             if (date) {

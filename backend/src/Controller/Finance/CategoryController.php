@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Controller\Finance\Category;
+namespace App\Controller\Finance;
 
 use App\Controller\AbstractApiController;
 use App\Entity\Category;
@@ -39,6 +39,12 @@ class CategoryController extends AbstractApiController
         }
 
         return $this->respond($this->categoryRepository->findBy($criteria, ['name' => 'ASC']));
+    }
+
+    #[Route('/system', name: 'list_system', methods: Request::METHOD_GET)]
+    public function system(): JsonResponse
+    {
+        return $this->respond($this->categoryRepository->findSystem());
     }
 
     #[Route('/{category}', name: 'get', methods: Request::METHOD_GET)]

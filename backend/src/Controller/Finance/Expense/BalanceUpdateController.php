@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Controller\Finance\Calendar;
+namespace App\Controller\Finance\Expense;
 
 use App\Const\ContextGroup\ExpenseContextGroupConst;
 use App\Const\StringConst;
@@ -11,8 +11,8 @@ use App\Entity\Expense;
 use App\Entity\User;
 use App\Repository\CategoryRepository;
 use App\Repository\ExpenseRepository;
-use App\Request\Balance\CreateBalanceRequest;
-use App\Request\Balance\UpdateBalanceRequest;
+use App\Request\BalanceUpdate\CreateBalanceUpdateRequest;
+use App\Request\BalanceUpdate\UpdateBalanceUpdateRequest;
 use App\Response\EmptyResponse;
 use App\Service\BalanceCalculatorService;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -20,8 +20,8 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\CurrentUser;
 
-#[Route('api/balance', name: 'balance_')]
-class BalanceController extends AbstractApiController
+#[Route('api/balance-update', name: 'balance_update_')]
+class BalanceUpdateController extends AbstractApiController
 {
     public function __construct(
         private readonly ExpenseRepository $expenseRepository,
@@ -31,19 +31,17 @@ class BalanceController extends AbstractApiController
     }
 
     #[Route('', name: 'create', methods: Request::METHOD_POST)]
-    public function create(#[CurrentUser] User $user, CreateBalanceRequest $request): JsonResponse
+    public function create(#[CurrentUser] User $user, CreateBalanceUpdateRequest $request): JsonResponse
     {
-        $balanceCategory = $this->categoryRepository->findBalanceCategory();
-
         $amount = $this->balanceCalculatorService->calculateAmount(
             $request->getAmount(),
             $request->getCreatedAt(),
             $request->getCalendar()
         );
 
-        $balance = (new Expense())
+        $balanceUpdate = (new Expense())
             ->setCalendar($request->getCalendar())
-            ->setCategory($balanceCategory)
+            ->setCategory($this->categoryRepository->findBalanceCategory())
             ->setLabel(StringConst::BALANCE_UPDATE_LABEL)
             ->setUser($user)
             ->setAmount($amount)
@@ -52,13 +50,13 @@ class BalanceController extends AbstractApiController
             ->setDescription($request->getDescription())
         ;
 
-        $this->expenseRepository->save($balance);
+        $this->expenseRepository->save($balanceUpdate);
 
-        return $this->respond($balance, groups: ExpenseContextGroupConst::DETAILS);
+        return $this->respond($balanceUpdate, groups: ExpenseContextGroupConst::DETAILS);
     }
 
-    #[Route('/{balance}', name: 'update', methods: Request::METHOD_PUT)]
-    public function update(UpdateBalanceRequest $request, Expense $balance): JsonResponse
+    #[Route('/{balanceUpdate}', name: 'update', methods: Request::METHOD_PUT)]
+    public function update(UpdateBalanceUpdateRequest $request, Expense $balanceUpdate): JsonResponse
     {
         $amount = $this->balanceCalculatorService->calculateAmount(
             $request->getAmount(),
@@ -66,22 +64,22 @@ class BalanceController extends AbstractApiController
             $request->getCalendar()
         );
 
-        $balance
+        $balanceUpdate
             ->setCalendar($request->getCalendar())
             ->setAmount($amount)
             ->setCreatedAt($request->getCreatedAt())
             ->setDescription($request->getDescription())
         ;
 
-        $this->expenseRepository->save($balance);
+        $this->expenseRepository->save($balanceUpdate);
 
-        return $this->respond($balance, groups: ExpenseContextGroupConst::DETAILS);
+        return $this->respond($balanceUpdate, groups: ExpenseContextGroupConst::DETAILS);
     }
 
-    #[Route('/{balance}', name: 'delete', methods: Request::METHOD_DELETE)]
-    public function delete(Expense $balance): JsonResponse
+    #[Route('/{balanceUpdate}', name: 'delete', methods: Request::METHOD_DELETE)]
+    public function delete(Expense $balanceUpdate): JsonResponse
     {
-        $this->expenseRepository->remove($balance);
+        $this->expenseRepository->remove($balanceUpdate);
 
         return $this->respond(new EmptyResponse());
     }

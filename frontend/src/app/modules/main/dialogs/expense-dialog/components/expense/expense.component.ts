@@ -15,9 +15,15 @@ export class ExpenseComponent extends AbstractExpenseComponent {
         private dialogRef: NbDialogRef<ExpenseDialogComponent>
     ) {
         super();
+
+        this.expenseApiService.onBusyChange.subscribe((isBusy: boolean) => (this.isBusy = isBusy));
     }
 
     public onSubmit(): void {
         this.expenseApiService.save(this.expense).subscribe((expense: Expense) => this.dialogRef.close(expense));
+    }
+
+    public onDelete(): void {
+        this.expenseApiService.delete(this.expense.id).subscribe(() => this.dialogRef.close(true));
     }
 }

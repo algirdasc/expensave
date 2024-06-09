@@ -3,6 +3,7 @@ import { Title } from '@angular/platform-browser';
 import { NbDateService } from '@nebular/theme';
 import { CalendarApiService } from '../../api/calendar.api.service';
 import { Calendar } from '../../api/objects/calendar';
+import { Category } from '../../api/objects/category';
 import { Expense } from '../../api/objects/expense';
 import { ExpenseBalance } from '../../api/objects/expense-balance';
 import { User } from '../../api/objects/user';
@@ -12,6 +13,7 @@ import { CalendarExpenseListResponse } from '../../api/response/calendar-expense
 export class MainService {
     public user: User;
     public calendars: Calendar[];
+    public systemCategories: Category[];
     public calendarDateFrom: Date;
     public calendarDateTo: Date;
     public visibleDate: Date = new Date();
@@ -51,6 +53,10 @@ export class MainService {
                         this.visibleDateBalance += balance.change;
                     });
             });
+    }
+
+    public getSystemCategory(type: string): Category {
+        return this.systemCategories.filter((category: Category) => category.type === type)[0];
     }
 
     public get calendar(): Calendar {

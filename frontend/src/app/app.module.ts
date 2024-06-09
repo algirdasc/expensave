@@ -18,12 +18,12 @@ import {
     NbToastrModule,
 } from '@nebular/theme';
 import 'reflect-metadata';
-import { BalanceApiService } from './api/balance.api.service';
+import { BalanceUpdateApiService } from './api/balance-update.api.service';
 import { CalendarApiService } from './api/calendar.api.service';
 import { CategoryApiService } from './api/category.api.service';
 import { ExpenseApiService } from './api/expense.api.service';
 import { ReportsApiService } from './api/reports.api.service';
-import { TransferApiService } from './api/transfer.api.service';
+import { ExpenseTransferApiService } from './api/expense-transfer.api.service';
 import { UserApiService } from './api/user.api.service';
 import { AppComponent } from './app.component';
 import { AppInitializer } from './app.initializer';
@@ -37,6 +37,7 @@ import { AuthModule } from './modules/auth/auth.module';
 import { tokenFilter } from './modules/auth/token.filter';
 import { Error404Component } from './modules/error-404.component';
 import { CalendarResolver } from './resolvers/calendar.resolver';
+import { SystemCategoryResolver } from './resolvers/system-category.resolver';
 import { UserResolver } from './resolvers/user.resolver';
 import { AuthOptionsService } from './services/auth-options.service';
 
@@ -46,8 +47,8 @@ const apiServices = [
     ExpenseApiService,
     CategoryApiService,
     ReportsApiService,
-    BalanceApiService,
-    TransferApiService,
+    BalanceUpdateApiService,
+    ExpenseTransferApiService,
 ];
 
 @NgModule({
@@ -101,6 +102,7 @@ const apiServices = [
         AuthOptionsService,
         UserResolver,
         CalendarResolver,
+        SystemCategoryResolver,
         ...apiServices,
     ],
     bootstrap: [AppComponent],

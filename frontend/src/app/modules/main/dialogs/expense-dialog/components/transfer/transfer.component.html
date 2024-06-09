@@ -1,6 +1,6 @@
-<form #transferForm="ngForm" (ngSubmit)="onSubmit()" autocomplete="off" class="h-100">
+<form #transferForm="ngForm" [nbSpinner]="isBusy" (ngSubmit)="onSubmit()" autocomplete="off" class="h-100">
     <div class="d-flex flex-column h-100">
-        <app-expense-input [expense]="expense" [labelEditable]="false" [colorize]="false" />
+        <app-expense-input [expense]="expense" [labelEditable]="false" />
 
         <div class="h-100 overflow-auto">
             <app-expense-dialog-calendar-list-item
@@ -12,15 +12,12 @@
                 [(calendar)]="destinationCalendar"
                 icon="log-in-outline"
                 textPrefix="Destination:" />
-            <nb-list-item class="border-0">
-                <nb-icon icon="radio-button-on" class="me-3"></nb-icon>
-                <div class="text-truncate text-hint">Transfer</div>
-            </nb-list-item>
+            <app-expense-dialog-category-list-item [category]="expense.category" [isActionable]="false"  />
             <app-expense-dialog-date-list-item [(date)]="expense.createdAt" />
             <app-expense-dialog-description-list-item [(description)]="expense.description" />
             <app-expense-dialog-user-list-item [user]="expense.user" />
         </div>
 
-        <app-expense-dialog-footer [form]="transferForm" [expense]="expense" />
+        <app-expense-dialog-footer [form]="transferForm" [expense]="expense" (delete)="onDelete()" />
     </div>
 </form>

@@ -5,14 +5,17 @@ import { CategoriesDialogComponent } from '../../../categories-dialog/categories
 
 @Component({
     selector: 'app-expense-dialog-category-list-item',
-    template: `<nb-list-item (click)="selectCategory()" class="actionable border-0">
+    template: `<nb-list-item (click)="selectCategory()" class="border-0" [class.actionable]="isActionable">
         <nb-icon icon="radio-button-on" [ngStyle]="{ color: category?.color }" class="active me-3"></nb-icon>
-        <div class="text-truncate">{{ category?.name }}</div>
+        <div class="text-truncate" [class.text-hint]="!isActionable">{{ category?.name }}</div>
     </nb-list-item>`,
 })
 export class CategoryListItemComponent {
     @Input({ required: true })
     public category: Category;
+
+    @Input()
+    public isActionable: boolean = true;
 
     @Output()
     public categoryChange: EventEmitter<Category> = new EventEmitter<Category>();
@@ -20,6 +23,10 @@ export class CategoryListItemComponent {
     public constructor(private dialogService: NbDialogService) {}
 
     public selectCategory(): void {
+        if (!this.isActionable) {
+            return;
+        }
+
         this.dialogService
             .open(CategoriesDialogComponent, {
                 context: {

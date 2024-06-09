@@ -21,17 +21,12 @@ export class ExpenseInputComponent implements AfterViewInit {
     @Input()
     public labelEditable: boolean = false;
 
-    @Input()
-    public colorize: boolean = true;
-
     // @ViewChild('focus')
     // private focusElement: ElementRef;
 
     public suggestedExpense: Expense;
 
     private expenseSuggestionSubscription: Subscription;
-
-    protected readonly UNCATEGORIZED_COLOR = UNCATEGORIZED_COLOR;
 
     public constructor(private expenseApiService: ExpenseApiService) {}
 
@@ -69,8 +64,6 @@ export class ExpenseInputComponent implements AfterViewInit {
     }
 
     public backgroundColor(): string {
-        return this.colorize && this.expense.confirmed
-            ? this.expense.category?.color ?? UNCATEGORIZED_COLOR
-            : 'transparent';
+        return this.expense.confirmed ? this.expense.category?.color ?? UNCATEGORIZED_COLOR : 'transparent';
     }
 }

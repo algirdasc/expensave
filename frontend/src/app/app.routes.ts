@@ -2,6 +2,7 @@ import { Routes } from '@angular/router';
 import { canActivateAuthenticated } from './modules/auth/auth.functions';
 import { Error404Component } from './modules/error-404.component';
 import { CalendarResolver } from './resolvers/calendar.resolver';
+import { SystemCategoryResolver } from './resolvers/system-category.resolver';
 import { UserResolver } from './resolvers/user.resolver';
 
 export const appRoutes: Routes = [
@@ -16,6 +17,7 @@ export const appRoutes: Routes = [
         resolve: {
             user: UserResolver,
             calendars: CalendarResolver,
+            systemCategories: SystemCategoryResolver,
         },
         loadChildren: () => import('./modules/main/main.module').then(m => m.MainModule),
     },

@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { NbTabComponent } from '@nebular/theme';
-import { BALANCE_UPDATE, TRANSFER, UNCATEGORIZED } from '../../../../api/objects/category';
+import { BALANCE_UPDATE, Category, TRANSFER, UNCATEGORIZED } from '../../../../api/objects/category';
 import { Expense } from '../../../../api/objects/expense';
 
 @Component({
@@ -9,9 +9,9 @@ import { Expense } from '../../../../api/objects/expense';
 })
 export class ExpenseDialogComponent {
     public expense: Expense;
-    public colorize: boolean = true;
+    public categoryMap: { [key: string]: Category };
 
-    public showTab(categoryType: string): boolean {
+    public showTab(categoryType?: string): boolean {
         if (!this.expense.id) {
             return true;
         }
@@ -20,17 +20,17 @@ export class ExpenseDialogComponent {
             return true;
         }
 
-        return (
-            categoryType === this.USER &&
-            (this.expense.category.definedByUser || this.expense.category.type === UNCATEGORIZED)
-        );
+        return !categoryType && (this.expense.category.definedByUser || this.expense.category.type === UNCATEGORIZED);
     }
 
     public onTabChange(tab: NbTabComponent): void {
-        this.colorize = tab.tabId === this.USER;
+        if (!this.expense.id) {
+            this.expense.category = this.categoryMap[tab.tabId];
+            this.expense.confirmed = true;
+        }
     }
 
     protected readonly BALANCE_UPDATE = BALANCE_UPDATE;
     protected readonly TRANSFER = TRANSFER;
-    protected readonly USER = 'user';
+    protected readonly UNCATEGORIZED = UNCATEGORIZED;
 }

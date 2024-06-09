@@ -44,6 +44,8 @@ readonly class EntityTransformationHandler implements TransformationHandlerInter
 
         $repository = $this->entityManager->getRepository($entityClassName);
 
+        error_log($value);
+
         if (null === $value) {
             if ($resolveEntityAttribute->getDefaultCriteria()) {
                 return $repository->findOneBy($resolveEntityAttribute->getDefaultCriteria());

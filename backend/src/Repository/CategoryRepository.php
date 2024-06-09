@@ -7,6 +7,7 @@ namespace App\Repository;
 use App\Const\StringConst;
 use App\Entity\Category;
 use App\Enum\CategoryType;
+use Doctrine\Common\Collections\Criteria;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -30,7 +31,7 @@ class CategoryRepository extends AbstractRepository
         if ($category === null) {
             $category = new Category();
             $category->setName($categoryName);
-            $category->setColor(StringConst::UNCATEGORIZED_CATEGORY_COLOR);
+            $category->setColor(StringConst::UNCATEGORIZED_COLOR);
 
             $this->save($category);
         }
@@ -38,14 +39,37 @@ class CategoryRepository extends AbstractRepository
         return $category;
     }
 
+    /**
+     * @return array<Category>
+     */
+    public function findSystem(): array
+    {
+        $queryBuilder = $this->createQueryBuilder('c')
+            ->where('c.type != :type')
+            ->setParameter('type', CategoryType::USER);
+
+
+        return $queryBuilder->getQuery()->getResult();
+    }
+
     public function findBalanceCategory(): Category
     {
-        $category = $this->findOneBy(['type' => CategoryType::BALANCE_UPDATE]);
+        return $this->findOrCreateSystemCategory(CategoryType::BALANCE_UPDATE, StringConst::BALANCE_UPDATE_LABEL, StringConst::BALANCE_COLOR);
+    }
+
+    public function findTransferCategory(): Category
+    {
+        return $this->findOrCreateSystemCategory(CategoryType::TRANSFER, StringConst::TRANSFER_LABEL, StringConst::TRANSFER_COLOR);
+    }
+
+    private function findOrCreateSystemCategory(CategoryType $type, string $label, string $color): Category
+    {
+        $category = $this->findOneBy(['type' => $type]);
 
         if ($category === null) {
-            $category = $this->findOrCreate(StringConst::BALANCE_UPDATE_LABEL);
-            $category->setColor(StringConst::BALANCE_CATEGORY_COLOR);
-            $category->setType(CategoryType::BALANCE_UPDATE);
+            $category = $this->findOrCreate($label);
+            $category->setColor($color);
+            $category->setType($type);
         }
 
         return $category;

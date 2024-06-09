@@ -49,6 +49,10 @@ class Expense
     #[Groups(ExpenseContextGroupConst::ALWAYS)]
     private DateTime $createdAt;
 
+    #[ORM\OneToOne(targetEntity: Expense::class, cascade: ['persist'])]
+    #[ORM\JoinColumn(name: 'related_id', referencedColumnName: 'id', nullable: true)]
+    private ?Expense $related = null;
+
     public function __construct()
     {
         $this->createdAt = new DateTime();
@@ -158,5 +162,17 @@ class Expense
     public function isIncome(): bool
     {
         return $this->getAmount() > 0;
+    }
+
+    public function getRelated(): ?Expense
+    {
+        return $this->related;
+    }
+
+    public function setRelated(?Expense $related): self
+    {
+        $this->related = $related;
+
+        return $this;
     }
 }

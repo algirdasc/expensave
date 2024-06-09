@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { NbDialogRef } from '@nebular/theme';
+import { appendPropertyInAstObject } from '@schematics/angular/utility/json-utils';
 import { Calendar } from '../../../../../../api/objects/calendar';
 import { Expense } from '../../../../../../api/objects/expense';
-import { TransferApiService } from '../../../../../../api/transfer.api.service';
+import { ExpenseTransferApiService } from '../../../../../../api/expense-transfer.api.service';
+import { TRANSFER_COLOR } from '../../../../../../util/color.util';
 import { ExpenseDialogComponent } from '../../expense-dialog.component';
 import { AbstractExpenseComponent } from '../abstract-expense.component';
 
@@ -14,10 +16,12 @@ export class TransferComponent extends AbstractExpenseComponent implements OnIni
     public destinationCalendar: Calendar;
 
     public constructor(
-        private transferApiService: TransferApiService,
+        private expenseTransferApiService: ExpenseTransferApiService,
         private dialogRef: NbDialogRef<ExpenseDialogComponent>
     ) {
         super();
+
+        this.expenseTransferApiService.onBusyChange.subscribe((isBusy: boolean) => (this.isBusy = isBusy));
     }
 
     public ngOnInit(): void {
@@ -25,6 +29,14 @@ export class TransferComponent extends AbstractExpenseComponent implements OnIni
     }
 
     public onSubmit(): void {
-        this.transferApiService.save(this.expense).subscribe((response: Expense) => this.dialogRef.close(response));
+        this.expenseTransferApiService
+            .transfer(this.expense, this.destinationCalendar)
+            .subscribe((response: Expense) => this.dialogRef.close(response));
     }
+
+    public onDelete(): void {
+        this.expenseTransferApiService.delete(this.expense.id).subscribe(() => this.dialogRef.close(true));
+    }
+
+    protected readonly TRANSFER_COLOR = TRANSFER_COLOR;
 }
