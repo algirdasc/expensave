@@ -24,4 +24,8 @@ export class ExpenseTransferApiService extends AbstractApiService<Expense> {
             map((response: HttpResponse<Expense>) => this.convertToType<Expense>(this.entity, response))
         );
     }
+
+    public related(expense: Expense): Observable<Expense> {
+        return super.request<Expense>('get', Expense, `${this.backend}/related/${expense.id}`);
+    }
 }

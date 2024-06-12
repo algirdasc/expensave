@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { NbDialogRef } from '@nebular/theme';
-import { appendPropertyInAstObject } from '@schematics/angular/utility/json-utils';
+import { finalize } from 'rxjs/operators';
 import { Calendar } from '../../../../../../api/objects/calendar';
+import { TRANSFER } from '../../../../../../api/objects/category';
 import { Expense } from '../../../../../../api/objects/expense';
 import { ExpenseTransferApiService } from '../../../../../../api/expense-transfer.api.service';
 import { TRANSFER_COLOR } from '../../../../../../util/color.util';
@@ -14,6 +15,7 @@ import { AbstractExpenseComponent } from '../abstract-expense.component';
 })
 export class TransferComponent extends AbstractExpenseComponent implements OnInit {
     public destinationCalendar: Calendar;
+    public showDestinationCalendarLoader: boolean = false;
 
     public constructor(
         private expenseTransferApiService: ExpenseTransferApiService,
@@ -25,7 +27,13 @@ export class TransferComponent extends AbstractExpenseComponent implements OnIni
     }
 
     public ngOnInit(): void {
-        this.destinationCalendar = this.expense.calendar;
+        if (this.expense.id && this.expense.category.type === TRANSFER) {
+            this.showDestinationCalendarLoader = true;
+            this.expenseTransferApiService
+                .related(this.expense)
+                .pipe(finalize(() => (this.showDestinationCalendarLoader = false)))
+                .subscribe((relatedExpense: Expense) => (this.destinationCalendar = relatedExpense.calendar));
+        }
     }
 
     public onSubmit(): void {

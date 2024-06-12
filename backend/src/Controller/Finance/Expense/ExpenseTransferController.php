@@ -57,16 +57,21 @@ class ExpenseTransferController extends AbstractApiController
         return $this->respond($transferFrom, groups: ExpenseContextGroupConst::DETAILS);
     }
 
-    #[Route('/{calendar}/{expenseTransfer}', name: 'update', methods: Request::METHOD_PUT)]
-    public function update(UpdateExpenseTransferRequest $request, Calendar $calendar, Expense $expenseTransfer): JsonResponse
+    #[Route('/{destinationCalendar}/{expenseTransfer}', name: 'update', methods: Request::METHOD_PUT)]
+    public function update(UpdateExpenseTransferRequest $request, Calendar $destinationCalendar, Expense $expenseTransfer): JsonResponse
     {
         $relatedExpense = $expenseTransfer->getRelated();
         if ($relatedExpense === null) {
             throw new InvalidArgumentException('Related expense is not found');
         }
 
-        $expenseTransfer->setAmount($request->getAmount());
-        $relatedExpense->setAmount(-1 * $request->getAmount());
+        $expenseTransfer
+            ->setCalendar($request->getCalendar())
+            ->setAmount($request->getAmount());
+
+        $relatedExpense
+            ->setCalendar($destinationCalendar)
+            ->setAmount(-1 * $request->getAmount());
 
         foreach ([$expenseTransfer, $relatedExpense] as $expense) {
             $expense
@@ -77,6 +82,12 @@ class ExpenseTransferController extends AbstractApiController
         }
 
         return $this->respond($expenseTransfer, groups: ExpenseContextGroupConst::DETAILS);
+    }
+
+    #[Route('/related/{expenseTransfer}', name: 'related', methods: Request::METHOD_GET)]
+    public function related(Expense $expenseTransfer): JsonResponse
+    {
+        return $this->respond($expenseTransfer->getRelated(), groups: ExpenseContextGroupConst::DETAILS);
     }
 
     #[Route('/{expenseTransfer}', name: 'delete', methods: Request::METHOD_DELETE)]

@@ -9,8 +9,4 @@ import { Expense } from './objects/expense';
 export class BalanceUpdateApiService extends AbstractApiService<Expense> {
     protected backend: string = '/balance-update';
     protected entity: Type<EntityInterface> = Expense;
-
-    public category(): Observable<Category> {
-        return super.request<Category>('get', Category, `${this.backend}/category`);
-    }
 }

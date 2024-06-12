@@ -8,15 +8,17 @@
                 icon="log-out-outline"
                 textPrefix="Source:" />
             <app-expense-dialog-calendar-list-item
-                *ngIf="destinationCalendar"
                 [(calendar)]="destinationCalendar"
+                [showLoader]="showDestinationCalendarLoader"
                 icon="log-in-outline"
                 textPrefix="Destination:" />
-            <app-expense-dialog-category-list-item [category]="expense.category" [isActionable]="false"  />
+            <app-expense-dialog-category-list-item [category]="expense.category" [isActionable]="false" />
             <app-expense-dialog-date-list-item [(date)]="expense.createdAt" />
             <app-expense-dialog-description-list-item [(description)]="expense.description" />
             <app-expense-dialog-user-list-item [user]="expense.user" />
         </div>
+
+        <input type="hidden" name="destinationCalendar" [(ngModel)]="destinationCalendar" required />
 
         <app-expense-dialog-footer [form]="transferForm" [expense]="expense" (delete)="onDelete()" />
     </div>
