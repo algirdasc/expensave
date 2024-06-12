@@ -43,6 +43,10 @@ export class Expense implements EntityInterface {
     }
 
     set absoluteAmount(value: number) {
+        if (value === null) {
+            return;
+        }
+
         const absoluteValue = Math.abs(value);
         this.amount = this.isExpense ? absoluteValue * -1 : absoluteValue;
     }
