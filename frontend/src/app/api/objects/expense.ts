@@ -28,7 +28,7 @@ export class Expense implements EntityInterface {
 
     @Expose()
     @Type(() => Category)
-    public category: Category;
+    public category: Category | null;
 
     @Expose()
     public confirmed: boolean;
@@ -43,6 +43,10 @@ export class Expense implements EntityInterface {
     }
 
     public set absoluteAmount(value: number) {
+        if (value === null) {
+            return;
+        }
+
         const absoluteValue = Math.abs(value);
         this.amount = this.isExpense ? absoluteValue * -1 : absoluteValue;
     }

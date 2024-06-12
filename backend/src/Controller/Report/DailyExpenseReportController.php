@@ -26,7 +26,8 @@ class DailyExpenseReportController extends AbstractReportController
 
     public function __invoke(string $calendarIds, DateTime $dateFrom, DateTime $dateTo): JsonResponse
     {
-        [$calendars, $dateFrom] = $this->getParameters($calendarIds, $dateFrom);
+        $calendars = $this->getCalendarsFromIds($calendarIds);
+        $this->parseDateRange($calendars, $dateFrom, $dateTo);
 
         $expenseBalances = $this->dailyExpenseReportService->generate($calendars, $dateFrom, $dateTo);
 
