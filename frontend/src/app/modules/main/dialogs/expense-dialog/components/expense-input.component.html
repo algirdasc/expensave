@@ -1,7 +1,7 @@
 <div
     class="expense-header animated-bg"
     [class.confirmed]="expense.confirmed"
-    [style.background-color]="backgroundColor()">
+    [style.background-color]="expense.confirmed && expense.category?.color ? expense.category.color : 'transparent'">
     <div class="d-flex w-100">
         <button
             nbButton

@@ -110,6 +110,7 @@ class Category
         return $this;
     }
 
+    // TODO: rename to isReadonly
     #[Groups(ContextGroupConst::API_ALL)]
     public function isDefinedByUser(): bool
     {

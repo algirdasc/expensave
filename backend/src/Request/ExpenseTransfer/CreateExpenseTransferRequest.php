@@ -5,71 +5,42 @@ declare(strict_types=1);
 namespace App\Request\ExpenseTransfer;
 
 use App\Attribute\Request\ResolveEntity;
+use App\Const\AssertConst;
 use App\Entity\Calendar;
-use App\Request\AbstractRequest;
-use DateTime;
+use App\Request\Expense\CreateExpenseRequest;
 use Symfony\Component\Validator\Constraints as Assert;
 
-class CreateExpenseTransferRequest extends AbstractRequest
+class CreateExpenseTransferRequest extends CreateExpenseRequest
 {
     #[Assert\NotBlank]
     #[ResolveEntity]
-    protected Calendar $calendar;
+    protected Calendar $destinationCalendar;
 
-    protected ?string $description = null;
+    public function getDestinationCalendar(): Calendar
+    {
+        return $this->destinationCalendar;
+    }
 
-    #[Assert\NotBlank]
-    #[Assert\NotEqualTo(0)]
-    protected float $amount;
+    public function setDestinationCalendar(Calendar $destinationCalendar): self
+    {
+        $this->destinationCalendar = $destinationCalendar;
 
-    #[Assert\NotBlank]
-    protected DateTime $createdAt;
+        return $this;
+    }
 
-    public function getCalendar(): Calendar
+    public function getSourceCalendar(): Calendar
     {
         return $this->calendar;
     }
 
-    public function setCalendar(Calendar $calendar): self
+    #[Assert\IsFalse(message: AssertConst::MSG_CANNOT_TRANSFER_TO_SAME_CALENDAR)]
+    public function isCalendarsTheSame(): bool
     {
-        $this->calendar = $calendar;
-
-        return $this;
+        return $this->getSourceCalendar()->getId() === $this->getDestinationCalendar()->getId();
     }
 
-    public function getDescription(): ?string
+    public function isAmountNegative(): bool
     {
-        return $this->description;
-    }
-
-    public function setDescription(?string $description): self
-    {
-        $this->description = $description;
-
-        return $this;
-    }
-
-    public function getAmount(): float
-    {
-        return $this->amount;
-    }
-
-    public function setAmount(float $amount): self
-    {
-        $this->amount = $amount;
-
-        return $this;
-    }
-
-    public function getCreatedAt(): DateTime
-    {
-        return $this->createdAt;
-    }
-
-    public function setCreatedAt(DateTime $createdAt): self
-    {
-        $this->createdAt = $createdAt;
-
-        return $this;
+        return $this->getAmount() < 0;
     }
 }

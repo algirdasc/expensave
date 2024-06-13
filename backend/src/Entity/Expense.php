@@ -50,8 +50,12 @@ class Expense
     private DateTime $createdAt;
 
     #[ORM\OneToOne(targetEntity: Expense::class, cascade: ['persist'])]
-    #[ORM\JoinColumn(name: 'related_id', referencedColumnName: 'id', nullable: true)]
-    private ?Expense $related = null;
+    #[ORM\JoinColumn(name: 'transfer_from_id', referencedColumnName: 'id', nullable: true)]
+    private ?Expense $transferFrom = null;
+
+    #[ORM\OneToOne(targetEntity: Expense::class, cascade: ['persist'])]
+    #[ORM\JoinColumn(name: 'transfer_to_id', referencedColumnName: 'id', nullable: true)]
+    private ?Expense $transferTo = null;
 
     public function __construct()
     {
@@ -164,14 +168,26 @@ class Expense
         return $this->getAmount() > 0;
     }
 
-    public function getRelated(): ?Expense
+    public function getTransferFrom(): ?Expense
     {
-        return $this->related;
+        return $this->transferFrom;
     }
 
-    public function setRelated(?Expense $related): self
+    public function setTransferFrom(?Expense $transferFrom): self
     {
-        $this->related = $related;
+        $this->transferFrom = $transferFrom;
+
+        return $this;
+    }
+
+    public function getTransferTo(): ?Expense
+    {
+        return $this->transferTo;
+    }
+
+    public function setTransferTo(?Expense $transferTo): self
+    {
+        $this->transferTo = $transferTo;
 
         return $this;
     }

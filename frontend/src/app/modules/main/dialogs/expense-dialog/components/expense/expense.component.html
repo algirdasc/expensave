@@ -1,11 +1,11 @@
 <form #expenseForm="ngForm" [nbSpinner]="isBusy" (ngSubmit)="onSubmit()" autocomplete="off" class="h-100">
     <div class="d-flex flex-column h-100">
-        <app-expense-input [(expense)]="expense" [labelEditable]="true" />
+        <app-expense-input [(expense)]="expense" />
 
         <div class="h-100 overflow-auto">
             <app-expense-dialog-calendar-list-item [(calendar)]="expense.calendar" />
             <app-expense-dialog-confirmed-list-item [(confirmed)]="expense.confirmed" />
-            <app-expense-dialog-category-list-item [(category)]="expense.category" emptyText="Uncategorized" />
+            <app-expense-dialog-category-list-item [(category)]="expense.category" />
             <app-expense-dialog-date-list-item [(date)]="expense.createdAt" />
             <app-expense-dialog-description-list-item [(description)]="expense.description" />
             <app-expense-dialog-user-list-item [user]="expense.user" />

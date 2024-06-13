@@ -12,6 +12,7 @@ use App\Enum\CategoryType;
 use DateTime;
 use Doctrine\ORM\Query;
 use Doctrine\Persistence\ManagerRegistry;
+use LogicException;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 /**

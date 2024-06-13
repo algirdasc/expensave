@@ -1,14 +1,26 @@
 <nb-card class="dialog">
     <nb-card-body class="p-0">
         <nb-tabset [class.confirmed]="expense.confirmed" class="h-100" (changeTab)="onTabChange($event)">
-            <nb-tab tabTitle="Expense" class="h-100 p-0" *ngIf="showTab()" [tabId]="UNCATEGORIZED">
+            <nb-tab
+                *ngIf="!this.expense.id || this.expense.category.type !== TYPE_BALANCE_UPDATE"
+                tabTitle="Expense"
+                class="h-100 p-0"
+                [tabId]="TYPE_UNCATEGORIZED">
                 <app-expense [expense]="expense" *nbTabContent></app-expense>
             </nb-tab>
-            <nb-tab tabTitle="Balance" class="h-100 p-0" *ngIf="showTab(BALANCE_UPDATE)" [tabId]="BALANCE_UPDATE">
-                <app-balance [expense]="expense" *nbTabContent></app-balance>
-            </nb-tab>
-            <nb-tab tabTitle="Transfer" class="h-100 p-0" *ngIf="showTab(TRANSFER)" [tabId]="TRANSFER">
+            <nb-tab
+                *ngIf="!this.expense.id"
+                tabTitle="Transfer"
+                class="h-100 p-0"
+                [tabId]="TYPE_UNCATEGORIZED">
                 <app-transfer [expense]="expense" *nbTabContent></app-transfer>
+            </nb-tab>
+            <nb-tab
+                *ngIf="!this.expense.id || this.expense.category.type === TYPE_BALANCE_UPDATE"
+                tabTitle="Balance"
+                class="h-100 p-0"
+                [tabId]="TYPE_BALANCE_UPDATE">
+                <app-balance [expense]="expense" *nbTabContent></app-balance>
             </nb-tab>
         </nb-tabset>
     </nb-card-body>

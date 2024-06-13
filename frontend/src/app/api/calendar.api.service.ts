@@ -4,13 +4,13 @@ import { NbDateService } from '@nebular/theme';
 import { Observable } from 'rxjs';
 import { EntityInterface } from '../interfaces/entity.interface';
 import { DateUtil } from '../util/date.util';
-import { AbstractApiService } from './abstract.api.service';
+import { AbstractEntityApiService } from './abstract-entity-api.service';
 import { Calendar } from './objects/calendar';
 import { CalendarExpenseListResponse } from './response/calendar-expense-list.response';
 import { StatementImportResponse } from './response/statement-import.response';
 
 @Injectable()
-export class CalendarApiService extends AbstractApiService<Calendar> {
+export class CalendarApiService extends AbstractEntityApiService<Calendar> {
     protected backend: string = '/calendar';
     protected entity: Type<EntityInterface> = Calendar;
 

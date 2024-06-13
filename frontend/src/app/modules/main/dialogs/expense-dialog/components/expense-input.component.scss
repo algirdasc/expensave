@@ -7,8 +7,12 @@
     border-radius: nb-theme(border-radius) nb-theme(border-radius) 0 0;
 }
 
-.expense-header.confirmed {
+:host ::ng-deep .expense-header.confirmed {
     color: hsla(0, 0%, 100%, .8) !important;
+
+    .suggestion-suffix {
+        color: hsla(0, 0%, 100%, .6) !important;
+    }
 
     button.toggle-sign {
         background-color: rgba(0, 0, 0, .05);
@@ -21,10 +25,6 @@
 
     input.t-input::placeholder {
         color: hsla(0, 0%, 100%, .4) !important;
-    }
-
-    .suggestion-suffix {
-        color: hsla(0, 0%, 100%, .6) !important;
     }
 }
 

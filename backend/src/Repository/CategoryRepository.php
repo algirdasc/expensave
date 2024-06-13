@@ -54,22 +54,12 @@ class CategoryRepository extends AbstractRepository
 
     public function findBalanceCategory(): Category
     {
-        return $this->findOrCreateSystemCategory(CategoryType::BALANCE_UPDATE, StringConst::BALANCE_UPDATE_LABEL, StringConst::BALANCE_COLOR);
-    }
-
-    public function findTransferCategory(): Category
-    {
-        return $this->findOrCreateSystemCategory(CategoryType::TRANSFER, StringConst::TRANSFER_LABEL, StringConst::TRANSFER_COLOR);
-    }
-
-    private function findOrCreateSystemCategory(CategoryType $type, string $label, string $color): Category
-    {
-        $category = $this->findOneBy(['type' => $type]);
+        $category = $this->findOneBy(['type' => CategoryType::BALANCE_UPDATE]);
 
         if ($category === null) {
-            $category = $this->findOrCreate($label);
-            $category->setColor($color);
-            $category->setType($type);
+            $category = $this->findOrCreate(StringConst::BALANCE_UPDATE_LABEL);
+            $category->setColor(StringConst::BALANCE_COLOR);
+            $category->setType(CategoryType::BALANCE_UPDATE);
         }
 
         return $category;

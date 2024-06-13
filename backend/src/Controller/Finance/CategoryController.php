@@ -28,14 +28,11 @@ class CategoryController extends AbstractApiController
     {
         $criteria = [];
 
-        $userCategoriesOnly = (bool) $request->query->get('userCategoriesOnly', '1');
-        if ($userCategoriesOnly) {
-            $criteria = ['type' =>
-                [
-                    CategoryType::USER,
-                    CategoryType::UNCATEGORIZED,
-                ]
-            ];
+        if ($request->query->get('userCategoriesOnly', '1')) {
+            $criteria = ['type' => [
+                CategoryType::USER,
+                CategoryType::UNCATEGORIZED,
+            ]];
         }
 
         return $this->respond($this->categoryRepository->findBy($criteria, ['name' => 'ASC']));
