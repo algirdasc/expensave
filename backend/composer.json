@@ -28,7 +28,7 @@
         "symfony/flex": "^2",
         "symfony/framework-bundle": "7.0.*",
         "symfony/google-mailer": "7.1.*",
-        "symfony/mailer": "7.0.*",
+        "symfony/mailer": "7.1.*",
         "symfony/monolog-bundle": "^3.10",
         "symfony/property-access": "7.1.*",
         "symfony/property-info": "7.0.*",
@@ -37,7 +37,7 @@
         "symfony/security-bundle": "7.1.*",
         "symfony/serializer": "7.1.*",
         "symfony/validator": "7.1.*",
-        "symfony/yaml": "7.0.*"
+        "symfony/yaml": "7.1.*"
     },
     "require-dev": {
         "phpstan/extension-installer": "^1.2",
