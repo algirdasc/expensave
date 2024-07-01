@@ -8,5 +8,5 @@ import { NbDialogRef } from '@nebular/theme';
 export class DatepickerDialogComponent {
     @Input() public date: Date;
 
-    constructor(public dialogRef: NbDialogRef<DatepickerDialogComponent>) {}
+    public constructor(public dialogRef: NbDialogRef<DatepickerDialogComponent>) {}
 }

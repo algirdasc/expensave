@@ -18,9 +18,8 @@ class Expense
     private ?int $id = null;
 
     #[ORM\ManyToOne(targetEntity: Category::class)]
-    #[ORM\JoinColumn(nullable: true)]
     #[Groups(ExpenseContextGroupConst::ALWAYS)]
-    private ?Category $category = null;
+    private Category $category;
 
     #[ORM\ManyToOne(targetEntity: Calendar::class, cascade: ['persist'], inversedBy: 'expenses')]
     #[Groups(ExpenseContextGroupConst::ALWAYS)]
@@ -50,6 +49,14 @@ class Expense
     #[Groups(ExpenseContextGroupConst::ALWAYS)]
     private DateTime $createdAt;
 
+    #[ORM\OneToOne(targetEntity: Expense::class, cascade: ['persist'])]
+    #[ORM\JoinColumn(name: 'transfer_from_id', referencedColumnName: 'id', nullable: true)]
+    private ?Expense $transferFrom = null;
+
+    #[ORM\OneToOne(targetEntity: Expense::class, cascade: ['persist'])]
+    #[ORM\JoinColumn(name: 'transfer_to_id', referencedColumnName: 'id', nullable: true)]
+    private ?Expense $transferTo = null;
+
     public function __construct()
     {
         $this->createdAt = new DateTime();
@@ -60,12 +67,12 @@ class Expense
         return $this->id;
     }
 
-    public function getCategory(): ?Category
+    public function getCategory(): Category
     {
         return $this->category;
     }
 
-    public function setCategory(?Category $category): self
+    public function setCategory(Category $category): self
     {
         $this->category = $category;
 
@@ -159,5 +166,29 @@ class Expense
     public function isIncome(): bool
     {
         return $this->getAmount() > 0;
+    }
+
+    public function getTransferFrom(): ?Expense
+    {
+        return $this->transferFrom;
+    }
+
+    public function setTransferFrom(?Expense $transferFrom): self
+    {
+        $this->transferFrom = $transferFrom;
+
+        return $this;
+    }
+
+    public function getTransferTo(): ?Expense
+    {
+        return $this->transferTo;
+    }
+
+    public function setTransferTo(?Expense $transferTo): self
+    {
+        $this->transferTo = $transferTo;
+
+        return $this;
     }
 }

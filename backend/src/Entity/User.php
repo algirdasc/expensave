@@ -37,13 +37,13 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?string $plainPassword = null;
 
     /**
-     * @var Collection<Calendar>
+     * @var Collection<array-key, Calendar>
      */
     #[ORM\OneToMany(targetEntity: Calendar::class, mappedBy: 'owner')]
     private Collection $calendars;
 
     /**
-     * @var Collection<Calendar>
+     * @var Collection<array-key, Calendar>
      */
     #[ORM\ManyToMany(targetEntity: Calendar::class, mappedBy: 'collaborators')]
     private Collection $sharedCalendars;
@@ -125,11 +125,17 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
+    /**
+     * @return Collection<array-key, Calendar>
+     */
     public function getCalendars(): Collection
     {
         return $this->calendars;
     }
 
+    /**
+     * @return Collection<array-key, Calendar>
+     */
     public function getSharedCalendars(): Collection
     {
         return $this->sharedCalendars;

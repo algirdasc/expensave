@@ -7,19 +7,6 @@
     </nb-card-header>
     <nb-list>
         <nb-list-item
-            *ngIf="showEmptyCategory"
-            class="actionable"
-            [class.active]="selectedCategory === undefined"
-            [style.background-color]="selectedCategory === undefined ? UNCATEGORIZED_COLOR : ''"
-            (click)="categoryClick.emit(null)">
-            <nb-icon
-                icon="radio-button-on"
-                class="flex-shrink-0 me-2"
-                [style.color]="selectedCategory === undefined ? '' : UNCATEGORIZED_COLOR">
-            </nb-icon>
-            <div class="text-truncate">Uncategorized</div>
-        </nb-list-item>
-        <nb-list-item
             class="actionable"
             *ngFor="let category of categories"
             [class.active]="isActive(category)"

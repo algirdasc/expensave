@@ -8,7 +8,7 @@ import { catchError } from 'rxjs/operators';
 
 @Injectable()
 export class UnauthorizedInterceptor implements HttpInterceptor {
-    constructor(
+    public constructor(
         private router: Router,
         private tokenService: NbTokenService
     ) {}

@@ -4,7 +4,8 @@ import { Directive, ElementRef, EventEmitter, HostListener, Output } from '@angu
     selector: '[appOutsideClick]',
 })
 export class OutsideClickDirective {
-    @Output() outsideClick: EventEmitter<MouseEvent> = new EventEmitter();
+    @Output()
+    public outsideClick: EventEmitter<MouseEvent> = new EventEmitter();
 
     @HostListener('document:mousedown', ['$event'])
     public onClick(event: MouseEvent): void {
@@ -20,5 +21,5 @@ export class OutsideClickDirective {
         }
     }
 
-    constructor(private elementRef: ElementRef) {}
+    public constructor(private elementRef: ElementRef) {}
 }

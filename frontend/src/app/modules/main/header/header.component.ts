@@ -12,16 +12,23 @@ import { SIDEBAR_TAG } from '../main.service';
     selector: 'app-header',
 })
 export class HeaderComponent {
-    @Input() public calendar: Calendar;
-    @Input() public visibleDateBalance: number;
-    @Input() public visibleDate: Date;
-    @ViewChildren(NbPopoverDirective) popovers: QueryList<NbPopoverDirective>;
+    @Input()
+    public calendar: Calendar;
+
+    @Input()
+    public visibleDateBalance: number;
+
+    @Input()
+    public visibleDate: Date;
+
+    @ViewChildren(NbPopoverDirective)
+    private popovers: QueryList<NbPopoverDirective>;
 
     public viewMode: typeof NbCalendarViewMode = NbCalendarViewMode;
     public activeViewMode: NbCalendarViewMode = NbCalendarViewMode.DATE;
     public expenseReportComponent = ExpenseReportComponent;
 
-    constructor(
+    public constructor(
         private readonly dateService: NbDateService<Date>,
         private readonly sidebarService: NbSidebarService,
         private readonly router: Router,

@@ -10,5 +10,5 @@ export class ConfirmDialogComponent {
     public yesText: string = 'Yes';
     public noText: string = 'No';
 
-    constructor(public dialogRef: NbDialogRef<ConfirmDialogComponent>) {}
+    public constructor(public dialogRef: NbDialogRef<ConfirmDialogComponent>) {}
 }

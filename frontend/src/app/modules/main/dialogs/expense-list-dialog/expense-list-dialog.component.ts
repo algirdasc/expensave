@@ -17,7 +17,7 @@ export class ExpenseListDialogComponent implements OnInit {
     public totalExpensesAmount: number = 0;
     public calendarService: CalendarService;
 
-    constructor(private dialogRef: NbDialogRef<ExpenseListDialogComponent>) {}
+    public constructor(private dialogRef: NbDialogRef<ExpenseListDialogComponent>) {}
 
     public ngOnInit(): void {
         this.confirmedExpenses = this.expenses.filter((expense: Expense) => expense.confirmed);

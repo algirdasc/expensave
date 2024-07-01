@@ -4,9 +4,9 @@ import { batch, range } from './helpers/helpers';
 
 @Injectable()
 export class CalendarMonthModelService<D> {
-    constructor(protected dateService: NbDateService<D>) {}
+    public constructor(protected dateService: NbDateService<D>) {}
 
-    createDaysGrid(activeMonth: D, boundingMonth: boolean = true, firstDayOfWeek?: number): D[][] {
+    public createDaysGrid(activeMonth: D, boundingMonth: boolean = true, firstDayOfWeek?: number): D[][] {
         const weeks = this.createDates(activeMonth, firstDayOfWeek);
         return this.withBoundingMonths(weeks, activeMonth, boundingMonth);
     }
@@ -91,6 +91,7 @@ export class CalendarMonthModelService<D> {
 
     private createDateRangeForMonth(date: D): D[] {
         const daysInMonth: number = this.dateService.getNumberOfDaysInMonth(date);
+
         return range(daysInMonth, i => {
             const year = this.dateService.getYear(date);
             const month = this.dateService.getMonth(date);

@@ -9,7 +9,7 @@ import { DateUtil } from '../util/date.util';
 export class DateInterceptor implements HttpInterceptor {
     private datePipe: DatePipe;
 
-    constructor() {
+    public constructor() {
         this.datePipe = new DatePipe('en');
     }
 

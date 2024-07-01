@@ -37,13 +37,11 @@ readonly class CategoryExpenseReportService extends AbstractReportService
         foreach ($categories as $category) {
             $categoryExpenses = $expenses
                 ->filter(function (Expense $expense) use ($category) {
-                    return $expense->isConfirmed() && $expense->getCategory()?->getId() === $category->getId();
+                    return $expense->isConfirmed() && $expense->getCategory()->getId() === $category->getId();
                 });
 
             $categoriesBalances[] = CategoryBalanceFactory::createFromExpenseArray($category, $categoryExpenses->toArray());
         }
-
-
 
         return $categoriesBalances;
     }

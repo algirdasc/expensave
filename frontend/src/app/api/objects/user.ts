@@ -15,7 +15,7 @@ export class User implements EntityInterface {
     @Expose()
     public defaultCalendarId?: number;
 
-    get avatar(): string {
+    public get avatar(): string {
         const email = this.email?.trim().toLowerCase() ?? '';
 
         return `https://www.gravatar.com/avatar/${sha256(email)}`;

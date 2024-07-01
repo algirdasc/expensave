@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Controller\Auth;
 
 use App\Controller\AbstractApiController;
-use App\Enum\ErrorEnum;
+use App\Enum\Error;
 use LogicException;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -18,6 +18,6 @@ class LoginController extends AbstractApiController
     public function index(): JsonResponse
     {
         // JWT will take care of everything, so this error should not happen
-        throw new LogicException(ErrorEnum::AUTH_HANDLE_ERROR->message());
+        throw new LogicException(Error::AUTH_HANDLE_ERROR->message());
     }
 }

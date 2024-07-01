@@ -1,0 +1,32 @@
+<form #transferForm="ngForm" [nbSpinner]="isBusy" (ngSubmit)="onSubmit()" autocomplete="off" class="h-100">
+    <div class="d-flex flex-column h-100">
+        <app-expense-input [expense]="expense" />
+
+        <div class="h-100 overflow-auto">
+            <div class="d-flex w-100">
+                <app-expense-dialog-calendar-list-item
+                    class="w-50"
+                    [(calendar)]="expense.calendar"
+                    icon="log-out-outline"
+                    textPrefix="Source:" />
+                <app-expense-dialog-calendar-list-item
+                    class="w-50"
+                    [(calendar)]="destinationCalendar"
+                    icon="log-in-outline"
+                    textPrefix="Destination:" />
+            </div>
+            <app-expense-dialog-confirmed-list-item [(confirmed)]="expense.confirmed" />
+            <app-expense-dialog-category-list-item [(category)]="expense.category" />
+            <app-expense-dialog-date-list-item [(date)]="expense.createdAt" />
+            <app-expense-dialog-description-list-item [(description)]="expense.description" />
+            <app-expense-dialog-user-list-item [user]="expense.user" />
+        </div>
+
+        <input type="hidden" name="destinationCalendar" [(ngModel)]="destinationCalendar" required #cal="ngModel" />
+
+        <app-expense-dialog-footer
+            [form]="transferForm"
+            [submitEnabled]="this.destinationCalendar?.id !== this.expense.calendar?.id"
+            [expense]="expense" />
+    </div>
+</form>

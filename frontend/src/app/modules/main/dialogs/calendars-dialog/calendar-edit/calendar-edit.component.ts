@@ -11,11 +11,20 @@ import { UserApiService } from '../../../../../api/user.api.service';
     selector: 'app-calendar-edit',
 })
 export class CalendarEditComponent implements OnInit {
-    @Input() public isBusy: boolean = false;
-    @Input() public calendar: Calendar;
-    @Output() public save: EventEmitter<Calendar> = new EventEmitter<Calendar>();
-    @Output() public back: EventEmitter<boolean> = new EventEmitter<boolean>();
-    @ViewChild('userAutoCompleteInput') userAutoCompleteInput: ElementRef;
+    @Input()
+    public isBusy: boolean = false;
+
+    @Input()
+    public calendar: Calendar;
+
+    @Output()
+    public save: EventEmitter<Calendar> = new EventEmitter<Calendar>();
+
+    @Output()
+    public back: EventEmitter<boolean> = new EventEmitter<boolean>();
+
+    @ViewChild('userAutoCompleteInput')
+    private userAutoCompleteInput: ElementRef;
 
     public filteredOptions: Observable<User[]>;
     private availableUsers: User[] = [];

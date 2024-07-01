@@ -28,14 +28,14 @@ export class CalendarComponent extends NbCalendarDayPickerComponent<Date, Date> 
     }>();
     public cellComponent: Type<NbCalendarCell<Date, Date>> = CalendarGridRowCellDesktopComponent;
 
-    constructor(
+    public constructor(
         private readonly unusedMonthModelService: NbCalendarMonthModelService<Date>,
         private readonly monthModelService: CalendarMonthModelService<Date>
     ) {
         super(unusedMonthModelService);
     }
 
-    public onSelect(day: Date) {
+    public onSelect(day: Date): void {
         super.onSelect(day);
         this.selectedDate = day;
     }

@@ -19,6 +19,7 @@ import {
     NbRadioModule,
     NbSidebarModule,
     NbSpinnerModule,
+    NbTabsetModule,
     NbTagModule,
     NbUserModule,
 } from '@nebular/theme';
@@ -52,6 +53,17 @@ import { CategoryEditComponent } from './dialogs/categories-dialog/category-edit
 import { CategoryListComponent } from './dialogs/categories-dialog/category-list/category-list.component';
 import { ConfirmDialogComponent } from './dialogs/confirm-dialog/confirm-dialog.component';
 import { DatepickerDialogComponent } from './dialogs/datepicker-dialog/datepicker-dialog.component';
+import { BalanceComponent } from './dialogs/expense-dialog/components/balance/balance.component';
+import { ExpenseInputComponent } from './dialogs/expense-dialog/components/expense-input.component';
+import { TransferComponent } from './dialogs/expense-dialog/components/transfer/transfer.component';
+import { ExpenseComponent } from './dialogs/expense-dialog/components/expense/expense.component';
+import { CalendarListItemComponent } from './dialogs/expense-dialog/components/fields/calendar-list-item.component';
+import { CategoryListItemComponent } from './dialogs/expense-dialog/components/fields/category-list-item.component';
+import { ConfirmedListItemComponent } from './dialogs/expense-dialog/components/fields/confirmed-list-item.component';
+import { DateListItemComponent } from './dialogs/expense-dialog/components/fields/date-list-item.component';
+import { DescriptionListItemComponent } from './dialogs/expense-dialog/components/fields/description-list-item.component';
+import { FooterComponent } from './dialogs/expense-dialog/components/fields/footer.component';
+import { UserListItemComponent } from './dialogs/expense-dialog/components/fields/user-list-item.component';
 import { ExpenseDialogComponent } from './dialogs/expense-dialog/expense-dialog.component';
 import { ExpenseListDialogComponent } from './dialogs/expense-list-dialog/expense-list-dialog.component';
 import { ExpenseListItemsComponent } from './dialogs/expense-list-dialog/expense-list-items.component';
@@ -101,6 +113,17 @@ import { MainService } from './main.service';
         CalendarEditComponent,
         CategoryEditComponent,
         CategoryListComponent,
+        ExpenseComponent,
+        ExpenseInputComponent,
+        BalanceComponent,
+        TransferComponent,
+        DescriptionListItemComponent,
+        UserListItemComponent,
+        CalendarListItemComponent,
+        DateListItemComponent,
+        CategoryListItemComponent,
+        ConfirmedListItemComponent,
+        FooterComponent,
 
         // Directives
         SwipeDirective,
@@ -128,6 +151,7 @@ import { MainService } from './main.service';
         NbTagModule,
         NbAutocompleteModule,
         NbFormFieldModule,
+        NbTabsetModule,
         AngularResizeEventModule,
         ShortNumberModule,
         ContentLoaderModule,

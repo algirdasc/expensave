@@ -7,7 +7,8 @@ import { ReportsApiService } from '../../../api/reports.api.service';
 
 @Component({ template: '' })
 export abstract class AbstractReportComponent implements OnChanges {
-    @Input({ required: true }) calendars: Calendar[];
+    @Input({ required: true })
+    public calendars: Calendar[];
 
     public isBusy: boolean = false;
     public dateRange: NbCalendarRange<Date>;

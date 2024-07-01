@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Const\ContextGroupConst;
+use App\Enum\CategoryType;
 use App\Repository\CategoryRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -29,10 +30,14 @@ class Category
     #[Groups(ContextGroupConst::API_ALL)]
     private string $color;
 
+    #[ORM\Column]
+    #[Groups(ContextGroupConst::API_ALL)]
+    private CategoryType $type = CategoryType::USER;
+
     /**
-     * @var Collection<CategoryRule>
+     * @var Collection<array-key, CategoryRule>
      */
-    #[ORM\OneToMany(mappedBy: 'category', targetEntity: CategoryRule::class)]
+    #[ORM\OneToMany(targetEntity: CategoryRule::class, mappedBy: 'category')]
     private Collection $rules;
 
     public function __construct()
@@ -69,6 +74,9 @@ class Category
         return $this;
     }
 
+    /**
+     * @return Collection<array-key, CategoryRule>
+     */
     public function getRules(): Collection
     {
         return $this->rules;
@@ -88,5 +96,24 @@ class Category
         $this->rules->removeElement($rule);
 
         return $this;
+    }
+
+    public function getType(): CategoryType
+    {
+        return $this->type;
+    }
+
+    public function setType(CategoryType $type): self
+    {
+        $this->type = $type;
+
+        return $this;
+    }
+
+    // TODO: rename to isReadonly
+    #[Groups(ContextGroupConst::API_ALL)]
+    public function isDefinedByUser(): bool
+    {
+        return $this->type === CategoryType::USER;
     }
 }

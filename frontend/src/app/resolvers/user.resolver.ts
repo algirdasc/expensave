@@ -5,7 +5,7 @@ import { UserApiService } from '../api/user.api.service';
 
 @Injectable()
 export class UserResolver {
-    constructor(private readonly userApiService: UserApiService) {}
+    public constructor(private readonly userApiService: UserApiService) {}
 
     public resolve(): Observable<User> {
         return this.userApiService.profile();

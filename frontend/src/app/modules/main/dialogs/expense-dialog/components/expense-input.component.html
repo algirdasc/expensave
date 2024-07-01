@@ -1,0 +1,50 @@
+<div
+    class="expense-header animated-bg"
+    [class.confirmed]="expense.confirmed"
+    [style.background-color]="expense.confirmed && expense.category?.color ? expense.category.color : 'transparent'">
+    <div class="d-flex w-100">
+        <button
+            nbButton
+            type="button"
+            tabIndex="3"
+            (click)="expense.isExpense = !expense.isExpense"
+            class="toggle-sign me-1">
+            <nb-icon [icon]="expense.isExpense ? 'minus' : 'plus'"></nb-icon>
+        </button>
+        <div class="mx-3" [class.w-50]="labelEditable" [class.w-100]="!labelEditable">
+            <label for="expense-amount">Amount</label>
+            <input
+                #focus
+                nbInput
+                fullWidth
+                required
+                type="number"
+                tabIndex="1"
+                placeholder="{{ 0 | shortNumber }}"
+                name="amount"
+                id="expense-amount"
+                [(ngModel)]="expense.absoluteAmount"
+                class="t-input px-0 pt-3 pb-2" />
+        </div>
+        <div class="me-3 w-100" *ngIf="labelEditable">
+            <label for="expense-label">Label</label>
+            <app-input-suggestion
+                [input]="expense.label"
+                (inputChanged)="handleInputChange($event)"
+                [suggestion]="suggestedExpense?.label"
+                (suggest)="applyLabelSuggestion()"
+                [cssClasses]="'t-input px-0 pt-3 pb-2'">
+                <input
+                    nbInput
+                    fullWidth
+                    required
+                    tabIndex="2"
+                    placeholder="e.g. coffee"
+                    name="label"
+                    id="expense-label"
+                    [(ngModel)]="expense.label"
+                    class="t-input px-0 pt-3 pb-2" />
+            </app-input-suggestion>
+        </div>
+    </div>
+</div>

@@ -7,6 +7,7 @@ namespace App\Request\Expense;
 use App\Attribute\Request\ResolveEntity;
 use App\Entity\Calendar;
 use App\Entity\Category;
+use App\Enum\CategoryType;
 use App\Request\AbstractRequest;
 use DateTime;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -17,8 +18,8 @@ class CreateExpenseRequest extends AbstractRequest
     #[ResolveEntity]
     protected Calendar $calendar;
 
-    #[ResolveEntity]
-    protected ?Category $category = null;
+    #[ResolveEntity(defaultCriteria: ['type' => CategoryType::UNCATEGORIZED])]
+    protected Category $category;
 
     #[Assert\NotBlank]
     protected string $label;
@@ -46,12 +47,12 @@ class CreateExpenseRequest extends AbstractRequest
         return $this;
     }
 
-    public function getCategory(): ?Category
+    public function getCategory(): Category
     {
         return $this->category;
     }
 
-    public function setCategory(?Category $category): self
+    public function setCategory(Category $category): self
     {
         $this->category = $category;
 

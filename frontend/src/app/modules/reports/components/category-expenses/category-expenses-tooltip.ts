@@ -3,7 +3,7 @@ import { ShortNumberPipe } from '../../../../pipes/shortnumber.pipe';
 import { getTooltipElement, positionTooltip } from '../chart-tooltip';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export const chartTooltipHandler = (context: { chart: Chart; tooltip: TooltipModel<any> }) => {
+export const chartTooltipHandler = (context: { chart: Chart; tooltip: TooltipModel<any> }): void => {
     const { chart, tooltip } = context;
 
     const tooltipElement = getTooltipElement(tooltip, chart);

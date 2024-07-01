@@ -23,11 +23,17 @@ export class PeriodSelectorComponent implements AfterViewInit {
     public firstDayOfWeek: WeekDay;
     public periods: typeof PeriodEnum = PeriodEnum;
 
-    @Input({ required: true }) period: PeriodEnum;
-    @Output() dateRangeChange: EventEmitter<NbCalendarRange<Date>> = new EventEmitter<NbCalendarRange<Date>>();
+    @Input({ required: true })
+    public period: PeriodEnum;
 
-    @ViewChild('rangePicker') rangePicker: NbRangepickerComponent<Date>;
-    @ViewChild('customDateRange') customDateRangeButton: ElementRef;
+    @Output()
+    public dateRangeChange: EventEmitter<NbCalendarRange<Date>> = new EventEmitter<NbCalendarRange<Date>>();
+
+    @ViewChild('rangePicker')
+    private rangePicker: NbRangepickerComponent<Date>;
+
+    @ViewChild('customDateRange')
+    private customDateRangeButton: ElementRef;
 
     public constructor(private readonly dateService: NbDateService<Date>) {
         this.firstDayOfWeek = getLocaleFirstDayOfWeek(APP_CONFIG.locale);
@@ -37,7 +43,7 @@ export class PeriodSelectorComponent implements AfterViewInit {
         this.rangePicker.attach(this.customDateRangeButton);
     }
 
-    public onRangeChange(event: NbCalendarRange<Date>) {
+    public onRangeChange(event: NbCalendarRange<Date>): void {
         if (event.end !== undefined) {
             this.dateRangeChange.emit(this.dateRange);
         }

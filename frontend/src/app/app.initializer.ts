@@ -8,7 +8,7 @@ import { ConfigInterface } from './interfaces/config.interface';
 
 @Injectable()
 export class AppInitializer {
-    constructor(private http: HttpClient) {}
+    public constructor(private http: HttpClient) {}
 
     public initializeApp(): Observable<ConfigInterface> {
         return this.http.get(environment.configFile).pipe(

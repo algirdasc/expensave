@@ -13,5 +13,6 @@ import { NbCalendarRange } from '@nebular/theme';
     </div>`,
 })
 export class DateRangeComponent {
-    @Input({ required: true }) dateRange: NbCalendarRange<Date>;
+    @Input({ required: true })
+    public dateRange: NbCalendarRange<Date>;
 }

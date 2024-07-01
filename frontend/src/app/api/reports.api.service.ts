@@ -15,7 +15,7 @@ export class ReportsApiService {
     public onBusyChange: Subject<boolean> = new Subject<boolean>();
     private backend: string = '/report';
 
-    constructor(
+    public constructor(
         private http: HttpClient,
         private dateService: NbDateService<Date>
     ) {}

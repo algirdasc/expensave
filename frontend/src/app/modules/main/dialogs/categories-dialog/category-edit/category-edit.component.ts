@@ -10,10 +10,17 @@ import { ConfirmDialogComponent } from '../../confirm-dialog/confirm-dialog.comp
     selector: 'app-category-edit',
 })
 export class CategoryEditComponent {
-    @Input() public saveButtonEnabled: boolean = true;
-    @Input() public category: Category;
-    @Output() public save: EventEmitter<Category> = new EventEmitter<Category>();
-    @Output() public back: EventEmitter<boolean> = new EventEmitter<boolean>();
+    @Input()
+    public saveButtonEnabled: boolean = true;
+
+    @Input()
+    public category: Category;
+
+    @Output()
+    public save: EventEmitter<Category> = new EventEmitter<Category>();
+
+    @Output()
+    public back: EventEmitter<boolean> = new EventEmitter<boolean>();
 
     public usedColors: object = {};
     public isBusy: boolean = false;
@@ -70,11 +77,11 @@ export class CategoryEditComponent {
     ) {}
 
     @Input()
-    get categories(): Category[] {
+    public get categories(): Category[] {
         return this._categories;
     }
 
-    set categories(value: Category[]) {
+    public set categories(value: Category[]) {
         this._categories = value;
         for (const category of this._categories) {
             this.usedColors[category.color] = true;

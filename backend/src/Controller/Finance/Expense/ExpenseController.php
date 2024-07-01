@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Controller\Finance\Calendar;
+namespace App\Controller\Finance\Expense;
 
 use App\Const\ContextGroup\ExpenseContextGroupConst;
 use App\Controller\AbstractApiController;
@@ -16,7 +16,6 @@ use App\Response\EmptyResponse;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Attribute\Route;
-use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Http\Attribute\CurrentUser;
 
 #[Route('api/expense', name: 'expense_')]
@@ -27,7 +26,7 @@ class ExpenseController extends AbstractApiController
     ) {
     }
 
-    #[Route('/{id}', name: 'get', methods: Request::METHOD_GET)]
+    #[Route('/{expense}', name: 'get', methods: Request::METHOD_GET)]
     public function get(Expense $expense): JsonResponse
     {
         return $this->respond($expense, groups: ExpenseContextGroupConst::DETAILS);
@@ -79,7 +78,7 @@ class ExpenseController extends AbstractApiController
     }
 
     #[Route('/suggest', name: 'suggest', methods: Request::METHOD_POST)]
-    public function suggest(#[CurrentUser] UserInterface $user, SuggestRequest $request): JsonResponse
+    public function suggest(#[CurrentUser] User $user, SuggestRequest $request): JsonResponse
     {
         $suggestedExpense = $this->expenseRepository->findUserSuggestion($user, $request->getLabel());
 

@@ -18,6 +18,7 @@ import {
     NbToastrModule,
 } from '@nebular/theme';
 import 'reflect-metadata';
+import { BalanceUpdateApiService } from './api/balance-update.api.service';
 import { CalendarApiService } from './api/calendar.api.service';
 import { CategoryApiService } from './api/category.api.service';
 import { ExpenseApiService } from './api/expense.api.service';
@@ -35,10 +36,18 @@ import { AuthModule } from './modules/auth/auth.module';
 import { tokenFilter } from './modules/auth/token.filter';
 import { Error404Component } from './modules/error-404.component';
 import { CalendarResolver } from './resolvers/calendar.resolver';
+import { SystemCategoryResolver } from './resolvers/system-category.resolver';
 import { UserResolver } from './resolvers/user.resolver';
 import { AuthOptionsService } from './services/auth-options.service';
 
-const apiServices = [CalendarApiService, UserApiService, ExpenseApiService, CategoryApiService, ReportsApiService];
+const apiServices = [
+    CalendarApiService,
+    UserApiService,
+    ExpenseApiService,
+    CategoryApiService,
+    ReportsApiService,
+    BalanceUpdateApiService,
+];
 
 @NgModule({
     declarations: [AppComponent, Error404Component],
@@ -64,18 +73,21 @@ const apiServices = [CalendarApiService, UserApiService, ExpenseApiService, Cate
         AppInitializer,
         {
             provide: APP_INITIALIZER,
-            useFactory: (appInitializer: AppInitializer) => () => appInitializer.initializeApp(),
+            useFactory:
+                (appInitializer: AppInitializer): (() => void) =>
+                () =>
+                    appInitializer.initializeApp(),
             deps: [AppInitializer],
             multi: true,
         },
         {
             provide: LOCALE_ID,
-            useFactory: (appInitializer: AppInitializer) => appInitializer.getLocaleId(),
+            useFactory: (appInitializer: AppInitializer): string => appInitializer.getLocaleId(),
             deps: [AppInitializer],
         },
         {
             provide: DEFAULT_CURRENCY_CODE,
-            useFactory: (appInitializer: AppInitializer) => appInitializer.getCurrencyCode(),
+            useFactory: (appInitializer: AppInitializer): string => appInitializer.getCurrencyCode(),
             deps: [AppInitializer],
         },
         { provide: NB_AUTH_TOKEN_INTERCEPTOR_FILTER, useValue: tokenFilter },
@@ -88,6 +100,7 @@ const apiServices = [CalendarApiService, UserApiService, ExpenseApiService, Cate
         AuthOptionsService,
         UserResolver,
         CalendarResolver,
+        SystemCategoryResolver,
         ...apiServices,
     ],
     bootstrap: [AppComponent],

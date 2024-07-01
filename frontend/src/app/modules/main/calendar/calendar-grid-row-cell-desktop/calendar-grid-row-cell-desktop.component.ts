@@ -24,7 +24,7 @@ export class CalendarGridRowCellDesktopComponent
     public hasUnconfirmedExpenses: boolean = false;
     private expenseListCapacity: number = 1;
 
-    constructor(
+    public constructor(
         public dateService: NbDateService<Date>,
         public calendarService: CalendarService,
         private dialogService: NbDialogService
@@ -36,11 +36,11 @@ export class CalendarGridRowCellDesktopComponent
         this.expenseListCapacity = Math.floor(event.newRect.height / EXPENSE_LIST_ITEM_HEIGHT) - 1;
     }
 
-    get visibleExpenses(): Expense[] {
+    public get visibleExpenses(): Expense[] {
         return this.expenses.slice(0, this.expenseListCapacity);
     }
 
-    get invisibleExpensesCount(): number {
+    public get invisibleExpensesCount(): number {
         const visibleCount = this.visibleExpenses.length;
         const totalCount = this.expenses.length;
 
