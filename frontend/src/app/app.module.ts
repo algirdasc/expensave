@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { APP_INITIALIZER, DEFAULT_CURRENCY_CODE, LOCALE_ID, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -40,13 +40,10 @@ import { AuthOptionsService } from './services/auth-options.service';
 
 const apiServices = [CalendarApiService, UserApiService, ExpenseApiService, CategoryApiService, ReportsApiService];
 
-@NgModule({
-    declarations: [AppComponent, Error404Component],
-    imports: [
-        CommonModule,
+@NgModule({ declarations: [AppComponent, Error404Component],
+    bootstrap: [AppComponent], imports: [CommonModule,
         BrowserModule,
         BrowserAnimationsModule,
-        HttpClientModule,
         RouterModule.forRoot(appRoutes, { paramsInheritanceStrategy: 'always' }),
         NbThemeModule.forRoot({ name: 'expensave' }),
         AuthModule.forRoot(),
@@ -58,9 +55,7 @@ const apiServices = [CalendarApiService, UserApiService, ExpenseApiService, Cate
         NbButtonModule,
         NbSpinnerModule,
         NbEvaIconsModule,
-        NbIconModule,
-    ],
-    providers: [
+        NbIconModule], providers: [
         AppInitializer,
         {
             provide: APP_INITIALIZER,
@@ -89,7 +84,6 @@ const apiServices = [CalendarApiService, UserApiService, ExpenseApiService, Cate
         UserResolver,
         CalendarResolver,
         ...apiServices,
-    ],
-    bootstrap: [AppComponent],
-})
+        provideHttpClient(withInterceptorsFromDi()),
+    ] })
 export class AppModule {}
