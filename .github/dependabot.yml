@@ -25,6 +25,9 @@ updates:
       - dependency-name: "@angular/*"
         update-types:
           - "version-update:semver-major"
+       - dependency-name: "@angular-*/*"
+        update-types:
+          - "version-update:semver-major"         
     groups:
       minor:
         update-types: 
