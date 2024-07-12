@@ -22,12 +22,9 @@ updates:
     schedule:
       interval: "weekly"
     ignore:
-      - dependency-name: "@angular/*"
-        update-types:
-          - "version-update:semver-major"
-       - dependency-name: "@angular-*/*"
-        update-types:
-          - "version-update:semver-major"         
+       - dependency-name: "@angular*/*"
+         update-types:
+           - "version-update:semver-major"         
     groups:
       minor:
         update-types: 
