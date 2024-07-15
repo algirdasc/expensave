@@ -35,6 +35,7 @@ export class DailyExpensesComponent extends AbstractReportComponent implements O
                 border: {
                     dash: [5],
                 },
+                beginAtZero: true,
                 ticks: {
                     callback: (value: string | number) => new ShortNumberPipe().transform(value),
                 },
