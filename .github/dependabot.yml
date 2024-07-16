@@ -21,6 +21,20 @@ updates:
     directory: "/frontend"
     schedule:
       interval: "weekly"
+    ignore:
+       - dependency-name: "@angular/*"
+         update-types:
+           - "version-update:semver-major"
+       - dependency-name: "@angular-devkit/*"
+         update-types:
+           - "version-update:semver-major"
+       - dependency-name: "@angular-eslint/*"
+         update-types:
+           - "version-update:semver-major"
+       - dependency-name: "typescript"
+         update-types:
+           - "version-update:semver-major"
+           - "version-update:semver-minor"
     groups:
       minor:
         update-types: 

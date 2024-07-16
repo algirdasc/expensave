@@ -26,5 +26,7 @@
         pointer-events: auto;
         user-select: none;
         color: nb-theme(text-hint-color);
+        display: inline-block;
+        width: 100%;
     }
 }
