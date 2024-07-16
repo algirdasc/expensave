@@ -2,7 +2,7 @@
     <nb-card [nbSpinner]="isBusy" class="dialog">
         <nb-card-header
             class="px-0"
-            [style.background-color]="expense.confirmed ? expense.category?.color ?? UNCATEGORIZED_COLOR : 'white'">
+            [style.background-color]="expense.confirmed ? (expense.category?.color ?? UNCATEGORIZED_COLOR) : 'white'">
             <div
                 class="d-flex align-items-end justify-content-between expense-header"
                 [class.confirmed]="expense.confirmed">
