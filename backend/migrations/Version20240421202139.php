@@ -19,7 +19,6 @@ final class Version20240421202139 extends AbstractMigration
 
     public function up(Schema $schema): void
     {
-        // this up() migration is auto-generated, please modify it to your needs
         $this->addSql('ALTER TABLE calendar ADD owner_id INT DEFAULT NULL');
         $this->addSql('ALTER TABLE calendar ADD CONSTRAINT FK_6EA9A1467E3C61F9 FOREIGN KEY (owner_id) REFERENCES `user` (id)');
         $this->addSql('CREATE INDEX IDX_6EA9A1467E3C61F9 ON calendar (owner_id)');
@@ -29,7 +28,6 @@ final class Version20240421202139 extends AbstractMigration
 
     public function down(Schema $schema): void
     {
-        // this down() migration is auto-generated, please modify it to your needs
         $this->addSql('ALTER TABLE calendar DROP FOREIGN KEY FK_6EA9A1467E3C61F9');
         $this->addSql('DROP INDEX IDX_6EA9A1467E3C61F9 ON calendar');
         $this->addSql('ALTER TABLE calendar DROP owner_id');

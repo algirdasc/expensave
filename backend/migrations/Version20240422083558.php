@@ -19,13 +19,11 @@ final class Version20240422083558 extends AbstractMigration
 
     public function up(Schema $schema): void
     {
-        // this up() migration is auto-generated, please modify it to your needs
         $this->addSql('ALTER TABLE user ADD default_calendar_id INT DEFAULT NULL');
     }
 
     public function down(Schema $schema): void
     {
-        // this down() migration is auto-generated, please modify it to your needs
         $this->addSql('ALTER TABLE `user` DROP default_calendar_id');
     }
 }
