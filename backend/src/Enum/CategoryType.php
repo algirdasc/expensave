@@ -8,6 +8,5 @@ enum CategoryType: string
 {
     case USER = 'user';
     case UNCATEGORIZED = 'uncategorized';
-    case TRANSFER = 'transfer';
     case BALANCE_UPDATE = 'balance_update';
 }

@@ -8,7 +8,6 @@ use App\Const\ContextGroupConst;
 
 class ExpenseContextGroupConst
 {
-    public const ALWAYS = [ContextGroupConst::API_ALWAYS, self::DETAILS, self::TRANSFER];
+    public const ALWAYS = [ContextGroupConst::API_ALWAYS, self::DETAILS];
     public const DETAILS = 'expense.details';
-    public const TRANSFER = 'expense.transfer';
 }
