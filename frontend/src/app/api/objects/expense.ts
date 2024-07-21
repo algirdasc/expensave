@@ -1,7 +1,7 @@
 import { Expose, Type } from 'class-transformer';
 import { EntityInterface } from '../../interfaces/entity.interface';
 import { Calendar } from './calendar';
-import { Category, TYPE_TRANSFER } from './category';
+import { Category } from './category';
 import { User } from './user';
 
 export class Expense implements EntityInterface {

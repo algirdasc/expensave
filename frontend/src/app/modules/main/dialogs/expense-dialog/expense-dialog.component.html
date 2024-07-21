@@ -8,11 +8,7 @@
                 [tabId]="TYPE_UNCATEGORIZED">
                 <app-expense [expense]="expense" *nbTabContent></app-expense>
             </nb-tab>
-            <nb-tab
-                *ngIf="!this.expense.id"
-                tabTitle="Transfer"
-                class="h-100 p-0"
-                [tabId]="TYPE_UNCATEGORIZED">
+            <nb-tab *ngIf="!this.expense.id" tabTitle="Transfer" class="h-100 p-0" [tabId]="TYPE_UNCATEGORIZED">
                 <app-transfer [expense]="expense" *nbTabContent></app-transfer>
             </nb-tab>
             <nb-tab
