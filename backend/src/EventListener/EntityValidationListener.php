@@ -7,6 +7,7 @@ namespace App\EventListener;
 use App\Exception\RequestValidationException;
 use App\Service\ValidationService;
 use Doctrine\Bundle\DoctrineBundle\Attribute\AsDoctrineListener;
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Events;
 use Doctrine\Persistence\Event\LifecycleEventArgs;
 
@@ -20,7 +21,7 @@ readonly class EntityValidationListener
     }
 
     /**
-     * @SupressWarnings("unused")
+     * @param LifecycleEventArgs<EntityManagerInterface> $eventArgs
      *
      * @throws RequestValidationException
      */
@@ -30,7 +31,7 @@ readonly class EntityValidationListener
     }
 
     /**
-     * @SupressWarnings("unused")
+     * @param LifecycleEventArgs<EntityManagerInterface> $eventArgs
      *
      * @throws RequestValidationException
      */
