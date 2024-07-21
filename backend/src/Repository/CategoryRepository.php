@@ -4,7 +4,10 @@ declare(strict_types=1);
 
 namespace App\Repository;
 
+use App\Const\StringConst;
 use App\Entity\Category;
+use App\Enum\CategoryType;
+use Doctrine\Common\Collections\Criteria;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -28,9 +31,35 @@ class CategoryRepository extends AbstractRepository
         if ($category === null) {
             $category = new Category();
             $category->setName($categoryName);
-            $category->setColor('#333333');
+            $category->setColor(StringConst::UNCATEGORIZED_COLOR);
 
             $this->save($category);
+        }
+
+        return $category;
+    }
+
+    /**
+     * @return array<Category>
+     */
+    public function findSystem(): array
+    {
+        $queryBuilder = $this->createQueryBuilder('c')
+            ->where('c.type != :type')
+            ->setParameter('type', CategoryType::USER);
+
+
+        return $queryBuilder->getQuery()->getResult();
+    }
+
+    public function findBalanceCategory(): Category
+    {
+        $category = $this->findOneBy(['type' => CategoryType::BALANCE_UPDATE]);
+
+        if ($category === null) {
+            $category = $this->findOrCreate(StringConst::BALANCE_UPDATE_LABEL);
+            $category->setColor(StringConst::BALANCE_COLOR);
+            $category->setType(CategoryType::BALANCE_UPDATE);
         }
 
         return $category;

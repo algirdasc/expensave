@@ -21,7 +21,7 @@ export class DateUtil {
         return date instanceof Date && !isNaN(date.getTime());
     }
 
-    public static firstDayOfWeek(date: Date, firstDayOfWeekIndex: number = 0) {
+    public static firstDayOfWeek(date: Date, firstDayOfWeekIndex: number = 0): Date {
         const dayOfWeek = date.getDay();
         const firstDayOfWeek = new Date(date);
         const diff = dayOfWeek - firstDayOfWeekIndex;

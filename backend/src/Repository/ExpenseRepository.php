@@ -6,10 +6,13 @@ namespace App\Repository;
 
 use App\DTO\Statement\Import\StatementImportRowInterface;
 use App\Entity\Calendar;
+use App\Entity\Category;
 use App\Entity\Expense;
+use App\Enum\CategoryType;
 use DateTime;
 use Doctrine\ORM\Query;
 use Doctrine\Persistence\ManagerRegistry;
+use LogicException;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 /**

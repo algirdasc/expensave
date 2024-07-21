@@ -18,7 +18,7 @@ class CreateCalendarRequest extends AbstractRequest
     protected string $name;
 
     /**
-     * @var Collection<User>|null
+     * @var Collection<array-key, User>|null
      */
     protected ?Collection $collaborators = null;
 
@@ -35,7 +35,7 @@ class CreateCalendarRequest extends AbstractRequest
     }
 
     /**
-     * @return Collection<User>
+     * @return Collection<array-key, User>
      */
     public function getCollaborators(): Collection
     {
@@ -43,7 +43,7 @@ class CreateCalendarRequest extends AbstractRequest
     }
 
     /**
-     * @param Collection<User>|null $collaborators
+     * @param Collection<array-key, User>|null $collaborators
      */
     public function setCollaborators(?Collection $collaborators): self
     {

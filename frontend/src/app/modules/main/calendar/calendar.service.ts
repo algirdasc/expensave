@@ -3,6 +3,7 @@ import { NbDialogService } from '@nebular/theme';
 import { plainToInstance } from 'class-transformer';
 import { ExpenseApiService } from '../../../api/expense.api.service';
 import { Calendar } from '../../../api/objects/calendar';
+import { TYPE_BALANCE_UPDATE, TYPE_UNCATEGORIZED } from '../../../api/objects/category';
 import { Expense } from '../../../api/objects/expense';
 import { DateUtil } from '../../../util/date.util';
 import { ExpenseDialogComponent } from '../dialogs/expense-dialog/expense-dialog.component';
@@ -34,10 +35,15 @@ export class CalendarService {
     }
 
     private openExpenseDialog(expense: Expense, onClose: (result: Expense) => void): void {
+        const categoryMap = {};
+        categoryMap[TYPE_UNCATEGORIZED] = this.mainService.getSystemCategory(TYPE_UNCATEGORIZED);
+        categoryMap[TYPE_BALANCE_UPDATE] = this.mainService.getSystemCategory(TYPE_BALANCE_UPDATE);
+
         this.dialogService
             .open(ExpenseDialogComponent, {
                 context: {
                     expense: expense,
+                    categoryMap: categoryMap,
                 },
             })
             .onClose.subscribe((result?: Expense) => {

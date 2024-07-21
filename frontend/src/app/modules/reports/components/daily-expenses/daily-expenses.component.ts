@@ -107,7 +107,7 @@ export class DailyExpensesComponent extends AbstractReportComponent implements O
                     pointHoverRadius: 5,
                     fill: 'origin',
                     segment: {
-                        borderDash: (ctx: ScriptableLineSegmentContext) => {
+                        borderDash: (ctx: ScriptableLineSegmentContext): number[] => {
                             if (balances[ctx.p0DataIndex].balanceAt > currentDate) {
                                 return [8, 8];
                             }

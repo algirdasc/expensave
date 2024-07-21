@@ -18,8 +18,6 @@ class CreateCategoryRequest extends AbstractRequest
     #[Assert\CssColor(formats: [Assert\CssColor::HEX_LONG])]
     protected string $color;
 
-    private ?Collection $rules = null;
-
     public function getName(): string
     {
         return $this->name;
@@ -40,18 +38,6 @@ class CreateCategoryRequest extends AbstractRequest
     public function setColor(string $color): self
     {
         $this->color = $color;
-
-        return $this;
-    }
-
-    public function getRules(): Collection
-    {
-        return $this->rules ?? new ArrayCollection();
-    }
-
-    public function setRules(?Collection $rules): self
-    {
-        $this->rules = $rules;
 
         return $this;
     }

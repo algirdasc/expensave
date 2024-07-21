@@ -29,15 +29,20 @@ import { CalendarService } from '../calendar.service';
         </nb-list>`,
 })
 export class CalendarExpenseListMobileItemsComponent {
-    @Input() protected expenses: Expense[];
-    @Input() protected selectedValue: Date;
-    @Input() protected confirmed: boolean;
+    @Input()
+    protected expenses: Expense[];
+
+    @Input()
+    protected selectedValue: Date;
+
+    @Input()
+    protected confirmed: boolean;
 
     protected readonly UNCATEGORIZED_COLOR = UNCATEGORIZED_COLOR;
 
     public constructor(protected calendarService: CalendarService) {}
 
-    get expensesSum(): number {
+    public get expensesSum(): number {
         let sum = 0;
         this.expenses.forEach((expense: Expense) => (sum += expense.amount));
 

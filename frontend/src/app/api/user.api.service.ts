@@ -12,7 +12,7 @@ export class UserApiService {
     public onBusyChange: Subject<boolean> = new Subject<boolean>();
     private backend: string = '/user';
 
-    constructor(private http: HttpClient) {}
+    public constructor(private http: HttpClient) {}
 
     public profile(): Observable<User> {
         this.onBusyChange.next(true);

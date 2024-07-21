@@ -14,7 +14,7 @@ export class ProfileDialogComponent implements OnInit {
     public isBusy: boolean = true;
     public passwordRequest: PasswordRequest = new PasswordRequest();
 
-    constructor(
+    public constructor(
         public readonly dialogRef: NbDialogRef<ProfileDialogComponent>,
         private readonly userApiService: UserApiService,
         private readonly toastrService: NbToastrService,

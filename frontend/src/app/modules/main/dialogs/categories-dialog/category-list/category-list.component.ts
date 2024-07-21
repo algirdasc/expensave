@@ -10,7 +10,6 @@ import { UNCATEGORIZED_COLOR } from '../../../../../util/color.util';
 export class CategoryListComponent {
     @Input() public categories: Category[];
     @Input() public selectedCategory: Category;
-    @Input() public showEmptyCategory: boolean;
     @Output() public categoryClick: EventEmitter<Category> = new EventEmitter<Category>();
     @Output() public newCategoryClick: EventEmitter<boolean> = new EventEmitter<boolean>();
     @Output() public back: EventEmitter<boolean> = new EventEmitter<boolean>();

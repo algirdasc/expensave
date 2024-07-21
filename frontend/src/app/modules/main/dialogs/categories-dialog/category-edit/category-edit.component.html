@@ -51,7 +51,13 @@
                     Save
                 </button>
 
-                <button nbButton type="button" ghost status="danger" *ngIf="category.id" (click)="deleteCategory()">
+                <button
+                    nbButton
+                    type="button"
+                    ghost
+                    status="danger"
+                    *ngIf="category.id && category.definedByUser"
+                    (click)="deleteCategory()">
                     <nb-icon icon="trash-2-outline"></nb-icon>
                 </button>
             </div>

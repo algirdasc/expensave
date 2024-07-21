@@ -30,9 +30,10 @@ nb-list nb-list-item {
 }
 
 nb-card.dialog {
-    width: 335px;
+    width: 360px;
     min-height: 400px;
     max-height: 75vh;
+    height: 100%;
     border: 0 !important;
     margin: 0;
 }

@@ -11,7 +11,7 @@ export class InputDialogComponent implements AfterViewInit {
     @Input() public text: string;
     @ViewChild('focus') private focusElement: ElementRef;
 
-    constructor(public readonly dialogRef: NbDialogRef<InputDialogComponent>) {}
+    public constructor(public readonly dialogRef: NbDialogRef<InputDialogComponent>) {}
 
     public ngAfterViewInit(): void {
         this.focusElement.nativeElement.focus();

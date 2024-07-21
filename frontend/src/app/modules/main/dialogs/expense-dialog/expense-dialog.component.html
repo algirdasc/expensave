@@ -1,110 +1,23 @@
-<form #expenseForm="ngForm" (ngSubmit)="onSubmit()" autocomplete="off">
-    <nb-card [nbSpinner]="isBusy" class="dialog">
-        <nb-card-header
-            class="px-0"
-            [style.background-color]="expense.confirmed ? (expense.category?.color ?? UNCATEGORIZED_COLOR) : 'white'">
-            <div
-                class="d-flex align-items-end justify-content-between expense-header"
-                [class.confirmed]="expense.confirmed">
-                <button
-                    nbButton
-                    type="button"
-                    tabIndex="3"
-                    (click)="expense.isExpense = !expense.isExpense"
-                    class="toggle-sign mb-2">
-                    <nb-icon [icon]="expense.isExpense ? 'minus' : 'plus'"></nb-icon>
-                </button>
-                <div class="d-flex">
-                    <div class="mx-3 w-50">
-                        <label for="expense-amount">Amount</label>
-                        <input
-                            #focus
-                            nbInput
-                            fullWidth
-                            required
-                            type="number"
-                            tabIndex="1"
-                            placeholder="{{ 0 | shortNumber }}"
-                            name="amount"
-                            id="expense-amount"
-                            [(ngModel)]="expense.absoluteAmount"
-                            class="t-input px-0 pt-3 pb-2" />
-                    </div>
-                    <div class="mx-3">
-                        <label for="expense-label">Label</label>
-                        <app-input-suggestion
-                            [input]="expense.label"
-                            (inputChanged)="handleInputChange($event)"
-                            [suggestion]="suggestedExpense?.label"
-                            (suggest)="applyLabelSuggestion()"
-                            [cssClasses]="'t-input px-0 pt-3 pb-2'">
-                            <input
-                                nbInput
-                                fullWidth
-                                required
-                                tabIndex="2"
-                                placeholder="e.g. coffee"
-                                name="label"
-                                id="expense-label"
-                                [(ngModel)]="expense.label"
-                                class="t-input px-0 pt-3 pb-2" />
-                        </app-input-suggestion>
-                    </div>
-                </div>
-            </div>
-        </nb-card-header>
-        <nb-card-body class="p-0">
-            <nb-list>
-                <nb-list-item (click)="selectCalendar()" class="actionable">
-                    <nb-icon icon="calendar-outline" class="me-3"></nb-icon>
-                    <div class="text-truncate">{{ expense.calendar.name }}</div>
-                </nb-list-item>
-
-                <nb-list-item (click)="expense.confirmed = !expense.confirmed" class="actionable">
-                    <nb-icon
-                        [icon]="expense.confirmed ? 'checkmark-circle-2' : 'radio-button-off'"
-                        [status]="expense.confirmed ? 'primary' : ''"
-                        [class.active]="expense.confirmed"
-                        class="me-3"></nb-icon>
-                    <div>{{ expense.confirmed ? 'Confirmed' : 'Unconfirmed' }}</div>
-                </nb-list-item>
-
-                <nb-list-item (click)="selectCategory()" class="actionable">
-                    <nb-icon
-                        icon="radio-button-on"
-                        [ngStyle]="{ color: expense.category?.color }"
-                        class="active me-3"></nb-icon>
-                    <div class="text-truncate">{{ expense.category?.name ?? 'Uncategorized' }}</div>
-                </nb-list-item>
-
-                <nb-list-item (click)="selectDateTime()" class="actionable">
-                    <nb-icon icon="calendar-outline" class="me-3"></nb-icon>
-                    <div class="text-truncate">{{ expense.createdAt | date: 'fullDate' }}</div>
-                </nb-list-item>
-
-                <nb-list-item (click)="addDescription()" class="actionable">
-                    <nb-icon icon="file-text-outline" class="me-3"></nb-icon>
-                    <div class="text-truncate">{{ expense.description ?? 'Add description' }}</div>
-                </nb-list-item>
-
-                <nb-list-item>
-                    <nb-user [picture]="expense.user.avatar" onlyPicture size="tiny" class="me-2"></nb-user>
-                    <div class="text-truncate">{{ expense.user.name }}</div>
-                </nb-list-item>
-            </nb-list>
-        </nb-card-body>
-
-        <nb-card-footer>
-            <div class="d-flex flex-row-reverse justify-content-between">
-                <button nbButton type="submit" status="primary" [disabled]="isBusy || !expenseForm.valid" tabIndex="3">
-                    <nb-icon icon="save-outline"></nb-icon>
-                    Save
-                </button>
-
-                <button nbButton type="button" ghost status="danger" *ngIf="expense.id" (click)="deleteExpense()">
-                    <nb-icon icon="trash-2-outline"></nb-icon>
-                </button>
-            </div>
-        </nb-card-footer>
-    </nb-card>
-</form>
+<nb-card class="dialog">
+    <nb-card-body class="p-0">
+        <nb-tabset [class.confirmed]="expense.confirmed" class="h-100" (changeTab)="onTabChange($event)">
+            <nb-tab
+                *ngIf="!this.expense.id || this.expense.category.type !== TYPE_BALANCE_UPDATE"
+                tabTitle="Expense"
+                class="h-100 p-0"
+                [tabId]="TYPE_UNCATEGORIZED">
+                <app-expense [expense]="expense" *nbTabContent></app-expense>
+            </nb-tab>
+            <nb-tab *ngIf="!this.expense.id" tabTitle="Transfer" class="h-100 p-0" [tabId]="TYPE_UNCATEGORIZED">
+                <app-transfer [expense]="expense" *nbTabContent></app-transfer>
+            </nb-tab>
+            <nb-tab
+                *ngIf="!this.expense.id || this.expense.category.type === TYPE_BALANCE_UPDATE"
+                tabTitle="Balance"
+                class="h-100 p-0"
+                [tabId]="TYPE_BALANCE_UPDATE">
+                <app-balance [expense]="expense" *nbTabContent></app-balance>
+            </nb-tab>
+        </nb-tabset>
+    </nb-card-body>
+</nb-card>

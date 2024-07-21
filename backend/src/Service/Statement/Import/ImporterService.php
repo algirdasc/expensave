@@ -6,8 +6,10 @@ namespace App\Service\Statement\Import;
 
 use App\DTO\Statement\Import\StatementImportRowInterface;
 use App\Entity\Calendar;
+use App\Entity\Category;
 use App\Entity\Expense;
 use App\Entity\User;
+use App\Enum\CategoryType;
 use App\Repository\CategoryRepository;
 use App\Repository\CategoryRuleRepository;
 use App\Repository\ExpenseRepository;
@@ -32,6 +34,11 @@ readonly class ImporterService
             $category = $this->categoryRepository->findOrCreate($row->getCategoryName());
         } else {
             $category = $this->categoryRuleRepository->match($row->getLabel());
+        }
+
+        if ($category === null) {
+            /** @var Category $category */
+            $category = $this->categoryRepository->findOneBy(['type' => CategoryType::UNCATEGORIZED]);
         }
 
         $expense = $this->expenseRepository->findByCalendarAndStatementRow($calendar, $row);

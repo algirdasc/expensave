@@ -8,7 +8,7 @@ import { Error } from '../api/objects/error';
 
 @Injectable()
 export class ErrorInterceptor implements HttpInterceptor {
-    constructor(private toastrService: NbToastrService) {}
+    public constructor(private toastrService: NbToastrService) {}
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     public intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {

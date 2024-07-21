@@ -15,6 +15,9 @@ use Doctrine\Persistence\Event\LifecycleEventArgs;
 #[AsEntityListener(event: Events::postPersist, entity: Expense::class)]
 class CalendarBalanceListener
 {
+    /**
+     * @param LifecycleEventArgs<EntityManagerInterface> $eventArgs
+     */
     public function postUpdate(Expense $expense, LifecycleEventArgs $eventArgs): void
     {
         /** @var EntityManagerInterface $entityManager */
@@ -35,7 +38,7 @@ class CalendarBalanceListener
     }
 
     /**
-     * @SupressWarnings("unused")
+     * @param LifecycleEventArgs<EntityManagerInterface> $eventArgs
      */
     public function postRemove(Expense $expense, LifecycleEventArgs $eventArgs): void
     {
@@ -48,7 +51,7 @@ class CalendarBalanceListener
     }
 
     /**
-     * @SupressWarnings("unused")
+     * @param LifecycleEventArgs<EntityManagerInterface> $eventArgs
      */
     public function postPersist(Expense $expense, LifecycleEventArgs $eventArgs): void
     {

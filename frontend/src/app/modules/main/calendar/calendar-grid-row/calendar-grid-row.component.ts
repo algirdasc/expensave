@@ -18,7 +18,7 @@ export class CalendarGridRowComponent extends NbCalendarPickerRowComponent<Date,
     @Input() public component: Type<CalendarCellInterface>;
     @Input() public rowResizedEvent: ResizedEvent;
 
-    constructor(
+    public constructor(
         private c: ComponentFactoryResolver,
         private dateService: NbDateService<Date>
     ) {

@@ -1,7 +1,7 @@
 import { Chart, TooltipModel } from 'chart.js';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export const positionTooltip = (tooltipElement: HTMLDivElement, tooltip: TooltipModel<any>, chart: Chart) => {
+export const positionTooltip = (tooltipElement: HTMLDivElement, tooltip: TooltipModel<any>, chart: Chart): void => {
     const { offsetLeft: positionX, offsetTop: positionY } = chart.canvas;
 
     tooltipElement.style.left = positionX + tooltip.caretX - tooltipElement.clientWidth / 2 + 'px';
@@ -10,7 +10,7 @@ export const positionTooltip = (tooltipElement: HTMLDivElement, tooltip: Tooltip
 };
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export const getTooltipElement = (tooltip: TooltipModel<any>, chart: Chart) => {
+export const getTooltipElement = (tooltip: TooltipModel<any>, chart: Chart): HTMLDivElement => {
     const tooltipElement: HTMLDivElement = chart.canvas.parentNode.querySelector('div.chart-tooltip');
 
     if (tooltip.opacity === 0) {

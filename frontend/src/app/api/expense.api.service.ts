@@ -1,11 +1,11 @@
 import { Injectable, Type } from '@angular/core';
 import { Observable } from 'rxjs';
 import { EntityInterface } from '../interfaces/entity.interface';
-import { AbstractApiService } from './abstract.api.service';
+import { AbstractEntityApiService } from './abstract-entity-api.service';
 import { Expense } from './objects/expense';
 
 @Injectable()
-export class ExpenseApiService extends AbstractApiService<Expense> {
+export class ExpenseApiService extends AbstractEntityApiService<Expense> {
     protected backend: string = '/expense';
     protected entity: Type<EntityInterface> = Expense;
 
