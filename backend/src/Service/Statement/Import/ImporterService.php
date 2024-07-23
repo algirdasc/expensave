@@ -25,8 +25,13 @@ readonly class ImporterService
     ) {
     }
 
-    public function import(StatementImportRowInterface $row, Calendar $calendar): void
+    public function import(StatementImportRowInterface $row, Calendar $calendar): ?Expense
     {
+        $expense = $this->expenseRepository->findByCalendarAndStatementRow($calendar, $row);
+        if ($expense !== null) {
+            return null;
+        }
+
         /** @var User $user */
         $user = $this->security->getUser();
 
@@ -41,24 +46,14 @@ readonly class ImporterService
             $category = $this->categoryRepository->findOneBy(['type' => CategoryType::UNCATEGORIZED]);
         }
 
-        $expense = $this->expenseRepository->findByCalendarAndStatementRow($calendar, $row);
-        if ($expense) {
-            $expense
-                ->setConfirmed($row->isConfirmed())
-                ->setDescription($expense->getDescription() ?? $row->getDescription())
-            ;
-        } else {
-            $expense = (new Expense())
-                ->setCalendar($calendar)
-                ->setCategory($category)
-                ->setCreatedAt($row->getCreatedAt())
-                ->setConfirmed($row->isConfirmed())
-                ->setLabel($row->getLabel())
-                ->setAmount($row->getAmount())
-                ->setDescription($row->getDescription())
-                ->setUser($user);
-        }
-
-        $this->expenseRepository->save($expense);
+        return (new Expense())
+            ->setCalendar($calendar)
+            ->setCategory($category)
+            ->setCreatedAt($row->getCreatedAt())
+            ->setConfirmed($row->isConfirmed())
+            ->setLabel($row->getLabel())
+            ->setAmount($row->getAmount())
+            ->setDescription($row->getDescription())
+            ->setUser($user);
     }
 }

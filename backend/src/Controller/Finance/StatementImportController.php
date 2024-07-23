@@ -2,11 +2,12 @@
 
 declare(strict_types=1);
 
-namespace App\Controller\Finance\Calendar;
+namespace App\Controller\Finance;
 
 use App\Controller\AbstractApiController;
 use App\Entity\Calendar;
 use App\Exception\StatementImportException;
+use App\Response\Error\ErrorResponse;
 use App\Response\StatementImport\StatementImportResponse;
 use App\Service\Statement\Import\ImporterService;
 use App\Service\Statement\Import\Resolver\StatementImportResolver;
@@ -28,26 +29,24 @@ class StatementImportController extends AbstractApiController
     #[Route('/{calendar}/import', name: 'import', methods: Request::METHOD_POST)]
     public function import(Calendar $calendar, StatementImportResolver $statementImportResolver, Request $request): Response
     {
-        $errors = [];
+        $expenses = [];
 
-        /** @var array<UploadedFile> $statementFiles */
-        $statementFiles = $request->files->get('statements') ?? [];
-        foreach ($statementFiles as $statementFile) {
-            $importHandler = $statementImportResolver->getHandler($statementFile);
+        /** @var UploadedFile $statementFile */
+        $statementFile = $request->files->get('statement');
 
-            foreach ($importHandler->process($statementFile) as $row) {
-                try {
-                    set_time_limit(30); // prevent execution timeout
-                    $this->importerService->import($row, $calendar);
-                } catch (StatementImportException $exception) {
-                    $errors[$statementFile->getClientOriginalName()][] = $exception->getMessage();
-                }
+        $importHandler = $statementImportResolver->getHandler($statementFile);
+        foreach ($importHandler->process($statementFile) as $row) {
+            set_time_limit(30); // prevent execution timeout
+
+            $expense = $this->importerService->import($row, $calendar);
+            if ($expense === null) {
+                continue;
             }
 
-            $this->entityManager->flush();
+            $expenses[] = $expense;
         }
 
-        return $this->respond(new StatementImportResponse($errors));
+        return $this->respond(new StatementImportResponse($expenses));
     }
 
     public function getAllowedContentTypeFormat(): string

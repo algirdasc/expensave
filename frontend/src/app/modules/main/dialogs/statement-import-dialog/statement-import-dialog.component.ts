@@ -3,10 +3,11 @@ import { NbDialogRef, NbToastrService } from '@nebular/theme';
 import { CalendarApiService } from '../../../../api/calendar.api.service';
 import { Calendar } from '../../../../api/objects/calendar';
 import { StatementImportResponse } from '../../../../api/response/statement-import.response';
+import { IMPORT_COUNT_KEY, IMPORT_KEY } from '../../modules/statement-import/statement-import.service';
 
 @Component({
     templateUrl: 'statement-import-dialog.component.html',
-    styleUrls: ['statement-import-dialog.component.scss'],
+    styleUrl: 'statement-import-dialog.component.scss',
 })
 export class StatementImportDialogComponent {
     @Input() public calendar: Calendar;
@@ -24,15 +25,20 @@ export class StatementImportDialogComponent {
 
     public onSubmit(): void {
         const formData = new FormData();
-        for (const f in this.files) {
-            const file = this.files[f];
-            formData.append('statements', file, file.name);
-        }
+        const file = this.files[0];
+        formData.append('statement', file, file.name);
 
         this.calendarApiService
             .importStatements(this.calendar, formData)
             .subscribe((response: StatementImportResponse) => {
-                console.log(response);
+                if (response.expenses.length === 0) {
+                    return this.toastrService.info('Statement file does not contain any records. Want to try again?');
+                }
+
+                sessionStorage.setItem(IMPORT_KEY, JSON.stringify(response.expenses));
+                sessionStorage.setItem(IMPORT_COUNT_KEY, response.expenses.length.toString());
+
+                this.dialogRef.close(response.expenses.length);
             });
     }
 

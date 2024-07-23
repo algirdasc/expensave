@@ -70,10 +70,12 @@ import { ExpenseListItemsComponent } from './dialogs/expense-list-dialog/expense
 import { InputDialogComponent } from './dialogs/input-dialog/input-dialog.component';
 import { ProfileDialogComponent } from './dialogs/profile-dialog/profile-dialog.component';
 import { StatementImportDialogComponent } from './dialogs/statement-import-dialog/statement-import-dialog.component';
+import { StatementReviewDialogComponent } from './dialogs/statement-review-dialog/statement-review-dialog.component';
 import { HeaderComponent } from './header/header.component';
 import { MainComponent } from './main.component';
 import { mainRoutes } from './main.routes';
 import { MainService } from './main.service';
+import { StatementImportService } from './modules/statement-import/statement-import.service';
 
 @NgModule({
     declarations: [
@@ -105,6 +107,7 @@ import { MainService } from './main.service';
         CategoriesDialogComponent,
         CalendarsDialogComponent,
         StatementImportDialogComponent,
+        StatementReviewDialogComponent,
         InputDialogComponent,
         DatepickerDialogComponent,
 
@@ -160,6 +163,7 @@ import { MainService } from './main.service';
         MainService,
         CalendarService,
         CalendarMonthModelService,
+        StatementImportService,
 
         // Resolvers
         UserResolver,

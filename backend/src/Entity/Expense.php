@@ -45,6 +45,9 @@ class Expense
     #[Groups(ExpenseContextGroupConst::ALWAYS)]
     private ?string $description = null;
 
+    #[ORM\Column(nullable: true)]
+    private ?string $importHash = null;
+
     #[ORM\Column]
     #[Groups(ExpenseContextGroupConst::ALWAYS)]
     private DateTime $createdAt;
@@ -158,5 +161,17 @@ class Expense
     public function isIncome(): bool
     {
         return $this->getAmount() > 0;
+    }
+
+    public function getImportHash(): ?string
+    {
+        return $this->importHash;
+    }
+
+    public function setImportHash(?string $importHash): self
+    {
+        $this->importHash = $importHash;
+
+        return $this;
     }
 }

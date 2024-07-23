@@ -9,10 +9,10 @@
             <small class="d-block text-hint">
                 <span title="Current balance">{{ calendar?.balance | shortNumber }}</span>
                 <span *ngIf="visibleDateBalance">
-                    |
+                    •
                     <a
                         href="#"
-                        title="This months balance"
+                        title="This month balance"
                         [nbPopover]="expenseReportComponent"
                         nbPopoverPlacement="bottom"
                         (click)="$event.preventDefault()"
