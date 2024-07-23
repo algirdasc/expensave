@@ -20,4 +20,7 @@
       <directory suffix=".php">src</directory>
     </include>
   </source>
+  <extensions>
+    <extension class="DAMA\DoctrineTestBundle\PHPUnit\PHPUnitExtension"/>
+  </extensions>
 </phpunit>
