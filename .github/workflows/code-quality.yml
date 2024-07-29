@@ -39,7 +39,7 @@ jobs:
         with:
           php_version: 8.2
       - name: Run PHPUnit
-        uses: php-actions/phpunit@v3
+        uses: php-actions/phpunit@v4
         with:
           php_version: 8.2
           php_extensions: "xdebug"
