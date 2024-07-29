@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Repository;
 
 use App\Entity\Calendar;
+use App\Entity\User;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -19,5 +20,21 @@ class CalendarRepository extends AbstractRepository
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Calendar::class);
+    }
+
+    /**
+     * @return array<Calendar>
+     */
+    public function findAllByUser(User $user): array
+    {
+        $queryBuilder = $this->createQueryBuilder('c')
+            ->where('c IN (:calendars)')
+            ->orderBy('c.name', 'ASC')
+            ->setParameter('calendars', [
+                ...$user->getCalendars(),
+                ...$user->getSharedCalendars()
+            ]);
+
+        return $queryBuilder->getQuery()->getResult();
     }
 }

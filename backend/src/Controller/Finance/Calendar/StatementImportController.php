@@ -8,6 +8,7 @@ use App\Controller\AbstractApiController;
 use App\Entity\Calendar;
 use App\Exception\StatementImportException;
 use App\Response\StatementImport\StatementImportResponse;
+use App\Security\Voters\CalendarVoter;
 use App\Service\Statement\Import\ImporterService;
 use App\Service\Statement\Import\Resolver\StatementImportResolver;
 use Doctrine\ORM\EntityManagerInterface;
@@ -28,6 +29,8 @@ class StatementImportController extends AbstractApiController
     #[Route('/{calendar}/import', name: 'import', methods: Request::METHOD_POST)]
     public function import(Calendar $calendar, StatementImportResolver $statementImportResolver, Request $request): Response
     {
+        $this->denyAccessUnlessGranted(CalendarVoter::IMPORT, $calendar);
+
         $errors = [];
 
         /** @var array<UploadedFile> $statementFiles */
