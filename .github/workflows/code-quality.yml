@@ -38,13 +38,13 @@ jobs:
         uses: php-actions/phpstan@v3
         with:
           php_version: 8.2
-#      - name: Run PHPUnit
-#        uses: php-actions/phpunit@v3
-#        with:
-#          version: 9.6
-#          php_version: 8.2
-#          php_extensions: "xdebug"
-#          coverage_clover: "coverage/clover.xml"
+      - name: Run PHPUnit
+        uses: php-actions/phpunit@v3
+        with:
+          version: 11.2
+          php_version: 8.2
+          php_extensions: "xdebug"
+          coverage_clover: "coverage/clover.xml"
 
   frontend-code-quality:
     name: Frontend code quality checks

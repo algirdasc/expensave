@@ -8,7 +8,7 @@ use App\Handler\Request\TransformationHandlerInterface;
 use LogicException;
 use ReflectionClass;
 use ReflectionNamedType;
-use Symfony\Component\DependencyInjection\Attribute\TaggedIterator;
+use Symfony\Component\DependencyInjection\Attribute\AutowireIterator;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\PropertyAccess\PropertyAccess;
 
@@ -18,7 +18,7 @@ abstract class AbstractRequest
      * @param iterable<TransformationHandlerInterface> $transformationHandler
      */
     public function __construct(
-        #[TaggedIterator('app.handler.request.transformation')] private readonly iterable $transformationHandler
+        #[AutowireIterator('app.handler.request.transformation')] private readonly iterable $transformationHandler
     ) {
         $this->populate();
     }

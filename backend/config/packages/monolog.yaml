@@ -23,6 +23,12 @@ monolog:
             channels: [deprecation]
             path: php://stderr
 
+when@test:
+    monolog:
+        handlers:
+            main:
+                action_level: error
+
 when@prod:
     monolog:
         handlers:

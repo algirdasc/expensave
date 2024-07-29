@@ -7,16 +7,16 @@ namespace App\Resolver\Error;
 use App\Handler\Error\ErrorHandlerInterface;
 use App\Response\Error\ErrorResponse;
 use RuntimeException;
-use Symfony\Component\DependencyInjection\Attribute\TaggedIterator;
+use Symfony\Component\DependencyInjection\Attribute\AutowireIterator;
 use Throwable;
 
-class ErrorResponseResolver
+readonly class ErrorResponseResolver
 {
     /**
      * @param iterable<ErrorHandlerInterface> $responseErrorHandlers
      */
     public function __construct(
-        #[TaggedIterator('app.handler.error')] private readonly iterable $responseErrorHandlers
+        #[AutowireIterator('app.handler.error')] private readonly iterable $responseErrorHandlers
     ) {
     }
 

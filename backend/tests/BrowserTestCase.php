@@ -9,6 +9,7 @@ use App\Repository\UserRepository;
 use InvalidArgumentException;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+use Symfony\Component\HttpFoundation\Response;
 
 abstract class BrowserTestCase extends WebTestCase
 {
@@ -24,15 +25,55 @@ abstract class BrowserTestCase extends WebTestCase
         ]);
     }
 
-    protected function getAuthenticatedJsonBrowser(int $userId = 1): KernelBrowser
+    protected function getUser(string $name = 'User 1'): User
+    {
+        /** @var UserRepository $userRepository */
+        $userRepository = static::getContainer()->get(UserRepository::class);
+        $user = $userRepository->findOneBy(['name' => $name]);
+        if ($user === null) {
+            throw new InvalidArgumentException(sprintf('User by name "%s" is not found', $name));
+        }
+
+        return $user;
+    }
+
+    protected function getResponseJsonFile(string $path): string
+    {
+        return __DIR__ . DIRECTORY_SEPARATOR . $path;
+    }
+
+    protected function assertResponseEqualToJson(Response $response, string $jsonFile): void
+    {
+        $this->assertJsonStringEqualsJsonFile(
+            $this->getResponseJsonFile($jsonFile),
+            (string) $response->getContent()
+        );
+    }
+
+    /**
+     * @return array<int>
+     */
+    protected function getUserCalendarIds(User $user): array
+    {
+        $ids = [];
+
+        foreach ($user->getCalendars() as $calendar) {
+            $ids[] = (int) $calendar->getId();
+        }
+
+        foreach ($user->getSharedCalendars() as $calendar) {
+            $ids[] = (int) $calendar->getId();
+        }
+
+        return $ids;
+    }
+
+    protected function getAuthenticatedJsonBrowser(?User $user = null): KernelBrowser
     {
         $browser = $this->getJsonBrowser();
 
-        /** @var UserRepository $userRepository */
-        $userRepository = static::getContainer()->get(UserRepository::class);
-        $user = $userRepository->find($userId);
         if ($user === null) {
-            throw new InvalidArgumentException(sprintf('User by ID "%d" is not found', $userId));
+            $user = $this->getUser();
         }
 
         $browser->loginUser($user);

@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace App\Tests\Feature\Controller\Report;
 
 use App\Controller\Report\CategoryExpensesReportController;
+use App\Controller\Report\DailyExpenseReportController;
+use App\Controller\Report\MonthlyExpenseReportController;
 use App\Entity\Calendar;
 use App\Repository\CalendarRepository;
 use App\Tests\BrowserTestCase;
@@ -12,8 +14,8 @@ use PHPUnit\Framework\Attributes\CoversClass;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Component\HttpFoundation\Response;
 
-#[CoversClass(CategoryExpensesReportController::class)]
-class CategoryExpensesReportControllerTest extends BrowserTestCase
+#[CoversClass(MonthlyExpenseReportController::class)]
+class MonthlyExpensesReportControllerTest extends BrowserTestCase
 {
     private CalendarRepository $calendarRepository;
 
@@ -36,7 +38,7 @@ class CategoryExpensesReportControllerTest extends BrowserTestCase
 
         $this->browser->request(
             'GET',
-            sprintf("/api/report/category-expenses/%s/2024-01-01/2024-12-31", implode(',', $calendarIds))
+            sprintf("/api/report/monthly-expenses/%s/2024-01-01/2024-12-31", implode(',', $calendarIds))
         );
 
         $response = $this->browser->getResponse();
@@ -45,11 +47,11 @@ class CategoryExpensesReportControllerTest extends BrowserTestCase
 
         $responseJson = json_decode((string) $response->getContent(), true);
 
-        $this->assertArrayHasKey('categoryBalances', $responseJson);
-        $this->assertCount(3, $responseJson['categoryBalances']);
+        $this->assertArrayHasKey('expenseBalances', $responseJson);
+        $this->assertCount(12, $responseJson['expenseBalances']);
 
         $this->assertArrayHasKey('meta', $responseJson);
-        $this->assertEquals(['change' => -20, 'expense' => -75, 'income' => 55], $responseJson['meta']);
+        $this->assertEquals(['change' => -49, 'expense' => -134, 'income' => 85], $responseJson['meta']);
     }
 
     public function testAccessDenied(): void
@@ -57,7 +59,7 @@ class CategoryExpensesReportControllerTest extends BrowserTestCase
         /** @var Calendar $calendar */
         $calendar = $this->calendarRepository->findOneBy(['owner' => $this->getUser('User 2')]);
 
-        $this->browser->request('GET', "/api/report/category-expenses/{$calendar->getId()}/2024-01-01/2024-12-31");
+        $this->browser->request('GET', "/api/report/monthly-expenses/{$calendar->getId()}/2024-01-01/2024-12-31");
 
         $this->assertResponseStatusCodeSame(Response::HTTP_FORBIDDEN);
     }
