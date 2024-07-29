@@ -41,7 +41,6 @@ jobs:
       - name: Run PHPUnit
         uses: php-actions/phpunit@v3
         with:
-          version: 11.2
           php_version: 8.2
           php_extensions: "xdebug"
           coverage_clover: "coverage/clover.xml"
