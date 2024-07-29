@@ -38,6 +38,21 @@ class CategoryControllerTest extends BrowserTestCase
         $this->assertResponseEqualToJson($response, 'Response/Category/category-system-list.json');
     }
 
+    public function testCategoryLifecycle(): void
+    {
+        // Create
+        $this->browser->request('POST', '/api/category', [
+            'name' => 'Test Name',
+            'color' => '#123456',
+        ]);
+
+        $this->assertResponseIsSuccessful();
+        $responseJson = json_decode((string) $this->browser->getResponse()->getContent(), true);
+
+
+        $categoryId = $this->browser->getResponse();
+    }
+
     public function testGetCategory(): void
     {
         $this->browser->request('GET', '/api/category/1');

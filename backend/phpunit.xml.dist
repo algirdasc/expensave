@@ -6,15 +6,12 @@
   <php>
     <ini name="display_errors" value="1"/>
     <ini name="error_reporting" value="-1"/>
-    <server name="APP_ENV" value="test" force="true"/>
-    <server name="SHELL_VERBOSITY" value="-1"/>
-    <server name="SYMFONY_PHPUNIT_REMOVE" value=""/>
-    <server name="SYMFONY_PHPUNIT_VERSION" value="9.5"/>
-    <server name="KERNEL_CLASS" value="App\Kernel"/>
+    <env name="APP_ENV" value="test" force="true"/>
+    <env name="KERNEL_CLASS" value="App\Kernel"/>
   </php>
   <testsuites>
-    <testsuite name="Project Test Suite">
-      <directory>tests</directory>
+    <testsuite name="Application Test">
+      <directory>tests/Application</directory>
     </testsuite>
   </testsuites>
   <source>
@@ -22,7 +19,7 @@
       <directory suffix=".php">src</directory>
     </include>
   </source>
-<!--  <extensions>-->
-<!--    <bootstrap class="DAMA\DoctrineTestBundle\PHPUnit\PHPUnitExtension" />-->
-<!--  </extensions>-->
+  <extensions>
+    <bootstrap class="DAMA\DoctrineTestBundle\PHPUnit\PHPUnitExtension" />
+  </extensions>
 </phpunit>
