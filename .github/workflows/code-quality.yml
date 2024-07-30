@@ -53,13 +53,13 @@ jobs:
         with:
           php_version: 8.3
           php_extensions: xdebug
-          coverage_clover: coverage/clover.xml
+          coverage_clover: /github/workspace/coverage/clover.xml
       - name: test
         run: ls -la && pwd
       - name: Code coverage summary report
         uses: irongut/CodeCoverageSummary@v1.3.0
         with:
-          filename: /home/runner/work/expensave/expensave/coverage/clover.xml
+          filename: coverage/clover.xml
           badge: true
           fail_below_min: true
           hide_branch_rate: true
