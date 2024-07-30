@@ -36,7 +36,7 @@ jobs:
 #        with:
 #          path: ./src/
 #          args: -d memory_limit=-1
-      - name: Warmup cache for phpstan
+      - name: Warmup cache for PHPStan
         run: php bin/console cache:warmup -n --env=dev
       - name: Run PHPStan
         uses: php-actions/phpstan@v3
@@ -52,8 +52,23 @@ jobs:
           XDEBUG_MODE: coverage
         with:
           php_version: 8.3
-          php_extensions: "xdebug"
-          coverage_clover: "coverage/clover.xml"
+          php_extensions: xdebug
+          coverage_clover: coverage/clover.xml
+      - name: Code coverage summary report
+        uses: irongut/CodeCoverageSummary@v1.3.0
+        with:
+          filename: coverage/clover.xml
+          badge: true
+          fail_below_min: true
+          hide_branch_rate: true
+          hide_complexity: true
+          format: markdown
+      - name: Add coverage report comment
+        uses: marocchino/sticky-pull-request-comment@v2
+        if: github.event_name == 'pull_request'
+        with:
+          recreate: true
+          path: code-coverage-results.md
 
   frontend-code-quality:
     name: Frontend code quality checks
