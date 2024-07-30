@@ -10,7 +10,9 @@ use ReflectionClass;
 use ReflectionNamedType;
 use Symfony\Component\DependencyInjection\Attribute\AutowireIterator;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\PropertyAccess\PropertyAccess;
+use Symfony\Contracts\Service\Attribute\Required;
 
 abstract class AbstractRequest
 {
@@ -18,14 +20,10 @@ abstract class AbstractRequest
      * @param iterable<TransformationHandlerInterface> $transformationHandler
      */
     public function __construct(
-        #[AutowireIterator('app.handler.request.transformation')] private readonly iterable $transformationHandler
+        #[AutowireIterator('app.handler.request.transformation')] private readonly iterable $transformationHandler,
+        private readonly RequestStack $requestStack,
     ) {
         $this->populate();
-    }
-
-    public function getRequest(): Request
-    {
-        return Request::createFromGlobals();
     }
 
     protected function populate(): void
@@ -33,7 +31,7 @@ abstract class AbstractRequest
         $propertyAccessor = PropertyAccess::createPropertyAccessor();
         $reflection = new ReflectionClass($this);
 
-        $requestAsArray = $this->getRequest()->toArray();
+        $requestAsArray = $this->requestStack->getMainRequest()?->toArray() ?? [];
 
         foreach ($reflection->getProperties() as $property) {
             $propertyName = $property->getName();

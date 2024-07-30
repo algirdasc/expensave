@@ -2,21 +2,21 @@
     {
         "color": "#00ff00",
         "definedByUser": true,
-        "id": 34,
+        "id": 1,
         "name": "Category 1",
         "type": "user"
     },
     {
         "color": "#ffff00",
         "definedByUser": true,
-        "id": 35,
+        "id": 2,
         "name": "Category 2",
         "type": "user"
     },
     {
-        "color": "#00ff00",
+        "color": "#00ffff",
         "definedByUser": false,
-        "id": 36,
+        "id": 3,
         "name": "Uncategorized",
         "type": "uncategorized"
     }

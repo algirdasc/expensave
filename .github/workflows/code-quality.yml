@@ -42,7 +42,7 @@ jobs:
         uses: php-actions/phpunit@v4
         with:
           php_version: 8.2
-          php_extensions: "xdebug mysql"
+          php_extensions: "xdebug"
           coverage_clover: "coverage/clover.xml"
 
   frontend-code-quality:

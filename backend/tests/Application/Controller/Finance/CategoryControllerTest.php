@@ -2,37 +2,39 @@
 
 declare(strict_types=1);
 
-namespace App\Tests\Feature\Controller\Finance;
+namespace App\Tests\Application\Controller\Finance;
 
 use App\Controller\Finance\CategoryController;
-use App\Tests\BrowserTestCase;
+use App\Tests\ApplicationTestCase;
 use PHPUnit\Framework\Attributes\CoversClass;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
+use Symfony\Component\HttpFoundation\Response;
 
 #[CoversClass(CategoryController::class)]
-class CategoryControllerTest extends BrowserTestCase
+class CategoryControllerTest extends ApplicationTestCase
 {
-    private KernelBrowser $browser;
+    private KernelBrowser $client;
 
     public function setUp(): void
     {
         parent::setUp();
 
-        $this->browser = $this->getAuthenticatedJsonBrowser();
+        $this->client = $this->getAuthenticatedClient();
     }
 
     public function testList(): void
     {
-        $this->browser->request('GET', '/api/category');
-        $response = $this->browser->getResponse();
+        $this->client->jsonRequest('GET', '/api/category');
+        $response = $this->client->getResponse();
 
         $this->assertResponseIsSuccessful();
         $this->assertResponseEqualToJson($response, 'Response/Category/category-list.json');
     }
+
     public function testSystemList(): void
     {
-        $this->browser->request('GET', '/api/category/system');
-        $response = $this->browser->getResponse();
+        $this->client->jsonRequest('GET', '/api/category/system');
+        $response = $this->client->getResponse();
 
         $this->assertResponseIsSuccessful();
         $this->assertResponseEqualToJson($response, 'Response/Category/category-system-list.json');
@@ -41,42 +43,29 @@ class CategoryControllerTest extends BrowserTestCase
     public function testCategoryLifecycle(): void
     {
         // Create
-        $this->browser->request('POST', '/api/category', [
+        $this->client->jsonRequest('POST', '/api/category', [
             'name' => 'Test Name',
             'color' => '#123456',
         ]);
 
         $this->assertResponseIsSuccessful();
-        $responseJson = json_decode((string) $this->browser->getResponse()->getContent(), true);
 
-
-        $categoryId = $this->browser->getResponse();
-    }
-
-    public function testGetCategory(): void
-    {
-        $this->browser->request('GET', '/api/category/1');
-        $response = $this->browser->getResponse();
+        // Update
+        $this->client->jsonRequest('PUT', "/api/category/5", [
+            'name' => 'Test Modified Name',
+            'color' => '#654321',
+        ]);
 
         $this->assertResponseIsSuccessful();
-        $this->assertResponseEqualToJson($response, 'Response/Category/category-system-list.json');
-    }
+        $responseJson = json_decode((string) $this->client->getResponse()->getContent(), true);
+        $this->assertSame('Test Modified Name', $responseJson['name']);
 
-    public function testUpdateCategory(): void
-    {
-        $this->browser->request('PUT', '/api/category/1');
-        $response = $this->browser->getResponse();
-
+        // Delete
+        $this->client->jsonRequest('DELETE', "/api/category/5");
         $this->assertResponseIsSuccessful();
-        $this->assertResponseEqualToJson($response, 'Response/Category/category-system-list.json');
-    }
 
-    public function testRemoveCategory(): void
-    {
-        $this->browser->request('DELETE', '/api/category/1');
-        $response = $this->browser->getResponse();
-
-        $this->assertResponseIsSuccessful();
-        $this->assertResponseEqualToJson($response, 'Response/Category/category-system-list.json');
+        // Get again
+        $this->client->jsonRequest('GET', "/api/category/5");
+        $this->assertResponseStatusCodeSame(Response::HTTP_NOT_FOUND);
     }
 }

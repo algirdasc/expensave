@@ -1,9 +1,16 @@
 [
     {
-        "color": "#00ff00",
+        "color": "#00ffff",
         "definedByUser": false,
-        "id": 36,
+        "id": 3,
         "name": "Uncategorized",
         "type": "uncategorized"
+    },
+    {
+        "color": "#0fff0f",
+        "definedByUser": false,
+        "id": 4,
+        "name": "Balance Update",
+        "type": "balance_update"
     }
 ]
