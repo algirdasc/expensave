@@ -54,6 +54,8 @@ jobs:
           php_version: 8.3
           php_extensions: xdebug
           coverage_clover: coverage/clover.xml
+      - name: test
+        run: ls -la && pwd
       - name: Code coverage summary report
         uses: irongut/CodeCoverageSummary@v1.3.0
         with:
