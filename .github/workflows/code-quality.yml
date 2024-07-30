@@ -36,7 +36,7 @@ jobs:
 #        with:
 #          php_version: 8.2
       - name: Create schema for testing
-        run: php doctrine:schema:create
+        run: php bin/console doctrine:schema:create -n
       - name: Run PHPUnit
         uses: php-actions/phpunit@v4
         env:
