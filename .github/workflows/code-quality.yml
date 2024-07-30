@@ -55,7 +55,7 @@ jobs:
           php_extensions: xdebug
           coverage_clover: /github/workspace/coverage/clover.xml
       - name: test
-        run: ls -la && pwd
+        run: ls -la && pwd && ls -la /github/workspace && ls -la /github/workspace/coverage
       - name: Code coverage summary report
         uses: irongut/CodeCoverageSummary@v1.3.0
         with:
