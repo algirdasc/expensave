@@ -31,12 +31,14 @@ jobs:
 #        with:
 #          path: ./src/
 #          args: -d memory_limit=-1
-#      - name: Run PHPStan
-#        uses: php-actions/phpstan@v3
-#        with:
-#          php_version: 8.2
+      - name: Warmup cache for phpstan
+        run: php bin/console cache:warmup -n
+      - name: Run PHPStan
+        uses: php-actions/phpstan@v3
+        with:
+          php_version: 8.2
       - name: Create schema for testing
-        run: php bin/console doctrine:schema:create -n
+        run: php bin/console doctrine:schema:create -n --env=test
       - name: Run PHPUnit
         uses: php-actions/phpunit@v4
         env:
