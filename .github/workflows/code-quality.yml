@@ -29,6 +29,8 @@ jobs:
           php -v
       - name: Packages install
         uses: php-actions/composer@v6
+        env:
+          APP_ENV: dev
         with:
           args: --profile --ignore-platform-reqs
 #      - name: Run PHPCS
@@ -36,8 +38,6 @@ jobs:
 #        with:
 #          path: ./src/
 #          args: -d memory_limit=-1
-#      - name: Warmup cache for phpstan
-#        run: php bin/console cache:warmup -n --env=dev
       - name: Run PHPStan
         uses: php-actions/phpstan@v3
         env:
