@@ -41,7 +41,7 @@ readonly class CollectionTransformationHandler implements TransformationHandlerI
         $repository = $this->entityManager->getRepository($entityClassName);
 
         $idValues = [];
-        foreach ($value as $item) {
+        foreach ($value ?? [] as $item) {
             $idValues[] = is_array($item) ? $item[$idField] : $item;
         }
 

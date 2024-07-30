@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Controller\Finance\Expense;
+namespace App\Controller\Finance;
 
 use App\Const\ContextGroup\ExpenseContextGroupConst;
 use App\Const\StringConst;

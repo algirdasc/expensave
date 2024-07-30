@@ -47,11 +47,15 @@ class CategoryControllerTest extends ApplicationTestCase
             'name' => 'Test Name',
             'color' => '#123456',
         ]);
+        $this->assertResponseIsSuccessful();
+        $this->assertSame(5, $this->getJsonResponse($this->client)['id']);
 
+        // Get
+        $this->client->jsonRequest('GET', '/api/category/5');
         $this->assertResponseIsSuccessful();
 
         // Update
-        $this->client->jsonRequest('PUT', "/api/category/5", [
+        $this->client->jsonRequest('PUT', '/api/category/5', [
             'name' => 'Test Modified Name',
             'color' => '#654321',
         ]);
@@ -61,11 +65,21 @@ class CategoryControllerTest extends ApplicationTestCase
         $this->assertSame('Test Modified Name', $responseJson['name']);
 
         // Delete
-        $this->client->jsonRequest('DELETE', "/api/category/5");
+        $this->client->jsonRequest('DELETE', '/api/category/5');
         $this->assertResponseIsSuccessful();
 
         // Get again
-        $this->client->jsonRequest('GET', "/api/category/5");
+        $this->client->jsonRequest('GET', '/api/category/5');
         $this->assertResponseStatusCodeSame(Response::HTTP_NOT_FOUND);
+    }
+
+    public function testDeleteSystemCategory(): void
+    {
+        $this->client->jsonRequest('DELETE', '/api/category/3');
+        $this->assertResponseStatusCodeSame(Response::HTTP_FORBIDDEN);
+
+        $this->client->jsonRequest('DELETE', '/api/category/4');
+        $this->assertResponseStatusCodeSame(Response::HTTP_FORBIDDEN);
+
     }
 }

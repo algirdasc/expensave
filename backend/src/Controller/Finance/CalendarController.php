@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Controller\Finance\Calendar;
+namespace App\Controller\Finance;
 
 use App\Const\ContextGroup\CalendarContextGroupConst;
 use App\Controller\AbstractApiController;
@@ -23,7 +23,6 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\CurrentUser;
-use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 #[Route('api/calendar', name: 'calendar_')]
 class CalendarController extends AbstractApiController

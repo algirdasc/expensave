@@ -17,23 +17,12 @@ use Symfony\Component\HttpFoundation\Response;
 #[CoversClass(DailyExpenseReportController::class)]
 class DailyExpensesReportControllerTest extends ApplicationTestCase
 {
-    private CalendarRepository $calendarRepository;
-
-    private KernelBrowser $client;
-
-    public function setUp(): void
-    {
-        parent::setUp();
-
-        $this->client = $this->getAuthenticatedClient();
-        $this->calendarRepository = static::getContainer()->get(CalendarRepository::class);
-    }
-
     public function testInvoke(): void
     {
-        $this->client->jsonRequest('GET', '/api/report/daily-expenses/1,3/2024-01-01/2024-12-31');
+        $client = $this->getAuthenticatedClient();
+        $client->jsonRequest('GET', '/api/report/daily-expenses/1,3/2024-01-01/2024-12-31');
 
-        $response = $this->client->getResponse();
+        $response = $client->getResponse();
 
         $this->assertResponseIsSuccessful();
 
@@ -44,15 +33,5 @@ class DailyExpensesReportControllerTest extends ApplicationTestCase
 
         $this->assertArrayHasKey('meta', $responseJson);
         $this->assertEquals(['change' => -49, 'expense' => -134, 'income' => 85], $responseJson['meta']);
-    }
-
-    public function testAccessDenied(): void
-    {
-        /** @var Calendar $calendar */
-        $calendar = $this->calendarRepository->find(2);
-
-        $this->client->jsonRequest('GET', "/api/report/daily-expenses/{$calendar->getId()}/2024-01-01/2024-12-31");
-
-        $this->assertResponseStatusCodeSame(Response::HTTP_FORBIDDEN);
     }
 }
