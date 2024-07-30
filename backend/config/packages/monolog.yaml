@@ -7,6 +7,7 @@ monolog:
             path: '%kernel.logs_dir%/%kernel.environment%.log'
             level: debug
             max_files: 14
+            channels: ['!event']
         deprecation:
             type: rotating_file
             path: '%kernel.logs_dir%/%kernel.environment%.deprecation.log'
@@ -26,8 +27,4 @@ when@prod:
             stderr:
                 type: stream
                 path: php://stderr
-                level: error
-            stdout:
-                type: stream
-                path: php://stdout
-                level: info
+                level: debug
