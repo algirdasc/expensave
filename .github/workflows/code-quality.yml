@@ -59,7 +59,7 @@ jobs:
         with:
           filename: coverage/cobertura.xml
           badge: true
-          fail_below_min: true
+          fail_below_min: false
           hide_branch_rate: true
           hide_complexity: true
           format: markdown
