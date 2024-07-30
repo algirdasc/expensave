@@ -29,6 +29,12 @@ class ApplicationTestCase extends KernelTestCase
         $this->loadFixtures();
     }
 
+    public function tearDown(): void
+    {
+        parent::tearDown();
+        self::getClient(null);
+    }
+
     protected function getUser(string $name = 'User 1'): User
     {
         /** @var UserRepository $userRepository */
@@ -84,5 +90,10 @@ class ApplicationTestCase extends KernelTestCase
     protected function getResponseJsonFile(string $path): string
     {
         return __DIR__ . DIRECTORY_SEPARATOR . $path;
+    }
+
+    protected function getJsonResponse(KernelBrowser $browser): array
+    {
+        return json_decode($browser->getResponse()->getContent(), true);
     }
 }

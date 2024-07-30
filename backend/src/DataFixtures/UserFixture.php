@@ -32,6 +32,13 @@ class UserFixture extends Fixture
         $user2->setPlainPassword('password2');
         $userRepository->save($user2);
 
+        $user3 = new User();
+        $user3->setName('User 3');
+        $user3->setEmail('user3@email.com');
+        $user3->setActive(false);
+        $user3->setPlainPassword('password3');
+        $userRepository->save($user3);
+
         $this->setReference(self::USER_1_REFERENCE, $user1);
         $this->setReference(self::USER_2_REFERENCE, $user2);
     }

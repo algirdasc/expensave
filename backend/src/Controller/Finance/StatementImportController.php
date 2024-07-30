@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Controller\Finance\Calendar;
+namespace App\Controller\Finance;
 
 use App\Controller\AbstractApiController;
 use App\Entity\Calendar;
