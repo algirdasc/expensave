@@ -9,6 +9,7 @@ use App\Entity\Calendar;
 use App\Helper\DateHelper;
 use App\Repository\CalendarRepository;
 use App\Repository\ExpenseRepository;
+use App\Security\Voters\CalendarVoter;
 use DateTime;
 
 abstract class AbstractReportController extends AbstractApiController
@@ -41,5 +42,15 @@ abstract class AbstractReportController extends AbstractApiController
         }
 
         DateHelper::setRange($dateFrom, $dateTo);
+    }
+
+    /**
+     * @param array<Calendar> $calendars
+     */
+    protected function denyAccessToReportUnlessGranted(array $calendars): void
+    {
+        foreach ($calendars as $calendar) {
+            $this->denyAccessUnlessGranted(CalendarVoter::VIEW, $calendar);
+        }
     }
 }

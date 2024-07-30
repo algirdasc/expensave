@@ -12,6 +12,7 @@ use App\Entity\User;
 use App\Exception\RequestValidationException;
 use App\Repository\UserRepository;
 use App\Request\User\PasswordChangeRequest;
+use App\Security\Voters\CalendarVoter;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
@@ -31,7 +32,7 @@ class ProfileController extends AbstractApiController
     #[Route('', methods: Request::METHOD_GET)]
     public function list(): JsonResponse
     {
-        return $this->respond($this->userRepository->findBy([], ['name' => 'ASC']));
+        return $this->respond($this->userRepository->findBy(['active' => true], ['name' => 'ASC']));
     }
 
     #[Route('/profile', methods: Request::METHOD_GET)]
@@ -59,6 +60,8 @@ class ProfileController extends AbstractApiController
     #[Route('/default-calendar/{calendar}', methods: Request::METHOD_PUT)]
     public function defaultCalendar(#[CurrentUser] User $user, Calendar $calendar): JsonResponse
     {
+        $this->denyAccessUnlessGranted(CalendarVoter::VIEW, $calendar);
+
         $user->setDefaultCalendarId($calendar->getId());
 
         $this->userRepository->save($user);

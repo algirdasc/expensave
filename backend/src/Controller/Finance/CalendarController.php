@@ -2,12 +2,13 @@
 
 declare(strict_types=1);
 
-namespace App\Controller\Finance\Calendar;
+namespace App\Controller\Finance;
 
 use App\Const\ContextGroup\CalendarContextGroupConst;
 use App\Controller\AbstractApiController;
 use App\Entity\Calendar;
 use App\Entity\User;
+use App\Enum\CalendarPermission;
 use App\Helper\DateHelper;
 use App\Repository\CalendarRepository;
 use App\Repository\ExpenseRepository;
@@ -15,6 +16,7 @@ use App\Request\Calendar\CreateCalendarRequest;
 use App\Request\Calendar\UpdateCalendarRequest;
 use App\Response\EmptyResponse;
 use App\Response\Statement\ExpenseListResponse;
+use App\Security\Voters\CalendarVoter;
 use App\Service\Report\DailyExpenseReportService;
 use DateTime;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -33,20 +35,24 @@ class CalendarController extends AbstractApiController
     }
 
     #[Route('', name: 'list', methods: Request::METHOD_GET)]
-    public function list(): JsonResponse
+    public function list(#[CurrentUser] User $user): JsonResponse
     {
-        return $this->respond($this->calendarRepository->findBy([], ['name' => 'ASC']));
+        return $this->respond($this->calendarRepository->findAllByUser($user));
     }
 
     #[Route('/{calendar}', name: 'get', methods: Request::METHOD_GET)]
     public function get(Calendar $calendar): JsonResponse
     {
+        $this->denyAccessUnlessGranted(CalendarVoter::VIEW, $calendar);
+
         return $this->respond($calendar, groups: CalendarContextGroupConst::DETAILS);
     }
 
     #[Route('/{calendar}/expenses/{dateFrom}/{dateTo}', name: 'expenses', methods: Request::METHOD_GET)]
     public function expenses(Calendar $calendar, DateTime $dateFrom, DateTime $dateTo): JsonResponse
     {
+        $this->denyAccessUnlessGranted(CalendarVoter::VIEW, $calendar);
+
         DateHelper::setRange($dateFrom, $dateTo);
 
         $expenses = $this->expenseRepository->findByCalendarsAndInterval([$calendar], $dateFrom, $dateTo);
@@ -76,9 +82,7 @@ class CalendarController extends AbstractApiController
     #[Route('/{calendar}', name: 'update', methods: Request::METHOD_PUT)]
     public function update(#[CurrentUser] User $user, Calendar $calendar, UpdateCalendarRequest $request): JsonResponse
     {
-        if ($calendar->getOwner() !== $user) {
-            throw $this->createAccessDeniedException();
-        }
+        $this->denyAccessUnlessGranted(CalendarVoter::EDIT, $calendar);
 
         $calendar
             ->setName($request->getName())
@@ -91,11 +95,9 @@ class CalendarController extends AbstractApiController
     }
 
     #[Route('/{calendar}', name: 'remove', methods: Request::METHOD_DELETE)]
-    public function remove(#[CurrentUser] User $user, Calendar $calendar): JsonResponse
+    public function remove(Calendar $calendar): JsonResponse
     {
-        if ($calendar->getOwner() !== $user) {
-            throw $this->createAccessDeniedException();
-        }
+        $this->denyAccessUnlessGranted(CalendarVoter::DELETE, $calendar);
 
         $this->calendarRepository->remove($calendar);
 

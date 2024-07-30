@@ -1,0 +1,14 @@
+[
+    {
+        "active": true,
+        "email": "user1@email.com",
+        "id": 1,
+        "name": "User 1"
+    },
+    {
+        "active": true,
+        "email": "user2@email.com",
+        "id": 2,
+        "name": "User 2"
+    }
+]

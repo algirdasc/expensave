@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Controller\Finance\Expense;
+namespace App\Controller\Finance;
 
 use App\Const\ContextGroup\ExpenseContextGroupConst;
 use App\Const\StringConst;
@@ -14,6 +14,8 @@ use App\Repository\ExpenseRepository;
 use App\Request\BalanceUpdate\CreateBalanceUpdateRequest;
 use App\Request\BalanceUpdate\UpdateBalanceUpdateRequest;
 use App\Response\EmptyResponse;
+use App\Security\Voters\CalendarVoter;
+use App\Security\Voters\ExpenseVoter;
 use App\Service\BalanceCalculatorService;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -33,6 +35,8 @@ class BalanceUpdateController extends AbstractApiController
     #[Route('', name: 'create', methods: Request::METHOD_POST)]
     public function create(#[CurrentUser] User $user, CreateBalanceUpdateRequest $request): JsonResponse
     {
+        $this->denyAccessUnlessGranted(CalendarVoter::ADD_EXPENSE, $request->getCalendar());
+
         $amount = $this->balanceCalculatorService->calculateAmount(
             $request->getAmount(),
             $request->getCreatedAt(),
@@ -58,6 +62,9 @@ class BalanceUpdateController extends AbstractApiController
     #[Route('/{balanceUpdate}', name: 'update', methods: Request::METHOD_PUT)]
     public function update(UpdateBalanceUpdateRequest $request, Expense $balanceUpdate): JsonResponse
     {
+        $this->denyAccessUnlessGranted(ExpenseVoter::EDIT, $balanceUpdate);
+        $this->denyAccessUnlessGranted(CalendarVoter::ADD_EXPENSE, $request->getCalendar());
+
         $amount = $this->balanceCalculatorService->calculateAmount(
             $request->getAmount(),
             $request->getCreatedAt(),
@@ -79,6 +86,8 @@ class BalanceUpdateController extends AbstractApiController
     #[Route('/{balanceUpdate}', name: 'delete', methods: Request::METHOD_DELETE)]
     public function delete(Expense $balanceUpdate): JsonResponse
     {
+        $this->denyAccessUnlessGranted(ExpenseVoter::DELETE, $balanceUpdate);
+
         $this->expenseRepository->remove($balanceUpdate);
 
         return $this->respond(new EmptyResponse());

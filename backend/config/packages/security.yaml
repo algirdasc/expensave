@@ -13,7 +13,6 @@ security:
             stateless: true
             entry_point: jwt
             provider: user_provider
-            access_denied_handler: App\Security\AccessDeniedHandler
             jwt: ~
             json_login:
                 check_path: login_index

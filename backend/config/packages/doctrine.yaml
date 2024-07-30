@@ -29,6 +29,8 @@ when@test:
     doctrine:
         dbal:
             dbname_suffix: '_test%env(default::TEST_TOKEN)%'
+            options:
+                1002: 1
 
 when@prod:
     doctrine:

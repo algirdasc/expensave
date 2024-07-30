@@ -1,0 +1,26 @@
+[
+    {
+        "balance": 0,
+        "id": 3,
+        "name": "Shared Calendar",
+        "owner": {
+            "active": true,
+            "email": "user1@email.com",
+            "id": 1,
+            "name": "User 1"
+        },
+        "shared": true
+    },
+    {
+        "balance": -75,
+        "id": 1,
+        "name": "User 1 Calendar",
+        "owner": {
+            "active": true,
+            "email": "user1@email.com",
+            "id": 1,
+            "name": "User 1"
+        },
+        "shared": false
+    }
+]

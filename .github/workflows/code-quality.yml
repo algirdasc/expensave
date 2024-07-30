@@ -7,13 +7,12 @@ on:
     branches:
       - main
 
-env:
-  APP_ENV: dev
-
 jobs:
   backend-code-quality:
     name: Backend code quality checks
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
+    permissions:
+      pull-requests: write
     steps:
       - name: Code checkout
         uses: actions/checkout@v4
@@ -25,6 +24,11 @@ jobs:
           shopt -s dotglob
           mv backend/* ./
           rm -rf backend/
+          mkdir -p ./var/cache
+          mkdir -p ./var/log
+          chmod 775 ./var/cache
+          chmod 775 ./var/log
+          php -v
       - name: Packages install
         uses: php-actions/composer@v6
         with:
@@ -34,17 +38,40 @@ jobs:
 #        with:
 #          path: ./src/
 #          args: -d memory_limit=-1
+      - name: Warmup cache for PHPStan
+        run: php bin/console cache:warmup -n --env=dev
       - name: Run PHPStan
         uses: php-actions/phpstan@v3
+        env:
+          APP_ENV: dev
         with:
-          php_version: 8.2
-#      - name: Run PHPUnit
-#        uses: php-actions/phpunit@v3
-#        with:
-#          version: 9.6
-#          php_version: 8.2
-#          php_extensions: "xdebug"
-#          coverage_clover: "coverage/clover.xml"
+          php_version: 8.3
+      - name: Create schema for testing
+        run: php bin/console doctrine:schema:create -n --env=test
+      - name: Run PHPUnit
+        uses: php-actions/phpunit@v4
+        env:
+          XDEBUG_MODE: coverage
+        with:
+          php_version: 8.3
+          php_extensions: xdebug
+          coverage_cobertura: coverage/cobertura.xml
+      - name: Code coverage summary report
+        uses: irongut/CodeCoverageSummary@v1.3.0
+        with:
+          filename: coverage/cobertura.xml
+          badge: true
+          fail_below_min: false
+          hide_branch_rate: true
+          hide_complexity: true
+          format: markdown
+          output: both
+      - name: Add coverage report comment
+        uses: marocchino/sticky-pull-request-comment@v2
+        if: github.event_name == 'pull_request'
+        with:
+          recreate: true
+          path: code-coverage-results.md
 
   frontend-code-quality:
     name: Frontend code quality checks

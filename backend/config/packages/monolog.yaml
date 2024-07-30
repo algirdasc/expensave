@@ -1,30 +1,38 @@
 monolog:
     channels:
-        - deprecation # Deprecations are logged in the dedicated "deprecation" channel when it exists
+        - deprecation
     handlers:
         main:
-            type: fingers_crossed
-            action_level: debug
-            handler: nested
-            excluded_http_codes: [404, 405]
-            buffer_size: 50
-            channels: ['!event']
-        nested:
-            type: stream
-            path: php://stderr
+            type: rotating_file
+            path: '%kernel.logs_dir%/%kernel.environment%.log'
             level: debug
-        console:
-            type: console
-            process_psr_3_messages: false
-            level: critical
-            channels: []
+            max_files: 14
+            channels: ['!event']
         deprecation:
-            type: stream
+            type: rotating_file
+            path: '%kernel.logs_dir%/%kernel.environment%.deprecation.log'
+            max_files: 14
             channels: [deprecation]
-            path: php://stderr
+
+when@test:
+    monolog:
+        handlers:
+            main:
+                type: stream
+                path: php://stdout
+                level: warning
 
 when@prod:
     monolog:
         handlers:
             main:
+                type: fingers_crossed
                 action_level: error
+                handler: stderr
+                excluded_http_codes: [404, 405]
+                buffer_size: 50
+                channels: ['!event']
+            stderr:
+                type: stream
+                path: php://stderr
+                level: debug

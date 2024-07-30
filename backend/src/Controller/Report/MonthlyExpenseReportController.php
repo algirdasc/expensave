@@ -27,6 +27,8 @@ class MonthlyExpenseReportController extends AbstractReportController
     public function __invoke(string $calendarIds, DateTime $dateFrom, DateTime $dateTo): JsonResponse
     {
         $calendars = $this->getCalendarsFromIds($calendarIds);
+        $this->denyAccessToReportUnlessGranted($calendars);
+
         $this->parseDateRange($calendars, $dateFrom, $dateTo);
 
         $expenseBalances = $this->monthlyExpenseReportService->generate($calendars, $dateFrom, $dateTo);
