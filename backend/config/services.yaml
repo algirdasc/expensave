@@ -35,3 +35,8 @@ services:
         arguments:
             $defaultContext:
                 datetime_format: 'Y-m-d H:i:s'
+
+    App\Request\AbstractRequest:
+        abstract: true
+        arguments:
+            - $requestStack: ['@request_stack']

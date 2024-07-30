@@ -6,7 +6,7 @@ namespace App\Service\Statement\Import\Resolver;
 
 use App\Service\Statement\Import\Handler\StatementImportHandlerInterface;
 use RuntimeException;
-use Symfony\Component\DependencyInjection\Attribute\TaggedIterator;
+use Symfony\Component\DependencyInjection\Attribute\AutowireIterator;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 readonly class StatementImportResolver
@@ -15,7 +15,7 @@ readonly class StatementImportResolver
      * @param iterable<StatementImportHandlerInterface> $importHandlers
      */
     public function __construct(
-        #[TaggedIterator('app.statement.import.handler')] private readonly iterable $importHandlers
+        #[AutowireIterator('app.statement.import.handler')] private readonly iterable $importHandlers
     ) {
     }
 

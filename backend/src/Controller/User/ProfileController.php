@@ -32,7 +32,7 @@ class ProfileController extends AbstractApiController
     #[Route('', methods: Request::METHOD_GET)]
     public function list(): JsonResponse
     {
-        return $this->respond($this->userRepository->findBy([], ['name' => 'ASC']));
+        return $this->respond($this->userRepository->findBy(['active' => true], ['name' => 'ASC']));
     }
 
     #[Route('/profile', methods: Request::METHOD_GET)]
