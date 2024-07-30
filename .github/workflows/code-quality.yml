@@ -40,6 +40,9 @@ jobs:
           php_version: 8.2
       - name: Run PHPUnit
         uses: php-actions/phpunit@v4
+        env:
+          APP_ENV: test
+          XDEBUG_MODE: coverage
         with:
           php_version: 8.2
           php_extensions: "xdebug"
