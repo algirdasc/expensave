@@ -38,12 +38,12 @@ jobs:
 #          args: -d memory_limit=-1
 #      - name: Warmup cache for phpstan
 #        run: php bin/console cache:warmup -n --env=dev
-#      - name: Run PHPStan
-#        uses: php-actions/phpstan@v3
-#        env:
-#          APP_ENV: dev
-#        with:
-#          php_version: 8.2
+      - name: Run PHPStan
+        uses: php-actions/phpstan@v3
+        env:
+          APP_ENV: dev
+        with:
+          php_version: 8.3
       - name: Create schema for testing
         run: php bin/console doctrine:schema:create -n --env=test
       - name: Run PHPUnit
@@ -51,7 +51,7 @@ jobs:
         env:
           XDEBUG_MODE: coverage
         with:
-          php_version: 8.2
+          php_version: 8.3
           php_extensions: "xdebug"
           coverage_clover: "coverage/clover.xml"
 
