@@ -4,7 +4,7 @@
     "minimum-stability": "stable",
     "prefer-stable": true,
     "require": {
-        "php": ">=8.2",
+        "php": ">=8.3",
         "ext-ctype": "*",
         "ext-gd": "*",
         "ext-iconv": "*",
@@ -50,8 +50,7 @@
         "roave/security-advisories": "dev-latest",
         "symfony/browser-kit": "^7.1",
         "symfony/css-selector": "^7.1",
-        "symfony/maker-bundle": "^1.60",
-        "symfony/phpunit-bridge": "^7.1"
+        "symfony/maker-bundle": "^1.60"
     },
     "config": {
         "allow-plugins": {
@@ -104,7 +103,7 @@
     "extra": {
         "symfony": {
             "allow-contrib": false,
-            "require": "7.0.*",
+            "require": "7.1.*",
             "docker": true
         }
     }

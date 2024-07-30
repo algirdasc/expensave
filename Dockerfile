@@ -3,7 +3,7 @@ FROM ubuntu:22.04 as base
 MAINTAINER Algirdas <algirdas.cic@gmail.com>
 
 ARG DEBIAN_FRONTEND=noninteractive
-ARG PHP_VERSION=8.2
+ARG PHP_VERSION=8.3
 
 RUN apt update && \
     apt install -y --no-install-recommends \
