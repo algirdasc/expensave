@@ -23,7 +23,9 @@ jobs:
           mv backend/* ./
           rm -rf backend/
           mkdir -p ./var/cache
+          mkdir -p ./var/log
           chmod 775 ./var/cache
+          chmod 775 ./var/log
       - name: Packages install
         uses: php-actions/composer@v6
         with:
