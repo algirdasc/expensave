@@ -22,6 +22,8 @@ jobs:
           shopt -s dotglob
           mv backend/* ./
           rm -rf backend/
+          mkdir ./var/cache
+          chmod 775 ./var/cache
       - name: Packages install
         uses: php-actions/composer@v6
         with:
