@@ -33,6 +33,8 @@ jobs:
 #          args: -d memory_limit=-1
       - name: Run PHPStan
         uses: php-actions/phpstan@v3
+        env:
+          APP_ENV: dev
         with:
           php_version: 8.2
       - name: Create schema for testing
