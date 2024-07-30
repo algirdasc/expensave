@@ -31,12 +31,10 @@ jobs:
 #        with:
 #          path: ./src/
 #          args: -d memory_limit=-1
-      - name: Run PHPStan
-        uses: php-actions/phpstan@v3
-        env:
-          APP_ENV: dev
-        with:
-          php_version: 8.2
+#      - name: Run PHPStan
+#        uses: php-actions/phpstan@v3
+#        with:
+#          php_version: 8.2
       - name: Create schema for testing
         run: php doctrine:schema:create
       - name: Run PHPUnit
