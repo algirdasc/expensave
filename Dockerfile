@@ -1,6 +1,6 @@
-FROM ubuntu:24.04 as base
+FROM ubuntu:22.04 as base
 
-MAINTAINER Algirdas <algirdas.cic@gmail.com>
+MAINTAINER Algirdas Č. <algirdas.cic@gmail.com>
 
 ARG DEBIAN_FRONTEND=noninteractive
 ARG PHP_VERSION=8.3
