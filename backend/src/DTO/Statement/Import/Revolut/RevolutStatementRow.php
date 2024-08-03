@@ -164,4 +164,16 @@ class RevolutStatementRow implements StatementImportRowInterface
     {
         return null;
     }
+
+    public function getImportHash(): string
+    {
+        $keys = [
+            'startedDate' => $this->startedDate,
+            'description' => $this->description,
+            'amount' => $this->amount,
+            'currency' => $this->currency,
+        ];
+
+        return 'REVOLUT_' . md5(serialize($keys));
+    }
 }

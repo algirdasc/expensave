@@ -10,6 +10,7 @@ import { APP_CONFIG } from '../../app.initializer';
 import { SwipeEvent } from '../../interfaces/swipe.interface';
 import { DateUtil } from '../../util/date.util';
 import { MainService, SIDEBAR_TAG } from './main.service';
+import { StatementImportService } from './modules/statement-import/statement-import.service';
 
 @Component({
     templateUrl: 'main.component.html',
@@ -27,7 +28,8 @@ export class MainComponent implements OnInit {
         private readonly dateService: NbDateService<Date>,
         private readonly zone: NgZone,
         private readonly sidebarService: NbSidebarService,
-        public readonly mainService: MainService
+        public readonly mainService: MainService,
+        private readonly statementImportService: StatementImportService
     ) {
         this.expenseApiService.onBusyChange.subscribe((isBusy: boolean) => (this.isBusy = isBusy));
     }
@@ -62,6 +64,8 @@ export class MainComponent implements OnInit {
                 }
             }
         });
+
+        this.statementImportService.processImport();
     }
 
     public onResized(event: ResizedEvent): void {

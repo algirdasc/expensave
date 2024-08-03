@@ -1,0 +1,18 @@
+<nb-card class="dialog" style="min-height: 200px">
+    <nb-card-header i18n>
+        <button nbButton status="primary" ghost (click)="dialogRef.close()">
+            <nb-icon icon="arrow-back-outline"></nb-icon>
+        </button>
+        Import statements to calendar
+    </nb-card-header>
+    <nb-card-body class="p-0">
+        <app-expense-list-items
+            header="IMPORTED EXPENSES"
+            [expenses]="expenses"
+            (expenseClick)="onExpenseClick($event)">
+        </app-expense-list-items>
+    </nb-card-body>
+    <nb-card-footer class="text-right">
+        something
+    </nb-card-footer>
+</nb-card>
