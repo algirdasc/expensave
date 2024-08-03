@@ -66,12 +66,12 @@ jobs:
           hide_complexity: true
           format: markdown
           output: both
-      - name: Add coverage report comment
-        uses: marocchino/sticky-pull-request-comment@v2
-        if: github.event_name == 'pull_request'
-        with:
-          recreate: true
-          path: code-coverage-results.md
+#      - name: Add coverage report comment
+#        uses: marocchino/sticky-pull-request-comment@v2
+#        if: github.event_name == 'pull_request'
+#        with:
+#          recreate: true
+#          path: code-coverage-results.md
 
   frontend-code-quality:
     name: Frontend code quality checks
