@@ -37,9 +37,7 @@
                 [calendar]="mainService.calendar"
                 (calendarChange)="onCalendarChange($event)">
             </app-sidebar-calendar-list>
-            <div class="mt-auto text-center">
-                <small class="very-small text-hint">v{{ environment.version }}</small>
-            </div>
+            <app-sidebar-actions class="mt-auto"></app-sidebar-actions>
         </div>
     </nb-sidebar>
 </nb-layout>

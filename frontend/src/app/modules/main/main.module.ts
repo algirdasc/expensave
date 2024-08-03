@@ -21,6 +21,7 @@ import {
     NbSpinnerModule,
     NbTabsetModule,
     NbTagModule,
+    NbTooltipModule,
     NbUserModule,
 } from '@nebular/theme';
 import { ContentLoaderModule } from '@ngneat/content-loader';
@@ -42,6 +43,7 @@ import { CalendarMonthModelService } from './calendar/calendar-month-model.servi
 import { CalendarComponent } from './calendar/calendar.component';
 import { CalendarService } from './calendar/calendar.service';
 import { ExpenseReportComponent } from './components/expense-report/expense-report.component';
+import { ActionsComponent } from './components/sidebar/actions/actions.component';
 import { CalendarSidebarListComponent } from './components/sidebar/calendar-list/calendar-list.component';
 import { ProfileComponent } from './components/sidebar/profile/profile.component';
 import { SuggestionComponent } from './components/suggestion/suggestion.component';
@@ -87,6 +89,7 @@ import { StatementImportService } from './modules/statement-import/statement-imp
         CalendarComponent,
         SuggestionComponent,
         ExpenseReportComponent,
+        ActionsComponent,
 
         // CalendarComponent Components
         CalendarDayNamesComponent,
@@ -158,6 +161,7 @@ import { StatementImportService } from './modules/statement-import/statement-imp
         AngularResizeEventModule,
         ShortNumberModule,
         ContentLoaderModule,
+        NbTooltipModule,
     ],
     providers: [
         MainService,

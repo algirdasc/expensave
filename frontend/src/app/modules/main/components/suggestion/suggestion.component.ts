@@ -56,7 +56,6 @@ export class SuggestionComponent implements OnInit, OnChanges {
 
     public ngOnChanges(changes: SimpleChanges): void {
         if (changes.suggestion && changes.suggestion.currentValue === this.input) {
-            // TODO: fix ExpressionChangedAfterItHasBeenCheckedError error
             this.applySuggestion();
         }
 

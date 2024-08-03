@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { NbDialogRef } from '@nebular/theme';
 import { instanceToPlain, plainToInstance } from 'class-transformer';
 import { ExpenseApiService } from '../../../../../../api/expense.api.service';
@@ -6,6 +6,7 @@ import { Calendar } from '../../../../../../api/objects/calendar';
 import { Expense } from '../../../../../../api/objects/expense';
 import { ExpenseDialogComponent } from '../../expense-dialog.component';
 import { AbstractExpenseComponent } from '../abstract-expense.component';
+import { ExpenseInputComponent } from '../expense-input.component';
 
 @Component({
     selector: 'app-transfer',
@@ -13,6 +14,9 @@ import { AbstractExpenseComponent } from '../abstract-expense.component';
 })
 export class TransferComponent extends AbstractExpenseComponent {
     public destinationCalendar: Calendar;
+
+    @ViewChild('expenseInput')
+    private expenseInput: ExpenseInputComponent;
 
     public constructor(
         private expenseApiService: ExpenseApiService,
@@ -34,5 +38,10 @@ export class TransferComponent extends AbstractExpenseComponent {
                 this.dialogRef.close(true);
             });
         });
+    }
+
+    // noinspection JSUnusedGlobalSymbols
+    public onTabChange(): void {
+        this.expenseInput.stealFocus();
     }
 }

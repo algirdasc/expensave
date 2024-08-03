@@ -10,6 +10,5 @@ class StringConst
     public const BALANCE_COLOR = '#24485d';
 
     public const UNCATEGORIZED_LABEL = 'Uncategorized';
-
     public const UNCATEGORIZED_COLOR = '#394852';
 }
