@@ -1,4 +1,4 @@
-FROM ubuntu:22.04 as base
+FROM ubuntu:24.04 as base
 
 MAINTAINER Algirdas <algirdas.cic@gmail.com>
 

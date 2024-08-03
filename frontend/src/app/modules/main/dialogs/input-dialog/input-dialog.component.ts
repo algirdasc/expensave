@@ -6,10 +6,17 @@ import { NbDialogRef } from '@nebular/theme';
     styleUrls: ['input-dialog.component.scss'],
 })
 export class InputDialogComponent implements AfterViewInit {
-    @Input() public title: string = 'Input dialog';
-    @Input() public placeholder: string = '';
-    @Input() public text: string;
-    @ViewChild('focus') private focusElement: ElementRef;
+    @Input()
+    public title: string = 'Input dialog';
+
+    @Input()
+    public placeholder: string = '';
+
+    @Input()
+    public text: string;
+
+    @ViewChild('focus')
+    private focusElement: ElementRef;
 
     public constructor(public readonly dialogRef: NbDialogRef<InputDialogComponent>) {}
 

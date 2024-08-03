@@ -41,7 +41,7 @@ class CategoryController extends AbstractApiController
     #[Route('/system', name: 'list_system', methods: Request::METHOD_GET)]
     public function system(): JsonResponse
     {
-        return $this->respond($this->categoryRepository->findSystem());
+        return $this->respond($this->categoryRepository->getSystem());
     }
 
     #[Route('/{category}', name: 'get', methods: Request::METHOD_GET)]

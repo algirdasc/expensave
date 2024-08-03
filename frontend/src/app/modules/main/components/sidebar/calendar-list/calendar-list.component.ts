@@ -89,14 +89,6 @@ export class CalendarSidebarListComponent {
         this.calendarApiService.get(calendar.id).subscribe((calendar: Calendar) => this.openCalendarDialog(calendar));
     }
 
-    public editCategories(): void {
-        this.dialogService.open(CategoriesDialogComponent, {
-            context: {
-                isSelectable: false,
-            },
-        });
-    }
-
     public fetch(): void {
         this.calendarApiService.list().subscribe((calendars: Calendar[]) => {
             this.calendars = calendars;

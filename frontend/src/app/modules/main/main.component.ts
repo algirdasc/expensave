@@ -1,6 +1,6 @@
 import { Component, NgZone, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { NbDateService, NbMediaBreakpointsService, NbSidebarService } from '@nebular/theme';
+import { NbDateService, NbDialogService, NbMediaBreakpointsService, NbSidebarService } from '@nebular/theme';
 import { ResizedEvent } from 'angular-resize-event';
 import { environment } from '../../../environments/environment';
 import { ExpenseApiService } from '../../api/expense.api.service';
@@ -112,5 +112,4 @@ export class MainComponent implements OnInit {
 
     protected readonly SIDEBAR_TAG = SIDEBAR_TAG;
     protected readonly APP_CONFIG = APP_CONFIG;
-    protected readonly environment = environment;
 }

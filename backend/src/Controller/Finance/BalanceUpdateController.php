@@ -45,7 +45,7 @@ class BalanceUpdateController extends AbstractApiController
 
         $balanceUpdate = (new Expense())
             ->setCalendar($request->getCalendar())
-            ->setCategory($this->categoryRepository->findBalanceCategory())
+            ->setCategory($this->categoryRepository->getBalanceCategory())
             ->setLabel(StringConst::BALANCE_UPDATE_LABEL)
             ->setUser($user)
             ->setAmount($amount)
