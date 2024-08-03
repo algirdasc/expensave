@@ -28,6 +28,7 @@
     <div class="form-control-group">
         <label class="label" for="input-email">Email address:</label>
         <input
+            tabindex="1"
             nbInput
             fullWidth
             [(ngModel)]="user.email"
@@ -51,6 +52,7 @@
             <a class="forgot-password caption-2" routerLink="../request-password">Forgot Password?</a>
         </span>
         <input
+            tabindex="2"
             nbInput
             fullWidth
             [(ngModel)]="user.password"

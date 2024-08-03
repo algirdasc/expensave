@@ -42,7 +42,7 @@ class CategoryRepository extends AbstractRepository
     /**
      * @return array<Category>
      */
-    public function findSystem(): array
+    public function getSystem(): array
     {
         $queryBuilder = $this->createQueryBuilder('c')
             ->where('c.type != :type')
@@ -52,7 +52,7 @@ class CategoryRepository extends AbstractRepository
         return $queryBuilder->getQuery()->getResult();
     }
 
-    public function findBalanceCategory(): Category
+    public function getBalanceCategory(): Category
     {
         $category = $this->findOneBy(['type' => CategoryType::BALANCE_UPDATE]);
 

@@ -1,0 +1,10 @@
+<div class="d-flex p-3 justify-content-center border-bottom">
+    <nb-actions size="small">
+        <nb-action icon="bar-chart-outline" routerLink="/reports" nbTooltip="Reports"></nb-action>
+        <nb-action icon="pricetags-outline" (click)="editCategories()" nbTooltip="Categories"></nb-action>
+    </nb-actions>
+</div>
+
+<div class="text-center">
+    <small class="very-small text-hint">v{{ environment.version }}</small>
+</div>

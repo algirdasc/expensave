@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, EventEmitter, Input, Output, ViewChild } from '@angular/core';
 import { ControlContainer, NgForm } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { ExpenseApiService } from '../../../../../api/expense.api.service';
@@ -20,11 +20,17 @@ export class ExpenseInputComponent {
     @Input()
     public labelEditable: boolean = true;
 
+    @ViewChild('focusElement')
+    private focusElement: ElementRef;
+
     public suggestedExpense: Expense;
 
     private expenseSuggestionSubscription: Subscription;
 
-    public constructor(private expenseApiService: ExpenseApiService) {}
+    public constructor(
+        private expenseApiService: ExpenseApiService,
+        private cd: ChangeDetectorRef
+    ) {}
 
     public handleInputChange(input: string): void {
         // 1. Cancel pending suggestion request
@@ -47,5 +53,11 @@ export class ExpenseInputComponent {
         this.expense.label = this.suggestedExpense.label;
         this.expense.category = this.suggestedExpense.category;
         this.expense.isExpense = this.suggestedExpense.isExpense;
+
+        this.cd.detectChanges();
+    }
+
+    public stealFocus(): void {
+        setTimeout(() => this.focusElement.nativeElement.focus(), 0);
     }
 }

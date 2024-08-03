@@ -1,32 +1,32 @@
 <div [nbSpinner]="isBusy">
     <nb-list class="mb-3">
-        <nb-list-item *ngFor="let c of calendars" class="p-0">
+        <nb-list-item *ngFor="let calendar of calendars" class="p-0">
             <nb-radio-group name="sidebar-calendar" class="w-100">
                 <nb-radio
                     class="ms-2"
-                    [value]="c"
+                    [value]="calendar"
                     (valueChange)="calendarChange.emit($event)"
-                    [checked]="calendar?.id === c.id">
+                    [checked]="calendar?.id === calendar.id">
                     <div class="d-flex align-items-center justify-content-between w-100">
                         <div class="calendar-name text-truncate">
                             <nb-icon
-                                *ngIf="c.shared"
-                                [icon]="c.isOwner(mainService.user) ? 'people' : 'people-outline'"
+                                *ngIf="calendar.shared"
+                                [icon]="calendar.isOwner(mainService.user) ? 'people' : 'people-outline'"
                                 [title]="
-                                    c.isOwner(mainService.user)
+                                    calendar.isOwner(mainService.user)
                                         ? 'Owned by me & shared with others'
-                                        : 'Shared with me by ' + c.owner.name + ' (' + c.owner.email + ')'
+                                        : 'Shared with me by ' + calendar.owner.name + ' (' + calendar.owner.email + ')'
                                 "
                                 class="me-1 text-hint"></nb-icon>
                             <nb-icon
-                                *ngIf="!c.shared"
+                                *ngIf="!calendar.shared"
                                 icon="person-outline"
                                 class="me-1 text-hint"
                                 title="Owned by me"></nb-icon>
-                            {{ c.name }}
+                            {{ calendar.name }}
                         </div>
                         <div class="calendar-balance text-hint">
-                            {{ c.balance | shortNumber }}
+                            {{ calendar.balance | shortNumber }}
                         </div>
                         <div class="calendar-actions text-right">
                             <button
@@ -34,7 +34,7 @@
                                 ghost
                                 size="small"
                                 status="danger"
-                                (click)="makeDefault(c)"
+                                (click)="makeDefault(calendar)"
                                 title="Make default">
                                 <nb-icon icon="heart-outline"></nb-icon>
                             </button>
@@ -43,27 +43,27 @@
                                 ghost
                                 size="small"
                                 status="success"
-                                (click)="importStatement(c)"
+                                (click)="importStatement(calendar)"
                                 title="Import / export statements">
                                 <nb-icon icon="attach-outline"></nb-icon>
                             </button>
                             <button
-                                *ngIf="c.isOwner(mainService.user)"
+                                *ngIf="calendar.isOwner(mainService.user)"
                                 nbButton
                                 ghost
                                 size="small"
                                 status="primary"
-                                (click)="editCalendar(c)"
+                                (click)="editCalendar(calendar)"
                                 title="Edit calendar">
                                 <nb-icon icon="edit-outline"></nb-icon>
                             </button>
                             <button
-                                *ngIf="c.isOwner(mainService.user)"
+                                *ngIf="calendar.isOwner(mainService.user)"
                                 nbButton
                                 ghost
                                 size="small"
                                 status="danger"
-                                (click)="deleteCalendar(c)"
+                                (click)="deleteCalendar(calendar)"
                                 title="Delete calendar">
                                 <nb-icon icon="trash-2-outline"></nb-icon>
                             </button>
@@ -77,9 +77,6 @@
         <button nbButton fullWidth status="primary" ghost (click)="createCalendar()" class="pl-4" i18n>
             <nb-icon icon="plus"></nb-icon>
             Add a calendar...
-        </button>
-        <button nbButton status="success" ghost (click)="editCategories()" class="ms-3" title="Category management">
-            <nb-icon icon="pricetags-outline"></nb-icon>
         </button>
     </div>
 </div>

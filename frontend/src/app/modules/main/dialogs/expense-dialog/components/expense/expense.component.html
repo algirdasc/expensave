@@ -1,6 +1,6 @@
 <form #expenseForm="ngForm" [nbSpinner]="isBusy" (ngSubmit)="onSubmit()" autocomplete="off" class="h-100">
     <div class="d-flex flex-column h-100">
-        <app-expense-input [(expense)]="expense" />
+        <app-expense-input [(expense)]="expense" #expenseInput />
 
         <div class="h-100 overflow-auto">
             <app-expense-dialog-calendar-list-item [(calendar)]="expense.calendar" />

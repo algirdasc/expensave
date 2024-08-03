@@ -59,7 +59,7 @@ class ExpenseFixture extends Fixture implements DependentFixtureInterface
         $expense = new Expense();
         $expense->setCalendar($calendarShared);
         $expense->setUser($user1);
-        $expense->setLabel(sprintf('Test expense %d of User 1', $idx));
+        $expense->setLabel('Shared expense 1 of User 1');
         $expense->setAmount(-50);
         $expense->setCreatedAt($this->getRandomDate());
         $expense->setCategory($categories[0]);
@@ -68,7 +68,7 @@ class ExpenseFixture extends Fixture implements DependentFixtureInterface
         $expense = new Expense();
         $expense->setCalendar($calendarShared);
         $expense->setUser($user2);
-        $expense->setLabel(sprintf('Test expense %d of User 2', $idx));
+        $expense->setLabel('Shared expense 2 of User 2');
         $expense->setAmount(30);
         $expense->setCreatedAt($this->getRandomDate());
         $expense->setCategory($categories[1]);

@@ -14,14 +14,16 @@
         <div class="mx-3" [class.w-50]="labelEditable" [class.w-100]="!labelEditable">
             <label for="expense-amount">Amount</label>
             <input
-                #focus
+                #focusElement
                 nbInput
                 fullWidth
                 required
-                type="number"
+                type="text"
                 tabIndex="1"
                 placeholder="{{ 0 | shortNumber }}"
                 name="amount"
+                inputmode="numeric"
+                pattern="[0-9.,]+"
                 id="expense-amount"
                 [(ngModel)]="expense.absoluteAmount"
                 class="t-input px-0 pt-3 pb-2" />

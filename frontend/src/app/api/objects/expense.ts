@@ -42,13 +42,18 @@ export class Expense implements EntityInterface {
         return this.amount ? Math.abs(this.amount) : undefined;
     }
 
-    public set absoluteAmount(value: number) {
+    public set absoluteAmount(value: string) {
         if (value === null) {
             return;
         }
 
-        const absoluteValue = Math.abs(value);
-        this.amount = this.isExpense ? absoluteValue * -1 : absoluteValue;
+        let amount = parseFloat(value.replace(',', '.'));
+        if (isNaN(amount)) {
+            amount = 0;
+        }
+
+        const absoluteAmount = Math.abs(amount);
+        this.amount = this.isExpense ? absoluteAmount * -1 : absoluteAmount;
     }
 
     public get isExpense(): boolean {

@@ -24,10 +24,17 @@ class ExpenseControllerTest extends ApplicationTestCase
 
     public function testSuggest(): void
     {
-        $this->client->jsonRequest('POST', '/api/expense/suggest', ['label' => 'Test Expense']);
+        $this->client->jsonRequest('POST', '/api/expense/suggest', ['label' => 'Test Expense 0']);
 
         $this->assertResponseIsSuccessful();
-        $this->assertSame('Test expense 2 of User 1', $this->getJsonResponse($this->client)['label']);
+        $this->assertSame('Test expense 0', $this->getJsonResponse($this->client)['label']);
+        $this->assertSame('User 1', $this->getJsonResponse($this->client)['user']['name']);
+
+        $this->client->jsonRequest('POST', '/api/expense/suggest', ['label' => 'Test']);
+
+        $this->assertResponseIsSuccessful();
+        $this->assertSame('Test expense 0', $this->getJsonResponse($this->client)['label']);
+        $this->assertSame('User 1', $this->getJsonResponse($this->client)['user']['name']);
     }
 
     public function testExpenseLifecycle(): void

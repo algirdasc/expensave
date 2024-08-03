@@ -10,7 +10,9 @@ use App\Entity\Category;
 use App\Entity\Expense;
 use App\Enum\CategoryType;
 use DateTime;
+use Doctrine\ORM\AbstractQuery;
 use Doctrine\ORM\Query;
+use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
 use LogicException;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -76,7 +78,7 @@ class ExpenseRepository extends AbstractRepository
             ->setParameter('dateTo', $dateTo)
             ->orderBy('e.createdAt', 'ASC')
             ->getQuery()
-            ->getOneOrNullResult(Query::HYDRATE_SINGLE_SCALAR) ?? 0;
+            ->getOneOrNullResult(AbstractQuery::HYDRATE_SINGLE_SCALAR) ?? 0;
     }
 
     public function getTotalBalance(Calendar $calendar): float
@@ -87,19 +89,41 @@ class ExpenseRepository extends AbstractRepository
             ->andWhere('e.confirmed = true')
             ->setParameter('calendar', $calendar)
             ->getQuery()
-            ->getOneOrNullResult(Query::HYDRATE_SINGLE_SCALAR) ?? 0;
+            ->getOneOrNullResult(AbstractQuery::HYDRATE_SINGLE_SCALAR) ?? 0;
     }
 
     public function findUserSuggestion(UserInterface $user, string $label): ?Expense
     {
-        return $this->createQueryBuilder('e')
-            ->where('e.label LIKE :label')
-            ->andWhere('e.user = :user')
-            ->setParameter('label', "$label%")
-            ->setParameter('user', $user)
-            ->orderBy('e.id', 'DESC')
+        return $this->getUserExpenseByLabel($user, $label)
+            ?? $this->getUserExpenseByLabelStartsWith($user, $label);
+    }
+
+    public function getUserExpenseByLabel(UserInterface $user, string $label): ?Expense
+    {
+        return $this->getQueryBuilderForUserSuggestion($user)
+            ->andWhere('e.label LIKE :label')
+            ->setParameter('label', $label)
             ->setMaxResults(1)
             ->getQuery()
-            ->getOneOrNullResult(Query::HYDRATE_OBJECT);
+            ->getOneOrNullResult(AbstractQuery::HYDRATE_OBJECT);
+    }
+
+    public function getUserExpenseByLabelStartsWith(UserInterface $user, string $label): ?Expense
+    {
+        return $this->getQueryBuilderForUserSuggestion($user)
+            ->andWhere('e.label LIKE :label')
+            ->setParameter('label', "$label%")
+            ->setMaxResults(1)
+            ->getQuery()
+            ->getOneOrNullResult(AbstractQuery::HYDRATE_OBJECT);
+    }
+
+    private function getQueryBuilderForUserSuggestion(UserInterface $user): QueryBuilder
+    {
+        return $this->createQueryBuilder('e')
+            ->andWhere('e.user = :user')
+            ->setParameter('user', $user)
+            ->orderBy('e.label', 'ASC')
+            ->addOrderBy('e.id', 'DESC');
     }
 }
