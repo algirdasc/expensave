@@ -1,8 +1,7 @@
 import { Component, NgZone, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { NbDateService, NbDialogService, NbMediaBreakpointsService, NbSidebarService } from '@nebular/theme';
+import { NbDateService, NbMediaBreakpointsService, NbSidebarService } from '@nebular/theme';
 import { ResizedEvent } from 'angular-resize-event';
-import { environment } from '../../../environments/environment';
 import { ExpenseApiService } from '../../api/expense.api.service';
 import { Calendar } from '../../api/objects/calendar';
 import { Category } from '../../api/objects/category';
