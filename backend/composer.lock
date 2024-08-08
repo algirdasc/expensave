@@ -2051,16 +2051,16 @@
         },
         {
             "name": "nelmio/api-doc-bundle",
-            "version": "v4.29.0",
+            "version": "v4.29.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/nelmio/NelmioApiDocBundle.git",
-                "reference": "c9523906023e61351f03dbab8d077173f5ec4883"
+                "reference": "fbb94ebc33116fd10a67579c6eb970ff3c3ec067"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nelmio/NelmioApiDocBundle/zipball/c9523906023e61351f03dbab8d077173f5ec4883",
-                "reference": "c9523906023e61351f03dbab8d077173f5ec4883",
+                "url": "https://api.github.com/repos/nelmio/NelmioApiDocBundle/zipball/fbb94ebc33116fd10a67579c6eb970ff3c3ec067",
+                "reference": "fbb94ebc33116fd10a67579c6eb970ff3c3ec067",
                 "shasum": ""
             },
             "require": {
@@ -2161,7 +2161,7 @@
             ],
             "support": {
                 "issues": "https://github.com/nelmio/NelmioApiDocBundle/issues",
-                "source": "https://github.com/nelmio/NelmioApiDocBundle/tree/v4.29.0"
+                "source": "https://github.com/nelmio/NelmioApiDocBundle/tree/v4.29.1"
             },
             "funding": [
                 {
@@ -2169,7 +2169,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2024-07-22T08:40:00+00:00"
+            "time": "2024-08-08T15:00:40+00:00"
         },
         {
             "name": "phpdocumentor/reflection-common",
@@ -2348,16 +2348,16 @@
         },
         {
             "name": "phpoffice/phpspreadsheet",
-            "version": "2.2.1",
+            "version": "2.2.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/PHPOffice/PhpSpreadsheet.git",
-                "reference": "a3c5c9e7ce3a2a8577bfa9e69960fbccbd2d4a9e"
+                "reference": "ffbcee68069b073bff07a71eb321dcd9f2763513"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/PHPOffice/PhpSpreadsheet/zipball/a3c5c9e7ce3a2a8577bfa9e69960fbccbd2d4a9e",
-                "reference": "a3c5c9e7ce3a2a8577bfa9e69960fbccbd2d4a9e",
+                "url": "https://api.github.com/repos/PHPOffice/PhpSpreadsheet/zipball/ffbcee68069b073bff07a71eb321dcd9f2763513",
+                "reference": "ffbcee68069b073bff07a71eb321dcd9f2763513",
                 "shasum": ""
             },
             "require": {
@@ -2446,9 +2446,9 @@
             ],
             "support": {
                 "issues": "https://github.com/PHPOffice/PhpSpreadsheet/issues",
-                "source": "https://github.com/PHPOffice/PhpSpreadsheet/tree/2.2.1"
+                "source": "https://github.com/PHPOffice/PhpSpreadsheet/tree/2.2.2"
             },
-            "time": "2024-07-29T07:56:06+00:00"
+            "time": "2024-08-08T02:31:26+00:00"
         },
         {
             "name": "phpstan/phpdoc-parser",
@@ -7833,16 +7833,16 @@
         },
         {
             "name": "phpstan/phpstan",
-            "version": "1.11.8",
+            "version": "1.11.10",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpstan/phpstan.git",
-                "reference": "6adbd118e6c0515dd2f36b06cde1d6da40f1b8ec"
+                "reference": "640410b32995914bde3eed26fa89552f9c2c082f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/6adbd118e6c0515dd2f36b06cde1d6da40f1b8ec",
-                "reference": "6adbd118e6c0515dd2f36b06cde1d6da40f1b8ec",
+                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/640410b32995914bde3eed26fa89552f9c2c082f",
+                "reference": "640410b32995914bde3eed26fa89552f9c2c082f",
                 "shasum": ""
             },
             "require": {
@@ -7887,20 +7887,20 @@
                     "type": "github"
                 }
             ],
-            "time": "2024-07-24T07:01:22+00:00"
+            "time": "2024-08-08T09:02:50+00:00"
         },
         {
             "name": "phpstan/phpstan-doctrine",
-            "version": "1.4.8",
+            "version": "1.5.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpstan/phpstan-doctrine.git",
-                "reference": "fa497c5cf8a3f9cd3db8cb4033daf5244793d3e1"
+                "reference": "caa046bd6152818e781260fb3a7a96d6b0fadeed"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpstan-doctrine/zipball/fa497c5cf8a3f9cd3db8cb4033daf5244793d3e1",
-                "reference": "fa497c5cf8a3f9cd3db8cb4033daf5244793d3e1",
+                "url": "https://api.github.com/repos/phpstan/phpstan-doctrine/zipball/caa046bd6152818e781260fb3a7a96d6b0fadeed",
+                "reference": "caa046bd6152818e781260fb3a7a96d6b0fadeed",
                 "shasum": ""
             },
             "require": {
@@ -7957,9 +7957,9 @@
             "description": "Doctrine extensions for PHPStan",
             "support": {
                 "issues": "https://github.com/phpstan/phpstan-doctrine/issues",
-                "source": "https://github.com/phpstan/phpstan-doctrine/tree/1.4.8"
+                "source": "https://github.com/phpstan/phpstan-doctrine/tree/1.5.0"
             },
-            "time": "2024-07-16T11:31:01+00:00"
+            "time": "2024-08-05T13:47:07+00:00"
         },
         {
             "name": "phpstan/phpstan-symfony",
