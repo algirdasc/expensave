@@ -49,8 +49,11 @@ const apiServices = [
     BalanceUpdateApiService,
 ];
 
-@NgModule({ declarations: [AppComponent, Error404Component],
-    bootstrap: [AppComponent], imports: [CommonModule,
+@NgModule({
+    declarations: [AppComponent, Error404Component],
+    bootstrap: [AppComponent],
+    imports: [
+        CommonModule,
         BrowserModule,
         BrowserAnimationsModule,
         RouterModule.forRoot(appRoutes, { paramsInheritanceStrategy: 'always' }),
@@ -64,11 +67,16 @@ const apiServices = [
         NbButtonModule,
         NbSpinnerModule,
         NbEvaIconsModule,
-        NbIconModule], providers: [
+        NbIconModule,
+    ],
+    providers: [
         AppInitializer,
         {
             provide: APP_INITIALIZER,
-            useFactory: (appInitializer: AppInitializer): (() => void) => () => appInitializer.initializeApp(),
+            useFactory:
+                (appInitializer: AppInitializer): (() => void) =>
+                () =>
+                    appInitializer.initializeApp(),
             deps: [AppInitializer],
             multi: true,
         },
@@ -95,5 +103,6 @@ const apiServices = [
         SystemCategoryResolver,
         ...apiServices,
         provideHttpClient(withInterceptorsFromDi()),
-    ] })
+    ],
+})
 export class AppModule {}
