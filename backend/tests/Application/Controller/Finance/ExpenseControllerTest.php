@@ -33,7 +33,7 @@ class ExpenseControllerTest extends ApplicationTestCase
         $this->client->jsonRequest('POST', '/api/expense/suggest', ['label' => 'Test']);
 
         $this->assertResponseIsSuccessful();
-        $this->assertSame('Test expense 0', $this->getJsonResponse($this->client)['label']);
+        $this->assertSame('Test expense 3', $this->getJsonResponse($this->client)['label']);
         $this->assertSame('User 1', $this->getJsonResponse($this->client)['user']['name']);
     }
 
