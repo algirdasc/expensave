@@ -11,8 +11,6 @@ jobs:
   backend-code-quality:
     name: Backend code quality checks
     runs-on: ubuntu-24.04
-    permissions:
-      pull-requests: write
     steps:
       - name: Code checkout
         uses: actions/checkout@v4

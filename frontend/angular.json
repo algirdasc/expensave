@@ -11,31 +11,41 @@
             "prefix": "app",
             "architect": {
                 "build": {
-                    "builder": "@angular-devkit/build-angular:browser",
+                    "builder": "@angular-devkit/build-angular:application",
                     "options": {
                         "baseHref": "/ui/",
-                        "outputPath": "dist/",
+                        "outputPath": {
+                            "base": "dist/"
+                        },
                         "index": "src/index.html",
-                        "main": "src/main.ts",
-                        "polyfills": "src/polyfills.ts",
+                        "polyfills": [
+                            "src/polyfills.ts",
+                            "@angular/localize/init"
+                        ],
                         "tsConfig": "tsconfig.app.json",
                         "aot": false,
                         "assets": [
                             "src/manifest.json",
                             "src/favicon.ico",
                             "src/assets",
-                            "src/config.dev.json"
+                            "src/config.dev.json",
+                            {
+                                "glob": "*.mjs",
+                                "input": "node_modules/@angular/common/locales/",
+                                "output": "assets/l10n/locales/"
+                            }
                         ],
                         "styles": [
                             "src/styles.scss"
                         ],
-                        "scripts": [],
-                        "vendorChunk": true,
+                        "scripts": [
+                            "node_modules/reflect-metadata/Reflect.js"
+                        ],
                         "extractLicenses": false,
-                        "buildOptimizer": false,
                         "sourceMap": true,
                         "optimization": false,
-                        "namedChunks": true
+                        "namedChunks": true,
+                        "browser": "src/main.ts"
                     },
                     "configurations": {
                         "production": {
@@ -51,8 +61,6 @@
                             "namedChunks": false,
                             "aot": true,
                             "extractLicenses": true,
-                            "vendorChunk": false,
-                            "buildOptimizer": true,
                             "budgets": [
                                 {
                                     "type": "initial",

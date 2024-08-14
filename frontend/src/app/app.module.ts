@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { APP_INITIALIZER, DEFAULT_CURRENCY_CODE, LOCALE_ID, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -17,7 +17,6 @@ import {
     NbThemeModule,
     NbToastrModule,
 } from '@nebular/theme';
-import 'reflect-metadata';
 import { BalanceUpdateApiService } from './api/balance-update.api.service';
 import { CalendarApiService } from './api/calendar.api.service';
 import { CategoryApiService } from './api/category.api.service';
@@ -51,11 +50,11 @@ const apiServices = [
 
 @NgModule({
     declarations: [AppComponent, Error404Component],
+    bootstrap: [AppComponent],
     imports: [
         CommonModule,
         BrowserModule,
         BrowserAnimationsModule,
-        HttpClientModule,
         RouterModule.forRoot(appRoutes, { paramsInheritanceStrategy: 'always' }),
         NbThemeModule.forRoot({ name: 'expensave' }),
         AuthModule.forRoot(),
@@ -102,7 +101,7 @@ const apiServices = [
         CalendarResolver,
         SystemCategoryResolver,
         ...apiServices,
+        provideHttpClient(withInterceptorsFromDi()),
     ],
-    bootstrap: [AppComponent],
 })
 export class AppModule {}

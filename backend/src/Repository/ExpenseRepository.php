@@ -123,7 +123,7 @@ class ExpenseRepository extends AbstractRepository
         return $this->createQueryBuilder('e')
             ->andWhere('e.user = :user')
             ->setParameter('user', $user)
-            ->orderBy('e.label', 'ASC')
-            ->addOrderBy('e.id', 'DESC');
+            ->addOrderBy('e.id', 'DESC')
+            ->addOrderBy('e.label', 'ASC');
     }
 }

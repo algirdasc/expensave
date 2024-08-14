@@ -1,6 +1,6 @@
-FROM ubuntu:24.04 as base
+FROM ubuntu:22.04 as base
 
-MAINTAINER Algirdas <algirdas.cic@gmail.com>
+MAINTAINER Algirdas Č. <algirdas.cic@gmail.com>
 
 ARG DEBIAN_FRONTEND=noninteractive
 ARG PHP_VERSION=8.3
@@ -69,12 +69,13 @@ WORKDIR /opt/expensave
 
 # Application files
 COPY backend/ /opt/expensave
-COPY --from=frontend /opt/expensave/frontend/dist /opt/expensave/public/ui
+COPY --from=frontend /opt/expensave/frontend/dist/browser /opt/expensave/public/ui
 
 # Forward symfony cache
 RUN mkdir -p /opt/expensave/var/cache
 RUN mkdir /tmp/symfony-cache && ln -sf /tmp/symfony-cache /opt/expensave/var/cache
 RUN mkdir /tmp/symfony-log && ln -sf /tmp/symfony-log /opt/expensave/var/log
+
 RUN chown www-data:www-data /tmp/symfony-cache
 RUN chown www-data:www-data /tmp/symfony-log
 
