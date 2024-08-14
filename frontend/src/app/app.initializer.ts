@@ -20,7 +20,7 @@ export class AppInitializer {
                 import(
                     /* webpackInclude: /\.mjs$/ */
                     /* webpackChunkName: "./assets/l10n/locales/[request]"*/
-                    `/node_modules/@angular/common/locales/${config.locale}.mjs`
+                    `/ui/node_modules/@angular/common/locales/${config.locale}.mjs`
                 )
                     // eslint-disable-next-line @typescript-eslint/no-explicit-any
                     .then((locale: any) => registerLocaleData(locale.default));

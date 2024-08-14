@@ -17,7 +17,6 @@ import {
     NbThemeModule,
     NbToastrModule,
 } from '@nebular/theme';
-import 'reflect-metadata';
 import { BalanceUpdateApiService } from './api/balance-update.api.service';
 import { CalendarApiService } from './api/calendar.api.service';
 import { CategoryApiService } from './api/category.api.service';
