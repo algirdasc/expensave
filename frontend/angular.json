@@ -15,11 +15,12 @@
                     "options": {
                         "baseHref": "/ui/",
                         "outputPath": {
-                          "base": "dist/"
+                            "base": "dist/"
                         },
                         "index": "src/index.html",
                         "polyfills": [
-                          "src/polyfills.ts"
+                            "src/polyfills.ts",
+                            "@angular/localize/init"
                         ],
                         "tsConfig": "tsconfig.app.json",
                         "aot": false,
@@ -32,7 +33,9 @@
                         "styles": [
                             "src/styles.scss"
                         ],
-                        "scripts": [],
+                        "scripts": [
+                            "/node_modules/reflect-metadata/Reflect.js"
+                        ],
                         "extractLicenses": false,
                         "sourceMap": true,
                         "optimization": false,
