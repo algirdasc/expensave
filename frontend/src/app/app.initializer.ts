@@ -1,4 +1,4 @@
-import { registerLocaleData } from '@angular/common';
+// import { registerLocaleData } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
@@ -14,16 +14,19 @@ export class AppInitializer {
         return this.http.get(environment.configFile).pipe(
             tap((config: ConfigInterface) => {
                 APP_CONFIG.apiUrl = config.apiUrl || '/api';
-                APP_CONFIG.locale = config.locale;
+                /**
+                 * Disabled after upgrading to Angular 18, because it broken dynamic locale. Was APP_CONFIG.locale ?? 'en';
+                 */
+                APP_CONFIG.locale = 'en'; // config.locale;
                 APP_CONFIG.registrationDisabled = config.registrationDisabled;
-
-                import(
-                    /* webpackInclude: /\.mjs$/ */
-                    /* webpackChunkName: "./assets/l10n/locales/[request]"*/
-                    `/ui/node_modules/@angular/common/locales/${config.locale}.mjs`
-                )
-                    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                    .then((locale: any) => registerLocaleData(locale.default));
+                //
+                // import(
+                //     /* webpackInclude: /\.mjs$/ */
+                //     /* webpackChunkName: "./assets/l10n/locales/[request]"*/
+                //     `/ui/node_modules/@angular/common/locales/${config.locale}.mjs`
+                // )
+                //     // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                //     .then((locale: any) => registerLocaleData(locale.default));
             })
         );
     }

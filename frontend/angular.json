@@ -34,7 +34,7 @@
                             "src/styles.scss"
                         ],
                         "scripts": [
-                            "/node_modules/reflect-metadata/Reflect.js"
+                            "node_modules/reflect-metadata/Reflect.js"
                         ],
                         "extractLicenses": false,
                         "sourceMap": true,
