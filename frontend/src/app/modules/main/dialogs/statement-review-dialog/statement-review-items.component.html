@@ -1,0 +1,27 @@
+<div *ngFor="let date of Object.keys(groupedByDates)">
+    <nb-list>
+        <nb-list-item class="with-background">
+            <div class="me-3">
+                <nb-icon icon="checkmark-square-outline" class="actionable" status="primary"></nb-icon>
+            </div>
+            <div class="text-hint w-100">
+                {{ date }}
+            </div>
+        </nb-list-item>
+
+        <nb-list-item *ngFor="let expense of groupedByDates[date]">
+            <nb-checkbox [checked]="true" class="no-user-selection"></nb-checkbox>
+            <div class="text-truncate w-100 mx-3 actionable">
+                {{ expense.label }}
+                <small class="d-block text-hint">
+                    <nb-icon
+                        icon="radio-button-on"
+                        class="flex-shrink-0 me-2"
+                        [ngStyle]="{ color: expense.category?.color }"></nb-icon>
+                    {{ expense.category.name }}
+                </small>
+            </div>
+            <span>{{ expense.amount | shortNumber }}</span>
+        </nb-list-item>
+    </nb-list>
+</div>

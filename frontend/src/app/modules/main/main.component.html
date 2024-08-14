@@ -1,4 +1,4 @@
-<nb-layout>
+<nb-layout [nbSpinner]="isApplicationBusy">
     <nb-layout-header fixed>
         <app-header
             [calendar]="mainService.calendar"
@@ -9,7 +9,7 @@
 
     <nb-layout-column
         class="p-0 p-sm-3"
-        [nbSpinner]="isBusy"
+        [nbSpinner]="isCalendarBusy"
         (resized)="onResized($event)"
         appSwipe
         (swipeEnd)="onSwipeEnd($event)">

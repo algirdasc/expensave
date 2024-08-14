@@ -5,8 +5,8 @@ import { Calendar } from '../../../../../api/objects/calendar';
 import { UserApiService } from '../../../../../api/user.api.service';
 import { CalendarEditComponent } from '../../../dialogs/calendars-dialog/calendar-edit/calendar-edit.component';
 import { ConfirmDialogComponent } from '../../../dialogs/confirm-dialog/confirm-dialog.component';
-import { StatementImportDialogComponent } from '../../../dialogs/statement-import-dialog/statement-import-dialog.component';
 import { MainService } from '../../../main.service';
+import { StatementImportService } from '../../../modules/statement-import/statement-import.service';
 
 @Component({
     selector: 'app-sidebar-calendar-list',
@@ -30,7 +30,8 @@ export class CalendarSidebarListComponent {
         public readonly mainService: MainService,
         public readonly calendarApiService: CalendarApiService,
         public readonly userApiService: UserApiService,
-        public readonly toastrService: NbToastrService
+        public readonly toastrService: NbToastrService,
+        public readonly statementImportService: StatementImportService
     ) {
         this.calendarApiService.onBusyChange.subscribe((isBusy: boolean) => (this.isBusy = isBusy));
 
@@ -41,15 +42,6 @@ export class CalendarSidebarListComponent {
                 this.dialogRef.close(calendar);
             });
         });
-    }
-    public importStatement(calendar: Calendar): void {
-        this.dialogService
-            .open(StatementImportDialogComponent, { autoFocus: true, context: { calendar: calendar } })
-            .onClose.subscribe((result: boolean) => {
-                if (result) {
-                    this.calendarChange.emit(this.calendar);
-                }
-            });
     }
 
     public deleteCalendar(calendar: Calendar): void {

@@ -8,7 +8,11 @@ import { Expense } from '../../../../api/objects/expense';
 export class StatementReviewDialogComponent {
     public expenses: Expense[] = [];
 
-    public constructor(public readonly dialogRef: NbDialogRef<StatementReviewDialogComponent>) {}
+    public constructor(protected readonly dialogRef: NbDialogRef<StatementReviewDialogComponent>) {}
+
+    public cancelImport(): void {
+        this.dialogRef.close(false);
+    }
 
     public onExpenseClick(expense: Expense): void {
         console.log(expense);

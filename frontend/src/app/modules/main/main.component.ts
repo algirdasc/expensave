@@ -14,11 +14,12 @@ import { StatementImportService } from './modules/statement-import/statement-imp
 
 @Component({
     templateUrl: 'main.component.html',
-    styleUrls: ['main.component.scss'],
+    styleUrl: 'main.component.scss',
 })
 export class MainComponent implements OnInit {
-    public isBusy: boolean = false;
-    public isMobile: boolean;
+    protected isCalendarBusy: boolean = false;
+    protected isApplicationBusy: boolean = false;
+    protected isMobile: boolean;
 
     public constructor(
         private readonly router: Router,
@@ -31,7 +32,8 @@ export class MainComponent implements OnInit {
         public readonly mainService: MainService,
         private readonly statementImportService: StatementImportService
     ) {
-        this.expenseApiService.onBusyChange.subscribe((isBusy: boolean) => (this.isBusy = isBusy));
+        this.expenseApiService.onBusyChange.subscribe((isBusy: boolean) => (this.isCalendarBusy = isBusy));
+        this.mainService.isApplicationBusy.subscribe((isBusy: boolean) => (this.isApplicationBusy = isBusy));
     }
 
     public ngOnInit(): void {

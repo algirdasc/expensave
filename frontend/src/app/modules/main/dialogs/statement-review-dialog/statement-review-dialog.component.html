@@ -1,18 +1,33 @@
 <nb-card class="dialog" style="min-height: 200px">
-    <nb-card-header i18n>
-        <button nbButton status="primary" ghost (click)="dialogRef.close()">
+    <nb-card-header>
+        <button nbButton status="primary" ghost (click)="dialogRef.close(null)">
             <nb-icon icon="arrow-back-outline"></nb-icon>
         </button>
-        Import statements to calendar
+        {{ expenses.length }} expenses to review
+    </nb-card-header>
+    <nb-card-header class="d-flex with-background">
+        <small class="text-hint w-100">TOTAL</small>
+        <span>{{ 2500 | shortNumber }}</span>
     </nb-card-header>
     <nb-card-body class="p-0">
-        <app-expense-list-items
-            header="IMPORTED EXPENSES"
-            [expenses]="expenses"
-            (expenseClick)="onExpenseClick($event)">
-        </app-expense-list-items>
+        <app-statement-review-items header="TOTAL" [expenses]="expenses"></app-statement-review-items>
     </nb-card-body>
     <nb-card-footer class="text-right">
-        something
+        <div class="d-flex flex-row-reverse justify-content-between">
+            <button nbButton type="submit" status="primary" [disabled]="true">
+                <nb-icon icon="save-outline"></nb-icon>
+                Save
+            </button>
+
+            <button
+                nbButton
+                type="button"
+                ghost
+                status="danger"
+                (click)="dialogRef.close(false)"
+                title="Cancel statement import">
+                <nb-icon icon="trash-outline"></nb-icon>
+            </button>
+        </div>
     </nb-card-footer>
 </nb-card>

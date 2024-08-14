@@ -10,6 +10,7 @@ import {
     NbCalendarKitModule,
     NbCalendarModule,
     NbCardModule,
+    NbCheckboxModule,
     NbFormFieldModule,
     NbIconModule,
     NbInputModule,
@@ -71,8 +72,8 @@ import { ExpenseListDialogComponent } from './dialogs/expense-list-dialog/expens
 import { ExpenseListItemsComponent } from './dialogs/expense-list-dialog/expense-list-items.component';
 import { InputDialogComponent } from './dialogs/input-dialog/input-dialog.component';
 import { ProfileDialogComponent } from './dialogs/profile-dialog/profile-dialog.component';
-import { StatementImportDialogComponent } from './dialogs/statement-import-dialog/statement-import-dialog.component';
 import { StatementReviewDialogComponent } from './dialogs/statement-review-dialog/statement-review-dialog.component';
+import { StatementReviewItemsComponent } from './dialogs/statement-review-dialog/statement-review-items.component';
 import { HeaderComponent } from './header/header.component';
 import { MainComponent } from './main.component';
 import { mainRoutes } from './main.routes';
@@ -109,8 +110,8 @@ import { StatementImportService } from './modules/statement-import/statement-imp
         ProfileDialogComponent,
         CategoriesDialogComponent,
         CalendarsDialogComponent,
-        StatementImportDialogComponent,
         StatementReviewDialogComponent,
+        StatementReviewItemsComponent,
         InputDialogComponent,
         DatepickerDialogComponent,
 
@@ -143,6 +144,7 @@ import { StatementImportService } from './modules/statement-import/statement-imp
         NbSidebarModule.forRoot(),
         NbCalendarModule,
         NbRadioModule,
+        NbCheckboxModule,
         NbButtonModule,
         NbIconModule,
         NbActionsModule,

@@ -7,7 +7,6 @@ import { DateUtil } from '../util/date.util';
 import { AbstractEntityApiService } from './abstract-entity-api.service';
 import { Calendar } from './objects/calendar';
 import { CalendarExpenseListResponse } from './response/calendar-expense-list.response';
-import { StatementImportResponse } from './response/statement-import.response';
 
 @Injectable()
 export class CalendarApiService extends AbstractEntityApiService<Calendar> {
@@ -30,9 +29,5 @@ export class CalendarApiService extends AbstractEntityApiService<Calendar> {
             CalendarExpenseListResponse,
             `${this.backend}/${calendar.id}/expenses/${dateFromString}/${dateToString}`
         );
-    }
-
-    public importStatements(calendar: Calendar, statements: FormData): Observable<StatementImportResponse> {
-        return super.request('post', StatementImportResponse, `${this.backend}/${calendar.id}/import`, statements);
     }
 }
