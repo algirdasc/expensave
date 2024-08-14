@@ -9,7 +9,7 @@ import { finalize, map } from 'rxjs/operators';
 export abstract class AbstractApiService {
     public onBusyChange: Subject<boolean> = new Subject<boolean>();
 
-    private onBusyChangeTimeout: NodeJS.Timer;
+    private onBusyChangeTimeout: number;
 
     protected abstract backend: string;
 
@@ -35,7 +35,7 @@ export abstract class AbstractApiService {
             return this.onBusyChange.next(isBusy);
         }
 
-        this.onBusyChangeTimeout = setTimeout(() => this.onBusyChange.next(isBusy), 750);
+        this.onBusyChangeTimeout = window.setTimeout(() => this.onBusyChange.next(isBusy), 750);
     }
 
     protected idUrl(id?: number): string {
