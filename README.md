@@ -61,12 +61,25 @@ as well as improve motivation and helps me understand, that this project is usef
 ```
 2. Open your browser: [http://localhost:18000](http://localhost:18000)
 
+### Docker-compose
+
+You can also build from the docker-compose stack by running `docker compose up -d` inside the project directory. Make sure you have created a `.env` file and that it contains the required environment variables.
+
 ## Environment variables
 
 - `TZ` - Your time zone. Full list can be found [here](https://www.php.net/manual/en/timezones.php).
 - `DATABASE_URL` - In case you want to use external MySQL/MariaDB, you can provide custom DSN for DB connection.
 - `LOCALE` - Locale used for date and number formatting. Full list can be found [here](https://unpkg.com/browse/@angular/common@17.3.3/locales/).
 - `REGISTRATION_DISABLED=yes/no` - Disable new user registration
+
+### Docker-compose environment variables
+
+- `MARIADB_HOST` - name or address of the MariaDB host
+- `MARIADB_PORT_NUMBER` - usually 3306
+- `MARIADB_USER` - MariaDB user
+- `MARIADB_PASSWORD` - MariaDB user's password
+- `MARIADB_DATABASE` - MariaDB database for the project
+- `MARIADB_ROOT_PASSWORD` - MariaDB root user's password
 
 # Installing mobile version
 
