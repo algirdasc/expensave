@@ -28,7 +28,12 @@
                             "src/manifest.json",
                             "src/favicon.ico",
                             "src/assets",
-                            "src/config.dev.json"
+                            "src/config.dev.json",
+                            {
+                                "glob": "*.mjs",
+                                "input": "node_modules/@angular/common/locales/",
+                                "output": "assets/l10n/locales/"
+                            }
                         ],
                         "styles": [
                             "src/styles.scss"
