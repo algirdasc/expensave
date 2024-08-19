@@ -5,12 +5,13 @@ import { RouterModule } from '@angular/router';
 import {
     NbActionsModule,
     NbAutocompleteModule,
+    NbBadgeModule,
     NbButtonGroupModule,
     NbButtonModule,
     NbCalendarKitModule,
     NbCalendarModule,
     NbCardModule,
-    NbCheckboxModule,
+    NbDialogModule,
     NbFormFieldModule,
     NbIconModule,
     NbInputModule,
@@ -73,12 +74,11 @@ import { ExpenseListItemsComponent } from './dialogs/expense-list-dialog/expense
 import { InputDialogComponent } from './dialogs/input-dialog/input-dialog.component';
 import { ProfileDialogComponent } from './dialogs/profile-dialog/profile-dialog.component';
 import { StatementReviewDialogComponent } from './dialogs/statement-review-dialog/statement-review-dialog.component';
-import { StatementReviewItemsComponent } from './dialogs/statement-review-dialog/statement-review-items.component';
 import { HeaderComponent } from './header/header.component';
 import { MainComponent } from './main.component';
 import { mainRoutes } from './main.routes';
 import { MainService } from './main.service';
-import { StatementImportService } from './modules/statement-import/statement-import.service';
+import { StatementImportService } from './services/statement-import.service';
 
 @NgModule({
     declarations: [
@@ -111,7 +111,6 @@ import { StatementImportService } from './modules/statement-import/statement-imp
         CategoriesDialogComponent,
         CalendarsDialogComponent,
         StatementReviewDialogComponent,
-        StatementReviewItemsComponent,
         InputDialogComponent,
         DatepickerDialogComponent,
 
@@ -144,7 +143,6 @@ import { StatementImportService } from './modules/statement-import/statement-imp
         NbSidebarModule.forRoot(),
         NbCalendarModule,
         NbRadioModule,
-        NbCheckboxModule,
         NbButtonModule,
         NbIconModule,
         NbActionsModule,
@@ -164,6 +162,8 @@ import { StatementImportService } from './modules/statement-import/statement-imp
         ShortNumberModule,
         ContentLoaderModule,
         NbTooltipModule,
+        NbDialogModule,
+        NbBadgeModule,
     ],
     providers: [
         MainService,

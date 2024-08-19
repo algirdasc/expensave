@@ -10,8 +10,10 @@ use App\Entity\Expense;
 use App\Entity\User;
 use App\Enum\CalendarPermission;
 use App\Enum\ExpensePermission;
+use App\Message\ImportExpenseMessage;
 use App\Repository\ExpenseRepository;
 use App\Request\Expense\CreateExpenseRequest;
+use App\Request\Expense\ImportExpenseRequest;
 use App\Request\Expense\SuggestRequest;
 use App\Request\Expense\UpdateExpenseRequest;
 use App\Response\EmptyResponse;
@@ -19,6 +21,8 @@ use App\Security\Voters\CalendarVoter;
 use App\Security\Voters\ExpenseVoter;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Messenger\Exception\ExceptionInterface;
+use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\CurrentUser;
 
@@ -96,5 +100,22 @@ class ExpenseController extends AbstractApiController
         $suggestedExpense = $this->expenseRepository->findUserSuggestion($user, $request->getLabel());
 
         return $this->respond($suggestedExpense);
+    }
+
+    #[Route('/import', name: 'import_bulk', methods: Request::METHOD_POST)]
+    public function import(#[CurrentUser] User $user, ImportExpenseRequest $request, MessageBusInterface $bus): JsonResponse
+    {
+        foreach ($request->getExpenses() as $expense) {
+            $bus->dispatch(
+                new ImportExpenseMessage(
+                    userId: (int) $user->getId(),
+                    calendarId: (int) $expense->getCalendar()->getId(),
+                    categoryId: (int) $expense->getCategory()->getId(),
+                    expense: $expense,
+                )
+            );
+        }
+
+        return $this->respond(new EmptyResponse());
     }
 }

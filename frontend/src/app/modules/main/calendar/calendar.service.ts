@@ -29,21 +29,24 @@ export class CalendarService {
             calendar: calendar,
             user: this.mainService.user,
             confirmed: true,
+            category: this.mainService.getSystemCategory(TYPE_UNCATEGORIZED),
         });
 
         this.openExpenseDialog(expense, () => this.mainService.refreshCalendar());
     }
 
     private openExpenseDialog(expense: Expense, onClose: (result: Expense) => void): void {
-        const categoryMap = {};
-        categoryMap[TYPE_UNCATEGORIZED] = this.mainService.getSystemCategory(TYPE_UNCATEGORIZED);
-        categoryMap[TYPE_BALANCE_UPDATE] = this.mainService.getSystemCategory(TYPE_BALANCE_UPDATE);
+        const predefinedCategories = {};
+        predefinedCategories[TYPE_BALANCE_UPDATE] = this.mainService.getSystemCategory(TYPE_BALANCE_UPDATE);
 
         this.dialogService
             .open(ExpenseDialogComponent, {
                 context: {
                     expense: expense,
-                    categoryMap: categoryMap,
+                    showBalanceTab: true,
+                    showTransferTab: true,
+                    deletable: !!expense?.id,
+                    predefinedCategories: predefinedCategories,
                 },
             })
             .onClose.subscribe((result?: Expense) => {

@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { NbDialogService } from '@nebular/theme';
 import { environment } from '../../../../../../environments/environment';
 import { CategoriesDialogComponent } from '../../../dialogs/categories-dialog/categories-dialog.component';
-import { StatementImportService } from '../../../modules/statement-import/statement-import.service';
+import { StatementImportService } from '../../../services/statement-import.service';
 
 @Component({
     selector: 'app-sidebar-actions',

@@ -1,20 +1,42 @@
 <nb-card class="dialog" style="min-height: 200px">
-    <nb-card-header>
-        <button nbButton status="primary" ghost (click)="dialogRef.close(null)">
-            <nb-icon icon="arrow-back-outline"></nb-icon>
+    <nb-card-header class="d-flex align-items-center justify-content-between">
+        Bank statement import review
+        <button nbButton status="primary" ghost (click)="dialogRef.close()">
+            <nb-icon icon="close-outline"></nb-icon>
         </button>
-        {{ expenses.length }} expenses to review
     </nb-card-header>
     <nb-card-header class="d-flex with-background">
         <small class="text-hint w-100">TOTAL</small>
-        <span>{{ 2500 | shortNumber }}</span>
+        <span>{{ totalExpensesAmount | shortNumber }}</span>
     </nb-card-header>
     <nb-card-body class="p-0">
-        <app-statement-review-items header="TOTAL" [expenses]="expenses"></app-statement-review-items>
+        <div *ngFor="let date of Object.keys(groupedByDates)">
+            <nb-list>
+                <nb-list-item class="with-background">
+                    <div class="d-flex text-hint w-100">
+                        <nb-icon icon="calendar-outline" class="me-1"></nb-icon> {{ date }}
+                    </div>
+                </nb-list-item>
+
+                <nb-list-item *ngFor="let expense of groupedByDates[date]" (click)="openExpense(expense)">
+                    <div class="text-truncate w-100 actionable">
+                        {{ expense.label }}
+                        <small class="d-flex align-items-center text-hint">
+                            <nb-icon
+                                icon="radio-button-on"
+                                class="flex-shrink-0 me-1"
+                                [ngStyle]="{ color: expense.category?.color }"></nb-icon>
+                            {{ expense.category.name }}
+                        </small>
+                    </div>
+                    <span>{{ expense.amount | shortNumber }}</span>
+                </nb-list-item>
+            </nb-list>
+        </div>
     </nb-card-body>
     <nb-card-footer class="text-right">
         <div class="d-flex flex-row-reverse justify-content-between">
-            <button nbButton type="submit" status="primary" [disabled]="true">
+            <button nbButton type="button" status="primary" (click)="importExpenses()">
                 <nb-icon icon="save-outline"></nb-icon>
                 Save
             </button>
@@ -24,7 +46,7 @@
                 type="button"
                 ghost
                 status="danger"
-                (click)="dialogRef.close(false)"
+                (click)="cancelImport()"
                 title="Cancel statement import">
                 <nb-icon icon="trash-outline"></nb-icon>
             </button>

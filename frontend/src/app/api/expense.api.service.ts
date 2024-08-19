@@ -12,4 +12,8 @@ export class ExpenseApiService extends AbstractEntityApiService<Expense> {
     public suggest(label: string): Observable<Expense> {
         return super.request<Expense>('post', Expense, `${this.backend}/suggest`, { label: label });
     }
+
+    public import(expenses: Expense[]): Observable<Expense[]> {
+        return super.request<Expense[]>('post', Expense, `${this.backend}/import`, { expenses: expenses });
+    }
 }

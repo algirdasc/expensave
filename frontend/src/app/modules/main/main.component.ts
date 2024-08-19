@@ -10,7 +10,7 @@ import { APP_CONFIG } from '../../app.initializer';
 import { SwipeEvent } from '../../interfaces/swipe.interface';
 import { DateUtil } from '../../util/date.util';
 import { MainService, SIDEBAR_TAG } from './main.service';
-import { StatementImportService } from './modules/statement-import/statement-import.service';
+import { StatementImportService } from './services/statement-import.service';
 
 @Component({
     templateUrl: 'main.component.html',
@@ -67,7 +67,9 @@ export class MainComponent implements OnInit {
             }
         });
 
-        this.statementImportService.processImport();
+        if (this.statementImportService.expenses.length) {
+            this.statementImportService.processImport();
+        }
     }
 
     public onResized(event: ResizedEvent): void {

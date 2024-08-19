@@ -23,7 +23,6 @@ class StatementImportController extends AbstractApiController
 {
     public function __construct(
         private readonly ImporterService $importerService,
-        private readonly EntityManagerInterface $entityManager
     ) {
     }
 

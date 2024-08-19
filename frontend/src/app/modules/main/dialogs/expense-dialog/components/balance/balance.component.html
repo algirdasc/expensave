@@ -10,6 +10,10 @@
             <app-expense-dialog-user-list-item [user]="expense.user" />
         </div>
 
-        <app-expense-dialog-footer [form]="balanceForm" [expense]="expense" (delete)="onDelete()" />
+        <app-expense-dialog-footer
+            [form]="balanceForm"
+            [expense]="expense"
+            [deletable]="deletable"
+            (delete)="onDelete()" />
     </div>
 </form>

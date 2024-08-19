@@ -26,6 +26,7 @@
 
         <app-expense-dialog-footer
             [form]="transferForm"
+            [deletable]="false"
             [submitEnabled]="this.destinationCalendar?.id !== this.expense.calendar?.id"
             [expense]="expense" />
     </div>

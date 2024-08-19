@@ -6,7 +6,7 @@ import { UserApiService } from '../../../../../api/user.api.service';
 import { CalendarEditComponent } from '../../../dialogs/calendars-dialog/calendar-edit/calendar-edit.component';
 import { ConfirmDialogComponent } from '../../../dialogs/confirm-dialog/confirm-dialog.component';
 import { MainService } from '../../../main.service';
-import { StatementImportService } from '../../../modules/statement-import/statement-import.service';
+import { StatementImportService } from '../../../services/statement-import.service';
 
 @Component({
     selector: 'app-sidebar-calendar-list',
