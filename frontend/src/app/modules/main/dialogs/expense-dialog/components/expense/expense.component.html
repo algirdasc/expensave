@@ -1,4 +1,9 @@
-<form #expenseForm="ngForm" [nbSpinner]="isBusy" (ngSubmit)="onSubmit ? onSubmit() : onDefaultSubmit()" autocomplete="off" class="h-100">
+<form
+    #expenseForm="ngForm"
+    [nbSpinner]="isBusy"
+    (ngSubmit)="onSubmit ? onSubmit() : onDefaultSubmit()"
+    autocomplete="off"
+    class="h-100">
     <div class="d-flex flex-column h-100">
         <app-expense-input [(expense)]="expense" #expenseInput />
 

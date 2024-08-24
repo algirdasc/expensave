@@ -1,4 +1,9 @@
-<form #balanceForm="ngForm" [nbSpinner]="isBusy" (ngSubmit)="onSubmit ? onSubmit() : onDefaultSubmit()" autocomplete="off" class="h-100">
+<form
+    #balanceForm="ngForm"
+    [nbSpinner]="isBusy"
+    (ngSubmit)="onSubmit ? onSubmit() : onDefaultSubmit()"
+    autocomplete="off"
+    class="h-100">
     <div class="d-flex flex-column h-100">
         <app-expense-input [expense]="expense" [labelEditable]="false" #expenseInput />
 
