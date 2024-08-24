@@ -1,0 +1,30 @@
+services:
+  dev-application:
+    build:
+      target: development
+    volumes:
+      - '.:/opt/expensave'
+    environment:
+      LOCALE: en
+      TZ: Europe/Vilnius # Change to preferred time zone https://www.php.net/manual/en/timezones.php
+      REGISTRATION_DISABLED: no # For security reason change to "yes" after all users registered
+      DATABASE_URL: 'mysql://dev_expensave:dev_expensave@dev-database:3306/dev_expensave?serverVersion=10&charset=utf8mb4'
+    depends_on:
+      - dev-database
+    ports:
+      - 18001:18001
+      - 18002:18002
+
+  dev-database:
+    image: mariadb:10
+    volumes:
+      - '../expensave_development:/var/lib/mysql'
+      - './docker/mariadb/development.init.sql:/docker-entrypoint-initdb.d/init.sql'
+    restart: unless-stopped
+    environment:
+      MARIADB_RANDOM_ROOT_PASSWORD: yes
+      MARIADB_USER: dev_expensave
+      MARIADB_PASSWORD: dev_expensave
+      MARIADB_DATABASE: dev_expensave
+    ports:
+      - 3306:3306

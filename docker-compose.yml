@@ -1,18 +1,31 @@
-version: '3.8'
-
 services:
-  expensave:
-    container_name: expensave
-    image: algirdasc/expensave:latest
+  application:
+    image: algirdasc/expensave
+    restart: unless-stopped
     ports:
-      - "18000:18000"
-    env_file:
-      - .env
+      - 18000:18000
+    environment:
+      LOCALE: en
+      TZ: Europe/Vilnius # Change to preferred time zone https://www.php.net/manual/en/timezones.php
+      REGISTRATION_DISABLED: no # For security reason change to "yes" after all users registered
+      DATABASE_URL: 'mysql://expensave:expensave@database:3306/expensave?serverVersion=10&charset=utf8mb4'
     depends_on:
-      - mariadb
+      - database
 
-  mariadb:
-    container_name: expensave_mysql
-    image: mariadb:10.6.0
-    env_file:
-      - .env
+  queue:
+    image: algirdasc/expensave
+    command: php bin/console messenger:consume --all -v
+    restart: unless-stopped
+    depends_on:
+      - database
+
+  database:
+    image: mariadb:10
+    volumes:
+      - './db:/var/lib/mysql'
+    restart: unless-stopped
+    environment:
+      MARIADB_RANDOM_ROOT_PASSWORD: yes
+      MARIADB_USER: expensave
+      MARIADB_PASSWORD: expensave
+      MARIADB_DATABASE: expensave

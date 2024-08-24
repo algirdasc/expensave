@@ -1,9 +1,11 @@
-FROM ubuntu:22.04 as base
+FROM ubuntu:22.04 AS base
 
 MAINTAINER Algirdas Č. <algirdas.cic@gmail.com>
 
 ARG DEBIAN_FRONTEND=noninteractive
 ARG PHP_VERSION=8.3
+
+SHELL ["/bin/bash", "-c"]
 
 RUN apt update && \
     apt install -y --no-install-recommends \
@@ -12,8 +14,8 @@ RUN apt update && \
     software-properties-common \
     jq \
     nginx \
-    mariadb-server-10.6 \
     cron \
+    curl \
     supervisor
 RUN add-apt-repository ppa:ondrej/php
 RUN apt install -y \
@@ -24,6 +26,7 @@ RUN apt install -y \
     php${PHP_VERSION}-gd \
     php${PHP_VERSION}-zip \
     php${PHP_VERSION}-intl \
+    php${PHP_VERSION}-mbstring \
     php${PHP_VERSION}-dom
 
 # Services
@@ -43,12 +46,7 @@ RUN crontab /etc/cron.d/expensave-cron
 
 RUN rm /etc/nginx/sites-enabled/default
 
-# MariaDB config
-VOLUME /var/lib/mysql
-RUN mkdir -p /run/mysqld && chown mysql:mysql /run/mysqld
-RUN mysql_install_db
-
-FROM node:20-alpine as frontend
+FROM node:20-alpine AS frontend
 
 WORKDIR /opt/expensave/frontend
 
@@ -58,17 +56,40 @@ RUN npm ci
 RUN npm run analyze
 RUN npm run build
 
-FROM base
+FROM base AS development
+
+ENV NVM_DIR=/usr/local/nvm
+ENV NODE_VERSION=20
+
+WORKDIR /opt/expensave
+
+RUN mkdir $NVM_DIR
+
+RUN apt install -y \
+    php${PHP_VERSION}-xdebug
+
+RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.0/install.sh | bash \
+    && . $NVM_DIR/nvm.sh \
+    && nvm install $NODE_VERSION \
+    && nvm alias default $NODE_VERSION \
+    && nvm use default
+
+EXPOSE 18002
+
+CMD ["supervisord", "-n", "-t", "-c", "/etc/supervisor/conf.d/supervisor.conf"]
+
+FROM base AS application
 
 ARG COMPOSER_ALLOW_SUPERUSER=1
 
-ENV LOCALE en
-ENV REGISTRATION_DISABLED no
+ENV LOCALE=en
+ENV REGISTRATION_DISABLED=no
 
 WORKDIR /opt/expensave
 
 # Application files
 COPY backend/ /opt/expensave
+RUN rm -rf backend/
 COPY --from=frontend /opt/expensave/frontend/dist/browser /opt/expensave/public/ui
 
 # Forward symfony cache
