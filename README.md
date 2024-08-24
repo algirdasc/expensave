@@ -30,13 +30,13 @@ as well as improve motivation and helps me understand, that this project is usef
 ## Mobile version
 
 <a href="https://raw.githubusercontent.com/algirdasc/expensave/main/docs/images/screenshots/mobile-calendar.png">
-    <img alt="Mobile version calendar view" src="https://raw.githubusercontent.com/algirdasc/expensave/main/docs/images/screenshots/mobile-calendar.png" style="width: 33%; float: left;" />
+    <img alt="Mobile version calendar view" src="https://raw.githubusercontent.com/algirdasc/expensave/main/docs/images/screenshots/mobile-calendar.png" style="width: 32%; float: left;" />
 </a>
 <a href="https://raw.githubusercontent.com/algirdasc/expensave/main/docs/images/screenshots/mobile-expense-dialog.png">
-    <img alt="Mobile version expense dialog" src="https://raw.githubusercontent.com/algirdasc/expensave/main/docs/images/screenshots/mobile-expense-dialog.png" style="width: 33%; float: left;" />
+    <img alt="Mobile version expense dialog" src="https://raw.githubusercontent.com/algirdasc/expensave/main/docs/images/screenshots/mobile-expense-dialog.png" style="width: 32%; float: left;" />
 </a>
 <a href="https://raw.githubusercontent.com/algirdasc/expensave/main/docs/images/screenshots/mobile-sidebar.png">
-    <img alt="Mobile version calendar list" src="https://raw.githubusercontent.com/algirdasc/expensave/main/docs/images/screenshots/mobile-sidebar.png" style="width: 33%; float: left;" />
+    <img alt="Mobile version calendar list" src="https://raw.githubusercontent.com/algirdasc/expensave/main/docs/images/screenshots/mobile-sidebar.png" style="width: 32%; float: left;" />
 </a>
 <div style="clear: both;"></div>
 
