@@ -8,8 +8,6 @@ interface StatementImportRowInterface
 {
     public function getLabel(): string;
 
-    public function getImportHash(): string;
-
     public function getAmount(): float;
 
     public function getCreatedAt(): DateTime;

@@ -8,6 +8,10 @@ contains exact amount on that day - such transaction will be ignored. Otherwise 
 
 All importable transactions can be reviewed manually, edited or deleted, before actual saving takes place.
 
+<a href="https://raw.githubusercontent.com/algirdasc/expensave/main/docs/statement-import/expensave-1.png">
+   <img alt="Mobile version calendar list" src="https://raw.githubusercontent.com/algirdasc/expensave/main/docs/images/statement-import/expensave-1.png" />
+</a>
+
 # Supported banks
 
 ## Revolut
@@ -17,13 +21,13 @@ To export importable Revolut bank statement, head to their [internet bank](https
 2. Click on `Statement` button
 
 <a href="https://raw.githubusercontent.com/algirdasc/expensave/main/docs/import-formats/revolut-1.png">
-   <img alt="Mobile version calendar list" src="https://raw.githubusercontent.com/algirdasc/expensave/main/docs/import-formats/revolut-1.png" />
+   <img alt="Mobile version calendar list" src="https://raw.githubusercontent.com/algirdasc/expensave/main/docs/images/statement-import/revolut-1.png" />
 </a>
 
 3. Select `Excel` format
 
 <a href="https://raw.githubusercontent.com/algirdasc/expensave/main/docs/import-formats/revolut-2.png">
-   <img alt="Mobile version calendar list" src="https://raw.githubusercontent.com/algirdasc/expensave/main/docs/import-formats/revolut-2.png" />
+   <img alt="Mobile version calendar list" src="https://raw.githubusercontent.com/algirdasc/expensave/main/docs/images/statement-import/revolut-2.png" />
 </a>
 
 4. Select preferred date range
@@ -35,8 +39,8 @@ It is important not to change generated file name!
 
 Navigate to `Settings` -> `Account & Data` and click `Download`
 
-<a href="https://raw.githubusercontent.com/algirdasc/expensave/main/docs/import-formats/dollarbird-1.png">
-   <img alt="Mobile version calendar list" src="https://raw.githubusercontent.com/algirdasc/expensave/main/docs/import-formats/dollarbird-1.png" />
+<a href="https://raw.githubusercontent.com/algirdasc/expensave/main/docs/images/statement-import/dollarbird-1.png">
+   <img alt="Mobile version calendar list" src="https://raw.githubusercontent.com/algirdasc/expensave/main/docs/images/statement-import/dollarbird-1.png" />
 </a>
 
 ## Generic format (ISO:20022)

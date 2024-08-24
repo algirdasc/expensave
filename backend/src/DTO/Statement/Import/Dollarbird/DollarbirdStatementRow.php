@@ -145,15 +145,4 @@ class DollarbirdStatementRow implements StatementImportRowInterface
     {
         return $this->date;
     }
-
-    public function getImportHash(): string
-    {
-        $keys = [
-            'date' => $this->date,
-            'description' => $this->description,
-            'amount' => $this->value,
-        ];
-
-        return 'DOLLARBIRD_' . md5(serialize($keys));
-    }
 }

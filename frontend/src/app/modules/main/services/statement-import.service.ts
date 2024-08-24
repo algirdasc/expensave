@@ -64,14 +64,14 @@ export class StatementImportService {
     }
 
     public updateImportStorage(expenses: Expense[]): void {
-        sessionStorage.setItem(IMPORT_KEY, JSON.stringify(expenses));
-        sessionStorage.setItem(IMPORT_COUNT_KEY, expenses.length.toString());
+        localStorage.setItem(IMPORT_KEY, JSON.stringify(expenses));
+        localStorage.setItem(IMPORT_COUNT_KEY, expenses.length.toString());
     }
 
     public reloadImportStorage(): void {
-        const sessionExpenses = sessionStorage.getItem(IMPORT_KEY);
-        if (sessionExpenses !== null) {
-            const expenses = JSON.parse(sessionExpenses);
+        const localExpenses = localStorage.getItem(IMPORT_KEY);
+        if (localExpenses !== null) {
+            const expenses = JSON.parse(localExpenses);
             this.expenses = [];
             for (const expense of expenses) {
                 this.expenses.push(plainToInstance(Expense, expense));
@@ -80,8 +80,8 @@ export class StatementImportService {
     }
 
     public clearImportStorage(): void {
-        sessionStorage.removeItem(IMPORT_KEY);
-        sessionStorage.removeItem(IMPORT_COUNT_KEY);
+        localStorage.removeItem(IMPORT_KEY);
+        localStorage.removeItem(IMPORT_COUNT_KEY);
         this.expenses = [];
     }
 

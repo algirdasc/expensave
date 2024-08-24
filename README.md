@@ -16,27 +16,27 @@ as well as improve motivation and helps me understand, that this project is usef
 
 ## Desktop version
 
-<a href="https://raw.githubusercontent.com/algirdasc/expensave/main/docs/screenshots/desktop-calendar.png">
-    <img alt="Calendar view" src="https://raw.githubusercontent.com/algirdasc/expensave/main/docs/screenshots/desktop-calendar.png" />
+<a href="https://raw.githubusercontent.com/algirdasc/expensave/main/docs/images/screenshots/desktop-calendar.png">
+    <img alt="Calendar view" src="https://raw.githubusercontent.com/algirdasc/expensave/main/docs/images/screenshots/desktop-calendar.png" />
 </a>
-<a href="https://raw.githubusercontent.com/algirdasc/expensave/main/docs/screenshots/desktop-expense-dialog.png">
-    <img alt="Expense dialog" src="https://raw.githubusercontent.com/algirdasc/expensave/main/docs/screenshots/desktop-expense-dialog.png" style="width: 49%; float: left;" />
+<a href="https://raw.githubusercontent.com/algirdasc/expensave/main/docs/images/screenshots/desktop-expense-dialog.png">
+    <img alt="Expense dialog" src="https://raw.githubusercontent.com/algirdasc/expensave/main/docs/images/screenshots/desktop-expense-dialog.png" style="width: 49%; float: left;" />
 </a>
-<a href="https://raw.githubusercontent.com/algirdasc/expensave/main/docs/screenshots/desktop-sidebar.png">
-    <img alt="Calendar list" src="https://raw.githubusercontent.com/algirdasc/expensave/main/docs/screenshots/desktop-sidebar.png" style="width: 49%; float: right;" />
+<a href="https://raw.githubusercontent.com/algirdasc/expensave/main/docs/images/screenshots/desktop-sidebar.png">
+    <img alt="Calendar list" src="https://raw.githubusercontent.com/algirdasc/expensave/main/docs/images/screenshots/desktop-sidebar.png" style="width: 49%; float: right;" />
 </a>
 <div style="clear: both;"></div>
 
 ## Mobile version
 
-<a href="https://raw.githubusercontent.com/algirdasc/expensave/main/docs/screenshots/mobile-calendar.png">
-    <img alt="Mobile version calendar view" src="https://raw.githubusercontent.com/algirdasc/expensave/main/docs/screenshots/mobile-calendar.png" style="width: 33%; float: left;" />
+<a href="https://raw.githubusercontent.com/algirdasc/expensave/main/docs/images/screenshots/mobile-calendar.png">
+    <img alt="Mobile version calendar view" src="https://raw.githubusercontent.com/algirdasc/expensave/main/docs/images/screenshots/mobile-calendar.png" style="width: 33%; float: left;" />
 </a>
-<a href="https://raw.githubusercontent.com/algirdasc/expensave/main/docs/screenshots/mobile-expense-dialog.png">
-    <img alt="Mobile version expense dialog" src="https://raw.githubusercontent.com/algirdasc/expensave/main/docs/screenshots/mobile-expense-dialog.png" style="width: 33%; float: left;" />
+<a href="https://raw.githubusercontent.com/algirdasc/expensave/main/docs/images/screenshots/mobile-expense-dialog.png">
+    <img alt="Mobile version expense dialog" src="https://raw.githubusercontent.com/algirdasc/expensave/main/docs/images/screenshots/mobile-expense-dialog.png" style="width: 33%; float: left;" />
 </a>
-<a href="https://raw.githubusercontent.com/algirdasc/expensave/main/docs/screenshots/mobile-sidebar.png">
-    <img alt="Mobile version calendar list" src="https://raw.githubusercontent.com/algirdasc/expensave/main/docs/screenshots/mobile-sidebar.png" style="width: 33%; float: left;" />
+<a href="https://raw.githubusercontent.com/algirdasc/expensave/main/docs/images/screenshots/mobile-sidebar.png">
+    <img alt="Mobile version calendar list" src="https://raw.githubusercontent.com/algirdasc/expensave/main/docs/images/screenshots/mobile-sidebar.png" style="width: 33%; float: left;" />
 </a>
 <div style="clear: both;"></div>
 
@@ -44,7 +44,8 @@ as well as improve motivation and helps me understand, that this project is usef
 
 - Multiple user support
 - Shared expense calendars between family members
-- Import your balance from financial institutions in various [formats](docs/IMPORT_FORMATS.md) 
+- Multiple & unlimited expense calendars
+- Import your balance from financial institutions in various [formats](docs/STATEMENT_IMPORT.md) 
 - Reports on your spending and income habits
 - Responsive design
 - Mobile [PWA](https://web.dev/explore/progressive-web-apps) application
@@ -84,6 +85,10 @@ You can also build from the docker-compose stack by running `docker compose up -
 # Installing mobile version
 
 See [USING_MOBILE_VERSION.md](docs/USING_MOBILE_VERSION.md).
+
+# Bank statement import
+
+See [STATEMENT_IMPORT.md](docs/STATEMENT_IMPORT.md).
 
 # Contributing
 
