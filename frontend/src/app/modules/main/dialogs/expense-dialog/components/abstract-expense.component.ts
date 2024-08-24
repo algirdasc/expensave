@@ -7,6 +7,4 @@ export abstract class AbstractExpenseComponent {
     public expense: Expense;
 
     protected isBusy: boolean = false;
-
-    public abstract onSubmit(): void;
 }

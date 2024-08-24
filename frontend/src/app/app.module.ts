@@ -22,6 +22,7 @@ import { CalendarApiService } from './api/calendar.api.service';
 import { CategoryApiService } from './api/category.api.service';
 import { ExpenseApiService } from './api/expense.api.service';
 import { ReportsApiService } from './api/reports.api.service';
+import { StatementImportApiService } from './api/statement-import.api.service';
 import { UserApiService } from './api/user.api.service';
 import { AppComponent } from './app.component';
 import { AppInitializer } from './app.initializer';
@@ -46,6 +47,7 @@ const apiServices = [
     CategoryApiService,
     ReportsApiService,
     BalanceUpdateApiService,
+    StatementImportApiService,
 ];
 
 @NgModule({

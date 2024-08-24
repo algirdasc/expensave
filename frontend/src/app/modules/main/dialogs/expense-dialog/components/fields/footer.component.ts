@@ -12,7 +12,7 @@ import { ConfirmDialogComponent } from '../../../confirm-dialog/confirm-dialog.c
             Save
         </button>
 
-        <button nbButton type="button" ghost status="danger" *ngIf="expense.id" (click)="deleteExpense()">
+        <button nbButton type="button" ghost status="danger" *ngIf="deletable" (click)="deleteExpense()">
             <nb-icon icon="trash-2-outline"></nb-icon>
         </button>
     </div>`,
@@ -23,6 +23,9 @@ export class FooterComponent {
 
     @Input({ required: true })
     public expense: Expense;
+
+    @Input()
+    public deletable: boolean = true;
 
     @Input()
     public submitEnabled: boolean = true;

@@ -5,11 +5,13 @@ import { RouterModule } from '@angular/router';
 import {
     NbActionsModule,
     NbAutocompleteModule,
+    NbBadgeModule,
     NbButtonGroupModule,
     NbButtonModule,
     NbCalendarKitModule,
     NbCalendarModule,
     NbCardModule,
+    NbDialogModule,
     NbFormFieldModule,
     NbIconModule,
     NbInputModule,
@@ -71,11 +73,12 @@ import { ExpenseListDialogComponent } from './dialogs/expense-list-dialog/expens
 import { ExpenseListItemsComponent } from './dialogs/expense-list-dialog/expense-list-items.component';
 import { InputDialogComponent } from './dialogs/input-dialog/input-dialog.component';
 import { ProfileDialogComponent } from './dialogs/profile-dialog/profile-dialog.component';
-import { StatementImportDialogComponent } from './dialogs/statement-import-dialog/statement-import-dialog.component';
+import { StatementReviewDialogComponent } from './dialogs/statement-review-dialog/statement-review-dialog.component';
 import { HeaderComponent } from './header/header.component';
 import { MainComponent } from './main.component';
 import { mainRoutes } from './main.routes';
 import { MainService } from './main.service';
+import { StatementImportService } from './services/statement-import.service';
 
 @NgModule({
     declarations: [
@@ -107,7 +110,7 @@ import { MainService } from './main.service';
         ProfileDialogComponent,
         CategoriesDialogComponent,
         CalendarsDialogComponent,
-        StatementImportDialogComponent,
+        StatementReviewDialogComponent,
         InputDialogComponent,
         DatepickerDialogComponent,
 
@@ -159,11 +162,14 @@ import { MainService } from './main.service';
         ShortNumberModule,
         ContentLoaderModule,
         NbTooltipModule,
+        NbDialogModule,
+        NbBadgeModule,
     ],
     providers: [
         MainService,
         CalendarService,
         CalendarMonthModelService,
+        StatementImportService,
 
         // Resolvers
         UserResolver,

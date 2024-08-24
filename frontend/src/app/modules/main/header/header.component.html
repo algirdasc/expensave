@@ -1,18 +1,30 @@
 <div class="d-flex justify-content-between">
     <div class="d-flex align-items-center">
-        <button nbButton status="primary" (click)="toggleSidebar()" id="sidebar-toggler">
-            <nb-icon icon="menu-2-outline"></nb-icon>
-        </button>
+        <div style="position: relative">
+            <button
+                nbButton
+                ghost
+                [status]="statementImportService.expenses.length ? 'danger' : 'primary'"
+                (click)="toggleSidebar()"
+                id="sidebar-toggler">
+                <nb-icon icon="menu-2-outline"></nb-icon>
+            </button>
+            <nb-badge
+                *ngIf="statementImportService.expenses.length"
+                [dotMode]="true"
+                status="danger"
+                position="top right"></nb-badge>
+        </div>
 
         <div class="mx-3 calendar-info">
             <strong class="d-block">{{ calendar?.name }}</strong>
             <small class="d-block text-hint">
                 <span title="Current balance">{{ calendar?.balance | shortNumber }}</span>
                 <span *ngIf="visibleDateBalance">
-                    |
+                    •
                     <a
                         href="#"
-                        title="This months balance"
+                        title="This month balance"
                         [nbPopover]="expenseReportComponent"
                         nbPopoverPlacement="bottom"
                         (click)="$event.preventDefault()"

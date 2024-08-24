@@ -27,6 +27,6 @@ readonly class StatementImportResolver
             }
         }
 
-        throw new RuntimeException('Supported handler for selected file not found.');
+        throw new RuntimeException('Selected bank statement file is not supported');
     }
 }

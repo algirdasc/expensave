@@ -10,3 +10,13 @@
 @include nb-install() {
     @include nb-theme-global();
 }
+
+nb-card-header.with-background,
+nb-card-footer.with-background,
+nb-list-item.with-background {
+    background: nb-theme(background-basic-color-2);
+}
+
+.font-weight-normal {
+    font-weight: normal;
+}

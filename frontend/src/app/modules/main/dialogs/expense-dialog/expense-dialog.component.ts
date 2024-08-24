@@ -1,7 +1,7 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { NbTabComponent } from '@nebular/theme';
 import { instanceToInstance } from 'class-transformer';
-import { TYPE_BALANCE_UPDATE, Category, TYPE_UNCATEGORIZED } from '../../../../api/objects/category';
+import { TYPE_BALANCE_UPDATE, Category } from '../../../../api/objects/category';
 import { Expense } from '../../../../api/objects/expense';
 import { BalanceComponent } from './components/balance/balance.component';
 import { ExpenseComponent } from './components/expense/expense.component';
@@ -16,7 +16,16 @@ export class ExpenseDialogComponent implements OnInit {
     public transfer: Expense;
     public balance: Expense;
 
-    public categoryMap: { [key: string]: Category };
+    public showTransferTab: boolean = false;
+    public showBalanceTab: boolean = false;
+    public deletable: boolean = false;
+
+    public onExpenseSubmit: () => void;
+    public onExpenseDelete: () => void;
+    public onBalanceSubmit: () => void;
+    public onBalanceDelete: () => void;
+
+    public predefinedCategories: { [key: string]: Category } = {};
 
     @ViewChild('tabExpense')
     public tabExpense: ElementRef<ExpenseComponent>;
@@ -30,15 +39,14 @@ export class ExpenseDialogComponent implements OnInit {
     private currentTab: string;
 
     public ngOnInit(): void {
-        if (!this.expense.id) {
-            this.expense.category = this.categoryMap[TYPE_UNCATEGORIZED];
-            this.expense.confirmed = true;
+        if (this.showTransferTab) {
+            this.transfer = instanceToInstance(this.expense);
         }
 
-        this.transfer = instanceToInstance(this.expense);
-
-        this.balance = instanceToInstance(this.expense);
-        this.balance.category = this.categoryMap[TYPE_BALANCE_UPDATE];
+        if (this.showBalanceTab) {
+            this.balance = instanceToInstance(this.expense);
+            this.balance.category = this.predefinedCategories[TYPE_BALANCE_UPDATE];
+        }
     }
 
     public onTabChange(tab: NbTabComponent): void {

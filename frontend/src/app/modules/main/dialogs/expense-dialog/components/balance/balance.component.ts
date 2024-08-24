@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, Input, ViewChild } from '@angular/core';
 import { NbDialogRef } from '@nebular/theme';
 import { BalanceUpdateApiService } from '../../../../../../api/balance-update.api.service';
 import { Expense } from '../../../../../../api/objects/expense';
@@ -14,6 +14,15 @@ export class BalanceComponent extends AbstractExpenseComponent {
     @ViewChild('expenseInput')
     private expenseInput: ExpenseInputComponent;
 
+    @Input()
+    public deletable: boolean = true;
+
+    @Input()
+    public onSubmit: () => void;
+
+    @Input()
+    public onDelete: () => void;
+
     public constructor(
         private balanceApiService: BalanceUpdateApiService,
         private dialogRef: NbDialogRef<ExpenseDialogComponent>
@@ -23,11 +32,11 @@ export class BalanceComponent extends AbstractExpenseComponent {
         this.balanceApiService.onBusyChange.subscribe((isBusy: boolean) => (this.isBusy = isBusy));
     }
 
-    public onSubmit(): void {
+    public onDefaultSubmit(): void {
         this.balanceApiService.save(this.expense).subscribe((expense: Expense) => this.dialogRef.close(expense));
     }
 
-    public onDelete(): void {
+    public onDefaultDelete(): void {
         this.balanceApiService.delete(this.expense.id).subscribe(() => this.dialogRef.close(true));
     }
 

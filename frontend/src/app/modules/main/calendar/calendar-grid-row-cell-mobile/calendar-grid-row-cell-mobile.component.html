@@ -1,12 +1,12 @@
-<div class="cell pe-1 text-right">
+<div class="cell pe-1 text-right no-user-selection actionable">
     <div class="d-flex align-items-center justify-content-end mb-1">
         <div *ngIf="hasUnconfirmedExpenses" class="unconfirmed-expenses me-2"></div>
         <strong>{{ day }}</strong>
     </div>
-    <small class="d-block" *ngIf="expenseBalance?.change || (expenseBalance && isCellSelected)">{{
-        expenseBalance.change | shortNumber: '.0-0'
-    }}</small>
-    <small class="d-block" *ngIf="expenseBalance?.change || (expenseBalance && isCellSelected)">{{
-        expenseBalance.balance | shortNumber: '.0-0'
-    }}</small>
+    <small class="d-block" *ngIf="expenseBalance?.change || (expenseBalance && isCellSelected)">
+        {{ expenseBalance.change | shortNumber: '.0-0' }}
+    </small>
+    <small class="d-block" *ngIf="expenseBalance?.change || (expenseBalance && isCellSelected)">
+        {{ expenseBalance.balance | shortNumber: '.0-0' }}
+    </small>
 </div>

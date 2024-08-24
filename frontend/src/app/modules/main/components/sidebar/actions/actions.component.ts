@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { NbDialogService } from '@nebular/theme';
 import { environment } from '../../../../../../environments/environment';
 import { CategoriesDialogComponent } from '../../../dialogs/categories-dialog/categories-dialog.component';
+import { StatementImportService } from '../../../services/statement-import.service';
 
 @Component({
     selector: 'app-sidebar-actions',
@@ -11,7 +12,10 @@ import { CategoriesDialogComponent } from '../../../dialogs/categories-dialog/ca
 export class ActionsComponent {
     protected readonly environment = environment;
 
-    public constructor(private dialogService: NbDialogService) {}
+    public constructor(
+        private dialogService: NbDialogService,
+        protected statementImportService: StatementImportService
+    ) {}
 
     public editCategories(): void {
         this.dialogService.open(CategoriesDialogComponent, {

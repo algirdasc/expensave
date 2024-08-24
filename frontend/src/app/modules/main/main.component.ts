@@ -10,14 +10,16 @@ import { APP_CONFIG } from '../../app.initializer';
 import { SwipeEvent } from '../../interfaces/swipe.interface';
 import { DateUtil } from '../../util/date.util';
 import { MainService, SIDEBAR_TAG } from './main.service';
+import { StatementImportService } from './services/statement-import.service';
 
 @Component({
     templateUrl: 'main.component.html',
-    styleUrls: ['main.component.scss'],
+    styleUrl: 'main.component.scss',
 })
 export class MainComponent implements OnInit {
-    public isBusy: boolean = false;
-    public isMobile: boolean;
+    protected isCalendarBusy: boolean = false;
+    protected isApplicationBusy: boolean = false;
+    protected isMobile: boolean;
 
     public constructor(
         private readonly router: Router,
@@ -27,9 +29,11 @@ export class MainComponent implements OnInit {
         private readonly dateService: NbDateService<Date>,
         private readonly zone: NgZone,
         private readonly sidebarService: NbSidebarService,
-        public readonly mainService: MainService
+        public readonly mainService: MainService,
+        private readonly statementImportService: StatementImportService
     ) {
-        this.expenseApiService.onBusyChange.subscribe((isBusy: boolean) => (this.isBusy = isBusy));
+        this.expenseApiService.onBusyChange.subscribe((isBusy: boolean) => (this.isCalendarBusy = isBusy));
+        this.mainService.isApplicationBusy.subscribe((isBusy: boolean) => (this.isApplicationBusy = isBusy));
     }
 
     public ngOnInit(): void {
@@ -62,6 +66,10 @@ export class MainComponent implements OnInit {
                 }
             }
         });
+
+        if (this.statementImportService.expenses.length) {
+            this.statementImportService.processImport();
+        }
     }
 
     public onResized(event: ResizedEvent): void {

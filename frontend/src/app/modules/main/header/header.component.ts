@@ -5,6 +5,7 @@ import { Calendar } from '../../../api/objects/calendar';
 import { DateUtil } from '../../../util/date.util';
 import { ExpenseReportComponent } from '../components/expense-report/expense-report.component';
 import { SIDEBAR_TAG } from '../main.service';
+import { StatementImportService } from '../services/statement-import.service';
 
 @Component({
     templateUrl: 'header.component.html',
@@ -32,7 +33,8 @@ export class HeaderComponent {
         private readonly dateService: NbDateService<Date>,
         private readonly sidebarService: NbSidebarService,
         private readonly router: Router,
-        private readonly activatedRoute: ActivatedRoute
+        private readonly activatedRoute: ActivatedRoute,
+        protected readonly statementImportService: StatementImportService
     ) {}
 
     public toggleSidebar(): void {

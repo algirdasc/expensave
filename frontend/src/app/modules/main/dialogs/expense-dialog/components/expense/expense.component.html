@@ -1,4 +1,9 @@
-<form #expenseForm="ngForm" [nbSpinner]="isBusy" (ngSubmit)="onSubmit()" autocomplete="off" class="h-100">
+<form
+    #expenseForm="ngForm"
+    [nbSpinner]="isBusy"
+    (ngSubmit)="onSubmit ? onSubmit() : onDefaultSubmit()"
+    autocomplete="off"
+    class="h-100">
     <div class="d-flex flex-column h-100">
         <app-expense-input [(expense)]="expense" #expenseInput />
 
@@ -11,6 +16,10 @@
             <app-expense-dialog-user-list-item [user]="expense.user" />
         </div>
 
-        <app-expense-dialog-footer [form]="expenseForm" [expense]="expense" (delete)="onDelete()" />
+        <app-expense-dialog-footer
+            [form]="expenseForm"
+            [expense]="expense"
+            [deletable]="deletable"
+            (delete)="onDelete ? onDelete() : onDefaultDelete" />
     </div>
 </form>

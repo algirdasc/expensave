@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { NbDateService } from '@nebular/theme';
+import { Subject } from 'rxjs';
 import { CalendarApiService } from '../../api/calendar.api.service';
 import { Calendar } from '../../api/objects/calendar';
 import { Category } from '../../api/objects/category';
@@ -20,6 +21,7 @@ export class MainService {
     public visibleDateBalance: number = 0;
     public expenses: Expense[] = [];
     public expenseBalances: ExpenseBalance[] = [];
+    public isApplicationBusy: Subject<boolean> = new Subject<boolean>();
 
     private _calendar: Calendar;
 

@@ -3,9 +3,8 @@ import { Expense } from '../../../../api/objects/expense';
 
 @Component({
     selector: 'app-expense-list-items',
-    styleUrl: 'expense-list-items.component.scss',
     template: ` <nb-list>
-        <nb-list-item class="item-header">
+        <nb-list-item class="with-background">
             <small class="text-hint w-100">{{ header }}</small>
             <span>{{ totalExpensesAmount | shortNumber }}</span>
         </nb-list-item>

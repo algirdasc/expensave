@@ -27,6 +27,15 @@ nb-list nb-list-item {
 
 .actionable {
     cursor: pointer;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.no-user-selection {
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
 }
 
 nb-card.dialog {

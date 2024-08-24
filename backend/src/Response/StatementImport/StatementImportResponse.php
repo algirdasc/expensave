@@ -5,25 +5,25 @@ declare(strict_types=1);
 namespace App\Response\StatementImport;
 
 use App\Const\ContextGroupConst;
+use App\Entity\Expense;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 readonly class StatementImportResponse
 {
     /**
-     * @param array<string, array<string>> $errors
+     * @param array<Expense> $expenses
      */
     public function __construct(
-        private array $errors
+        private array $expenses
     ) {
-
     }
 
     /**
-     * @return array<string, array<string>>
+     * @return array<Expense>
      */
     #[Groups(ContextGroupConst::API_ALL)]
-    public function getErrors(): array
+    public function getExpenses(): array
     {
-        return $this->errors;
+        return $this->expenses;
     }
 }

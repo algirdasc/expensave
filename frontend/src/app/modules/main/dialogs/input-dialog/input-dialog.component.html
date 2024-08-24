@@ -1,9 +1,9 @@
 <nb-card size="small">
-    <nb-card-header i18n>
-        <button nbButton status="primary" ghost (click)="dialogRef.close()">
-            <nb-icon icon="arrow-back-outline"></nb-icon>
-        </button>
+    <nb-card-header class="d-flex align-items-center justify-content-between">
         {{ title }}
+        <button nbButton status="primary" ghost (click)="dialogRef.close()">
+            <nb-icon icon="close-outline"></nb-icon>
+        </button>
     </nb-card-header>
 
     <nb-card-body class="p-0 overflow-hidden">
