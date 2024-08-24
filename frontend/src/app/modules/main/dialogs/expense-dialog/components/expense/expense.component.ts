@@ -17,6 +17,12 @@ export class ExpenseComponent extends AbstractExpenseComponent {
     @Input()
     public deletable: boolean = true;
 
+    @Input()
+    public onSubmit: () => void;
+
+    @Input()
+    public onDelete: () => void;
+
     public constructor(
         private expenseApiService: ExpenseApiService,
         private dialogRef: NbDialogRef<ExpenseDialogComponent>
@@ -26,13 +32,11 @@ export class ExpenseComponent extends AbstractExpenseComponent {
         this.expenseApiService.onBusyChange.subscribe((isBusy: boolean) => (this.isBusy = isBusy));
     }
 
-    @Input()
-    public onSubmit(): void {
+    public onDefaultSubmit(): void {
         this.expenseApiService.save(this.expense).subscribe((expense: Expense) => this.dialogRef.close(expense));
     }
 
-    @Input()
-    public onDelete(): void {
+    public onDefaultDelete(): void {
         this.expenseApiService.delete(this.expense.id).subscribe(() => this.dialogRef.close(true));
     }
 

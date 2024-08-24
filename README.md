@@ -44,7 +44,7 @@ as well as improve motivation and helps me understand, that this project is usef
 
 - Multiple user support
 - Shared expense calendars between family members
-- Import your balance from financial institutions in various formats (still work in progress)
+- Import your balance from financial institutions in various [formats](docs/IMPORT_FORMATS.md) 
 - Reports on your spending and income habits
 - Responsive design
 - Mobile [PWA](https://web.dev/explore/progressive-web-apps) application

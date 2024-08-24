@@ -11,6 +11,8 @@ import { MainService } from '../main.service';
 export const IMPORT_KEY = 'statementImport';
 export const IMPORT_COUNT_KEY = 'statementImportCount';
 
+const TOASTR_TITLE = 'Bank statement import';
+
 @Injectable()
 export class StatementImportService {
     public expenses: Expense[] = [];
@@ -22,7 +24,7 @@ export class StatementImportService {
         private toastrService: NbToastrService
     ) {
         this.statementImportApiService.onBusyChange.subscribe((isBusy: boolean) =>
-            mainService.isApplicationBusy.next(isBusy)
+            this.mainService.isApplicationBusy.next(isBusy)
         );
 
         this.reloadImportStorage();
@@ -43,8 +45,8 @@ export class StatementImportService {
             this.statementImportApiService.import(calendar, formData).subscribe((response: StatementImportResponse) => {
                 if (response.expenses.length === 0) {
                     this.toastrService.warning(
-                        'Statement file does not contain any importable transactions. Want to select another one?',
-                        'Bank statement import'
+                        'Selected file does not contain any importable transactions',
+                        TOASTR_TITLE
                     );
 
                     return;
@@ -100,7 +102,7 @@ export class StatementImportService {
                  */
                 switch (result) {
                     case true:
-                        this.toastrService.success('Transactions are queued for import', 'Bank statement import');
+                        this.toastrService.success('Transactions are being imported, please be patient', TOASTR_TITLE);
                         this.clearImportStorage();
                         break;
                     case false:

@@ -1,4 +1,4 @@
-<form #balanceForm="ngForm" [nbSpinner]="isBusy" (ngSubmit)="onSubmit()" autocomplete="off" class="h-100">
+<form #balanceForm="ngForm" [nbSpinner]="isBusy" (ngSubmit)="onSubmit ? onSubmit() : onDefaultSubmit()" autocomplete="off" class="h-100">
     <div class="d-flex flex-column h-100">
         <app-expense-input [expense]="expense" [labelEditable]="false" #expenseInput />
 
@@ -14,6 +14,6 @@
             [form]="balanceForm"
             [expense]="expense"
             [deletable]="deletable"
-            (delete)="onDelete()" />
+            (delete)="onDelete ? onDelete() : onDefaultDelete()" />
     </div>
 </form>
