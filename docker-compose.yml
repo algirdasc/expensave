@@ -5,7 +5,7 @@ services:
     ports:
       - 18000:18000
     env_file:
-      - backend/.env
+      - environment
     depends_on:
       - database
 
@@ -14,7 +14,7 @@ services:
     command: php bin/console messenger:consume --all -v
     restart: unless-stopped
     env_file:
-      - backend/.env
+      - environment
     depends_on:
       - application
 
