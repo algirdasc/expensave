@@ -2,7 +2,7 @@
 
 namespace App\Handler\Request;
 
-use App\Request\AbstractRequest;
+use App\Http\Request\AbstractRequest;
 use ReflectionNamedType;
 use ReflectionProperty;
 use Symfony\Component\PropertyInfo\Extractor\PhpDocExtractor;

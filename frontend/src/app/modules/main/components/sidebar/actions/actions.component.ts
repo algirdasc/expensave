@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { NbDialogService } from '@nebular/theme';
 import { environment } from '../../../../../../environments/environment';
 import { CategoriesDialogComponent } from '../../../dialogs/categories-dialog/categories-dialog.component';
+import { CategoryRuleDialogComponent } from '../../../dialogs/category-rule-dialog/category-rule-dialog.component';
 import { StatementImportService } from '../../../services/statement-import.service';
 
 @Component({
@@ -22,6 +23,12 @@ export class ActionsComponent {
             context: {
                 isSelectable: false,
             },
+        });
+    }
+
+    public editCategoryRules(): void {
+        this.dialogService.open(CategoryRuleDialogComponent, {
+            context: {},
         });
     }
 }

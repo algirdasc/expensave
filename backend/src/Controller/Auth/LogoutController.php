@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Controller\Auth;
 
 use App\Controller\AbstractApiController;
-use App\Response\EmptyResponse;
+use App\Http\Response\EmptyResponse;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Attribute\Route;

@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace App\Controller\Report;
 
 use App\Factory\BalanceMetaFactory;
+use App\Http\Response\Report\ExpenseReportResponse;
 use App\Repository\CalendarRepository;
 use App\Repository\ExpenseRepository;
-use App\Response\Report\ExpenseReportResponse;
 use App\Service\Report\MonthlyExpenseReportService;
 use DateTime;
 use Symfony\Component\HttpFoundation\JsonResponse;

@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Handler\Error;
 
 use App\Exception\UnhandledException;
-use App\Response\Error\ErrorResponseMessage;
+use App\Http\Response\Error\ErrorResponseMessage;
 use Symfony\Component\HttpFoundation\Response;
 use Throwable;
 

@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace App\Controller\Auth;
 
 use App\Controller\AbstractApiController;
-use App\Request\Auth\PasswordForgotRequest;
-use App\Request\Auth\PasswordResetRequest;
-use App\Response\EmptyResponse;
+use App\Http\Request\Auth\PasswordForgotRequest;
+use App\Http\Request\Auth\PasswordResetRequest;
+use App\Http\Response\EmptyResponse;
 use App\Service\PasswordResetService;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;

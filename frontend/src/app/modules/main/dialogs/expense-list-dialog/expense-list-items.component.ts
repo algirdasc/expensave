@@ -14,14 +14,14 @@ import { Expense } from '../../../../api/objects/expense';
             class="actionable"
             *ngFor="let expense of expenses"
             (click)="expenseClick.emit(expense)">
-            <nb-icon [icon]="icon" class="flex-shrink-0 me-2" [ngStyle]="{ color: expense.category?.color }"></nb-icon>
-            <div class="text-truncate w-100 mx-3">
+            <nb-icon [icon]="icon" class="flex-shrink-0 me-3" [ngStyle]="{ color: expense.category?.color }"></nb-icon>
+            <div class="text-truncate w-100">
                 {{ expense.label }}
                 <small class="d-flex align-items-center text-hint">
                     {{ expense.category.name }}
                 </small>
             </div>
-            <span>{{ expense.amount | shortNumber }}</span>
+            <span class="ms-3">{{ expense.amount | shortNumber }}</span>
         </nb-list-item>
     </nb-list>`,
     animations: slideAnimation,

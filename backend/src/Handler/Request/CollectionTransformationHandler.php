@@ -2,7 +2,7 @@
 
 namespace App\Handler\Request;
 
-use App\Request\AbstractRequest;
+use App\Http\Request\AbstractRequest;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\EntityManagerInterface;

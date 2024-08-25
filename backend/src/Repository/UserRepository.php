@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Repository;
 
 use App\Entity\User;
-use App\Request\Auth\RegistrationRequest;
+use App\Http\Request\Auth\RegistrationRequest;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bridge\Doctrine\Security\User\UserLoaderInterface;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;

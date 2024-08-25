@@ -9,11 +9,11 @@ use App\Const\StringConst;
 use App\Controller\AbstractApiController;
 use App\Entity\Expense;
 use App\Entity\User;
+use App\Http\Request\BalanceUpdate\CreateBalanceUpdateRequest;
+use App\Http\Request\BalanceUpdate\UpdateBalanceUpdateRequest;
+use App\Http\Response\EmptyResponse;
 use App\Repository\CategoryRepository;
 use App\Repository\ExpenseRepository;
-use App\Request\BalanceUpdate\CreateBalanceUpdateRequest;
-use App\Request\BalanceUpdate\UpdateBalanceUpdateRequest;
-use App\Response\EmptyResponse;
 use App\Security\Voters\CalendarVoter;
 use App\Security\Voters\ExpenseVoter;
 use App\Service\BalanceCalculatorService;
@@ -62,7 +62,7 @@ class BalanceUpdateController extends AbstractApiController
     #[Route('/{balanceUpdate}', name: 'update', methods: Request::METHOD_PUT)]
     public function update(UpdateBalanceUpdateRequest $request, Expense $balanceUpdate): JsonResponse
     {
-        $this->denyAccessUnlessGranted(ExpenseVoter::EDIT, $balanceUpdate);
+        $this->denyAccessUnlessGranted(ExpenseVoter::UPDATE, $balanceUpdate);
         $this->denyAccessUnlessGranted(CalendarVoter::ADD_EXPENSE, $request->getCalendar());
 
         $amount = $this->balanceCalculatorService->calculateAmount(

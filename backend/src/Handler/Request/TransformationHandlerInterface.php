@@ -2,7 +2,7 @@
 
 namespace App\Handler\Request;
 
-use App\Request\AbstractRequest;
+use App\Http\Request\AbstractRequest;
 use ReflectionProperty;
 use Symfony\Component\DependencyInjection\Attribute\AutoconfigureTag;
 

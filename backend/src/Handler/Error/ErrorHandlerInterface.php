@@ -2,7 +2,7 @@
 
 namespace App\Handler\Error;
 
-use App\Response\Error\ErrorResponseMessage;
+use App\Http\Response\Error\ErrorResponseMessage;
 use Symfony\Component\DependencyInjection\Attribute\AutoconfigureTag;
 use Throwable;
 

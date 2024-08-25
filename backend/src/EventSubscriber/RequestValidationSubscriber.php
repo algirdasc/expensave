@@ -6,7 +6,7 @@ namespace App\EventSubscriber;
 
 use App\Controller\AbstractApiController;
 use App\Exception\RequestValidationException;
-use App\Request\AbstractRequest;
+use App\Http\Request\AbstractRequest;
 use App\Service\ValidationService;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpKernel\Event\ControllerArgumentsEvent;

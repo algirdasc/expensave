@@ -13,7 +13,7 @@ class ExpenseVoter extends Voter
 {
     public const VIEW = 'view';
 
-    public const EDIT = 'edit';
+    public const UPDATE = 'update';
     public const DELETE = 'delete';
 
     protected function supports(string $attribute, mixed $subject): bool

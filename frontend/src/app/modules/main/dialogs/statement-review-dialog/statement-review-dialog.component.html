@@ -31,7 +31,7 @@
                     [class.text-hint]="!expense.confirmed">
                     <nb-icon
                         [icon]="expense.confirmed ? 'radio-button-on' : 'radio-button-off'"
-                        class="flex-shrink-0 me-2"
+                        class="flex-shrink-0 me-3"
                         [ngStyle]="{ color: expense.category?.color }"></nb-icon>
                     <div class="text-truncate w-100">
                         {{ expense.label }}
@@ -39,7 +39,7 @@
                             {{ expense.category.name }}
                         </small>
                     </div>
-                    <span>{{ expense.amount | shortNumber }}</span>
+                    <span class="ms-3">{{ expense.amount | shortNumber }}</span>
                 </nb-list-item>
             </nb-list>
         </div>

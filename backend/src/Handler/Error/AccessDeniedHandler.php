@@ -2,10 +2,9 @@
 
 namespace App\Handler\Error;
 
-use App\Response\Error\ErrorResponseMessage;
+use App\Http\Response\Error\ErrorResponseMessage;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
-use Symfony\Component\Security\Core\Exception\AuthenticationException;
 use Throwable;
 
 class AccessDeniedHandler implements ErrorHandlerInterface
