@@ -19,8 +19,6 @@ jobs:
           MARIADB_USER: expensave
           MARIADB_PASSWORD: expensave
           MARIADB_DATABASE: expensave_test
-        ports:
-          - 3306:3306
         options: --health-cmd="healthcheck.sh --connect --innodb_initialized" --health-interval=10s --health-timeout=5s --health-retries=3
     steps:
       - name: Code checkout
