@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NbDateService } from '@nebular/theme';
 import { finalize } from 'rxjs/operators';
+import { slideAnimation } from '../../../../animations/slide.animation';
 import { CategoryBalance } from '../../../../api/objects/category-balance';
 import { ReportsApiService } from '../../../../api/reports.api.service';
 import { CategoryExpenseReportResponse } from '../../../../api/response/category-expense-report.response';
@@ -11,6 +12,7 @@ import { MainService } from '../../main.service';
     selector: 'app-expense-report',
     templateUrl: 'expense-report.component.html',
     styleUrl: 'expense-report.component.scss',
+    animations: slideAnimation,
 })
 export class ExpenseReportComponent implements OnInit {
     public isBusy: boolean = true;

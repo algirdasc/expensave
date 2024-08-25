@@ -7,6 +7,7 @@
     </nb-card-header>
     <nb-list>
         <nb-list-item
+            [@slideAnimation]
             class="actionable"
             *ngFor="let calendar of calendars"
             [class.active]="isActive(calendar)"

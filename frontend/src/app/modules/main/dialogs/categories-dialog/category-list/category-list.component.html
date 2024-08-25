@@ -8,6 +8,7 @@
     <nb-list>
         <nb-list-item
             class="actionable"
+            [@slideAnimation]
             *ngFor="let category of categories"
             [class.active]="isActive(category)"
             [style.background-color]="isActive(category) ? category.color : ''"

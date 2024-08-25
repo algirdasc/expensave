@@ -1,10 +1,12 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { slideAnimation } from '../../../../../animations/slide.animation';
 import { Calendar } from '../../../../../api/objects/calendar';
 
 @Component({
     selector: 'app-calendar-list',
     templateUrl: 'calendar-list.component.html',
     styleUrls: ['calendar-list.component.scss'],
+    animations: slideAnimation,
 })
 export class CalendarListComponent {
     @Input() public calendars: Calendar[];

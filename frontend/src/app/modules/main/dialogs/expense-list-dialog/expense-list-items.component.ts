@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { slideAnimation } from '../../../../animations/slide.animation';
 import { Expense } from '../../../../api/objects/expense';
 
 @Component({
@@ -8,14 +9,22 @@ import { Expense } from '../../../../api/objects/expense';
             <small class="text-hint w-100">{{ header }}</small>
             <span>{{ totalExpensesAmount | shortNumber }}</span>
         </nb-list-item>
-        <nb-list-item class="actionable" *ngFor="let expense of expenses" (click)="expenseClick.emit(expense)">
+        <nb-list-item
+            [@slideAnimation]
+            class="actionable"
+            *ngFor="let expense of expenses"
+            (click)="expenseClick.emit(expense)">
             <nb-icon [icon]="icon" class="flex-shrink-0 me-2" [ngStyle]="{ color: expense.category?.color }"></nb-icon>
             <div class="text-truncate w-100 mx-3">
                 {{ expense.label }}
+                <small class="d-flex align-items-center text-hint">
+                    {{ expense.category.name }}
+                </small>
             </div>
             <span>{{ expense.amount | shortNumber }}</span>
         </nb-list-item>
     </nb-list>`,
+    animations: slideAnimation,
 })
 export class ExpenseListItemsComponent implements OnInit {
     @Input({ required: true })
