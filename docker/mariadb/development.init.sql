@@ -1,5 +1,5 @@
-CREATE DATABASE IF NOT EXISTS 'dev-expensave';
-CREATE DATABASE IF NOT EXISTS 'dev-expensave-test';
+CREATE DATABASE IF NOT EXISTS dev_expensave;
+CREATE DATABASE IF NOT EXISTS dev_expensave_test;
 
-GRANT ALL PRIVILEGES ON 'dev-expensave-test'.* TO 'dev-expensave'@'%';
+GRANT ALL PRIVILEGES ON dev_expensave_test.* TO 'dev_expensave'@'%';
 FLUSH PRIVILEGES;

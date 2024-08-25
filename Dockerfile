@@ -98,4 +98,5 @@ RUN docker-php-ext-enable \
     xdebug
 COPY docker/php/docker-php-ext-xdebug.ini $PHP_INI_DIR/conf.d/
 RUN a2ensite development
+
 EXPOSE 18001
