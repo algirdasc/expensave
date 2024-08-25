@@ -4,10 +4,9 @@ services:
       target: development-backend
     volumes:
       - '.:/opt/expensave'
+    env_file:
+      - environment
     environment:
-      LOCALE: en
-      TZ: Europe/Vilnius
-      REGISTRATION_DISABLED: no
       DATABASE_NAME: dev_expensave
       DATABASE_USER: dev_expensave
       DATABASE_PASS: dev_expensave
@@ -20,9 +19,8 @@ services:
   dev_frontend:
     build:
       target: development-frontend
-    environment:
-      LOCALE: en
-      REGISTRATION_DISABLED: no
+    env_file:
+      - environment
     volumes:
       - '.:/opt/expensave'
     ports:

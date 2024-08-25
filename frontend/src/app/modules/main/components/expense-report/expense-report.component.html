@@ -1,27 +1,18 @@
 <nb-card class="mb-0 border-0">
-    <nb-card-header class="with-background font-weight-normal text-center">
+    <nb-card-header class="with-background font-weight-normal text-center border-bottom">
         <span class="text-hint">{{ dateFrom | date: 'mediumDate' }}</span>
         <nb-icon icon="arrow-forward-outline" class="mx-3"></nb-icon>
         <span class="text-hint">{{ dateTo | date: 'mediumDate' }}</span>
     </nb-card-header>
     <nb-card-body class="p-0">
-        <div *ngIf="isBusy" class="p-3">
-            <content-loader viewBox="0 0 300 88" *ngFor="let arr of createRange(3)">
-                <svg:circle cx="10" cy="20" r="8" />
-                <svg:rect x="25" y="15" rx="5" ry="5" width="270" height="10" />
-                <svg:circle cx="10" cy="50" r="8" />
-                <svg:rect x="25" y="45" rx="5" ry="5" width="270" height="10" />
-                <svg:circle cx="10" cy="80" r="8" />
-                <svg:rect x="25" y="75" rx="5" ry="5" width="270" height="10" />
-            </content-loader>
-        </div>
-        <nb-list *ngIf="!isBusy">
-            <nb-list-item *ngFor="let categoryBalance of categoryBalances">
+        <div class="p-5" *ngIf="isBusy" [nbSpinner]="true"></div>
+        <nb-list>
+            <nb-list-item [@slideAnimation] *ngFor="let categoryBalance of categoryBalances">
                 <nb-icon
                     icon="radio-button-on"
                     class="flex-shrink-0 me-2"
                     [style.color]="categoryBalance.category.color"></nb-icon>
-                <div class="text-truncate w-100 mx-3">
+                <div class="text-truncate w-100">
                     {{ categoryBalance.category?.name }}
                 </div>
                 <span>{{ categoryBalance.change | shortNumber }}</span>

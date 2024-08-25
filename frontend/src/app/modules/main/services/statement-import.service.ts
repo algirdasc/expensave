@@ -1,11 +1,17 @@
 import { Injectable } from '@angular/core';
 import { NbDialogService, NbToastrService } from '@nebular/theme';
 import { plainToInstance } from 'class-transformer';
+import { ExpenseApiService } from '../../../api/expense.api.service';
 import { Calendar } from '../../../api/objects/calendar';
 import { Expense } from '../../../api/objects/expense';
 import { StatementImportResponse } from '../../../api/response/statement-import.response';
 import { StatementImportApiService } from '../../../api/statement-import.api.service';
-import { StatementReviewDialogComponent } from '../dialogs/statement-review-dialog/statement-review-dialog.component';
+import { CalendarService } from '../calendar/calendar.service';
+import {
+    DIALOG_ACTION_CANCEL,
+    DIALOG_ACTION_IMPORT,
+    StatementReviewDialogComponent,
+} from '../dialogs/statement-review-dialog/statement-review-dialog.component';
 import { MainService } from '../main.service';
 
 export const IMPORT_KEY = 'statementImport';
@@ -21,6 +27,8 @@ export class StatementImportService {
         private dialogService: NbDialogService,
         private mainService: MainService,
         private statementImportApiService: StatementImportApiService,
+        private expenseApiService: ExpenseApiService,
+        private calendarService: CalendarService,
         private toastrService: NbToastrService
     ) {
         this.statementImportApiService.onBusyChange.subscribe((isBusy: boolean) =>
@@ -90,25 +98,35 @@ export class StatementImportService {
             .open(StatementReviewDialogComponent, {
                 context: {
                     expenses: this.expenses,
-                    onSave: (expenses: Expense[]) => {
+                    onImportChange: (expenses: Expense[]) => {
                         this.updateImportStorage(expenses);
                     },
                 },
             })
-            .onClose.subscribe(result => {
-                /**
-                 * trye = queued import
-                 * false = canceled import
-                 */
-                switch (result) {
-                    case true:
-                        this.toastrService.success('Transactions are being imported, please be patient', TOASTR_TITLE);
-                        this.clearImportStorage();
+            .onClose.subscribe((result: { action: string; calendarRefreshNeeded: boolean }) => {
+                switch (result.action) {
+                    case DIALOG_ACTION_IMPORT:
+                        this.expenseApiService.import(this.expenses).subscribe(() => {
+                            this.toastrService.success(
+                                'Transactions are being imported, please be patient',
+                                TOASTR_TITLE
+                            );
+
+                            this.clearImportStorage();
+                        });
                         break;
-                    case false:
+                    case DIALOG_ACTION_CANCEL:
                         this.clearImportStorage();
                         break;
                 }
+
+                if (result.calendarRefreshNeeded) {
+                    this.mainService.refreshCalendar();
+                }
             });
+    }
+
+    public importStorage(): void {
+        this.expenseApiService.import(this.expenses).subscribe(() => {});
     }
 }

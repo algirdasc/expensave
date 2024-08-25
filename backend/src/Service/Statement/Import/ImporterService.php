@@ -42,6 +42,10 @@ readonly class ImporterService
         }
 
         if ($category === null) {
+            $category = $this->expenseRepository->findUserSuggestion($user, $row->getLabel())?->getCategory();
+        }
+
+        if ($category === null) {
             /** @var Category $category */
             $category = $this->categoryRepository->findOneBy(['type' => CategoryType::UNCATEGORIZED]);
         }

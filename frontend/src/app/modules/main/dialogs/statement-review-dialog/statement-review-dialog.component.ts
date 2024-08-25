@@ -1,28 +1,38 @@
 import { DatePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { NbDialogRef, NbDialogService } from '@nebular/theme';
-import { ExpenseApiService } from '../../../../api/expense.api.service';
+import { slideAnimation } from '../../../../animations/slide.animation';
 import { Expense } from '../../../../api/objects/expense';
 import { APP_CONFIG } from '../../../../app.initializer';
 import { ConfirmDialogComponent } from '../confirm-dialog/confirm-dialog.component';
 import { ExpenseDialogComponent } from '../expense-dialog/expense-dialog.component';
 
+export const DIALOG_ACTION_IMPORT = 'import';
+export const DIALOG_ACTION_CANCEL = 'cancel';
+export const DIALOG_ACTION_CLOSE = 'close';
+
 @Component({
     templateUrl: 'statement-review-dialog.component.html',
     styleUrl: 'statement-review-dialog.component.scss',
+    animations: slideAnimation,
 })
 export class StatementReviewDialogComponent implements OnInit {
     public expenses: Expense[] = [];
-    public onSave: (expenses: Expense[]) => void;
+    public onImportChange: (expenses: Expense[]) => void;
 
-    protected totalExpensesAmount: number = 0;
     protected groupedByDates: { [key: string]: Expense[] } = {};
+    protected totalExpensesAmountByDates: { [key: string]: number } = {};
+    protected totalExpensesAmount: number = 0;
+
+    private datePipe: DatePipe;
+    protected calendarRefreshNeeded: boolean = false;
 
     public constructor(
         protected readonly dialogRef: NbDialogRef<StatementReviewDialogComponent>,
-        private readonly expenseApiService: ExpenseApiService,
         private readonly dialogService: NbDialogService
-    ) {}
+    ) {
+        this.datePipe = new DatePipe(APP_CONFIG.locale);
+    }
 
     public ngOnInit(): void {
         this.reloadGroupedExpenses();
@@ -35,28 +45,29 @@ export class StatementReviewDialogComponent implements OnInit {
                 showTransferTab: false,
                 showBalanceTab: false,
                 deletable: true,
-                onExpenseSubmit: () => {
-                    this.onSave(this.expenses);
-                    expenseDialog.close();
-                },
                 onExpenseDelete: () => {
-                    const index = this.expenses.indexOf(expense);
-                    if (index === -1) {
-                        return;
-                    }
+                    this.removeExpenseFromList(expense);
 
-                    this.expenses.splice(index, 1);
-                    this.onSave(this.expenses);
-
-                    this.reloadGroupedExpenses();
                     expenseDialog.close();
 
                     // Close review if no expenses to import is left
                     if (!this.expenses.length) {
-                        this.dialogRef.close();
+                        this.dialogRef.close({
+                            action: DIALOG_ACTION_CLOSE,
+                            calendarRefreshNeeded: this.calendarRefreshNeeded,
+                        });
                     }
                 },
             },
+        });
+
+        expenseDialog.onClose.subscribe((savedExpense: Expense) => {
+            if (!savedExpense) {
+                return;
+            }
+
+            this.removeExpenseFromList(expense);
+            this.calendarRefreshNeeded = true;
         });
     }
 
@@ -69,8 +80,9 @@ export class StatementReviewDialogComponent implements OnInit {
             })
             .onClose.subscribe((result: boolean) => {
                 if (result) {
-                    this.expenseApiService.import(this.expenses).subscribe(() => {
-                        this.dialogRef.close(true);
+                    this.dialogRef.close({
+                        action: DIALOG_ACTION_IMPORT,
+                        calendarRefreshNeeded: this.calendarRefreshNeeded,
                     });
                 }
             });
@@ -85,28 +97,49 @@ export class StatementReviewDialogComponent implements OnInit {
             })
             .onClose.subscribe((result: boolean) => {
                 if (result) {
-                    this.dialogRef.close(false);
+                    this.dialogRef.close({
+                        action: DIALOG_ACTION_CANCEL,
+                        calendarRefreshNeeded: this.calendarRefreshNeeded,
+                    });
                 }
             });
     }
 
     private reloadGroupedExpenses(): void {
-        const datePipe = new DatePipe(APP_CONFIG.locale);
-
         this.groupedByDates = {};
+        this.totalExpensesAmountByDates = {};
         this.totalExpensesAmount = 0;
 
         this.expenses.forEach((expense: Expense) => {
             this.totalExpensesAmount += expense.amount;
+            const expenseGroup = this.expenseGroup(expense);
 
-            const createdAt = datePipe.transform(expense.createdAt);
-            if (!this.groupedByDates[createdAt]) {
-                this.groupedByDates[createdAt] = [];
+            if (!this.groupedByDates[expenseGroup]) {
+                this.groupedByDates[expenseGroup] = [];
+                this.totalExpensesAmountByDates[expenseGroup] = 0;
             }
 
-            this.groupedByDates[createdAt].push(expense);
+            this.groupedByDates[expenseGroup].push(expense);
+            this.totalExpensesAmountByDates[expenseGroup] += expense.amount;
         });
     }
 
+    public removeExpenseFromList(expense: Expense): void {
+        const index = this.expenses.indexOf(expense);
+        if (index === -1) {
+            return;
+        }
+
+        this.expenses.splice(index, 1);
+
+        this.reloadGroupedExpenses();
+        this.onImportChange(this.expenses);
+    }
+
+    private expenseGroup(expense: Expense): string {
+        return this.datePipe.transform(expense.createdAt);
+    }
+
     protected readonly Object = Object;
+    protected readonly DIALOG_ACTION_CLOSE = DIALOG_ACTION_CLOSE;
 }
