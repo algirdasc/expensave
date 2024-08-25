@@ -12,7 +12,7 @@ jobs:
     name: Backend code quality checks
     runs-on: ubuntu-24.04
     services:
-      mariadb:
+      database:
         image: mariadb:10.6
         env:
           MARIADB_RANDOM_ROOT_PASSWORD: yes
