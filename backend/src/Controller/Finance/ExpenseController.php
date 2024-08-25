@@ -10,18 +10,17 @@ use App\Entity\Expense;
 use App\Entity\User;
 use App\Enum\CalendarPermission;
 use App\Enum\ExpensePermission;
+use App\Http\Request\Expense\CreateExpenseRequest;
+use App\Http\Request\Expense\ImportExpenseRequest;
+use App\Http\Request\Expense\SuggestRequest;
+use App\Http\Request\Expense\UpdateExpenseRequest;
+use App\Http\Response\EmptyResponse;
 use App\Message\ImportExpenseMessage;
 use App\Repository\ExpenseRepository;
-use App\Request\Expense\CreateExpenseRequest;
-use App\Request\Expense\ImportExpenseRequest;
-use App\Request\Expense\SuggestRequest;
-use App\Request\Expense\UpdateExpenseRequest;
-use App\Response\EmptyResponse;
 use App\Security\Voters\CalendarVoter;
 use App\Security\Voters\ExpenseVoter;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Messenger\Exception\ExceptionInterface;
 use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\CurrentUser;
@@ -66,7 +65,7 @@ class ExpenseController extends AbstractApiController
     #[Route('/{expense}', name: 'update', methods: Request::METHOD_PUT)]
     public function update(UpdateExpenseRequest $request, Expense $expense): JsonResponse
     {
-        $this->denyAccessUnlessGranted(ExpenseVoter::EDIT, $expense);
+        $this->denyAccessUnlessGranted(ExpenseVoter::UPDATE, $expense);
         $this->denyAccessUnlessGranted(CalendarVoter::ADD_EXPENSE, $request->getCalendar());
 
         $expense

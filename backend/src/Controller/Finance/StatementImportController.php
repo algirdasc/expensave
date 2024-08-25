@@ -6,13 +6,10 @@ namespace App\Controller\Finance;
 
 use App\Controller\AbstractApiController;
 use App\Entity\Calendar;
-use App\Exception\StatementImportException;
-use App\Response\Error\ErrorResponse;
-use App\Response\StatementImport\StatementImportResponse;
+use App\Http\Response\StatementImport\StatementImportResponse;
 use App\Security\Voters\CalendarVoter;
 use App\Service\Statement\Import\ImporterService;
 use App\Service\Statement\Import\Resolver\StatementImportResolver;
-use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;

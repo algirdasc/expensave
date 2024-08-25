@@ -1,0 +1,13 @@
+<div [nbSpinner]="this.isBusy">
+    <app-category-rule-list
+        *ngIf="!selectedCategoryRule"
+        [categoryRules]="categoryRules"
+        (categoryRuleSelect)="selectCategoryRule($event)"></app-category-rule-list>
+    <app-category-rule-edit
+        *ngIf="selectedCategoryRule"
+        [categories]="categories"
+        [categoryRule]="selectedCategoryRule"
+        (categoryRuleSave)="saveSelectedCategoryRule()"
+        (categoryRuleDelete)="deleteSelectedCategoryRule()"
+        (categoryRuleClose)="selectedCategoryRule = undefined"></app-category-rule-edit>
+</div>

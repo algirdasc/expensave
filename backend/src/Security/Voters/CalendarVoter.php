@@ -13,7 +13,7 @@ use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 class CalendarVoter extends Voter
 {
     public const VIEW = 'view';
-    public const EDIT = 'edit';
+    public const UPDATE = 'update';
     public const DELETE = 'delete';
     public const ADD_EXPENSE = 'add_expense';
     public const IMPORT = 'import';

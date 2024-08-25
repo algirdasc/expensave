@@ -19,6 +19,7 @@ import {
     NbListModule,
     NbPopoverModule,
     NbRadioModule,
+    NbSelectModule,
     NbSidebarModule,
     NbSpinnerModule,
     NbTabsetModule,
@@ -55,6 +56,9 @@ import { CalendarsDialogComponent } from './dialogs/calendars-dialog/calendars-d
 import { CategoriesDialogComponent } from './dialogs/categories-dialog/categories-dialog.component';
 import { CategoryEditComponent } from './dialogs/categories-dialog/category-edit/category-edit.component';
 import { CategoryListComponent } from './dialogs/categories-dialog/category-list/category-list.component';
+import { CategoryRuleDialogComponent } from './dialogs/category-rule-dialog/category-rule-dialog.component';
+import { CategoryRuleEditComponent } from './dialogs/category-rule-dialog/category-rule-edit/category-rule-edit.component';
+import { CategoryRuleListComponent } from './dialogs/category-rule-dialog/category-rule-list/category-rule-list.component';
 import { ConfirmDialogComponent } from './dialogs/confirm-dialog/confirm-dialog.component';
 import { DatepickerDialogComponent } from './dialogs/datepicker-dialog/datepicker-dialog.component';
 import { BalanceComponent } from './dialogs/expense-dialog/components/balance/balance.component';
@@ -113,6 +117,7 @@ import { StatementImportService } from './services/statement-import.service';
         StatementReviewDialogComponent,
         InputDialogComponent,
         DatepickerDialogComponent,
+        CategoryRuleDialogComponent,
 
         // Dialog components
         CalendarListComponent,
@@ -130,6 +135,8 @@ import { StatementImportService } from './services/statement-import.service';
         CategoryListItemComponent,
         ConfirmedListItemComponent,
         FooterComponent,
+        CategoryRuleListComponent,
+        CategoryRuleEditComponent,
 
         // Directives
         SwipeDirective,
@@ -164,6 +171,7 @@ import { StatementImportService } from './services/statement-import.service';
         NbTooltipModule,
         NbDialogModule,
         NbBadgeModule,
+        NbSelectModule,
     ],
     providers: [
         MainService,

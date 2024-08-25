@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Exception;
 
-use App\Request\AbstractRequest;
 use Exception;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Validator\ConstraintViolationListInterface;

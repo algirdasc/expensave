@@ -3,7 +3,7 @@
 namespace App\Handler\Request;
 
 use App\Attribute\Request\ResolveEntity;
-use App\Request\AbstractRequest;
+use App\Http\Request\AbstractRequest;
 use Doctrine\ORM\EntityManagerInterface;
 use ReflectionAttribute;
 use ReflectionNamedType;

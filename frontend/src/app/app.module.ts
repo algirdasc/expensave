@@ -19,6 +19,7 @@ import {
 } from '@nebular/theme';
 import { BalanceUpdateApiService } from './api/balance-update.api.service';
 import { CalendarApiService } from './api/calendar.api.service';
+import { CategoryRuleApiService } from './api/category-rule.api.service';
 import { CategoryApiService } from './api/category.api.service';
 import { ExpenseApiService } from './api/expense.api.service';
 import { ReportsApiService } from './api/reports.api.service';
@@ -48,6 +49,7 @@ const apiServices = [
     ReportsApiService,
     BalanceUpdateApiService,
     StatementImportApiService,
+    CategoryRuleApiService,
 ];
 
 @NgModule({

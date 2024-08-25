@@ -48,6 +48,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\ManyToMany(targetEntity: Calendar::class, mappedBy: 'collaborators')]
     private Collection $sharedCalendars;
 
+    /**
+     * @var Collection<array-key, CategoryRule>
+     */
+    #[ORM\OneToMany(targetEntity: CategoryRule::class, mappedBy: 'owner')]
+    private Collection $categoryRules;
+
     #[ORM\Column]
     #[Groups(UserContextGroupConst::ALWAYS)]
     private bool $active = false;
@@ -146,6 +152,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function getSharedCalendars(): Collection
     {
         return $this->sharedCalendars;
+    }
+
+    /**
+     * @return Collection<array-key, CategoryRule>
+     */
+    public function getCategoryRules(): Collection
+    {
+        return $this->categoryRules;
     }
 
     public function isActive(): bool

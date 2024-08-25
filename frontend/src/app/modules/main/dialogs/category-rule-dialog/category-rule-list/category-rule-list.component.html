@@ -1,0 +1,36 @@
+<nb-card class="dialog">
+    <nb-card-header class="d-flex align-items-center justify-content-between">
+        Category rules
+        <button
+            nbButton
+            status="primary"
+            ghost
+            (click)="dialogRef.close({ action: DIALOG_ACTION_CLOSE })">
+            <nb-icon icon="close-outline"></nb-icon>
+        </button>
+    </nb-card-header>
+    <nb-card-body class="p-0">
+        <nb-list>
+            <nb-list-item
+                [@slideAnimation]
+                *ngFor="let categoryRule of categoryRules"
+                class="actionable"
+                (click)="editCategoryRule(categoryRule)">
+                <nb-icon status="text-danger" icon="flash-outline" class="flex-shrink-0 me-3"></nb-icon>
+                <div class="text-truncate w-100" style="position: relative; height: 40px">
+                    {{ categoryRule.name }}
+                    <nb-badge
+                        status="warning"
+                        position="bottom start"
+                        class="mw-100 text-truncate"
+                        [text]="categoryRule.pattern" />
+                </div>
+            </nb-list-item>
+        </nb-list>
+    </nb-card-body>
+    <nb-card-footer class="d-flex justify-content-end">
+        <button nbButton status="primary" ghost (click)="createCategoryRule()">
+            <nb-icon icon="plus"></nb-icon> Add rule
+        </button>
+    </nb-card-footer>
+</nb-card>

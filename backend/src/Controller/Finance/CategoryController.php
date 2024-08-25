@@ -7,10 +7,10 @@ namespace App\Controller\Finance;
 use App\Controller\AbstractApiController;
 use App\Entity\Category;
 use App\Enum\CategoryType;
+use App\Http\Request\Category\CreateCategoryRequest;
+use App\Http\Request\Category\UpdateCategoryRequest;
+use App\Http\Response\EmptyResponse;
 use App\Repository\CategoryRepository;
-use App\Request\Category\CreateCategoryRequest;
-use App\Request\Category\UpdateCategoryRequest;
-use App\Response\EmptyResponse;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Attribute\Route;
@@ -77,8 +77,8 @@ class CategoryController extends AbstractApiController
         return $this->respond($category);
     }
 
-    #[Route('/{category}', name: 'remove', methods: Request::METHOD_DELETE)]
-    public function remove(Category $category): JsonResponse
+    #[Route('/{category}', name: 'delete', methods: Request::METHOD_DELETE)]
+    public function delete(Category $category): JsonResponse
     {
         if (!$category->isDefinedByUser()) {
             throw $this->createAccessDeniedException();

@@ -4,11 +4,9 @@ declare(strict_types=1);
 
 namespace App\Resolver\Error;
 
-use App\Exception\UnhandledException;
 use App\Handler\Error\ErrorHandlerInterface;
 use App\Handler\Error\UnhandledExceptionHandler;
-use App\Response\Error\ErrorResponse;
-use RuntimeException;
+use App\Http\Response\Error\ErrorResponse;
 use Symfony\Component\DependencyInjection\Attribute\AutowireIterator;
 use Throwable;
 

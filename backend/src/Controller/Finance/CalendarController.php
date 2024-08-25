@@ -10,12 +10,12 @@ use App\Entity\Calendar;
 use App\Entity\User;
 use App\Enum\CalendarPermission;
 use App\Helper\DateHelper;
+use App\Http\Request\Calendar\CreateCalendarRequest;
+use App\Http\Request\Calendar\UpdateCalendarRequest;
+use App\Http\Response\EmptyResponse;
+use App\Http\Response\Statement\ExpenseListResponse;
 use App\Repository\CalendarRepository;
 use App\Repository\ExpenseRepository;
-use App\Request\Calendar\CreateCalendarRequest;
-use App\Request\Calendar\UpdateCalendarRequest;
-use App\Response\EmptyResponse;
-use App\Response\Statement\ExpenseListResponse;
 use App\Security\Voters\CalendarVoter;
 use App\Service\Report\DailyExpenseReportService;
 use DateTime;
@@ -82,7 +82,7 @@ class CalendarController extends AbstractApiController
     #[Route('/{calendar}', name: 'update', methods: Request::METHOD_PUT)]
     public function update(#[CurrentUser] User $user, Calendar $calendar, UpdateCalendarRequest $request): JsonResponse
     {
-        $this->denyAccessUnlessGranted(CalendarVoter::EDIT, $calendar);
+        $this->denyAccessUnlessGranted(CalendarVoter::UPDATE, $calendar);
 
         $calendar
             ->setName($request->getName())
@@ -94,8 +94,8 @@ class CalendarController extends AbstractApiController
         return $this->respond($calendar, groups: CalendarContextGroupConst::DETAILS);
     }
 
-    #[Route('/{calendar}', name: 'remove', methods: Request::METHOD_DELETE)]
-    public function remove(Calendar $calendar): JsonResponse
+    #[Route('/{calendar}', name: 'delete', methods: Request::METHOD_DELETE)]
+    public function delete(Calendar $calendar): JsonResponse
     {
         $this->denyAccessUnlessGranted(CalendarVoter::DELETE, $calendar);
 

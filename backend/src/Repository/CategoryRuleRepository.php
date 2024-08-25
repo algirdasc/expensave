@@ -6,6 +6,7 @@ namespace App\Repository;
 
 use App\Entity\Category;
 use App\Entity\CategoryRule;
+use App\Entity\User;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -20,6 +21,14 @@ class CategoryRuleRepository extends AbstractRepository
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, CategoryRule::class);
+    }
+
+    /**
+     * @return array<CategoryRule>
+     */
+    public function findAllUserRules(User $user): array
+    {
+        return $this->findBy(['owner' => $user]);
     }
 
     public function match(string $expenseLabel): ?Category

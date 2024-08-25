@@ -1,0 +1,92 @@
+<form #categoryRuleForm="ngForm" (submit)="categoryRuleSave.emit()" autocomplete="off">
+    <nb-card class="dialog">
+        <nb-card-header class="d-flex align-items-center">
+            <button nbButton status="primary" ghost class="me-3" (click)="categoryRuleClose.emit()">
+                <nb-icon icon="arrow-back-outline"></nb-icon>
+            </button>
+            Manage category rule
+        </nb-card-header>
+        <nb-card-body>
+            <nb-form-field>
+                <nb-icon nbPrefix icon="flash-outline"></nb-icon>
+                <input
+                    #categoryRuleName="ngModel"
+                    nbInput
+                    fullWidth
+                    maxlength="255"
+                    required
+                    placeholder="Category rule name"
+                    [(ngModel)]="categoryRule.name"
+                    name="name"
+                    [status]="categoryRuleName.dirty ? (categoryRuleName.invalid ? 'danger' : 'success') : 'basic'" />
+            </nb-form-field>
+
+            <div class="text-hint pt-3 border-top my-3">When expense label matches following regular expression:</div>
+
+            <nb-form-field>
+                <nb-icon nbPrefix icon="code-outline"></nb-icon>
+                <input
+                    #categoryRulePattern="ngModel"
+                    nbInput
+                    fullWidth
+                    maxlength="255"
+                    required
+                    class="font-code"
+                    placeholder="Rule pattern, e.g.: fuel|petrol|diesel"
+                    [(ngModel)]="categoryRule.pattern"
+                    name="pattern"
+                    [status]="
+                        categoryRulePattern.dirty ? (categoryRulePattern.invalid ? 'danger' : 'success') : 'basic'
+                    " />
+            </nb-form-field>
+
+            <div class="text-hint my-3">Then set expense category to:</div>
+
+            <nb-form-field class="mb-3">
+                <nb-icon nbPrefix icon="pricetags-outline"></nb-icon>
+                <nb-select
+                    #categoryRuleCategory="ngModel"
+                    placeholder="Select category"
+                    name="category"
+                    [(ngModel)]="categoryRule.category"
+                    [compareWith]="compareByCategoryId"
+                    [status]="
+                        categoryRuleCategory.dirty ? (categoryRuleCategory.invalid ? 'danger' : 'success') : 'basic'
+                    ">
+                    <nb-option *ngFor="let category of categories" [value]="category">{{ category.name }}</nb-option>
+                </nb-select>
+            </nb-form-field>
+
+            <div class="text-hint my-3">And set expense label to: <small>(optional)</small></div>
+
+            <nb-form-field>
+                <nb-icon nbPrefix icon="edit-outline"></nb-icon>
+                <input
+                    nbInput
+                    fullWidth
+                    maxlength="255"
+                    placeholder="Expense label"
+                    [(ngModel)]="categoryRule.label"
+                    name="label" />
+            </nb-form-field>
+        </nb-card-body>
+        <nb-card-footer>
+            <div class="d-flex flex-row-reverse justify-content-between">
+                <button nbButton type="submit" status="primary" [disabled]="!categoryRuleForm.valid">
+                    <nb-icon icon="save-outline"></nb-icon>
+                    Save
+                </button>
+
+                <button
+                    nbButton
+                    type="button"
+                    ghost
+                    status="danger"
+                    *ngIf="categoryRule.id"
+                    (click)="deleteCategoryRule()">
+                    <nb-icon icon="trash-2-outline"></nb-icon>
+                </button>
+            </div>
+        </nb-card-footer>
+    </nb-card>
+</form>
