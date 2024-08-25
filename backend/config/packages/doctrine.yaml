@@ -1,10 +1,10 @@
 doctrine:
     dbal:
-        dbname: '%env(resolve:DATABASE_NAME)%'
-        host: '%env(resolve:DATABASE_HOST))%'
-        port: '%env(resolve:DATABASE_PORT)%'
-        user: '%env(resolve:DATABASE_USER)%'
-        password: '%env(resolve:DATABASE_PASS)%'
+        dbname: '%env(DATABASE_NAME)%'
+        host: '%env(DATABASE_HOST))%'
+        port: '%env(DATABASE_PORT)%'
+        user: '%env(DATABASE_USER)%'
+        password: '%env(DATABASE_PASS)%'
         server_version: 'mariadb-10.6.0'
         charset: 'utf8mb4'
         logging: '%kernel.debug%'
