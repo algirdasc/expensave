@@ -11,9 +11,9 @@ use Doctrine\Persistence\ObjectManager;
 
 class CategoryFixture extends Fixture
 {
-    public const CATEGORY_1_REFERENCE = 'category-1';
-    public const CATEGORY_2_REFERENCE = 'category-2';
-    public const UNCATEGORIZED_REFERENCE = 'category-uncategorized';
+    public const string CATEGORY_1_REFERENCE = 'category-1';
+    public const string CATEGORY_2_REFERENCE = 'category-2';
+    public const string UNCATEGORIZED_REFERENCE = 'category-uncategorized';
 
     public function load(ObjectManager $manager): void
     {

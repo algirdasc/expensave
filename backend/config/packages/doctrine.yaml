@@ -2,9 +2,9 @@ doctrine:
     dbal:
         url: '%env(resolve:DATABASE_URL)%'
         logging: '%kernel.debug%'
+        use_savepoints: true
         options:
             1002: "SET time_zone = 'UTC'"
-
     orm:
         auto_generate_proxy_classes: true
         naming_strategy: doctrine.orm.naming_strategy.underscore_number_aware
@@ -17,11 +17,6 @@ doctrine:
                 dir: '%kernel.project_dir%/src/Entity'
                 prefix: 'App\Entity'
                 alias: App
-        filters:
-            calendar:
-                class: App\DoctrineFilter\CalendarFilter
-            expense:
-                class: App\DoctrineFilter\ExpenseFilter
         dql:
             datetime_functions:
                 date: DoctrineExtensions\Query\Mysql\Date
@@ -30,8 +25,6 @@ when@test:
     doctrine:
         dbal:
             dbname_suffix: '_test%env(default::TEST_TOKEN)%'
-            options:
-                1002: 1
 
 when@prod:
     doctrine:

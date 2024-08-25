@@ -4,11 +4,8 @@ services:
     restart: unless-stopped
     ports:
       - 18000:18000
-    environment:
-      LOCALE: en
-      TZ: Europe/Vilnius # Change to preferred time zone https://www.php.net/manual/en/timezones.php
-      REGISTRATION_DISABLED: no # For security reason change to "yes" after all users registered
-      DATABASE_URL: 'mysql://expensave:expensave@database:3306/expensave?serverVersion=10&charset=utf8mb4'
+    env_file:
+      - backend/.env
     depends_on:
       - database
 
@@ -16,8 +13,10 @@ services:
     image: algirdasc/expensave
     command: php bin/console messenger:consume --all -v
     restart: unless-stopped
+    env_file:
+      - backend/.env
     depends_on:
-      - database
+      - application
 
   database:
     image: mariadb:10

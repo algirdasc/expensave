@@ -13,7 +13,7 @@
     <env name="KERNEL_CLASS" value="App\Kernel"/>
   </php>
   <testsuites>
-    <testsuite name="Application Test">
+    <testsuite name="Application Tests">
       <directory>tests/Application</directory>
     </testsuite>
   </testsuites>

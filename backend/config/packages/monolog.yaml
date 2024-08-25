@@ -14,14 +14,6 @@ monolog:
             max_files: 14
             channels: [deprecation]
 
-when@test:
-    monolog:
-        handlers:
-            main:
-                type: stream
-                path: php://stdout
-                level: warning
-
 when@prod:
     monolog:
         handlers:
