@@ -11,6 +11,17 @@ jobs:
   backend-code-quality:
     name: Backend code quality checks
     runs-on: ubuntu-24.04
+    services:
+      mariadb:
+        image: mariadb:10.6
+        env:
+          MARIADB_RANDOM_ROOT_PASSWORD: yes
+          MARIADB_USER: expensave
+          MARIADB_PASSWORD: expensave
+          MARIADB_DATABASE: expensave
+        ports:
+          - 3306:3306
+        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
     steps:
       - name: Code checkout
         uses: actions/checkout@v4

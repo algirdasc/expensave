@@ -19,7 +19,7 @@ services:
       - application
 
   database:
-    image: mariadb:10
+    image: mariadb:10.6
     volumes:
       - './db:/var/lib/mysql'
     restart: unless-stopped
