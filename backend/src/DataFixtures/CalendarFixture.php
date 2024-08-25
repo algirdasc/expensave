@@ -11,9 +11,9 @@ use Doctrine\Persistence\ObjectManager;
 
 class CalendarFixture extends Fixture implements DependentFixtureInterface
 {
-    public const CALENDAR_1_REFERENCE = 'calendar-1';
-    public const CALENDAR_2_REFERENCE = 'calendar-2';
-    public const CALENDAR_SHARED_REFERENCE = 'calendar-shared';
+    public const string CALENDAR_1_REFERENCE = 'calendar-1';
+    public const string CALENDAR_2_REFERENCE = 'calendar-2';
+    public const string CALENDAR_SHARED_REFERENCE = 'calendar-shared';
 
     public function load(ObjectManager $manager): void
     {

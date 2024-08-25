@@ -1,0 +1,40 @@
+services:
+  dev-backend:
+    build:
+      target: development-backend
+    volumes:
+      - '.:/opt/expensave'
+    environment:
+      LOCALE: en
+      TZ: Europe/Vilnius
+      REGISTRATION_DISABLED: no
+      DATABASE_URL: 'mysql://dev_expensave:dev_expensave@dev-database:3306/dev_expensave?serverVersion=10&charset=utf8mb4'
+    depends_on:
+      - dev-database
+    ports:
+      - 18001:18001
+
+  dev-frontend:
+    build:
+      target: development-frontend
+    environment:
+      LOCALE: en
+      REGISTRATION_DISABLED: no
+    volumes:
+      - '.:/opt/expensave'
+    ports:
+      - 18002:18002
+
+  dev-database:
+    image: mariadb:10
+    volumes:
+      - './backend/var/db:/var/lib/mysql'
+      - './docker/mariadb/development.init.sql:/docker-entrypoint-initdb.d/init.sql'
+    restart: unless-stopped
+    environment:
+      MARIADB_RANDOM_ROOT_PASSWORD: yes
+      MARIADB_USER: dev_expensave
+      MARIADB_PASSWORD: dev_expensave
+      MARIADB_DATABASE: dev_expensave
+    ports:
+      - 3306:3306

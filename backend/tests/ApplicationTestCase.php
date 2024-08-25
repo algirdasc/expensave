@@ -6,6 +6,8 @@ namespace App\Tests;
 
 use App\Entity\User;
 use App\Repository\UserRepository;
+use DAMA\DoctrineTestBundle\Doctrine\DBAL\StaticDriver;
+use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Bundle\FixturesBundle\Loader\SymfonyFixturesLoader;
 use Doctrine\Common\DataFixtures\Executor\ORMExecutor;
 use Doctrine\Common\DataFixtures\Loader;
@@ -16,6 +18,7 @@ use Lexik\Bundle\JWTAuthenticationBundle\Services\JWTTokenManagerInterface;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestAssertionsTrait;
+use Symfony\Component\BrowserKit\AbstractBrowser;
 use Symfony\Component\HttpFoundation\Response;
 
 class ApplicationTestCase extends KernelTestCase
@@ -26,6 +29,7 @@ class ApplicationTestCase extends KernelTestCase
     {
         self::bootKernel();
 
+        $this->resetAutoIncrement();
         $this->loadFixtures();
     }
 
@@ -47,7 +51,7 @@ class ApplicationTestCase extends KernelTestCase
         return $user;
     }
 
-    protected function getAuthenticatedClient(?User $user = null): KernelBrowser
+    protected function getAuthenticatedClient(?User $user = null): ?AbstractBrowser
     {
         if ($user === null) {
             $user = $this->getUser();
@@ -57,6 +61,7 @@ class ApplicationTestCase extends KernelTestCase
         $jwtManager = static::getContainer()->get(JWTTokenManagerInterface::class);
         $token = $jwtManager->create($user);
 
+        /** @var AbstractBrowser $client */
         $client = self::getContainer()->get('test.client');
 
         $client->setServerParameters([
@@ -75,6 +80,16 @@ class ApplicationTestCase extends KernelTestCase
         );
     }
 
+    protected function getResponseJsonFile(string $path): string
+    {
+        return __DIR__ . DIRECTORY_SEPARATOR . $path;
+    }
+
+    protected function getJsonResponse(AbstractBrowser $browser): array
+    {
+        return json_decode($browser->getResponse()->getContent(), true);
+    }
+
     private function loadFixtures(): void
     {
         $loader = new Loader();
@@ -87,13 +102,24 @@ class ApplicationTestCase extends KernelTestCase
         $executor->execute($loader->getFixtures());
     }
 
-    protected function getResponseJsonFile(string $path): string
+    private function resetAutoIncrement(): void
     {
-        return __DIR__ . DIRECTORY_SEPARATOR . $path;
-    }
+        $connection = $this->getContainer()->get('doctrine.dbal.default_connection');
 
-    protected function getJsonResponse(KernelBrowser $browser): array
-    {
-        return json_decode($browser->getResponse()->getContent(), true);
+        $results = $connection->executeQuery(
+            'SELECT `table_name` FROM `information_schema`.`tables` WHERE `table_schema` = DATABASE() AND AUTO_INCREMENT > 1'
+        )->fetchFirstColumn();
+
+        foreach ($results as $result) {
+            $connection->executeStatement("ALTER TABLE `$result` AUTO_INCREMENT = 1");
+        }
+
+        try {
+            StaticDriver::commit();
+        } catch (\Exception $e) {
+            // There is a transaction only the first time
+        }
+
+        StaticDriver::beginTransaction();
     }
 }

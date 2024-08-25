@@ -45,50 +45,22 @@ as well as improve motivation and helps me understand, that this project is usef
 - Multiple user support
 - Shared expense calendars between family members
 - Multiple & unlimited expense calendars
-- Import your balance from financial institutions in various [formats](docs/STATEMENT_IMPORT.md) 
+- Import your balance from financial institutions in various [formats](https://github.com/algirdasc/expensave/wiki/Bank-statement-import#supported-banks) 
 - Reports on your spending and income habits
 - Responsive design
 - Mobile [PWA](https://web.dev/explore/progressive-web-apps) application
 
 # Installation
 
-1. Run Docker image. Feel free to add or change environment variables according to your needs:
-```bash
-  docker run \
-    -p 18000:18000 \
-    -e LOCALE=en
-    -v <desired path for DB data>:/var/lib/mysql
-    algirdasc/expensave:latest
-```
-2. Open your browser: [http://localhost:18000](http://localhost:18000)
-
-### Docker-compose
-
-You can also build from the docker-compose stack by running `docker compose up -d` inside the project directory. Make sure you have created a `.env` file and that it contains the required environment variables.
-
-## Environment variables
-
-- `TZ` - Your time zone. Full list can be found [here](https://www.php.net/manual/en/timezones.php).
-- `DATABASE_URL` - In case you want to use external MySQL/MariaDB, you can provide custom DSN for DB connection.
-- `LOCALE` - Locale used for date and number formatting. Full list can be found [here](https://unpkg.com/browse/@angular/common@17.3.3/locales/).
-- `REGISTRATION_DISABLED=yes/no` - Disable new user registration
-
-### Docker-compose environment variables
-
-- `MARIADB_HOST` - name or address of the MariaDB host
-- `MARIADB_PORT_NUMBER` - usually 3306
-- `MARIADB_USER` - MariaDB user
-- `MARIADB_PASSWORD` - MariaDB user's password
-- `MARIADB_DATABASE` - MariaDB database for the project
-- `MARIADB_ROOT_PASSWORD` - MariaDB root user's password
+See wiki: [Installation](https://github.com/algirdasc/expensave/wiki/Installation).
 
 # Installing mobile version
 
-See [USING_MOBILE_VERSION.md](docs/USING_MOBILE_VERSION.md).
+See wiki: [Using mobile version](https://github.com/algirdasc/expensave/wiki/Using-mobile-version).
 
 # Bank statement import
 
-See [STATEMENT_IMPORT.md](docs/STATEMENT_IMPORT.md).
+See wiki: [Bank statement import](https://github.com/algirdasc/expensave/wiki/Bank-statement-import).
 
 # Contributing
 

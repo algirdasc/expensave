@@ -1,18 +1,30 @@
-version: '3.8'
-
 services:
-  expensave:
-    container_name: expensave
-    image: algirdasc/expensave:latest
+  application:
+    image: algirdasc/expensave
+    restart: unless-stopped
     ports:
-      - "18000:18000"
+      - 18000:18000
     env_file:
-      - .env
+      - backend/.env
     depends_on:
-      - mariadb
+      - database
 
-  mariadb:
-    container_name: expensave_mysql
-    image: mariadb:10.6.0
+  queue:
+    image: algirdasc/expensave
+    command: php bin/console messenger:consume --all -v
+    restart: unless-stopped
     env_file:
-      - .env
+      - backend/.env
+    depends_on:
+      - application
+
+  database:
+    image: mariadb:10
+    volumes:
+      - './db:/var/lib/mysql'
+    restart: unless-stopped
+    environment:
+      MARIADB_RANDOM_ROOT_PASSWORD: yes
+      MARIADB_USER: expensave
+      MARIADB_PASSWORD: expensave
+      MARIADB_DATABASE: expensave
