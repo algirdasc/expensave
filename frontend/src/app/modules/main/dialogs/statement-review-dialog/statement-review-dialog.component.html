@@ -1,7 +1,11 @@
 <nb-card class="dialog" style="min-height: 200px">
     <nb-card-header class="d-flex align-items-center justify-content-between">
         Bank statement import review
-        <button nbButton status="primary" ghost (click)="dialogRef.close({ action: DIALOG_ACTION_CLOSE, calendarRefreshNeeded: calendarRefreshNeeded})">
+        <button
+            nbButton
+            status="primary"
+            ghost
+            (click)="dialogRef.close({ action: DIALOG_ACTION_CLOSE, calendarRefreshNeeded: calendarRefreshNeeded })">
             <nb-icon icon="close-outline"></nb-icon>
         </button>
     </nb-card-header>
