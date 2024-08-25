@@ -8,7 +8,10 @@ services:
       LOCALE: en
       TZ: Europe/Vilnius
       REGISTRATION_DISABLED: no
-      DATABASE_URL: 'mysql://dev-expensave:dev-expensave@dev-database:3306/dev-expensave?serverVersion=10&charset=utf8mb4'
+      DATABASE_NAME: dev-expensave
+      DATABASE_USER: dev-expensave
+      DATABASE_PASS: dev-expensave
+      DATABASE_HOST: dev-database
     depends_on:
       - dev-database
     ports:

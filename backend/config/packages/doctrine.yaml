@@ -1,6 +1,12 @@
 doctrine:
     dbal:
-        url: '%env(resolve:DATABASE_URL)%'
+        dbname: '%env(resolve:DATABASE_NAME)%'
+        host: '%env(resolve:DATABASE_HOST))%'
+        port: '%env(resolve:DATABASE_PORT)%'
+        user: '%env(resolve:DATABASE_USER)%'
+        password: '%env(resolve:DATABASE_PASS)%'
+        server_version: 'mariadb-10.6.0'
+        charset: 'utf8mb4'
         logging: '%kernel.debug%'
         use_savepoints: true
         options:
