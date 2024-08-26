@@ -10,8 +10,8 @@ use Symfony\Component\Serializer\Annotation\SerializedName;
 
 class RevolutStatementRow implements StatementImportRowInterface
 {
-    private TypeEnum $type;
-    private ProductEnum $product;
+    private string $type;
+    private string $product;
 
     #[SerializedName('Started Date')]
     private DateTime $startedDate;
@@ -25,24 +25,24 @@ class RevolutStatementRow implements StatementImportRowInterface
     private StateEnum $state;
     private float $balance;
 
-    public function getType(): TypeEnum
+    public function getType(): string
     {
         return $this->type;
     }
 
-    public function setType(TypeEnum $type): self
+    public function setType(string $type): self
     {
         $this->type = $type;
 
         return $this;
     }
 
-    public function getProduct(): ProductEnum
+    public function getProduct(): string
     {
         return $this->product;
     }
 
-    public function setProduct(ProductEnum $product): self
+    public function setProduct(string $product): self
     {
         $this->product = $product;
 
