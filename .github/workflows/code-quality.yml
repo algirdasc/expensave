@@ -68,6 +68,8 @@ jobs:
           php_version: 8.3
           php_extensions: xdebug pdo pdo_mysql
           coverage_clover: coverage/clover.xml
+      - name: test
+        run: ls -la && pwd
 
   frontend-code-quality:
     name: Frontend code quality checks
