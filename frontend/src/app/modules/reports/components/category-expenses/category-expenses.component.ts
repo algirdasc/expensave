@@ -11,10 +11,12 @@ import { chartTooltipHandler } from './category-expenses-tooltip';
 @Component({
     selector: 'app-reports-category-expenses',
     templateUrl: 'category-expenses.component.html',
+    styleUrl: 'category-expenses.component.scss',
 })
 export class CategoryExpensesComponent extends AbstractReportComponent implements OnChanges {
     public barChartOptions: ChartConfiguration['options'] = {
         responsive: true,
+        maintainAspectRatio: false,
         indexAxis: 'y',
         scales: {
             x: {
@@ -50,6 +52,7 @@ export class CategoryExpensesComponent extends AbstractReportComponent implement
         datasets: [],
     };
 
+    protected categoryCount: number = 0;
     protected PeriodEnum = PeriodEnum;
     protected reportsApiMethod: string = 'categoryExpenses';
 
@@ -74,12 +77,16 @@ export class CategoryExpensesComponent extends AbstractReportComponent implement
             backgroundColors.push(categoryBalance.category?.color ?? UNCATEGORIZED_COLOR);
         }
 
+        this.categoryCount = response.categoryBalances.length;
+
         this.barChartData = {
             labels: expenseLabels,
             datasets: [
                 {
                     data: absoluteExpenseValues,
                     backgroundColor: backgroundColors,
+                    // maxBarThickness: 8,
+                    // categoryPercentage: 0.5,
                 },
             ],
         };
