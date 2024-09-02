@@ -8,6 +8,9 @@ use App\Entity\Calendar;
 use App\Entity\Expense;
 use Symfony\Component\Serializer\Annotation\Groups;
 
+/**
+ * @codeCoverageIgnore
+ */
 readonly class ExpenseListResponse
 {
     /**

@@ -7,6 +7,9 @@ namespace App\Response\Auth;
 use App\Const\ContextGroupConst;
 use Symfony\Component\Serializer\Annotation\Groups;
 
+/**
+ * @codeCoverageIgnore
+ */
 readonly class AuthTokenResponse
 {
     public function __construct(

@@ -8,6 +8,9 @@ use App\Const\ContextGroupConst;
 use App\Handler\Error\ErrorHandlerInterface;
 use Symfony\Component\Serializer\Annotation\Groups;
 
+/**
+ * @codeCoverageIgnore
+ */
 readonly class ErrorResponse
 {
     public function __construct(

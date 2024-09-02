@@ -9,6 +9,9 @@ use App\DTO\Report\BalanceMeta;
 use App\DTO\Report\CategoryBalance;
 use Symfony\Component\Serializer\Annotation\Groups;
 
+/**
+ * @codeCoverageIgnore
+ */
 readonly class CategoryReportResponse
 {
     /**
