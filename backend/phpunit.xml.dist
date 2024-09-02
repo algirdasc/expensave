@@ -17,6 +17,15 @@
       <directory>tests/Application</directory>
     </testsuite>
   </testsuites>
+  <coverage>
+    <include>
+      <directory suffix=".php">src</directory>
+    </include>
+    <exclude>
+      <directory suffix=".php">src/DTO</directory>
+      <directory suffix=".php">src/Entity</directory>
+    </exclude>
+  </coverage>
   <source>
     <include>
       <directory suffix=".php">src</directory>
