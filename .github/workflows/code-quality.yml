@@ -67,23 +67,7 @@ jobs:
         with:
           php_version: 8.3
           php_extensions: xdebug pdo pdo_mysql
-          coverage_cobertura: coverage/cobertura.xml
-      - name: Code coverage summary report
-        uses: irongut/CodeCoverageSummary@v1.3.0
-        with:
-          filename: coverage/cobertura.xml
-          badge: true
-          fail_below_min: false
-          hide_branch_rate: true
-          hide_complexity: true
-          format: markdown
-          output: both
-#      - name: Add coverage report comment
-#        uses: marocchino/sticky-pull-request-comment@v2
-#        if: github.event_name == 'pull_request'
-#        with:
-#          recreate: true
-#          path: code-coverage-results.md
+          coverage_clover: coverage/clover.xml
 
   frontend-code-quality:
     name: Frontend code quality checks
