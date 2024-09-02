@@ -14,7 +14,7 @@ services:
     depends_on:
       - dev_database
     ports:
-      - 18001:18001
+      - "18001:18001"
 
   dev_frontend:
     build:
@@ -24,7 +24,7 @@ services:
     volumes:
       - '.:/opt/expensave'
     ports:
-      - 18002:18002
+      - "18002:18002"
 
   dev_database:
     image: mariadb:10.6
@@ -38,4 +38,4 @@ services:
       MARIADB_PASSWORD: dev_expensave
       MARIADB_DATABASE: dev_expensave
     ports:
-      - 3306:3306
+      - "3306:3306"
