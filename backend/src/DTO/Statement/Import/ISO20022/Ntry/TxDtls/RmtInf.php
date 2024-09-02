@@ -6,6 +6,9 @@ namespace App\DTO\Statement\Import\ISO20022\Ntry\TxDtls;
 
 use App\DTO\Statement\Import\ISO20022\Ntry\TxDtls\RmtInf\Strd;
 
+/**
+ * @codeCoverageIgnore
+ */
 class RmtInf
 {
     private ?string $ustrd = null;

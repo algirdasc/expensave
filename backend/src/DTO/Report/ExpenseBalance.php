@@ -8,6 +8,9 @@ use App\Const\ContextGroupConst;
 use DateTime;
 use Symfony\Component\Serializer\Annotation\Groups;
 
+/**
+ * @codeCoverageIgnore
+ */
 class ExpenseBalance implements BalanceInterface
 {
     public function __construct(

@@ -7,6 +7,9 @@ namespace App\DTO\Statement\Import\ISO20022\Ntry\TxDtls;
 use App\DTO\Statement\Import\ISO20022\Ntry\TxDtls\RltdPties\Cdtr;
 use App\DTO\Statement\Import\ISO20022\Ntry\TxDtls\RltdPties\Dbtr;
 
+/**
+ * @codeCoverageIgnore
+ */
 class RltdPties
 {
     private ?Cdtr $cdtr = null;

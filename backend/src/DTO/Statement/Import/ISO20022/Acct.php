@@ -6,6 +6,9 @@ namespace App\DTO\Statement\Import\ISO20022;
 
 use App\DTO\Statement\Import\ISO20022\Acct\Id;
 
+/**
+ * @codeCoverageIgnore
+ */
 class Acct
 {
     private Id $id;

@@ -6,6 +6,9 @@ namespace App\DTO\Statement\Import\ISO20022\Ntry;
 
 use DateTime;
 
+/**
+ * @codeCoverageIgnore
+ */
 class ValDt
 {
     private ?DateTime $dt = null;

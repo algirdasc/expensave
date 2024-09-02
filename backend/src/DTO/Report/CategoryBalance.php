@@ -8,6 +8,9 @@ use App\Const\ContextGroupConst;
 use App\Entity\Category;
 use Symfony\Component\Serializer\Annotation\Groups;
 
+/**
+ * @codeCoverageIgnore
+ */
 class CategoryBalance implements BalanceInterface
 {
     public function __construct(

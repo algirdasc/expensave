@@ -6,6 +6,9 @@ namespace App\DTO\Statement\Import\ISO20022;
 
 use Symfony\Component\Serializer\Annotation\SerializedName;
 
+/**
+ * @codeCoverageIgnore
+ */
 class Amt
 {
     #[SerializedName('@Ccy')]
