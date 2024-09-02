@@ -58,7 +58,7 @@ jobs:
           APP_ENV: dev
         with:
           php_version: 8.3
-          path: './'
+          path: 'src/'
       - name: Create schema for testing
         run: php bin/console doctrine:schema:create -n --env=test
       - name: Run PHPUnit
