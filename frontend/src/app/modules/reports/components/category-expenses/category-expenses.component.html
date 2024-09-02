@@ -9,13 +9,8 @@
         <div class="mb-3">
             <app-date-range [dateRange]="dateRange" />
         </div>
-        <div class="chart">
-            <canvas
-                style="max-height: 400px"
-                baseChart
-                [options]="barChartOptions"
-                [data]="barChartData"
-                type="bar"></canvas>
+        <div class="chart" [style.height]="categoryCount * 28 + 'px'">
+            <canvas baseChart [options]="barChartOptions" [data]="barChartData" type="bar"></canvas>
             <div class="chart-tooltip">
                 <strong class="title"></strong>: <span class="raw">{{ 0 | shortNumber }}</span>
             </div>
