@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace App\Const;
 
+/**
+ * @codeCoverageIgnore
+ */
 class AssertConst
 {
     public const MIN_PASSWORD_LENGTH = 6;

@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace App\Const;
 
+/**
+ * @codeCoverageIgnore
+ */
 class StringConst
 {
     public const BALANCE_UPDATE_LABEL = 'Balance Update';
