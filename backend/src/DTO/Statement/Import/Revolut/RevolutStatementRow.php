@@ -8,6 +8,9 @@ use App\DTO\Statement\Import\StatementImportRowInterface;
 use DateTime;
 use Symfony\Component\Serializer\Annotation\SerializedName;
 
+/**
+ * @codeCoverageIgnore
+ */
 class RevolutStatementRow implements StatementImportRowInterface
 {
     private string $type;

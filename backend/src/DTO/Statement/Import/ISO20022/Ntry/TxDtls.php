@@ -8,6 +8,9 @@ use App\DTO\Statement\Import\ISO20022\Ntry\TxDtls\Refs;
 use App\DTO\Statement\Import\ISO20022\Ntry\TxDtls\RltdPties;
 use App\DTO\Statement\Import\ISO20022\Ntry\TxDtls\RmtInf;
 
+/**
+ * @codeCoverageIgnore
+ */
 class TxDtls
 {
     private Refs $refs;

@@ -8,6 +8,9 @@ use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
 
+/**
+ * @codeCoverageIgnore
+ */
 #[ORM\Entity(repositoryClass: ExpenseRepository::class)]
 #[ORM\Index(fields: ['label'])]
 class Expense

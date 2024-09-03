@@ -6,13 +6,10 @@ namespace App\Controller\Finance;
 
 use App\Controller\AbstractApiController;
 use App\Entity\Calendar;
-use App\Exception\StatementImportException;
-use App\Response\Error\ErrorResponse;
 use App\Response\StatementImport\StatementImportResponse;
 use App\Security\Voters\CalendarVoter;
-use App\Service\Statement\Import\ImporterService;
-use App\Service\Statement\Import\Resolver\StatementImportResolver;
-use Doctrine\ORM\EntityManagerInterface;
+use App\Service\StatementImport\ImportService;
+use App\Service\StatementImport\Resolver\StatementImportResolver;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -22,7 +19,7 @@ use Symfony\Component\Routing\Attribute\Route;
 class StatementImportController extends AbstractApiController
 {
     public function __construct(
-        private readonly ImporterService $importerService,
+        private readonly ImportService $importerService,
     ) {
     }
 

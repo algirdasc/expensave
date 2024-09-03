@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Service\Statement\Import\Handler;
+namespace App\Service\StatementImport\Handler;
 
 use App\DTO\Statement\Import\Dollarbird\DollarbirdStatementRow;
 use Symfony\Component\Filesystem\Exception\IOException;

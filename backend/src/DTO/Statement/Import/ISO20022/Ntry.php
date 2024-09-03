@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace App\DTO\Statement\Import\ISO20022;
 
+/**
+ * @codeCoverageIgnore
+ */
 use App\DTO\Statement\Import\ISO20022\Ntry\BookgDt;
 use App\DTO\Statement\Import\ISO20022\Ntry\CdtDbtInd;
 use App\DTO\Statement\Import\ISO20022\Ntry\NtryDtls;

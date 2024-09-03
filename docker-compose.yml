@@ -3,7 +3,7 @@ services:
     image: algirdasc/expensave
     restart: unless-stopped
     ports:
-      - 18000:18000
+      - "18000:18000"
     env_file:
       - environment
     depends_on:

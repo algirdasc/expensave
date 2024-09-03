@@ -28,7 +28,7 @@ class RegenerateSecretsCommand extends Command
             return Command::FAILURE;
         }
 
-        $contents = preg_replace_callback('/\{REGENERATE_SECRET\}/', function ($matches) {
+        $contents = preg_replace_callback('/\{REGENERATE_SECRET\}/', function () {
             return $this->generateSecret();
         }, $contents);
 

@@ -5,6 +5,9 @@ namespace App\Entity;
 use App\Repository\CategoryRuleRepository;
 use Doctrine\ORM\Mapping as ORM;
 
+/**
+ * @codeCoverageIgnore
+ */
 #[ORM\Entity(repositoryClass: CategoryRuleRepository::class)]
 class CategoryRule
 {

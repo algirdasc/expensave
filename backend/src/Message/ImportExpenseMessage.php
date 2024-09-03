@@ -6,6 +6,9 @@ namespace App\Message;
 
 use App\Entity\Expense;
 
+/**
+ * @codeCoverageIgnore
+ */
 readonly class ImportExpenseMessage
 {
     public function __construct(

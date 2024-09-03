@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Service\Statement\Import\Handler;
+namespace App\Service\StatementImport\Handler;
 
 use App\DTO\Statement\Import\StatementImportRowInterface;
 use Symfony\Component\DependencyInjection\Attribute\AutoconfigureTag;

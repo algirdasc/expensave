@@ -7,6 +7,9 @@ use DateTime;
 use DateTimeInterface;
 use Symfony\Component\Serializer\Annotation\SerializedName;
 
+/**
+ * @codeCoverageIgnore
+ */
 class DollarbirdStatementRow implements StatementImportRowInterface
 {
     private DateTime $date;

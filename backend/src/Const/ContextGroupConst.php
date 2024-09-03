@@ -9,6 +9,9 @@ use Symfony\Component\HttpFoundation\Request;
 /*
  * While enums cannot be used in attributes using constants instead
  */
+/**
+ * @codeCoverageIgnore
+ */
 class ContextGroupConst
 {
     public const API_ALWAYS = 'always';

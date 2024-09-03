@@ -34,8 +34,7 @@
         "timers-browserify": "^2.0.12",
         "tslib": "^2.7.0",
         "url": "^0.11.4",
-        "util": "^0.12.5",
-        "zone.js": "~0.15.0"
+        "util": "^0.12.5"
     },
     "devDependencies": {
         "@angular-devkit/build-angular": "^18.2.2",

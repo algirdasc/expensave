@@ -51,7 +51,7 @@ class ApplicationTestCase extends KernelTestCase
         return $user;
     }
 
-    protected function getAuthenticatedClient(?User $user = null): ?AbstractBrowser
+    protected function getAuthenticatedClient(?User $user = null): KernelBrowser
     {
         if ($user === null) {
             $user = $this->getUser();
@@ -61,7 +61,6 @@ class ApplicationTestCase extends KernelTestCase
         $jwtManager = static::getContainer()->get(JWTTokenManagerInterface::class);
         $token = $jwtManager->create($user);
 
-        /** @var AbstractBrowser $client */
         $client = self::getContainer()->get('test.client');
 
         $client->setServerParameters([
@@ -69,18 +68,21 @@ class ApplicationTestCase extends KernelTestCase
             'HTTP_AUTHORIZATION' => "Bearer $token"
         ]);
 
-        return self::getClient($client);
+        /** @var KernelBrowser $browser */
+        $browser = self::getClient($client);
+
+        return $browser;
     }
 
     protected function assertResponseEqualToJson(Response $response, string $jsonFile): void
     {
         $this->assertJsonStringEqualsJsonFile(
-            $this->getResponseJsonFile($jsonFile),
+            self::getAssetFile($jsonFile),
             (string) $response->getContent()
         );
     }
 
-    protected function getResponseJsonFile(string $path): string
+    protected static function getAssetFile(string $path): string
     {
         return __DIR__ . DIRECTORY_SEPARATOR . $path;
     }
