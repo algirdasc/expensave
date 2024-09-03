@@ -9,6 +9,9 @@ use Exception;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Validator\ConstraintViolationListInterface;
 
+/**
+ * @codeCoverageIgnore
+ */
 class RequestValidationException extends Exception
 {
     public function __construct(private readonly ConstraintViolationListInterface $violations)

@@ -6,6 +6,9 @@ namespace App\Exception;
 
 use Exception;
 
+/**
+ * @codeCoverageIgnore
+ */
 class UnhandledException extends Exception
 {
 
