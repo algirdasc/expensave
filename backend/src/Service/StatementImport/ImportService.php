@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Service\Statement\Import;
+namespace App\Service\StatementImport;
 
 use App\DTO\Statement\Import\StatementImportRowInterface;
 use App\Entity\Calendar;
@@ -15,7 +15,7 @@ use App\Repository\CategoryRuleRepository;
 use App\Repository\ExpenseRepository;
 use Symfony\Bundle\SecurityBundle\Security;
 
-readonly class ImporterService
+readonly class ImportService
 {
     public function __construct(
         private CategoryRepository $categoryRepository,

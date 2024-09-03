@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Service\Statement\Import\Handler;
+namespace App\Service\StatementImport\Handler;
 
 use App\DTO\Statement\Import\Revolut\ProductConst;
 use App\DTO\Statement\Import\Revolut\RevolutStatementRow;

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Service\Statement\Import\Handler;
+namespace App\Service\StatementImport\Handler;
 
 use App\DTO\Statement\Import\ISO20022\Document;
 use Symfony\Component\HttpFoundation\File\UploadedFile;

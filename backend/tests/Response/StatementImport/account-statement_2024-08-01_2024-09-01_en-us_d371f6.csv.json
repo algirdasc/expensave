@@ -1,0 +1,37 @@
+{
+    "expenses": [
+        {
+            "amount": -0.2,
+            "calendar": {
+                "balance": -75,
+                "id": 1,
+                "name": "User 1 Calendar",
+                "owner": {
+                    "active": true,
+                    "email": "user1@email.com",
+                    "id": 1,
+                    "name": "User 1"
+                },
+                "shared": false
+            },
+            "category": {
+                "color": "#00ffff",
+                "definedByUser": false,
+                "id": 3,
+                "name": "Uncategorized",
+                "type": "uncategorized"
+            },
+            "confirmed": true,
+            "createdAt": "2024-08-01 09:55:13",
+            "description": "Something",
+            "id": null,
+            "label": "Something",
+            "user": {
+                "active": true,
+                "email": "user1@email.com",
+                "id": 1,
+                "name": "User 1"
+            }
+        }
+    ]
+}
