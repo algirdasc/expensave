@@ -18,6 +18,7 @@ jq -n \
 # Backend
 cd /opt/expensave || exit 1
 
+printenv > /etc/environment
 cron
 
 php bin/console app:secrets:regenerate .env

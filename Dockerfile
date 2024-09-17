@@ -33,13 +33,13 @@ COPY --from=composer:latest /usr/bin/composer /usr/local/bin/composer
 
 # Config files
 COPY docker/apache2/ /etc/apache2/
-COPY docker/cron.d/expensave-cron /etc/cron.d/expensave-cron
+COPY docker/cron.d/expensave-cron /tmp/expensave-cron
 COPY docker/boot.sh /
 
 RUN chmod +x /boot.sh
-RUN chmod 0644 /etc/cron.d/expensave-cron
-RUN crontab /etc/cron.d/expensave-cron
-RUN cron
+RUN cat /tmp/expensave-cron >> /etc/crontab
+RUN rm /tmp/expensave-cron
+
 RUN a2dissite 000-default && a2enmod rewrite
 
 FROM node:20-alpine AS frontend
