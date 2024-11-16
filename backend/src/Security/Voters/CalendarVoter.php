@@ -12,11 +12,11 @@ use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 
 class CalendarVoter extends Voter
 {
-    public const VIEW = 'view';
-    public const EDIT = 'edit';
-    public const DELETE = 'delete';
-    public const ADD_EXPENSE = 'add_expense';
-    public const IMPORT = 'import';
+    public const string VIEW = 'view';
+    public const string EDIT = 'edit';
+    public const string DELETE = 'delete';
+    public const string ADD_EXPENSE = 'add_expense';
+    public const string IMPORT = 'import';
 
     protected function supports(string $attribute, mixed $subject): bool
     {
