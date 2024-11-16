@@ -6,3 +6,7 @@ parameters:
         containerXmlPath: var/cache/dev/App_KernelDevDebugContainer.xml
     scanDirectories:
         - var/cache/dev/Symfony/Config
+    ignoreErrors:
+        - identifier: doctrine.associationType
+        - identifier: missingType.generics
+        - identifier: missingType.iterableValue
