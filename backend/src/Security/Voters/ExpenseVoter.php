@@ -32,7 +32,7 @@ class ExpenseVoter extends Voter
         }
 
         return match($attribute) {
-            self::VIEW => $subject->getUser() === $user || $subject->getCalendar()->getCollaborators()->contains($user),
+            self::VIEW => $subject->getUser() === $user || $subject->getCalendar()->getOwner() === $user || $subject->getCalendar()->getCollaborators()->contains($user),
             default => $subject->getUser() === $user
         };
     }
