@@ -52,15 +52,15 @@
         "@schematics/angular": "^18.1.4",
         "@types/jasmine": "~5.1.5",
         "@types/jasminewd2": "~2.0.3",
-        "@types/node": "~22.10.2",
-        "@typescript-eslint/eslint-plugin": "^8.18.0",
-        "@typescript-eslint/parser": "^8.18.0",
+        "@types/node": "~22.10.5",
+        "@typescript-eslint/eslint-plugin": "^8.19.0",
+        "@typescript-eslint/parser": "^8.19.0",
         "eslint": "^9.17.0",
         "eslint-config-prettier": "^9.1.0",
         "eslint-plugin-prettier": "^5.2.1",
         "prettier": "^3.4.2",
         "prettier-eslint": "^16.3.0",
         "ts-node": "~10.9.2",
-        "typescript": "^5.5"
+        "typescript": "^5.7"
     }
 }
