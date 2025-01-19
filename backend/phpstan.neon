@@ -10,3 +10,4 @@ parameters:
         - identifier: doctrine.associationType
         - identifier: missingType.generics
         - identifier: missingType.iterableValue
+        - '#should return non-empty-string but returns string#'
