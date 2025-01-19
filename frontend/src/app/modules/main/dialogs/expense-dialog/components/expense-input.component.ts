@@ -52,7 +52,7 @@ export class ExpenseInputComponent {
     public applyLabelSuggestion(): void {
         this.expense.label = this.suggestedExpense.label;
         this.expense.category = this.suggestedExpense.category;
-        this.expense.isExpense = this.suggestedExpense.isExpense;
+        // this.expense.isExpense = this.suggestedExpense.isExpense;
 
         this.cd.detectChanges();
     }

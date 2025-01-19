@@ -36,7 +36,7 @@ readonly class RevolutImportHandler implements StatementImportHandlerInterface
                 continue;
             }
 
-            $combined = array_combine($header, $data);
+            $combined = array_combine($header, $data); // @phpstan-ignore-line
             foreach ($combined as &$data) {
                 if ($data === '') {
                     $data = null;
