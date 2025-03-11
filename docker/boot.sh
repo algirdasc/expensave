@@ -33,4 +33,4 @@ php bin/console lexik:jwt:generate-keypair -n --skip-if-exists
 chown -R www-data:www-data var/
 
 # Run apache
-apache2-foreground
+/usr/bin/supervisord -c /etc/supervisor/supervisord.conf

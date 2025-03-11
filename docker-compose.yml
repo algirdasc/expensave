@@ -9,15 +9,6 @@ services:
     depends_on:
       - database
 
-  queue:
-    image: algirdasc/expensave
-    command: php bin/console messenger:consume --all -v
-    restart: unless-stopped
-    env_file:
-      - environment
-    depends_on:
-      - application
-
   database:
     image: mariadb:10.6
     volumes:

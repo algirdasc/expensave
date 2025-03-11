@@ -1,6 +1,6 @@
 FROM php:8.3-apache AS expensave-base
 
-MAINTAINER Algirdas Č. <algirdas.cic@gmail.com>
+LABEL org.opencontainers.image.authors="algirdas@cici.lt"
 
 SHELL ["/bin/bash", "-c"]
 
@@ -14,7 +14,8 @@ RUN apt update && \
     libcurl4-openssl-dev \
     libonig-dev \
     libpng-dev \
-    libxml2-dev
+    libxml2-dev \
+    supervisor
 
 # PHP Extensions
 RUN docker-php-ext-install \
@@ -35,6 +36,7 @@ COPY --from=composer:latest /usr/bin/composer /usr/local/bin/composer
 COPY docker/apache2/ /etc/apache2/
 COPY docker/cron.d/expensave-cron /tmp/expensave-cron
 COPY docker/boot.sh /
+COPY docker/supervisor /etc/supervisor
 
 RUN chmod +x /boot.sh
 RUN cat /tmp/expensave-cron >> /etc/crontab
@@ -98,5 +100,4 @@ RUN docker-php-ext-enable \
     xdebug
 COPY docker/php/docker-php-ext-xdebug.ini $PHP_INI_DIR/conf.d/
 RUN a2ensite development
-
 EXPOSE 18001
