@@ -1,15 +1,17 @@
 import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
-import { NbDateService } from '@nebular/theme';
+import { NbDateService, NbButtonModule, NbIconModule } from '@nebular/theme';
 import { Calendar } from '../../../../api/objects/calendar';
 import { Expense } from '../../../../api/objects/expense';
 import { ExpenseBalance } from '../../../../api/objects/expense-balance';
 import { CalendarService } from '../calendar.service';
+import { NgIf } from '@angular/common';
+import { CalendarExpenseListMobileItemsComponent } from './calendar-expense-list-mobile-items.component';
 
 @Component({
     selector: 'app-calendar-expense-list-mobile',
     templateUrl: 'calendar-expense-list-mobile.component.html',
     styleUrls: ['calendar-expense-list-mobile.component.scss'],
-    standalone: false,
+    imports: [NgIf, CalendarExpenseListMobileItemsComponent, NbButtonModule, NbIconModule],
 })
 export class CalendarExpenseListMobileComponent implements OnChanges {
     @Input()

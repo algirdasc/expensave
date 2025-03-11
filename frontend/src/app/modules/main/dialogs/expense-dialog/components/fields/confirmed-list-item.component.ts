@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { NbListModule, NbIconModule } from '@nebular/theme';
 
 @Component({
     selector: 'app-expense-dialog-confirmed-list-item',
@@ -10,7 +11,7 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
             class="me-3"></nb-icon>
         <div>{{ confirmed ? 'Confirmed' : 'Unconfirmed' }}</div>
     </nb-list-item>`,
-    standalone: false,
+    imports: [NbListModule, NbIconModule],
 })
 export class ConfirmedListItemComponent {
     @Input({ required: true })

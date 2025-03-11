@@ -1,17 +1,43 @@
 import { Component, Input, QueryList, ViewChildren } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { NbCalendarViewMode, NbDateService, NbPopoverDirective, NbSidebarService } from '@nebular/theme';
+import {
+    NbCalendarViewMode,
+    NbDateService,
+    NbPopoverDirective,
+    NbSidebarService,
+    NbButtonModule,
+    NbIconModule,
+    NbBadgeModule,
+    NbPopoverModule,
+    NbCalendarKitModule,
+    NbButtonGroupModule,
+} from '@nebular/theme';
 import { Calendar } from '../../../api/objects/calendar';
 import { DateUtil } from '../../../util/date.util';
 import { ExpenseReportComponent } from '../components/expense-report/expense-report.component';
 import { SIDEBAR_TAG } from '../main.service';
 import { StatementImportService } from '../services/statement-import.service';
+import { NgIf, NgSwitch, NgSwitchCase } from '@angular/common';
+import { OutsideClickDirective } from '../../../directives/outside-click.directive';
+import { ShortNumberPipe } from '../../../pipes/shortnumber.pipe';
 
 @Component({
     templateUrl: 'header.component.html',
     styleUrls: ['header.component.scss'],
     selector: 'app-header',
-    standalone: false,
+    imports: [
+        NbButtonModule,
+        NbIconModule,
+        NgIf,
+        NbBadgeModule,
+        NbPopoverModule,
+        OutsideClickDirective,
+        NbCalendarKitModule,
+        NgSwitch,
+        NgSwitchCase,
+        NbButtonGroupModule,
+        ShortNumberPipe,
+    ],
 })
 export class HeaderComponent {
     @Input()

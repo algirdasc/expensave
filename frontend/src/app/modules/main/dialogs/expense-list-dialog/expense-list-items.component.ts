@@ -1,6 +1,9 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { slideAnimation } from '../../../../animations/slide.animation';
 import { Expense } from '../../../../api/objects/expense';
+import { NbListModule, NbIconModule } from '@nebular/theme';
+import { NgFor, NgStyle } from '@angular/common';
+import { ShortNumberPipe } from '../../../../pipes/shortnumber.pipe';
 
 @Component({
     selector: 'app-expense-list-items',
@@ -25,7 +28,7 @@ import { Expense } from '../../../../api/objects/expense';
         </nb-list-item>
     </nb-list>`,
     animations: slideAnimation,
-    standalone: false,
+    imports: [NbListModule, NgFor, NbIconModule, NgStyle, ShortNumberPipe],
 })
 export class ExpenseListItemsComponent implements OnInit {
     @Input({ required: true })

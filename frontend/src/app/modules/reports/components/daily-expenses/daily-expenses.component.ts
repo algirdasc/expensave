@@ -1,6 +1,6 @@
 import { FormatWidth, getLocaleDateFormat } from '@angular/common';
 import { Component, OnChanges } from '@angular/core';
-import { NbDateService } from '@nebular/theme';
+import { NbDateService, NbCardModule, NbSpinnerModule } from '@nebular/theme';
 import { ChartConfiguration, ScriptableLineSegmentContext } from 'chart.js';
 import { ExpenseBalance } from '../../../../api/objects/expense-balance';
 import { ReportsApiService } from '../../../../api/reports.api.service';
@@ -8,13 +8,22 @@ import { ExpenseReportResponse } from '../../../../api/response/expense-report.r
 import { APP_CONFIG } from '../../../../app.initializer';
 import { ShortNumberPipe } from '../../../../pipes/shortnumber.pipe';
 import { AbstractReportComponent } from '../abstract-report.component';
-import { PeriodEnum } from '../period-selector/period-selector.component';
+import { PeriodEnum, PeriodSelectorComponent } from '../period-selector/period-selector.component';
 import { chartTooltipHandler } from './daily-expenses-tooltip';
+import { DateRangeComponent } from '../date-range.component';
+import { BaseChartDirective } from 'ng2-charts';
 
 @Component({
     selector: 'app-reports-daily-expenses',
     templateUrl: 'daily-expenses.component.html',
-    standalone: false,
+    imports: [
+        NbCardModule,
+        NbSpinnerModule,
+        PeriodSelectorComponent,
+        DateRangeComponent,
+        BaseChartDirective,
+        ShortNumberPipe,
+    ],
 })
 export class DailyExpensesComponent extends AbstractReportComponent implements OnChanges {
     public income: number = 0;

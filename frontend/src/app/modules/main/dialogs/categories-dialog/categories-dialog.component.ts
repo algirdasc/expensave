@@ -1,13 +1,16 @@
 import { HttpParams } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { NbDialogRef } from '@nebular/theme';
+import { NbDialogRef, NbSpinnerModule } from '@nebular/theme';
 import { CategoryApiService } from '../../../../api/category.api.service';
 import { Category } from '../../../../api/objects/category';
+import { NgIf } from '@angular/common';
+import { CategoryListComponent } from './category-list/category-list.component';
+import { CategoryEditComponent } from './category-edit/category-edit.component';
 
 @Component({
     templateUrl: 'categories-dialog.component.html',
     styleUrl: 'categories-dialog.component.scss',
-    standalone: false,
+    imports: [NbSpinnerModule, NgIf, CategoryListComponent, CategoryEditComponent],
 })
 export class CategoriesDialogComponent implements OnInit {
     public isBusy: boolean = true;

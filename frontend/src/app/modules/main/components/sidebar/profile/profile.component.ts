@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Router } from '@angular/router';
-import { NbDialogService } from '@nebular/theme';
+import { NbDialogService, NbUserModule, NbButtonModule, NbIconModule } from '@nebular/theme';
 import { User } from '../../../../../api/objects/user';
 import { ConfirmDialogComponent } from '../../../dialogs/confirm-dialog/confirm-dialog.component';
 import { ProfileDialogComponent } from '../../../dialogs/profile-dialog/profile-dialog.component';
@@ -9,7 +9,7 @@ import { ProfileDialogComponent } from '../../../dialogs/profile-dialog/profile-
     templateUrl: 'profile.component.html',
     styleUrls: ['profile.component.scss'],
     selector: 'app-profile',
-    standalone: false,
+    imports: [NbUserModule, NbButtonModule, NbIconModule],
 })
 export class ProfileComponent {
     @Input() public user: User;

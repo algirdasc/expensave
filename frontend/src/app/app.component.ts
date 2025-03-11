@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import { NavigationEnd, NavigationStart, Router } from '@angular/router';
-import { NbDateService } from '@nebular/theme';
+import { NavigationEnd, NavigationStart, Router, RouterOutlet } from '@angular/router';
+import { NbDateService, NbLayoutModule, NbSpinnerModule } from '@nebular/theme';
 
 @Component({
     selector: 'app-root',
@@ -9,7 +9,7 @@ import { NbDateService } from '@nebular/theme';
             <router-outlet></router-outlet>
         </nb-layout-column>
     </nb-layout>`,
-    standalone: false,
+    imports: [NbLayoutModule, NbSpinnerModule, RouterOutlet],
 })
 export class AppComponent {
     public isBusy: boolean = true;

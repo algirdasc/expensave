@@ -2,6 +2,9 @@ import { Component, Input } from '@angular/core';
 import { Expense } from '../../../../api/objects/expense';
 import { UNCATEGORIZED_COLOR } from '../../../../util/color.util';
 import { CalendarService } from '../calendar.service';
+import { NbListModule, NbIconModule } from '@nebular/theme';
+import { NgFor, DatePipe } from '@angular/common';
+import { ShortNumberPipe } from '../../../../pipes/shortnumber.pipe';
 
 @Component({
     selector: 'app-calendar-expense-list-mobile-items',
@@ -27,7 +30,7 @@ import { CalendarService } from '../calendar.service';
                 <small class="w-50 text-right text-truncate">{{ expense.category?.name }}</small>
             </nb-list-item>
         </nb-list>`,
-    standalone: false,
+    imports: [NbListModule, NgFor, NbIconModule, DatePipe, ShortNumberPipe],
 })
 export class CalendarExpenseListMobileItemsComponent {
     @Input()

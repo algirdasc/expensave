@@ -5,14 +5,24 @@ import { CategoryExpenseReportResponse } from '../../../../api/response/category
 import { ShortNumberPipe } from '../../../../pipes/shortnumber.pipe';
 import { UNCATEGORIZED_COLOR } from '../../../../util/color.util';
 import { AbstractReportComponent } from '../abstract-report.component';
-import { PeriodEnum } from '../period-selector/period-selector.component';
+import { PeriodEnum, PeriodSelectorComponent } from '../period-selector/period-selector.component';
 import { chartTooltipHandler } from './category-expenses-tooltip';
+import { NbCardModule, NbSpinnerModule } from '@nebular/theme';
+import { DateRangeComponent } from '../date-range.component';
+import { BaseChartDirective } from 'ng2-charts';
 
 @Component({
     selector: 'app-reports-category-expenses',
     templateUrl: 'category-expenses.component.html',
     styleUrl: 'category-expenses.component.scss',
-    standalone: false,
+    imports: [
+        NbCardModule,
+        NbSpinnerModule,
+        PeriodSelectorComponent,
+        DateRangeComponent,
+        BaseChartDirective,
+        ShortNumberPipe,
+    ],
 })
 export class CategoryExpensesComponent extends AbstractReportComponent implements OnChanges {
     public barChartOptions: ChartConfiguration['options'] = {

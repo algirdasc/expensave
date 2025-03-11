@@ -1,5 +1,6 @@
 import { Component, Input } from '@angular/core';
-import { NbCalendarRange } from '@nebular/theme';
+import { NbCalendarRange, NbIconModule } from '@nebular/theme';
+import { NgIf, DatePipe } from '@angular/common';
 
 @Component({
     selector: 'app-date-range',
@@ -11,7 +12,7 @@ import { NbCalendarRange } from '@nebular/theme';
         <nb-icon icon="arrow-forward-outline" class="mx-3"></nb-icon>
         {{ dateRange?.end | date }}
     </div>`,
-    standalone: false,
+    imports: [NgIf, NbIconModule, DatePipe],
 })
 export class DateRangeComponent {
     @Input({ required: true })

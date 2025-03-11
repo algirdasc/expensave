@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { NbDialogService } from '@nebular/theme';
+import { NbDialogService, NbListModule, NbIconModule } from '@nebular/theme';
 import { InputDialogComponent } from '../../../input-dialog/input-dialog.component';
 
 @Component({
@@ -8,7 +8,7 @@ import { InputDialogComponent } from '../../../input-dialog/input-dialog.compone
         <nb-icon icon="file-text-outline" class="me-3"></nb-icon>
         <div class="text-truncate">{{ description ?? 'Add description' }}</div>
     </nb-list-item>`,
-    standalone: false,
+    imports: [NbListModule, NbIconModule],
 })
 export class DescriptionListItemComponent {
     @Input({ required: true })

@@ -1,10 +1,11 @@
 import { AfterViewInit, Component, ElementRef, Input, ViewChild } from '@angular/core';
-import { NbDialogRef } from '@nebular/theme';
+import { NbDialogRef, NbCardModule, NbButtonModule, NbIconModule, NbInputModule } from '@nebular/theme';
+import { FormsModule } from '@angular/forms';
 
 @Component({
     templateUrl: 'input-dialog.component.html',
     styleUrls: ['input-dialog.component.scss'],
-    standalone: false,
+    imports: [NbCardModule, NbButtonModule, NbIconModule, NbInputModule, FormsModule],
 })
 export class InputDialogComponent implements AfterViewInit {
     @Input()

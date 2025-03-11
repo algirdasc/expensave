@@ -1,13 +1,29 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, RouterLink } from '@angular/router';
 import { Calendar } from '../../api/objects/calendar';
 import { User } from '../../api/objects/user';
 import { ReportsService } from './reports.service';
+import { NbLayoutModule, NbIconModule, NbCardModule, NbListModule, NbCheckboxModule } from '@nebular/theme';
+import { NgFor } from '@angular/common';
+import { DailyExpensesComponent } from './components/daily-expenses/daily-expenses.component';
+import { MonthlyExpensesComponent } from './components/monthly-expenses/monthly-expenses.component';
+import { CategoryExpensesComponent } from './components/category-expenses/category-expenses.component';
 
 @Component({
     templateUrl: 'reports.component.html',
     styleUrl: 'reports.component.scss',
-    standalone: false,
+    imports: [
+        NbLayoutModule,
+        NbIconModule,
+        RouterLink,
+        NbCardModule,
+        NbListModule,
+        NgFor,
+        NbCheckboxModule,
+        DailyExpensesComponent,
+        MonthlyExpensesComponent,
+        CategoryExpensesComponent,
+    ],
 })
 export class ReportsComponent implements OnInit {
     public selectedCalendars: Calendar[] = [];

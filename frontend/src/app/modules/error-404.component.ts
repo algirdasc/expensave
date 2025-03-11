@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { NbCardModule, NbButtonModule } from '@nebular/theme';
 
 @Component({
     template: `<div class="d-flex align-items-center justify-content-center h-100 p-3">
@@ -13,7 +14,7 @@ import { Router } from '@angular/router';
             </nb-card-body>
         </nb-card>
     </div>`,
-    standalone: false,
+    imports: [NbCardModule, NbButtonModule],
 })
 export class Error404Component {
     public constructor(public router: Router) {}

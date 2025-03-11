@@ -1,7 +1,8 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { NbDialogService } from '@nebular/theme';
+import { NbDialogService, NbListModule, NbIconModule } from '@nebular/theme';
 import { DateUtil } from '../../../../../../util/date.util';
 import { DatepickerDialogComponent } from '../../../datepicker-dialog/datepicker-dialog.component';
+import { DatePipe } from '@angular/common';
 
 @Component({
     selector: 'app-expense-dialog-date-list-item',
@@ -9,7 +10,7 @@ import { DatepickerDialogComponent } from '../../../datepicker-dialog/datepicker
         <nb-icon icon="calendar-outline" class="me-3"></nb-icon>
         <div class="text-truncate">{{ date | date: 'fullDate' }}</div>
     </nb-list-item>`,
-    standalone: false,
+    imports: [NbListModule, NbIconModule, DatePipe],
 })
 export class DateListItemComponent {
     @Input({ required: true })

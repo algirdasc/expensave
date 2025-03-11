@@ -1,12 +1,15 @@
 import { Component, OnInit } from '@angular/core';
-import { NbDialogRef, NbToastrService } from '@nebular/theme';
+import { NbDialogRef, NbToastrService, NbSpinnerModule } from '@nebular/theme';
 import { CalendarApiService } from '../../../../api/calendar.api.service';
 import { Calendar } from '../../../../api/objects/calendar';
+import { NgIf } from '@angular/common';
+import { CalendarListComponent } from './calendar-list/calendar-list.component';
+import { CalendarEditComponent } from './calendar-edit/calendar-edit.component';
 
 @Component({
     templateUrl: 'calendars-dialog.component.html',
     styleUrls: ['calendars-dialog.component.scss'],
-    standalone: false,
+    imports: [NbSpinnerModule, NgIf, CalendarListComponent, CalendarEditComponent],
 })
 export class CalendarsDialogComponent implements OnInit {
     public isBusy: boolean = true;

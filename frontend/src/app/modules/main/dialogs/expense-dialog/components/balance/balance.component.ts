@@ -1,15 +1,32 @@
 import { Component, Input, ViewChild } from '@angular/core';
-import { NbDialogRef } from '@nebular/theme';
+import { NbDialogRef, NbSpinnerModule } from '@nebular/theme';
 import { BalanceUpdateApiService } from '../../../../../../api/balance-update.api.service';
 import { Expense } from '../../../../../../api/objects/expense';
 import { ExpenseDialogComponent } from '../../expense-dialog.component';
 import { AbstractExpenseComponent } from '../abstract-expense.component';
 import { ExpenseInputComponent } from '../expense-input.component';
+import { FormsModule } from '@angular/forms';
+import { CalendarListItemComponent } from '../fields/calendar-list-item.component';
+import { CategoryListItemComponent } from '../fields/category-list-item.component';
+import { DateListItemComponent } from '../fields/date-list-item.component';
+import { DescriptionListItemComponent } from '../fields/description-list-item.component';
+import { UserListItemComponent } from '../fields/user-list-item.component';
+import { FooterComponent } from '../fields/footer.component';
 
 @Component({
     selector: 'app-balance',
     templateUrl: 'balance.component.html',
-    standalone: false,
+    imports: [
+        FormsModule,
+        NbSpinnerModule,
+        ExpenseInputComponent,
+        CalendarListItemComponent,
+        CategoryListItemComponent,
+        DateListItemComponent,
+        DescriptionListItemComponent,
+        UserListItemComponent,
+        FooterComponent,
+    ],
 })
 export class BalanceComponent extends AbstractExpenseComponent {
     @ViewChild('expenseInput')

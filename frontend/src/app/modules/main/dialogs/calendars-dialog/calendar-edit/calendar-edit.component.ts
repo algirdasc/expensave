@@ -4,12 +4,39 @@ import { map } from 'rxjs/operators';
 import { Calendar } from '../../../../../api/objects/calendar';
 import { User } from '../../../../../api/objects/user';
 import { UserApiService } from '../../../../../api/user.api.service';
+import { FormsModule } from '@angular/forms';
+import {
+    NbCardModule,
+    NbButtonModule,
+    NbIconModule,
+    NbFormFieldModule,
+    NbInputModule,
+    NbUserModule,
+    NbListModule,
+    NbAutocompleteModule,
+    NbOptionModule,
+} from '@nebular/theme';
+import { NgIf, NgFor, AsyncPipe } from '@angular/common';
 
 @Component({
     templateUrl: 'calendar-edit.component.html',
     styleUrl: 'calendar-edit.component.scss',
     selector: 'app-calendar-edit',
-    standalone: false,
+    imports: [
+        FormsModule,
+        NbCardModule,
+        NbButtonModule,
+        NbIconModule,
+        NbFormFieldModule,
+        NbInputModule,
+        NgIf,
+        NbUserModule,
+        NbListModule,
+        NgFor,
+        NbAutocompleteModule,
+        NbOptionModule,
+        AsyncPipe,
+    ],
 })
 export class CalendarEditComponent implements OnInit {
     @Input()
