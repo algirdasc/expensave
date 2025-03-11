@@ -8,6 +8,7 @@ import { StatementImportService } from '../../../services/statement-import.servi
     selector: 'app-sidebar-actions',
     templateUrl: 'actions.component.html',
     styleUrl: 'actions.component.scss',
+    standalone: false,
 })
 export class ActionsComponent {
     protected readonly environment = environment;

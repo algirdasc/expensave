@@ -9,6 +9,7 @@ import { DatepickerDialogComponent } from '../../../datepicker-dialog/datepicker
         <nb-icon icon="calendar-outline" class="me-3"></nb-icon>
         <div class="text-truncate">{{ date | date: 'fullDate' }}</div>
     </nb-list-item>`,
+    standalone: false,
 })
 export class DateListItemComponent {
     @Input({ required: true })

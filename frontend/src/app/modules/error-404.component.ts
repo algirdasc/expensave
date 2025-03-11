@@ -13,6 +13,7 @@ import { Router } from '@angular/router';
             </nb-card-body>
         </nb-card>
     </div>`,
+    standalone: false,
 })
 export class Error404Component {
     public constructor(public router: Router) {}

@@ -10,6 +10,7 @@ import { TransferComponent } from './components/transfer/transfer.component';
 @Component({
     templateUrl: 'expense-dialog.component.html',
     styleUrls: ['expense-dialog.component.scss'],
+    standalone: false,
 })
 export class ExpenseDialogComponent implements OnInit {
     public expense: Expense;

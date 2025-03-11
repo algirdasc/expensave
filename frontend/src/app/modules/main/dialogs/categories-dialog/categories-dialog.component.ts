@@ -7,6 +7,7 @@ import { Category } from '../../../../api/objects/category';
 @Component({
     templateUrl: 'categories-dialog.component.html',
     styleUrl: 'categories-dialog.component.scss',
+    standalone: false,
 })
 export class CategoriesDialogComponent implements OnInit {
     public isBusy: boolean = true;

@@ -6,6 +6,7 @@ import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
     selector: 'app-input-suggestion',
     templateUrl: 'suggestion.component.html',
     styleUrls: ['suggestion.component.scss'],
+    standalone: false,
 })
 export class SuggestionComponent implements OnInit, OnChanges {
     @Input()

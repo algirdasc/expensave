@@ -7,6 +7,7 @@ import { CalendarService } from '../../calendar/calendar.service';
 @Component({
     templateUrl: 'expense-list-dialog.component.html',
     styleUrls: ['expense-list-dialog.component.scss'],
+    standalone: false,
 })
 export class ExpenseListDialogComponent implements OnInit {
     public visibleDate: Date;

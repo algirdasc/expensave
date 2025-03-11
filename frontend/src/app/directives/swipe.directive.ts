@@ -5,6 +5,7 @@ import { createSwipeSubscription } from './swipe/swipe.core';
 
 @Directive({
     selector: '[appSwipe]',
+    standalone: false,
 })
 export class SwipeDirective implements OnInit, OnDestroy {
     private swipeSubscription: Subscription | undefined;

@@ -8,6 +8,7 @@ import { CalendarCellInterface } from '../interfaces/calendar-cell.interface';
 @Component({
     templateUrl: 'calendar-grid-row-cell-mobile.component.html',
     styleUrls: ['calendar-grid-row-cell-mobile.component.scss'],
+    standalone: false,
 })
 export class CalendarGridRowCellMobileComponent
     extends NbCalendarDayCellComponent<Date>

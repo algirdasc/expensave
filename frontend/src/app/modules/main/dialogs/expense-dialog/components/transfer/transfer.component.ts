@@ -11,6 +11,7 @@ import { ExpenseInputComponent } from '../expense-input.component';
 @Component({
     selector: 'app-transfer',
     templateUrl: 'transfer.component.html',
+    standalone: false,
 })
 export class TransferComponent extends AbstractExpenseComponent {
     public destinationCalendar: Calendar;

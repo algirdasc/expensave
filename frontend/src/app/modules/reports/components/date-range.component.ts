@@ -11,6 +11,7 @@ import { NbCalendarRange } from '@nebular/theme';
         <nb-icon icon="arrow-forward-outline" class="mx-3"></nb-icon>
         {{ dateRange?.end | date }}
     </div>`,
+    standalone: false,
 })
 export class DateRangeComponent {
     @Input({ required: true })

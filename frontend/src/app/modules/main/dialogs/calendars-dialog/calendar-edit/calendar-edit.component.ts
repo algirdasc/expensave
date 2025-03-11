@@ -9,6 +9,7 @@ import { UserApiService } from '../../../../../api/user.api.service';
     templateUrl: 'calendar-edit.component.html',
     styleUrl: 'calendar-edit.component.scss',
     selector: 'app-calendar-edit',
+    standalone: false,
 })
 export class CalendarEditComponent implements OnInit {
     @Input()

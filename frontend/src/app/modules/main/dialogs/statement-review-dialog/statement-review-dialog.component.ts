@@ -15,6 +15,7 @@ export const DIALOG_ACTION_CLOSE = 'close';
     templateUrl: 'statement-review-dialog.component.html',
     styleUrl: 'statement-review-dialog.component.scss',
     animations: slideAnimation,
+    standalone: false,
 })
 export class StatementReviewDialogComponent implements OnInit {
     public expenses: Expense[] = [];

@@ -10,6 +10,7 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
             class="me-3"></nb-icon>
         <div>{{ confirmed ? 'Confirmed' : 'Unconfirmed' }}</div>
     </nb-list-item>`,
+    standalone: false,
 })
 export class ConfirmedListItemComponent {
     @Input({ required: true })
