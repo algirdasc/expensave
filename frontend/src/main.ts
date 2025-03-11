@@ -6,8 +6,6 @@ import {
     DEFAULT_CURRENCY_CODE,
     importProvidersFrom,
 } from '@angular/core';
-import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
-
 import { environment } from './environments/environment';
 import { AppInitializer } from './app/app.initializer';
 import { NB_AUTH_TOKEN_INTERCEPTOR_FILTER, NbAuthJWTInterceptor } from '@nebular/auth';
