@@ -1,7 +1,14 @@
 import { Component, NgZone, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { NbDateService, NbMediaBreakpointsService, NbSidebarService } from '@nebular/theme';
-import { ResizedEvent } from 'angular-resize-event';
+import {
+    NbDateService,
+    NbMediaBreakpointsService,
+    NbSidebarService,
+    NbLayoutModule,
+    NbSpinnerModule,
+    NbSidebarModule,
+} from '@nebular/theme';
+import { ResizedEvent, AngularResizeEventModule } from 'angular-resize-event';
 import { ExpenseApiService } from '../../api/expense.api.service';
 import { Calendar } from '../../api/objects/calendar';
 import { Category } from '../../api/objects/category';
@@ -11,11 +18,30 @@ import { SwipeEvent } from '../../interfaces/swipe.interface';
 import { DateUtil } from '../../util/date.util';
 import { MainService, SIDEBAR_TAG } from './main.service';
 import { StatementImportService } from './services/statement-import.service';
+import { HeaderComponent } from './header/header.component';
+import { SwipeDirective } from '../../directives/swipe.directive';
+import { CalendarComponent } from './calendar/calendar.component';
+import { OutsideClickDirective } from '../../directives/outside-click.directive';
+import { ProfileComponent } from './components/sidebar/profile/profile.component';
+import { CalendarSidebarListComponent } from './components/sidebar/calendar-list/calendar-list.component';
+import { ActionsComponent } from './components/sidebar/actions/actions.component';
 
 @Component({
     templateUrl: 'main.component.html',
     styleUrl: 'main.component.scss',
-    standalone: false,
+    imports: [
+        NbLayoutModule,
+        NbSpinnerModule,
+        HeaderComponent,
+        SwipeDirective,
+        AngularResizeEventModule,
+        CalendarComponent,
+        NbSidebarModule,
+        OutsideClickDirective,
+        ProfileComponent,
+        CalendarSidebarListComponent,
+        ActionsComponent,
+    ],
 })
 export class MainComponent implements OnInit {
     protected isCalendarBusy: boolean = false;

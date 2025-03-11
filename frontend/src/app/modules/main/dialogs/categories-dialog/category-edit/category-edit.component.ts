@@ -1,14 +1,23 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { NbDialogService } from '@nebular/theme';
+import {
+    NbDialogService,
+    NbCardModule,
+    NbButtonModule,
+    NbIconModule,
+    NbFormFieldModule,
+    NbInputModule,
+} from '@nebular/theme';
 import { CategoryApiService } from '../../../../../api/category.api.service';
 import { Category } from '../../../../../api/objects/category';
 import { ConfirmDialogComponent } from '../../confirm-dialog/confirm-dialog.component';
+import { FormsModule } from '@angular/forms';
+import { NgFor, NgIf } from '@angular/common';
 
 @Component({
     templateUrl: 'category-edit.component.html',
     styleUrls: ['category-edit.component.scss'],
     selector: 'app-category-edit',
-    standalone: false,
+    imports: [FormsModule, NbCardModule, NbButtonModule, NbIconModule, NbFormFieldModule, NbInputModule, NgFor, NgIf],
 })
 export class CategoryEditComponent {
     @Input()

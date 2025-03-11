@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
-import { NbDialogRef } from '@nebular/theme';
+import { NbDialogRef, NbCardModule, NbButtonModule, NbIconModule } from '@nebular/theme';
 
 @Component({
     templateUrl: 'confirm-dialog.component.html',
     styleUrls: ['confirm-dialog.component.scss'],
-    standalone: false,
+    imports: [NbCardModule, NbButtonModule, NbIconModule],
 })
 export class ConfirmDialogComponent {
     public question: string = 'Are you sure?';

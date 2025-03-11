@@ -1,19 +1,36 @@
 import { Component } from '@angular/core';
-import { NbCalendarDayCellComponent, NbDateService, NbDialogService } from '@nebular/theme';
-import { ResizedEvent } from 'angular-resize-event';
+import {
+    NbCalendarDayCellComponent,
+    NbDateService,
+    NbDialogService,
+    NbButtonModule,
+    NbIconModule,
+} from '@nebular/theme';
+import { ResizedEvent, AngularResizeEventModule } from 'angular-resize-event';
 import { Calendar } from '../../../../api/objects/calendar';
 import { Expense } from '../../../../api/objects/expense';
 import { ExpenseBalance } from '../../../../api/objects/expense-balance';
 import { ExpenseListDialogComponent } from '../../dialogs/expense-list-dialog/expense-list-dialog.component';
 import { CalendarService } from '../calendar.service';
 import { CalendarCellInterface } from '../interfaces/calendar-cell.interface';
+import { NgIf, NgFor } from '@angular/common';
+import { CalendarGridRowCellDesktopExpenseItemComponent } from './calendar-grid-row-cell-desktop-expense-item/calendar-grid-row-cell-desktop-expense-item.component';
+import { ShortNumberPipe } from '../../../../pipes/shortnumber.pipe';
 
 export const EXPENSE_LIST_ITEM_HEIGHT = 21;
 
 @Component({
     templateUrl: 'calendar-grid-row-cell-desktop.component.html',
     styleUrls: ['calendar-grid-row-cell-desktop.component.scss'],
-    standalone: false,
+    imports: [
+        NgIf,
+        NbButtonModule,
+        NbIconModule,
+        AngularResizeEventModule,
+        NgFor,
+        CalendarGridRowCellDesktopExpenseItemComponent,
+        ShortNumberPipe,
+    ],
 })
 export class CalendarGridRowCellDesktopComponent
     extends NbCalendarDayCellComponent<Date>

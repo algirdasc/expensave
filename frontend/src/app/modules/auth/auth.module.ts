@@ -19,7 +19,6 @@ import { LoginComponent } from './components/login/login.component';
 import { JwtRefreshableToken } from './jwt-refreshable-token';
 
 @NgModule({
-    declarations: [LoginComponent],
     imports: [
         CommonModule,
         FormsModule,
@@ -32,6 +31,7 @@ import { JwtRefreshableToken } from './jwt-refreshable-token';
         NbCheckboxModule,
         RouterModule.forChild(authRoutes),
         NgOptimizedImage,
+        LoginComponent,
     ],
 })
 export class AuthModule {

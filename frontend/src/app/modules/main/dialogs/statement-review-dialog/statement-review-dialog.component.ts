@@ -1,11 +1,12 @@
-import { DatePipe } from '@angular/common';
+import { DatePipe, NgFor, NgStyle } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { NbDialogRef, NbDialogService } from '@nebular/theme';
+import { NbDialogRef, NbDialogService, NbCardModule, NbButtonModule, NbIconModule, NbListModule } from '@nebular/theme';
 import { slideAnimation } from '../../../../animations/slide.animation';
 import { Expense } from '../../../../api/objects/expense';
 import { APP_CONFIG } from '../../../../app.initializer';
 import { ConfirmDialogComponent } from '../confirm-dialog/confirm-dialog.component';
 import { ExpenseDialogComponent } from '../expense-dialog/expense-dialog.component';
+import { ShortNumberPipe } from '../../../../pipes/shortnumber.pipe';
 
 export const DIALOG_ACTION_IMPORT = 'import';
 export const DIALOG_ACTION_CANCEL = 'cancel';
@@ -15,7 +16,7 @@ export const DIALOG_ACTION_CLOSE = 'close';
     templateUrl: 'statement-review-dialog.component.html',
     styleUrl: 'statement-review-dialog.component.scss',
     animations: slideAnimation,
-    standalone: false,
+    imports: [NbCardModule, NbButtonModule, NbIconModule, NgFor, NbListModule, NgStyle, ShortNumberPipe],
 })
 export class StatementReviewDialogComponent implements OnInit {
     public expenses: Expense[] = [];

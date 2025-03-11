@@ -1,15 +1,34 @@
 import { Component, Input, ViewChild } from '@angular/core';
-import { NbDialogRef } from '@nebular/theme';
+import { NbDialogRef, NbSpinnerModule } from '@nebular/theme';
 import { ExpenseApiService } from '../../../../../../api/expense.api.service';
 import { Expense } from '../../../../../../api/objects/expense';
 import { ExpenseDialogComponent } from '../../expense-dialog.component';
 import { AbstractExpenseComponent } from '../abstract-expense.component';
 import { ExpenseInputComponent } from '../expense-input.component';
+import { FormsModule } from '@angular/forms';
+import { CalendarListItemComponent } from '../fields/calendar-list-item.component';
+import { ConfirmedListItemComponent } from '../fields/confirmed-list-item.component';
+import { CategoryListItemComponent } from '../fields/category-list-item.component';
+import { DateListItemComponent } from '../fields/date-list-item.component';
+import { DescriptionListItemComponent } from '../fields/description-list-item.component';
+import { UserListItemComponent } from '../fields/user-list-item.component';
+import { FooterComponent } from '../fields/footer.component';
 
 @Component({
     selector: 'app-expense',
     templateUrl: 'expense.component.html',
-    standalone: false,
+    imports: [
+        FormsModule,
+        NbSpinnerModule,
+        ExpenseInputComponent,
+        CalendarListItemComponent,
+        ConfirmedListItemComponent,
+        CategoryListItemComponent,
+        DateListItemComponent,
+        DescriptionListItemComponent,
+        UserListItemComponent,
+        FooterComponent,
+    ],
 })
 export class ExpenseComponent extends AbstractExpenseComponent {
     @ViewChild('expenseInput')

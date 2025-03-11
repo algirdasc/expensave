@@ -4,11 +4,13 @@ import { Calendar } from '../../../../api/objects/calendar';
 import { Expense } from '../../../../api/objects/expense';
 import { ExpenseBalance } from '../../../../api/objects/expense-balance';
 import { CalendarCellInterface } from '../interfaces/calendar-cell.interface';
+import { NgIf } from '@angular/common';
+import { ShortNumberPipe } from '../../../../pipes/shortnumber.pipe';
 
 @Component({
     templateUrl: 'calendar-grid-row-cell-mobile.component.html',
     styleUrls: ['calendar-grid-row-cell-mobile.component.scss'],
-    standalone: false,
+    imports: [NgIf, ShortNumberPipe],
 })
 export class CalendarGridRowCellMobileComponent
     extends NbCalendarDayCellComponent<Date>

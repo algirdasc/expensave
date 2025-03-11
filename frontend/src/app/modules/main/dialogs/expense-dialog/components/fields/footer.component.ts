@@ -1,8 +1,9 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { NbDialogService } from '@nebular/theme';
+import { NbDialogService, NbButtonModule, NbIconModule } from '@nebular/theme';
 import { Expense } from '../../../../../../api/objects/expense';
 import { ConfirmDialogComponent } from '../../../confirm-dialog/confirm-dialog.component';
+import { NgIf } from '@angular/common';
 
 @Component({
     selector: 'app-expense-dialog-footer',
@@ -16,7 +17,7 @@ import { ConfirmDialogComponent } from '../../../confirm-dialog/confirm-dialog.c
             <nb-icon icon="trash-2-outline"></nb-icon>
         </button>
     </div>`,
-    standalone: false,
+    imports: [NbButtonModule, NbIconModule, NgIf],
 })
 export class FooterComponent {
     @Input({ required: true })

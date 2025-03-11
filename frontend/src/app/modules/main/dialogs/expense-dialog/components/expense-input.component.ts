@@ -1,15 +1,19 @@
 import { ChangeDetectorRef, Component, ElementRef, EventEmitter, Input, Output, ViewChild } from '@angular/core';
-import { ControlContainer, NgForm } from '@angular/forms';
+import { ControlContainer, NgForm, FormsModule } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { ExpenseApiService } from '../../../../../api/expense.api.service';
 import { Expense } from '../../../../../api/objects/expense';
+import { NbButtonModule, NbIconModule, NbInputModule } from '@nebular/theme';
+import { NgIf } from '@angular/common';
+import { SuggestionComponent } from '../../../components/suggestion/suggestion.component';
+import { ShortNumberPipe } from '../../../../../pipes/shortnumber.pipe';
 
 @Component({
     selector: 'app-expense-input',
     templateUrl: 'expense-input.component.html',
     styleUrl: 'expense-input.component.scss',
     viewProviders: [{ provide: ControlContainer, useExisting: NgForm }],
-    standalone: false,
+    imports: [NbButtonModule, NbIconModule, NbInputModule, FormsModule, NgIf, SuggestionComponent, ShortNumberPipe],
 })
 export class ExpenseInputComponent {
     @Input({ required: true })

@@ -17,7 +17,7 @@ import {
     NbSpinnerModule,
 } from '@nebular/theme';
 import { BaseChartDirective, provideCharts, withDefaultRegisterables } from 'ng2-charts';
-import { ShortNumberModule } from '../../pipes/shortnumber.module';
+
 import { CategoryExpensesComponent } from './components/category-expenses/category-expenses.component';
 import { DailyExpensesComponent } from './components/daily-expenses/daily-expenses.component';
 import { DateRangeComponent } from './components/date-range.component';
@@ -28,14 +28,6 @@ import { reportsRoutes } from './reports.routes';
 import { ReportsService } from './reports.service';
 
 @NgModule({
-    declarations: [
-        ReportsComponent,
-        DateRangeComponent,
-        PeriodSelectorComponent,
-        DailyExpensesComponent,
-        MonthlyExpensesComponent,
-        CategoryExpensesComponent,
-    ],
     imports: [
         CommonModule,
         RouterModule.forChild(reportsRoutes),
@@ -43,7 +35,6 @@ import { ReportsService } from './reports.service';
         NbCardModule,
         NbDatepickerModule,
         NbButtonGroupModule,
-        ShortNumberModule,
         NbCalendarKitModule,
         NbPopoverModule,
         NbSidebarModule.forRoot(),
@@ -54,6 +45,12 @@ import { ReportsService } from './reports.service';
         NbSpinnerModule,
         BaseChartDirective,
         NbActionsModule,
+        ReportsComponent,
+        DateRangeComponent,
+        PeriodSelectorComponent,
+        DailyExpensesComponent,
+        MonthlyExpensesComponent,
+        CategoryExpensesComponent,
     ],
     providers: [ReportsService, provideCharts(withDefaultRegisterables())],
 })

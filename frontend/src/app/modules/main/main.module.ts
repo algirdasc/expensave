@@ -30,7 +30,6 @@ import { ContentLoaderModule } from '@ngneat/content-loader';
 import { AngularResizeEventModule } from 'angular-resize-event';
 import { OutsideClickDirective } from '../../directives/outside-click.directive';
 import { SwipeDirective } from '../../directives/swipe.directive';
-import { ShortNumberModule } from '../../pipes/shortnumber.module';
 import { CalendarResolver } from '../../resolvers/calendar.resolver';
 import { UserResolver } from '../../resolvers/user.resolver';
 import { CalendarDayNamesComponent } from './calendar/calendar-day-names/calendar-day-names.component';
@@ -81,60 +80,6 @@ import { MainService } from './main.service';
 import { StatementImportService } from './services/statement-import.service';
 
 @NgModule({
-    declarations: [
-        // UI Components
-        MainComponent,
-        HeaderComponent,
-        CalendarSidebarListComponent,
-        ProfileComponent,
-        CalendarComponent,
-        SuggestionComponent,
-        ExpenseReportComponent,
-        ActionsComponent,
-
-        // CalendarComponent Components
-        CalendarDayNamesComponent,
-        CalendarGridComponent,
-        CalendarGridRowComponent,
-        CalendarGridRowCellDesktopComponent,
-        CalendarGridRowCellMobileComponent,
-        CalendarExpenseListMobileComponent,
-        CalendarGridRowCellDesktopExpenseItemComponent,
-        CalendarExpenseListMobileItemsComponent,
-
-        // Dialogs
-        ConfirmDialogComponent,
-        ExpenseDialogComponent,
-        ExpenseListDialogComponent,
-        ExpenseListItemsComponent,
-        ProfileDialogComponent,
-        CategoriesDialogComponent,
-        CalendarsDialogComponent,
-        StatementReviewDialogComponent,
-        InputDialogComponent,
-        DatepickerDialogComponent,
-
-        // Dialog components
-        CalendarListComponent,
-        CalendarEditComponent,
-        CategoryEditComponent,
-        CategoryListComponent,
-        ExpenseComponent,
-        ExpenseInputComponent,
-        BalanceComponent,
-        TransferComponent,
-        DescriptionListItemComponent,
-        UserListItemComponent,
-        CalendarListItemComponent,
-        DateListItemComponent,
-        CategoryListItemComponent,
-        ConfirmedListItemComponent,
-        FooterComponent,
-
-        // Directives
-        SwipeDirective,
-        OutsideClickDirective,
-    ],
     imports: [
         CommonModule,
         RouterModule.forChild(mainRoutes),
@@ -159,18 +104,64 @@ import { StatementImportService } from './services/statement-import.service';
         NbFormFieldModule,
         NbTabsetModule,
         AngularResizeEventModule,
-        ShortNumberModule,
         ContentLoaderModule,
         NbTooltipModule,
         NbDialogModule,
         NbBadgeModule,
+        // UI Components
+        MainComponent,
+        HeaderComponent,
+        CalendarSidebarListComponent,
+        ProfileComponent,
+        CalendarComponent,
+        SuggestionComponent,
+        ExpenseReportComponent,
+        ActionsComponent,
+        // CalendarComponent Components
+        CalendarDayNamesComponent,
+        CalendarGridComponent,
+        CalendarGridRowComponent,
+        CalendarGridRowCellDesktopComponent,
+        CalendarGridRowCellMobileComponent,
+        CalendarExpenseListMobileComponent,
+        CalendarGridRowCellDesktopExpenseItemComponent,
+        CalendarExpenseListMobileItemsComponent,
+        // Dialogs
+        ConfirmDialogComponent,
+        ExpenseDialogComponent,
+        ExpenseListDialogComponent,
+        ExpenseListItemsComponent,
+        ProfileDialogComponent,
+        CategoriesDialogComponent,
+        CalendarsDialogComponent,
+        StatementReviewDialogComponent,
+        InputDialogComponent,
+        DatepickerDialogComponent,
+        // Dialog components
+        CalendarListComponent,
+        CalendarEditComponent,
+        CategoryEditComponent,
+        CategoryListComponent,
+        ExpenseComponent,
+        ExpenseInputComponent,
+        BalanceComponent,
+        TransferComponent,
+        DescriptionListItemComponent,
+        UserListItemComponent,
+        CalendarListItemComponent,
+        DateListItemComponent,
+        CategoryListItemComponent,
+        ConfirmedListItemComponent,
+        FooterComponent,
+        // Directives
+        SwipeDirective,
+        OutsideClickDirective,
     ],
     providers: [
         MainService,
         CalendarService,
         CalendarMonthModelService,
         StatementImportService,
-
         // Resolvers
         UserResolver,
         CalendarResolver,

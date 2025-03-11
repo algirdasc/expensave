@@ -1,7 +1,9 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { NbDialogService } from '@nebular/theme';
+import { NbDialogService, NbListModule, NbIconModule } from '@nebular/theme';
 import { Calendar } from '../../../../../../api/objects/calendar';
 import { CalendarsDialogComponent } from '../../../calendars-dialog/calendars-dialog.component';
+import { NgIf } from '@angular/common';
+import { ContentLoaderModule } from '@ngneat/content-loader';
 
 @Component({
     selector: 'app-expense-dialog-calendar-list-item',
@@ -18,7 +20,7 @@ import { CalendarsDialogComponent } from '../../../calendars-dialog/calendars-di
             </content-loader>
         </div>
     </nb-list-item>`,
-    standalone: false,
+    imports: [NbListModule, NbIconModule, NgIf, ContentLoaderModule],
 })
 export class CalendarListItemComponent {
     @Input()

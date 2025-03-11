@@ -1,14 +1,36 @@
 import { Component, OnInit } from '@angular/core';
-import { NbDialogRef, NbToastrService } from '@nebular/theme';
+import {
+    NbDialogRef,
+    NbToastrService,
+    NbCardModule,
+    NbSpinnerModule,
+    NbUserModule,
+    NbButtonModule,
+    NbIconModule,
+    NbFormFieldModule,
+    NbInputModule,
+} from '@nebular/theme';
 import { User } from '../../../../api/objects/user';
 import { PasswordRequest } from '../../../../api/request/password.request';
 import { UserApiService } from '../../../../api/user.api.service';
 import { AuthOptionsService } from '../../../../services/auth-options.service';
+import { FormsModule } from '@angular/forms';
+import { NgIf } from '@angular/common';
 
 @Component({
     templateUrl: 'profile-dialog.component.html',
     styleUrls: ['profile-dialog.component.scss'],
-    standalone: false,
+    imports: [
+        FormsModule,
+        NbCardModule,
+        NbSpinnerModule,
+        NbUserModule,
+        NbButtonModule,
+        NbIconModule,
+        NbFormFieldModule,
+        NbInputModule,
+        NgIf,
+    ],
 })
 export class ProfileDialogComponent implements OnInit {
     public user: User = new User();

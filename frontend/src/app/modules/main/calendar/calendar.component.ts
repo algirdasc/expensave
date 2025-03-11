@@ -1,6 +1,11 @@
-import { getLocaleFirstDayOfWeek } from '@angular/common';
+import { getLocaleFirstDayOfWeek, NgIf } from '@angular/common';
 import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges, Type } from '@angular/core';
-import { NbCalendarCell, NbCalendarDayPickerComponent, NbCalendarMonthModelService } from '@nebular/theme';
+import {
+    NbCalendarCell,
+    NbCalendarDayPickerComponent,
+    NbCalendarMonthModelService,
+    NbCardModule,
+} from '@nebular/theme';
 import { Calendar } from '../../../api/objects/calendar';
 import { Expense } from '../../../api/objects/expense';
 import { ExpenseBalance } from '../../../api/objects/expense-balance';
@@ -9,12 +14,15 @@ import { DateUtil } from '../../../util/date.util';
 import { CalendarGridRowCellDesktopComponent } from './calendar-grid-row-cell-desktop/calendar-grid-row-cell-desktop.component';
 import { CalendarGridRowCellMobileComponent } from './calendar-grid-row-cell-mobile/calendar-grid-row-cell-mobile.component';
 import { CalendarMonthModelService } from './calendar-month-model.service';
+import { CalendarDayNamesComponent } from './calendar-day-names/calendar-day-names.component';
+import { CalendarGridComponent } from './calendar-grid/calendar-grid.component';
+import { CalendarExpenseListMobileComponent } from './calendar-expense-list-mobile/calendar-expense-list-mobile.component';
 
 @Component({
     styleUrls: ['calendar.component.scss'],
     templateUrl: 'calendar.component.html',
     selector: 'app-calendar',
-    standalone: false,
+    imports: [NbCardModule, CalendarDayNamesComponent, CalendarGridComponent, NgIf, CalendarExpenseListMobileComponent],
 })
 export class CalendarComponent extends NbCalendarDayPickerComponent<Date, Date> implements OnChanges {
     @Input() public isMobile: boolean;

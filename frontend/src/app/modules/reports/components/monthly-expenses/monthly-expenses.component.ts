@@ -1,6 +1,14 @@
 import { FormStyle, getLocaleMonthNames, TranslationWidth } from '@angular/common';
 import { Component, OnChanges, OnInit } from '@angular/core';
-import { NbCalendarRange, NbDateService } from '@nebular/theme';
+import {
+    NbCalendarRange,
+    NbDateService,
+    NbCardModule,
+    NbSpinnerModule,
+    NbButtonGroupModule,
+    NbButtonModule,
+    NbIconModule,
+} from '@nebular/theme';
 import { ChartConfiguration } from 'chart.js';
 import { ReportsApiService } from '../../../../api/reports.api.service';
 import { ExpenseReportResponse } from '../../../../api/response/expense-report.response';
@@ -9,11 +17,20 @@ import { ShortNumberPipe } from '../../../../pipes/shortnumber.pipe';
 import { DateUtil } from '../../../../util/date.util';
 import { AbstractReportComponent } from '../abstract-report.component';
 import { chartTooltipHandler } from './monthly-expenses-tooltip';
+import { BaseChartDirective } from 'ng2-charts';
 
 @Component({
     selector: 'app-reports-monthly-expenses',
     templateUrl: 'monthly-expenses.component.html',
-    standalone: false,
+    imports: [
+        NbCardModule,
+        NbSpinnerModule,
+        NbButtonGroupModule,
+        NbButtonModule,
+        NbIconModule,
+        BaseChartDirective,
+        ShortNumberPipe,
+    ],
 })
 export class MonthlyExpensesComponent extends AbstractReportComponent implements OnInit, OnChanges {
     public income: number = 0;

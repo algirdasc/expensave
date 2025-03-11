@@ -1,13 +1,16 @@
 import { Component, OnInit } from '@angular/core';
-import { NbDialogRef } from '@nebular/theme';
+import { NbDialogRef, NbCardModule, NbButtonModule, NbIconModule } from '@nebular/theme';
 import { Calendar } from '../../../../api/objects/calendar';
 import { Expense } from '../../../../api/objects/expense';
 import { CalendarService } from '../../calendar/calendar.service';
+import { NgIf, DatePipe } from '@angular/common';
+import { ExpenseListItemsComponent } from './expense-list-items.component';
+import { ShortNumberPipe } from '../../../../pipes/shortnumber.pipe';
 
 @Component({
     templateUrl: 'expense-list-dialog.component.html',
     styleUrls: ['expense-list-dialog.component.scss'],
-    standalone: false,
+    imports: [NbCardModule, NgIf, ExpenseListItemsComponent, NbButtonModule, NbIconModule, DatePipe, ShortNumberPipe],
 })
 export class ExpenseListDialogComponent implements OnInit {
     public visibleDate: Date;

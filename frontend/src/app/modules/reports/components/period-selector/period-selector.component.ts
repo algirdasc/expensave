@@ -1,6 +1,12 @@
 import { getLocaleFirstDayOfWeek, WeekDay } from '@angular/common';
 import { AfterViewInit, Component, ElementRef, EventEmitter, Input, Output, ViewChild } from '@angular/core';
-import { NbCalendarRange, NbDateService, NbRangepickerComponent } from '@nebular/theme';
+import {
+    NbCalendarRange,
+    NbDateService,
+    NbRangepickerComponent,
+    NbButtonGroupModule,
+    NbDatepickerModule,
+} from '@nebular/theme';
 import { APP_CONFIG } from '../../../../app.initializer';
 import { DateUtil } from '../../../../util/date.util';
 
@@ -17,7 +23,7 @@ export enum PeriodEnum {
     selector: 'app-reports-period-selector',
     templateUrl: 'period-selector.component.html',
     styleUrl: 'period-selector.component.scss',
-    standalone: false,
+    imports: [NbButtonGroupModule, NbDatepickerModule],
 })
 export class PeriodSelectorComponent implements AfterViewInit {
     public dateRange: NbCalendarRange<Date>;
