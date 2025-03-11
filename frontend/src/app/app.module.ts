@@ -73,11 +73,13 @@ const apiServices = [
     providers: [
         AppInitializer,
         provideAppInitializer(() => {
-        const initializerFn = ((appInitializer: AppInitializer): (() => void) =>
+            const initializerFn = (
+                (appInitializer: AppInitializer): (() => void) =>
                 () =>
-                    appInitializer.initializeApp())(inject(AppInitializer));
-        return initializerFn();
-      }),
+                    appInitializer.initializeApp()
+            )(inject(AppInitializer));
+            return initializerFn();
+        }),
         {
             provide: LOCALE_ID,
             useFactory: (appInitializer: AppInitializer): string => appInitializer.getLocaleId(),

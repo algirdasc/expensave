@@ -18,7 +18,7 @@ import { CalendarsDialogComponent } from '../../../calendars-dialog/calendars-di
             </content-loader>
         </div>
     </nb-list-item>`,
-    standalone: false
+    standalone: false,
 })
 export class CalendarListItemComponent {
     @Input()

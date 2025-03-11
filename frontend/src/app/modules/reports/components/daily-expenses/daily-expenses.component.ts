@@ -14,7 +14,7 @@ import { chartTooltipHandler } from './daily-expenses-tooltip';
 @Component({
     selector: 'app-reports-daily-expenses',
     templateUrl: 'daily-expenses.component.html',
-    standalone: false
+    standalone: false,
 })
 export class DailyExpensesComponent extends AbstractReportComponent implements OnChanges {
     public income: number = 0;

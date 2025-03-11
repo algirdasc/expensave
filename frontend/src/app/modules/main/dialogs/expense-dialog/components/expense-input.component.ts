@@ -9,7 +9,7 @@ import { Expense } from '../../../../../api/objects/expense';
     templateUrl: 'expense-input.component.html',
     styleUrl: 'expense-input.component.scss',
     viewProviders: [{ provide: ControlContainer, useExisting: NgForm }],
-    standalone: false
+    standalone: false,
 })
 export class ExpenseInputComponent {
     @Input({ required: true })

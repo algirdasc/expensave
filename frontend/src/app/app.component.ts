@@ -9,7 +9,7 @@ import { NbDateService } from '@nebular/theme';
             <router-outlet></router-outlet>
         </nb-layout-column>
     </nb-layout>`,
-    standalone: false
+    standalone: false,
 })
 export class AppComponent {
     public isBusy: boolean = true;

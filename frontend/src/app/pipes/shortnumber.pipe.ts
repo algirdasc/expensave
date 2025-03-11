@@ -4,7 +4,7 @@ import { APP_CONFIG } from '../app.initializer';
 
 @Pipe({
     name: 'shortNumber',
-    standalone: false
+    standalone: false,
 })
 export class ShortNumberPipe implements PipeTransform {
     public transform(input: number | string, ...args: string[]): string {

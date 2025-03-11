@@ -3,7 +3,7 @@ import { Expense } from '../../../../../api/objects/expense';
 
 @Component({
     template: '',
-    standalone: false
+    standalone: false,
 })
 export abstract class AbstractExpenseComponent {
     @Input({ required: true })

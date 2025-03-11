@@ -6,7 +6,7 @@ import { Calendar } from '../../../../api/objects/calendar';
 @Component({
     templateUrl: 'calendars-dialog.component.html',
     styleUrls: ['calendars-dialog.component.scss'],
-    standalone: false
+    standalone: false,
 })
 export class CalendarsDialogComponent implements OnInit {
     public isBusy: boolean = true;

@@ -6,7 +6,7 @@ import { APP_CONFIG } from '../../../../app.initializer';
 @Component({
     selector: 'app-login',
     templateUrl: './login.component.html',
-    standalone: false
+    standalone: false,
 })
 export class LoginComponent extends NbLoginComponent {
     protected readonly APP_CONFIG = APP_CONFIG;

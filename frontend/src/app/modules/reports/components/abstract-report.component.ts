@@ -7,7 +7,7 @@ import { ReportsApiService } from '../../../api/reports.api.service';
 
 @Component({
     template: '',
-    standalone: false
+    standalone: false,
 })
 export abstract class AbstractReportComponent implements OnChanges {
     @Input({ required: true })

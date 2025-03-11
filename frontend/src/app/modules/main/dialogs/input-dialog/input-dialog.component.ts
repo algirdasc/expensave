@@ -4,7 +4,7 @@ import { NbDialogRef } from '@nebular/theme';
 @Component({
     templateUrl: 'input-dialog.component.html',
     styleUrls: ['input-dialog.component.scss'],
-    standalone: false
+    standalone: false,
 })
 export class InputDialogComponent implements AfterViewInit {
     @Input()

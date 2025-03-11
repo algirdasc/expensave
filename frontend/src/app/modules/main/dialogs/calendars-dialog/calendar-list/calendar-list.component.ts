@@ -7,7 +7,7 @@ import { Calendar } from '../../../../../api/objects/calendar';
     templateUrl: 'calendar-list.component.html',
     styleUrls: ['calendar-list.component.scss'],
     animations: slideAnimation,
-    standalone: false
+    standalone: false,
 })
 export class CalendarListComponent {
     @Input() public calendars: Calendar[];

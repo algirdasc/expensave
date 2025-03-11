@@ -8,7 +8,7 @@ import { AuthOptionsService } from '../../../../services/auth-options.service';
 @Component({
     templateUrl: 'profile-dialog.component.html',
     styleUrls: ['profile-dialog.component.scss'],
-    standalone: false
+    standalone: false,
 })
 export class ProfileDialogComponent implements OnInit {
     public user: User = new User();

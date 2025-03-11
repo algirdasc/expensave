@@ -27,7 +27,7 @@ import { CalendarService } from '../calendar.service';
                 <small class="w-50 text-right text-truncate">{{ expense.category?.name }}</small>
             </nb-list-item>
         </nb-list>`,
-    standalone: false
+    standalone: false,
 })
 export class CalendarExpenseListMobileItemsComponent {
     @Input()

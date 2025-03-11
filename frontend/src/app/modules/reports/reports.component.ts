@@ -7,7 +7,7 @@ import { ReportsService } from './reports.service';
 @Component({
     templateUrl: 'reports.component.html',
     styleUrl: 'reports.component.scss',
-    standalone: false
+    standalone: false,
 })
 export class ReportsComponent implements OnInit {
     public selectedCalendars: Calendar[] = [];

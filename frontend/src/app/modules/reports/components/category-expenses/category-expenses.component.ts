@@ -12,7 +12,7 @@ import { chartTooltipHandler } from './category-expenses-tooltip';
     selector: 'app-reports-category-expenses',
     templateUrl: 'category-expenses.component.html',
     styleUrl: 'category-expenses.component.scss',
-    standalone: false
+    standalone: false,
 })
 export class CategoryExpensesComponent extends AbstractReportComponent implements OnChanges {
     public barChartOptions: ChartConfiguration['options'] = {

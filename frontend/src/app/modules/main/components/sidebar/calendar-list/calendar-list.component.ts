@@ -12,7 +12,7 @@ import { StatementImportService } from '../../../services/statement-import.servi
     selector: 'app-sidebar-calendar-list',
     styleUrls: ['calendar-list.component.scss'],
     templateUrl: 'calendar-list.component.html',
-    standalone: false
+    standalone: false,
 })
 export class CalendarSidebarListComponent {
     @Input() public calendar: Calendar;

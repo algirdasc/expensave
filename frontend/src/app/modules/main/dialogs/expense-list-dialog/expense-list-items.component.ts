@@ -25,7 +25,7 @@ import { Expense } from '../../../../api/objects/expense';
         </nb-list-item>
     </nb-list>`,
     animations: slideAnimation,
-    standalone: false
+    standalone: false,
 })
 export class ExpenseListItemsComponent implements OnInit {
     @Input({ required: true })

@@ -8,7 +8,7 @@ import { ConfirmDialogComponent } from '../../confirm-dialog/confirm-dialog.comp
     templateUrl: 'category-edit.component.html',
     styleUrls: ['category-edit.component.scss'],
     selector: 'app-category-edit',
-    standalone: false
+    standalone: false,
 })
 export class CategoryEditComponent {
     @Input()

@@ -8,7 +8,7 @@ import { InputDialogComponent } from '../../../input-dialog/input-dialog.compone
         <nb-icon icon="file-text-outline" class="me-3"></nb-icon>
         <div class="text-truncate">{{ description ?? 'Add description' }}</div>
     </nb-list-item>`,
-    standalone: false
+    standalone: false,
 })
 export class DescriptionListItemComponent {
     @Input({ required: true })

@@ -13,7 +13,7 @@ import { MainService } from '../../main.service';
     templateUrl: 'expense-report.component.html',
     styleUrl: 'expense-report.component.scss',
     animations: slideAnimation,
-    standalone: false
+    standalone: false,
 })
 export class ExpenseReportComponent implements OnInit {
     public isBusy: boolean = true;

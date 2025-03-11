@@ -35,6 +35,7 @@ export default [{
     },
 
     rules: {
+        "@angular-eslint/prefer-standalone": ["warn"],
         "@angular-eslint/directive-selector": ["error", {
             type: "attribute",
             prefix: "app",

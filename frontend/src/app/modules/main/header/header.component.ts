@@ -11,7 +11,7 @@ import { StatementImportService } from '../services/statement-import.service';
     templateUrl: 'header.component.html',
     styleUrls: ['header.component.scss'],
     selector: 'app-header',
-    standalone: false
+    standalone: false,
 })
 export class HeaderComponent {
     @Input()
