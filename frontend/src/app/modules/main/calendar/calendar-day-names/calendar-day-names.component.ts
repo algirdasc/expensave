@@ -5,5 +5,6 @@ import { NbCalendarDaysNamesComponent } from '@nebular/theme';
     templateUrl: 'calendar-day-names.component.html',
     styleUrls: ['calendar-day-names.component.scss'],
     selector: 'app-calendar-day-names',
+    standalone: false
 })
 export class CalendarDayNamesComponent extends NbCalendarDaysNamesComponent<Date> {}

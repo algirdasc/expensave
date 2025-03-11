@@ -10,6 +10,7 @@ import { CalendarCellInterface } from '../interfaces/calendar-cell.interface';
     selector: 'app-calendar-grid-row',
     styleUrls: ['calendar-grid-row.component.scss'],
     template: '<ng-template></ng-template>',
+    standalone: false
 })
 export class CalendarGridRowComponent extends NbCalendarPickerRowComponent<Date, Date> implements OnChanges {
     @Input({ required: true }) public calendar: Calendar;

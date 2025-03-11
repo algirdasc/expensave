@@ -13,6 +13,7 @@ import { chartTooltipHandler } from './monthly-expenses-tooltip';
 @Component({
     selector: 'app-reports-monthly-expenses',
     templateUrl: 'monthly-expenses.component.html',
+    standalone: false
 })
 export class MonthlyExpensesComponent extends AbstractReportComponent implements OnInit, OnChanges {
     public income: number = 0;

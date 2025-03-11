@@ -5,7 +5,10 @@ import { finalize } from 'rxjs/operators';
 import { Calendar } from '../../../api/objects/calendar';
 import { ReportsApiService } from '../../../api/reports.api.service';
 
-@Component({ template: '' })
+@Component({
+    template: '',
+    standalone: false
+})
 export abstract class AbstractReportComponent implements OnChanges {
     @Input({ required: true })
     public calendars: Calendar[];

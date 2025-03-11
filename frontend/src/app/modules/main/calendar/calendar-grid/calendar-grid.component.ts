@@ -9,6 +9,7 @@ import { CalendarCellInterface } from '../interfaces/calendar-cell.interface';
     selector: 'app-calendar-grid',
     styleUrls: ['calendar-grid.component.scss'],
     templateUrl: 'calendar-grid.component.html',
+    standalone: false
 })
 export class CalendarGridComponent extends NbCalendarPickerComponent<Date, Date> {
     @Input({ required: true }) public expenses: Expense[];

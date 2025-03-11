@@ -16,6 +16,7 @@ import { ConfirmDialogComponent } from '../../../confirm-dialog/confirm-dialog.c
             <nb-icon icon="trash-2-outline"></nb-icon>
         </button>
     </div>`,
+    standalone: false
 })
 export class FooterComponent {
     @Input({ required: true })

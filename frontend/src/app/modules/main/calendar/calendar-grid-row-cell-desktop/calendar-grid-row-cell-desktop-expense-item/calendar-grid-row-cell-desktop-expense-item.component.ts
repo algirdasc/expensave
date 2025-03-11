@@ -6,6 +6,7 @@ import { UNCATEGORIZED_COLOR } from '../../../../../util/color.util';
     templateUrl: 'calendar-grid-row-cell-desktop-expense-item.component.html',
     styleUrls: ['calendar-grid-row-cell-desktop-expense-item.component.scss'],
     selector: 'app-calendar-expense-item',
+    standalone: false
 })
 export class CalendarGridRowCellDesktopExpenseItemComponent {
     @Input() public expense: Expense;

@@ -17,6 +17,7 @@ export enum PeriodEnum {
     selector: 'app-reports-period-selector',
     templateUrl: 'period-selector.component.html',
     styleUrl: 'period-selector.component.scss',
+    standalone: false
 })
 export class PeriodSelectorComponent implements AfterViewInit {
     public dateRange: NbCalendarRange<Date>;

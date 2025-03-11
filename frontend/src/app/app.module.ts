@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
-import { APP_INITIALIZER, DEFAULT_CURRENCY_CODE, LOCALE_ID, NgModule } from '@angular/core';
+import { DEFAULT_CURRENCY_CODE, LOCALE_ID, NgModule, inject, provideAppInitializer } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
@@ -72,15 +72,12 @@ const apiServices = [
     ],
     providers: [
         AppInitializer,
-        {
-            provide: APP_INITIALIZER,
-            useFactory:
-                (appInitializer: AppInitializer): (() => void) =>
+        provideAppInitializer(() => {
+        const initializerFn = ((appInitializer: AppInitializer): (() => void) =>
                 () =>
-                    appInitializer.initializeApp(),
-            deps: [AppInitializer],
-            multi: true,
-        },
+                    appInitializer.initializeApp())(inject(AppInitializer));
+        return initializerFn();
+      }),
         {
             provide: LOCALE_ID,
             useFactory: (appInitializer: AppInitializer): string => appInitializer.getLocaleId(),

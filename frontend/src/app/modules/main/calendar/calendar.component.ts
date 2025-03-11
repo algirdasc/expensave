@@ -14,6 +14,7 @@ import { CalendarMonthModelService } from './calendar-month-model.service';
     styleUrls: ['calendar.component.scss'],
     templateUrl: 'calendar.component.html',
     selector: 'app-calendar',
+    standalone: false
 })
 export class CalendarComponent extends NbCalendarDayPickerComponent<Date, Date> implements OnChanges {
     @Input() public isMobile: boolean;

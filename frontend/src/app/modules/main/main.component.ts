@@ -15,6 +15,7 @@ import { StatementImportService } from './services/statement-import.service';
 @Component({
     templateUrl: 'main.component.html',
     styleUrl: 'main.component.scss',
+    standalone: false
 })
 export class MainComponent implements OnInit {
     protected isCalendarBusy: boolean = false;

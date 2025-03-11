@@ -7,6 +7,7 @@ import { User } from '../../../../../../api/objects/user';
         <nb-user [picture]="user.avatar" onlyPicture size="tiny" class="me-2"></nb-user>
         <div class="text-truncate text-hint">{{ user.name }}</div>
     </nb-list-item>`,
+    standalone: false
 })
 export class UserListItemComponent {
     @Input({ required: true })

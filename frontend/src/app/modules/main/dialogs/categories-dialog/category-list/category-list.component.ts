@@ -8,6 +8,7 @@ import { UNCATEGORIZED_COLOR } from '../../../../../util/color.util';
     styleUrls: ['category-list.component.scss'],
     selector: 'app-category-list',
     animations: slideAnimation,
+    standalone: false
 })
 export class CategoryListComponent {
     @Input() public categories: Category[];

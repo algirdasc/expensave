@@ -9,6 +9,7 @@ import { CalendarService } from '../calendar.service';
     selector: 'app-calendar-expense-list-mobile',
     templateUrl: 'calendar-expense-list-mobile.component.html',
     styleUrls: ['calendar-expense-list-mobile.component.scss'],
+    standalone: false
 })
 export class CalendarExpenseListMobileComponent implements OnChanges {
     @Input()

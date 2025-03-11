@@ -13,6 +13,7 @@ export const EXPENSE_LIST_ITEM_HEIGHT = 21;
 @Component({
     templateUrl: 'calendar-grid-row-cell-desktop.component.html',
     styleUrls: ['calendar-grid-row-cell-desktop.component.scss'],
+    standalone: false
 })
 export class CalendarGridRowCellDesktopComponent
     extends NbCalendarDayCellComponent<Date>

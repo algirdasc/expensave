@@ -9,6 +9,7 @@ import { ExpenseInputComponent } from '../expense-input.component';
 @Component({
     selector: 'app-balance',
     templateUrl: 'balance.component.html',
+    standalone: false
 })
 export class BalanceComponent extends AbstractExpenseComponent {
     @ViewChild('expenseInput')
