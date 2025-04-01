@@ -17,7 +17,7 @@ import { NgIf } from '@angular/common';
             <nb-icon icon="trash-2-outline"></nb-icon>
         </button>
     </div>`,
-    imports: [NbButtonModule, NbIconModule, NgIf],
+    standalone: false,
 })
 export class FooterComponent {
     @Input({ required: true })

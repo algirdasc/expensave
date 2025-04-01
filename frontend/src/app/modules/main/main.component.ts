@@ -29,19 +29,7 @@ import { ActionsComponent } from './components/sidebar/actions/actions.component
 @Component({
     templateUrl: 'main.component.html',
     styleUrl: 'main.component.scss',
-    imports: [
-        NbLayoutModule,
-        NbSpinnerModule,
-        HeaderComponent,
-        SwipeDirective,
-        AngularResizeEventModule,
-        CalendarComponent,
-        NbSidebarModule,
-        OutsideClickDirective,
-        ProfileComponent,
-        CalendarSidebarListComponent,
-        ActionsComponent,
-    ],
+    standalone: false,
 })
 export class MainComponent implements OnInit {
     protected isCalendarBusy: boolean = false;

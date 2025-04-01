@@ -6,6 +6,7 @@ import { NgFor } from '@angular/common';
     templateUrl: 'calendar-day-names.component.html',
     styleUrls: ['calendar-day-names.component.scss'],
     selector: 'app-calendar-day-names',
+    standalone: true,
     imports: [NgFor],
 })
 export class CalendarDayNamesComponent extends NbCalendarDaysNamesComponent<Date> {}

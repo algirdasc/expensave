@@ -2,7 +2,7 @@ import { formatNumber } from '@angular/common';
 import { Pipe, PipeTransform } from '@angular/core';
 import { APP_CONFIG } from '../app.initializer';
 
-@Pipe({ name: 'shortNumber' })
+@Pipe({ name: 'shortNumber', standalone: true })
 export class ShortNumberPipe implements PipeTransform {
     public transform(input: number | string, ...args: string[]): string {
         if (typeof input === 'string') {

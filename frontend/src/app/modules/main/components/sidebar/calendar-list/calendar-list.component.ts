@@ -23,7 +23,7 @@ import { ShortNumberPipe } from '../../../../../pipes/shortnumber.pipe';
     selector: 'app-sidebar-calendar-list',
     styleUrls: ['calendar-list.component.scss'],
     templateUrl: 'calendar-list.component.html',
-    imports: [NbSpinnerModule, NbListModule, NgFor, NbRadioModule, NgIf, NbIconModule, NbButtonModule, ShortNumberPipe],
+    standalone: false,
 })
 export class CalendarSidebarListComponent {
     @Input() public calendar: Calendar;

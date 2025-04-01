@@ -30,6 +30,7 @@ import { ContentLoaderModule } from '@ngneat/content-loader';
 import { AngularResizeEventModule } from 'angular-resize-event';
 import { OutsideClickDirective } from '../../directives/outside-click.directive';
 import { SwipeDirective } from '../../directives/swipe.directive';
+import { ShortNumberPipe } from '../../pipes/shortnumber.pipe';
 import { CalendarResolver } from '../../resolvers/calendar.resolver';
 import { UserResolver } from '../../resolvers/user.resolver';
 import { CalendarDayNamesComponent } from './calendar/calendar-day-names/calendar-day-names.component';
@@ -108,24 +109,8 @@ import { StatementImportService } from './services/statement-import.service';
         NbTooltipModule,
         NbDialogModule,
         NbBadgeModule,
-        // UI Components
-        MainComponent,
-        HeaderComponent,
-        CalendarSidebarListComponent,
-        ProfileComponent,
+        // UI standalone
         CalendarComponent,
-        SuggestionComponent,
-        ExpenseReportComponent,
-        ActionsComponent,
-        // CalendarComponent Components
-        CalendarDayNamesComponent,
-        CalendarGridComponent,
-        CalendarGridRowComponent,
-        CalendarGridRowCellDesktopComponent,
-        CalendarGridRowCellMobileComponent,
-        CalendarExpenseListMobileComponent,
-        CalendarGridRowCellDesktopExpenseItemComponent,
-        CalendarExpenseListMobileItemsComponent,
         // Dialogs
         ConfirmDialogComponent,
         ExpenseDialogComponent,
@@ -152,13 +137,25 @@ import { StatementImportService } from './services/statement-import.service';
         DateListItemComponent,
         CategoryListItemComponent,
         ConfirmedListItemComponent,
-        FooterComponent,
         // Directives
         SwipeDirective,
         OutsideClickDirective,
+        // Pipes
+        ShortNumberPipe,
+    ],
+    declarations: [
+        // Layout components
+        MainComponent,
+        HeaderComponent,
+        FooterComponent,
+        // Layout sub-components
+        ProfileComponent,
+        ActionsComponent,
+        SuggestionComponent,
+        ExpenseReportComponent,
+        CalendarSidebarListComponent,
     ],
     providers: [
-        MainService,
         CalendarService,
         CalendarMonthModelService,
         StatementImportService,

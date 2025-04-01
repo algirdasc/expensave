@@ -22,6 +22,7 @@ import { CalendarExpenseListMobileComponent } from './calendar-expense-list-mobi
     styleUrls: ['calendar.component.scss'],
     templateUrl: 'calendar.component.html',
     selector: 'app-calendar',
+    standalone: true,
     imports: [NbCardModule, CalendarDayNamesComponent, CalendarGridComponent, NgIf, CalendarExpenseListMobileComponent],
 })
 export class CalendarComponent extends NbCalendarDayPickerComponent<Date, Date> implements OnChanges {

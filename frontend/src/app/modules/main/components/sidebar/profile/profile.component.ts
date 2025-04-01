@@ -9,7 +9,7 @@ import { ProfileDialogComponent } from '../../../dialogs/profile-dialog/profile-
     templateUrl: 'profile.component.html',
     styleUrls: ['profile.component.scss'],
     selector: 'app-profile',
-    imports: [NbUserModule, NbButtonModule, NbIconModule],
+    standalone: false,
 })
 export class ProfileComponent {
     @Input() public user: User;

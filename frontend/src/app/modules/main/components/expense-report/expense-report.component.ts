@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { NbDateService, NbCardModule, NbIconModule, NbSpinnerModule, NbListModule } from '@nebular/theme';
+import { NbDateService } from '@nebular/theme';
 import { finalize } from 'rxjs/operators';
 import { slideAnimation } from '../../../../animations/slide.animation';
 import { CategoryBalance } from '../../../../api/objects/category-balance';
@@ -7,15 +7,13 @@ import { ReportsApiService } from '../../../../api/reports.api.service';
 import { CategoryExpenseReportResponse } from '../../../../api/response/category-expense-report.response';
 import { DateUtil } from '../../../../util/date.util';
 import { MainService } from '../../main.service';
-import { NgIf, NgFor, DatePipe } from '@angular/common';
-import { ShortNumberPipe } from '../../../../pipes/shortnumber.pipe';
 
 @Component({
     selector: 'app-expense-report',
     templateUrl: 'expense-report.component.html',
     styleUrl: 'expense-report.component.scss',
     animations: slideAnimation,
-    imports: [NbCardModule, NbIconModule, NgIf, NbSpinnerModule, NbListModule, NgFor, DatePipe, ShortNumberPipe],
+    standalone: false,
 })
 export class ExpenseReportComponent implements OnInit {
     public isBusy: boolean = true;

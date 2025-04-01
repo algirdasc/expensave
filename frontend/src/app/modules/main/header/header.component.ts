@@ -25,19 +25,7 @@ import { ShortNumberPipe } from '../../../pipes/shortnumber.pipe';
     templateUrl: 'header.component.html',
     styleUrls: ['header.component.scss'],
     selector: 'app-header',
-    imports: [
-        NbButtonModule,
-        NbIconModule,
-        NgIf,
-        NbBadgeModule,
-        NbPopoverModule,
-        OutsideClickDirective,
-        NbCalendarKitModule,
-        NgSwitch,
-        NgSwitchCase,
-        NbButtonGroupModule,
-        ShortNumberPipe,
-    ],
+    standalone: false,
 })
 export class HeaderComponent {
     @Input()

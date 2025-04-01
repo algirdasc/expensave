@@ -109,6 +109,7 @@ bootstrapApplication(AppComponent, {
         UserResolver,
         CalendarResolver,
         SystemCategoryResolver,
+        MainService, // TODO: scope out unused variables & dependencies
         ...apiServices,
         provideHttpClient(withInterceptorsFromDi()),
         provideAnimations(),

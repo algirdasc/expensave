@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { NavigationEnd, NavigationStart, Router, RouterOutlet } from '@angular/router';
-import { NbDateService, NbLayoutModule, NbSpinnerModule } from '@nebular/theme';
+import { NbLayoutModule, NbSpinnerModule } from '@nebular/theme';
 
 @Component({
     selector: 'app-root',
@@ -9,15 +9,13 @@ import { NbDateService, NbLayoutModule, NbSpinnerModule } from '@nebular/theme';
             <router-outlet></router-outlet>
         </nb-layout-column>
     </nb-layout>`,
+    standalone: true,
     imports: [NbLayoutModule, NbSpinnerModule, RouterOutlet],
 })
 export class AppComponent {
     public isBusy: boolean = true;
 
-    public constructor(
-        private router: Router,
-        private dateService: NbDateService<Date>
-    ) {
+    public constructor(private router: Router) {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         this.router.events.subscribe((event: any) => {
             if (event instanceof NavigationEnd) {
