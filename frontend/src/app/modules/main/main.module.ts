@@ -158,7 +158,6 @@ import { StatementImportService } from './services/statement-import.service';
         OutsideClickDirective,
     ],
     providers: [
-        MainService,
         CalendarService,
         CalendarMonthModelService,
         StatementImportService,
