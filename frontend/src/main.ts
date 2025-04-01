@@ -6,6 +6,7 @@ import {
     DEFAULT_CURRENCY_CODE,
     importProvidersFrom,
 } from '@angular/core';
+import { MainService } from './app/modules/main/main.service';
 import { environment } from './environments/environment';
 import { AppInitializer } from './app/app.initializer';
 import { NB_AUTH_TOKEN_INTERCEPTOR_FILTER, NbAuthJWTInterceptor } from '@nebular/auth';
@@ -107,6 +108,7 @@ bootstrapApplication(AppComponent, {
         AuthOptionsService,
         UserResolver,
         CalendarResolver,
+        MainService, // TODO: move to global service and scope out functions
         SystemCategoryResolver,
         ...apiServices,
         provideHttpClient(withInterceptorsFromDi()),
