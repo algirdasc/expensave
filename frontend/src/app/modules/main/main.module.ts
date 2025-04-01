@@ -58,7 +58,6 @@ import { ConfirmDialogComponent } from './dialogs/confirm-dialog/confirm-dialog.
 import { DatepickerDialogComponent } from './dialogs/datepicker-dialog/datepicker-dialog.component';
 import { BalanceComponent } from './dialogs/expense-dialog/components/balance/balance.component';
 import { ExpenseInputComponent } from './dialogs/expense-dialog/components/expense-input.component';
-import { TransferComponent } from './dialogs/expense-dialog/components/transfer/transfer.component';
 import { ExpenseComponent } from './dialogs/expense-dialog/components/expense/expense.component';
 import { CalendarListItemComponent } from './dialogs/expense-dialog/components/fields/calendar-list-item.component';
 import { CategoryListItemComponent } from './dialogs/expense-dialog/components/fields/category-list-item.component';
@@ -67,6 +66,7 @@ import { DateListItemComponent } from './dialogs/expense-dialog/components/field
 import { DescriptionListItemComponent } from './dialogs/expense-dialog/components/fields/description-list-item.component';
 import { FooterComponent } from './dialogs/expense-dialog/components/fields/footer.component';
 import { UserListItemComponent } from './dialogs/expense-dialog/components/fields/user-list-item.component';
+import { TransferComponent } from './dialogs/expense-dialog/components/transfer/transfer.component';
 import { ExpenseDialogComponent } from './dialogs/expense-dialog/expense-dialog.component';
 import { ExpenseListDialogComponent } from './dialogs/expense-list-dialog/expense-list-dialog.component';
 import { ExpenseListItemsComponent } from './dialogs/expense-list-dialog/expense-list-items.component';
@@ -76,7 +76,6 @@ import { StatementReviewDialogComponent } from './dialogs/statement-review-dialo
 import { HeaderComponent } from './header/header.component';
 import { MainComponent } from './main.component';
 import { mainRoutes } from './main.routes';
-import { MainService } from './main.service';
 import { StatementImportService } from './services/statement-import.service';
 
 @NgModule({
