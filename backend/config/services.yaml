@@ -7,7 +7,7 @@ parameters:
     defaultFalse: false
     defaultTrue: true
     timezone: '%env(TZ)%'
-    registrationDisabled: '%env(bool:defaultFalse::REGISTRATION_DISABLED)%'
+    registrationDisabled: '%env(bool:default:defaultFalse::REGISTRATION_DISABLED)%'
     anonymousDataCollectionDisabled: '%env(bool:default:defaultFalse:ANONYMOUS_DATA_COLLECTION_DISABLED)%'
 
 services:
