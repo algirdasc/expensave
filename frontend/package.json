@@ -38,11 +38,11 @@
     },
     "devDependencies": {
         "@angular-devkit/build-angular": "^19",
-        "@angular-eslint/builder": "19.5.0",
-        "@angular-eslint/eslint-plugin": "19.5.0",
-        "@angular-eslint/eslint-plugin-template": "19.5.0",
-        "@angular-eslint/schematics": "19.5.0",
-        "@angular-eslint/template-parser": "19.5.0",
+        "@angular-eslint/builder": "19.8.1",
+        "@angular-eslint/eslint-plugin": "19.8.1",
+        "@angular-eslint/eslint-plugin-template": "19.8.1",
+        "@angular-eslint/schematics": "19.8.1",
+        "@angular-eslint/template-parser": "19.8.1",
         "@angular/cli": "^19.2.13",
         "@angular/compiler-cli": "^19.2.13",
         "@angular/language-service": "^19.2.13",
@@ -61,6 +61,6 @@
         "prettier": "^3.5.3",
         "prettier-eslint": "^16.4.2",
         "ts-node": "~10.9.2",
-        "typescript": "^5.8"
+        "typescript": "^5.9"
     }
 }

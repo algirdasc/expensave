@@ -4,8 +4,10 @@ services:
     restart: unless-stopped
     ports:
       - "18000:18000"
-    env_file:
-      - environment
+    environment:
+      LOCALE: en
+      REGISTRATION_DISABLED: no
+      TZ: Europe/Vilnius
     depends_on:
       - database
 
