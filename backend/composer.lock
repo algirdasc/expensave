@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "e2c931366748cf8b2a17702553284a16",
+    "content-hash": "f2236361d84ec3a992ac3de2beed592c",
     "packages": [
         {
             "name": "beberlei/doctrineextensions",
@@ -2356,6 +2356,60 @@
                 "source": "https://github.com/phpstan/phpdoc-parser/tree/2.2.0"
             },
             "time": "2025-07-13T07:04:09+00:00"
+        },
+        {
+            "name": "posthog/posthog-php",
+            "version": "3.6.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/PostHog/posthog-php.git",
+                "reference": "44d551f54172b2bd3507c10778dca2d1b3c35408"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/PostHog/posthog-php/zipball/44d551f54172b2bd3507c10778dca2d1b3c35408",
+                "reference": "44d551f54172b2bd3507c10778dca2d1b3c35408",
+                "shasum": ""
+            },
+            "require": {
+                "ext-json": "*",
+                "php": ">=8.0"
+            },
+            "require-dev": {
+                "overtrue/phplint": "^3.0",
+                "phpunit/phpunit": "^9.0",
+                "slope-it/clock-mock": "^0.4.0",
+                "squizlabs/php_codesniffer": "^3.7"
+            },
+            "bin": [
+                "bin/posthog"
+            ],
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "PostHog\\": "lib/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "PostHog <hey@posthog.com>",
+                    "homepage": "https://posthog.com/"
+                }
+            ],
+            "description": "PostHog PHP Library",
+            "homepage": "https://github.com/PostHog/posthog-php",
+            "keywords": [
+                "posthog"
+            ],
+            "support": {
+                "issues": "https://github.com/PostHog/posthog-php/issues",
+                "source": "https://github.com/PostHog/posthog-php/tree/3.6.0"
+            },
+            "time": "2025-05-01T00:43:06+00:00"
         },
         {
             "name": "psr/cache",
@@ -10898,6 +10952,6 @@
         "ext-iconv": "*",
         "ext-zip": "*"
     },
-    "platform-dev": {},
+    "platform-dev": [],
     "plugin-api-version": "2.6.0"
 }
