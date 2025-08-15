@@ -75,6 +75,16 @@ Contributions from the community are more than welcomed! If you'd like to contri
 
 If you encounter any issues or have any questions about Expensave, feel free to [open an issue](https://github.com/algirdasc/expensave/issues) on GitHub.
 
+# Anonymous data collection
+
+This application, by default, uses PostHog to collect anonymized data to help us understand app usage and improve the user experience. 
+This includes tracking pageviews and automatically capturing uncaught exceptions. 
+No personal or personalized data is collected or sent. 
+We do this to identify bugs and enhance the features that are most used.
+
+If you prefer not to share this data, you can easily opt out of tracking by
+setting the `ANONYMOUS_DATA_COLLECTION` environment variable to `no`.
+
 # Tech Stack
 
 **Frontend:** Angular, Nebular, Bootstrap

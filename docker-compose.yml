@@ -8,6 +8,7 @@ services:
       LOCALE: en
       REGISTRATION_DISABLED: no
       TZ: Europe/Vilnius
+      ANONYMOUS_DATA_COLLECTION_DISABLED: no
     depends_on:
       - database
 
