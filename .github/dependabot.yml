@@ -5,8 +5,8 @@
 
 version: 2
 updates:
-  - package-ecosystem: "composer" # See documentation for possible values
-    directory: "/backend" # Location of package manifests
+  - package-ecosystem: "composer"
+    directory: "/backend"
     schedule:
       interval: "weekly"
     groups:
@@ -29,3 +29,6 @@ updates:
       major:
         update-types:
           - major
+    ignore:
+      - dependency-name: "@angular*"
+        update-types: ["version-update:semver-major"]
