@@ -30,7 +30,7 @@
                             "src/assets",
                             "src/config.dev.json",
                             {
-                                "glob": "*.mjs",
+                                "glob": "*.js",
                                 "input": "node_modules/@angular/common/locales/",
                                 "output": "assets/l10n/locales/"
                             }
