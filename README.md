@@ -54,7 +54,7 @@ as well as improve motivation and helps me understand, that this project is usef
 
 ## Install on Hostinger VPS seamlessly
 
-[![Deploy on Hostinger](https://assets.hostinger.com/vps/deploy.svg)](https://www.hostinger.com/vps/docker-hosting?compose_url=https://raw.githubusercontent.com/algirdasc/expensave/refs/heads/main/docker-compose.yml&REFERRALCODE=1ALGIRDAS48)
+[![Deploy on Hostinger](https://assets.hostinger.com/vps/deploy.svg)](https://www.hostinger.com/vps/docker-hosting?compose_url=https://raw.githubusercontent.com/algirdasc/expensave/refs/heads/main/docker-compose.yml&REFERRALCODE=1ALGIRDAS48#pricing)
 
 ## Install self-hosted instance
 
