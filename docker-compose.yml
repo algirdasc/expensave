@@ -10,7 +10,8 @@ services:
       TZ: Europe/Vilnius
       ANONYMOUS_DATA_COLLECTION_DISABLED: no
     depends_on:
-      - database
+      database:
+        condition: service_healthy
 
   database:
     image: mariadb:10.6
@@ -22,3 +23,7 @@ services:
       MARIADB_USER: expensave
       MARIADB_PASSWORD: expensave
       MARIADB_DATABASE: expensave
+    healthcheck:
+      test: [ "CMD", "mysqladmin", "ping" ]
+      retries: 3
+      timeout: 5s
