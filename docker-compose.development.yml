@@ -4,8 +4,6 @@ services:
       target: development-backend
     volumes:
       - '.:/opt/expensave'
-    env_file:
-      - environment
     environment:
       DATABASE_NAME: dev_expensave
       DATABASE_USER: dev_expensave
@@ -19,8 +17,6 @@ services:
   dev_frontend:
     build:
       target: development-frontend
-    env_file:
-      - environment
     volumes:
       - '.:/opt/expensave'
     ports:
