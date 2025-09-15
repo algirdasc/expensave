@@ -53,7 +53,7 @@
         "@schematics/angular": "^19.1.8",
         "@types/jasmine": "~5.1.8",
         "@types/jasminewd2": "~2.0.3",
-        "@types/node": "~24.3.1",
+        "@types/node": "~24.4.0",
         "@typescript-eslint/eslint-plugin": "^8.42.0",
         "@typescript-eslint/parser": "^8.32.1",
         "eslint": "^9.35.0",
@@ -62,6 +62,6 @@
         "prettier": "^3.5.3",
         "prettier-eslint": "^16.4.2",
         "ts-node": "~10.9.2",
-        "typescript": "^5.8.3"
+        "typescript": "^5.9.2"
     }
 }
