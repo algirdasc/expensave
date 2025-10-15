@@ -9,9 +9,8 @@ import { PasswordRequest } from './request/password.request';
 
 @Injectable()
 export class UserApiService {
-    private http = inject(HttpClient);
-
     public onBusyChange: Subject<boolean> = new Subject<boolean>();
+    private http = inject(HttpClient);
     private backend: string = '/user';
 
     public profile(): Observable<User> {

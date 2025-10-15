@@ -10,19 +10,10 @@ import { CalendarExpenseListResponse } from './response/calendar-expense-list.re
 
 @Injectable()
 export class CalendarApiService extends AbstractEntityApiService<Calendar> {
-    protected http: HttpClient;
     private dateService = inject<NbDateService<Date>>(NbDateService);
 
     protected backend: string = '/calendar';
     protected entity: Type<EntityInterface> = Calendar;
-
-    public constructor() {
-        const http = inject(HttpClient);
-
-        super(http);
-
-        this.http = http;
-    }
 
     public listExpenses(calendar: Calendar, dateFrom: Date, dateTo: Date): Observable<CalendarExpenseListResponse> {
         const dateFromString = this.dateService.format(dateFrom, DateUtil.DATE_FORMAT);
