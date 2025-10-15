@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, Input, OnChanges, SimpleChanges, inject } from '@angular/core';
 import { NbDateService, NbButtonModule, NbIconModule } from '@nebular/theme';
 import { Calendar } from '../../../../api/objects/calendar';
 import { Expense } from '../../../../api/objects/expense';
@@ -14,6 +14,9 @@ import { CalendarExpenseListMobileItemsComponent } from './calendar-expense-list
     imports: [NgIf, CalendarExpenseListMobileItemsComponent, NbButtonModule, NbIconModule],
 })
 export class CalendarExpenseListMobileComponent implements OnChanges {
+    public calendarService = inject(CalendarService);
+    private dateService = inject<NbDateService<Date>>(NbDateService);
+
     @Input()
     public isMobile: boolean;
 
@@ -32,11 +35,6 @@ export class CalendarExpenseListMobileComponent implements OnChanges {
     public confirmedExpenses: Expense[];
     public unconfirmedExpenses: Expense[];
     public expenseBalance: ExpenseBalance;
-
-    public constructor(
-        public calendarService: CalendarService,
-        private dateService: NbDateService<Date>
-    ) {}
 
     public ngOnChanges(changes: SimpleChanges): void {
         if (changes?.selectedValue || changes?.expenses || changes?.balances) {

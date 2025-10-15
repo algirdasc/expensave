@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output, inject } from '@angular/core';
 import {
     NbDialogService,
     NbCardModule,
@@ -20,6 +20,9 @@ import { NgFor, NgIf } from '@angular/common';
     imports: [FormsModule, NbCardModule, NbButtonModule, NbIconModule, NbFormFieldModule, NbInputModule, NgFor, NgIf],
 })
 export class CategoryEditComponent {
+    private dialogService = inject(NbDialogService);
+    private categoryApiService = inject(CategoryApiService);
+
     @Input()
     public saveButtonEnabled: boolean = true;
 
@@ -80,11 +83,6 @@ export class CategoryEditComponent {
     ];
 
     private _categories: Category[];
-
-    public constructor(
-        private dialogService: NbDialogService,
-        private categoryApiService: CategoryApiService
-    ) {}
 
     @Input()
     public get categories(): Category[] {

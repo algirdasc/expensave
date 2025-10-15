@@ -1,4 +1,4 @@
-import { Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild, inject } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Calendar } from '../../../../../api/objects/calendar';
@@ -39,6 +39,8 @@ import { NgIf, NgFor, AsyncPipe } from '@angular/common';
     ],
 })
 export class CalendarEditComponent implements OnInit {
+    private readonly userApiService = inject(UserApiService);
+
     @Input()
     public isBusy: boolean = false;
 
@@ -56,8 +58,6 @@ export class CalendarEditComponent implements OnInit {
 
     public filteredOptions: Observable<User[]>;
     private availableUsers: User[] = [];
-
-    public constructor(private readonly userApiService: UserApiService) {}
 
     public ngOnInit(): void {
         this.userApiService.list().subscribe((users: User[]) => (this.availableUsers = users));

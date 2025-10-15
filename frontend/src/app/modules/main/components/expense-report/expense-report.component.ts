@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { NbDateService, NbCardModule, NbIconModule, NbSpinnerModule, NbListModule } from '@nebular/theme';
 import { finalize } from 'rxjs/operators';
 import { slideAnimation } from '../../../../animations/slide.animation';
@@ -18,6 +18,10 @@ import { ShortNumberPipe } from '../../../../pipes/shortnumber.pipe';
     imports: [NbCardModule, NbIconModule, NgIf, NbSpinnerModule, NbListModule, NgFor, DatePipe, ShortNumberPipe],
 })
 export class ExpenseReportComponent implements OnInit {
+    private dateService = inject<NbDateService<Date>>(NbDateService);
+    private reportsApiService = inject(ReportsApiService);
+    private mainService = inject(MainService);
+
     public isBusy: boolean = true;
     public categoryBalances: CategoryBalance[] = [];
     public income: number = 0;
@@ -25,12 +29,6 @@ export class ExpenseReportComponent implements OnInit {
     public change: number = 0;
     public dateFrom: Date;
     public dateTo: Date;
-
-    public constructor(
-        private dateService: NbDateService<Date>,
-        private reportsApiService: ReportsApiService,
-        private mainService: MainService
-    ) {}
 
     public ngOnInit(): void {
         const currentDate = this.mainService.visibleDate;

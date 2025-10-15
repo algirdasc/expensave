@@ -1,5 +1,5 @@
 import { FormStyle, getLocaleMonthNames, TranslationWidth } from '@angular/common';
-import { Component, OnChanges, OnInit } from '@angular/core';
+import { Component, OnChanges, OnInit, inject } from '@angular/core';
 import {
     NbCalendarRange,
     NbDateService,
@@ -33,6 +33,9 @@ import { BaseChartDirective } from 'ng2-charts';
     ],
 })
 export class MonthlyExpensesComponent extends AbstractReportComponent implements OnInit, OnChanges {
+    protected readonly reportsApiService = inject(ReportsApiService);
+    private readonly dateService = inject<NbDateService<Date>>(NbDateService);
+
     public income: number = 0;
     public expense: number = 0;
     public change: number = 0;
@@ -94,13 +97,6 @@ export class MonthlyExpensesComponent extends AbstractReportComponent implements
         };
 
         this.fetchReport();
-    }
-
-    public constructor(
-        protected readonly reportsApiService: ReportsApiService,
-        private readonly dateService: NbDateService<Date>
-    ) {
-        super();
     }
 
     protected cleanUp(): void {

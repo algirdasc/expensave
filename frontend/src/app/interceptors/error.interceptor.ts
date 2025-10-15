@@ -1,5 +1,5 @@
 import { HttpErrorResponse, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { NbToastrService } from '@nebular/theme';
 import { plainToInstance } from 'class-transformer';
 import { Observable, throwError } from 'rxjs';
@@ -8,7 +8,7 @@ import { Error } from '../api/objects/error';
 
 @Injectable()
 export class ErrorInterceptor implements HttpInterceptor {
-    public constructor(private toastrService: NbToastrService) {}
+    private toastrService = inject(NbToastrService);
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     public intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {

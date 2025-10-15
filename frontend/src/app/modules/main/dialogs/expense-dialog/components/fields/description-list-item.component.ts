@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output, inject } from '@angular/core';
 import { NbDialogService, NbListModule, NbIconModule } from '@nebular/theme';
 import { InputDialogComponent } from '../../../input-dialog/input-dialog.component';
 
@@ -11,13 +11,13 @@ import { InputDialogComponent } from '../../../input-dialog/input-dialog.compone
     imports: [NbListModule, NbIconModule],
 })
 export class DescriptionListItemComponent {
+    private dialogService = inject(NbDialogService);
+
     @Input({ required: true })
     public description: string;
 
     @Output()
     public descriptionChange: EventEmitter<string> = new EventEmitter<string>();
-
-    public constructor(private dialogService: NbDialogService) {}
 
     public addDescription(): void {
         this.dialogService

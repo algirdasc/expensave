@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { Calendar } from '../../api/objects/calendar';
 import { User } from '../../api/objects/user';
@@ -26,12 +26,10 @@ import { CategoryExpensesComponent } from './components/category-expenses/catego
     ],
 })
 export class ReportsComponent implements OnInit {
-    public selectedCalendars: Calendar[] = [];
+    public readonly reportsService = inject(ReportsService);
+    private readonly activatedRoute = inject(ActivatedRoute);
 
-    public constructor(
-        public readonly reportsService: ReportsService,
-        private readonly activatedRoute: ActivatedRoute
-    ) {}
+    public selectedCalendars: Calendar[] = [];
 
     public ngOnInit(): void {
         this.activatedRoute.data.subscribe(({ user, calendars }: { user: User; calendars: Calendar[] }) => {

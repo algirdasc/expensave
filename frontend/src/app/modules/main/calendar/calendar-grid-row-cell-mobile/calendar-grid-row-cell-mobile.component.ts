@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { NbCalendarDayCellComponent, NbDateService } from '@nebular/theme';
 import { Calendar } from '../../../../api/objects/calendar';
 import { Expense } from '../../../../api/objects/expense';
@@ -16,13 +16,19 @@ export class CalendarGridRowCellMobileComponent
     extends NbCalendarDayCellComponent<Date>
     implements CalendarCellInterface
 {
+    public dateService: NbDateService<Date>;
+
     public expenses: Expense[];
     public expenseBalance: ExpenseBalance;
     public calendar: Calendar;
     public hasUnconfirmedExpenses: boolean = false;
 
-    public constructor(public dateService: NbDateService<Date>) {
+    public constructor() {
+        const dateService = inject<NbDateService<Date>>(NbDateService);
+
         super(dateService);
+
+        this.dateService = dateService;
     }
 
     public get isCellSelected(): boolean {

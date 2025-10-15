@@ -1,4 +1,4 @@
-import { Component, OnChanges } from '@angular/core';
+import { Component, OnChanges, inject } from '@angular/core';
 import { ChartConfiguration } from 'chart.js';
 import { ReportsApiService } from '../../../../api/reports.api.service';
 import { CategoryExpenseReportResponse } from '../../../../api/response/category-expense-report.response';
@@ -25,6 +25,8 @@ import { BaseChartDirective } from 'ng2-charts';
     ],
 })
 export class CategoryExpensesComponent extends AbstractReportComponent implements OnChanges {
+    protected readonly reportsApiService = inject(ReportsApiService);
+
     public barChartOptions: ChartConfiguration['options'] = {
         responsive: true,
         maintainAspectRatio: false,
@@ -66,10 +68,6 @@ export class CategoryExpensesComponent extends AbstractReportComponent implement
     protected categoryCount: number = 0;
     protected PeriodEnum = PeriodEnum;
     protected reportsApiMethod: string = 'categoryExpenses';
-
-    public constructor(protected readonly reportsApiService: ReportsApiService) {
-        super();
-    }
 
     protected cleanUp(): void {
         this.barChartData = {

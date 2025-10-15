@@ -1,5 +1,5 @@
 import { HttpParams } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { NbDialogRef, NbSpinnerModule } from '@nebular/theme';
 import { CategoryApiService } from '../../../../api/category.api.service';
 import { Category } from '../../../../api/objects/category';
@@ -13,16 +13,16 @@ import { CategoryEditComponent } from './category-edit/category-edit.component';
     imports: [NbSpinnerModule, NgIf, CategoryListComponent, CategoryEditComponent],
 })
 export class CategoriesDialogComponent implements OnInit {
+    public readonly dialogRef = inject<NbDialogRef<CategoriesDialogComponent>>(NbDialogRef);
+    private readonly categoryApiService = inject(CategoryApiService);
+
     public isBusy: boolean = true;
     public isSelectable: boolean = true;
     public categories: Category[];
     public selectedCategory: Category;
     public editableCategory: Category;
 
-    public constructor(
-        public readonly dialogRef: NbDialogRef<CategoriesDialogComponent>,
-        private readonly categoryApiService: CategoryApiService
-    ) {
+    public constructor() {
         this.categoryApiService.onBusyChange.subscribe((isBusy: boolean) => (this.isBusy = isBusy));
     }
 

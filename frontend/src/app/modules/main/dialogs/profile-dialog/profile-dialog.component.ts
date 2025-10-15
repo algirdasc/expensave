@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import {
     NbDialogRef,
     NbToastrService,
@@ -33,16 +33,16 @@ import { NgIf } from '@angular/common';
     ],
 })
 export class ProfileDialogComponent implements OnInit {
+    public readonly dialogRef = inject<NbDialogRef<ProfileDialogComponent>>(NbDialogRef);
+    private readonly userApiService = inject(UserApiService);
+    private readonly toastrService = inject(NbToastrService);
+    public readonly authOptions = inject(AuthOptionsService);
+
     public user: User = new User();
     public isBusy: boolean = true;
     public passwordRequest: PasswordRequest = new PasswordRequest();
 
-    public constructor(
-        public readonly dialogRef: NbDialogRef<ProfileDialogComponent>,
-        private readonly userApiService: UserApiService,
-        private readonly toastrService: NbToastrService,
-        public authOptions: AuthOptionsService
-    ) {
+    public constructor() {
         this.userApiService.onBusyChange.subscribe((isBusy: boolean) => (this.isBusy = isBusy));
     }
 

@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output, inject } from '@angular/core';
 import { NbDialogService, NbListModule, NbIconModule } from '@nebular/theme';
 import { DateUtil } from '../../../../../../util/date.util';
 import { DatepickerDialogComponent } from '../../../datepicker-dialog/datepicker-dialog.component';
@@ -13,13 +13,13 @@ import { DatePipe } from '@angular/common';
     imports: [NbListModule, NbIconModule, DatePipe],
 })
 export class DateListItemComponent {
+    private dialogService = inject(NbDialogService);
+
     @Input({ required: true })
     public date: Date;
 
     @Output()
     public dateChange: EventEmitter<Date> = new EventEmitter<Date>();
-
-    public constructor(private dialogService: NbDialogService) {}
 
     public selectDateTime(): void {
         this.dialogService

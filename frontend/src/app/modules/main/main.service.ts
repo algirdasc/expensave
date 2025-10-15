@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { NbDateService } from '@nebular/theme';
 import { Subject } from 'rxjs';
@@ -12,6 +12,10 @@ import { CalendarExpenseListResponse } from '../../api/response/calendar-expense
 
 @Injectable()
 export class MainService {
+    private readonly calendarApiService = inject(CalendarApiService);
+    private readonly dateService = inject<NbDateService<Date>>(NbDateService);
+    private readonly title = inject(Title);
+
     public user: User;
     public calendars: Calendar[];
     public systemCategories: Category[];
@@ -24,12 +28,6 @@ export class MainService {
     public isApplicationBusy: Subject<boolean> = new Subject<boolean>();
 
     private _calendar: Calendar;
-
-    public constructor(
-        private readonly calendarApiService: CalendarApiService,
-        private readonly dateService: NbDateService<Date>,
-        private readonly title: Title
-    ) {}
 
     public refreshCalendar(calendar?: Calendar): void {
         if ((!this.calendar && calendar) || !this.calendarDateFrom || !this.calendarDateTo) {

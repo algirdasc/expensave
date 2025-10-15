@@ -1,5 +1,4 @@
-import { NbAuthOAuth2JWTToken } from '@nebular/auth';
-import { NbAuthRefreshableToken } from '@nebular/auth/services/token/token';
+import { NbAuthOAuth2JWTToken, NbAuthRefreshableToken } from '@nebular/auth';
 
 export class JwtRefreshableToken extends NbAuthOAuth2JWTToken implements NbAuthRefreshableToken {
     public static NAME: string = 'app:auth:jwt:token';

@@ -1,5 +1,5 @@
 import { DatePipe, NgFor, NgStyle } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { NbDialogRef, NbDialogService, NbCardModule, NbButtonModule, NbIconModule, NbListModule } from '@nebular/theme';
 import { slideAnimation } from '../../../../animations/slide.animation';
 import { Expense } from '../../../../api/objects/expense';
@@ -19,6 +19,9 @@ export const DIALOG_ACTION_CLOSE = 'close';
     imports: [NbCardModule, NbButtonModule, NbIconModule, NgFor, NbListModule, NgStyle, ShortNumberPipe],
 })
 export class StatementReviewDialogComponent implements OnInit {
+    protected readonly dialogRef = inject<NbDialogRef<StatementReviewDialogComponent>>(NbDialogRef);
+    private readonly dialogService = inject(NbDialogService);
+
     public expenses: Expense[] = [];
     public onImportChange: (expenses: Expense[]) => void;
 
@@ -29,10 +32,7 @@ export class StatementReviewDialogComponent implements OnInit {
     private datePipe: DatePipe;
     protected calendarRefreshNeeded: boolean = false;
 
-    public constructor(
-        protected readonly dialogRef: NbDialogRef<StatementReviewDialogComponent>,
-        private readonly dialogService: NbDialogService
-    ) {
+    public constructor() {
         this.datePipe = new DatePipe(APP_CONFIG.locale);
     }
 

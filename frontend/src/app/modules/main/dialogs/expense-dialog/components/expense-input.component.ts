@@ -1,4 +1,13 @@
-import { ChangeDetectorRef, Component, ElementRef, EventEmitter, Input, Output, ViewChild } from '@angular/core';
+import {
+    ChangeDetectorRef,
+    Component,
+    ElementRef,
+    EventEmitter,
+    Input,
+    Output,
+    ViewChild,
+    inject,
+} from '@angular/core';
 import { ControlContainer, NgForm, FormsModule } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { ExpenseApiService } from '../../../../../api/expense.api.service';
@@ -16,6 +25,9 @@ import { ShortNumberPipe } from '../../../../../pipes/shortnumber.pipe';
     imports: [NbButtonModule, NbIconModule, NbInputModule, FormsModule, NgIf, SuggestionComponent, ShortNumberPipe],
 })
 export class ExpenseInputComponent {
+    private expenseApiService = inject(ExpenseApiService);
+    private cd = inject(ChangeDetectorRef);
+
     @Input({ required: true })
     public expense: Expense;
 
@@ -31,11 +43,6 @@ export class ExpenseInputComponent {
     public suggestedExpense: Expense;
 
     private expenseSuggestionSubscription: Subscription;
-
-    public constructor(
-        private expenseApiService: ExpenseApiService,
-        private cd: ChangeDetectorRef
-    ) {}
 
     public handleInputChange(input: string): void {
         // 1. Cancel pending suggestion request

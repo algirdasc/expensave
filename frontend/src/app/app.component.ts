@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { NavigationEnd, NavigationStart, Router, RouterOutlet } from '@angular/router';
 import { NbDateService, NbLayoutModule, NbSpinnerModule } from '@nebular/theme';
 
@@ -12,12 +12,12 @@ import { NbDateService, NbLayoutModule, NbSpinnerModule } from '@nebular/theme';
     imports: [NbLayoutModule, NbSpinnerModule, RouterOutlet],
 })
 export class AppComponent {
+    private router = inject(Router);
+    private dateService = inject<NbDateService<Date>>(NbDateService);
+
     public isBusy: boolean = true;
 
-    public constructor(
-        private router: Router,
-        private dateService: NbDateService<Date>
-    ) {
+    public constructor() {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         this.router.events.subscribe((event: any) => {
             if (event instanceof NavigationEnd) {

@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output, inject } from '@angular/core';
 import {
     NbDialogRef,
     NbDialogService,
@@ -26,6 +26,13 @@ import { ShortNumberPipe } from '../../../../../pipes/shortnumber.pipe';
     imports: [NbSpinnerModule, NbListModule, NgFor, NbRadioModule, NgIf, NbIconModule, NbButtonModule, ShortNumberPipe],
 })
 export class CalendarSidebarListComponent {
+    public readonly dialogService = inject(NbDialogService);
+    public readonly mainService = inject(MainService);
+    public readonly calendarApiService = inject(CalendarApiService);
+    public readonly userApiService = inject(UserApiService);
+    public readonly toastrService = inject(NbToastrService);
+    public readonly statementImportService = inject(StatementImportService);
+
     @Input() public calendar: Calendar;
     @Output() public calendarChange: EventEmitter<Calendar> = new EventEmitter<Calendar>();
 
@@ -37,14 +44,7 @@ export class CalendarSidebarListComponent {
     private dialogBack: EventEmitter<boolean> = new EventEmitter<boolean>();
     private dialogSave: EventEmitter<Calendar> = new EventEmitter<Calendar>();
 
-    public constructor(
-        public readonly dialogService: NbDialogService,
-        public readonly mainService: MainService,
-        public readonly calendarApiService: CalendarApiService,
-        public readonly userApiService: UserApiService,
-        public readonly toastrService: NbToastrService,
-        public readonly statementImportService: StatementImportService
-    ) {
+    public constructor() {
         this.calendarApiService.onBusyChange.subscribe((isBusy: boolean) => (this.isBusy = isBusy));
 
         this.dialogBack.subscribe(() => this.dialogRef.close());

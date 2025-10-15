@@ -1,5 +1,5 @@
 import { HttpClient, HttpResponse } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { plainToInstance } from 'class-transformer';
 import { Observable, Subject } from 'rxjs';
 import { finalize, map } from 'rxjs/operators';
@@ -10,9 +10,8 @@ import { PasswordRequest } from './request/password.request';
 @Injectable()
 export class UserApiService {
     public onBusyChange: Subject<boolean> = new Subject<boolean>();
+    private http = inject(HttpClient);
     private backend: string = '/user';
-
-    public constructor(private http: HttpClient) {}
 
     public profile(): Observable<User> {
         this.onBusyChange.next(true);

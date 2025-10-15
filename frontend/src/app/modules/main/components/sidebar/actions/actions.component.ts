@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { NbDialogService, NbActionsModule, NbTooltipModule } from '@nebular/theme';
 import { environment } from '../../../../../../environments/environment';
 import { CategoriesDialogComponent } from '../../../dialogs/categories-dialog/categories-dialog.component';
@@ -13,12 +13,10 @@ import { NgIf } from '@angular/common';
     imports: [NbActionsModule, RouterLink, NbTooltipModule, NgIf],
 })
 export class ActionsComponent {
-    protected readonly environment = environment;
+    private dialogService = inject(NbDialogService);
+    protected statementImportService = inject(StatementImportService);
 
-    public constructor(
-        private dialogService: NbDialogService,
-        protected statementImportService: StatementImportService
-    ) {}
+    protected readonly environment = environment;
 
     public editCategories(): void {
         this.dialogService.open(CategoriesDialogComponent, {

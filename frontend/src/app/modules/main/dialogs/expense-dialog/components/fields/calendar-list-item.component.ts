@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output, inject } from '@angular/core';
 import { NbDialogService, NbListModule, NbIconModule } from '@nebular/theme';
 import { Calendar } from '../../../../../../api/objects/calendar';
 import { CalendarsDialogComponent } from '../../../calendars-dialog/calendars-dialog.component';
@@ -23,6 +23,8 @@ import { ContentLoaderModule } from '@ngneat/content-loader';
     imports: [NbListModule, NbIconModule, NgIf, ContentLoaderModule],
 })
 export class CalendarListItemComponent {
+    private dialogService = inject(NbDialogService);
+
     @Input()
     public calendar: Calendar;
 
@@ -37,8 +39,6 @@ export class CalendarListItemComponent {
 
     @Output()
     public calendarChange: EventEmitter<Calendar> = new EventEmitter<Calendar>();
-
-    public constructor(private dialogService: NbDialogService) {}
 
     public selectCalendar(): void {
         this.dialogService
