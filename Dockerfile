@@ -27,6 +27,7 @@ RUN docker-php-ext-install \
     mbstring \
     curl \
     gd \
+    sysvsem \
     dom
 
 # Services
