@@ -20,7 +20,7 @@ export class CalendarApiService extends AbstractEntityApiService<Calendar> {
         const http = inject(HttpClient);
 
         super(http);
-    
+
         this.http = http;
     }
 

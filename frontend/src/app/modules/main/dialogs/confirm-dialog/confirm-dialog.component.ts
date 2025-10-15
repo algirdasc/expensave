@@ -7,7 +7,7 @@ import { NbDialogRef, NbCardModule, NbButtonModule, NbIconModule } from '@nebula
     imports: [NbCardModule, NbButtonModule, NbIconModule],
 })
 export class ConfirmDialogComponent {
-    dialogRef = inject<NbDialogRef<ConfirmDialogComponent>>(NbDialogRef);
+    public readonly dialogRef = inject<NbDialogRef<ConfirmDialogComponent>>(NbDialogRef);
 
     public question: string = 'Are you sure?';
     public yesText: string = 'Yes';

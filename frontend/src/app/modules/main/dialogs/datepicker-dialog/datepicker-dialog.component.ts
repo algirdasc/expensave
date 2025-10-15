@@ -7,7 +7,7 @@ import { NbDialogRef, NbCardModule, NbButtonModule, NbIconModule, NbCalendarModu
     imports: [NbCardModule, NbButtonModule, NbIconModule, NbCalendarModule],
 })
 export class DatepickerDialogComponent {
-    dialogRef = inject<NbDialogRef<DatepickerDialogComponent>>(NbDialogRef);
+    public readonly dialogRef = inject<NbDialogRef<DatepickerDialogComponent>>(NbDialogRef);
 
     @Input() public date: Date;
 }

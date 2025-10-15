@@ -7,7 +7,6 @@ import { UserApiService } from '../api/user.api.service';
 export class UserResolver {
     private readonly userApiService = inject(UserApiService);
 
-
     public resolve(): Observable<User> {
         return this.userApiService.profile();
     }

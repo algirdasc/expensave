@@ -10,7 +10,6 @@ import { ConfigInterface } from './interfaces/config.interface';
 export class AppInitializer {
     private http = inject(HttpClient);
 
-
     public initializeApp(): Observable<ConfigInterface> {
         return this.http.get(environment.configFile).pipe(
             tap((config: ConfigInterface) => {

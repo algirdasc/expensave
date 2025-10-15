@@ -8,7 +8,7 @@ import { FormsModule } from '@angular/forms';
     imports: [NbCardModule, NbButtonModule, NbIconModule, NbInputModule, FormsModule],
 })
 export class InputDialogComponent implements AfterViewInit {
-    readonly dialogRef = inject<NbDialogRef<InputDialogComponent>>(NbDialogRef);
+    public readonly dialogRef = inject<NbDialogRef<InputDialogComponent>>(NbDialogRef);
 
     @Input()
     public title: string = 'Input dialog';

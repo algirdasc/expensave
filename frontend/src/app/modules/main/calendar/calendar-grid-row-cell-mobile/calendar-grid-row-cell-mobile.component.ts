@@ -16,7 +16,7 @@ export class CalendarGridRowCellMobileComponent
     extends NbCalendarDayCellComponent<Date>
     implements CalendarCellInterface
 {
-    dateService: NbDateService<Date>;
+    public dateService: NbDateService<Date>;
 
     public expenses: Expense[];
     public expenseBalance: ExpenseBalance;
@@ -27,7 +27,7 @@ export class CalendarGridRowCellMobileComponent
         const dateService = inject<NbDateService<Date>>(NbDateService);
 
         super(dateService);
-    
+
         this.dateService = dateService;
     }
 

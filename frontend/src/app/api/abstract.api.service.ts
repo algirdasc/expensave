@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { HttpClient, HttpResponse } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { plainToInstance } from 'class-transformer';
 import { Observable, Subject } from 'rxjs';
 import { finalize, map } from 'rxjs/operators';
@@ -12,8 +12,7 @@ export abstract class AbstractApiService {
     private onBusyChangeTimeout: number;
 
     protected abstract backend: string;
-
-    public constructor(protected http: HttpClient) {}
+    protected http: HttpClient = inject(HttpClient);
 
     public request<K>(method: string, type: any, ...args: any): Observable<K> {
         this.changeIsBusy(true);

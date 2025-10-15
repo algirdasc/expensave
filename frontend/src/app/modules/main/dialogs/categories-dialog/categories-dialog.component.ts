@@ -13,7 +13,7 @@ import { CategoryEditComponent } from './category-edit/category-edit.component';
     imports: [NbSpinnerModule, NgIf, CategoryListComponent, CategoryEditComponent],
 })
 export class CategoriesDialogComponent implements OnInit {
-    readonly dialogRef = inject<NbDialogRef<CategoriesDialogComponent>>(NbDialogRef);
+    public readonly dialogRef = inject<NbDialogRef<CategoriesDialogComponent>>(NbDialogRef);
     private readonly categoryApiService = inject(CategoryApiService);
 
     public isBusy: boolean = true;

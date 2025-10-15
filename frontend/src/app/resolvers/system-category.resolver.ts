@@ -7,7 +7,6 @@ import { Category } from '../api/objects/category';
 export class SystemCategoryResolver {
     private readonly categoryApiService = inject(CategoryApiService);
 
-
     public resolve(): Observable<Category[]> {
         return this.categoryApiService.system();
     }

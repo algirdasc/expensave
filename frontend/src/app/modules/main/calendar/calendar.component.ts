@@ -44,7 +44,7 @@ export class CalendarComponent extends NbCalendarDayPickerComponent<Date, Date> 
         const unusedMonthModelService = inject<NbCalendarMonthModelService<Date>>(NbCalendarMonthModelService);
 
         super(unusedMonthModelService);
-    
+
         this.unusedMonthModelService = unusedMonthModelService;
     }
 

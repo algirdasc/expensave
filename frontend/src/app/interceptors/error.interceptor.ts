@@ -10,7 +10,6 @@ import { Error } from '../api/objects/error';
 export class ErrorInterceptor implements HttpInterceptor {
     private toastrService = inject(NbToastrService);
 
-
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     public intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
         return next.handle(req).pipe(

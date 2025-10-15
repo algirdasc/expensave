@@ -17,5 +17,5 @@ import { NbCardModule, NbButtonModule } from '@nebular/theme';
     imports: [NbCardModule, NbButtonModule],
 })
 export class Error404Component {
-    router = inject(Router);
+    public router = inject(Router);
 }

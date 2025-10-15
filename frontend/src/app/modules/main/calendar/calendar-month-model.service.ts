@@ -6,7 +6,6 @@ import { batch, range } from './helpers/helpers';
 export class CalendarMonthModelService<D> {
     protected dateService = inject<NbDateService<D>>(NbDateService);
 
-
     public createDaysGrid(activeMonth: D, boundingMonth: boolean = true, firstDayOfWeek?: number): D[][] {
         const weeks = this.createDates(activeMonth, firstDayOfWeek);
         return this.withBoundingMonths(weeks, activeMonth, boundingMonth);

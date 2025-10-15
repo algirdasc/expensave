@@ -14,7 +14,7 @@ import { CalendarExpenseListMobileItemsComponent } from './calendar-expense-list
     imports: [NgIf, CalendarExpenseListMobileItemsComponent, NbButtonModule, NbIconModule],
 })
 export class CalendarExpenseListMobileComponent implements OnChanges {
-    calendarService = inject(CalendarService);
+    public calendarService = inject(CalendarService);
     private dateService = inject<NbDateService<Date>>(NbDateService);
 
     @Input()

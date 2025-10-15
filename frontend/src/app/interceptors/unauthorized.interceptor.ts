@@ -11,7 +11,6 @@ export class UnauthorizedInterceptor implements HttpInterceptor {
     private router = inject(Router);
     private tokenService = inject(NbTokenService);
 
-
     public intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
         return next.handle(req).pipe(
             catchError((error: HttpErrorResponse) => {

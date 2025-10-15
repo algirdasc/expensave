@@ -26,12 +26,12 @@ import { ShortNumberPipe } from '../../../../../pipes/shortnumber.pipe';
     imports: [NbSpinnerModule, NbListModule, NgFor, NbRadioModule, NgIf, NbIconModule, NbButtonModule, ShortNumberPipe],
 })
 export class CalendarSidebarListComponent {
-    readonly dialogService = inject(NbDialogService);
-    readonly mainService = inject(MainService);
-    readonly calendarApiService = inject(CalendarApiService);
-    readonly userApiService = inject(UserApiService);
-    readonly toastrService = inject(NbToastrService);
-    readonly statementImportService = inject(StatementImportService);
+    public readonly dialogService = inject(NbDialogService);
+    public readonly mainService = inject(MainService);
+    public readonly calendarApiService = inject(CalendarApiService);
+    public readonly userApiService = inject(UserApiService);
+    public readonly toastrService = inject(NbToastrService);
+    public readonly statementImportService = inject(StatementImportService);
 
     @Input() public calendar: Calendar;
     @Output() public calendarChange: EventEmitter<Calendar> = new EventEmitter<Calendar>();

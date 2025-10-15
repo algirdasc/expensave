@@ -1,6 +1,7 @@
 import { HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import {
+    NbAuthRefreshableToken,
     NbAuthResult,
     NbAuthStrategyClass,
     NbAuthToken,
@@ -8,7 +9,6 @@ import {
     NbPasswordAuthStrategyOptions,
     passwordStrategyOptions,
 } from '@nebular/auth';
-import { NbAuthRefreshableToken } from '@nebular/auth/services/token/token';
 import { Observable } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 

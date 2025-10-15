@@ -51,8 +51,8 @@ export class MainComponent implements OnInit {
     private readonly dateService = inject<NbDateService<Date>>(NbDateService);
     private readonly zone = inject(NgZone);
     private readonly sidebarService = inject(NbSidebarService);
-    readonly mainService = inject(MainService);
     private readonly statementImportService = inject(StatementImportService);
+    public readonly mainService = inject(MainService);
 
     protected isCalendarBusy: boolean = false;
     protected isApplicationBusy: boolean = false;

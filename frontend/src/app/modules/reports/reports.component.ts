@@ -26,7 +26,7 @@ import { CategoryExpensesComponent } from './components/category-expenses/catego
     ],
 })
 export class ReportsComponent implements OnInit {
-    readonly reportsService = inject(ReportsService);
+    public readonly reportsService = inject(ReportsService);
     private readonly activatedRoute = inject(ActivatedRoute);
 
     public selectedCalendars: Calendar[] = [];

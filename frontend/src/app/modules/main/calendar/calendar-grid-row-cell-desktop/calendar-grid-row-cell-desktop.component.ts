@@ -36,8 +36,8 @@ export class CalendarGridRowCellDesktopComponent
     extends NbCalendarDayCellComponent<Date>
     implements CalendarCellInterface
 {
-    dateService: NbDateService<Date>;
-    calendarService = inject(CalendarService);
+    public dateService: NbDateService<Date>;
+    public calendarService = inject(CalendarService);
     private dialogService = inject(NbDialogService);
 
     public calendar: Calendar;
@@ -50,7 +50,7 @@ export class CalendarGridRowCellDesktopComponent
         const dateService = inject<NbDateService<Date>>(NbDateService);
 
         super(dateService);
-    
+
         this.dateService = dateService;
     }
 

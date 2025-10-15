@@ -12,8 +12,8 @@ import { CalendarEditComponent } from './calendar-edit/calendar-edit.component';
     imports: [NbSpinnerModule, NgIf, CalendarListComponent, CalendarEditComponent],
 })
 export class CalendarsDialogComponent implements OnInit {
-    readonly dialogRef = inject<NbDialogRef<CalendarsDialogComponent>>(NbDialogRef);
-    readonly toastrService = inject(NbToastrService);
+    public readonly dialogRef = inject<NbDialogRef<CalendarsDialogComponent>>(NbDialogRef);
+    public readonly toastrService = inject(NbToastrService);
     private readonly calendarApiService = inject(CalendarApiService);
 
     public isBusy: boolean = true;

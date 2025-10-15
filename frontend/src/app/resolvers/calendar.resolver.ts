@@ -7,7 +7,6 @@ import { Calendar } from '../api/objects/calendar';
 export class CalendarResolver {
     private readonly calendarApiService = inject(CalendarApiService);
 
-
     public resolve(): Observable<Calendar[]> {
         return this.calendarApiService.list();
     }

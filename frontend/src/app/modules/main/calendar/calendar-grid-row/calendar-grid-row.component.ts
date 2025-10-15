@@ -12,7 +12,7 @@ import { CalendarCellInterface } from '../interfaces/calendar-cell.interface';
     template: '<ng-template></ng-template>',
 })
 export class CalendarGridRowComponent extends NbCalendarPickerRowComponent<Date, Date> implements OnChanges {
-    private c: ComponentFactoryResolver;
+    private c: ComponentFactoryResolver = inject(ComponentFactoryResolver);
     private dateService = inject<NbDateService<Date>>(NbDateService);
 
     @Input({ required: true }) public calendar: Calendar;
@@ -20,14 +20,6 @@ export class CalendarGridRowComponent extends NbCalendarPickerRowComponent<Date,
     @Input({ required: true }) public expenses: Expense[];
     @Input() public component: Type<CalendarCellInterface>;
     @Input() public rowResizedEvent: ResizedEvent;
-
-    public constructor() {
-        const c = inject(ComponentFactoryResolver);
-
-        super(c);
-    
-        this.c = c;
-    }
 
     public ngOnChanges(): void {
         const factory = this.c.resolveComponentFactory(this.component);

@@ -15,7 +15,6 @@ export class CalendarService {
     private dialogService = inject(NbDialogService);
     private mainService = inject(MainService);
 
-
     public editExpense(expense: Expense): void {
         this.expenseApiService.get(expense.id).subscribe((expense: Expense) => {
             this.openExpenseDialog(expense).onClose.subscribe((result: Expense) => {

@@ -33,10 +33,10 @@ import { NgIf } from '@angular/common';
     ],
 })
 export class ProfileDialogComponent implements OnInit {
-    readonly dialogRef = inject<NbDialogRef<ProfileDialogComponent>>(NbDialogRef);
+    public readonly dialogRef = inject<NbDialogRef<ProfileDialogComponent>>(NbDialogRef);
     private readonly userApiService = inject(UserApiService);
     private readonly toastrService = inject(NbToastrService);
-    authOptions = inject(AuthOptionsService);
+    public readonly authOptions = inject(AuthOptionsService);
 
     public user: User = new User();
     public isBusy: boolean = true;
