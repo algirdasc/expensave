@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output, inject } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { NbDialogService, NbButtonModule, NbIconModule } from '@nebular/theme';
 import { Expense } from '../../../../../../api/objects/expense';
@@ -20,6 +20,8 @@ import { NgIf } from '@angular/common';
     imports: [NbButtonModule, NbIconModule, NgIf],
 })
 export class FooterComponent {
+    private dialogService = inject(NbDialogService);
+
     @Input({ required: true })
     public form: NgForm;
 
@@ -34,8 +36,6 @@ export class FooterComponent {
 
     @Output()
     public delete: EventEmitter<void> = new EventEmitter<void>();
-
-    public constructor(private dialogService: NbDialogService) {}
 
     public deleteExpense(): void {
         this.dialogService

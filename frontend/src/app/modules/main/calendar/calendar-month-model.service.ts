@@ -1,10 +1,11 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { NbDateService } from '@nebular/theme';
 import { batch, range } from './helpers/helpers';
 
 @Injectable()
 export class CalendarMonthModelService<D> {
-    public constructor(protected dateService: NbDateService<D>) {}
+    protected dateService = inject<NbDateService<D>>(NbDateService);
+
 
     public createDaysGrid(activeMonth: D, boundingMonth: boolean = true, firstDayOfWeek?: number): D[][] {
         const weeks = this.createDates(activeMonth, firstDayOfWeek);

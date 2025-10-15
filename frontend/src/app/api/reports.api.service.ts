@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { HttpClient, HttpResponse } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { NbDateService } from '@nebular/theme';
 import { plainToInstance } from 'class-transformer';
 import { Observable, Subject } from 'rxjs';
@@ -12,13 +12,11 @@ import { ExpenseReportResponse } from './response/expense-report.response';
 
 @Injectable()
 export class ReportsApiService {
+    private http = inject(HttpClient);
+    private dateService = inject<NbDateService<Date>>(NbDateService);
+
     public onBusyChange: Subject<boolean> = new Subject<boolean>();
     private backend: string = '/report';
-
-    public constructor(
-        private http: HttpClient,
-        private dateService: NbDateService<Date>
-    ) {}
 
     public dailyExpenses(calendars: Calendar[], dateFrom: Date, dateTo: Date): Observable<ExpenseReportResponse> {
         return this.reportRequest<ExpenseReportResponse>(

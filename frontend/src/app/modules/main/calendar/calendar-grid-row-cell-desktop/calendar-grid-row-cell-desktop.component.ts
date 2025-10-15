@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import {
     NbCalendarDayCellComponent,
     NbDateService,
@@ -36,18 +36,22 @@ export class CalendarGridRowCellDesktopComponent
     extends NbCalendarDayCellComponent<Date>
     implements CalendarCellInterface
 {
+    dateService: NbDateService<Date>;
+    calendarService = inject(CalendarService);
+    private dialogService = inject(NbDialogService);
+
     public calendar: Calendar;
     public expenseBalance: ExpenseBalance;
     public expenses: Expense[];
     public hasUnconfirmedExpenses: boolean = false;
     private expenseListCapacity: number = 1;
 
-    public constructor(
-        public dateService: NbDateService<Date>,
-        public calendarService: CalendarService,
-        private dialogService: NbDialogService
-    ) {
+    public constructor() {
+        const dateService = inject<NbDateService<Date>>(NbDateService);
+
         super(dateService);
+    
+        this.dateService = dateService;
     }
 
     public onResized(event: ResizedEvent): void {

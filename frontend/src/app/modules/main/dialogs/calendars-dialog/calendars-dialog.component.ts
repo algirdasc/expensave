@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { NbDialogRef, NbToastrService, NbSpinnerModule } from '@nebular/theme';
 import { CalendarApiService } from '../../../../api/calendar.api.service';
 import { Calendar } from '../../../../api/objects/calendar';
@@ -12,16 +12,16 @@ import { CalendarEditComponent } from './calendar-edit/calendar-edit.component';
     imports: [NbSpinnerModule, NgIf, CalendarListComponent, CalendarEditComponent],
 })
 export class CalendarsDialogComponent implements OnInit {
+    readonly dialogRef = inject<NbDialogRef<CalendarsDialogComponent>>(NbDialogRef);
+    readonly toastrService = inject(NbToastrService);
+    private readonly calendarApiService = inject(CalendarApiService);
+
     public isBusy: boolean = true;
     public calendars: Calendar[];
     public selectedCalendar: Calendar;
     public editableCalendar: Calendar;
 
-    public constructor(
-        public readonly dialogRef: NbDialogRef<CalendarsDialogComponent>,
-        public readonly toastrService: NbToastrService,
-        private readonly calendarApiService: CalendarApiService
-    ) {
+    public constructor() {
         this.calendarApiService.onBusyChange.subscribe((isBusy: boolean) => (this.isBusy = isBusy));
     }
 

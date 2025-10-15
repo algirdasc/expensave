@@ -1,4 +1,4 @@
-import { Component, ComponentFactoryResolver, Input, OnChanges, Type } from '@angular/core';
+import { Component, ComponentFactoryResolver, Input, OnChanges, Type, inject } from '@angular/core';
 import { NbCalendarPickerRowComponent, NbDateService } from '@nebular/theme';
 import { ResizedEvent } from 'angular-resize-event';
 import { Calendar } from '../../../../api/objects/calendar';
@@ -12,17 +12,21 @@ import { CalendarCellInterface } from '../interfaces/calendar-cell.interface';
     template: '<ng-template></ng-template>',
 })
 export class CalendarGridRowComponent extends NbCalendarPickerRowComponent<Date, Date> implements OnChanges {
+    private c: ComponentFactoryResolver;
+    private dateService = inject<NbDateService<Date>>(NbDateService);
+
     @Input({ required: true }) public calendar: Calendar;
     @Input({ required: true }) public expenseBalances: ExpenseBalance[];
     @Input({ required: true }) public expenses: Expense[];
     @Input() public component: Type<CalendarCellInterface>;
     @Input() public rowResizedEvent: ResizedEvent;
 
-    public constructor(
-        private c: ComponentFactoryResolver,
-        private dateService: NbDateService<Date>
-    ) {
+    public constructor() {
+        const c = inject(ComponentFactoryResolver);
+
         super(c);
+    
+        this.c = c;
     }
 
     public ngOnChanges(): void {

@@ -1,4 +1,4 @@
-import { Component, Input, ViewChild } from '@angular/core';
+import { Component, Input, ViewChild, inject } from '@angular/core';
 import { NbDialogRef, NbSpinnerModule } from '@nebular/theme';
 import { ExpenseApiService } from '../../../../../../api/expense.api.service';
 import { Expense } from '../../../../../../api/objects/expense';
@@ -31,6 +31,9 @@ import { FooterComponent } from '../fields/footer.component';
     ],
 })
 export class ExpenseComponent extends AbstractExpenseComponent {
+    private expenseApiService = inject(ExpenseApiService);
+    private dialogRef = inject<NbDialogRef<ExpenseDialogComponent>>(NbDialogRef);
+
     @ViewChild('expenseInput')
     private expenseInput: ExpenseInputComponent;
 
@@ -43,10 +46,7 @@ export class ExpenseComponent extends AbstractExpenseComponent {
     @Input()
     public onDelete: () => void;
 
-    public constructor(
-        private expenseApiService: ExpenseApiService,
-        private dialogRef: NbDialogRef<ExpenseDialogComponent>
-    ) {
+    public constructor() {
         super();
 
         this.expenseApiService.onBusyChange.subscribe((isBusy: boolean) => (this.isBusy = isBusy));

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { NbCardModule, NbButtonModule } from '@nebular/theme';
 
@@ -17,5 +17,5 @@ import { NbCardModule, NbButtonModule } from '@nebular/theme';
     imports: [NbCardModule, NbButtonModule],
 })
 export class Error404Component {
-    public constructor(public router: Router) {}
+    router = inject(Router);
 }

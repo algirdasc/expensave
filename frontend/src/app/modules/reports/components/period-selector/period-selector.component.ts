@@ -1,5 +1,5 @@
 import { getLocaleFirstDayOfWeek, WeekDay } from '@angular/common';
-import { AfterViewInit, Component, ElementRef, EventEmitter, Input, Output, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, EventEmitter, Input, Output, ViewChild, inject } from '@angular/core';
 import {
     NbCalendarRange,
     NbDateService,
@@ -26,6 +26,8 @@ export enum PeriodEnum {
     imports: [NbButtonGroupModule, NbDatepickerModule],
 })
 export class PeriodSelectorComponent implements AfterViewInit {
+    private readonly dateService = inject<NbDateService<Date>>(NbDateService);
+
     public dateRange: NbCalendarRange<Date>;
     public firstDayOfWeek: WeekDay;
     public periods: typeof PeriodEnum = PeriodEnum;
@@ -42,7 +44,7 @@ export class PeriodSelectorComponent implements AfterViewInit {
     @ViewChild('customDateRange')
     private customDateRangeButton: ElementRef;
 
-    public constructor(private readonly dateService: NbDateService<Date>) {
+    public constructor() {
         this.firstDayOfWeek = getLocaleFirstDayOfWeek(APP_CONFIG.locale);
     }
 

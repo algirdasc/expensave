@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { NbDialogRef, NbCardModule, NbButtonModule, NbIconModule } from '@nebular/theme';
 
 @Component({
@@ -7,9 +7,9 @@ import { NbDialogRef, NbCardModule, NbButtonModule, NbIconModule } from '@nebula
     imports: [NbCardModule, NbButtonModule, NbIconModule],
 })
 export class ConfirmDialogComponent {
+    dialogRef = inject<NbDialogRef<ConfirmDialogComponent>>(NbDialogRef);
+
     public question: string = 'Are you sure?';
     public yesText: string = 'Yes';
     public noText: string = 'No';
-
-    public constructor(public dialogRef: NbDialogRef<ConfirmDialogComponent>) {}
 }

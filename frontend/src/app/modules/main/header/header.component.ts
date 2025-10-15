@@ -1,4 +1,4 @@
-import { Component, Input, QueryList, ViewChildren } from '@angular/core';
+import { Component, Input, QueryList, ViewChildren, inject } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import {
     NbCalendarViewMode,
@@ -40,6 +40,12 @@ import { ShortNumberPipe } from '../../../pipes/shortnumber.pipe';
     ],
 })
 export class HeaderComponent {
+    private readonly dateService = inject<NbDateService<Date>>(NbDateService);
+    private readonly sidebarService = inject(NbSidebarService);
+    private readonly router = inject(Router);
+    private readonly activatedRoute = inject(ActivatedRoute);
+    protected readonly statementImportService = inject(StatementImportService);
+
     @Input()
     public calendar: Calendar;
 
@@ -55,14 +61,6 @@ export class HeaderComponent {
     public viewMode: typeof NbCalendarViewMode = NbCalendarViewMode;
     public activeViewMode: NbCalendarViewMode = NbCalendarViewMode.DATE;
     public expenseReportComponent = ExpenseReportComponent;
-
-    public constructor(
-        private readonly dateService: NbDateService<Date>,
-        private readonly sidebarService: NbSidebarService,
-        private readonly router: Router,
-        private readonly activatedRoute: ActivatedRoute,
-        protected readonly statementImportService: StatementImportService
-    ) {}
 
     public toggleSidebar(): void {
         this.sidebarService.toggle(false, SIDEBAR_TAG);

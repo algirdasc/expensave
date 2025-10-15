@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { NbDialogRef, NbCardModule, NbButtonModule, NbIconModule } from '@nebular/theme';
 import { Calendar } from '../../../../api/objects/calendar';
 import { Expense } from '../../../../api/objects/expense';
@@ -13,6 +13,8 @@ import { ShortNumberPipe } from '../../../../pipes/shortnumber.pipe';
     imports: [NbCardModule, NgIf, ExpenseListItemsComponent, NbButtonModule, NbIconModule, DatePipe, ShortNumberPipe],
 })
 export class ExpenseListDialogComponent implements OnInit {
+    private dialogRef = inject<NbDialogRef<ExpenseListDialogComponent>>(NbDialogRef);
+
     public visibleDate: Date;
     public expenses: Expense[];
     public calendar: Calendar;
@@ -20,8 +22,6 @@ export class ExpenseListDialogComponent implements OnInit {
     public unconfirmedExpenses: Expense[];
     public totalExpensesAmount: number = 0;
     public calendarService: CalendarService;
-
-    public constructor(private dialogRef: NbDialogRef<ExpenseListDialogComponent>) {}
 
     public ngOnInit(): void {
         this.confirmedExpenses = this.expenses.filter((expense: Expense) => expense.confirmed);

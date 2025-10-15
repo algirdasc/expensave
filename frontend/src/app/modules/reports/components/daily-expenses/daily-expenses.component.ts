@@ -1,5 +1,5 @@
 import { FormatWidth, getLocaleDateFormat } from '@angular/common';
-import { Component, OnChanges } from '@angular/core';
+import { Component, OnChanges, inject } from '@angular/core';
 import { NbDateService, NbCardModule, NbSpinnerModule } from '@nebular/theme';
 import { ChartConfiguration, ScriptableLineSegmentContext } from 'chart.js';
 import { ExpenseBalance } from '../../../../api/objects/expense-balance';
@@ -26,6 +26,9 @@ import { BaseChartDirective } from 'ng2-charts';
     ],
 })
 export class DailyExpensesComponent extends AbstractReportComponent implements OnChanges {
+    private readonly dateService = inject<NbDateService<Date>>(NbDateService);
+    protected readonly reportsApiService = inject(ReportsApiService);
+
     public income: number = 0;
     public expense: number = 0;
     public change: number = 0;
@@ -73,13 +76,6 @@ export class DailyExpensesComponent extends AbstractReportComponent implements O
 
     protected PeriodEnum = PeriodEnum;
     protected reportsApiMethod: string = 'dailyExpenses';
-
-    public constructor(
-        private readonly dateService: NbDateService<Date>,
-        protected readonly reportsApiService: ReportsApiService
-    ) {
-        super();
-    }
 
     protected cleanUp(): void {
         this.income = this.change = this.expense = 0;

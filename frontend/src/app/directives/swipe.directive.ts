@@ -1,10 +1,13 @@
-import { Directive, ElementRef, EventEmitter, NgZone, OnDestroy, OnInit, Output } from '@angular/core';
+import { Directive, ElementRef, EventEmitter, NgZone, OnDestroy, OnInit, Output, inject } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { SwipeEvent } from '../interfaces/swipe.interface';
 import { createSwipeSubscription } from './swipe/swipe.core';
 
 @Directive({ selector: '[appSwipe]', standalone: true })
 export class SwipeDirective implements OnInit, OnDestroy {
+    private elementRef = inject(ElementRef);
+    private zone = inject(NgZone);
+
     private swipeSubscription: Subscription | undefined;
 
     @Output()
@@ -12,11 +15,6 @@ export class SwipeDirective implements OnInit, OnDestroy {
 
     @Output()
     public swipeEnd: EventEmitter<SwipeEvent> = new EventEmitter<SwipeEvent>();
-
-    public constructor(
-        private elementRef: ElementRef,
-        private zone: NgZone
-    ) {}
 
     public ngOnInit(): void {
         this.zone.runOutsideAngular(() => {

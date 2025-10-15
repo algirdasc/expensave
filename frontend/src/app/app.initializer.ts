@@ -1,6 +1,6 @@
 import { registerLocaleData } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { environment } from '../environments/environment';
@@ -8,7 +8,8 @@ import { ConfigInterface } from './interfaces/config.interface';
 
 @Injectable()
 export class AppInitializer {
-    public constructor(private http: HttpClient) {}
+    private http = inject(HttpClient);
+
 
     public initializeApp(): Observable<ConfigInterface> {
         return this.http.get(environment.configFile).pipe(

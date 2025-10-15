@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output, inject } from '@angular/core';
 import { NbDialogService, NbListModule, NbIconModule } from '@nebular/theme';
 import { Category } from '../../../../../../api/objects/category';
 import { CategoriesDialogComponent } from '../../../categories-dialog/categories-dialog.component';
@@ -13,6 +13,8 @@ import { NgStyle } from '@angular/common';
     imports: [NbListModule, NbIconModule, NgStyle],
 })
 export class CategoryListItemComponent {
+    private dialogService = inject(NbDialogService);
+
     @Input({ required: true })
     public category: Category;
 
@@ -21,8 +23,6 @@ export class CategoryListItemComponent {
 
     @Output()
     public categoryChange: EventEmitter<Category> = new EventEmitter<Category>();
-
-    public constructor(private dialogService: NbDialogService) {}
 
     public selectCategory(): void {
         if (!this.isActionable) {

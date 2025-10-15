@@ -1,4 +1,4 @@
-import { Component, NgZone, OnInit } from '@angular/core';
+import { Component, NgZone, OnInit, inject } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import {
     NbDateService,
@@ -44,21 +44,21 @@ import { ActionsComponent } from './components/sidebar/actions/actions.component
     ],
 })
 export class MainComponent implements OnInit {
+    private readonly router = inject(Router);
+    private readonly activatedRoute = inject(ActivatedRoute);
+    private readonly expenseApiService = inject(ExpenseApiService);
+    private readonly breakpointService = inject(NbMediaBreakpointsService);
+    private readonly dateService = inject<NbDateService<Date>>(NbDateService);
+    private readonly zone = inject(NgZone);
+    private readonly sidebarService = inject(NbSidebarService);
+    readonly mainService = inject(MainService);
+    private readonly statementImportService = inject(StatementImportService);
+
     protected isCalendarBusy: boolean = false;
     protected isApplicationBusy: boolean = false;
     protected isMobile: boolean;
 
-    public constructor(
-        private readonly router: Router,
-        private readonly activatedRoute: ActivatedRoute,
-        private readonly expenseApiService: ExpenseApiService,
-        private readonly breakpointService: NbMediaBreakpointsService,
-        private readonly dateService: NbDateService<Date>,
-        private readonly zone: NgZone,
-        private readonly sidebarService: NbSidebarService,
-        public readonly mainService: MainService,
-        private readonly statementImportService: StatementImportService
-    ) {
+    public constructor() {
         this.expenseApiService.onBusyChange.subscribe((isBusy: boolean) => (this.isCalendarBusy = isBusy));
         this.mainService.isApplicationBusy.subscribe((isBusy: boolean) => (this.isApplicationBusy = isBusy));
     }

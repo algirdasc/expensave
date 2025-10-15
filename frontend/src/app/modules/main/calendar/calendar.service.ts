@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { NbDialogRef, NbDialogService } from '@nebular/theme';
 import { plainToInstance } from 'class-transformer';
 import { ExpenseApiService } from '../../../api/expense.api.service';
@@ -11,11 +11,10 @@ import { MainService } from '../main.service';
 
 @Injectable()
 export class CalendarService {
-    public constructor(
-        private expenseApiService: ExpenseApiService,
-        private dialogService: NbDialogService,
-        private mainService: MainService
-    ) {}
+    private expenseApiService = inject(ExpenseApiService);
+    private dialogService = inject(NbDialogService);
+    private mainService = inject(MainService);
+
 
     public editExpense(expense: Expense): void {
         this.expenseApiService.get(expense.id).subscribe((expense: Expense) => {

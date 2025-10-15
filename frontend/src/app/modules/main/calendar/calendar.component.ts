@@ -1,5 +1,5 @@
 import { getLocaleFirstDayOfWeek, NgIf } from '@angular/common';
-import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges, Type } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges, Type, inject } from '@angular/core';
 import {
     NbCalendarCell,
     NbCalendarDayPickerComponent,
@@ -25,6 +25,9 @@ import { CalendarExpenseListMobileComponent } from './calendar-expense-list-mobi
     imports: [NbCardModule, CalendarDayNamesComponent, CalendarGridComponent, NgIf, CalendarExpenseListMobileComponent],
 })
 export class CalendarComponent extends NbCalendarDayPickerComponent<Date, Date> implements OnChanges {
+    private readonly unusedMonthModelService: NbCalendarMonthModelService<Date>;
+    private readonly monthModelService = inject<CalendarMonthModelService<Date>>(CalendarMonthModelService);
+
     @Input() public isMobile: boolean;
     @Input({ required: true }) public expenses: Expense[];
     @Input({ required: true }) public expenseBalances: ExpenseBalance[];
@@ -37,11 +40,12 @@ export class CalendarComponent extends NbCalendarDayPickerComponent<Date, Date> 
     }>();
     public cellComponent: Type<NbCalendarCell<Date, Date>> = CalendarGridRowCellDesktopComponent;
 
-    public constructor(
-        private readonly unusedMonthModelService: NbCalendarMonthModelService<Date>,
-        private readonly monthModelService: CalendarMonthModelService<Date>
-    ) {
+    public constructor() {
+        const unusedMonthModelService = inject<NbCalendarMonthModelService<Date>>(NbCalendarMonthModelService);
+
         super(unusedMonthModelService);
+    
+        this.unusedMonthModelService = unusedMonthModelService;
     }
 
     public onSelect(day: Date): void {
