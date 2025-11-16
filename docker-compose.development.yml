@@ -24,7 +24,7 @@ services:
       - "18002:18002"
 
   dev_database:
-    image: mariadb:latest
+    image: mariadb:11
     volumes:
       - 'expensave_db:/var/lib/mysql'
       - './docker/mariadb/development.init.sql:/docker-entrypoint-initdb.d/init.sql'

@@ -45,6 +45,10 @@ readonly class CollectionTransformationHandler implements TransformationHandlerI
             $idValues[] = is_array($item) ? $item[$idField] : $item;
         }
 
+        if (!$idValues) {
+            return null;
+        }
+
         return new ArrayCollection($repository->findBy([$idField => $idValues]));
     }
 }
