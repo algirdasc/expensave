@@ -91,7 +91,8 @@ WORKDIR /opt/expensave/frontend
 COPY frontend/package.json /opt/expensave/frontend/
 COPY frontend/package-lock.json /opt/expensave/frontend/
 RUN npm ci \
-    npm i -g @angular/cli
+    npm i -g @angular/cli \
+    apk add git
 EXPOSE 18002
 CMD ["npm", "run", "dev"]
 
