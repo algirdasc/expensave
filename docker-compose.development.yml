@@ -5,6 +5,7 @@ services:
     volumes:
       - '.:/opt/expensave'
     environment:
+      APP_ENV: dev
       DATABASE_NAME: dev_expensave
       DATABASE_USER: dev_expensave
       DATABASE_PASS: dev_expensave
@@ -23,9 +24,9 @@ services:
       - "18002:18002"
 
   dev_database:
-    image: mariadb:10.6
+    image: mariadb:latest
     volumes:
-      - './backend/var/db:/var/lib/mysql'
+      - 'expensave_db:/var/lib/mysql'
       - './docker/mariadb/development.init.sql:/docker-entrypoint-initdb.d/init.sql'
     restart: unless-stopped
     environment:
@@ -35,3 +36,6 @@ services:
       MARIADB_DATABASE: dev_expensave
     ports:
       - "3306:3306"
+
+volumes:
+  expensave_db:

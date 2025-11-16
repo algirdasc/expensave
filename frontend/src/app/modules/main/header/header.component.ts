@@ -1,23 +1,23 @@
-import { Component, Input, QueryList, ViewChildren, inject } from '@angular/core';
+import { Component, inject, Input, QueryList, ViewChildren } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import {
+    NbBadgeModule,
+    NbButtonGroupModule,
+    NbButtonModule,
+    NbCalendarKitModule,
     NbCalendarViewMode,
     NbDateService,
-    NbPopoverDirective,
-    NbSidebarService,
-    NbButtonModule,
     NbIconModule,
-    NbBadgeModule,
+    NbPopoverDirective,
     NbPopoverModule,
-    NbCalendarKitModule,
-    NbButtonGroupModule,
+    NbSidebarService,
 } from '@nebular/theme';
 import { Calendar } from '../../../api/objects/calendar';
 import { DateUtil } from '../../../util/date.util';
 import { ExpenseReportComponent } from '../components/expense-report/expense-report.component';
 import { SIDEBAR_TAG } from '../main.service';
 import { StatementImportService } from '../services/statement-import.service';
-import { NgIf, NgSwitch, NgSwitchCase } from '@angular/common';
+import { DecimalPipe, NgSwitch, NgSwitchCase } from '@angular/common';
 import { OutsideClickDirective } from '../../../directives/outside-click.directive';
 import { ShortNumberPipe } from '../../../pipes/shortnumber.pipe';
 
@@ -28,7 +28,6 @@ import { ShortNumberPipe } from '../../../pipes/shortnumber.pipe';
     imports: [
         NbButtonModule,
         NbIconModule,
-        NgIf,
         NbBadgeModule,
         NbPopoverModule,
         OutsideClickDirective,
@@ -37,6 +36,7 @@ import { ShortNumberPipe } from '../../../pipes/shortnumber.pipe';
         NgSwitchCase,
         NbButtonGroupModule,
         ShortNumberPipe,
+        DecimalPipe,
     ],
 })
 export class HeaderComponent {
