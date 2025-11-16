@@ -23,7 +23,7 @@ export class ShortNumberPipe implements PipeTransform {
             { key: 'T', value: Math.pow(10, 12), multiply: 1 },
             { key: 'B', value: Math.pow(10, 9), multiply: 1 },
             { key: 'M', value: Math.pow(10, 6), multiply: 1 },
-            { key: 'K', value: 10000, multiply: 10 },
+            { key: 'K', value: 1000, multiply: 1 },
         ];
 
         for (const power of powers) {

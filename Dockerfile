@@ -45,7 +45,7 @@ RUN rm /tmp/expensave-cron
 
 RUN a2dissite 000-default && a2enmod rewrite
 
-FROM node:20-alpine AS frontend
+FROM node:24-alpine AS frontend
 
 WORKDIR /opt/expensave/frontend
 
@@ -83,16 +83,21 @@ CMD ["/boot.sh"]
 #######################
 # Development targets #
 #######################
-FROM node:20-alpine AS development-frontend
+FROM node:24-alpine AS development-frontend
+
+ENV APP_ENV=dev
 
 WORKDIR /opt/expensave/frontend
 COPY frontend/package.json /opt/expensave/frontend/
 COPY frontend/package-lock.json /opt/expensave/frontend/
-RUN npm install
+RUN npm ci \
+    npm i -g @angular/cli
 EXPOSE 18002
-ENTRYPOINT ["npm", "run", "dev"]
+CMD ["npm", "run", "dev"]
 
 FROM expensave-base AS development-backend
+
+ENV APP_ENV=dev
 
 WORKDIR /opt/expensave/backend
 RUN pecl install \

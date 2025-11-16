@@ -9,30 +9,32 @@
                 id="sidebar-toggler">
                 <nb-icon icon="menu-2-outline"></nb-icon>
             </button>
-            <nb-badge
-                *ngIf="statementImportService.expenses.length"
-                [dotMode]="true"
-                status="danger"
-                position="top right"></nb-badge>
+            @if (statementImportService.expenses.length) {
+                <nb-badge [dotMode]="true" status="danger" position="top right"></nb-badge>
+            }
         </div>
 
         <div class="mx-3 calendar-info">
             <strong class="d-block">{{ calendar?.name }}</strong>
             <small class="d-block text-hint">
-                <span title="Current balance">{{ calendar?.balance | shortNumber }}</span>
-                <span *ngIf="visibleDateBalance">
-                    •
-                    <a
-                        href="#"
-                        title="This month balance"
-                        [nbPopover]="expenseReportComponent"
-                        nbPopoverPlacement="bottom"
-                        (click)="$event.preventDefault()"
-                        [class.text-success]="visibleDateBalance > 0"
-                        [class.text-danger]="visibleDateBalance < 0">
-                        {{ visibleDateBalance | shortNumber }}
-                    </a>
-                </span>
+                <span title="Current balance: {{ calendar?.balance | number: '.2-2' }}">{{
+                    calendar?.balance | shortNumber
+                }}</span>
+                @if (visibleDateBalance) {
+                    <span>
+                        •
+                        <a
+                            href="#"
+                            title="This month balance: {{ visibleDateBalance | number: '.2-2' }}"
+                            [nbPopover]="expenseReportComponent"
+                            nbPopoverPlacement="bottom"
+                            (click)="$event.preventDefault()"
+                            [class.text-success]="visibleDateBalance > 0"
+                            [class.text-danger]="visibleDateBalance < 0">
+                            {{ visibleDateBalance | shortNumber }}
+                        </a>
+                    </span>
+                }
             </small>
         </div>
     </div>
