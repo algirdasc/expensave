@@ -24,6 +24,6 @@ services:
       MARIADB_PASSWORD: expensave
       MARIADB_DATABASE: expensave
     healthcheck:
-      test: [ "CMD", "mysqladmin", "ping" ]
-      retries: 3
+      test: [ "CMD", "mariadb-admin", "ping" ]
+      retries: 5
       timeout: 5s
