@@ -70,11 +70,6 @@ jobs:
           php_extensions: xdebug pdo pdo_mysql
           coverage_clover: coverage.xml
           log_junit: report.xml
-      - name: SonarCloud Scan
-        uses: SonarSource/sonarqube-scan-action@master
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
 
   frontend-code-quality:
     name: Frontend code quality checks
