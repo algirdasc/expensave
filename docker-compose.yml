@@ -1,6 +1,7 @@
 services:
   application:
-    image: algirdasc/expensave:latest
+    build: .
+    image: expensave:latest
     restart: unless-stopped
     ports:
       - "18000:18000"

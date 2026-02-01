@@ -18,6 +18,7 @@
             <app-expense-dialog-confirmed-list-item [(confirmed)]="expense.confirmed" />
             <app-expense-dialog-category-list-item [(category)]="expense.category" />
             <app-expense-dialog-date-list-item [(date)]="expense.createdAt" />
+            <app-expense-dialog-recurring-list-item [(recurringType)]="expense.recurringType" />
             <app-expense-dialog-description-list-item [(description)]="expense.description" />
             <app-expense-dialog-user-list-item [user]="expense.user" />
         </div>

@@ -11,6 +11,7 @@ import { ConfirmedListItemComponent } from '../fields/confirmed-list-item.compon
 import { CategoryListItemComponent } from '../fields/category-list-item.component';
 import { DateListItemComponent } from '../fields/date-list-item.component';
 import { DescriptionListItemComponent } from '../fields/description-list-item.component';
+import { RecurringListItemComponent } from '../fields/recurring-list-item.component';
 import { UserListItemComponent } from '../fields/user-list-item.component';
 import { FooterComponent } from '../fields/footer.component';
 
@@ -26,6 +27,7 @@ import { FooterComponent } from '../fields/footer.component';
         CategoryListItemComponent,
         DateListItemComponent,
         DescriptionListItemComponent,
+        RecurringListItemComponent,
         UserListItemComponent,
         FooterComponent,
     ],

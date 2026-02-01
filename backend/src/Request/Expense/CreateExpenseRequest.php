@@ -8,6 +8,7 @@ use App\Attribute\Request\ResolveEntity;
 use App\Entity\Calendar;
 use App\Entity\Category;
 use App\Enum\CategoryType;
+use App\Enum\RecurringType;
 use App\Request\AbstractRequest;
 use DateTime;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -34,6 +35,9 @@ class CreateExpenseRequest extends AbstractRequest
 
     #[Assert\NotBlank]
     protected DateTime $createdAt;
+
+    #[Assert\Choice(callback: [RecurringType::class, 'values'])]
+    protected ?string $recurringType = null;
 
     public function getCalendar(): Calendar
     {
@@ -115,6 +119,17 @@ class CreateExpenseRequest extends AbstractRequest
     public function setDescription(?string $description): self
     {
         $this->description = $description;
+        return $this;
+    }
+
+    public function getRecurringType(): ?string
+    {
+        return $this->recurringType;
+    }
+
+    public function setRecurringType(?string $recurringType): self
+    {
+        $this->recurringType = $recurringType;
         return $this;
     }
 }
