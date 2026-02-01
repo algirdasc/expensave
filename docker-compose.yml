@@ -4,7 +4,7 @@ services:
     image: expensave:latest
     restart: unless-stopped
     ports:
-      - "18000:18000"
+      - "80:18000"
     environment:
       LOCALE: en
       REGISTRATION_DISABLED: no
