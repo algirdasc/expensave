@@ -1,29 +1,38 @@
+version: '3'
+
 services:
   application:
-    image: algirdasc/expensave:latest
+    build: .
+    image: expensave-local:latest
     restart: unless-stopped
     ports:
       - "18000:18000"
     environment:
-      LOCALE: en
-      REGISTRATION_DISABLED: no
-      TZ: Europe/Vilnius
-      ANONYMOUS_DATA_COLLECTION_DISABLED: no
+      - LOCALE=en
+      - REGISTRATION_DISABLED=no
+      - TZ=Europe/Vilnius
+      - ANONYMOUS_DATA_COLLECTION_DISABLED=no
+      - APP_ENV=prod
+      - DATABASE_HOST=database
+      - DATABASE_NAME=expensave
+      - DATABASE_USER=expensave
+      - DATABASE_PASS=expensave
+      - API_URL=/api
     depends_on:
-      database:
-        condition: service_healthy
+      - database
 
   database:
     image: mariadb:11
     volumes:
-      - './db:/var/lib/mysql'
+      - ./db:/var/lib/mysql
     restart: unless-stopped
     environment:
-      MARIADB_RANDOM_ROOT_PASSWORD: yes
-      MARIADB_USER: expensave
-      MARIADB_PASSWORD: expensave
-      MARIADB_DATABASE: expensave
+      - MARIADB_RANDOM_ROOT_PASSWORD=yes
+      - MARIADB_USER=expensave
+      - MARIADB_PASSWORD=expensave
+      - MARIADB_DATABASE=expensave
     healthcheck:
-      test: [ "CMD", "mariadb-admin", "ping" ]
-      retries: 5
+      test: ["CMD", "mariadb-admin", "ping"]
+      interval: 10s
       timeout: 5s
+      retries: 5

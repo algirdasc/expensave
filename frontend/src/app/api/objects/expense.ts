@@ -36,6 +36,9 @@ export class Expense implements EntityInterface {
     @Expose()
     public description?: string;
 
+    @Expose()
+    public recurringType?: string;
+
     private _isExpense: boolean;
 
     public get absoluteAmount(): number {

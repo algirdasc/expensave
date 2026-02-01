@@ -53,6 +53,14 @@ class Expense
     #[Groups(ExpenseContextGroupConst::ALWAYS)]
     private DateTime $createdAt;
 
+    #[ORM\Column(length: 20, nullable: true)]
+    #[Groups(ExpenseContextGroupConst::ALWAYS)]
+    private ?string $recurringType = null;
+
+    #[ORM\Column(length: 36, nullable: true)]
+    #[Groups(ExpenseContextGroupConst::ALWAYS)]
+    private ?string $recurringId = null;
+
     public function __construct()
     {
         $this->createdAt = new DateTime();
@@ -162,6 +170,30 @@ class Expense
     public function setCreatedAt(DateTime $createdAt): self
     {
         $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+    public function getRecurringType(): ?string
+    {
+        return $this->recurringType;
+    }
+
+    public function setRecurringType(?string $recurringType): self
+    {
+        $this->recurringType = $recurringType;
+
+        return $this;
+    }
+
+    public function getRecurringId(): ?string
+    {
+        return $this->recurringId;
+    }
+
+    public function setRecurringId(?string $recurringId): self
+    {
+        $this->recurringId = $recurringId;
 
         return $this;
     }

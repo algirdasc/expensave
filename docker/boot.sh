@@ -25,7 +25,16 @@ php bin/console app:secrets:regenerate .env
 
 composer dump-env prod
 
-php bin/console doctrine:database:create --if-not-exists -n
+# Wait for database
+echo "Waiting for database..."
+for i in {1..30}; do
+  if php bin/console doctrine:database:create --if-not-exists -n; then
+    break
+  fi
+  echo "Database not ready yet, waiting..."
+  sleep 2
+done
+
 php bin/console doctrine:migrations:migrate --allow-no-migration -n
 
 php bin/console lexik:jwt:generate-keypair -n --skip-if-exists
