@@ -17,6 +17,7 @@ use App\Request\Expense\ImportExpenseRequest;
 use App\Request\Expense\SuggestRequest;
 use App\Request\Expense\UpdateExpenseRequest;
 use App\Response\EmptyResponse;
+use App\Service\RecurringExpenseService;
 use App\Security\Voters\CalendarVoter;
 use App\Security\Voters\ExpenseVoter;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -31,6 +32,7 @@ class ExpenseController extends AbstractApiController
 {
     public function __construct(
         private readonly ExpenseRepository $expenseRepository,
+        private readonly RecurringExpenseService $recurringExpenseService,
     ) {
     }
 
@@ -56,9 +58,18 @@ class ExpenseController extends AbstractApiController
             ->setCreatedAt($request->getCreatedAt())
             ->setConfirmed($request->isConfirmed())
             ->setDescription($request->getDescription())
+            ->setRecurringType($request->getRecurringType())
         ;
 
+        if ($expense->getRecurringType()) {
+            $expense->setRecurringId(uniqid('rec_', true));
+        }
+
         $this->expenseRepository->save($expense);
+
+        if ($expense->getRecurringType()) {
+            $this->recurringExpenseService->createRecurringExpenses($expense);
+        }
 
         return $this->respond($expense, groups: ExpenseContextGroupConst::DETAILS);
     }
@@ -79,7 +90,17 @@ class ExpenseController extends AbstractApiController
             ->setDescription($request->getDescription())
         ;
 
+        $isNewlyRecurring = !$expense->getRecurringId() && $request->getRecurringType();
+        if ($isNewlyRecurring) {
+            $expense->setRecurringType($request->getRecurringType());
+            $expense->setRecurringId(uniqid('rec_', true));
+        }
+
         $this->expenseRepository->save($expense);
+
+        if ($isNewlyRecurring) {
+            $this->recurringExpenseService->createRecurringExpenses($expense);
+        }
 
         return $this->respond($expense, groups: ExpenseContextGroupConst::DETAILS);
     }
