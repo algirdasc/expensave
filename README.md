@@ -1,3 +1,7 @@
+# About this branch
+this is a fork of Expensave: https://github.com/algirdasc/expensave with the attempt to implement the recurring transactions feature in the tool.
+The changes have been made but the web server does not start, I will revisit later on
+
 # About Expensave
 
 Expensave is an open-source application designed to help you track your personal and family expenses effortlessly, 
