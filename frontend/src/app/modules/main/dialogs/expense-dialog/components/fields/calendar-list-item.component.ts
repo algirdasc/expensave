@@ -1,8 +1,7 @@
-import { Component, EventEmitter, Input, Output, inject } from '@angular/core';
-import { NbDialogService, NbListModule, NbIconModule } from '@nebular/theme';
+import { Component, EventEmitter, inject, Input, Output } from '@angular/core';
+import { NbDialogService, NbIconModule, NbListModule } from '@nebular/theme';
 import { Calendar } from '../../../../../../api/objects/calendar';
 import { CalendarsDialogComponent } from '../../../calendars-dialog/calendars-dialog.component';
-import { NgIf } from '@angular/common';
 import { ContentLoaderModule } from '@ngneat/content-loader';
 
 @Component({
@@ -13,14 +12,19 @@ import { ContentLoaderModule } from '@ngneat/content-loader';
         [style.height]="textPrefix ? '52px' : null">
         <nb-icon [icon]="icon" class="me-3"></nb-icon>
         <div class="d-block w-100 text-truncate">
-            <small *ngIf="textPrefix" class="d-block text-hint">{{ textPrefix }}</small>
-            <span *ngIf="!showLoader" [class.text-hint]="!calendar">{{ calendar?.name || 'Select calendar' }}</span>
-            <content-loader *ngIf="showLoader" viewBox="0 0 220 10">
-                <svg:rect x="0" y="0" rx="5" ry="5" width="220" height="10" />
-            </content-loader>
+            @if (textPrefix) {
+                <small class="d-block text-hint">{{ textPrefix }}</small>
+            }
+            @if (!showLoader) {
+                <span [class.text-hint]="!calendar">{{ calendar?.name || 'Select calendar' }}</span>
+            } @else {
+                <content-loader viewBox="0 0 220 10">
+                    <svg:rect x="0" y="0" rx="5" ry="5" width="220" height="10" />
+                </content-loader>
+            }
         </div>
     </nb-list-item>`,
-    imports: [NbListModule, NbIconModule, NgIf, ContentLoaderModule],
+    imports: [NbListModule, NbIconModule, ContentLoaderModule],
 })
 export class CalendarListItemComponent {
     private dialogService = inject(NbDialogService);

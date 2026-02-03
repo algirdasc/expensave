@@ -28,25 +28,27 @@
                 [(ngModel)]="expense.absoluteAmount"
                 class="t-input px-0 pt-3 pb-2" />
         </div>
-        <div class="me-3 w-100" *ngIf="labelEditable">
-            <label for="expense-label">Label</label>
-            <app-input-suggestion
-                [input]="expense.label"
-                (inputChanged)="handleInputChange($event)"
-                [suggestion]="suggestedExpense?.label"
-                (suggest)="applyLabelSuggestion()"
-                [cssClasses]="'t-input px-0 pt-3 pb-2'">
-                <input
-                    nbInput
-                    fullWidth
-                    required
-                    tabIndex="2"
-                    placeholder="e.g. coffee"
-                    name="label"
-                    id="expense-label"
-                    [(ngModel)]="expense.label"
-                    class="t-input px-0 pt-3 pb-2" />
-            </app-input-suggestion>
-        </div>
+        @if (labelEditable) {
+            <div class="me-3 w-100">
+                <label for="expense-label">Label</label>
+                <app-input-suggestion
+                    [input]="expense.label"
+                    (inputChanged)="handleInputChange($event)"
+                    [suggestion]="suggestedExpense?.label"
+                    (suggest)="applyLabelSuggestion()"
+                    [cssClasses]="'t-input px-0 pt-3 pb-2'">
+                    <input
+                        nbInput
+                        fullWidth
+                        required
+                        tabIndex="2"
+                        placeholder="e.g. coffee"
+                        name="label"
+                        id="expense-label"
+                        [(ngModel)]="expense.label"
+                        class="t-input px-0 pt-3 pb-2" />
+                </app-input-suggestion>
+            </div>
+        }
     </div>
 </div>

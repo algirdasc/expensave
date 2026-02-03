@@ -1,29 +1,31 @@
 <nb-card class="dialog">
     <nb-card-body class="p-0">
         <nb-tabset class="h-100" [class.confirmed]="isTabConfirmed()" (changeTab)="onTabChange($event)">
-            <nb-tab
-                *ngIf="!this.expense.id || this.expense.category.type !== TYPE_BALANCE_UPDATE"
-                tabTitle="Expense"
-                class="h-100 p-0"
-                [tabId]="TAB_ID_EXPENSE">
-                <app-expense
-                    [expense]="expense"
-                    *nbTabContent
-                    #tabExpense
-                    [onSubmit]="onExpenseSubmit"
-                    [onDelete]="onExpenseDelete"></app-expense>
-            </nb-tab>
-            <nb-tab *ngIf="showTransferTab" tabTitle="Transfer" class="h-100 p-0" [tabId]="TAB_ID_TRANSFER">
-                <app-transfer [expense]="transfer" *nbTabContent #tabTransfer></app-transfer>
-            </nb-tab>
-            <nb-tab *ngIf="showBalanceTab" tabTitle="Balance" class="h-100 p-0" [tabId]="TAB_ID_BALANCE">
-                <app-balance
-                    [expense]="balance"
-                    *nbTabContent
-                    #tabBalance
-                    [onSubmit]="onBalanceSubmit"
-                    [onDelete]="onBalanceDelete"></app-balance>
-            </nb-tab>
+            @if (!this.expense.id || this.expense.category.type !== TYPE_BALANCE_UPDATE) {
+                <nb-tab tabTitle="Expense" class="h-100 p-0" [tabId]="TAB_ID_EXPENSE">
+                    <app-expense
+                        [expense]="expense"
+                        *nbTabContent
+                        #tabExpense
+                        [onSubmit]="onExpenseSubmit"
+                        [onDelete]="onExpenseDelete"></app-expense>
+                </nb-tab>
+            }
+            @if (showTransferTab) {
+                <nb-tab tabTitle="Transfer" class="h-100 p-0" [tabId]="TAB_ID_TRANSFER">
+                    <app-transfer [expense]="transfer" *nbTabContent #tabTransfer></app-transfer>
+                </nb-tab>
+            }
+            @if (showBalanceTab) {
+                <nb-tab tabTitle="Balance" class="h-100 p-0" [tabId]="TAB_ID_BALANCE">
+                    <app-balance
+                        [expense]="balance"
+                        *nbTabContent
+                        #tabBalance
+                        [onSubmit]="onBalanceSubmit"
+                        [onDelete]="onBalanceDelete"></app-balance>
+                </nb-tab>
+            }
         </nb-tabset>
     </nb-card-body>
 </nb-card>

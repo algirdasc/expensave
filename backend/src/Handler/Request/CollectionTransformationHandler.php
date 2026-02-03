@@ -27,7 +27,7 @@ readonly class CollectionTransformationHandler implements TransformationHandlerI
 
     public function transform(AbstractRequest $request, ReflectionProperty $property, mixed $value): mixed
     {
-        $collectionTypes = (new PhpDocExtractor())->getTypes($request::class, $property->getName());
+        $collectionTypes = (new PhpDocExtractor())->getType($request::class, $property->getName());
 
         if (null === $collectionTypes) {
             return $value;

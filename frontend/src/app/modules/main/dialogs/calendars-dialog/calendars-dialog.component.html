@@ -1,17 +1,18 @@
 <div [nbSpinner]="isBusy">
-    <app-calendar-list
-        *ngIf="!editableCalendar"
-        [selectedCalendar]="this.selectedCalendar"
-        [calendars]="this.calendars"
-        (newCalendarClick)="editCalendar()"
-        (calendarClick)="dialogRef.close($event)"
-        (back)="dialogRef.close(false)">
-    </app-calendar-list>
-    <app-calendar-edit
-        *ngIf="editableCalendar"
-        [calendar]="editableCalendar"
-        [isBusy]="isBusy"
-        (back)="editableCalendar = undefined"
-        (save)="saveCalendar($event)">
-    </app-calendar-edit>
+    @if (editableCalendar) {
+        <app-calendar-edit
+            [calendar]="editableCalendar"
+            [isBusy]="isBusy"
+            (back)="editableCalendar = undefined"
+            (save)="saveCalendar($event)">
+        </app-calendar-edit>
+    } @else {
+        <app-calendar-list
+            [selectedCalendar]="this.selectedCalendar"
+            [calendars]="this.calendars"
+            (newCalendarClick)="editCalendar()"
+            (calendarClick)="dialogRef.close($event)"
+            (back)="dialogRef.close(false)">
+        </app-calendar-list>
+    }
 </div>
