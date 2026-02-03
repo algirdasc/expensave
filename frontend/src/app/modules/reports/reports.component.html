@@ -14,14 +14,16 @@
                     <div class="calendar-selection">
                         <h6 class="text-hint m-3">Calendars:</h6>
                         <nb-list class="mb-3">
-                            <nb-list-item *ngFor="let c of reportsService.calendars">
-                                <nb-checkbox
-                                    [checked]="selectedCalendars.indexOf(c) !== -1"
-                                    (checkedChange)="onCheckedChange(c, $event)"
-                                    class="text-truncate">
-                                    {{ c.name }}
-                                </nb-checkbox>
-                            </nb-list-item>
+                            @for (c of reportsService.calendars; track c.id) {
+                                <nb-list-item>
+                                    <nb-checkbox
+                                        [checked]="selectedCalendars.indexOf(c) !== -1"
+                                        (checkedChange)="onCheckedChange(c, $event)"
+                                        class="text-truncate">
+                                        {{ c.name }}
+                                    </nb-checkbox>
+                                </nb-list-item>
+                            }
                         </nb-list>
                     </div>
                     <div class="flex-grow-1">

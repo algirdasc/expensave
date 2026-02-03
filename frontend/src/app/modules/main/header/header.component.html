@@ -18,8 +18,8 @@
             <strong class="d-block">{{ calendar?.name }}</strong>
             <small class="d-block text-hint">
                 <span title="Current balance: {{ calendar?.balance | number: '.2-2' }}">{{
-                    calendar?.balance | shortNumber
-                }}</span>
+                        calendar?.balance | shortNumber
+                    }}</span>
                 @if (visibleDateBalance) {
                     <span>
                         •
@@ -52,19 +52,20 @@
             </nb-calendar-view-mode>
 
             <ng-template #viewModeRef>
-                <div [ngSwitch]="activeViewMode">
-                    <nb-calendar-year-picker
-                        *ngSwitchCase="viewMode.YEAR"
-                        [year]="visibleDate"
-                        (yearChange)="visibleDate = $event; activeViewMode = viewMode.MONTH">
-                    </nb-calendar-year-picker>
-
-                    <nb-calendar-month-picker
-                        *ngSwitchCase="viewMode.MONTH"
-                        [month]="visibleDate"
-                        (monthChange)="navigateToDate($event); activeViewMode = viewMode.DATE">
-                    </nb-calendar-month-picker>
-                </div>
+                @switch (activeViewMode) {
+                    @case (viewMode.YEAR) {
+                        <nb-calendar-year-picker
+                            [year]="visibleDate"
+                            (yearChange)="visibleDate = $event; activeViewMode = viewMode.MONTH">
+                        </nb-calendar-year-picker>
+                    }
+                    @case (viewMode.MONTH) {
+                        <nb-calendar-month-picker
+                            [month]="visibleDate"
+                            (monthChange)="navigateToDate($event); activeViewMode = viewMode.DATE">
+                        </nb-calendar-month-picker>
+                    }
+                }
             </ng-template>
         </div>
 
