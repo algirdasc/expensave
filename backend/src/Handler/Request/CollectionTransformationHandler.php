@@ -27,14 +27,28 @@ readonly class CollectionTransformationHandler implements TransformationHandlerI
 
     public function transform(AbstractRequest $request, ReflectionProperty $property, mixed $value): mixed
     {
-        $collectionTypes = (new PhpDocExtractor())->getTypes($request::class, $property->getName());
+        $allowsNull = $property->getType()?->allowsNull() ?? true;
 
-        if (null === $collectionTypes) {
-            return $value;
+        // Common case: field omitted from request body
+        if ($value === null) {
+            return $allowsNull ? null : new ArrayCollection();
         }
 
-        /** @var class-string $entityClassName */
-        $entityClassName = $collectionTypes[0]->getCollectionValueTypes()[0]->getClassName();
+        $collectionTypes = (new PhpDocExtractor())->getTypes($request::class, $property->getName());
+
+        if ($collectionTypes === null) {
+            return $allowsNull ? null : new ArrayCollection();
+        }
+
+        $valueTypes = $collectionTypes[0]->getCollectionValueTypes();
+        $valueType = $valueTypes[0] ?? null;
+        $entityClassName = $valueType?->getClassName();
+
+        // If we cannot resolve the collection element class, do not blow up the request population
+        if ($entityClassName === null) {
+            return $allowsNull ? null : new ArrayCollection();
+        }
+
         $classMetadata = $this->entityManager->getClassMetadata($entityClassName);
         $idField = $classMetadata->getSingleIdentifierFieldName();
 
@@ -46,7 +60,7 @@ readonly class CollectionTransformationHandler implements TransformationHandlerI
         }
 
         if (!$idValues) {
-            return null;
+            return $allowsNull ? null : new ArrayCollection();
         }
 
         return new ArrayCollection($repository->findBy([$idField => $idValues]));
