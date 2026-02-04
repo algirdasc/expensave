@@ -34,6 +34,11 @@ readonly class CollectionTransformationHandler implements TransformationHandlerI
             return $allowsNull ? null : new ArrayCollection();
         }
 
+        // We only support transforming iterable inputs into a Doctrine collection.
+        if (!is_array($value)) {
+            return $allowsNull ? null : new ArrayCollection();
+        }
+
         $collectionTypes = (new PhpDocExtractor())->getTypes($request::class, $property->getName());
 
         if ($collectionTypes === null) {
@@ -45,21 +50,24 @@ readonly class CollectionTransformationHandler implements TransformationHandlerI
         $entityClassName = $valueType?->getClassName();
 
         // If we cannot resolve the collection element class, do not blow up the request population
-        if ($entityClassName === null) {
+        if ($entityClassName === null || !class_exists($entityClassName)) {
             return $allowsNull ? null : new ArrayCollection();
         }
 
+        /** @var class-string<object> $entityClassName */
         $classMetadata = $this->entityManager->getClassMetadata($entityClassName);
         $idField = $classMetadata->getSingleIdentifierFieldName();
 
         $repository = $this->entityManager->getRepository($entityClassName);
 
         $idValues = [];
-        foreach ($value ?? [] as $item) {
-            $idValues[] = is_array($item) ? $item[$idField] : $item;
+        foreach ($value as $item) {
+            $idValues[] = is_array($item) ? ($item[$idField] ?? null) : $item;
         }
 
-        if (!$idValues) {
+        $idValues = array_values(array_filter($idValues, static fn (mixed $v): bool => $v !== null));
+
+        if ($idValues === []) {
             return $allowsNull ? null : new ArrayCollection();
         }
 
