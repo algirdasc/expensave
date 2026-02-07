@@ -6,7 +6,6 @@ namespace App\Tests\Application;
 
 use App\Tests\ApplicationTestCase;
 use PHPUnit\Framework\Attributes\DataProvider;
-use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Component\HttpFoundation\Response;
 
 class AuthenticationRequiredTest extends ApplicationTestCase
@@ -14,8 +13,7 @@ class AuthenticationRequiredTest extends ApplicationTestCase
     #[DataProvider('endpointProvider')]
     public function testRequiresAuth(string $method, string $endpoint, array $data = []): void
     {
-        /** @var KernelBrowser $client */
-        $client = self::getContainer()->get('test.client');
+        $client = static::createClient();
 
         $client->jsonRequest($method, $endpoint, $data);
 
