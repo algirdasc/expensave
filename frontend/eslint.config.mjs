@@ -47,6 +47,9 @@ export default [{
             style: "kebab-case",
         }],
 
+        // We still use *ngIf/*ngFor in templates; don't force migration to @if/@for via lint.
+        "@angular-eslint/template/prefer-control-flow": "off",
+
         "@typescript-eslint/explicit-function-return-type": "error",
         "@typescript-eslint/explicit-member-accessibility": "error",
         "sort-vars": "error",
@@ -56,7 +59,10 @@ export default [{
     files: ["**/*.html"],
 })), {
     files: ["**/*.html"],
-    rules: {},
+    rules: {
+        // We still use *ngIf/*ngFor in templates; don't force migration to @if/@for via lint.
+        "@angular-eslint/template/prefer-control-flow": "off",
+    },
 }, ...compat.extends("plugin:prettier/recommended").map(config => ({
     ...config,
     files: ["**/*.html"],
