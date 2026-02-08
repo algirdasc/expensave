@@ -22,9 +22,12 @@
                         [status]="name.dirty ? (name.invalid ? 'danger' : 'success') : 'basic'"
                         placeholder="Calendar name, ex. Vacation" />
                 </nb-form-field>
-                <ng-container *ngIf="name.invalid && name.touched">
-                    <p class="caption status-danger" *ngIf="name.errors?.required">Name is required!</p>
-                </ng-container>
+
+                @if (name.invalid && name.touched) {
+                    @if (name.errors?.required) {
+                        <p class="caption status-danger">Name is required!</p>
+                    }
+                }
             </div>
             <div class="mb-3">
                 <div class="caption-2 mb-1">Owner</div>
@@ -33,25 +36,31 @@
                     [name]="calendar.owner.name"
                     [title]="calendar.owner.email" />
             </div>
-            <div *ngIf="calendar.collaborators.length" class="mb-3">
-                <div class="caption-2 mb-1">Shared with</div>
-                <nb-list>
-                    <nb-list-item class="p-0 mb-2 justify-content-between" *ngFor="let user of calendar.collaborators">
-                        <nb-user [picture]="user.avatar" [name]="user.name" [title]="user.email" />
-                        <button
-                            nbButton
-                            type="button"
-                            ghost
-                            size="small"
-                            status="danger"
-                            class="me-3"
-                            title="Remove user"
-                            (click)="removeUser(user)">
-                            <nb-icon icon="person-remove-outline"></nb-icon>
-                        </button>
-                    </nb-list-item>
-                </nb-list>
-            </div>
+
+            @if (calendar.collaborators.length) {
+                <div class="mb-3">
+                    <div class="caption-2 mb-1">Shared with</div>
+                    <nb-list>
+                        @for (user of calendar.collaborators; track $index) {
+                            <nb-list-item class="p-0 mb-2 justify-content-between">
+                                <nb-user [picture]="user.avatar" [name]="user.name" [title]="user.email" />
+                                <button
+                                    nbButton
+                                    type="button"
+                                    ghost
+                                    size="small"
+                                    status="danger"
+                                    class="me-3"
+                                    title="Remove user"
+                                    (click)="removeUser(user)">
+                                    <nb-icon icon="person-remove-outline"></nb-icon>
+                                </button>
+                            </nb-list-item>
+                        }
+                    </nb-list>
+                </div>
+            }
+
             <div class="border-top pt-3">
                 <nb-form-field>
                     <nb-icon nbPrefix icon="person-add-outline"></nb-icon>
@@ -67,12 +76,11 @@
                         [nbAutocomplete]="userAutoComplete" />
                 </nb-form-field>
                 <nb-autocomplete #userAutoComplete (selectedChange)="onUserSelect($event)">
-                    <nb-option
-                        *ngFor="let user of filteredOptions | async"
-                        [value]="user"
-                        class="justify-content-between">
-                        {{ user.name }} <small>({{ user.email }})</small>
-                    </nb-option>
+                    @for (user of filteredOptions | async; track $index) {
+                        <nb-option [value]="user" class="justify-content-between">
+                            {{ user.name }} <small>({{ user.email }})</small>
+                        </nb-option>
+                    }
                 </nb-autocomplete>
             </div>
         </nb-card-body>

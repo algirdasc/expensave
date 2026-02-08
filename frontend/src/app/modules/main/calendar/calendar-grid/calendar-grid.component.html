@@ -1,11 +1,12 @@
-<app-calendar-grid-row
-    *ngFor="let row of data"
-    [row]="row"
-    (select)="onSelect($event)"
-    [selectedValue]="selectedValue"
-    [visibleDate]="visibleDate"
-    [component]="cellComponent"
-    [calendar]="calendar"
-    [expenses]="expenses"
-    [expenseBalances]="expenseBalances">
-</app-calendar-grid-row>
+@for (row of data; track $index) {
+    <app-calendar-grid-row
+        [row]="row"
+        (select)="onSelect($event)"
+        [selectedValue]="selectedValue"
+        [visibleDate]="visibleDate"
+        [component]="cellComponent"
+        [calendar]="calendar"
+        [expenses]="expenses"
+        [expenseBalances]="expenseBalances">
+    </app-calendar-grid-row>
+}

@@ -1,3 +1,5 @@
-<div class="day" *ngFor="let day of days" [class.holiday]="day.isHoliday">
-    {{ day.name }}
-</div>
+@for (day of days; track $index) {
+    <div class="day" [class.holiday]="day.isHoliday">
+        {{ day.name }}
+    </div>
+}
