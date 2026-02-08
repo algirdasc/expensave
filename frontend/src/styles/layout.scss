@@ -1,4 +1,4 @@
-@import 'bootstrap/scss/bootstrap-utilities';
+@use 'bootstrap/scss/bootstrap-utilities' as *;
 
 nb-sidebar > .main-container > .scrollable {
   padding: 0 !important;

@@ -1,4 +1,4 @@
-@import '../../../../../theme';
+@use '../../../../../theme' as *;
 
 button.create-expense {
     position: absolute;

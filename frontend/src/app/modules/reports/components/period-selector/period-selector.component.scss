@@ -1,5 +1,5 @@
-@import 'bootstrap/scss/bootstrap-utilities';
-@import '../../../../../theme';
+@use 'bootstrap/scss/bootstrap-utilities' as *;
+@use '../../../../../theme' as *;
 
 @include media-breakpoint-down(md) {
     :host ::ng-deep nb-button-group {
