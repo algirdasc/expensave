@@ -3,7 +3,7 @@ import { Expense } from '../../../../api/objects/expense';
 import { UNCATEGORIZED_COLOR } from '../../../../util/color.util';
 import { CalendarService } from '../calendar.service';
 import { NbListModule, NbIconModule } from '@nebular/theme';
-import { NgFor, DatePipe } from '@angular/common';
+import { DatePipe } from '@angular/common';
 import { ShortNumberPipe } from '../../../../pipes/shortnumber.pipe';
 
 @Component({
@@ -16,21 +16,22 @@ import { ShortNumberPipe } from '../../../../pipes/shortnumber.pipe';
             <small>{{ expensesSum | shortNumber }}</small>
         </div>
         <nb-list>
-            <nb-list-item
-                *ngFor="let expense of expenses"
-                [style.background-color]="expense.category?.color ?? UNCATEGORIZED_COLOR"
-                [class.expense-unconfirmed]="!confirmed"
-                (click)="calendarService.editExpense(expense)"
-                class="mb-2 rounded actionable">
-                <nb-icon class="flex-shrink-0" icon="{{ expense.category?.icon }}pricetags-outline"></nb-icon>
-                <div class="text-truncate w-100">
-                    <strong class="mx-2">{{ expense.amount | shortNumber }}</strong>
-                    <span>{{ expense.label }}</span>
-                </div>
-                <small class="w-50 text-right text-truncate">{{ expense.category?.name }}</small>
-            </nb-list-item>
+            @for (expense of expenses; track $index) {
+                <nb-list-item
+                    [style.background-color]="expense.category?.color ?? UNCATEGORIZED_COLOR"
+                    [class.expense-unconfirmed]="!confirmed"
+                    (click)="calendarService.editExpense(expense)"
+                    class="mb-2 rounded actionable">
+                    <nb-icon class="flex-shrink-0" icon="{{ expense.category?.icon }}pricetags-outline"></nb-icon>
+                    <div class="text-truncate w-100">
+                        <strong class="mx-2">{{ expense.amount | shortNumber }}</strong>
+                        <span>{{ expense.label }}</span>
+                    </div>
+                    <small class="w-50 text-right text-truncate">{{ expense.category?.name }}</small>
+                </nb-list-item>
+            }
         </nb-list>`,
-    imports: [NbListModule, NgFor, NbIconModule, DatePipe, ShortNumberPipe],
+    imports: [NbListModule, NbIconModule, DatePipe, ShortNumberPipe],
 })
 export class CalendarExpenseListMobileItemsComponent {
     protected calendarService = inject(CalendarService);

@@ -14,7 +14,9 @@
     <nb-alert outline="danger" role="alert">
         <p class="alert-title"><b>Oh snap!</b></p>
         <ul class="alert-message-list">
-            <li *ngFor="let error of errors" class="alert-message">{{ error }}</li>
+            @for (error of errors; track $index) {
+                <li class="alert-message">{{ error }}</li>
+            }
         </ul>
     </nb-alert>
 }
@@ -23,7 +25,9 @@
     <nb-alert outline="success" role="alert">
         <p class="alert-title"><b>Hooray!</b></p>
         <ul class="alert-message-list">
-            <li *ngFor="let message of messages" class="alert-message">{{ message }}</li>
+            @for (message of messages; track $index) {
+                <li class="alert-message">{{ message }}</li>
+            }
         </ul>
     </nb-alert>
 }
@@ -45,9 +49,12 @@
             [status]="email.dirty ? (email.invalid ? 'danger' : 'success') : 'basic'"
             [required]="getConfigValue('forms.validation.email.required')"
             [attr.aria-invalid]="email.invalid && email.touched ? true : null" />
-        <ng-container *ngIf="email.invalid && email.touched">
-            <p class="caption status-danger" *ngIf="email.errors?.pattern">Email should be the real one!</p>
-        </ng-container>
+
+        @if (email.invalid && email.touched) {
+            @if (email.errors?.pattern) {
+                <p class="caption status-danger">Email should be the real one!</p>
+            }
+        }
     </div>
 
     <div class="form-control-group">
@@ -71,18 +78,23 @@
             [minlength]="getConfigValue('forms.validation.password.minLength')"
             [maxlength]="getConfigValue('forms.validation.password.maxLength')"
             [attr.aria-invalid]="password.invalid && password.touched ? true : null" />
-        <ng-container *ngIf="password.invalid && password.touched">
-            <p class="caption status-danger" *ngIf="password.errors?.minlength || password.errors?.maxlength">
-                Password should contain from {{ getConfigValue('forms.validation.password.minLength') }} to
-                {{ getConfigValue('forms.validation.password.maxLength') }}
-                characters
-            </p>
-        </ng-container>
+
+        @if (password.invalid && password.touched) {
+            @if (password.errors?.minlength || password.errors?.maxlength) {
+                <p class="caption status-danger">
+                    Password should contain from {{ getConfigValue('forms.validation.password.minLength') }} to
+                    {{ getConfigValue('forms.validation.password.maxLength') }}
+                    characters
+                </p>
+            }
+        }
     </div>
 
-    <div class="form-control-group accept-group" *ngIf="rememberMe">
-        <nb-checkbox name="rememberMe" [(ngModel)]="user.rememberMe">Remember me</nb-checkbox>
-    </div>
+    @if (rememberMe) {
+        <div class="form-control-group accept-group">
+            <nb-checkbox name="rememberMe" [(ngModel)]="user.rememberMe">Remember me</nb-checkbox>
+        </div>
+    }
 
     <button
         nbButton
@@ -95,35 +107,48 @@
     </button>
 </form>
 
-<section *ngIf="socialLinks && socialLinks.length > 0" class="links" aria-label="Social sign in">
-    or enter with:
-    <div class="socials">
-        <ng-container *ngFor="let socialLink of socialLinks">
-            <a
-                *ngIf="socialLink.link"
-                [routerLink]="socialLink.link"
-                [attr.target]="socialLink.target"
-                [attr.class]="socialLink.icon"
-                [class.with-icon]="socialLink.icon">
-                <nb-icon *ngIf="socialLink.icon; else title" [icon]="socialLink.icon"></nb-icon>
-                <ng-template #title>{{ socialLink.title }}</ng-template>
-            </a>
-            <a
-                *ngIf="socialLink.url"
-                [attr.href]="socialLink.url"
-                [attr.target]="socialLink.target"
-                [attr.class]="socialLink.icon"
-                [class.with-icon]="socialLink.icon">
-                <nb-icon *ngIf="socialLink.icon; else title" [icon]="socialLink.icon"></nb-icon>
-                <ng-template #title>{{ socialLink.title }}</ng-template>
-            </a>
-        </ng-container>
-    </div>
-</section>
+@if (socialLinks && socialLinks.length > 0) {
+    <section class="links" aria-label="Social sign in">
+        or enter with:
+        <div class="socials">
+            @for (socialLink of socialLinks; track $index) {
+                @if (socialLink.link) {
+                    <a
+                        [routerLink]="socialLink.link"
+                        [attr.target]="socialLink.target"
+                        [attr.class]="socialLink.icon"
+                        [class.with-icon]="socialLink.icon">
+                        @if (socialLink.icon) {
+                            <nb-icon [icon]="socialLink.icon"></nb-icon>
+                        } @else {
+                            {{ socialLink.title }}
+                        }
+                    </a>
+                }
 
-<section class="another-action" aria-label="Register" *ngIf="!APP_CONFIG.registrationDisabled">
-    Don't have an account? <a class="text-link" routerLink="../register">Register</a>
-</section>
+                @if (socialLink.url) {
+                    <a
+                        [attr.href]="socialLink.url"
+                        [attr.target]="socialLink.target"
+                        [attr.class]="socialLink.icon"
+                        [class.with-icon]="socialLink.icon">
+                        @if (socialLink.icon) {
+                            <nb-icon [icon]="socialLink.icon"></nb-icon>
+                        } @else {
+                            {{ socialLink.title }}
+                        }
+                    </a>
+                }
+            }
+        </div>
+    </section>
+}
+
+@if (!APP_CONFIG.registrationDisabled) {
+    <section class="another-action" aria-label="Register">
+        Don't have an account? <a class="text-link" routerLink="../register">Register</a>
+    </section>
+}
 
 <section class="another-action">
     <small class="very-small text-hint">v{{ environment.version }}</small>

@@ -23,17 +23,16 @@
                         name="currentPassword"
                         placeholder="Current password" />
                 </nb-form-field>
+
                 @if (password.invalid && password.touched) {
-                    <ng-container>
-                        <p
-                            class="caption status-danger"
-                            *ngIf="password.errors?.minlength || password.errors?.maxlength">
+                    @if (password.errors?.minlength || password.errors?.maxlength) {
+                        <p class="caption status-danger">
                             Password should contain from
                             {{ authOptions.getConfigValue('forms.validation.password.minLength') }} to
                             {{ authOptions.getConfigValue('forms.validation.password.maxLength') }}
                             characters
                         </p>
-                    </ng-container>
+                    }
                 }
             </div>
             <div class="mb-3">
@@ -52,16 +51,17 @@
                         name="newPassword"
                         placeholder="New password" />
                 </nb-form-field>
-                <ng-container *ngIf="newPassword.invalid && newPassword.touched">
-                    <p
-                        class="caption status-danger"
-                        *ngIf="newPassword.errors?.minlength || newPassword.errors?.maxlength">
-                        Password should contain from
-                        {{ authOptions.getConfigValue('forms.validation.password.minLength') }} to
-                        {{ authOptions.getConfigValue('forms.validation.password.maxLength') }}
-                        characters
-                    </p>
-                </ng-container>
+
+                @if (newPassword.invalid && newPassword.touched) {
+                    @if (newPassword.errors?.minlength || newPassword.errors?.maxlength) {
+                        <p class="caption status-danger">
+                            Password should contain from
+                            {{ authOptions.getConfigValue('forms.validation.password.minLength') }} to
+                            {{ authOptions.getConfigValue('forms.validation.password.maxLength') }}
+                            characters
+                        </p>
+                    }
+                }
             </div>
             <div class="mb-0">
                 <nb-form-field>
@@ -79,16 +79,17 @@
                         name="confirmPassword"
                         placeholder="Confirm new password" />
                 </nb-form-field>
-                <ng-container *ngIf="confirmPassword.invalid && confirmPassword.touched">
-                    <p
-                        class="caption status-danger"
-                        *ngIf="confirmPassword.errors?.minlength || confirmPassword.errors?.maxlength">
-                        Password should contain from
-                        {{ authOptions.getConfigValue('forms.validation.password.minLength') }} to
-                        {{ authOptions.getConfigValue('forms.validation.password.maxLength') }}
-                        characters
-                    </p>
-                </ng-container>
+
+                @if (confirmPassword.invalid && confirmPassword.touched) {
+                    @if (confirmPassword.errors?.minlength || confirmPassword.errors?.maxlength) {
+                        <p class="caption status-danger">
+                            Password should contain from
+                            {{ authOptions.getConfigValue('forms.validation.password.minLength') }} to
+                            {{ authOptions.getConfigValue('forms.validation.password.maxLength') }}
+                            characters
+                        </p>
+                    }
+                }
             </div>
         </nb-card-body>
         <nb-card-footer class="text-right">

@@ -6,19 +6,20 @@
         Select calendar
     </nb-card-header>
     <nb-list>
-        <nb-list-item
-            [@slideAnimation]
-            class="actionable"
-            *ngFor="let calendar of calendars"
-            [class.active]="isActive(calendar)"
-            (click)="calendarClick.emit(calendar)">
-            <nb-icon
-                [icon]="isActive(calendar) ? 'radio-button-on' : 'radio-button-off'"
-                [style]="isActive(calendar) ? 'primary' : ''"
-                class="flex-shrink-0 me-2">
-            </nb-icon>
-            <div class="text-truncate">{{ calendar.name }}</div>
-        </nb-list-item>
+        @for (calendar of calendars; track $index) {
+            <nb-list-item
+                [@slideAnimation]
+                class="actionable"
+                [class.active]="isActive(calendar)"
+                (click)="calendarClick.emit(calendar)">
+                <nb-icon
+                    [icon]="isActive(calendar) ? 'radio-button-on' : 'radio-button-off'"
+                    [style]="isActive(calendar) ? 'primary' : ''"
+                    class="flex-shrink-0 me-2">
+                </nb-icon>
+                <div class="text-truncate">{{ calendar.name }}</div>
+            </nb-list-item>
+        }
     </nb-list>
     <nb-card-footer class="text-right">
         <button nbButton status="primary" ghost (click)="newCalendarClick.emit(true)">

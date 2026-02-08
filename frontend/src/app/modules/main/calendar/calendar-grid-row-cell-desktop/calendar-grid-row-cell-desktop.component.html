@@ -2,11 +2,15 @@
     <div class="day-header d-flex p-1 text-hint">
         <div class="day-number d-flex align-items-center text-left me-2">
             <span>{{ day }}</span>
-            <div *ngIf="hasUnconfirmedExpenses" class="unconfirmed-expenses ms-2"></div>
+            @if (hasUnconfirmedExpenses) {
+                <div class="unconfirmed-expenses ms-2"></div>
+            }
         </div>
         <div class="day-expenses flex-fill text-right text-truncate d-none d-sm-block">
-            <span *ngIf="expenseBalance?.change">{{ expenseBalance?.change | shortNumber }} | </span
-            >{{ expenseBalance?.balance ?? 0 | shortNumber }}
+            @if (expenseBalance?.change) {
+                <span>{{ expenseBalance?.change | shortNumber }} | </span>
+            }
+            {{ expenseBalance?.balance ?? 0 | shortNumber }}
         </div>
         <button
             nbButton
@@ -18,18 +22,18 @@
     </div>
 
     <div class="expense-list d-flex flex-column mt-1 h-100" (resized)="onResized($event)">
-        <app-calendar-expense-item
-            *ngFor="let expense of visibleExpenses"
-            [class.expense-unconfirmed]="!expense.confirmed"
-            (click)="calendarService.editExpense(expense)"
-            [expense]="expense">
-        </app-calendar-expense-item>
-        <a
-            href="#"
-            (click)="$event.preventDefault(); openInvisibleExpenses()"
-            *ngIf="!!invisibleExpensesCount"
-            class="other-label px-1">
-            + {{ invisibleExpensesCount | shortNumber: '.0-0' }} other
-        </a>
+        @for (expense of visibleExpenses; track $index) {
+            <app-calendar-expense-item
+                [class.expense-unconfirmed]="!expense.confirmed"
+                (click)="calendarService.editExpense(expense)"
+                [expense]="expense">
+            </app-calendar-expense-item>
+        }
+
+        @if (!!invisibleExpensesCount) {
+            <a href="#" (click)="$event.preventDefault(); openInvisibleExpenses()" class="other-label px-1">
+                + {{ invisibleExpensesCount | shortNumber: '.0-0' }} other
+            </a>
+        }
     </div>
 </div>

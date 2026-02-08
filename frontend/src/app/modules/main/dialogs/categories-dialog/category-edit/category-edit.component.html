@@ -28,18 +28,19 @@
                 </div>
             </div>
             <div class="color-picker">
-                <div
-                    class="color-picker-color d-flex justify-content-center align-items-center m-1"
-                    *ngFor="let color of colors"
-                    (click)="category.color = color"
-                    [style.background-color]="color">
-                    <nb-icon
-                        icon="radio-button-on"
-                        *ngIf="category.color !== color && usedColors[color]"
-                        style="color: white; opacity: 0.5">
-                    </nb-icon>
-                    <nb-icon icon="checkmark-outline" *ngIf="category.color === color" style="color: white"> </nb-icon>
-                </div>
+                @for (color of colors; track $index) {
+                    <div
+                        class="color-picker-color d-flex justify-content-center align-items-center m-1"
+                        (click)="category.color = color"
+                        [style.background-color]="color">
+                        @if (category.color !== color && usedColors[color]) {
+                            <nb-icon icon="radio-button-on" style="color: white; opacity: 0.5"> </nb-icon>
+                        }
+                        @if (category.color === color) {
+                            <nb-icon icon="checkmark-outline" style="color: white"> </nb-icon>
+                        }
+                    </div>
+                }
                 <div class="clearfix"></div>
             </div>
         </nb-card-body>
@@ -51,15 +52,11 @@
                     Save
                 </button>
 
-                <button
-                    nbButton
-                    type="button"
-                    ghost
-                    status="danger"
-                    *ngIf="category.id && category.definedByUser"
-                    (click)="deleteCategory()">
-                    <nb-icon icon="trash-2-outline"></nb-icon>
-                </button>
+                @if (category.id && category.definedByUser) {
+                    <button nbButton type="button" ghost status="danger" (click)="deleteCategory()">
+                        <nb-icon icon="trash-2-outline"></nb-icon>
+                    </button>
+                }
             </div>
         </nb-card-footer>
     </nb-card>
