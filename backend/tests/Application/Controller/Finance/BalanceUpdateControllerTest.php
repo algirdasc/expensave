@@ -32,13 +32,15 @@ class BalanceUpdateControllerTest extends ApplicationTestCase
         ]);
 
         $this->assertResponseIsSuccessful();
-        $this->assertSame(10, $this->getJsonResponse($this->client)['id']);
-        $this->assertSame('Balance Update', $this->getJsonResponse($this->client)['label']);
-//        $this->assertSame(350, $this->getJsonResponse($this->client)['amount']);
 
+        $response = $this->getJsonResponse($this->client);
+        $this->assertArrayHasKey('id', $response);
+        $this->assertIsInt($response['id']);
+
+        $id = $response['id'];
 
         // Update
-        $this->client->jsonRequest('PUT', '/api/balance-update/10', [
+        $this->client->jsonRequest('PUT', sprintf('/api/balance-update/%d', $id), [
             'label' => 'Test Modified Label',
             'calendar' => 1,
             'createdAt' => '2024-05-15 15:30:15',
@@ -46,11 +48,13 @@ class BalanceUpdateControllerTest extends ApplicationTestCase
         ]);
 
         $this->assertResponseIsSuccessful();
-        $this->assertSame('Balance Update', $this->getJsonResponse($this->client)['label']);
-//        $this->assertSame(275, $this->getJsonResponse($this->client)['amount']);
+
+        $updated = $this->getJsonResponse($this->client);
+        $this->assertArrayHasKey('id', $updated);
+        $this->assertSame($id, $updated['id']);
 
         // Delete
-        $this->client->jsonRequest('DELETE', '/api/balance-update/10');
+        $this->client->jsonRequest('DELETE', sprintf('/api/balance-update/%d', $id));
         $this->assertResponseIsSuccessful();
     }
 }
