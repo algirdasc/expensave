@@ -1,5 +1,5 @@
-@import 'bootstrap/scss/bootstrap-utilities';
-@import '../../../../theme';
+@use 'bootstrap/scss/bootstrap-utilities' as *;
+@use '../../../../theme' as *;
 
 app-calendar-grid {
     height: 100%;
