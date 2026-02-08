@@ -3,17 +3,19 @@
         {{ visibleDate | date: 'mediumDate' }}
     </nb-card-header>
     <nb-card-body class="p-0">
-        <app-expense-list-items
-            *ngIf="unconfirmedExpenses.length"
-            header="UNCONFIRMED TRANSACTIONS"
-            [expenses]="unconfirmedExpenses"
-            (expenseClick)="editExpense($event)"
-            icon="radio-button-off" />
-        <app-expense-list-items
-            *ngIf="confirmedExpenses.length"
-            header="CONFIRMED TRANSACTIONS"
-            [expenses]="confirmedExpenses"
-            (expenseClick)="editExpense($event)" />
+        @if (unconfirmedExpenses.length) {
+            <app-expense-list-items
+                header="UNCONFIRMED TRANSACTIONS"
+                [expenses]="unconfirmedExpenses"
+                (expenseClick)="editExpense($event)"
+                icon="radio-button-off" />
+        }
+        @if (confirmedExpenses.length) {
+            <app-expense-list-items
+                header="CONFIRMED TRANSACTIONS"
+                [expenses]="confirmedExpenses"
+                (expenseClick)="editExpense($event)" />
+        }
     </nb-card-body>
     <nb-card-footer class="d-flex justify-content-between align-items-center px-3">
         <div>

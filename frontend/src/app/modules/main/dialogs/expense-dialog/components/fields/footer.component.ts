@@ -1,9 +1,8 @@
-import { Component, EventEmitter, Input, Output, inject } from '@angular/core';
+import { Component, EventEmitter, inject, Input, Output } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { NbDialogService, NbButtonModule, NbIconModule } from '@nebular/theme';
+import { NbButtonModule, NbDialogService, NbIconModule } from '@nebular/theme';
 import { Expense } from '../../../../../../api/objects/expense';
 import { ConfirmDialogComponent } from '../../../confirm-dialog/confirm-dialog.component';
-import { NgIf } from '@angular/common';
 
 @Component({
     selector: 'app-expense-dialog-footer',
@@ -13,11 +12,13 @@ import { NgIf } from '@angular/common';
             Save
         </button>
 
-        <button nbButton type="button" ghost status="danger" *ngIf="deletable" (click)="deleteExpense()">
-            <nb-icon icon="trash-2-outline"></nb-icon>
-        </button>
+        @if (deletable) {
+            <button nbButton type="button" ghost status="danger" (click)="deleteExpense()">
+                <nb-icon icon="trash-2-outline"></nb-icon>
+            </button>
+        }
     </div>`,
-    imports: [NbButtonModule, NbIconModule, NgIf],
+    imports: [NbButtonModule, NbIconModule],
 })
 export class FooterComponent {
     private dialogService = inject(NbDialogService);

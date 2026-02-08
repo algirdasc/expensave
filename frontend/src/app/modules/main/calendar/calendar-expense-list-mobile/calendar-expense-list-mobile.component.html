@@ -1,18 +1,22 @@
 <div class="h-100">
-    <div *ngIf="unconfirmedExpenses.length">
-        <app-calendar-expense-list-mobile-items
-            [selectedValue]="selectedValue"
-            [confirmed]="false"
-            [expenses]="unconfirmedExpenses">
-        </app-calendar-expense-list-mobile-items>
-    </div>
-    <div *ngIf="confirmedExpenses.length">
-        <app-calendar-expense-list-mobile-items
-            [selectedValue]="selectedValue"
-            [confirmed]="true"
-            [expenses]="confirmedExpenses">
-        </app-calendar-expense-list-mobile-items>
-    </div>
+    @if (unconfirmedExpenses.length) {
+        <div>
+            <app-calendar-expense-list-mobile-items
+                [selectedValue]="selectedValue"
+                [confirmed]="false"
+                [expenses]="unconfirmedExpenses">
+            </app-calendar-expense-list-mobile-items>
+        </div>
+    }
+    @if (confirmedExpenses.length) {
+        <div>
+            <app-calendar-expense-list-mobile-items
+                [selectedValue]="selectedValue"
+                [confirmed]="true"
+                [expenses]="confirmedExpenses">
+            </app-calendar-expense-list-mobile-items>
+        </div>
+    }
 </div>
 
 <button

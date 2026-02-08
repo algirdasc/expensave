@@ -14,7 +14,7 @@
         <span>{{ totalExpensesAmount | shortNumber }}</span>
     </nb-card-header>
     <nb-card-body class="p-0">
-        <div *ngFor="let date of Object.keys(groupedByDates)">
+        @for (date of Object.keys(groupedByDates); track $index) {
             <nb-list>
                 <nb-list-item [@slideAnimation] class="with-background text-hint">
                     <div class="d-flex w-100"><nb-icon icon="calendar-outline" class="me-1"></nb-icon> {{ date }}</div>
@@ -23,26 +23,27 @@
                     </div>
                 </nb-list-item>
 
-                <nb-list-item
-                    [@slideAnimation]
-                    *ngFor="let expense of groupedByDates[date]"
-                    (click)="!expense.id ? openExpense(expense) : null"
-                    [class.actionable]="!expense.id"
-                    [class.text-hint]="!expense.confirmed">
-                    <nb-icon
-                        [icon]="expense.confirmed ? 'radio-button-on' : 'radio-button-off'"
-                        class="flex-shrink-0 me-2"
-                        [ngStyle]="{ color: expense.category?.color }"></nb-icon>
-                    <div class="text-truncate w-100">
-                        {{ expense.label }}
-                        <small class="d-flex align-items-center text-hint">
-                            {{ expense.category.name }}
-                        </small>
-                    </div>
-                    <span>{{ expense.amount | shortNumber }}</span>
-                </nb-list-item>
+                @for (expense of groupedByDates[date]; track $index) {
+                    <nb-list-item
+                        [@slideAnimation]
+                        (click)="!expense.id ? openExpense(expense) : null"
+                        [class.actionable]="!expense.id"
+                        [class.text-hint]="!expense.confirmed">
+                        <nb-icon
+                            [icon]="expense.confirmed ? 'radio-button-on' : 'radio-button-off'"
+                            class="flex-shrink-0 me-2"
+                            [ngStyle]="{ color: expense.category?.color }"></nb-icon>
+                        <div class="text-truncate w-100">
+                            {{ expense.label }}
+                            <small class="d-flex align-items-center text-hint">
+                                {{ expense.category.name }}
+                            </small>
+                        </div>
+                        <span>{{ expense.amount | shortNumber }}</span>
+                    </nb-list-item>
+                }
             </nb-list>
-        </div>
+        }
     </nb-card-body>
     <nb-card-footer class="text-right">
         <div class="d-flex flex-row-reverse justify-content-between">

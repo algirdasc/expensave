@@ -6,20 +6,21 @@
         Select category
     </nb-card-header>
     <nb-list>
-        <nb-list-item
-            class="actionable"
-            [@slideAnimation]
-            *ngFor="let category of categories"
-            [class.active]="isActive(category)"
-            [style.background-color]="isActive(category) ? category.color : ''"
-            (click)="categoryClick.emit(category)">
-            <nb-icon
-                icon="radio-button-on"
-                class="flex-shrink-0 me-2"
-                [style.color]="isActive(category) ? '' : category.color">
-            </nb-icon>
-            <div class="text-truncate">{{ category.name }}</div>
-        </nb-list-item>
+        @for (category of categories; track category.id) {
+            <nb-list-item
+                class="actionable"
+                [@slideAnimation]
+                [class.active]="isActive(category)"
+                [style.background-color]="isActive(category) ? category.color : ''"
+                (click)="categoryClick.emit(category)">
+                <nb-icon
+                    icon="radio-button-on"
+                    class="flex-shrink-0 me-2"
+                    [style.color]="isActive(category) ? '' : category.color">
+                </nb-icon>
+                <div class="text-truncate">{{ category.name }}</div>
+            </nb-list-item>
+        }
     </nb-list>
     <nb-card-footer class="text-right">
         <button nbButton status="primary" ghost (click)="newCategoryClick.emit(true)">

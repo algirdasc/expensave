@@ -14,13 +14,14 @@
             (select)="onSelect($event)">
         </app-calendar-grid>
 
-        <app-calendar-expense-list-mobile
-            class="flex-grow-1 p-3"
-            *ngIf="isMobile"
-            [selectedValue]="selectedDate"
-            [expenses]="expenses"
-            [expenseBalances]="expenseBalances"
-            [calendar]="calendar">
-        </app-calendar-expense-list-mobile>
+        @if (isMobile) {
+            <app-calendar-expense-list-mobile
+                class="flex-grow-1 p-3"
+                [selectedValue]="selectedDate"
+                [expenses]="expenses"
+                [expenseBalances]="expenseBalances"
+                [calendar]="calendar">
+            </app-calendar-expense-list-mobile>
+        }
     </nb-card-body>
 </nb-card>
