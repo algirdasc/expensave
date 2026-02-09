@@ -6,10 +6,12 @@ namespace App\Controller\Finance;
 
 use App\Controller\AbstractApiController;
 use App\Entity\Calendar;
+use App\Request\Finance\StatementImportRequest;
 use App\Response\StatementImport\StatementImportResponse;
 use App\Security\Voters\CalendarVoter;
 use App\Service\StatementImport\ImportService;
 use App\Service\StatementImport\Resolver\StatementImportResolver;
+use App\Service\ValidationService;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -24,14 +26,19 @@ class StatementImportController extends AbstractApiController
     }
 
     #[Route('/{calendar}/import', name: 'import', methods: Request::METHOD_POST)]
-    public function import(Calendar $calendar, StatementImportResolver $statementImportResolver, Request $request): Response
+    public function import(Calendar $calendar, StatementImportResolver $statementImportResolver, Request $request, ValidationService $validationService): Response
     {
         $this->denyAccessUnlessGranted(CalendarVoter::IMPORT, $calendar);
 
         $expenses = [];
 
-        /** @var UploadedFile $statementFile */
+        /** @var UploadedFile|null $statementFile */
         $statementFile = $request->files->get('statement');
+
+        $validationService->validateOrException(new StatementImportRequest($statementFile));
+
+        /** @var UploadedFile $statementFile */
+        $statementFile = $statementFile; // validated above
 
         $importHandler = $statementImportResolver->getHandler($statementFile);
         foreach ($importHandler->process($statementFile) as $row) {
