@@ -11,8 +11,6 @@ use App\Response\StatementImport\StatementImportResponse;
 use App\Security\Voters\CalendarVoter;
 use App\Service\StatementImport\ImportService;
 use App\Service\StatementImport\Resolver\StatementImportResolver;
-use App\Service\ValidationService;
-use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -26,20 +24,13 @@ class StatementImportController extends AbstractApiController
     }
 
     #[Route('/{calendar}/import', name: 'import', methods: Request::METHOD_POST)]
-    public function import(Calendar $calendar, StatementImportResolver $statementImportResolver, Request $request, ValidationService $validationService): Response
+    public function import(Calendar $calendar, StatementImportResolver $statementImportResolver, StatementImportRequest $request): Response
     {
         $this->denyAccessUnlessGranted(CalendarVoter::IMPORT, $calendar);
 
         $expenses = [];
 
-        /** @var UploadedFile|null $statementFile */
-        $statementFile = $request->files->get('statement');
-
-        // Validate missing file / max size / basic mime early → consistent 422 instead of 500.
-        $validationService->validateOrException(new StatementImportRequest($statementFile));
-
-        /** @var UploadedFile $statementFile */
-        $statementFile = $statementFile; // validated above
+        $statementFile = $request->getStatement();
 
         $importHandler = $statementImportResolver->getHandler($statementFile);
         foreach ($importHandler->process($statementFile) as $row) {
