@@ -1,4 +1,4 @@
-@import '../../../theme';
+@use '../../../theme' as *;
 
 .calendar-selection {
     width: 250px;
