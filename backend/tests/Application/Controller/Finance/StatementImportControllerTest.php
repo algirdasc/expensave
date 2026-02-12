@@ -27,16 +27,15 @@ class StatementImportControllerTest extends ApplicationTestCase
     #[DataProvider('filePathProvider')]
     public function testSuggest(string $filePath): void
     {
-        $uploadedFile = new UploadedFile($filePath, basename($filePath));
+        // IMPORTANT: do NOT force CONTENT_TYPE manually.
+        // BrowserKit will build a proper multipart request (incl. boundary) when files are provided.
+        $uploadedFile = new UploadedFile($filePath, basename($filePath), test: true);
 
         $this->client->request('POST', '/api/calendar/1/import', [], [
-            'statement' => $uploadedFile
+            'statement' => $uploadedFile,
         ], [
-            'CONTENT_TYPE' => 'multipart/form-data',
-            'HTTP_ACCEPT' => 'multipart/form-data',
+            'HTTP_ACCEPT' => 'application/json',
         ]);
-
-        $a = sprintf('Response/StatementImport/%s.json', $uploadedFile->getBasename());
 
         $this->assertResponseIsSuccessful();
         $this->assertResponseEqualToJson(
