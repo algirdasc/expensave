@@ -36,13 +36,32 @@ class StatementImportControllerTest extends ApplicationTestCase
             'HTTP_ACCEPT' => 'multipart/form-data',
         ]);
 
-        $a = sprintf('Response/StatementImport/%s.json', $uploadedFile->getBasename());
-
         $this->assertResponseIsSuccessful();
         $this->assertResponseEqualToJson(
             $this->client->getResponse(),
             sprintf('Response/StatementImport/%s.json', $uploadedFile->getBasename())
         );
+    }
+
+    public function testSuggestReturnsBadRequestWhenContentTypeIsNotMultipartFormData(): void
+    {
+        $filePath = self::getAssetFile('Files/StatementImport/account-statement_2024-08-01_2024-09-01_en-us_d371f6.csv');
+        $uploadedFile = new UploadedFile($filePath, basename($filePath));
+
+        $this->client->request('POST', '/api/calendar/1/import', [], [
+            'statement' => $uploadedFile,
+        ], [
+            'CONTENT_TYPE' => 'application/json',
+            'HTTP_ACCEPT' => 'application/json',
+        ]);
+
+        $this->assertResponseStatusCodeSame(400);
+
+        $payload = json_decode((string) $this->client->getResponse()->getContent(), true);
+
+        self::assertIsArray($payload);
+        self::assertSame('Symfony\\Component\\HttpKernel\\Exception\\BadRequestHttpException', $payload['throwable'] ?? null);
+        self::assertSame('Invalid content type. Content type must be form-data.', $payload['messages'][0]['message'] ?? null);
     }
 
     public static function filePathProvider(): array
