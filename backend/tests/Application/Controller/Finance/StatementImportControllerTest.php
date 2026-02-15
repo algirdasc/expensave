@@ -27,14 +27,16 @@ class StatementImportControllerTest extends ApplicationTestCase
     #[DataProvider('filePathProvider')]
     public function testSuggest(string $filePath): void
     {
-        // IMPORTANT: do NOT force CONTENT_TYPE manually.
-        // BrowserKit will build a proper multipart request (incl. boundary) when files are provided.
+        // NOTE: getAuthenticatedClient() defaults to JSON requests (CONTENT_TYPE=application/json).
+        // For file uploads the controller expects multipart/form-data, so override the default here.
+        // We still let BrowserKit build the multipart body (incl. boundary) based on provided files.
         $uploadedFile = new UploadedFile($filePath, basename($filePath), test: true);
 
         $this->client->request('POST', '/api/calendar/1/import', [], [
             'statement' => $uploadedFile,
         ], [
             'HTTP_ACCEPT' => 'application/json',
+            'CONTENT_TYPE' => 'multipart/form-data',
         ]);
 
         $this->assertResponseIsSuccessful();
