@@ -3,13 +3,6 @@ name: "Code quality"
 on:
   workflow_call:
   pull_request:
-  push:
-    branches:
-      - main
-
-permissions:
-  contents: read
-  pull-requests: write
 
 env:
   DATABASE_HOST: 127.0.0.1

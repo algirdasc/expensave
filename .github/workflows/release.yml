@@ -5,14 +5,8 @@ on:
     types: [published]
 
 jobs:
-  code-quality:
-    name: Run quality checks
-    uses: ./.github/workflows/code-quality.yml
-    secrets: inherit
   push-to-registry:
     name: Build & push image to Docker Hub
-    needs:
-      - code-quality
     runs-on: ubuntu-latest
     steps:
       - name: Check out repo
