@@ -10,8 +10,25 @@ env:
 
 jobs:
   push-to-registry:
-    name: Build & push image to Docker Hub
-    runs-on: ubuntu-latest
+    name: Build & push image to Docker Hub (${{ matrix.arch }})
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - arch: amd64
+            runs_on: ubuntu-latest
+            platforms: linux/amd64
+            use_qemu: false
+          - arch: arm64
+            # NOTE: This requires GitHub-hosted ARM runners (not available on all plans).
+            # If unavailable, switch to a self-hosted runner and use:
+            # runs_on: [self-hosted, linux, arm64]
+            runs_on: ubuntu-24.04-arm64
+            platforms: linux/arm64
+            use_qemu: false
+
+    runs-on: ${{ matrix.runs_on }}
+
     steps:
       - name: Check out repo
         uses: actions/checkout@v4
@@ -29,6 +46,7 @@ jobs:
           images: ${{ env.REGISTRY_IMAGE }}
 
       - name: Set up QEMU
+        if: ${{ matrix.use_qemu }}
         uses: docker/setup-qemu-action@v3
 
       - name: Set up Docker Buildx
@@ -39,7 +57,7 @@ jobs:
         with:
           push: true
           target: application
-          platforms: linux/amd64,linux/arm64
+          platforms: ${{ matrix.platforms }}
           tags: ${{ steps.meta-backend.outputs.tags }}
           labels: ${{ steps.meta-backend.outputs.labels }}
           cache-from: type=gha
