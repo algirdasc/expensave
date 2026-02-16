@@ -4,15 +4,11 @@ declare(strict_types=1);
 
 namespace App\Tests\Application\Controller\Finance;
 
-use App\Controller\Finance\StatementImportController;
 use App\Tests\ApplicationTestCase;
-use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\DataProvider;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
-use Symfony\Component\BrowserKit\AbstractBrowser;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
-#[CoversClass(StatementImportController::class)]
 class StatementImportControllerTest extends ApplicationTestCase
 {
     private KernelBrowser $client;
@@ -25,7 +21,7 @@ class StatementImportControllerTest extends ApplicationTestCase
     }
 
     #[DataProvider('filePathProvider')]
-    public function testSuggest(string $filePath): void
+    public function testStatementImport(string $filePath): void
     {
         // Mark as "test" upload; otherwise Symfony treats it as non-uploaded and validation may see an empty request.
         $uploadedFile = new UploadedFile($filePath, basename($filePath), test: true);
@@ -36,8 +32,6 @@ class StatementImportControllerTest extends ApplicationTestCase
             'CONTENT_TYPE' => 'multipart/form-data',
             'HTTP_ACCEPT' => 'multipart/form-data',
         ]);
-
-        $a = sprintf('Response/StatementImport/%s.json', $uploadedFile->getBasename());
 
         $this->assertResponseIsSuccessful();
         $this->assertResponseEqualToJson(

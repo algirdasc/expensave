@@ -22,7 +22,7 @@ readonly class CollectionTransformationHandler implements TransformationHandlerI
         /** @var ReflectionNamedType $propertyType */
         $propertyType = $property->getType();
 
-        return !$propertyType->isBuiltin() && Collection::class === $propertyType->getName();
+        return !$propertyType->isBuiltin() && $propertyType->getName() === Collection::class;
     }
 
     public function transform(AbstractRequest $request, ReflectionProperty $property, mixed $value): mixed
