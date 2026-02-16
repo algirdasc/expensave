@@ -90,9 +90,9 @@ ENV APP_ENV=dev
 WORKDIR /opt/expensave/frontend
 COPY frontend/package.json /opt/expensave/frontend/
 COPY frontend/package-lock.json /opt/expensave/frontend/
-RUN npm ci \
-    npm i -g @angular/cli \
-    apk add git
+RUN npm i -g @angular/cli && \
+    apk add git && \
+    npm ci
 EXPOSE 18002
 CMD ["npm", "run", "dev"]
 

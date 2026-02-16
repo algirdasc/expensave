@@ -9,10 +9,8 @@ use LogicException;
 use ReflectionClass;
 use ReflectionNamedType;
 use Symfony\Component\DependencyInjection\Attribute\AutowireIterator;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\PropertyAccess\PropertyAccess;
-use Symfony\Contracts\Service\Attribute\Required;
 
 abstract class AbstractRequest
 {
@@ -31,7 +29,10 @@ abstract class AbstractRequest
         $propertyAccessor = PropertyAccess::createPropertyAccessor();
         $reflection = new ReflectionClass($this);
 
-        $requestAsArray = $this->requestStack->getMainRequest()?->toArray() ?? [];
+        $request = $this->requestStack->getMainRequest();
+        if ($request === null) {
+            return;
+        }
 
         foreach ($reflection->getProperties() as $property) {
             $propertyName = $property->getName();
@@ -45,7 +46,7 @@ abstract class AbstractRequest
                 throw new LogicException(sprintf('Property "%s" must have named type set', $propertyName));
             }
 
-            $value = $requestAsArray[$propertyName] ?? null;
+            $value = $request->request->get($propertyName) ?? $request->files->get($propertyName);
 
             foreach ($this->transformationHandler as $transformationHandler) {
                 if (!$transformationHandler->supportsProperty($property)) {
