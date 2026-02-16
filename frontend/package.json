@@ -1,6 +1,6 @@
 {
     "name": "expensave-frontend",
-    "version": "0.5.6",
+    "version": "0.5.7",
     "scripts": {
         "dev": "ng serve --host 0.0.0.0 --port 18002 --disable-host-check",
         "analyze": "eslint src/",
@@ -50,7 +50,7 @@
         "@angular/language-service": "^21.1.0",
         "@angular/localize": "^21.1.0",
         "@eslint/eslintrc": "^3.3.3",
-        "@eslint/js": "^10.0.1",
+        "@eslint/js": "^9.39.2",
         "@schematics/angular": "^19.2.19",
         "@types/jasmine": "~6.0.0",
         "@types/jasminewd2": "~2.0.3",
