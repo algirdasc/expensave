@@ -45,7 +45,7 @@ RUN rm /tmp/expensave-cron
 
 RUN a2dissite 000-default && a2enmod rewrite
 
-FROM node:24-alpine AS frontend
+FROM --platform=$BUILDPLATFORM node:24-alpine AS frontend
 
 WORKDIR /opt/expensave/frontend
 
