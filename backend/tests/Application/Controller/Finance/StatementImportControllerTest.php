@@ -27,7 +27,8 @@ class StatementImportControllerTest extends ApplicationTestCase
     #[DataProvider('filePathProvider')]
     public function testSuggest(string $filePath): void
     {
-        $uploadedFile = new UploadedFile($filePath, basename($filePath));
+        // Mark as "test" upload; otherwise Symfony treats it as non-uploaded and validation may see an empty request.
+        $uploadedFile = new UploadedFile($filePath, basename($filePath), test: true);
 
         $this->client->request('POST', '/api/calendar/1/import', [], [
             'statement' => $uploadedFile
