@@ -23,7 +23,7 @@ jobs:
             # NOTE: This requires GitHub-hosted ARM runners (not available on all plans).
             # If unavailable, switch to a self-hosted runner and use:
             # runs_on: [self-hosted, linux, arm64]
-            runs_on: ubuntu-24.04-arm64
+            runs_on: ubuntu-24.04-arm
             platforms: linux/arm64
             use_qemu: false
 
