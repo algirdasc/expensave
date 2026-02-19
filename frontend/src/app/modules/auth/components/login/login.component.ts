@@ -2,8 +2,8 @@ import { Component } from '@angular/core';
 import { NbLoginComponent } from '@nebular/auth';
 import { environment } from '../../../../../environments/environment';
 import { APP_CONFIG } from '../../../../app.initializer';
-import { NgOptimizedImage, NgIf, NgFor } from '@angular/common';
-import { NbAlertModule, NbInputModule, NbCheckboxModule, NbButtonModule, NbIconModule } from '@nebular/theme';
+import { NgOptimizedImage } from '@angular/common';
+import { NbAlertModule, NbButtonModule, NbCheckboxModule, NbIconModule, NbInputModule } from '@nebular/theme';
 import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 
@@ -12,9 +12,7 @@ import { RouterLink } from '@angular/router';
     templateUrl: './login.component.html',
     imports: [
         NgOptimizedImage,
-        NgIf,
         NbAlertModule,
-        NgFor,
         FormsModule,
         NbInputModule,
         RouterLink,

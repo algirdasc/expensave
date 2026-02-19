@@ -1,13 +1,13 @@
-import { Component, EventEmitter, Input, Output, inject } from '@angular/core';
+import { Component, EventEmitter, inject, Input, Output } from '@angular/core';
 import {
+    NbButtonModule,
     NbDialogRef,
     NbDialogService,
-    NbToastrService,
-    NbSpinnerModule,
+    NbIconModule,
     NbListModule,
     NbRadioModule,
-    NbIconModule,
-    NbButtonModule,
+    NbSpinnerModule,
+    NbToastrService,
 } from '@nebular/theme';
 import { CalendarApiService } from '../../../../../api/calendar.api.service';
 import { Calendar } from '../../../../../api/objects/calendar';
@@ -16,14 +16,13 @@ import { CalendarEditComponent } from '../../../dialogs/calendars-dialog/calenda
 import { ConfirmDialogComponent } from '../../../dialogs/confirm-dialog/confirm-dialog.component';
 import { MainService } from '../../../main.service';
 import { StatementImportService } from '../../../services/statement-import.service';
-import { NgFor, NgIf } from '@angular/common';
 import { ShortNumberPipe } from '../../../../../pipes/shortnumber.pipe';
 
 @Component({
     selector: 'app-sidebar-calendar-list',
     styleUrls: ['calendar-list.component.scss'],
     templateUrl: 'calendar-list.component.html',
-    imports: [NbSpinnerModule, NbListModule, NgFor, NbRadioModule, NgIf, NbIconModule, NbButtonModule, ShortNumberPipe],
+    imports: [NbSpinnerModule, NbListModule, NbRadioModule, NbIconModule, NbButtonModule, ShortNumberPipe],
 })
 export class CalendarSidebarListComponent {
     public readonly dialogService = inject(NbDialogService);

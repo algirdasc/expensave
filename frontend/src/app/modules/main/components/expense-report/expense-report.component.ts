@@ -1,5 +1,5 @@
-import { Component, OnInit, inject } from '@angular/core';
-import { NbDateService, NbCardModule, NbIconModule, NbSpinnerModule, NbListModule } from '@nebular/theme';
+import { Component, inject, OnInit } from '@angular/core';
+import { NbCardModule, NbDateService, NbIconModule, NbListModule, NbSpinnerModule } from '@nebular/theme';
 import { finalize } from 'rxjs/operators';
 import { slideAnimation } from '../../../../animations/slide.animation';
 import { CategoryBalance } from '../../../../api/objects/category-balance';
@@ -7,7 +7,7 @@ import { ReportsApiService } from '../../../../api/reports.api.service';
 import { CategoryExpenseReportResponse } from '../../../../api/response/category-expense-report.response';
 import { DateUtil } from '../../../../util/date.util';
 import { MainService } from '../../main.service';
-import { NgIf, NgFor, DatePipe } from '@angular/common';
+import { DatePipe } from '@angular/common';
 import { ShortNumberPipe } from '../../../../pipes/shortnumber.pipe';
 
 @Component({
@@ -15,7 +15,7 @@ import { ShortNumberPipe } from '../../../../pipes/shortnumber.pipe';
     templateUrl: 'expense-report.component.html',
     styleUrl: 'expense-report.component.scss',
     animations: slideAnimation,
-    imports: [NbCardModule, NbIconModule, NgIf, NbSpinnerModule, NbListModule, NgFor, DatePipe, ShortNumberPipe],
+    imports: [NbCardModule, NbIconModule, NbSpinnerModule, NbListModule, DatePipe, ShortNumberPipe],
 })
 export class ExpenseReportComponent implements OnInit {
     private dateService = inject<NbDateService<Date>>(NbDateService);

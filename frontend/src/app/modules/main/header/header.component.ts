@@ -17,7 +17,7 @@ import { DateUtil } from '../../../util/date.util';
 import { ExpenseReportComponent } from '../components/expense-report/expense-report.component';
 import { SIDEBAR_TAG } from '../main.service';
 import { StatementImportService } from '../services/statement-import.service';
-import { DecimalPipe, NgSwitch, NgSwitchCase } from '@angular/common';
+import { DecimalPipe } from '@angular/common';
 import { OutsideClickDirective } from '../../../directives/outside-click.directive';
 import { ShortNumberPipe } from '../../../pipes/shortnumber.pipe';
 
@@ -32,8 +32,6 @@ import { ShortNumberPipe } from '../../../pipes/shortnumber.pipe';
         NbPopoverModule,
         OutsideClickDirective,
         NbCalendarKitModule,
-        NgSwitch,
-        NgSwitchCase,
         NbButtonGroupModule,
         ShortNumberPipe,
         DecimalPipe,

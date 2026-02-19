@@ -1,15 +1,14 @@
-import { Component, OnInit, inject } from '@angular/core';
-import { NbDialogRef, NbToastrService, NbSpinnerModule } from '@nebular/theme';
+import { Component, inject, OnInit } from '@angular/core';
+import { NbDialogRef, NbSpinnerModule, NbToastrService } from '@nebular/theme';
 import { CalendarApiService } from '../../../../api/calendar.api.service';
 import { Calendar } from '../../../../api/objects/calendar';
-import { NgIf } from '@angular/common';
 import { CalendarListComponent } from './calendar-list/calendar-list.component';
 import { CalendarEditComponent } from './calendar-edit/calendar-edit.component';
 
 @Component({
     templateUrl: 'calendars-dialog.component.html',
     styleUrls: ['calendars-dialog.component.scss'],
-    imports: [NbSpinnerModule, NgIf, CalendarListComponent, CalendarEditComponent],
+    imports: [NbSpinnerModule, CalendarListComponent, CalendarEditComponent],
 })
 export class CalendarsDialogComponent implements OnInit {
     public readonly dialogRef = inject<NbDialogRef<CalendarsDialogComponent>>(NbDialogRef);

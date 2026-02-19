@@ -1,4 +1,4 @@
-import { Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild, inject } from '@angular/core';
+import { Component, ElementRef, EventEmitter, inject, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Calendar } from '../../../../../api/objects/calendar';
@@ -6,17 +6,17 @@ import { User } from '../../../../../api/objects/user';
 import { UserApiService } from '../../../../../api/user.api.service';
 import { FormsModule } from '@angular/forms';
 import {
-    NbCardModule,
-    NbButtonModule,
-    NbIconModule,
-    NbFormFieldModule,
-    NbInputModule,
-    NbUserModule,
-    NbListModule,
     NbAutocompleteModule,
+    NbButtonModule,
+    NbCardModule,
+    NbFormFieldModule,
+    NbIconModule,
+    NbInputModule,
+    NbListModule,
     NbOptionModule,
+    NbUserModule,
 } from '@nebular/theme';
-import { NgIf, NgFor, AsyncPipe } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 
 @Component({
     templateUrl: 'calendar-edit.component.html',
@@ -29,10 +29,8 @@ import { NgIf, NgFor, AsyncPipe } from '@angular/common';
         NbIconModule,
         NbFormFieldModule,
         NbInputModule,
-        NgIf,
         NbUserModule,
         NbListModule,
-        NgFor,
         NbAutocompleteModule,
         NbOptionModule,
         AsyncPipe,

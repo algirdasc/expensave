@@ -1,23 +1,22 @@
-import { Component, EventEmitter, Input, Output, inject } from '@angular/core';
+import { Component, EventEmitter, inject, Input, Output } from '@angular/core';
 import {
-    NbDialogService,
-    NbCardModule,
     NbButtonModule,
-    NbIconModule,
+    NbCardModule,
+    NbDialogService,
     NbFormFieldModule,
+    NbIconModule,
     NbInputModule,
 } from '@nebular/theme';
 import { CategoryApiService } from '../../../../../api/category.api.service';
 import { Category } from '../../../../../api/objects/category';
 import { ConfirmDialogComponent } from '../../confirm-dialog/confirm-dialog.component';
 import { FormsModule } from '@angular/forms';
-import { NgFor, NgIf } from '@angular/common';
 
 @Component({
     templateUrl: 'category-edit.component.html',
     styleUrls: ['category-edit.component.scss'],
     selector: 'app-category-edit',
-    imports: [FormsModule, NbCardModule, NbButtonModule, NbIconModule, NbFormFieldModule, NbInputModule, NgFor, NgIf],
+    imports: [FormsModule, NbCardModule, NbButtonModule, NbIconModule, NbFormFieldModule, NbInputModule],
 })
 export class CategoryEditComponent {
     private dialogService = inject(NbDialogService);
