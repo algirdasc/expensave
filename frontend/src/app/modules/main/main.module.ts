@@ -30,8 +30,6 @@ import { ContentLoaderModule } from '@ngneat/content-loader';
 import { AngularResizeEventModule } from 'angular-resize-event';
 import { OutsideClickDirective } from '../../directives/outside-click.directive';
 import { SwipeDirective } from '../../directives/swipe.directive';
-import { CalendarResolver } from '../../resolvers/calendar.resolver';
-import { UserResolver } from '../../resolvers/user.resolver';
 import { CalendarDayNamesComponent } from './calendar/calendar-day-names/calendar-day-names.component';
 import { CalendarExpenseListMobileItemsComponent } from './calendar/calendar-expense-list-mobile/calendar-expense-list-mobile-items.component';
 import { CalendarExpenseListMobileComponent } from './calendar/calendar-expense-list-mobile/calendar-expense-list-mobile.component';
@@ -156,13 +154,6 @@ import { StatementImportService } from './services/statement-import.service';
         SwipeDirective,
         OutsideClickDirective,
     ],
-    providers: [
-        CalendarService,
-        CalendarMonthModelService,
-        StatementImportService,
-        // Resolvers
-        UserResolver,
-        CalendarResolver,
-    ],
+    providers: [CalendarService, CalendarMonthModelService, StatementImportService],
 })
 export class MainModule {}

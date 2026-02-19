@@ -1,10 +1,10 @@
 import {
+    DEFAULT_CURRENCY_CODE,
     enableProdMode,
-    provideAppInitializer,
+    importProvidersFrom,
     inject,
     LOCALE_ID,
-    DEFAULT_CURRENCY_CODE,
-    importProvidersFrom,
+    provideAppInitializer,
 } from '@angular/core';
 import { MainService } from './app/modules/main/main.service';
 import { environment } from './environments/environment';
@@ -18,9 +18,6 @@ import { ApiInterceptor } from './app/interceptors/api.interceptor';
 import { UnauthorizedInterceptor } from './app/interceptors/unauthorized.interceptor';
 import { AuthStrategy } from './app/modules/auth/auth-strategy';
 import { AuthOptionsService } from './app/services/auth-options.service';
-import { UserResolver } from './app/resolvers/user.resolver';
-import { CalendarResolver } from './app/resolvers/calendar.resolver';
-import { SystemCategoryResolver } from './app/resolvers/system-category.resolver';
 import { CalendarApiService } from './app/api/calendar.api.service';
 import { UserApiService } from './app/api/user.api.service';
 import { ExpenseApiService } from './app/api/expense.api.service';
@@ -29,24 +26,29 @@ import { ReportsApiService } from './app/api/reports.api.service';
 import { BalanceUpdateApiService } from './app/api/balance-update.api.service';
 import { StatementImportApiService } from './app/api/statement-import.api.service';
 import { CommonModule } from '@angular/common';
-import { BrowserModule, bootstrapApplication } from '@angular/platform-browser';
+import { bootstrapApplication, BrowserModule } from '@angular/platform-browser';
 import { provideAnimations } from '@angular/platform-browser/animations';
-import { withRouterConfig, provideRouter } from '@angular/router';
+import { provideRouter, withRouterConfig } from '@angular/router';
 import { appRoutes } from './app/app.routes';
 import {
-    NbThemeModule,
-    NbDialogModule,
-    NbToastrModule,
-    NbDatepickerModule,
-    NbLayoutModule,
-    NbCardModule,
     NbButtonModule,
-    NbSpinnerModule,
+    NbCardModule,
+    NbDatepickerModule,
+    NbDialogModule,
     NbIconModule,
+    NbLayoutModule,
+    NbSpinnerModule,
+    NbThemeModule,
+    NbToastrModule,
 } from '@nebular/theme';
 import { AuthModule } from './app/modules/auth/auth.module';
 import { NbEvaIconsModule } from '@nebular/eva-icons';
 import { AppComponent } from './app/app.component';
+import { MutationCache, provideTanStackQuery, QueryClient } from '@tanstack/angular-query-experimental';
+import { withDevtools } from '@tanstack/angular-query-experimental/devtools';
+import { CategoryQueries } from './app/queries/category.queries';
+import { CalendarQueries } from './app/queries/calendar.queries';
+import { UserQueries } from './app/queries/user.queries';
 
 const apiServices = [
     CalendarApiService,
@@ -58,12 +60,25 @@ const apiServices = [
     StatementImportApiService,
 ];
 
+const queryServices = [UserQueries, CalendarQueries, CategoryQueries];
+
+const queryClient = new QueryClient({
+    mutationCache: new MutationCache({
+        onSuccess: (_data, _variables, _context, mutation) => {
+            queryClient.invalidateQueries({
+                queryKey: mutation.options.mutationKey,
+            });
+        },
+    }),
+});
+
 if (environment.production) {
     enableProdMode();
 }
 
 bootstrapApplication(AppComponent, {
     providers: [
+        provideTanStackQuery(queryClient, withDevtools()),
         importProvidersFrom(
             CommonModule,
             BrowserModule,
@@ -106,11 +121,9 @@ bootstrapApplication(AppComponent, {
         { provide: HTTP_INTERCEPTORS, useClass: UnauthorizedInterceptor, multi: true },
         AuthStrategy,
         AuthOptionsService,
-        UserResolver,
-        CalendarResolver,
         MainService, // TODO: move to global service and scope out functions
-        SystemCategoryResolver,
         ...apiServices,
+        ...queryServices,
         provideHttpClient(withInterceptorsFromDi()),
         provideAnimations(),
         provideRouter(appRoutes, withRouterConfig({ paramsInheritanceStrategy: 'always' })),
