@@ -46,7 +46,10 @@ abstract class AbstractRequest
                 throw new LogicException(sprintf('Property "%s" must have named type set', $propertyName));
             }
 
-            $value = $request->request->get($propertyName) ?? $request->files->get($propertyName);
+            $value = $request->request->get($propertyName)
+                ?? $request->files->get($propertyName)
+                ?? $request->toArray()[$propertyName]
+                ?? null;
 
             foreach ($this->transformationHandler as $transformationHandler) {
                 if (!$transformationHandler->supportsProperty($property)) {
