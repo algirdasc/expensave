@@ -1,4 +1,4 @@
-import { ActivatedRouteSnapshot, Routes } from '@angular/router';
+import { Routes } from '@angular/router';
 import { canActivateAuthenticated } from './modules/auth/auth.functions';
 import { Error404Component } from './modules/error-404.component';
 import { inject } from '@angular/core';
@@ -6,22 +6,25 @@ import { CategoryQueries } from './queries/category.queries';
 import { QueryClient } from '@tanstack/angular-query-experimental';
 import { CalendarQueries } from './queries/calendar.queries';
 import { UserQueries } from './queries/user.queries';
+import { Category } from './api/objects/category';
+import { Calendar } from './api/objects/calendar';
+import { User } from './api/objects/user';
 
-const systemCategoriesResolver = (route: ActivatedRouteSnapshot) => {
+const systemCategoriesResolver = (): Promise<Category[]> => {
     const categoriesQuery = inject(CategoryQueries);
     const queryClient = inject(QueryClient);
 
     return queryClient.ensureQueryData(categoriesQuery.system());
 };
 
-const calendarResolver = (route: ActivatedRouteSnapshot) => {
+const calendarResolver = (): Promise<Calendar[]> => {
     const calendarQuery = inject(CalendarQueries);
     const queryClient = inject(QueryClient);
 
     return queryClient.ensureQueryData(calendarQuery.list());
 };
 
-const userResolver = (route: ActivatedRouteSnapshot) => {
+const userResolver = (): Promise<User> => {
     const userQuery = inject(UserQueries);
     const queryClient = inject(QueryClient);
 

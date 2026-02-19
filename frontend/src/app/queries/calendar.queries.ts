@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/explicit-function-return-type */
+
 import { mutationOptions, queryOptions } from '@tanstack/angular-query-experimental';
 import { CalendarApiService } from '../api/calendar.api.service';
 import { inject, Injectable } from '@angular/core';
@@ -7,33 +9,34 @@ import { Calendar } from '../api/objects/calendar';
 
 @Injectable()
 export class CalendarQueries {
-    calendarApiService = inject(CalendarApiService);
+    private calendarApiService = inject(CalendarApiService);
 
-    list(params?: HttpParams) {
+    public list(params?: HttpParams) {
         return queryOptions({
             queryKey: ['calendar', { params: params }],
-            queryFn: () => lastValueFrom(this.calendarApiService.list(params)),
+            queryFn: (): Promise<Calendar[]> => lastValueFrom(this.calendarApiService.list(params)),
         });
     }
 
-    get(calendarId: number) {
+    public get(calendarId: number) {
         return queryOptions({
             queryKey: ['calendar', { id: calendarId }],
-            queryFn: () => lastValueFrom(this.calendarApiService.get(calendarId)),
+            queryFn: (): Promise<Calendar> => lastValueFrom(this.calendarApiService.get(calendarId)),
         });
     }
 
-    save() {
+    public save() {
         return mutationOptions({
             mutationKey: ['calendar'],
-            mutationFn: (data: Calendar) => lastValueFrom(this.calendarApiService.save(data)),
+            mutationFn: (data: Calendar): Promise<Calendar> => lastValueFrom(this.calendarApiService.save(data)),
         });
     }
 
-    delete() {
+    public delete() {
         return mutationOptions({
             mutationKey: ['calendar'],
-            mutationFn: (calendar: Calendar) => lastValueFrom(this.calendarApiService.delete(calendar.id)),
+            mutationFn: (calendar: Calendar): Promise<Calendar[]> =>
+                lastValueFrom(this.calendarApiService.delete(calendar.id)),
         });
     }
 }

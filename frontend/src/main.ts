@@ -64,7 +64,7 @@ const queryServices = [UserQueries, CalendarQueries, CategoryQueries];
 
 const queryClient = new QueryClient({
     mutationCache: new MutationCache({
-        onSuccess: (_data, _variables, _context, mutation) => {
+        onSuccess: (_data, _variables, _context, mutation): void => {
             queryClient.invalidateQueries({
                 queryKey: mutation.options.mutationKey,
             });

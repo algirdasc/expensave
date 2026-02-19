@@ -1,30 +1,33 @@
+/* eslint-disable @typescript-eslint/explicit-function-return-type */
+
 import { queryOptions } from '@tanstack/angular-query-experimental';
 import { inject, Injectable } from '@angular/core';
 import { lastValueFrom } from 'rxjs';
 import { CategoryApiService } from '../api/category.api.service';
+import { Category } from '../api/objects/category';
 
 @Injectable()
 export class CategoryQueries {
-    categoryApiService = inject(CategoryApiService);
+    private categoryApiService = inject(CategoryApiService);
 
-    list() {
+    public list() {
         return queryOptions({
             queryKey: ['category'],
-            queryFn: () => lastValueFrom(this.categoryApiService.list()),
+            queryFn: (): Promise<Category[]> => lastValueFrom(this.categoryApiService.list()),
         });
     }
 
-    get(categoryId: number) {
+    public get(categoryId: number) {
         return queryOptions({
-            queryKey: ['category', categoryId],
-            queryFn: () => lastValueFrom(this.categoryApiService.get(categoryId)),
+            queryKey: ['category', { id: categoryId }],
+            queryFn: (): Promise<Category> => lastValueFrom(this.categoryApiService.get(categoryId)),
         });
     }
 
-    system() {
+    public system() {
         return queryOptions({
             queryKey: ['category', 'system'],
-            queryFn: () => lastValueFrom(this.categoryApiService.system()),
+            queryFn: (): Promise<Category[]> => lastValueFrom(this.categoryApiService.system()),
         });
     }
 }
