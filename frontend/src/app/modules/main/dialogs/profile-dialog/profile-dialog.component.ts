@@ -1,21 +1,20 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import {
-    NbDialogRef,
-    NbToastrService,
-    NbCardModule,
-    NbSpinnerModule,
-    NbUserModule,
     NbButtonModule,
-    NbIconModule,
+    NbCardModule,
+    NbDialogRef,
     NbFormFieldModule,
+    NbIconModule,
     NbInputModule,
+    NbSpinnerModule,
+    NbToastrService,
+    NbUserModule,
 } from '@nebular/theme';
 import { User } from '../../../../api/objects/user';
 import { PasswordRequest } from '../../../../api/request/password.request';
 import { UserApiService } from '../../../../api/user.api.service';
 import { AuthOptionsService } from '../../../../services/auth-options.service';
 import { FormsModule } from '@angular/forms';
-import { NgIf } from '@angular/common';
 
 @Component({
     templateUrl: 'profile-dialog.component.html',
@@ -29,7 +28,6 @@ import { NgIf } from '@angular/common';
         NbIconModule,
         NbFormFieldModule,
         NbInputModule,
-        NgIf,
     ],
 })
 export class ProfileDialogComponent implements OnInit {

@@ -1,10 +1,9 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { Calendar } from '../../api/objects/calendar';
 import { User } from '../../api/objects/user';
 import { ReportsService } from './reports.service';
-import { NbLayoutModule, NbIconModule, NbCardModule, NbListModule, NbCheckboxModule } from '@nebular/theme';
-import { NgFor } from '@angular/common';
+import { NbCardModule, NbCheckboxModule, NbIconModule, NbLayoutModule, NbListModule } from '@nebular/theme';
 import { DailyExpensesComponent } from './components/daily-expenses/daily-expenses.component';
 import { MonthlyExpensesComponent } from './components/monthly-expenses/monthly-expenses.component';
 import { CategoryExpensesComponent } from './components/category-expenses/category-expenses.component';
@@ -18,7 +17,6 @@ import { CategoryExpensesComponent } from './components/category-expenses/catego
         RouterLink,
         NbCardModule,
         NbListModule,
-        NgFor,
         NbCheckboxModule,
         DailyExpensesComponent,
         MonthlyExpensesComponent,

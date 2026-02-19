@@ -1,17 +1,16 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { NbTabComponent, NbCardModule, NbTabsetModule } from '@nebular/theme';
+import { NbCardModule, NbTabComponent, NbTabsetModule } from '@nebular/theme';
 import { instanceToInstance } from 'class-transformer';
-import { TYPE_BALANCE_UPDATE, Category } from '../../../../api/objects/category';
+import { Category, TYPE_BALANCE_UPDATE } from '../../../../api/objects/category';
 import { Expense } from '../../../../api/objects/expense';
 import { BalanceComponent } from './components/balance/balance.component';
 import { ExpenseComponent } from './components/expense/expense.component';
 import { TransferComponent } from './components/transfer/transfer.component';
-import { NgIf } from '@angular/common';
 
 @Component({
     templateUrl: 'expense-dialog.component.html',
     styleUrls: ['expense-dialog.component.scss'],
-    imports: [NbCardModule, NbTabsetModule, NgIf, ExpenseComponent, TransferComponent, BalanceComponent],
+    imports: [NbCardModule, NbTabsetModule, ExpenseComponent, TransferComponent, BalanceComponent],
 })
 export class ExpenseDialogComponent implements OnInit {
     public expense: Expense;

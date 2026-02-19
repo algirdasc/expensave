@@ -3,17 +3,16 @@ import {
     Component,
     ElementRef,
     EventEmitter,
+    inject,
     Input,
     Output,
     ViewChild,
-    inject,
 } from '@angular/core';
-import { ControlContainer, NgForm, FormsModule } from '@angular/forms';
+import { ControlContainer, FormsModule, NgForm } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { ExpenseApiService } from '../../../../../api/expense.api.service';
 import { Expense } from '../../../../../api/objects/expense';
 import { NbButtonModule, NbIconModule, NbInputModule } from '@nebular/theme';
-import { NgIf } from '@angular/common';
 import { SuggestionComponent } from '../../../components/suggestion/suggestion.component';
 import { ShortNumberPipe } from '../../../../../pipes/shortnumber.pipe';
 
@@ -22,7 +21,7 @@ import { ShortNumberPipe } from '../../../../../pipes/shortnumber.pipe';
     templateUrl: 'expense-input.component.html',
     styleUrl: 'expense-input.component.scss',
     viewProviders: [{ provide: ControlContainer, useExisting: NgForm }],
-    imports: [NbButtonModule, NbIconModule, NbInputModule, FormsModule, NgIf, SuggestionComponent, ShortNumberPipe],
+    imports: [NbButtonModule, NbIconModule, NbInputModule, FormsModule, SuggestionComponent, ShortNumberPipe],
 })
 export class ExpenseInputComponent {
     private expenseApiService = inject(ExpenseApiService);

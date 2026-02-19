@@ -1,16 +1,15 @@
 import { HttpParams } from '@angular/common/http';
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { NbDialogRef, NbSpinnerModule } from '@nebular/theme';
 import { CategoryApiService } from '../../../../api/category.api.service';
 import { Category } from '../../../../api/objects/category';
-import { NgIf } from '@angular/common';
 import { CategoryListComponent } from './category-list/category-list.component';
 import { CategoryEditComponent } from './category-edit/category-edit.component';
 
 @Component({
     templateUrl: 'categories-dialog.component.html',
     styleUrl: 'categories-dialog.component.scss',
-    imports: [NbSpinnerModule, NgIf, CategoryListComponent, CategoryEditComponent],
+    imports: [NbSpinnerModule, CategoryListComponent, CategoryEditComponent],
 })
 export class CategoriesDialogComponent implements OnInit {
     public readonly dialogRef = inject<NbDialogRef<CategoriesDialogComponent>>(NbDialogRef);

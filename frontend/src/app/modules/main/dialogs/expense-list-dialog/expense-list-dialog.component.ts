@@ -1,16 +1,16 @@
-import { Component, OnInit, inject } from '@angular/core';
-import { NbDialogRef, NbCardModule, NbButtonModule, NbIconModule } from '@nebular/theme';
+import { Component, inject, OnInit } from '@angular/core';
+import { NbButtonModule, NbCardModule, NbDialogRef, NbIconModule } from '@nebular/theme';
 import { Calendar } from '../../../../api/objects/calendar';
 import { Expense } from '../../../../api/objects/expense';
 import { CalendarService } from '../../calendar/calendar.service';
-import { NgIf, DatePipe } from '@angular/common';
+import { DatePipe } from '@angular/common';
 import { ExpenseListItemsComponent } from './expense-list-items.component';
 import { ShortNumberPipe } from '../../../../pipes/shortnumber.pipe';
 
 @Component({
     templateUrl: 'expense-list-dialog.component.html',
     styleUrls: ['expense-list-dialog.component.scss'],
-    imports: [NbCardModule, NgIf, ExpenseListItemsComponent, NbButtonModule, NbIconModule, DatePipe, ShortNumberPipe],
+    imports: [NbCardModule, ExpenseListItemsComponent, NbButtonModule, NbIconModule, DatePipe, ShortNumberPipe],
 })
 export class ExpenseListDialogComponent implements OnInit {
     private dialogRef = inject<NbDialogRef<ExpenseListDialogComponent>>(NbDialogRef);
