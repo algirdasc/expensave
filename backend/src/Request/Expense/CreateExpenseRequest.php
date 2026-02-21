@@ -12,6 +12,8 @@ use App\Request\AbstractRequest;
 use DateTime;
 use Symfony\Component\Validator\Constraints as Assert;
 
+use App\Request\Expense\RecurringRuleRequest;
+
 class CreateExpenseRequest extends AbstractRequest
 {
     #[Assert\NotBlank]
@@ -34,6 +36,11 @@ class CreateExpenseRequest extends AbstractRequest
 
     #[Assert\NotBlank]
     protected DateTime $createdAt;
+
+    /**
+     * When set, backend will create a recurring schedule and keep generating expenses.
+     */
+    protected ?RecurringRuleRequest $recurringRule = null;
 
     public function getCalendar(): Calendar
     {
@@ -98,6 +105,17 @@ class CreateExpenseRequest extends AbstractRequest
     public function isConfirmed(): bool
     {
         return $this->confirmed;
+    }
+
+    public function getRecurringRule(): ?RecurringRuleRequest
+    {
+        return $this->recurringRule;
+    }
+
+    public function setRecurringRule(?RecurringRuleRequest $recurringRule): self
+    {
+        $this->recurringRule = $recurringRule;
+        return $this;
     }
 
     public function setConfirmed(bool $confirmed): self

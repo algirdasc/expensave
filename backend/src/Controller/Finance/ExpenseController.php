@@ -7,11 +7,13 @@ namespace App\Controller\Finance;
 use App\Const\ContextGroup\ExpenseContextGroupConst;
 use App\Controller\AbstractApiController;
 use App\Entity\Expense;
+use App\Entity\RecurringExpense;
 use App\Entity\User;
 use App\Enum\CalendarPermission;
 use App\Enum\ExpensePermission;
 use App\Message\ImportExpenseMessage;
 use App\Repository\ExpenseRepository;
+use App\Repository\RecurringExpenseRepository;
 use App\Request\Expense\CreateExpenseRequest;
 use App\Request\Expense\ImportExpenseRequest;
 use App\Request\Expense\SuggestRequest;
@@ -19,6 +21,7 @@ use App\Request\Expense\UpdateExpenseRequest;
 use App\Response\EmptyResponse;
 use App\Security\Voters\CalendarVoter;
 use App\Security\Voters\ExpenseVoter;
+use App\Service\RecurringExpense\RecurringExpenseCalculator;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Messenger\Exception\ExceptionInterface;
@@ -31,6 +34,8 @@ class ExpenseController extends AbstractApiController
 {
     public function __construct(
         private readonly ExpenseRepository $expenseRepository,
+        private readonly RecurringExpenseRepository $recurringExpenseRepository,
+        private readonly RecurringExpenseCalculator $recurringExpenseCalculator,
     ) {
     }
 
@@ -57,6 +62,34 @@ class ExpenseController extends AbstractApiController
             ->setConfirmed($request->isConfirmed())
             ->setDescription($request->getDescription())
         ;
+
+        // If user requested recurring behavior, create a schedule based on this expense.
+        if ($request->getRecurringRule() !== null) {
+            $rule = $request->getRecurringRule();
+
+            $schedule = (new RecurringExpense())
+                ->setUser($user)
+                ->setCalendar($request->getCalendar())
+                ->setCategory($request->getCategory())
+                ->setLabel($request->getLabel())
+                ->setDescription($request->getDescription())
+                ->setAmount($request->getAmount())
+                ->setConfirmed($request->isConfirmed())
+                ->setFrequency($rule->getFrequency())
+                ->setInterval($rule->getInterval())
+                ->setStartAt($rule->getStartAt())
+                ->setEndAt($rule->getEndAt())
+            ;
+
+            $schedule->setNextRunAt($this->recurringExpenseCalculator->calculateNextRunAt($schedule, $rule->getStartAt()));
+
+            $this->recurringExpenseRepository->save($schedule);
+
+            $expense
+                ->setRecurringExpense($schedule)
+                ->setRecurringOccurrenceAt($request->getCreatedAt())
+            ;
+        }
 
         $this->expenseRepository->save($expense);
 
