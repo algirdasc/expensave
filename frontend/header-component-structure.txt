@@ -1,0 +1,101 @@
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                           HEADER COMPONENT REFACTORING                      │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+BEFORE: Monolithic Component
+═══════════════════════════════════════════════════════════════════════════════
+┌───────────────────────────────────────────────────────────────────────────┐
+│                           HeaderComponent                                 │
+│  ┌─────────────────────────────────────────────────────────────────────┐  │
+│  │  • Sidebar toggle with badge                                        │  │
+│  │  • Calendar name & balance display                                  │  │
+│  │  • Date picker (year/month/date modes)                             │  │
+│  │  • Navigation buttons (prev/today/next)                            │  │
+│  │  • Routing logic                                                   │  │
+│  │  • View mode management                                            │  │
+│  │                                                                     │  │
+│  │  103 lines TypeScript + 85 lines HTML = 188 lines total           │  │
+│  └─────────────────────────────────────────────────────────────────────┘  │
+└───────────────────────────────────────────────────────────────────────────┘
+
+AFTER: Modular Component Structure
+═══════════════════════════════════════════════════════════════════════════════
+┌───────────────────────────────────────────────────────────────────────────┐
+│                      HeaderComponent (Container)                          │
+│  ┌─────────────────────────────────────────────────────────────────────┐  │
+│  │  • Orchestrates sub-components                                      │  │
+│  │  • Handles routing                                                  │  │
+│  │  • Sidebar service integration                                      │  │
+│  │                                                                     │  │
+│  │  62 lines TypeScript + 19 lines HTML = 81 lines total             │  │
+│  └─────────────────────────────────────────────────────────────────────┘  │
+│                                                                           │
+│  ┌──────────────────┐  ┌──────────────────┐  ┌──────────────────────┐  │
+│  │ SidebarToggle    │  │ CalendarInfo     │  │ DateNavigation       │  │
+│  │ Component        │  │ Component        │  │ Component            │  │
+│  ├──────────────────┤  ├──────────────────┤  ├──────────────────────┤  │
+│  │ @Input           │  │ @Input           │  │ @Input               │  │
+│  │ • notifications  │  │ • calendar       │  │ • currentDate        │  │
+│  │                  │  │ • monthBalance   │  │                      │  │
+│  │ @Output          │  │                  │  │ @Output              │  │
+│  │ • sidebarToggle  │  │ Display only:    │  │ • dateChange         │  │
+│  │                  │  │ • name           │  │ • previous           │  │
+│  │ Features:        │  │ • balance        │  │ • next               │  │
+│  │ • Menu button    │  │ • month balance  │  │ • today              │  │
+│  │ • Badge display  │  │ • expense report │  │                      │  │
+│  │                  │  │   popover        │  │ Features:            │  │
+│  │ 20 lines TS      │  │                  │  │ • Year picker        │  │
+│  │ 9 lines HTML     │  │ 22 lines TS      │  │ • Month picker       │  │
+│  └──────────────────┘  │ 21 lines HTML    │  │ • Nav buttons        │  │
+│                        └──────────────────┘  │ • View mode toggle   │  │
+│                                              │                      │  │
+│                                              │ 83 lines TS          │  │
+│                                              │ 39 lines HTML        │  │
+│                                              └──────────────────────┘  │
+└───────────────────────────────────────────────────────────────────────────┘
+
+COMPONENT INTERACTIONS
+═══════════════════════════════════════════════════════════════════════════════
+
+┌─────────────┐
+│ MainService │ (provides data)
+└──────┬──────┘
+       │
+       ▼
+┌────────────────────────────────────────┐
+│         HeaderComponent                │
+│  (Smart/Container Component)           │
+└────┬──────────────┬──────────────┬─────┘
+     │              │              │
+     │ toggle()     │ calendar     │ navigate()
+     ▼              ▼              ▼
+┌─────────┐   ┌──────────┐   ┌─────────────┐
+│ Sidebar │   │ Calendar │   │    Date     │
+│ Toggle  │   │   Info   │   │ Navigation  │
+│         │   │          │   │             │
+│ (Dumb)  │   │ (Dumb)   │   │ (Dumb)      │
+└─────────┘   └──────────┘   └─────────────┘
+    │              │                 │
+    └──────────────┴─────────────────┘
+                   │
+                   ▼
+           ┌───────────────┐
+           │  User Actions │
+           └───────────────┘
+
+KEY BENEFITS
+═══════════════════════════════════════════════════════════════════════════════
+✓ Single Responsibility: Each component has one clear purpose
+✓ Testability: Can test components in isolation
+✓ Reusability: Components can be used elsewhere
+✓ Maintainability: Smaller, focused files
+✓ Readability: Clear component boundaries
+✓ TanStack Query Ready: Easy to add data fetching per component
+
+METRICS
+═══════════════════════════════════════════════════════════════════════════════
+Header TypeScript:  103 → 62 lines   (40% reduction)
+Header Template:     85 → 19 lines   (77% reduction)
+Header Styles:       12 → 4 lines    (67% reduction)
+Total Files:          3 → 12 files   (better organization)
+Complexity:         High → Low       (improved maintainability)

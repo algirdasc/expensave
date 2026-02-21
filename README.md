@@ -1,18 +1,18 @@
 # Expensave
 
-Expensave is an open-source application designed to help you track your personal and family expenses effortlessly, enabling better budgeting and financial management. Highly inspired by [Dollarbird](https://dollarbird.co/), Expensave offers intuitive features to monitor your spending habits and stay on top of your finances.
+Expensave is an open-source application designed to help you track your personal and family expenses effortlessly, enabling better budgeting and financial management. Inspired by [Dollarbird](https://dollarbird.co/), Expensave offers intuitive features to monitor your spending habits and stay on top of your finances.
 
 ## Support
 
-This open-source project is developed in my free time. 
-You can support this project by clicking the "Sponsor" button above.
-Your sponsorship will help me dedicate more time and resources to improve the project, add new features, fix bugs, and stay motivated. It also helps me understand that this project is useful not only for me, but for many users like you.
+This open-source project is developed in my free time.
+You can support it by clicking the **Sponsor** button above.
+Your sponsorship helps me dedicate more time and resources to improve the project, add new features, fix bugs, and stay motivated. It also helps me understand that this project is useful not only for me, but for many users like you.
 
 ---
 
-# Screenshots
+## Screenshots
 
-## Desktop version
+### Desktop version
 
 <a href="https://raw.githubusercontent.com/algirdasc/expensave/main/docs/images/screenshots/desktop-calendar.png">
     <img alt="Calendar view" src="https://raw.githubusercontent.com/algirdasc/expensave/main/docs/images/screenshots/desktop-calendar.png" />
@@ -25,7 +25,7 @@ Your sponsorship will help me dedicate more time and resources to improve the pr
 </a>
 <div style="clear: both;"></div>
 
-## Mobile version
+### Mobile version
 
 <a href="https://raw.githubusercontent.com/algirdasc/expensave/main/docs/images/screenshots/mobile-calendar.png">
     <img alt="Mobile version calendar view" src="https://raw.githubusercontent.com/algirdasc/expensave/main/docs/images/screenshots/mobile-calendar.png" style="width: 32%; float: left;" />
@@ -43,7 +43,7 @@ Your sponsorship will help me dedicate more time and resources to improve the pr
 - Multiple user support
 - Shared expense calendars between family members
 - Multiple & unlimited expense calendars
-- Import your balance from financial institutions in various [formats](https://github.com/algirdasc/expensave/wiki/Bank-statement-import#supported-banks) 
+- Import your balance from financial institutions in various [formats](https://github.com/algirdasc/expensave/wiki/Bank-statement-import#supported-banks)
 - Reports on your spending and income habits
 - Responsive design
 - Mobile [PWA](https://web.dev/explore/progressive-web-apps) application
@@ -54,18 +54,17 @@ Your sponsorship will help me dedicate more time and resources to improve the pr
 
 [![Deploy on Hostinger](https://assets.hostinger.com/vps/deploy.svg)](https://www.hostinger.com/vps/docker-hosting?compose_url=https://raw.githubusercontent.com/algirdasc/expensave/refs/heads/main/docker-compose.yml&REFERRALCODE=1ALGIRDAS48#pricing)
 
-## Install self-hosted instance
+### Install a self-hosted instance
 
-See wiki: [Installation](https://github.com/algirdasc/expensave/wiki/Installation).
+See the wiki: [Installation](https://github.com/algirdasc/expensave/wiki/Installation).
 
+### Install the mobile version
 
-## Installing Mobile Version
-
-See wiki: [Using mobile version](https://github.com/algirdasc/expensave/wiki/Using-mobile-version).
+See the wiki: [Using mobile version](https://github.com/algirdasc/expensave/wiki/Using-mobile-version).
 
 ## Bank Statement Import
 
-See wiki: [Bank statement import](https://github.com/algirdasc/expensave/wiki/Bank-statement-import).
+See the wiki: [Bank statement import](https://github.com/algirdasc/expensave/wiki/Bank-statement-import).
 
 ## Contributing
 
@@ -76,9 +75,9 @@ Contributions from the community are more than welcomed! If you'd like to contri
 - Write clear and concise commit messages.
 - Test your changes thoroughly.
 
-## Support
+## Help & Support
 
-If you encounter any issues or have any questions about Expensave, feel free to [open an issue](https://github.com/algirdasc/expensave/issues) on GitHub.
+If you run into issues or have questions about Expensave, feel free to [open an issue](https://github.com/algirdasc/expensave/issues) on GitHub.
 
 ## Anonymous Data Collection
 

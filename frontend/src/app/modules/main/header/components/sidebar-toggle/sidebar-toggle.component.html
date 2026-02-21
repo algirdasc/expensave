@@ -1,0 +1,8 @@
+<div style="position: relative">
+    <button nbButton ghost [status]="hasNotifications ? 'danger' : 'primary'" (click)="onToggle()" id="sidebar-toggler">
+        <nb-icon icon="menu-2-outline"></nb-icon>
+    </button>
+    @if (hasNotifications) {
+        <nb-badge [dotMode]="true" status="danger" position="top right"></nb-badge>
+    }
+</div>

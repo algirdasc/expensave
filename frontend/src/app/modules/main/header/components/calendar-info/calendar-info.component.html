@@ -1,0 +1,23 @@
+<div class="mx-3 calendar-info">
+    <strong class="d-block">{{ calendar?.name }}</strong>
+    <small class="d-block text-hint">
+        <span title="Current balance: {{ calendar?.balance | number: '.2-2' }}">{{
+            calendar?.balance | shortNumber
+        }}</span>
+        @if (monthBalance) {
+            <span>
+                •
+                <a
+                    href="#"
+                    title="This month balance: {{ monthBalance | number: '.2-2' }}"
+                    [nbPopover]="expenseReportComponent"
+                    nbPopoverPlacement="bottom"
+                    (click)="$event.preventDefault()"
+                    [class.text-success]="monthBalance > 0"
+                    [class.text-danger]="monthBalance < 0">
+                    {{ monthBalance | shortNumber }}
+                </a>
+            </span>
+        }
+    </small>
+</div>

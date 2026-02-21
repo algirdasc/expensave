@@ -1,0 +1,38 @@
+<div class="d-flex text-right">
+    <div appOutsideClick (outsideClick)="handleOutsideClick()">
+        <nb-calendar-view-mode
+            [date]="currentDate"
+            [viewMode]="activeViewMode"
+            [nbPopover]="viewModeRef"
+            nbPopoverContext="viewModePopover"
+            nbPopoverTrigger="noop"
+            nbPopoverPlacement="bottom"
+            (changeMode)="changeViewMode()">
+        </nb-calendar-view-mode>
+
+        <ng-template #viewModeRef>
+            @switch (activeViewMode) {
+                @case (viewMode.YEAR) {
+                    <nb-calendar-year-picker [year]="currentDate" (yearChange)="onYearChange($event)">
+                    </nb-calendar-year-picker>
+                }
+                @case (viewMode.MONTH) {
+                    <nb-calendar-month-picker [month]="currentDate" (monthChange)="onMonthChange($event)">
+                    </nb-calendar-month-picker>
+                }
+            }
+        </ng-template>
+    </div>
+
+    <nb-button-group status="primary" class="d-none d-sm-block mx-3">
+        <button nbButton (click)="onPrevious()">
+            <nb-icon icon="arrow-back-outline"></nb-icon>
+        </button>
+
+        <button nbButton (click)="onToday()">TODAY</button>
+
+        <button nbButton (click)="onNext()">
+            <nb-icon icon="arrow-forward-outline"></nb-icon>
+        </button>
+    </nb-button-group>
+</div>

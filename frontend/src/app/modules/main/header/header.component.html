@@ -1,84 +1,18 @@
 <div class="d-flex justify-content-between">
     <div class="d-flex align-items-center">
-        <div style="position: relative">
-            <button
-                nbButton
-                ghost
-                [status]="statementImportService.expenses.length ? 'danger' : 'primary'"
-                (click)="toggleSidebar()"
-                id="sidebar-toggler">
-                <nb-icon icon="menu-2-outline"></nb-icon>
-            </button>
-            @if (statementImportService.expenses.length) {
-                <nb-badge [dotMode]="true" status="danger" position="top right"></nb-badge>
-            }
-        </div>
+        <app-sidebar-toggle
+            [hasNotifications]="statementImportService.expenses.length > 0"
+            (sidebarToggle)="toggleSidebar()">
+        </app-sidebar-toggle>
 
-        <div class="mx-3 calendar-info">
-            <strong class="d-block">{{ calendar?.name }}</strong>
-            <small class="d-block text-hint">
-                <span title="Current balance: {{ calendar?.balance | number: '.2-2' }}">{{
-                    calendar?.balance | shortNumber
-                }}</span>
-                @if (visibleDateBalance) {
-                    <span>
-                        •
-                        <a
-                            href="#"
-                            title="This month balance: {{ visibleDateBalance | number: '.2-2' }}"
-                            [nbPopover]="expenseReportComponent"
-                            nbPopoverPlacement="bottom"
-                            (click)="$event.preventDefault()"
-                            [class.text-success]="visibleDateBalance > 0"
-                            [class.text-danger]="visibleDateBalance < 0">
-                            {{ visibleDateBalance | shortNumber }}
-                        </a>
-                    </span>
-                }
-            </small>
-        </div>
+        <app-calendar-info [calendar]="calendar" [monthBalance]="visibleDateBalance"></app-calendar-info>
     </div>
 
-    <div class="d-flex text-right">
-        <div appOutsideClick (outsideClick)="navigateToDate(visibleDate); activeViewMode = viewMode.DATE">
-            <nb-calendar-view-mode
-                [date]="visibleDate"
-                [viewMode]="activeViewMode"
-                [nbPopover]="viewModeRef"
-                nbPopoverContext="viewModePopover"
-                nbPopoverTrigger="noop"
-                nbPopoverPlacement="bottom"
-                (changeMode)="changeViewMode()">
-            </nb-calendar-view-mode>
-
-            <ng-template #viewModeRef>
-                @switch (activeViewMode) {
-                    @case (viewMode.YEAR) {
-                        <nb-calendar-year-picker
-                            [year]="visibleDate"
-                            (yearChange)="visibleDate = $event; activeViewMode = viewMode.MONTH">
-                        </nb-calendar-year-picker>
-                    }
-                    @case (viewMode.MONTH) {
-                        <nb-calendar-month-picker
-                            [month]="visibleDate"
-                            (monthChange)="navigateToDate($event); activeViewMode = viewMode.DATE">
-                        </nb-calendar-month-picker>
-                    }
-                }
-            </ng-template>
-        </div>
-
-        <nb-button-group status="primary" class="d-none d-sm-block mx-3">
-            <button nbButton (click)="navigatePrev()">
-                <nb-icon icon="arrow-back-outline"></nb-icon>
-            </button>
-
-            <button nbButton (click)="navigateToday()">TODAY</button>
-
-            <button nbButton (click)="navigateNext()">
-                <nb-icon icon="arrow-forward-outline"></nb-icon>
-            </button>
-        </nb-button-group>
-    </div>
+    <app-date-navigation
+        [currentDate]="visibleDate"
+        (dateChange)="navigateToDate($event)"
+        (previous)="navigatePrev()"
+        (next)="navigateNext()"
+        (today)="navigateToday()">
+    </app-date-navigation>
 </div>
