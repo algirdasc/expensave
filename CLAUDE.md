@@ -4,7 +4,6 @@ Last updated: 2026-03-01
 
 ## Repo
 - GitHub: https://github.com/algirdasc/expensave
-- Local path: `/data/.openclaw/workspace/expensave`
 
 ## Stack (observed)
 ### Frontend
