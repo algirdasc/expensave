@@ -9,10 +9,7 @@
         <app-header-date-picker [visibleDate]="visibleDate" (dateNavigate)="navigateToDate($event)">
         </app-header-date-picker>
 
-        <app-header-nav-buttons
-            (prev)="navigatePrev()"
-            (today)="navigateToday()"
-            (next)="navigateNext()">
+        <app-header-nav-buttons (prev)="navigatePrev()" (today)="navigateToday()" (next)="navigateNext()">
         </app-header-nav-buttons>
     </div>
 </div>
