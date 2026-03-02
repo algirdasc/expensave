@@ -53,6 +53,13 @@ class Expense
     #[Groups(ExpenseContextGroupConst::ALWAYS)]
     private DateTime $createdAt;
 
+    #[ORM\ManyToOne(targetEntity: RecurringExpense::class)]
+    #[ORM\JoinColumn(nullable: true, onDelete: 'SET NULL')]
+    private ?RecurringExpense $recurringExpense = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?DateTime $recurringOccurrenceAt = null;
+
     public function __construct()
     {
         $this->createdAt = new DateTime();
@@ -163,6 +170,28 @@ class Expense
     {
         $this->createdAt = $createdAt;
 
+        return $this;
+    }
+
+    public function getRecurringExpense(): ?RecurringExpense
+    {
+        return $this->recurringExpense;
+    }
+
+    public function setRecurringExpense(?RecurringExpense $recurringExpense): self
+    {
+        $this->recurringExpense = $recurringExpense;
+        return $this;
+    }
+
+    public function getRecurringOccurrenceAt(): ?DateTime
+    {
+        return $this->recurringOccurrenceAt;
+    }
+
+    public function setRecurringOccurrenceAt(?DateTime $recurringOccurrenceAt): self
+    {
+        $this->recurringOccurrenceAt = $recurringOccurrenceAt;
         return $this;
     }
 
