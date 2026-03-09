@@ -2295,16 +2295,16 @@
         },
         {
             "name": "posthog/posthog-php",
-            "version": "4.0.1",
+            "version": "4.0.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/PostHog/posthog-php.git",
-                "reference": "4cc17306c5478ce7904c84d9cc73107864c70402"
+                "reference": "9af83a08743187b9fc623e0c6ac2c286fe106a6f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/PostHog/posthog-php/zipball/4cc17306c5478ce7904c84d9cc73107864c70402",
-                "reference": "4cc17306c5478ce7904c84d9cc73107864c70402",
+                "url": "https://api.github.com/repos/PostHog/posthog-php/zipball/9af83a08743187b9fc623e0c6ac2c286fe106a6f",
+                "reference": "9af83a08743187b9fc623e0c6ac2c286fe106a6f",
                 "shasum": ""
             },
             "require": {
@@ -2342,9 +2342,9 @@
             ],
             "support": {
                 "issues": "https://github.com/PostHog/posthog-php/issues",
-                "source": "https://github.com/PostHog/posthog-php/tree/4.0.1"
+                "source": "https://github.com/PostHog/posthog-php/tree/4.0.2"
             },
-            "time": "2026-02-06T19:15:46+00:00"
+            "time": "2026-03-05T00:11:54+00:00"
         },
         {
             "name": "psr/cache",
