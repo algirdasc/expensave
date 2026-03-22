@@ -8,6 +8,10 @@ import { ExpenseReportComponent } from '../../components/expense-report/expense-
 @Component({
     selector: 'app-header-calendar-info',
     template: `
+        <ng-template #expenseReportTpl>
+            <app-expense-report [calendar]="calendar" [visibleDate]="visibleDate"></app-expense-report>
+        </ng-template>
+
         <div class="mx-3 calendar-info">
             <strong class="d-block">{{ calendar?.name }}</strong>
             <small class="d-block text-hint">
@@ -20,7 +24,7 @@ import { ExpenseReportComponent } from '../../components/expense-report/expense-
                         <a
                             href="#"
                             title="This month balance: {{ visibleDateBalance | number: '.2-2' }}"
-                            [nbPopover]="expenseReportComponent"
+                            [nbPopover]="expenseReportTpl"
                             nbPopoverPlacement="bottom"
                             (click)="$event.preventDefault()"
                             [class.text-success]="visibleDateBalance > 0"
@@ -32,11 +36,10 @@ import { ExpenseReportComponent } from '../../components/expense-report/expense-
             </small>
         </div>
     `,
-    imports: [NbPopoverModule, ShortNumberPipe, DecimalPipe],
+    imports: [NbPopoverModule, ShortNumberPipe, DecimalPipe, ExpenseReportComponent],
 })
 export class HeaderCalendarInfoComponent {
     @Input() public calendar: Calendar;
     @Input() public visibleDateBalance: number;
-
-    protected readonly expenseReportComponent = ExpenseReportComponent;
+    @Input() public visibleDate: Date;
 }

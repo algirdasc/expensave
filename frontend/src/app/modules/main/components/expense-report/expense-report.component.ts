@@ -1,12 +1,12 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, Input, OnChanges, OnInit, SimpleChanges, inject } from '@angular/core';
 import { NbCardModule, NbDateService, NbIconModule, NbListModule, NbSpinnerModule } from '@nebular/theme';
 import { finalize } from 'rxjs/operators';
 import { slideAnimation } from '../../../../animations/slide.animation';
+import { Calendar } from '../../../../api/objects/calendar';
 import { CategoryBalance } from '../../../../api/objects/category-balance';
 import { ReportsApiService } from '../../../../api/reports.api.service';
 import { CategoryExpenseReportResponse } from '../../../../api/response/category-expense-report.response';
 import { DateUtil } from '../../../../util/date.util';
-import { MainService } from '../../main.service';
 import { DatePipe } from '@angular/common';
 import { ShortNumberPipe } from '../../../../pipes/shortnumber.pipe';
 
@@ -17,10 +17,12 @@ import { ShortNumberPipe } from '../../../../pipes/shortnumber.pipe';
     animations: slideAnimation,
     imports: [NbCardModule, NbIconModule, NbSpinnerModule, NbListModule, DatePipe, ShortNumberPipe],
 })
-export class ExpenseReportComponent implements OnInit {
-    private dateService = inject<NbDateService<Date>>(NbDateService);
-    private reportsApiService = inject(ReportsApiService);
-    private mainService = inject(MainService);
+export class ExpenseReportComponent implements OnInit, OnChanges {
+    private readonly dateService = inject<NbDateService<Date>>(NbDateService);
+    private readonly reportsApiService = inject(ReportsApiService);
+
+    @Input({ required: true }) public calendar: Calendar;
+    @Input({ required: true }) public visibleDate: Date;
 
     public isBusy: boolean = true;
     public categoryBalances: CategoryBalance[] = [];
@@ -31,15 +33,40 @@ export class ExpenseReportComponent implements OnInit {
     public dateTo: Date;
 
     public ngOnInit(): void {
-        const currentDate = this.mainService.visibleDate;
+        this.fetchReport();
+    }
 
-        this.dateFrom = this.dateService.createDate(currentDate.getFullYear(), currentDate.getMonth(), 1);
+    public ngOnChanges(changes: SimpleChanges): void {
+        if (
+            (changes?.calendar && !changes.calendar.isFirstChange()) ||
+            (changes?.visibleDate && !changes.visibleDate.isFirstChange())
+        ) {
+            this.fetchReport();
+        }
+    }
+
+    public createRange(number: number): number[] {
+        return new Array(number).fill(0).map((n, index) => index + 1);
+    }
+
+    private fetchReport(): void {
+        this.isBusy = true;
+
+        this.dateFrom = this.dateService.createDate(
+            this.visibleDate.getFullYear(),
+            this.visibleDate.getMonth(),
+            1
+        );
         this.dateTo = DateUtil.endOfTheDay(
-            this.dateService.createDate(currentDate.getFullYear(), currentDate.getMonth() + 1, 0)
+            this.dateService.createDate(
+                this.visibleDate.getFullYear(),
+                this.visibleDate.getMonth() + 1,
+                0
+            )
         );
 
         this.reportsApiService
-            .categoryExpenses([this.mainService.calendar], this.dateFrom, this.dateTo)
+            .categoryExpenses([this.calendar], this.dateFrom, this.dateTo)
             .pipe(finalize(() => (this.isBusy = false)))
             .subscribe((response: CategoryExpenseReportResponse) => {
                 const balances = response.categoryBalances.filter(
@@ -58,10 +85,5 @@ export class ExpenseReportComponent implements OnInit {
                 this.expense = response.meta.expense;
                 this.change = response.meta.change;
             });
-    }
-
-    public createRange(number: number): number[] {
-        // return new Array(number);
-        return new Array(number).fill(0).map((n, index) => index + 1);
     }
 }
