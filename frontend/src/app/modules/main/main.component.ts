@@ -10,9 +10,6 @@ import {
 } from '@nebular/theme';
 import { ResizedEvent, AngularResizeEventModule } from 'angular-resize-event';
 import { ExpenseApiService } from '../../api/expense.api.service';
-import { Calendar } from '../../api/objects/calendar';
-import { Category } from '../../api/objects/category';
-import { User } from '../../api/objects/user';
 import { APP_CONFIG } from '../../app.initializer';
 import { SwipeEvent } from '../../interfaces/swipe.interface';
 import { DateUtil } from '../../util/date.util';
@@ -20,11 +17,11 @@ import { MainService, SIDEBAR_TAG } from './main.service';
 import { StatementImportService } from './services/statement-import.service';
 import { HeaderComponent } from './header/header.component';
 import { SwipeDirective } from '../../directives/swipe.directive';
-import { CalendarComponent } from './calendar/calendar.component';
 import { OutsideClickDirective } from '../../directives/outside-click.directive';
 import { ProfileComponent } from './components/sidebar/profile/profile.component';
 import { CalendarSidebarListComponent } from './components/sidebar/calendar-list/calendar-list.component';
 import { ActionsComponent } from './components/sidebar/actions/actions.component';
+import { CalendarStateComponent } from './components/calendar-state/calendar-state.component';
 
 @Component({
     templateUrl: 'main.component.html',
@@ -35,17 +32,17 @@ import { ActionsComponent } from './components/sidebar/actions/actions.component
         HeaderComponent,
         SwipeDirective,
         AngularResizeEventModule,
-        CalendarComponent,
         NbSidebarModule,
         OutsideClickDirective,
         ProfileComponent,
         CalendarSidebarListComponent,
         ActionsComponent,
+        CalendarStateComponent,
     ],
 })
 export class MainComponent implements OnInit {
-    private readonly router = inject(Router);
     private readonly activatedRoute = inject(ActivatedRoute);
+    private readonly router = inject(Router);
     private readonly expenseApiService = inject(ExpenseApiService);
     private readonly breakpointService = inject(NbMediaBreakpointsService);
     private readonly dateService = inject<NbDateService<Date>>(NbDateService);
@@ -64,36 +61,6 @@ export class MainComponent implements OnInit {
     }
 
     public ngOnInit(): void {
-        this.activatedRoute.data.subscribe(
-            ({
-                user,
-                calendars,
-                systemCategories,
-            }: {
-                user: User;
-                calendars: Calendar[];
-                systemCategories: Category[];
-            }) => {
-                this.mainService.user = user;
-                this.mainService.calendars = calendars;
-                this.mainService.systemCategories = systemCategories;
-                this.mainService.calendar =
-                    this.mainService.calendars.filter((calendar: Calendar) => {
-                        return calendar.id === user.defaultCalendarId;
-                    })[0] || this.mainService.calendars[0];
-            }
-        );
-
-        this.activatedRoute.queryParams.subscribe(({ date }: { date?: string }) => {
-            if (date) {
-                const parsedDate = new Date(`${date}-01 00:00:00`);
-                if (DateUtil.valid(parsedDate)) {
-                    parsedDate.setDate(this.mainService.visibleDate.getDate());
-                    this.mainService.visibleDate = parsedDate;
-                }
-            }
-        });
-
         if (this.statementImportService.expenses.length) {
             this.statementImportService.processImport();
         }
@@ -118,17 +85,6 @@ export class MainComponent implements OnInit {
                 });
             });
         }
-    }
-
-    public onRangeChange({ dateFrom, dateTo }: { dateFrom: Date; dateTo: Date }): void {
-        this.mainService.calendarDateFrom = dateFrom;
-        this.mainService.calendarDateTo = dateTo;
-
-        this.mainService.refreshCalendar();
-    }
-
-    public onCalendarChange(calendar: Calendar): void {
-        this.mainService.refreshCalendar(calendar);
     }
 
     public onSidebarOutsideClick(event: MouseEvent): void {

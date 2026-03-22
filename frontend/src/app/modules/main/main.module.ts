@@ -41,6 +41,7 @@ import { CalendarGridComponent } from './calendar/calendar-grid/calendar-grid.co
 import { CalendarMonthModelService } from './calendar/calendar-month-model.service';
 import { CalendarComponent } from './calendar/calendar.component';
 import { CalendarService } from './calendar/calendar.service';
+import { CalendarStateComponent } from './components/calendar-state/calendar-state.component';
 import { ExpenseReportComponent } from './components/expense-report/expense-report.component';
 import { ActionsComponent } from './components/sidebar/actions/actions.component';
 import { CalendarSidebarListComponent } from './components/sidebar/calendar-list/calendar-list.component';
@@ -107,6 +108,7 @@ import { StatementImportService } from './services/statement-import.service';
         NbBadgeModule,
         // UI Components
         MainComponent,
+        CalendarStateComponent,
         HeaderComponent,
         CalendarSidebarListComponent,
         ProfileComponent,

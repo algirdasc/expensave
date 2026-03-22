@@ -13,15 +13,7 @@
         (resized)="onResized($event)"
         appSwipe
         (swipeEnd)="onSwipeEnd($event)">
-        <app-calendar
-            [calendar]="mainService.calendar"
-            [expenses]="mainService.expenses"
-            [expenseBalances]="mainService.expenseBalances"
-            [visibleDate]="mainService.visibleDate"
-            [selectedDate]="mainService.visibleDate"
-            (rangeChange)="onRangeChange($event)"
-            [isMobile]="isMobile">
-        </app-calendar>
+        <app-calendar-state [isMobile]="isMobile"></app-calendar-state>
     </nb-layout-column>
 
     <nb-sidebar
@@ -35,7 +27,7 @@
             <app-sidebar-calendar-list
                 [(calendars)]="mainService.calendars"
                 [calendar]="mainService.calendar"
-                (calendarChange)="onCalendarChange($event)">
+                (calendarChange)="mainService.refreshCalendar($event)">
             </app-sidebar-calendar-list>
             <app-sidebar-actions class="mt-auto"></app-sidebar-actions>
         </div>
