@@ -1,13 +1,15 @@
 import { FormatWidth, getLocaleDateFormat } from '@angular/common';
-import { Component, OnChanges, inject } from '@angular/core';
-import { NbDateService, NbCardModule, NbSpinnerModule } from '@nebular/theme';
+import { Component, Input, OnChanges, SimpleChanges, inject } from '@angular/core';
+import { NbCalendarRange, NbDateService, NbCardModule, NbSpinnerModule } from '@nebular/theme';
 import { ChartConfiguration, ScriptableLineSegmentContext } from 'chart.js';
+import { Subscription } from 'rxjs';
+import { finalize } from 'rxjs/operators';
+import { Calendar } from '../../../../api/objects/calendar';
 import { ExpenseBalance } from '../../../../api/objects/expense-balance';
 import { ReportsApiService } from '../../../../api/reports.api.service';
 import { ExpenseReportResponse } from '../../../../api/response/expense-report.response';
 import { APP_CONFIG } from '../../../../app.initializer';
 import { ShortNumberPipe } from '../../../../pipes/shortnumber.pipe';
-import { AbstractReportComponent } from '../abstract-report.component';
 import { PeriodEnum, PeriodSelectorComponent } from '../period-selector/period-selector.component';
 import { chartTooltipHandler } from './daily-expenses-tooltip';
 import { DateRangeComponent } from '../date-range.component';
@@ -25,9 +27,14 @@ import { BaseChartDirective } from 'ng2-charts';
         ShortNumberPipe,
     ],
 })
-export class DailyExpensesComponent extends AbstractReportComponent implements OnChanges {
+export class DailyExpensesComponent implements OnChanges {
     private readonly dateService = inject<NbDateService<Date>>(NbDateService);
-    protected readonly reportsApiService = inject(ReportsApiService);
+    private readonly reportsApiService = inject(ReportsApiService);
+
+    @Input({ required: true }) public calendars: Calendar[];
+
+    public isBusy: boolean = false;
+    public dateRange: NbCalendarRange<Date>;
 
     public income: number = 0;
     public expense: number = 0;
@@ -75,16 +82,55 @@ export class DailyExpensesComponent extends AbstractReportComponent implements O
     };
 
     protected PeriodEnum = PeriodEnum;
-    protected reportsApiMethod: string = 'dailyExpenses';
 
-    protected cleanUp(): void {
+    private fetchSubscription: Subscription;
+
+    public ngOnChanges(changes: SimpleChanges): void {
+        if (changes?.calendars && !changes?.calendars.isFirstChange()) {
+            this.fetchReport();
+        }
+    }
+
+    public onDateRangeChange(event: NbCalendarRange<Date>): void {
+        this.dateRange = event;
+        this.fetchReport();
+    }
+
+    private preparedToFetch(): boolean {
+        if (!this.calendars.length) {
+            this.cleanUp();
+            return false;
+        }
+
+        this.isBusy = true;
+
+        if (this.fetchSubscription) {
+            this.fetchSubscription.unsubscribe();
+            this.fetchSubscription = undefined;
+        }
+
+        return true;
+    }
+
+    private fetchReport(): void {
+        if (!this.preparedToFetch()) {
+            return;
+        }
+
+        this.fetchSubscription = this.reportsApiService
+            .dailyExpenses(this.calendars, this.dateRange.start, this.dateRange.end)
+            .pipe(finalize(() => (this.isBusy = false)))
+            .subscribe((response: ExpenseReportResponse) => this.parseReport(response));
+    }
+
+    private cleanUp(): void {
         this.income = this.change = this.expense = 0;
         this.lineChartData = {
             datasets: [],
         };
     }
 
-    protected parseReport(response: ExpenseReportResponse): void {
+    private parseReport(response: ExpenseReportResponse): void {
         this.income = response.meta.income;
         this.change = response.meta.change;
         this.expense = Math.abs(response.meta.expense);

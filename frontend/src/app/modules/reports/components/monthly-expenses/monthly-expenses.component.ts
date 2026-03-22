@@ -1,5 +1,5 @@
 import { FormStyle, getLocaleMonthNames, TranslationWidth } from '@angular/common';
-import { Component, OnChanges, OnInit, inject } from '@angular/core';
+import { Component, Input, OnChanges, OnInit, SimpleChanges, inject } from '@angular/core';
 import {
     NbCalendarRange,
     NbDateService,
@@ -10,12 +10,14 @@ import {
     NbIconModule,
 } from '@nebular/theme';
 import { ChartConfiguration } from 'chart.js';
+import { Subscription } from 'rxjs';
+import { finalize } from 'rxjs/operators';
+import { Calendar } from '../../../../api/objects/calendar';
 import { ReportsApiService } from '../../../../api/reports.api.service';
 import { ExpenseReportResponse } from '../../../../api/response/expense-report.response';
 import { APP_CONFIG } from '../../../../app.initializer';
 import { ShortNumberPipe } from '../../../../pipes/shortnumber.pipe';
 import { DateUtil } from '../../../../util/date.util';
-import { AbstractReportComponent } from '../abstract-report.component';
 import { chartTooltipHandler } from './monthly-expenses-tooltip';
 import { BaseChartDirective } from 'ng2-charts';
 
@@ -32,9 +34,14 @@ import { BaseChartDirective } from 'ng2-charts';
         ShortNumberPipe,
     ],
 })
-export class MonthlyExpensesComponent extends AbstractReportComponent implements OnInit, OnChanges {
-    protected readonly reportsApiService = inject(ReportsApiService);
+export class MonthlyExpensesComponent implements OnInit, OnChanges {
+    private readonly reportsApiService = inject(ReportsApiService);
     private readonly dateService = inject<NbDateService<Date>>(NbDateService);
+
+    @Input({ required: true }) public calendars: Calendar[];
+
+    public isBusy: boolean = false;
+    public dateRange: NbCalendarRange<Date>;
 
     public income: number = 0;
     public expense: number = 0;
@@ -72,7 +79,7 @@ export class MonthlyExpensesComponent extends AbstractReportComponent implements
         datasets: [],
     };
 
-    protected reportsApiMethod: string = 'monthlyExpenses';
+    private fetchSubscription: Subscription;
 
     public ngOnInit(): void {
         this.navigateToday();
@@ -99,14 +106,47 @@ export class MonthlyExpensesComponent extends AbstractReportComponent implements
         this.fetchReport();
     }
 
-    protected cleanUp(): void {
+    public ngOnChanges(changes: SimpleChanges): void {
+        if (changes?.calendars && !changes?.calendars.isFirstChange()) {
+            this.fetchReport();
+        }
+    }
+
+    private preparedToFetch(): boolean {
+        if (!this.calendars.length) {
+            this.cleanUp();
+            return false;
+        }
+
+        this.isBusy = true;
+
+        if (this.fetchSubscription) {
+            this.fetchSubscription.unsubscribe();
+            this.fetchSubscription = undefined;
+        }
+
+        return true;
+    }
+
+    private fetchReport(): void {
+        if (!this.preparedToFetch()) {
+            return;
+        }
+
+        this.fetchSubscription = this.reportsApiService
+            .monthlyExpenses(this.calendars, this.dateRange.start, this.dateRange.end)
+            .pipe(finalize(() => (this.isBusy = false)))
+            .subscribe((response: ExpenseReportResponse) => this.parseReport(response));
+    }
+
+    private cleanUp(): void {
         this.income = this.change = this.expense = 0;
         this.barChartData = {
             datasets: [],
         };
     }
 
-    protected parseReport(response: ExpenseReportResponse): void {
+    private parseReport(response: ExpenseReportResponse): void {
         const xAxisData: string[] = [
             ...getLocaleMonthNames(APP_CONFIG.locale, FormStyle.Format, TranslationWidth.Short),
         ];

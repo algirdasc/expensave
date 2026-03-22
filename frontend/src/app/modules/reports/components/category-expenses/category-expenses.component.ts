@@ -1,13 +1,15 @@
-import { Component, OnChanges, inject } from '@angular/core';
+import { Component, Input, OnChanges, SimpleChanges, inject } from '@angular/core';
+import { NbCalendarRange, NbCardModule, NbSpinnerModule } from '@nebular/theme';
 import { ChartConfiguration } from 'chart.js';
+import { Subscription } from 'rxjs';
+import { finalize } from 'rxjs/operators';
+import { Calendar } from '../../../../api/objects/calendar';
 import { ReportsApiService } from '../../../../api/reports.api.service';
 import { CategoryExpenseReportResponse } from '../../../../api/response/category-expense-report.response';
 import { ShortNumberPipe } from '../../../../pipes/shortnumber.pipe';
 import { UNCATEGORIZED_COLOR } from '../../../../util/color.util';
-import { AbstractReportComponent } from '../abstract-report.component';
 import { PeriodEnum, PeriodSelectorComponent } from '../period-selector/period-selector.component';
 import { chartTooltipHandler } from './category-expenses-tooltip';
-import { NbCardModule, NbSpinnerModule } from '@nebular/theme';
 import { DateRangeComponent } from '../date-range.component';
 import { BaseChartDirective } from 'ng2-charts';
 
@@ -24,8 +26,13 @@ import { BaseChartDirective } from 'ng2-charts';
         ShortNumberPipe,
     ],
 })
-export class CategoryExpensesComponent extends AbstractReportComponent implements OnChanges {
-    protected readonly reportsApiService = inject(ReportsApiService);
+export class CategoryExpensesComponent implements OnChanges {
+    private readonly reportsApiService = inject(ReportsApiService);
+
+    @Input({ required: true }) public calendars: Calendar[];
+
+    public isBusy: boolean = false;
+    public dateRange: NbCalendarRange<Date>;
 
     public barChartOptions: ChartConfiguration['options'] = {
         responsive: true,
@@ -67,15 +74,54 @@ export class CategoryExpensesComponent extends AbstractReportComponent implement
 
     protected categoryCount: number = 0;
     protected PeriodEnum = PeriodEnum;
-    protected reportsApiMethod: string = 'categoryExpenses';
 
-    protected cleanUp(): void {
+    private fetchSubscription: Subscription;
+
+    public ngOnChanges(changes: SimpleChanges): void {
+        if (changes?.calendars && !changes?.calendars.isFirstChange()) {
+            this.fetchReport();
+        }
+    }
+
+    public onDateRangeChange(event: NbCalendarRange<Date>): void {
+        this.dateRange = event;
+        this.fetchReport();
+    }
+
+    private preparedToFetch(): boolean {
+        if (!this.calendars.length) {
+            this.cleanUp();
+            return false;
+        }
+
+        this.isBusy = true;
+
+        if (this.fetchSubscription) {
+            this.fetchSubscription.unsubscribe();
+            this.fetchSubscription = undefined;
+        }
+
+        return true;
+    }
+
+    private fetchReport(): void {
+        if (!this.preparedToFetch()) {
+            return;
+        }
+
+        this.fetchSubscription = this.reportsApiService
+            .categoryExpenses(this.calendars, this.dateRange.start, this.dateRange.end)
+            .pipe(finalize(() => (this.isBusy = false)))
+            .subscribe((response: CategoryExpenseReportResponse) => this.parseReport(response));
+    }
+
+    private cleanUp(): void {
         this.barChartData = {
             datasets: [],
         };
     }
 
-    protected parseReport(response: CategoryExpenseReportResponse): void {
+    private parseReport(response: CategoryExpenseReportResponse): void {
         const backgroundColors: string[] = [];
         const expenseLabels: string[] = [];
         const absoluteExpenseValues: number[] = [];
