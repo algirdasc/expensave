@@ -44,6 +44,8 @@ import { CalendarService } from './calendar/calendar.service';
 import { CalendarStateComponent } from './components/calendar-state/calendar-state.component';
 import { ExpenseReportComponent } from './components/expense-report/expense-report.component';
 import { ActionsComponent } from './components/sidebar/actions/actions.component';
+import { CalendarListActionsComponent } from './components/sidebar/calendar-list/calendar-list-actions.component';
+import { CalendarListDisplayComponent } from './components/sidebar/calendar-list/calendar-list-display.component';
 import { CalendarSidebarListComponent } from './components/sidebar/calendar-list/calendar-list.component';
 import { ProfileComponent } from './components/sidebar/profile/profile.component';
 import { SuggestionComponent } from './components/suggestion/suggestion.component';
@@ -111,6 +113,8 @@ import { StatementImportService } from './services/statement-import.service';
         CalendarStateComponent,
         HeaderComponent,
         CalendarSidebarListComponent,
+        CalendarListDisplayComponent,
+        CalendarListActionsComponent,
         ProfileComponent,
         CalendarComponent,
         SuggestionComponent,

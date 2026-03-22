@@ -1,0 +1,71 @@
+<nb-list class="mb-3">
+    @for (cal of calendars; track $index) {
+        <nb-list-item class="p-0">
+            <nb-radio-group name="sidebar-calendar" class="w-100">
+                <nb-radio
+                    class="ms-2"
+                    [value]="cal"
+                    (valueChange)="calendarSelect.emit($event)"
+                    [checked]="cal?.id === calendar?.id">
+                    <div class="d-flex align-items-center justify-content-between w-100">
+                        <div class="calendar-name text-truncate">
+                            @if (cal.shared) {
+                                <nb-icon
+                                    [icon]="cal.isOwner(user) ? 'people' : 'people-outline'"
+                                    [title]="
+                                        cal.isOwner(user)
+                                            ? 'Owned by me & shared with others'
+                                            : 'Shared with me by ' +
+                                              cal.owner.name +
+                                              ' (' +
+                                              cal.owner.email +
+                                              ')'
+                                    "
+                                    class="me-1 text-hint"></nb-icon>
+                            } @else {
+                                <nb-icon icon="person-outline" class="me-1 text-hint" title="Owned by me"></nb-icon>
+                            }
+
+                            {{ cal.name }}
+                        </div>
+                        <div class="calendar-balance text-hint">
+                            {{ cal.balance | shortNumber }}
+                        </div>
+                        <div class="calendar-actions text-right">
+                            <button
+                                nbButton
+                                ghost
+                                size="small"
+                                status="danger"
+                                (click)="makeDefault.emit(cal)"
+                                title="Make default">
+                                <nb-icon icon="heart-outline"></nb-icon>
+                            </button>
+
+                            @if (cal.isOwner(user)) {
+                                <button
+                                    nbButton
+                                    ghost
+                                    size="small"
+                                    status="primary"
+                                    (click)="editCalendar.emit(cal)"
+                                    title="Edit calendar">
+                                    <nb-icon icon="edit-outline"></nb-icon>
+                                </button>
+                                <button
+                                    nbButton
+                                    ghost
+                                    size="small"
+                                    status="danger"
+                                    (click)="deleteCalendar.emit(cal)"
+                                    title="Delete calendar">
+                                    <nb-icon icon="trash-2-outline"></nb-icon>
+                                </button>
+                            }
+                        </div>
+                    </div>
+                </nb-radio>
+            </nb-radio-group>
+        </nb-list-item>
+    }
+</nb-list>
