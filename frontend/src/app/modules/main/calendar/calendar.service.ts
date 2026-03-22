@@ -7,6 +7,7 @@ import { TYPE_BALANCE_UPDATE, TYPE_UNCATEGORIZED } from '../../../api/objects/ca
 import { Expense } from '../../../api/objects/expense';
 import { DateUtil } from '../../../util/date.util';
 import { ExpenseDialogComponent } from '../dialogs/expense-dialog/expense-dialog.component';
+import { ExpenseDialogResult } from '../dialogs/expense-dialog/expense-dialog-result';
 import { MainService } from '../main.service';
 
 @Injectable()
@@ -17,7 +18,7 @@ export class CalendarService {
 
     public editExpense(expense: Expense): void {
         this.expenseApiService.get(expense.id).subscribe((expense: Expense) => {
-            this.openExpenseDialog(expense).onClose.subscribe((result: Expense) => {
+            this.openExpenseDialog(expense).onClose.subscribe((result: ExpenseDialogResult) => {
                 if (result) {
                     this.mainService.refreshCalendar();
                 }
@@ -34,7 +35,7 @@ export class CalendarService {
             category: this.mainService.getSystemCategory(TYPE_UNCATEGORIZED),
         });
 
-        this.openExpenseDialog(expense).onClose.subscribe((result: Expense) => {
+        this.openExpenseDialog(expense).onClose.subscribe((result: ExpenseDialogResult) => {
             if (result) {
                 this.mainService.refreshCalendar();
             }

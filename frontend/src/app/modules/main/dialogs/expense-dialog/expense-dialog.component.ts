@@ -21,11 +21,6 @@ export class ExpenseDialogComponent implements OnInit {
     public showBalanceTab: boolean = false;
     public deletable: boolean = false;
 
-    public onExpenseSubmit: () => void;
-    public onExpenseDelete: () => void;
-    public onBalanceSubmit: () => void;
-    public onBalanceDelete: () => void;
-
     public predefinedCategories: { [key: string]: Category } = {};
 
     @ViewChild('tabExpense')

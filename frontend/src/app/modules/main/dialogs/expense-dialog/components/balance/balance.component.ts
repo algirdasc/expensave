@@ -2,7 +2,7 @@ import { Component, Input, ViewChild, inject } from '@angular/core';
 import { NbDialogRef, NbSpinnerModule } from '@nebular/theme';
 import { BalanceUpdateApiService } from '../../../../../../api/balance-update.api.service';
 import { Expense } from '../../../../../../api/objects/expense';
-import { ExpenseDialogComponent } from '../../expense-dialog.component';
+import { ExpenseDialogResult } from '../../expense-dialog-result';
 import { AbstractExpenseComponent } from '../abstract-expense.component';
 import { ExpenseInputComponent } from '../expense-input.component';
 import { FormsModule } from '@angular/forms';
@@ -30,7 +30,7 @@ import { FooterComponent } from '../fields/footer.component';
 })
 export class BalanceComponent extends AbstractExpenseComponent {
     private balanceApiService = inject(BalanceUpdateApiService);
-    private dialogRef = inject<NbDialogRef<ExpenseDialogComponent>>(NbDialogRef);
+    private dialogRef = inject<NbDialogRef<ExpenseDialogResult>>(NbDialogRef);
 
     @ViewChild('expenseInput')
     private expenseInput: ExpenseInputComponent;
@@ -38,24 +38,20 @@ export class BalanceComponent extends AbstractExpenseComponent {
     @Input()
     public deletable: boolean = true;
 
-    @Input()
-    public onSubmit: () => void;
-
-    @Input()
-    public onDelete: () => void;
-
     public constructor() {
         super();
 
         this.balanceApiService.onBusyChange.subscribe((isBusy: boolean) => (this.isBusy = isBusy));
     }
 
-    public onDefaultSubmit(): void {
-        this.balanceApiService.save(this.expense).subscribe((expense: Expense) => this.dialogRef.close(expense));
+    public onSubmit(): void {
+        this.balanceApiService
+            .save(this.expense)
+            .subscribe((expense: Expense) => this.dialogRef.close({ expense }));
     }
 
-    public onDefaultDelete(): void {
-        this.balanceApiService.delete(this.expense.id).subscribe(() => this.dialogRef.close(true));
+    public onDelete(): void {
+        this.balanceApiService.delete(this.expense.id).subscribe(() => this.dialogRef.close({ deleted: true }));
     }
 
     // noinspection JSUnusedGlobalSymbols

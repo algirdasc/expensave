@@ -4,7 +4,7 @@ import { instanceToPlain, plainToInstance } from 'class-transformer';
 import { ExpenseApiService } from '../../../../../../api/expense.api.service';
 import { Calendar } from '../../../../../../api/objects/calendar';
 import { Expense } from '../../../../../../api/objects/expense';
-import { ExpenseDialogComponent } from '../../expense-dialog.component';
+import { ExpenseDialogResult } from '../../expense-dialog-result';
 import { AbstractExpenseComponent } from '../abstract-expense.component';
 import { ExpenseInputComponent } from '../expense-input.component';
 import { FormsModule } from '@angular/forms';
@@ -34,7 +34,7 @@ import { FooterComponent } from '../fields/footer.component';
 })
 export class TransferComponent extends AbstractExpenseComponent {
     private expenseApiService = inject(ExpenseApiService);
-    private dialogRef = inject<NbDialogRef<ExpenseDialogComponent>>(NbDialogRef);
+    private dialogRef = inject<NbDialogRef<ExpenseDialogResult>>(NbDialogRef);
 
     public destinationCalendar: Calendar;
 
@@ -55,7 +55,7 @@ export class TransferComponent extends AbstractExpenseComponent {
 
         this.expenseApiService.save(this.expense).subscribe(() => {
             this.expenseApiService.save(transferExpense).subscribe(() => {
-                this.dialogRef.close(true);
+                this.dialogRef.close({});
             });
         });
     }

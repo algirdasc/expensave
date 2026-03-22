@@ -6,6 +6,7 @@ import { Expense } from '../../../../api/objects/expense';
 import { APP_CONFIG } from '../../../../app.initializer';
 import { ConfirmDialogComponent } from '../confirm-dialog/confirm-dialog.component';
 import { ExpenseDialogComponent } from '../expense-dialog/expense-dialog.component';
+import { ExpenseDialogResult } from '../expense-dialog/expense-dialog-result';
 import { ShortNumberPipe } from '../../../../pipes/shortnumber.pipe';
 
 export const DIALOG_ACTION_IMPORT = 'import';
@@ -47,29 +48,32 @@ export class StatementReviewDialogComponent implements OnInit {
                 showTransferTab: false,
                 showBalanceTab: false,
                 deletable: true,
-                onExpenseDelete: () => {
-                    this.removeExpenseFromList(expense);
-
-                    expenseDialog.close();
-
-                    // Close review if no expenses to import is left
-                    if (!this.expenses.length) {
-                        this.dialogRef.close({
-                            action: DIALOG_ACTION_CLOSE,
-                            calendarRefreshNeeded: this.calendarRefreshNeeded,
-                        });
-                    }
-                },
             },
         });
 
-        expenseDialog.onClose.subscribe((savedExpense: Expense) => {
-            if (!savedExpense) {
+        expenseDialog.onClose.subscribe((result: ExpenseDialogResult) => {
+            if (!result) {
                 return;
             }
 
-            this.removeExpenseFromList(expense);
-            this.calendarRefreshNeeded = true;
+            if (result.deleted) {
+                this.removeExpenseFromList(expense);
+
+                // Close review if no expenses left to import
+                if (!this.expenses.length) {
+                    this.dialogRef.close({
+                        action: DIALOG_ACTION_CLOSE,
+                        calendarRefreshNeeded: this.calendarRefreshNeeded,
+                    });
+                }
+
+                return;
+            }
+
+            if (result.expense) {
+                this.removeExpenseFromList(expense);
+                this.calendarRefreshNeeded = true;
+            }
         });
     }
 

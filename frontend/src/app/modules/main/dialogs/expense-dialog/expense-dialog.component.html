@@ -6,9 +6,7 @@
                     <app-expense
                         [expense]="expense"
                         *nbTabContent
-                        #tabExpense
-                        [onSubmit]="onExpenseSubmit"
-                        [onDelete]="onExpenseDelete"></app-expense>
+                        #tabExpense></app-expense>
                 </nb-tab>
             }
             @if (showTransferTab) {
@@ -21,9 +19,7 @@
                     <app-balance
                         [expense]="balance"
                         *nbTabContent
-                        #tabBalance
-                        [onSubmit]="onBalanceSubmit"
-                        [onDelete]="onBalanceDelete"></app-balance>
+                        #tabBalance></app-balance>
                 </nb-tab>
             }
         </nb-tabset>
