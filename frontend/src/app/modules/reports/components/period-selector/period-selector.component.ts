@@ -1,11 +1,11 @@
 import { getLocaleFirstDayOfWeek, WeekDay } from '@angular/common';
-import { AfterViewInit, Component, ElementRef, EventEmitter, Input, Output, ViewChild, inject } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, EventEmitter, inject, Input, Output, ViewChild } from '@angular/core';
 import {
+    NbButtonGroupModule,
     NbCalendarRange,
+    NbDatepickerModule,
     NbDateService,
     NbRangepickerComponent,
-    NbButtonGroupModule,
-    NbDatepickerModule,
 } from '@nebular/theme';
 import { APP_CONFIG } from '../../../../app.initializer';
 import { DateUtil } from '../../../../util/date.util';
@@ -26,39 +26,38 @@ export enum PeriodEnum {
     imports: [NbButtonGroupModule, NbDatepickerModule],
 })
 export class PeriodSelectorComponent implements AfterViewInit {
-    private readonly dateService = inject<NbDateService<Date>>(NbDateService);
-
-    public dateRange: NbCalendarRange<Date>;
-    public firstDayOfWeek: WeekDay;
-    public periods: typeof PeriodEnum = PeriodEnum;
-
     @Input({ required: true })
-    public period: PeriodEnum;
+    period: PeriodEnum;
 
     @Output()
-    public dateRangeChange: EventEmitter<NbCalendarRange<Date>> = new EventEmitter<NbCalendarRange<Date>>();
+    dateRangeChange: EventEmitter<NbCalendarRange<Date>> = new EventEmitter<NbCalendarRange<Date>>();
 
     @ViewChild('rangePicker')
-    private rangePicker: NbRangepickerComponent<Date>;
+    rangePicker: NbRangepickerComponent<Date>;
 
     @ViewChild('customDateRange')
-    private customDateRangeButton: ElementRef;
+    customDateRangeButton: ElementRef;
 
-    public constructor() {
+    dateRange: NbCalendarRange<Date>;
+    firstDayOfWeek: WeekDay;
+    periods: typeof PeriodEnum = PeriodEnum;
+    dateService = inject<NbDateService<Date>>(NbDateService);
+
+    constructor() {
         this.firstDayOfWeek = getLocaleFirstDayOfWeek(APP_CONFIG.locale);
     }
 
-    public ngAfterViewInit(): void {
+    ngAfterViewInit(): void {
         this.rangePicker.attach(this.customDateRangeButton);
     }
 
-    public onRangeChange(event: NbCalendarRange<Date>): void {
+    onRangeChange(event: NbCalendarRange<Date>): void {
         if (event.end !== undefined) {
             this.dateRangeChange.emit(this.dateRange);
         }
     }
 
-    public onPeriodChange(event: PeriodEnum[]): void {
+    onPeriodChange(event: PeriodEnum[]): void {
         const period: PeriodEnum = event.pop();
         const currentDate = new Date();
         const lastMonth = this.dateService.addMonth(currentDate, -1);

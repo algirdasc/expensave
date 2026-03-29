@@ -1,9 +1,8 @@
 import { FormatWidth, getLocaleDateFormat } from '@angular/common';
-import { Component, OnChanges, inject } from '@angular/core';
-import { NbDateService, NbCardModule, NbSpinnerModule } from '@nebular/theme';
+import { Component, inject } from '@angular/core';
+import { NbCardModule, NbDateService, NbSpinnerModule } from '@nebular/theme';
 import { ChartConfiguration, ScriptableLineSegmentContext } from 'chart.js';
 import { ExpenseBalance } from '../../../../api/objects/expense-balance';
-import { ReportsApiService } from '../../../../api/reports.api.service';
 import { ExpenseReportResponse } from '../../../../api/response/expense-report.response';
 import { APP_CONFIG } from '../../../../app.initializer';
 import { ShortNumberPipe } from '../../../../pipes/shortnumber.pipe';
@@ -25,15 +24,12 @@ import { BaseChartDirective } from 'ng2-charts';
         ShortNumberPipe,
     ],
 })
-export class DailyExpensesComponent extends AbstractReportComponent implements OnChanges {
-    private readonly dateService = inject<NbDateService<Date>>(NbDateService);
-    protected readonly reportsApiService = inject(ReportsApiService);
-
-    public income: number = 0;
-    public expense: number = 0;
-    public change: number = 0;
-
-    public lineChartOptions: ChartConfiguration<'line', ExpenseBalance>['options'] = {
+export class DailyExpensesComponent extends AbstractReportComponent {
+    dateService = inject<NbDateService<Date>>(NbDateService);
+    income: number = 0;
+    expense: number = 0;
+    change: number = 0;
+    lineChartOptions: ChartConfiguration<'line', ExpenseBalance>['options'] = {
         responsive: true,
         parsing: {
             yAxisKey: 'balance',
@@ -69,22 +65,20 @@ export class DailyExpensesComponent extends AbstractReportComponent implements O
             },
         },
     };
-
-    public lineChartData: ChartConfiguration<'line', ExpenseBalance[]>['data'] = {
+    lineChartData: ChartConfiguration<'line', ExpenseBalance[]>['data'] = {
         datasets: [],
     };
+    PeriodEnum = PeriodEnum;
+    reportsApiMethod: string = 'dailyExpenses';
 
-    protected PeriodEnum = PeriodEnum;
-    protected reportsApiMethod: string = 'dailyExpenses';
-
-    protected cleanUp(): void {
+    cleanUp(): void {
         this.income = this.change = this.expense = 0;
         this.lineChartData = {
             datasets: [],
         };
     }
 
-    protected parseReport(response: ExpenseReportResponse): void {
+    parseReport(response: ExpenseReportResponse): void {
         this.income = response.meta.income;
         this.change = response.meta.change;
         this.expense = Math.abs(response.meta.expense);

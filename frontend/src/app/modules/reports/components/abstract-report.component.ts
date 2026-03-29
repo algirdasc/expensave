@@ -1,69 +1,49 @@
-import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, effect, inject, signal, WritableSignal } from '@angular/core';
 import { NbCalendarRange } from '@nebular/theme';
-import { Subscription } from 'rxjs';
-import { finalize } from 'rxjs/operators';
-import { Calendar } from '../../../api/objects/calendar';
+import { lastValueFrom } from 'rxjs';
 import { ReportsApiService } from '../../../api/reports.api.service';
+import { ReportsStore } from '../reports.store';
+import { injectQuery } from '@tanstack/angular-query-experimental';
 
 @Component({
     template: '',
 })
-export abstract class AbstractReportComponent implements OnChanges {
-    @Input({ required: true })
-    public calendars: Calendar[];
+export abstract class AbstractReportComponent {
+    reportsApiService: ReportsApiService = inject(ReportsApiService);
+    reportsStore: ReportsStore = inject(ReportsStore);
+    reportPeriod: WritableSignal<NbCalendarRange<Date>> = signal<NbCalendarRange<Date>>(null);
+    reportQuery = injectQuery(() => {
+        const calendars = this.reportsStore.calendars();
+        const dateFrom = this.reportPeriod()?.start ?? null;
+        const dateTo = this.reportPeriod()?.end ?? null;
+        const calendarIds = calendars.map(calendar => calendar.id);
 
-    public isBusy: boolean = false;
-    public dateRange: NbCalendarRange<Date>;
+        return {
+            // eslint-disable-next-line @tanstack/query/exhaustive-deps
+            queryKey: ['report', this.reportsApiMethod, calendarIds, dateFrom, dateTo],
+            queryFn: () => lastValueFrom(this.reportsApiService[this.reportsApiMethod](calendars, dateFrom, dateTo)),
+            enabled: calendars.length > 0 && !!dateFrom && !!dateTo,
+        };
+    });
+    abstract reportsApiMethod: string;
 
-    protected fetchSubscription: Subscription;
-    protected abstract reportsApiMethod: string;
-    protected abstract reportsApiService: ReportsApiService;
-
-    public ngOnChanges(changes: SimpleChanges): void {
-        if (changes?.calendars && !changes?.calendars.isFirstChange()) {
-            this.fetchReport();
-        }
+    constructor() {
+        effect(() => {
+            const data = this.reportQuery.data();
+            if (data) {
+                this.parseReport(data);
+            } else {
+                this.cleanUp();
+            }
+        });
     }
 
-    public onDateRangeChange(event: NbCalendarRange<Date>): void {
-        this.dateRange = event;
-        this.fetchReport();
+    onDateRangeChange(event: NbCalendarRange<Date>): void {
+        this.reportPeriod.set(event);
     }
 
-    protected preparedToFetch(): boolean {
-        if (!this.calendars.length) {
-            this.cleanUp();
-
-            return false;
-        }
-
-        this.isBusy = true;
-
-        if (this.fetchSubscription) {
-            this.fetchSubscription.unsubscribe();
-            this.fetchSubscription = undefined;
-        }
-
-        return true;
-    }
-
-    protected fetchReport(): void {
-        if (!this.preparedToFetch()) {
-            return;
-        }
-
-        this.fetchSubscription = this.reportsApiService[this.reportsApiMethod](
-            this.calendars,
-            this.dateRange.start,
-            this.dateRange.end
-        )
-            .pipe(finalize(() => (this.isBusy = false)))
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            .subscribe((response: any) => this.parseReport(response));
-    }
-
-    protected abstract cleanUp(): void;
+    abstract cleanUp(): void;
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    protected abstract parseReport(response: any): void;
+    abstract parseReport(response: any): void;
 }

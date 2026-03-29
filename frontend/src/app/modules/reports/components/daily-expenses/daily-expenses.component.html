@@ -1,4 +1,4 @@
-<nb-card class="mb-0" [nbSpinner]="isBusy">
+<nb-card class="mb-0" [nbSpinner]="reportQuery.isFetching()">
     <nb-card-header class="d-md-flex align-content-center justify-content-between">
         <span style="line-height: 32px" class="d-block mb-3 mb-md-0">Cash flow</span>
         <app-reports-period-selector
@@ -7,7 +7,7 @@
     </nb-card-header>
     <nb-card-body class="overflow-hidden">
         <div class="mb-3">
-            <app-date-range [dateRange]="dateRange" />
+            <app-date-range [dateRange]="reportPeriod()" />
         </div>
         <div class="d-flex justify-content-center">
             <div class="text-center">
