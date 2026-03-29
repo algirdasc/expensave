@@ -1,53 +1,32 @@
-# CLAUDE.md — Expensave project context
+# CLAUDE.md — Expensave
 
-Last updated: 2026-03-01
+Start here, then read `ai/BOOTSTRAP.md` for the full onboarding guide.
 
-## Repo
-- GitHub: https://github.com/algirdasc/expensave
+## Quick orientation
 
-## Stack (observed)
-### Frontend
-- Angular (standalone components are used via `imports: [...]` on components)
-- UI: Nebular (`@nebular/theme`, `@nebular/auth`, `@nebular/eva-icons`)
-- TanStack Query: `@tanstack/angular-query-experimental`
-  - Provided globally in `frontend/src/main.ts` via `provideTanStackQuery(queryClient, withDevtools())`
-  - `QueryClient` configured with `MutationCache.onSuccess` that invalidates queries by `mutationKey`
-- Routing: Angular router with route `resolve` using `QueryClient.ensureQueryData(...)` (see `frontend/src/app/app.routes.ts`)
+- **Project:** Expensave — personal/family expense tracking web app
+- **Backend:** PHP 8.3 + Symfony 7.1 in `backend/`
+- **Frontend:** Angular v20 + Nebular UI in `frontend/`
+- **Database:** MariaDB 11 via Doctrine ORM
+- **Auth:** JWT (LexikJWT + refresh tokens)
 
-### Backend
-- Present under `/backend` (not analyzed deeply in this pass)
+## Where to look for knowledge
 
-## TanStack Query conventions in this repo
-- Query definitions are wrapped in injectable "Queries" services using `queryOptions` / `mutationOptions`.
-  - Examples: `frontend/src/app/queries/user.queries.ts`, `calendar.queries.ts`, `category.queries.ts`
-- Routes preload initial data using resolvers that call:
-  - `queryClient.ensureQueryData(queries.someQuery())`
+Every time you need to understand the project — architecture, patterns, conventions, testing — read the skills in `ai/skills/`:
 
-## Main calendar page
-- `MainComponent` (`frontend/src/app/modules/main/main.component.ts`)
-  - Reads `user`, `calendars`, `systemCategories` from route resolver data and stores them in `MainService`
-  - Renders `<app-header>` inside `nb-layout-header`
-  - Passes into header:
-    - `[calendar]="mainService.calendar"`
-    - `[visibleDateBalance]="mainService.visibleDateBalance"`
-    - `[visibleDate]="mainService.visibleDate"`
+| Topic                         | File                                     |
+|-------------------------------|------------------------------------------|
+| Project purpose & stack       | `ai/skills/project-overview.md`          |
+| Backend (Symfony) patterns    | `ai/skills/backend-architecture.md`      |
+| Frontend (Angular) patterns   | `ai/skills/frontend-architecture.md`     |
+| Data model / entities         | `ai/skills/data-model.md`                |
+| Code style & naming           | `ai/skills/code-style.md`                |
+| Testing                       | `ai/skills/testing.md`                   |
+| Docker / local setup / CI     | `ai/skills/deployment.md`                |
+| TanStack Query usage          | `ai/skills/tanstack-query.md`            |
 
-## Header component (current)
-- Path: `frontend/src/app/modules/main/header/`
-- Inputs:
-  - `calendar: Calendar`
-  - `visibleDateBalance: number`
-  - `visibleDate: Date`
-- Responsibilities currently bundled:
-  - Sidebar toggle (Nebular sidebar)
-  - Statement import badge state (depends on `StatementImportService.expenses.length`)
-  - Calendar info block (calendar name, balances, popover for month report)
-  - Date navigation (prev/next/today) and view mode popover (date/year/month)
+Full onboarding: `ai/BOOTSTRAP.md`
 
-## Likely refactor goal (agreed direction)
-- Split heavy header into smaller presentational + controller components.
-- Use TanStack Query for header-relevant data where it makes sense (e.g., calendar details/balance, user profile, etc.), avoiding passing large objects deep when possible.
+## When you change something
 
-## Notes / gotchas
-- Since `@tanstack/angular-query-experimental` is used, we should implement query usage via the Angular adapter APIs (not React-style hooks).
-- The existing router resolvers already ensure query data; components should prefer `queryClient.getQueryData(...)` or query observers rather than refetching.
+Update the relevant skill file(s) in `ai/skills/` to reflect any new patterns, decisions, or facts you've introduced. Keep `ai/` accurate and current.
