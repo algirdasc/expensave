@@ -1,6 +1,5 @@
-import { Component, OnChanges, inject } from '@angular/core';
+import { Component } from '@angular/core';
 import { ChartConfiguration } from 'chart.js';
-import { ReportsApiService } from '../../../../api/reports.api.service';
 import { CategoryExpenseReportResponse } from '../../../../api/response/category-expense-report.response';
 import { ShortNumberPipe } from '../../../../pipes/shortnumber.pipe';
 import { UNCATEGORIZED_COLOR } from '../../../../util/color.util';
@@ -24,10 +23,8 @@ import { BaseChartDirective } from 'ng2-charts';
         ShortNumberPipe,
     ],
 })
-export class CategoryExpensesComponent extends AbstractReportComponent implements OnChanges {
-    protected readonly reportsApiService = inject(ReportsApiService);
-
-    public barChartOptions: ChartConfiguration['options'] = {
+export class CategoryExpensesComponent extends AbstractReportComponent {
+    barChartOptions: ChartConfiguration['options'] = {
         responsive: true,
         maintainAspectRatio: false,
         indexAxis: 'y',
@@ -61,21 +58,21 @@ export class CategoryExpensesComponent extends AbstractReportComponent implement
         },
     };
 
-    public barChartData: ChartConfiguration['data'] = {
+    barChartData: ChartConfiguration['data'] = {
         datasets: [],
     };
 
-    protected categoryCount: number = 0;
-    protected PeriodEnum = PeriodEnum;
-    protected reportsApiMethod: string = 'categoryExpenses';
+    categoryCount: number = 0;
+    PeriodEnum = PeriodEnum;
+    reportsApiMethod: string = 'categoryExpenses';
 
-    protected cleanUp(): void {
+    cleanUp(): void {
         this.barChartData = {
             datasets: [],
         };
     }
 
-    protected parseReport(response: CategoryExpenseReportResponse): void {
+    parseReport(response: CategoryExpenseReportResponse): void {
         const backgroundColors: string[] = [];
         const expenseLabels: string[] = [];
         const absoluteExpenseValues: number[] = [];

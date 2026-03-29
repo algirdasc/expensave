@@ -1,16 +1,15 @@
 import { FormStyle, getLocaleMonthNames, TranslationWidth } from '@angular/common';
-import { Component, OnChanges, OnInit, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import {
-    NbCalendarRange,
-    NbDateService,
-    NbCardModule,
-    NbSpinnerModule,
     NbButtonGroupModule,
     NbButtonModule,
+    NbCalendarRange,
+    NbCardModule,
+    NbDateService,
     NbIconModule,
+    NbSpinnerModule,
 } from '@nebular/theme';
 import { ChartConfiguration } from 'chart.js';
-import { ReportsApiService } from '../../../../api/reports.api.service';
 import { ExpenseReportResponse } from '../../../../api/response/expense-report.response';
 import { APP_CONFIG } from '../../../../app.initializer';
 import { ShortNumberPipe } from '../../../../pipes/shortnumber.pipe';
@@ -32,15 +31,12 @@ import { BaseChartDirective } from 'ng2-charts';
         ShortNumberPipe,
     ],
 })
-export class MonthlyExpensesComponent extends AbstractReportComponent implements OnInit, OnChanges {
-    protected readonly reportsApiService = inject(ReportsApiService);
-    private readonly dateService = inject<NbDateService<Date>>(NbDateService);
-
-    public income: number = 0;
-    public expense: number = 0;
-    public change: number = 0;
-
-    public barChartOptions: ChartConfiguration['options'] = {
+export class MonthlyExpensesComponent extends AbstractReportComponent implements OnInit {
+    readonly dateService = inject<NbDateService<Date>>(NbDateService);
+    income: number = 0;
+    expense: number = 0;
+    change: number = 0;
+    barChartOptions: ChartConfiguration['options'] = {
         responsive: true,
         scales: {
             y: {
@@ -67,46 +63,42 @@ export class MonthlyExpensesComponent extends AbstractReportComponent implements
             },
         },
     };
-
-    public barChartData: ChartConfiguration['data'] = {
+    barChartData: ChartConfiguration['data'] = {
         datasets: [],
     };
+    reportsApiMethod: string = 'monthlyExpenses';
 
-    protected reportsApiMethod: string = 'monthlyExpenses';
-
-    public ngOnInit(): void {
+    ngOnInit(): void {
         this.navigateToday();
     }
 
-    public navigatePrev(): void {
-        this.navigateTo(this.dateService.addYear(this.dateRange.start, -1));
+    navigatePrev(): void {
+        this.navigateTo(this.dateService.addYear(this.reportPeriod()?.start, -1));
     }
 
-    public navigateToday(): void {
+    navigateToday(): void {
         this.navigateTo(new Date());
     }
 
-    public navigateNext(): void {
-        this.navigateTo(this.dateService.addYear(this.dateRange.start, 1));
+    navigateNext(): void {
+        this.navigateTo(this.dateService.addYear(this.reportPeriod()?.start, 1));
     }
 
-    public navigateTo(date: Date): void {
-        this.dateRange = <NbCalendarRange<Date>>{
+    navigateTo(date: Date): void {
+        this.reportPeriod.set(<NbCalendarRange<Date>>{
             start: this.dateService.getYearStart(date),
             end: DateUtil.endOfTheDay(this.dateService.getYearEnd(date)),
-        };
-
-        this.fetchReport();
+        });
     }
 
-    protected cleanUp(): void {
+    cleanUp(): void {
         this.income = this.change = this.expense = 0;
         this.barChartData = {
             datasets: [],
         };
     }
 
-    protected parseReport(response: ExpenseReportResponse): void {
+    parseReport(response: ExpenseReportResponse): void {
         const xAxisData: string[] = [
             ...getLocaleMonthNames(APP_CONFIG.locale, FormStyle.Format, TranslationWidth.Short),
         ];

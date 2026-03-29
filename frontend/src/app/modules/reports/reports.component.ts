@@ -1,12 +1,14 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { Calendar } from '../../api/objects/calendar';
-import { User } from '../../api/objects/user';
-import { ReportsService } from './reports.service';
 import { NbCardModule, NbCheckboxModule, NbIconModule, NbLayoutModule, NbListModule } from '@nebular/theme';
 import { DailyExpensesComponent } from './components/daily-expenses/daily-expenses.component';
 import { MonthlyExpensesComponent } from './components/monthly-expenses/monthly-expenses.component';
 import { CategoryExpensesComponent } from './components/category-expenses/category-expenses.component';
+import { CalendarQueries } from '../../queries/calendar.queries';
+import { injectQuery } from '@tanstack/angular-query-experimental';
+import { ReportsStore } from './reports.store';
+import { User } from '../../api/objects/user';
 
 @Component({
     templateUrl: 'reports.component.html',
@@ -24,32 +26,32 @@ import { CategoryExpensesComponent } from './components/category-expenses/catego
     ],
 })
 export class ReportsComponent implements OnInit {
-    public readonly reportsService = inject(ReportsService);
-    private readonly activatedRoute = inject(ActivatedRoute);
+    activatedRoute = inject(ActivatedRoute);
+    calendarQueries = inject(CalendarQueries);
+    calendarListQuery = injectQuery(() => this.calendarQueries.list());
+    reportsStore = inject(ReportsStore);
 
-    public selectedCalendars: Calendar[] = [];
-
-    public ngOnInit(): void {
+    ngOnInit(): void {
         this.activatedRoute.data.subscribe(({ user, calendars }: { user: User; calendars: Calendar[] }) => {
-            this.reportsService.user = user;
-            this.reportsService.calendars = calendars;
-
             for (const calendar of calendars) {
                 if (calendar.isDefault(user)) {
-                    this.selectedCalendars.push(calendar);
+                    this.reportsStore.calendars.set([calendar]);
                 }
             }
         });
     }
 
-    public onCheckedChange(calendar: Calendar, event: boolean): void {
-        if (event === true) {
-            this.selectedCalendars.push(calendar);
-        } else {
-            this.selectedCalendars.splice(this.selectedCalendars.indexOf(calendar), 1);
-        }
+    onCheckedChange(calendar: Calendar, event: boolean): void {
+        this.reportsStore.calendars.update(current => {
+            if (event) {
+                return current.some(item => item.id === calendar.id) ? current : [...current, calendar];
+            }
 
-        // Trigger change detection
-        this.selectedCalendars = [].concat(this.selectedCalendars);
+            return current.filter(item => item.id !== calendar.id);
+        });
+    }
+
+    isCalendarSelected(calendar: Calendar): boolean {
+        return this.reportsStore.calendars().some(item => item.id === calendar.id);
     }
 }

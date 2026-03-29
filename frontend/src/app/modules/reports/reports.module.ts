@@ -25,7 +25,6 @@ import { MonthlyExpensesComponent } from './components/monthly-expenses/monthly-
 import { PeriodSelectorComponent } from './components/period-selector/period-selector.component';
 import { ReportsComponent } from './reports.component';
 import { reportsRoutes } from './reports.routes';
-import { ReportsService } from './reports.service';
 
 @NgModule({
     imports: [
@@ -52,6 +51,6 @@ import { ReportsService } from './reports.service';
         MonthlyExpensesComponent,
         CategoryExpensesComponent,
     ],
-    providers: [ReportsService, provideCharts(withDefaultRegisterables())],
+    providers: [provideCharts(withDefaultRegisterables())],
 })
 export class ReportsModule {}
