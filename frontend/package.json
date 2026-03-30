@@ -23,7 +23,7 @@
         "@nebular/eva-icons": "^16.0.0",
         "@nebular/theme": "^16.0.0",
         "@ngneat/content-loader": "^7.0.0",
-        "@tanstack/angular-query-experimental": "^5.90.25",
+        "@tanstack/angular-query-experimental": "^5.95.2",
         "angular-resize-event": "git+https://github.com/algirdasc/angular-resize-event.git#9efd4be7a05ff5134f473601ff575b8d1b43286e",
         "bootstrap": "^5.3.8",
         "chart.js": "^4.5.1",
@@ -38,7 +38,7 @@
         "tslib": "^2.8.1",
         "url": "^0.11.4",
         "util": "^0.12.5",
-        "zone.js": "^0.15.0"
+        "zone.js": "^0.16.1"
     },
     "devDependencies": {
         "@angular-devkit/build-angular": "^20.3.18",
@@ -54,11 +54,11 @@
         "@eslint/eslintrc": "^3.3.5",
         "@eslint/js": "^9.39.4",
         "@schematics/angular": "^19.2.22",
-        "@tanstack/eslint-plugin-query": "^5.91.4",
+        "@tanstack/eslint-plugin-query": "^5.95.2",
         "@types/jasmine": "~6.0.0",
         "@types/jasminewd2": "~2.0.3",
-        "@types/node": "~25.3.5",
-        "@typescript-eslint/eslint-plugin": "^8.56.1",
+        "@types/node": "~25.5.0",
+        "@typescript-eslint/eslint-plugin": "^8.57.2",
         "@typescript-eslint/parser": "^8.32.1",
         "eslint": "^9.39.2",
         "eslint-config-prettier": "^10.1.5",
