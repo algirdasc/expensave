@@ -1,4 +1,4 @@
-import { Injectable, inject } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { NbDialogRef, NbDialogService } from '@nebular/theme';
 import { plainToInstance } from 'class-transformer';
 import { ExpenseApiService } from '../../../api/expense.api.service';
@@ -7,43 +7,47 @@ import { TYPE_BALANCE_UPDATE, TYPE_UNCATEGORIZED } from '../../../api/objects/ca
 import { Expense } from '../../../api/objects/expense';
 import { DateUtil } from '../../../util/date.util';
 import { ExpenseDialogComponent } from '../dialogs/expense-dialog/expense-dialog.component';
-import { MainService } from '../main.service';
+import { MainStore } from '../main.store';
+import { UserQueries } from '../../../queries/user.queries';
+import { injectQuery } from '@tanstack/angular-query-experimental';
 
 @Injectable()
 export class CalendarService {
-    private expenseApiService = inject(ExpenseApiService);
-    private dialogService = inject(NbDialogService);
-    private mainService = inject(MainService);
+    expenseApiService = inject(ExpenseApiService);
+    dialogService = inject(NbDialogService);
+    mainStore = inject(MainStore);
+    userQueries = inject(UserQueries);
+    userQuery = injectQuery(() => this.userQueries.profile());
 
-    public editExpense(expense: Expense): void {
+    editExpense(expense: Expense): void {
         this.expenseApiService.get(expense.id).subscribe((expense: Expense) => {
             this.openExpenseDialog(expense).onClose.subscribe((result: Expense) => {
                 if (result) {
-                    this.mainService.refreshCalendar();
+                    // this.mainService.refreshCalendar();
                 }
             });
         });
     }
 
-    public createExpense(calendar: Calendar, date: Date): void {
+    createExpense(calendar: Calendar, date: Date): void {
         const expense = plainToInstance(Expense, {
             createdAt: DateUtil.setTime(date, new Date()),
             calendar: calendar,
-            user: this.mainService.user,
+            user: this.userQuery.data(),
             confirmed: true,
-            category: this.mainService.getSystemCategory(TYPE_UNCATEGORIZED),
+            category: this.mainStore.getSystemCategory(TYPE_UNCATEGORIZED),
         });
 
         this.openExpenseDialog(expense).onClose.subscribe((result: Expense) => {
             if (result) {
-                this.mainService.refreshCalendar();
+                // this.mainService.refreshCalendar();
             }
         });
     }
 
-    private openExpenseDialog(expense: Expense): NbDialogRef<ExpenseDialogComponent> {
+    openExpenseDialog(expense: Expense): NbDialogRef<ExpenseDialogComponent> {
         const predefinedCategories = {};
-        predefinedCategories[TYPE_BALANCE_UPDATE] = this.mainService.getSystemCategory(TYPE_BALANCE_UPDATE);
+        predefinedCategories[TYPE_BALANCE_UPDATE] = this.mainStore.getSystemCategory(TYPE_BALANCE_UPDATE);
 
         return this.dialogService.open(ExpenseDialogComponent, {
             context: {

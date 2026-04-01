@@ -1,0 +1,8 @@
+@for (row of data; track $index) {
+    <app-calendar-grid-row
+        [row]="row"
+        [expenseData]="expenseData"
+        [component]="cellComponent"
+        [visibleDate]="visibleDate">
+    </app-calendar-grid-row>
+}

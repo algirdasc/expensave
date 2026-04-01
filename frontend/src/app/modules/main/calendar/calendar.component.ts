@@ -1,22 +1,21 @@
 import { getLocaleFirstDayOfWeek } from '@angular/common';
-import { Component, EventEmitter, inject, Input, OnChanges, Output, SimpleChanges, Type } from '@angular/core';
+import { Component, effect, inject, Type } from '@angular/core';
 import {
     NbCalendarCell,
     NbCalendarDayPickerComponent,
     NbCalendarMonthModelService,
     NbCardModule,
 } from '@nebular/theme';
-import { Calendar } from '../../../api/objects/calendar';
-import { Expense } from '../../../api/objects/expense';
-import { ExpenseBalance } from '../../../api/objects/expense-balance';
 import { APP_CONFIG } from '../../../app.initializer';
-import { DateUtil } from '../../../util/date.util';
-import { CalendarGridRowCellDesktopComponent } from './calendar-grid-row-cell-desktop/calendar-grid-row-cell-desktop.component';
-import { CalendarGridRowCellMobileComponent } from './calendar-grid-row-cell-mobile/calendar-grid-row-cell-mobile.component';
+import { CalendarGridRowCellDesktopComponent } from '../components/calendar/calendar-grid-row-cell-desktop/calendar-grid-row-cell-desktop.component';
+import { CalendarGridRowCellMobileComponent } from '../components/calendar/calendar-grid-row-cell-mobile/calendar-grid-row-cell-mobile.component';
 import { CalendarMonthModelService } from './calendar-month-model.service';
-import { CalendarDayNamesComponent } from './calendar-day-names/calendar-day-names.component';
-import { CalendarGridComponent } from './calendar-grid/calendar-grid.component';
-import { CalendarExpenseListMobileComponent } from './calendar-expense-list-mobile/calendar-expense-list-mobile.component';
+import { CalendarDayNamesComponent } from '../components/calendar/calendar-day-names/calendar-day-names.component';
+import { CalendarGridComponent } from '../components/calendar/calendar-grid/calendar-grid.component';
+import { CalendarExpenseListMobileComponent } from '../components/calendar/calendar-expense-list-mobile/calendar-expense-list-mobile.component';
+import { MainStore } from '../main.store';
+import { CalendarQueries } from '../../../queries/calendar.queries';
+import { injectQuery } from '@tanstack/angular-query-experimental';
 
 @Component({
     styleUrls: ['calendar.component.scss'],
@@ -24,57 +23,42 @@ import { CalendarExpenseListMobileComponent } from './calendar-expense-list-mobi
     selector: 'app-calendar',
     imports: [NbCardModule, CalendarDayNamesComponent, CalendarGridComponent, CalendarExpenseListMobileComponent],
 })
-export class CalendarComponent extends NbCalendarDayPickerComponent<Date, Date> implements OnChanges {
-    private readonly unusedMonthModelService: NbCalendarMonthModelService<Date>;
-    private readonly monthModelService = inject<CalendarMonthModelService<Date>>(CalendarMonthModelService);
+export class CalendarComponent extends NbCalendarDayPickerComponent<Date, Date> {
+    mainStore = inject(MainStore);
+    unusedMonthModelService: NbCalendarMonthModelService<Date>;
+    monthModelService = inject<CalendarMonthModelService<Date>>(CalendarMonthModelService);
+    cellComponent: Type<NbCalendarCell<Date, Date>> = CalendarGridRowCellDesktopComponent;
+    calendarQueries = inject(CalendarQueries);
+    calendarExpenseQuery = injectQuery(() =>
+        this.calendarQueries.listExpenses(
+            this.mainStore.selectedCalendar(),
+            this.mainStore.selectedPeriod().from,
+            this.mainStore.selectedPeriod().to
+        )
+    );
 
-    @Input() public isMobile: boolean;
-    @Input({ required: true }) public expenses: Expense[];
-    @Input({ required: true }) public expenseBalances: ExpenseBalance[];
-    @Input({ required: true }) public calendar: Calendar;
-    @Input({ required: true }) public selectedDate: Date;
-    @Output() public calendarChange: EventEmitter<Calendar> = new EventEmitter<Calendar>();
-    @Output() public rangeChange: EventEmitter<{ dateFrom: Date; dateTo: Date }> = new EventEmitter<{
-        dateFrom: Date;
-        dateTo: Date;
-    }>();
-    public cellComponent: Type<NbCalendarCell<Date, Date>> = CalendarGridRowCellDesktopComponent;
-
-    public constructor() {
+    constructor() {
         const unusedMonthModelService = inject<NbCalendarMonthModelService<Date>>(NbCalendarMonthModelService);
-
         super(unusedMonthModelService);
-
         this.unusedMonthModelService = unusedMonthModelService;
-    }
 
-    public onSelect(day: Date): void {
-        super.onSelect(day);
-        this.selectedDate = day;
-    }
+        effect(() => {
+            this.visibleDate = this.mainStore.selectedMonth();
 
-    public ngOnChanges(changes: SimpleChanges): void {
-        if (changes?.visibleDate || changes?.boundingMonths) {
+            this.cellComponent = this.mainStore.isMobile()
+                ? CalendarGridRowCellMobileComponent
+                : CalendarGridRowCellDesktopComponent;
+
             this.weeks = this.monthModelService.createDaysGrid(
                 this.visibleDate,
                 this.boundingMonths,
                 getLocaleFirstDayOfWeek(APP_CONFIG.locale)
             );
 
-            const dateFrom = this.weeks[0][0];
-            const dateTo = DateUtil.endOfTheDay(this.weeks[this.weeks.length - 1][6]);
-
-            this.rangeChange.emit({ dateFrom: dateFrom, dateTo: dateTo });
-        }
-
-        if (changes?.isMobile) {
-            this.cellComponent = this.isMobile
-                ? CalendarGridRowCellMobileComponent
-                : CalendarGridRowCellDesktopComponent;
-        }
-
-        if (changes?.calendar) {
-            // this.calendarChange.emit(changes?.calendar.currentValue);
-        }
+            this.mainStore.selectedPeriod.set({
+                from: this.weeks[0][0],
+                to: this.weeks[this.weeks.length - 1][6],
+            });
+        });
     }
 }

@@ -1,27 +1,16 @@
 <nb-card class="mb-0 h-100 border-0">
     <nb-card-body class="d-flex flex-column p-0">
         <app-calendar-day-names class="p-2"></app-calendar-day-names>
-
-        <app-calendar-grid
-            class="p-2"
-            [data]="weeks"
-            [selectedValue]="selectedDate"
-            [visibleDate]="visibleDate"
-            [cellComponent]="cellComponent"
-            [calendar]="calendar"
-            [expenses]="expenses"
-            [expenseBalances]="expenseBalances"
-            (select)="onSelect($event)">
+        <app-calendar-grid class="p-2"
+           [data]="weeks"
+           [visibleDate]="visibleDate"
+           [cellComponent]="cellComponent"
+           [expenseData]="calendarExpenseQuery.data()"
+           (select)="onSelect($event)">
         </app-calendar-grid>
 
-        @if (isMobile) {
-            <app-calendar-expense-list-mobile
-                class="flex-grow-1 p-3"
-                [selectedValue]="selectedDate"
-                [expenses]="expenses"
-                [expenseBalances]="expenseBalances"
-                [calendar]="calendar">
-            </app-calendar-expense-list-mobile>
+        @if (mainStore.isMobile()) {
+            <app-calendar-expense-list-mobile class="flex-grow-1 p-3"></app-calendar-expense-list-mobile>
         }
     </nb-card-body>
 </nb-card>

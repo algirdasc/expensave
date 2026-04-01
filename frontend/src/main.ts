@@ -49,6 +49,8 @@ import { withDevtools } from '@tanstack/angular-query-experimental/devtools';
 import { CategoryQueries } from './app/queries/category.queries';
 import { CalendarQueries } from './app/queries/calendar.queries';
 import { UserQueries } from './app/queries/user.queries';
+import { ExpenseQueries } from './app/queries/expense.queries';
+import { ReportQueries } from './app/queries/report.queries';
 
 const apiServices = [
     CalendarApiService,
@@ -60,7 +62,7 @@ const apiServices = [
     StatementImportApiService,
 ];
 
-const queryServices = [UserQueries, CalendarQueries, CategoryQueries];
+const queryServices = [UserQueries, CalendarQueries, CategoryQueries, ExpenseQueries, ReportQueries];
 
 const queryClient = new QueryClient({
     mutationCache: new MutationCache({

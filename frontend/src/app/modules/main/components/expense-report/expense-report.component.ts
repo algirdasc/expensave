@@ -1,14 +1,14 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, effect, inject, OnInit } from '@angular/core';
 import { NbCardModule, NbDateService, NbIconModule, NbListModule, NbSpinnerModule } from '@nebular/theme';
-import { finalize } from 'rxjs/operators';
 import { slideAnimation } from '../../../../animations/slide.animation';
 import { CategoryBalance } from '../../../../api/objects/category-balance';
-import { ReportsApiService } from '../../../../api/reports.api.service';
-import { CategoryExpenseReportResponse } from '../../../../api/response/category-expense-report.response';
 import { DateUtil } from '../../../../util/date.util';
-import { MainService } from '../../main.service';
 import { DatePipe } from '@angular/common';
 import { ShortNumberPipe } from '../../../../pipes/shortnumber.pipe';
+import { ReportQueries } from '../../../../queries/report.queries';
+import { injectQuery } from '@tanstack/angular-query-experimental';
+import { MainStore } from '../../main.store';
+import { Calendar } from '../../../../api/objects/calendar';
 
 @Component({
     selector: 'app-expense-report',
@@ -18,50 +18,47 @@ import { ShortNumberPipe } from '../../../../pipes/shortnumber.pipe';
     imports: [NbCardModule, NbIconModule, NbSpinnerModule, NbListModule, DatePipe, ShortNumberPipe],
 })
 export class ExpenseReportComponent implements OnInit {
-    private dateService = inject<NbDateService<Date>>(NbDateService);
-    private reportsApiService = inject(ReportsApiService);
-    private mainService = inject(MainService);
+    dateService = inject<NbDateService<Date>>(NbDateService);
+    mainStore = inject(MainStore);
+    reportsQueries = inject(ReportQueries);
+    categoryExpenseQuery = injectQuery(() =>
+        this.reportsQueries.categoryExpenses([this.selectedCalendar], this.dateFrom, this.dateTo)
+    );
 
-    public isBusy: boolean = true;
-    public categoryBalances: CategoryBalance[] = [];
-    public income: number = 0;
-    public expense: number = 0;
-    public change: number = 0;
-    public dateFrom: Date;
-    public dateTo: Date;
+    dateFrom: Date;
+    dateTo: Date;
+    selectedCalendar: Calendar;
+    categoryBalances: CategoryBalance[] = [];
+    income: number = 0;
+    expense: number = 0;
+    change: number = 0;
 
-    public ngOnInit(): void {
-        const currentDate = this.mainService.visibleDate;
+    constructor() {
+        effect(() => {
+            const selectedMonth = this.mainStore.selectedMonth();
+            this.dateFrom = DateUtil.firstDayOfMonth(selectedMonth);
+            this.dateTo = DateUtil.lastDayOfMonth(selectedMonth);
 
-        this.dateFrom = this.dateService.createDate(currentDate.getFullYear(), currentDate.getMonth(), 1);
-        this.dateTo = DateUtil.endOfTheDay(
-            this.dateService.createDate(currentDate.getFullYear(), currentDate.getMonth() + 1, 0)
-        );
-
-        this.reportsApiService
-            .categoryExpenses([this.mainService.calendar], this.dateFrom, this.dateTo)
-            .pipe(finalize(() => (this.isBusy = false)))
-            .subscribe((response: CategoryExpenseReportResponse) => {
-                const balances = response.categoryBalances.filter(
-                    (categoryBalance: CategoryBalance) => categoryBalance.change !== 0
-                );
-                balances.sort((a: CategoryBalance, b: CategoryBalance) => {
-                    if (a.change > 0 && b.change < 0) {
-                        return -1;
-                    }
-
-                    return Math.abs(b.change) - Math.abs(a.change);
-                });
-
-                this.categoryBalances = balances;
-                this.income = response.meta.income;
-                this.expense = response.meta.expense;
-                this.change = response.meta.change;
-            });
+            this.selectedCalendar = this.mainStore.selectedCalendar();
+        });
     }
 
-    public createRange(number: number): number[] {
-        // return new Array(number);
-        return new Array(number).fill(0).map((n, index) => index + 1);
+    public ngOnInit(): void {
+        const response = this.categoryExpenseQuery.data();
+        const balances = response.categoryBalances.filter(
+            (categoryBalance: CategoryBalance) => categoryBalance.change !== 0
+        );
+        balances.sort((a: CategoryBalance, b: CategoryBalance) => {
+            if (a.change > 0 && b.change < 0) {
+                return -1;
+            }
+
+            return Math.abs(b.change) - Math.abs(a.change);
+        });
+
+        this.categoryBalances = balances;
+        this.income = response.meta.income;
+        this.expense = response.meta.expense;
+        this.change = response.meta.change;
     }
 }

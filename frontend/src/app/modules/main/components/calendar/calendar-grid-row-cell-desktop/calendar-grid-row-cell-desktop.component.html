@@ -1,0 +1,39 @@
+<div class="day-content d-flex flex-column h-100 p-1">
+    <div class="day-header d-flex p-1 text-hint">
+        <div class="day-number d-flex align-items-center text-left me-2">
+            <span>{{ day }}</span>
+            @if (hasUnconfirmedExpenses) {
+                <div class="unconfirmed-expenses ms-2"></div>
+            }
+        </div>
+        <div class="day-expenses flex-fill text-right text-truncate d-none d-sm-block">
+            @if (balance?.change) {
+                <span>{{ balance?.change | shortNumber }} | </span>
+            }
+            {{ balance?.balance ?? 0 | shortNumber }}
+        </div>
+        <button
+            nbButton
+            status="primary"
+            class="create-expense bounceIn"
+            (click)="calendarService.createExpense(calendar, date)">
+            <nb-icon icon="plus-outline"></nb-icon>
+        </button>
+    </div>
+
+    <div class="expense-list d-flex flex-column mt-1 h-100" (resized)="onResized($event)">
+        @for (expense of visibleExpenses; track $index) {
+            <app-calendar-expense-item
+                [class.expense-unconfirmed]="!expense.confirmed"
+                (click)="calendarService.editExpense(expense)"
+                [expense]="expense">
+            </app-calendar-expense-item>
+        }
+
+        @if (!!invisibleExpensesCount) {
+            <a href="#" (click)="$event.preventDefault(); openInvisibleExpenses()" class="other-label px-1">
+                + {{ invisibleExpensesCount | shortNumber: '.0-0' }} other
+            </a>
+        }
+    </div>
+</div>

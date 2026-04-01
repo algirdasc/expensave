@@ -1,27 +1,14 @@
-<nb-layout [nbSpinner]="isApplicationBusy">
+<nb-layout>
     <nb-layout-header fixed>
-        <app-header
-            [calendar]="mainService.calendar"
-            [visibleDateBalance]="mainService.visibleDateBalance"
-            [visibleDate]="mainService.visibleDate">
-        </app-header>
+        <app-header></app-header>
     </nb-layout-header>
 
     <nb-layout-column
         class="p-0 p-sm-3"
-        [nbSpinner]="isCalendarBusy"
-        (resized)="onResized($event)"
         appSwipe
+        (resized)="onResized($event)"
         (swipeEnd)="onSwipeEnd($event)">
-        <app-calendar
-            [calendar]="mainService.calendar"
-            [expenses]="mainService.expenses"
-            [expenseBalances]="mainService.expenseBalances"
-            [visibleDate]="mainService.visibleDate"
-            [selectedDate]="mainService.visibleDate"
-            (rangeChange)="onRangeChange($event)"
-            [isMobile]="isMobile">
-        </app-calendar>
+        <app-calendar></app-calendar>
     </nb-layout-column>
 
     <nb-sidebar
@@ -29,15 +16,6 @@
         state="collapsed"
         appOutsideClick
         (outsideClick)="onSidebarOutsideClick($event)">
-        <div class="d-flex flex-column h-100 p-3">
-            <app-profile [user]="mainService.user"></app-profile>
-            <div class="border-bottom my-3"></div>
-            <app-sidebar-calendar-list
-                [(calendars)]="mainService.calendars"
-                [calendar]="mainService.calendar"
-                (calendarChange)="onCalendarChange($event)">
-            </app-sidebar-calendar-list>
-            <app-sidebar-actions class="mt-auto"></app-sidebar-actions>
-        </div>
+        <app-sidebar></app-sidebar>
     </nb-sidebar>
 </nb-layout>

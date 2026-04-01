@@ -1,31 +1,33 @@
 import { DecimalPipe } from '@angular/common';
-import { Component, Input } from '@angular/core';
-import { NbPopoverModule } from '@nebular/theme';
-import { Calendar } from '../../../../api/objects/calendar';
+import { Component, effect, inject, signal } from '@angular/core';
+import { NbDateService, NbPopoverModule } from '@nebular/theme';
 import { ShortNumberPipe } from '../../../../pipes/shortnumber.pipe';
 import { ExpenseReportComponent } from '../../components/expense-report/expense-report.component';
+import { MainStore } from '../../main.store';
+import { injectQuery } from '@tanstack/angular-query-experimental';
+import { CalendarQueries } from '../../../../queries/calendar.queries';
 
 @Component({
     selector: 'app-header-calendar-info',
     template: `
         <div class="mx-3 calendar-info">
-            <strong class="d-block">{{ calendar?.name }}</strong>
+            <strong class="d-block">{{ mainStore.selectedCalendar()?.name }}</strong>
             <small class="d-block text-hint">
-                <span title="Current balance: {{ calendar?.balance | number: '.2-2' }}">{{
-                    calendar?.balance | shortNumber
+                <span title="Current balance: {{ mainStore.selectedCalendar()?.balance | number: '.2-2' }}">{{
+                    mainStore.selectedCalendar()?.balance | shortNumber
                 }}</span>
-                @if (visibleDateBalance) {
+                @if (calendarBalance()) {
                     <span>
                         •
                         <a
                             href="#"
-                            title="This month balance: {{ visibleDateBalance | number: '.2-2' }}"
+                            title="This month balance: {{ calendarBalance() | number: '.2-2' }}"
                             [nbPopover]="expenseReportComponent"
                             nbPopoverPlacement="bottom"
                             (click)="$event.preventDefault()"
-                            [class.text-success]="visibleDateBalance > 0"
-                            [class.text-danger]="visibleDateBalance < 0">
-                            {{ visibleDateBalance | shortNumber }}
+                            [class.text-success]="calendarBalance() > 0"
+                            [class.text-danger]="calendarBalance() < 0">
+                            {{ calendarBalance() | shortNumber }}
                         </a>
                     </span>
                 }
@@ -35,8 +37,26 @@ import { ExpenseReportComponent } from '../../components/expense-report/expense-
     imports: [NbPopoverModule, ShortNumberPipe, DecimalPipe],
 })
 export class HeaderCalendarInfoComponent {
-    @Input() public calendar: Calendar;
-    @Input() public visibleDateBalance: number;
+    mainStore = inject(MainStore);
+    dateService = inject<NbDateService<Date>>(NbDateService);
+    calendarQueries = inject(CalendarQueries);
+    calendarExpenseQuery = injectQuery(() =>
+        this.calendarQueries.listExpenses(
+            this.mainStore.selectedCalendar(),
+            this.mainStore.selectedPeriod().from,
+            this.mainStore.selectedPeriod().to
+        )
+    );
 
-    protected readonly expenseReportComponent = ExpenseReportComponent;
+    expenseReportComponent = ExpenseReportComponent;
+    calendarBalance = signal(0);
+
+    constructor() {
+        effect(() => {
+            const balances = this.calendarExpenseQuery.data()?.expenseBalances ?? [];
+            const total = balances.reduce((sum, balance) => sum + balance.change, 0);
+
+            this.calendarBalance.set(total);
+        });
+    }
 }

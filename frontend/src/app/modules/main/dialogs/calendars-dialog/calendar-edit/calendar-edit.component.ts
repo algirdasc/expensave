@@ -20,7 +20,6 @@ import { AsyncPipe } from '@angular/common';
 
 @Component({
     templateUrl: 'calendar-edit.component.html',
-    styleUrl: 'calendar-edit.component.scss',
     selector: 'app-calendar-edit',
     imports: [
         FormsModule,
@@ -57,21 +56,21 @@ export class CalendarEditComponent implements OnInit {
     public filteredOptions: Observable<User[]>;
     private availableUsers: User[] = [];
 
-    public ngOnInit(): void {
+    ngOnInit(): void {
         this.userApiService.list().subscribe((users: User[]) => (this.availableUsers = users));
     }
 
-    public onInputChange(): void {
+    onInputChange(): void {
         this.filteredOptions = this.getFilteredOptions(this.userAutoCompleteInput.nativeElement.value);
     }
 
-    public onUserSelect(user: User): void {
+    onUserSelect(user: User): void {
         this.calendar.collaborators.push(user);
         this.userAutoCompleteInput.nativeElement.value = '';
         this.onInputChange();
     }
 
-    public getFilteredOptions(value: string): Observable<User[]> {
+    getFilteredOptions(value: string): Observable<User[]> {
         return of(value).pipe(
             map(filterString => {
                 const filterValue = filterString.toLowerCase();
@@ -85,7 +84,7 @@ export class CalendarEditComponent implements OnInit {
         );
     }
 
-    public removeUser(user: User): void {
+    removeUser(user: User): void {
         this.calendar.collaborators.splice(this.calendar.collaborators.indexOf(user), 1);
     }
 }

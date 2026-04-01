@@ -30,21 +30,20 @@ import { ContentLoaderModule } from '@ngneat/content-loader';
 import { AngularResizeEventModule } from 'angular-resize-event';
 import { OutsideClickDirective } from '../../directives/outside-click.directive';
 import { SwipeDirective } from '../../directives/swipe.directive';
-import { CalendarDayNamesComponent } from './calendar/calendar-day-names/calendar-day-names.component';
-import { CalendarExpenseListMobileItemsComponent } from './calendar/calendar-expense-list-mobile/calendar-expense-list-mobile-items.component';
-import { CalendarExpenseListMobileComponent } from './calendar/calendar-expense-list-mobile/calendar-expense-list-mobile.component';
-import { CalendarGridRowCellDesktopExpenseItemComponent } from './calendar/calendar-grid-row-cell-desktop/calendar-grid-row-cell-desktop-expense-item/calendar-grid-row-cell-desktop-expense-item.component';
-import { CalendarGridRowCellDesktopComponent } from './calendar/calendar-grid-row-cell-desktop/calendar-grid-row-cell-desktop.component';
-import { CalendarGridRowCellMobileComponent } from './calendar/calendar-grid-row-cell-mobile/calendar-grid-row-cell-mobile.component';
-import { CalendarGridRowComponent } from './calendar/calendar-grid-row/calendar-grid-row.component';
-import { CalendarGridComponent } from './calendar/calendar-grid/calendar-grid.component';
+import { CalendarDayNamesComponent } from './components/calendar/calendar-day-names/calendar-day-names.component';
+import { CalendarExpenseListMobileItemsComponent } from './components/calendar/calendar-expense-list-mobile/calendar-expense-list-mobile-items.component';
+import { CalendarExpenseListMobileComponent } from './components/calendar/calendar-expense-list-mobile/calendar-expense-list-mobile.component';
+import { CalendarGridRowCellDesktopExpenseItemComponent } from './components/calendar/calendar-grid-row-cell-desktop/calendar-grid-row-cell-desktop-expense-item/calendar-grid-row-cell-desktop-expense-item.component';
+import { CalendarGridRowCellDesktopComponent } from './components/calendar/calendar-grid-row-cell-desktop/calendar-grid-row-cell-desktop.component';
+import { CalendarGridRowCellMobileComponent } from './components/calendar/calendar-grid-row-cell-mobile/calendar-grid-row-cell-mobile.component';
+import { CalendarGridRowComponent } from './components/calendar/calendar-grid-row/calendar-grid-row.component';
+import { CalendarGridComponent } from './components/calendar/calendar-grid/calendar-grid.component';
 import { CalendarMonthModelService } from './calendar/calendar-month-model.service';
 import { CalendarComponent } from './calendar/calendar.component';
 import { CalendarService } from './calendar/calendar.service';
 import { ExpenseReportComponent } from './components/expense-report/expense-report.component';
-import { ActionsComponent } from './components/sidebar/actions/actions.component';
-import { CalendarSidebarListComponent } from './components/sidebar/calendar-list/calendar-list.component';
-import { ProfileComponent } from './components/sidebar/profile/profile.component';
+import { ActionsComponent } from './sidebar/actions/actions.component';
+import { ProfileComponent } from './sidebar/profile/profile.component';
 import { SuggestionComponent } from './components/suggestion/suggestion.component';
 import { CalendarEditComponent } from './dialogs/calendars-dialog/calendar-edit/calendar-edit.component';
 import { CalendarListComponent } from './dialogs/calendars-dialog/calendar-list/calendar-list.component';
@@ -75,6 +74,7 @@ import { HeaderComponent } from './header/header.component';
 import { MainComponent } from './main.component';
 import { mainRoutes } from './main.routes';
 import { StatementImportService } from './services/statement-import.service';
+import { MainStore } from './main.store';
 
 @NgModule({
     imports: [
@@ -108,7 +108,6 @@ import { StatementImportService } from './services/statement-import.service';
         // UI Components
         MainComponent,
         HeaderComponent,
-        CalendarSidebarListComponent,
         ProfileComponent,
         CalendarComponent,
         SuggestionComponent,
@@ -154,6 +153,6 @@ import { StatementImportService } from './services/statement-import.service';
         SwipeDirective,
         OutsideClickDirective,
     ],
-    providers: [CalendarService, CalendarMonthModelService, StatementImportService],
+    providers: [MainStore, CalendarService, CalendarMonthModelService, StatementImportService],
 })
 export class MainModule {}

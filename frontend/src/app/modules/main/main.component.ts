@@ -1,30 +1,29 @@
-import { Component, NgZone, OnInit, inject } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Component, inject, NgZone, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import {
-    NbDateService,
-    NbMediaBreakpointsService,
-    NbSidebarService,
     NbLayoutModule,
-    NbSpinnerModule,
+    NbMediaBreakpointsService,
     NbSidebarModule,
+    NbSidebarService,
+    NbSpinnerModule,
 } from '@nebular/theme';
-import { ResizedEvent, AngularResizeEventModule } from 'angular-resize-event';
-import { ExpenseApiService } from '../../api/expense.api.service';
+import { AngularResizeEventModule, ResizedEvent } from 'angular-resize-event';
 import { Calendar } from '../../api/objects/calendar';
 import { Category } from '../../api/objects/category';
 import { User } from '../../api/objects/user';
 import { APP_CONFIG } from '../../app.initializer';
 import { SwipeEvent } from '../../interfaces/swipe.interface';
 import { DateUtil } from '../../util/date.util';
-import { MainService, SIDEBAR_TAG } from './main.service';
+import { SIDEBAR_TAG } from './main.service';
 import { StatementImportService } from './services/statement-import.service';
 import { HeaderComponent } from './header/header.component';
 import { SwipeDirective } from '../../directives/swipe.directive';
 import { CalendarComponent } from './calendar/calendar.component';
 import { OutsideClickDirective } from '../../directives/outside-click.directive';
-import { ProfileComponent } from './components/sidebar/profile/profile.component';
-import { CalendarSidebarListComponent } from './components/sidebar/calendar-list/calendar-list.component';
-import { ActionsComponent } from './components/sidebar/actions/actions.component';
+import { MainStore } from './main.store';
+import { SidebarComponent } from './sidebar/sidebar.component';
+import { CalendarQueries } from '../../queries/calendar.queries';
+import { injectQuery } from '@tanstack/angular-query-experimental';
 
 @Component({
     templateUrl: 'main.component.html',
@@ -38,59 +37,42 @@ import { ActionsComponent } from './components/sidebar/actions/actions.component
         CalendarComponent,
         NbSidebarModule,
         OutsideClickDirective,
-        ProfileComponent,
-        CalendarSidebarListComponent,
-        ActionsComponent,
+        SidebarComponent,
     ],
 })
 export class MainComponent implements OnInit {
-    private readonly router = inject(Router);
-    private readonly activatedRoute = inject(ActivatedRoute);
-    private readonly expenseApiService = inject(ExpenseApiService);
-    private readonly breakpointService = inject(NbMediaBreakpointsService);
-    private readonly dateService = inject<NbDateService<Date>>(NbDateService);
-    private readonly zone = inject(NgZone);
-    private readonly sidebarService = inject(NbSidebarService);
-    private readonly statementImportService = inject(StatementImportService);
-    public readonly mainService = inject(MainService);
+    activatedRoute = inject(ActivatedRoute);
+    zone = inject(NgZone);
+    sidebarService = inject(NbSidebarService);
+    statementImportService = inject(StatementImportService);
+    breakpointsService = inject(NbMediaBreakpointsService);
+    calendarQueries = inject(CalendarQueries);
+    calendarListQuery = injectQuery(() => this.calendarQueries.list());
+    mainStore = inject(MainStore);
 
-    protected isCalendarBusy: boolean = false;
-    protected isApplicationBusy: boolean = false;
-    protected isMobile: boolean;
-
-    public constructor() {
-        this.expenseApiService.onBusyChange.subscribe((isBusy: boolean) => (this.isCalendarBusy = isBusy));
-        this.mainService.isApplicationBusy.subscribe((isBusy: boolean) => (this.isApplicationBusy = isBusy));
-    }
+    readonly SIDEBAR_TAG = SIDEBAR_TAG;
+    readonly APP_CONFIG = APP_CONFIG;
 
     public ngOnInit(): void {
         this.activatedRoute.data.subscribe(
-            ({
-                user,
-                calendars,
-                systemCategories,
-            }: {
-                user: User;
-                calendars: Calendar[];
-                systemCategories: Category[];
-            }) => {
-                this.mainService.user = user;
-                this.mainService.calendars = calendars;
-                this.mainService.systemCategories = systemCategories;
-                this.mainService.calendar =
-                    this.mainService.calendars.filter((calendar: Calendar) => {
+            ({ user, systemCategories }: { user: User; systemCategories: Category[] }) => {
+                this.mainStore.systemCategories.set(systemCategories);
+                this.mainStore.selectedCalendar.set(
+                    this.calendarListQuery.data().filter((calendar: Calendar) => {
                         return calendar.id === user.defaultCalendarId;
-                    })[0] || this.mainService.calendars[0];
+                    })[0] || this.calendarListQuery.data()[0]
+                );
             }
         );
 
         this.activatedRoute.queryParams.subscribe(({ date }: { date?: string }) => {
-            if (date) {
-                const parsedDate = new Date(`${date}-01 00:00:00`);
-                if (DateUtil.valid(parsedDate)) {
-                    parsedDate.setDate(this.mainService.visibleDate.getDate());
-                    this.mainService.visibleDate = parsedDate;
-                }
+            if (!date) {
+                return;
+            }
+
+            const parsedDate = new Date(`${date}-01 00:00:00`);
+            if (DateUtil.valid(parsedDate)) {
+                this.mainStore.selectedMonth.set(parsedDate);
             }
         });
 
@@ -100,35 +82,24 @@ export class MainComponent implements OnInit {
     }
 
     public onResized(event: ResizedEvent): void {
-        this.isMobile = this.breakpointService.getByName('md').width > event.newRect.width;
+        this.mainStore.isMobile.set(this.breakpointsService.getByName('md').width > event.newRect.width);
     }
 
     public onSwipeEnd(event: SwipeEvent): void {
         if (event.direction === 'x') {
             this.zone.run(() => {
-                const newVisibleDate = this.dateService.addMonth(
-                    this.mainService.visibleDate,
-                    event.distance < 0 ? 1 : -1
-                );
-                this.router.navigate(['.'], {
-                    relativeTo: this.activatedRoute,
-                    queryParams: { date: this.dateService.format(newVisibleDate, DateUtil.MONTH_DAY_FORMAT) },
-                    queryParamsHandling: 'merge',
-                    replaceUrl: true,
-                });
+                //         const newVisibleDate = this.dateService.addMonth(
+                //             this.mainService.visibleDate,
+                //             event.distance < 0 ? 1 : -1
+                //         );
+                //         this.router.navigate(['.'], {
+                //             relativeTo: this.activatedRoute,
+                //             queryParams: { date: this.dateService.format(newVisibleDate, DateUtil.MONTH_DAY_FORMAT) },
+                //             queryParamsHandling: 'merge',
+                //             replaceUrl: true,
+                //         });
             });
         }
-    }
-
-    public onRangeChange({ dateFrom, dateTo }: { dateFrom: Date; dateTo: Date }): void {
-        this.mainService.calendarDateFrom = dateFrom;
-        this.mainService.calendarDateTo = dateTo;
-
-        this.mainService.refreshCalendar();
-    }
-
-    public onCalendarChange(calendar: Calendar): void {
-        this.mainService.refreshCalendar(calendar);
     }
 
     public onSidebarOutsideClick(event: MouseEvent): void {
@@ -143,7 +114,4 @@ export class MainComponent implements OnInit {
             }
         });
     }
-
-    protected readonly SIDEBAR_TAG = SIDEBAR_TAG;
-    protected readonly APP_CONFIG = APP_CONFIG;
 }

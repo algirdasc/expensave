@@ -23,8 +23,8 @@ import { StatementImportService } from '../../services/statement-import.service'
     imports: [NbButtonModule, NbIconModule, NbBadgeModule],
 })
 export class HeaderSidebarToggleComponent {
-    private readonly sidebarService = inject(NbSidebarService);
-    protected readonly statementImportService = inject(StatementImportService);
+    sidebarService = inject(NbSidebarService);
+    statementImportService = inject(StatementImportService);
 
     public toggleSidebar(): void {
         this.sidebarService.toggle(false, SIDEBAR_TAG);

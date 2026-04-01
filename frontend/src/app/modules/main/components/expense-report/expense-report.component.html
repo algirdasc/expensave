@@ -5,7 +5,7 @@
         <span class="text-hint">{{ dateTo | date: 'mediumDate' }}</span>
     </nb-card-header>
     <nb-card-body class="p-0">
-        @if (isBusy) {
+        @if (categoryExpenseQuery.isFetching()) {
             <div class="p-5" [nbSpinner]="true"></div>
         }
 

@@ -1,4 +1,4 @@
-import { Component, EventEmitter, inject, Input, Output, QueryList, ViewChildren } from '@angular/core';
+import { Component, inject, QueryList, ViewChildren } from '@angular/core';
 import {
     NbButtonGroupModule,
     NbCalendarKitModule,
@@ -9,13 +9,14 @@ import {
 } from '@nebular/theme';
 import { DateUtil } from '../../../../util/date.util';
 import { OutsideClickDirective } from '../../../../directives/outside-click.directive';
+import { MainStore } from '../../main.store';
 
 @Component({
     selector: 'app-header-date-picker',
     template: `
         <div appOutsideClick (outsideClick)="onOutsideClick()">
             <nb-calendar-view-mode
-                [date]="visibleDate"
+                [date]="mainStore.selectedMonth()"
                 [viewMode]="activeViewMode"
                 [nbPopover]="viewModeRef"
                 nbPopoverContext="viewModePopover"
@@ -28,13 +29,13 @@ import { OutsideClickDirective } from '../../../../directives/outside-click.dire
                 @switch (activeViewMode) {
                     @case (viewMode.YEAR) {
                         <nb-calendar-year-picker
-                            [year]="visibleDate"
-                            (yearChange)="visibleDate = $event; activeViewMode = viewMode.MONTH">
+                            [year]="mainStore.selectedMonth()"
+                            (yearChange)="activeViewMode = viewMode.MONTH">
                         </nb-calendar-year-picker>
                     }
                     @case (viewMode.MONTH) {
                         <nb-calendar-month-picker
-                            [month]="visibleDate"
+                            [month]="mainStore.selectedMonth()"
                             (monthChange)="navigateToDate($event); activeViewMode = viewMode.DATE">
                         </nb-calendar-month-picker>
                     }
@@ -45,10 +46,8 @@ import { OutsideClickDirective } from '../../../../directives/outside-click.dire
     imports: [OutsideClickDirective, NbCalendarKitModule, NbPopoverModule, NbButtonGroupModule],
 })
 export class HeaderDatePickerComponent {
-    private readonly dateService = inject<NbDateService<Date>>(NbDateService);
-
-    @Input({ required: true }) public visibleDate: Date;
-    @Output() public dateNavigate = new EventEmitter<Date>();
+    dateService = inject<NbDateService<Date>>(NbDateService);
+    mainStore = inject(MainStore);
 
     @ViewChildren(NbPopoverDirective)
     private popovers: QueryList<NbPopoverDirective>;
@@ -56,9 +55,13 @@ export class HeaderDatePickerComponent {
     protected readonly viewMode: typeof NbCalendarViewMode = NbCalendarViewMode;
     protected activeViewMode: NbCalendarViewMode = NbCalendarViewMode.DATE;
 
+    // constructor() {
+    //     effect(() => {});
+    // }
+
     protected onOutsideClick(): void {
         // restore current date selection + close popovers by resetting view mode
-        this.navigateToDate(this.visibleDate);
+        // this.navigateToDate(this.visibleDate);
         this.activeViewMode = this.viewMode.DATE;
     }
 
@@ -75,7 +78,7 @@ export class HeaderDatePickerComponent {
     }
 
     protected navigateToDate(date?: Date): void {
-        this.dateNavigate.emit(date);
+        // this.dateNavigate.emit(date);
     }
 
     // Convenience for parent usage (keeps formatting logic local if needed later)

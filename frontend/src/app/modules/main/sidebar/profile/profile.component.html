@@ -1,0 +1,11 @@
+<div class="d-flex align-items-center justify-content-between">
+    <nb-user class="w-100 text-truncate" [name]="userQuery.data().name" [picture]="userQuery.data().avatar" [title]="userQuery.data().email"> </nb-user>
+    <div style="width: 80px">
+        <button nbButton ghost size="small" status="primary" (click)="showProfileDialog()">
+            <nb-icon icon="person-outline"></nb-icon>
+        </button>
+        <button nbButton ghost size="small" status="danger" (click)="showLogoutConfirmDialog()">
+            <nb-icon icon="log-out-outline"></nb-icon>
+        </button>
+    </div>
+</div>
