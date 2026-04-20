@@ -5,14 +5,14 @@
         }
         <strong>{{ day }}</strong>
     </div>
-    @if (expenseBalance?.change || (expenseBalance && isCellSelected)) {
+    @if (balance?.change || (balance && isCellSelected)) {
         <small class="d-block">
-            {{ expenseBalance.change | shortNumber: '.0-0' }}
+            {{ balance.change | shortNumber: '.0-0' }}
         </small>
     }
-    @if (expenseBalance?.balance || (expenseBalance && isCellSelected)) {
+    @if (balance?.balance || (balance && isCellSelected)) {
         <small class="d-block">
-            {{ expenseBalance.balance | shortNumber: '.0-0' }}
+            {{ balance.balance | shortNumber: '.0-0' }}
         </small>
     }
 </div>

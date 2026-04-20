@@ -13,29 +13,20 @@ import { CalendarExpenseListMobileItemsComponent } from './calendar-expense-list
     imports: [CalendarExpenseListMobileItemsComponent, NbButtonModule, NbIconModule],
 })
 export class CalendarExpenseListMobileComponent implements OnChanges {
-    public calendarService = inject(CalendarService);
-    private dateService = inject<NbDateService<Date>>(NbDateService);
+    calendarService = inject(CalendarService);
+    dateService = inject<NbDateService<Date>>(NbDateService);
 
-    @Input()
-    public isMobile: boolean;
+    @Input() isMobile: boolean;
+    @Input() calendar: Calendar;
+    @Input() selectedValue: Date;
+    @Input() expenses: Expense[] = [];
+    @Input() expenseBalances: ExpenseBalance[] = [];
 
-    @Input()
-    public calendar: Calendar;
+    confirmedExpenses: Expense[];
+    unconfirmedExpenses: Expense[];
+    expenseBalance: ExpenseBalance;
 
-    @Input()
-    public selectedValue: Date;
-
-    @Input()
-    public expenses: Expense[] = [];
-
-    @Input()
-    public expenseBalances: ExpenseBalance[] = [];
-
-    public confirmedExpenses: Expense[];
-    public unconfirmedExpenses: Expense[];
-    public expenseBalance: ExpenseBalance;
-
-    public ngOnChanges(changes: SimpleChanges): void {
+    ngOnChanges(changes: SimpleChanges): void {
         if (changes?.selectedValue || changes?.expenses || changes?.balances) {
             this.confirmedExpenses = this.expenses.filter((expense: Expense) => {
                 return this.dateService.isSameDaySafe(this.selectedValue, expense.createdAt) && expense.confirmed;

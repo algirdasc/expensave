@@ -34,20 +34,15 @@ import { ShortNumberPipe } from '../../../../../pipes/shortnumber.pipe';
     imports: [NbListModule, NbIconModule, DatePipe, ShortNumberPipe],
 })
 export class CalendarExpenseListMobileItemsComponent {
-    protected calendarService = inject(CalendarService);
+    calendarService = inject(CalendarService);
 
-    @Input()
-    protected expenses: Expense[];
-
-    @Input()
-    protected selectedValue: Date;
-
-    @Input()
-    protected confirmed: boolean;
+    @Input() expenses: Expense[];
+    @Input() selectedValue: Date;
+    @Input() confirmed: boolean;
 
     protected readonly UNCATEGORIZED_COLOR = UNCATEGORIZED_COLOR;
 
-    public get expensesSum(): number {
+    get expensesSum(): number {
         let sum = 0;
         this.expenses.forEach((expense: Expense) => (sum += expense.amount));
 
