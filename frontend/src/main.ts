@@ -5,6 +5,7 @@ import {
     inject,
     LOCALE_ID,
     provideAppInitializer,
+    provideZoneChangeDetection,
 } from '@angular/core';
 import { MainService } from './app/modules/main/main.service';
 import { environment } from './environments/environment';
@@ -80,6 +81,7 @@ if (environment.production) {
 
 bootstrapApplication(AppComponent, {
     providers: [
+        provideZoneChangeDetection(),
         provideTanStackQuery(queryClient, withDevtools()),
         importProvidersFrom(
             CommonModule,

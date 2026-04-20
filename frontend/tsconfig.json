@@ -12,30 +12,14 @@
         "importHelpers": true,
         "target": "ES2022",
         "resolveJsonModule": true,
-        "typeRoots": [
-            "node_modules/@types"
-        ],
-        "lib": [
-            "es2018",
-            "dom"
-        ],
+        "typeRoots": ["node_modules/@types"],
         "skipLibCheck": true,
         "paths": {
-            "timers": [
-                "node_modules/timers-browserify"
-            ],
-            "path": [
-                "node_modules/path-browserify"
-            ],
-            "util": [
-                "node_modules/util"
-            ],
-            "stream-http": [
-                "node_modules/stream-http"
-            ],
-            "url": [
-                "node_modules/url"
-            ]
+            "timers": ["node_modules/timers-browserify"],
+            "path": ["node_modules/path-browserify"],
+            "util": ["node_modules/util"],
+            "stream-http": ["node_modules/stream-http"],
+            "url": ["node_modules/url"]
         },
         "useDefineForClassFields": false
     },
