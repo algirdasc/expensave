@@ -55,7 +55,7 @@ npm ci
 npm run dev
 ```
 
-**Important:** Always run `nvm use` before any `npm` commands in the frontend to ensure the correct Node version from `.nvmrc` is active.
+**Important:** Always run `nvm use` before running `npm` commands in the frontend to ensure the correct Node version from `.nvmrc` is active.
 
 Frontend dev server runs on port `18002`.
 
