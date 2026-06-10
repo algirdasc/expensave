@@ -52,6 +52,14 @@ type MainRouteData = {
     ],
 })
 export class MainComponent implements OnInit {
+    public readonly mainService = inject(MainService);
+
+    protected readonly SIDEBAR_TAG = SIDEBAR_TAG;
+    protected readonly APP_CONFIG = APP_CONFIG;
+    protected isCalendarBusy = false;
+    protected isApplicationBusy = false;
+    protected isMobile = false;
+
     private readonly destroyRef = inject(DestroyRef);
     private readonly router = inject(Router);
     private readonly activatedRoute = inject(ActivatedRoute);
@@ -61,11 +69,6 @@ export class MainComponent implements OnInit {
     private readonly zone = inject(NgZone);
     private readonly sidebarService = inject(NbSidebarService);
     private readonly statementImportService = inject(StatementImportService);
-    public readonly mainService = inject(MainService);
-
-    protected isCalendarBusy = false;
-    protected isApplicationBusy = false;
-    protected isMobile = false;
 
     public ngOnInit(): void {
         this.bindBusyStates();
@@ -171,7 +174,4 @@ export class MainComponent implements OnInit {
         parsedDate.setDate(this.mainService.visibleDate.getDate());
         this.mainService.visibleDate = parsedDate;
     }
-
-    protected readonly SIDEBAR_TAG = SIDEBAR_TAG;
-    protected readonly APP_CONFIG = APP_CONFIG;
 }

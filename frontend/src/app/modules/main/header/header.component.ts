@@ -20,13 +20,13 @@ import { HeaderSidebarToggleComponent } from './components/header-sidebar-toggle
     ],
 })
 export class HeaderComponent {
-    private readonly dateService = inject<NbDateService<Date>>(NbDateService);
-    private readonly router = inject(Router);
-    private readonly activatedRoute = inject(ActivatedRoute);
-
     @Input() public calendar: Calendar;
     @Input() public visibleDateBalance: number;
     @Input() public visibleDate: Date;
+
+    private readonly dateService = inject<NbDateService<Date>>(NbDateService);
+    private readonly router = inject(Router);
+    private readonly activatedRoute = inject(ActivatedRoute);
 
     protected navigatePrev(): void {
         this.changeVisibleMonth(-1);

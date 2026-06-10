@@ -27,8 +27,6 @@ import { ContentLoaderModule } from '@ngneat/content-loader';
     imports: [NbListModule, NbIconModule, ContentLoaderModule],
 })
 export class CalendarListItemComponent {
-    private dialogService = inject(NbDialogService);
-
     @Input()
     public calendar: Calendar;
 
@@ -43,6 +41,8 @@ export class CalendarListItemComponent {
 
     @Output()
     public readonly calendarChange: EventEmitter<Calendar> = new EventEmitter<Calendar>();
+
+    private dialogService = inject(NbDialogService);
 
     public selectCalendar(): void {
         this.dialogService

@@ -5,16 +5,15 @@ import { createSwipeSubscription } from './swipe/swipe.core';
 
 @Directive({ selector: '[appSwipe]', standalone: true })
 export class SwipeDirective implements OnInit, OnDestroy {
-    private elementRef = inject(ElementRef);
-    private zone = inject(NgZone);
-
-    private swipeSubscription: Subscription | undefined;
-
     @Output()
     public readonly swipeMove: EventEmitter<SwipeEvent> = new EventEmitter<SwipeEvent>();
 
     @Output()
     public readonly swipeEnd: EventEmitter<SwipeEvent> = new EventEmitter<SwipeEvent>();
+
+    private elementRef = inject(ElementRef);
+    private zone = inject(NgZone);
+    private swipeSubscription: Subscription | undefined;
 
     public ngOnInit(): void {
         this.zone.runOutsideAngular(() => {

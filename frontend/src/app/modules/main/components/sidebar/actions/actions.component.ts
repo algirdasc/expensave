@@ -12,10 +12,10 @@ import { RouterLink } from '@angular/router';
     imports: [NbActionsModule, RouterLink, NbTooltipModule],
 })
 export class ActionsComponent {
-    private dialogService = inject(NbDialogService);
     protected statementImportService = inject(StatementImportService);
-
     protected readonly environment = environment;
+
+    private dialogService = inject(NbDialogService);
 
     public editCategories(): void {
         this.dialogService.open(CategoriesDialogComponent, {

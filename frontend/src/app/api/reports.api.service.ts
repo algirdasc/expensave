@@ -12,10 +12,10 @@ import { ExpenseReportResponse } from './response/expense-report.response';
 
 @Injectable({ providedIn: 'root' })
 export class ReportsApiService {
+    public onBusyChange: Subject<boolean> = new Subject<boolean>();
+
     private http = inject(HttpClient);
     private dateService = inject<NbDateService<Date>>(NbDateService);
-
-    public onBusyChange: Subject<boolean> = new Subject<boolean>();
     private backend: string = '/report';
 
     public dailyExpenses(calendars: Calendar[], dateFrom: Date, dateTo: Date): Observable<ExpenseReportResponse> {

@@ -12,10 +12,6 @@ import { CalendarExpenseListResponse } from '../../api/response/calendar-expense
 
 @Injectable({ providedIn: 'root' })
 export class MainService {
-    private readonly calendarApiService = inject(CalendarApiService);
-    private readonly dateService = inject<NbDateService<Date>>(NbDateService);
-    private readonly title = inject(Title);
-
     public user: User;
     public calendars: Calendar[];
     public systemCategories: Category[];
@@ -27,7 +23,20 @@ export class MainService {
     public expenseBalances: ExpenseBalance[] = [];
     public isApplicationBusy: Subject<boolean> = new Subject<boolean>();
 
+    private readonly calendarApiService = inject(CalendarApiService);
+    private readonly dateService = inject<NbDateService<Date>>(NbDateService);
+    private readonly title = inject(Title);
     private _calendar: Calendar;
+
+    public get calendar(): Calendar {
+        return this._calendar;
+    }
+
+    public set calendar(calendar: Calendar) {
+        this._calendar = calendar;
+
+        this.title.setTitle(`Expensave - ${calendar?.name ?? 'No calendar'}`);
+    }
 
     public refreshCalendar(calendar?: Calendar): void {
         if ((!this.calendar && calendar) || !this.calendarDateFrom || !this.calendarDateTo) {
@@ -57,16 +66,6 @@ export class MainService {
 
     public getSystemCategory(type: string): Category {
         return this.systemCategories.filter((category: Category) => category.type === type)[0];
-    }
-
-    public get calendar(): Calendar {
-        return this._calendar;
-    }
-
-    public set calendar(calendar: Calendar) {
-        this._calendar = calendar;
-
-        this.title.setTitle(`Expensave - ${calendar?.name ?? 'No calendar'}`);
     }
 }
 

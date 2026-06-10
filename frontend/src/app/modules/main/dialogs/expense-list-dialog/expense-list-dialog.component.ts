@@ -13,8 +13,6 @@ import { ShortNumberPipe } from '../../../../pipes/shortnumber.pipe';
     imports: [NbCardModule, ExpenseListItemsComponent, NbButtonModule, NbIconModule, DatePipe, ShortNumberPipe],
 })
 export class ExpenseListDialogComponent implements OnInit {
-    private dialogRef = inject<NbDialogRef<ExpenseListDialogComponent>>(NbDialogRef);
-
     public visibleDate: Date;
     public expenses: Expense[];
     public calendar: Calendar;
@@ -22,6 +20,8 @@ export class ExpenseListDialogComponent implements OnInit {
     public unconfirmedExpenses: Expense[];
     public totalExpensesAmount: number = 0;
     public calendarService: CalendarService;
+
+    private dialogRef = inject<NbDialogRef<ExpenseListDialogComponent>>(NbDialogRef);
 
     public ngOnInit(): void {
         this.confirmedExpenses = this.expenses.filter((expense: Expense) => expense.confirmed);

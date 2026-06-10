@@ -18,6 +18,10 @@ type AuthRefreshToken = NbAuthRefreshableToken & NbAuthToken;
 export class AuthStrategy extends NbPasswordAuthStrategy {
     protected defaultOptions: NbPasswordAuthStrategyOptions = passwordStrategyOptions;
 
+    public static setup(options: NbPasswordAuthStrategyOptions): [NbAuthStrategyClass, NbPasswordAuthStrategyOptions] {
+        return [AuthStrategy, options];
+    }
+
     public refreshToken(token: AuthRefreshToken): Observable<NbAuthResult> {
         const module = 'refreshToken';
         const url = this.getActionEndpoint(module);
@@ -49,9 +53,5 @@ export class AuthStrategy extends NbPasswordAuthStrategy {
         }
 
         return refreshedToken;
-    }
-
-    public static setup(options: NbPasswordAuthStrategyOptions): [NbAuthStrategyClass, NbPasswordAuthStrategyOptions] {
-        return [AuthStrategy, options];
     }
 }

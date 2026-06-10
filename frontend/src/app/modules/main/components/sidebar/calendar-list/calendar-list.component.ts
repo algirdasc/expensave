@@ -25,20 +25,20 @@ import { ShortNumberPipe } from '../../../../../pipes/shortnumber.pipe';
     imports: [NbSpinnerModule, NbListModule, NbRadioModule, NbIconModule, NbButtonModule, ShortNumberPipe],
 })
 export class CalendarSidebarListComponent {
-    public readonly dialogService = inject(NbDialogService);
-    public readonly mainService = inject(MainService);
-    public readonly calendarApiService = inject(CalendarApiService);
-    public readonly userApiService = inject(UserApiService);
-    public readonly toastrService = inject(NbToastrService);
-    public readonly statementImportService = inject(StatementImportService);
-
     @Input() public calendar: Calendar;
     @Output() public readonly calendarChange: EventEmitter<Calendar> = new EventEmitter<Calendar>();
 
     @Input() public calendars: Calendar[];
     @Output() public readonly calendarsChange: EventEmitter<Calendar[]> = new EventEmitter<Calendar[]>();
 
+    public readonly dialogService = inject(NbDialogService);
+    public readonly mainService = inject(MainService);
+    public readonly calendarApiService = inject(CalendarApiService);
+    public readonly userApiService = inject(UserApiService);
+    public readonly toastrService = inject(NbToastrService);
+    public readonly statementImportService = inject(StatementImportService);
     public isBusy: boolean = false;
+
     private dialogRef: NbDialogRef<CalendarEditComponent>;
     private dialogBack: EventEmitter<boolean> = new EventEmitter<boolean>();
     private dialogSave: EventEmitter<Calendar> = new EventEmitter<Calendar>();

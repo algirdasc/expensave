@@ -24,23 +24,22 @@ import { ShortNumberPipe } from '../../../../../pipes/shortnumber.pipe';
     imports: [NbButtonModule, NbIconModule, NbInputModule, FormsModule, SuggestionComponent, ShortNumberPipe],
 })
 export class ExpenseInputComponent {
-    private expenseApiService = inject(ExpenseApiService);
-    private cd = inject(ChangeDetectorRef);
-
     @Input({ required: true })
     public expense: Expense;
 
-    @Output()
-    public readonly expenseChange: EventEmitter<Expense> = new EventEmitter<Expense>();
-
     @Input()
     public labelEditable: boolean = true;
+
+    @Output()
+    public readonly expenseChange: EventEmitter<Expense> = new EventEmitter<Expense>();
 
     @ViewChild('focusElement')
     private focusElement: ElementRef;
 
     public suggestedExpense: Expense;
 
+    private expenseApiService = inject(ExpenseApiService);
+    private cd = inject(ChangeDetectorRef);
     private expenseSuggestionSubscription: Subscription;
 
     public handleInputChange(input: string): void {

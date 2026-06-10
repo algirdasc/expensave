@@ -21,8 +21,6 @@ import { ConfirmDialogComponent } from '../../../confirm-dialog/confirm-dialog.c
     imports: [NbButtonModule, NbIconModule],
 })
 export class FooterComponent {
-    private dialogService = inject(NbDialogService);
-
     @Input({ required: true })
     public form: NgForm;
 
@@ -37,6 +35,8 @@ export class FooterComponent {
 
     @Output()
     public readonly delete: EventEmitter<void> = new EventEmitter<void>();
+
+    private dialogService = inject(NbDialogService);
 
     public deleteExpense(): void {
         this.dialogService

@@ -13,13 +13,13 @@ import { CategoryEditComponent } from './category-edit/category-edit.component';
 })
 export class CategoriesDialogComponent implements OnInit {
     public readonly dialogRef = inject<NbDialogRef<CategoriesDialogComponent>>(NbDialogRef);
-    private readonly categoryApiService = inject(CategoryApiService);
-
     public isBusy: boolean = true;
     public isSelectable: boolean = true;
     public categories: Category[];
     public selectedCategory: Category;
     public editableCategory: Category;
+
+    private readonly categoryApiService = inject(CategoryApiService);
 
     public constructor() {
         this.categoryApiService.onBusyChange.subscribe((isBusy: boolean) => (this.isBusy = isBusy));

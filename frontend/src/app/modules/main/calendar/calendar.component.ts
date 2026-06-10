@@ -21,20 +21,22 @@ import { CalendarCellInterface } from './interfaces/calendar-cell.interface';
     imports: [NbCardModule, CalendarDayNamesComponent, CalendarGridComponent, CalendarExpenseListMobileComponent],
 })
 export class CalendarComponent extends NbCalendarDayPickerComponent<Date, Date> implements OnChanges {
-    private readonly unusedMonthModelService: NbCalendarMonthModelService<Date>;
-    private readonly monthModelService = inject<CalendarMonthModelService<Date>>(CalendarMonthModelService);
-
     @Input() public isMobile: boolean;
     @Input({ required: true }) public expenses: Expense[];
     @Input({ required: true }) public expenseBalances: ExpenseBalance[];
     @Input({ required: true }) public calendar: Calendar;
     @Input({ required: true }) public selectedDate: Date;
+
     @Output() public readonly calendarChange: EventEmitter<Calendar> = new EventEmitter<Calendar>();
     @Output() public readonly rangeChange: EventEmitter<{ dateFrom: Date; dateTo: Date }> = new EventEmitter<{
         dateFrom: Date;
         dateTo: Date;
     }>();
+
     public cellComponent: Type<CalendarCellInterface> = CalendarGridRowCellDesktopComponent;
+
+    private readonly unusedMonthModelService: NbCalendarMonthModelService<Date>;
+    private readonly monthModelService = inject<CalendarMonthModelService<Date>>(CalendarMonthModelService);
 
     public constructor() {
         const unusedMonthModelService = inject<NbCalendarMonthModelService<Date>>(NbCalendarMonthModelService);
@@ -42,11 +44,6 @@ export class CalendarComponent extends NbCalendarDayPickerComponent<Date, Date> 
         super(unusedMonthModelService);
 
         this.unusedMonthModelService = unusedMonthModelService;
-    }
-
-    public onSelect(day: Date): void {
-        super.onSelect(day);
-        this.selectedDate = day;
     }
 
     public ngOnChanges(changes: SimpleChanges): void {
@@ -72,5 +69,10 @@ export class CalendarComponent extends NbCalendarDayPickerComponent<Date, Date> 
         if (changes?.calendar) {
             // this.calendarChange.emit(changes?.calendar.currentValue);
         }
+    }
+
+    public onSelect(day: Date): void {
+        super.onSelect(day);
+        this.selectedDate = day;
     }
 }
