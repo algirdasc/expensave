@@ -1,5 +1,5 @@
-import { Component, EventEmitter, Input, Output, inject } from '@angular/core';
-import { NbDialogService, NbListModule, NbIconModule } from '@nebular/theme';
+import { Component, EventEmitter, inject, Input, Output } from '@angular/core';
+import { NbDialogService, NbIconModule, NbListModule } from '@nebular/theme';
 import { DateUtil } from '../../../../../../util/date.util';
 import { DatepickerDialogComponent } from '../../../datepicker-dialog/datepicker-dialog.component';
 import { DatePipe } from '@angular/common';
@@ -19,7 +19,7 @@ export class DateListItemComponent {
     public date: Date;
 
     @Output()
-    public dateChange: EventEmitter<Date> = new EventEmitter<Date>();
+    public readonly dateChange: EventEmitter<Date> = new EventEmitter<Date>();
 
     public selectDateTime(): void {
         this.dialogService

@@ -1,4 +1,4 @@
-import { Injectable, Type, inject } from '@angular/core';
+import { inject, Injectable, Type } from '@angular/core';
 import { NbDateService } from '@nebular/theme';
 import { Observable } from 'rxjs';
 import { EntityInterface } from '../interfaces/entity.interface';
@@ -7,7 +7,7 @@ import { AbstractEntityApiService } from './abstract-entity-api.service';
 import { Calendar } from './objects/calendar';
 import { CalendarExpenseListResponse } from './response/calendar-expense-list.response';
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class CalendarApiService extends AbstractEntityApiService<Calendar> {
     private dateService = inject<NbDateService<Date>>(NbDateService);
 

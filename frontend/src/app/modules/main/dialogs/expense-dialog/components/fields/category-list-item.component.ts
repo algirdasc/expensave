@@ -1,5 +1,5 @@
-import { Component, EventEmitter, Input, Output, inject } from '@angular/core';
-import { NbDialogService, NbListModule, NbIconModule } from '@nebular/theme';
+import { Component, EventEmitter, inject, Input, Output } from '@angular/core';
+import { NbDialogService, NbIconModule, NbListModule } from '@nebular/theme';
 import { Category } from '../../../../../../api/objects/category';
 import { CategoriesDialogComponent } from '../../../categories-dialog/categories-dialog.component';
 import { NgStyle } from '@angular/common';
@@ -22,7 +22,7 @@ export class CategoryListItemComponent {
     public isActionable: boolean = true;
 
     @Output()
-    public categoryChange: EventEmitter<Category> = new EventEmitter<Category>();
+    public readonly categoryChange: EventEmitter<Category> = new EventEmitter<Category>();
 
     public selectCategory(): void {
         if (!this.isActionable) {

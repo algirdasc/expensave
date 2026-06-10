@@ -2,15 +2,15 @@
     <nb-card-header class="d-md-flex align-content-center justify-content-between">
         <span style="line-height: 32px" class="d-block mb-3 mb-md-0">Monthly income & expense</span>
         <nb-button-group size="small" status="primary" ghost class="d-block text-center mx-3">
-            <button nbButton (click)="navigatePrev()">
+            <button nbButton type="button" (click)="navigatePrev()">
                 <nb-icon icon="arrow-back-outline" />
             </button>
 
-            <button nbButton (click)="navigateToday()">
+            <button nbButton type="button" (click)="navigateToday()">
                 {{ reportPeriod()?.start.getFullYear() }}
             </button>
 
-            <button nbButton (click)="navigateNext()">
+            <button nbButton type="button" (click)="navigateNext()">
                 <nb-icon icon="arrow-forward-outline" />
             </button>
         </nb-button-group>

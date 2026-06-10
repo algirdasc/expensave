@@ -5,7 +5,7 @@ import { plainToInstance } from 'class-transformer';
 import { Observable, Subject } from 'rxjs';
 import { finalize, map } from 'rxjs/operators';
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export abstract class AbstractApiService {
     public onBusyChange: Subject<boolean> = new Subject<boolean>();
 

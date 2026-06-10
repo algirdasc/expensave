@@ -35,6 +35,7 @@
                             <div class="calendar-actions text-right">
                                 <button
                                     nbButton
+                                    type="button"
                                     ghost
                                     size="small"
                                     status="danger"
@@ -44,6 +45,7 @@
                                 </button>
                                 <button
                                     nbButton
+                                    type="button"
                                     ghost
                                     size="small"
                                     status="success"
@@ -55,6 +57,7 @@
                                 @if (calendar.isOwner(mainService.user)) {
                                     <button
                                         nbButton
+                                        type="button"
                                         ghost
                                         size="small"
                                         status="primary"
@@ -64,6 +67,7 @@
                                     </button>
                                     <button
                                         nbButton
+                                        type="button"
                                         ghost
                                         size="small"
                                         status="danger"
@@ -80,7 +84,7 @@
         }
     </nb-list>
     <div class="d-flex justify-content-between">
-        <button nbButton fullWidth status="primary" ghost (click)="createCalendar()" class="pl-4" i18n>
+        <button nbButton type="button" fullWidth status="primary" ghost (click)="createCalendar()" class="pl-4" i18n>
             <nb-icon icon="plus" />
             Add a calendar...
         </button>

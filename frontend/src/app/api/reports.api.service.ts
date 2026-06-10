@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { HttpClient, HttpResponse } from '@angular/common/http';
-import { Injectable, inject } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { NbDateService } from '@nebular/theme';
 import { plainToInstance } from 'class-transformer';
 import { Observable, Subject } from 'rxjs';
@@ -10,7 +10,7 @@ import { Calendar } from './objects/calendar';
 import { CategoryExpenseReportResponse } from './response/category-expense-report.response';
 import { ExpenseReportResponse } from './response/expense-report.response';
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class ReportsApiService {
     private http = inject(HttpClient);
     private dateService = inject<NbDateService<Date>>(NbDateService);

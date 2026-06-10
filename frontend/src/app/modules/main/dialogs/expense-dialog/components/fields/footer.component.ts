@@ -36,7 +36,7 @@ export class FooterComponent {
     public submitEnabled: boolean = true;
 
     @Output()
-    public delete: EventEmitter<void> = new EventEmitter<void>();
+    public readonly delete: EventEmitter<void> = new EventEmitter<void>();
 
     public deleteExpense(): void {
         this.dialogService

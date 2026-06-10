@@ -7,7 +7,7 @@ import { UserApiService } from '../api/user.api.service';
 import { Calendar } from '../api/objects/calendar';
 import { User } from '../api/objects/user';
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class UserQueries {
     private userApiService: UserApiService = inject(UserApiService);
 

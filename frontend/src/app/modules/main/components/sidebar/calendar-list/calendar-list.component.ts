@@ -33,10 +33,10 @@ export class CalendarSidebarListComponent {
     public readonly statementImportService = inject(StatementImportService);
 
     @Input() public calendar: Calendar;
-    @Output() public calendarChange: EventEmitter<Calendar> = new EventEmitter<Calendar>();
+    @Output() public readonly calendarChange: EventEmitter<Calendar> = new EventEmitter<Calendar>();
 
     @Input() public calendars: Calendar[];
-    @Output() public calendarsChange: EventEmitter<Calendar[]> = new EventEmitter<Calendar[]>();
+    @Output() public readonly calendarsChange: EventEmitter<Calendar[]> = new EventEmitter<Calendar[]>();
 
     public isBusy: boolean = false;
     private dialogRef: NbDialogRef<CalendarEditComponent>;

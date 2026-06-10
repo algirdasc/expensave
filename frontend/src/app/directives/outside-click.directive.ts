@@ -1,11 +1,11 @@
-import { Directive, ElementRef, EventEmitter, HostListener, Output, inject } from '@angular/core';
+import { Directive, ElementRef, EventEmitter, HostListener, inject, Output } from '@angular/core';
 
 @Directive({ selector: '[appOutsideClick]', standalone: true })
 export class OutsideClickDirective {
     private elementRef = inject(ElementRef);
 
     @Output()
-    public outsideClick: EventEmitter<MouseEvent> = new EventEmitter();
+    public readonly outsideClick: EventEmitter<MouseEvent> = new EventEmitter();
 
     @HostListener('document:mousedown', ['$event'])
     public onClick(event: MouseEvent): void {
