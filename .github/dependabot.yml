@@ -31,6 +31,10 @@ updates:
           - major
     ignore:
       - dependency-name: "@angular*"
-        update-types: ["version-update:semver-major"]
+        versions: [">=22"]
       - dependency-name: "@schematics/angular"
-        update-types: ["version-update:semver-major"]
+        versions: [">=22"]
+      - dependency-name: "@angular-eslint/*"
+        versions: [">=22"]
+      - dependency-name: "@angular/cdk"
+        versions: [">=21.1"]
