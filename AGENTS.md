@@ -32,6 +32,7 @@ The app is an expense tracking system with authentication, shared calendars, sta
 - Preserve strict typing in PHP and TypeScript.
 - Do not edit lockfiles unless dependency changes are required.
 - Treat `.env` files as local configuration, not feature implementation targets, unless the task is explicitly about configuration.
+- Do not assume direct push access to `main`; prepare changes on a branch and integrate through a pull request.
 
 ## Local Development
 
@@ -100,3 +101,4 @@ npm run build
 
 - Backend and frontend are intended to run together during development on ports `18001` and `18002`.
 - There is Docker support at the repo root, but the local dev commands above are the fastest path for targeted code changes.
+- Repository rules may block direct pushes to `main`. Default to branch-based work and PR-ready changes.
