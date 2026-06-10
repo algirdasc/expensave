@@ -24,4 +24,8 @@ import { RouterLink } from '@angular/router';
 export class LoginComponent extends NbLoginComponent {
     protected readonly APP_CONFIG = APP_CONFIG;
     protected readonly environment = environment;
+    protected readonly emailRequired: boolean = this.getConfigValue('forms.validation.email.required');
+    protected readonly passwordRequired: boolean = this.getConfigValue('forms.validation.password.required');
+    protected readonly passwordMinLength: number = this.getConfigValue('forms.validation.password.minLength');
+    protected readonly passwordMaxLength: number = this.getConfigValue('forms.validation.password.maxLength');
 }

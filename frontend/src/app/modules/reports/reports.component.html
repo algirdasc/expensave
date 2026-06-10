@@ -14,10 +14,10 @@
                     <div class="calendar-selection">
                         <h6 class="text-hint m-3">Calendars:</h6>
                         <nb-list class="mb-3">
-                            @for (calendar of calendarListQuery.data(); track calendar.id) {
+                            @for (calendar of calendars; track calendar.id) {
                                 <nb-list-item>
                                     <nb-checkbox
-                                        [checked]="isCalendarSelected(calendar)"
+                                        [checked]="selectedCalendarMap[calendar.id]"
                                         (checkedChange)="onCheckedChange(calendar, $event)"
                                         class="text-truncate">
                                         {{ calendar.name }}

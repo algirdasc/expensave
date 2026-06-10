@@ -29,7 +29,8 @@
             </div>
             <div class="color-picker">
                 @for (color of colors; track $index) {
-                    <div
+                    <button
+                        type="button"
                         class="color-picker-color d-flex justify-content-center align-items-center m-1"
                         (click)="category.color = color"
                         [style.background-color]="color">
@@ -39,7 +40,7 @@
                         @if (category.color === color) {
                             <nb-icon icon="checkmark-outline" style="color: white" />
                         }
-                    </div>
+                    </button>
                 }
                 <div class="clearfix"></div>
             </div>

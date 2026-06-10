@@ -37,6 +37,14 @@ export abstract class AbstractReportComponent {
         });
     }
 
+    get currentReportPeriod(): NbCalendarRange<Date> {
+        return this.reportPeriod();
+    }
+
+    get isReportFetching(): boolean {
+        return this.reportQuery.isFetching();
+    }
+
     onDateRangeChange(event: NbCalendarRange<Date>): void {
         this.reportPeriod.set(event);
     }

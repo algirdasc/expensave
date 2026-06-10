@@ -1,4 +1,4 @@
-<nb-card class="mb-0" [nbSpinner]="reportQuery.isFetching()">
+<nb-card class="mb-0" [nbSpinner]="isReportFetching">
     <nb-card-header class="d-md-flex align-content-center justify-content-between">
         <span style="line-height: 32px" class="d-block mb-3 mb-md-0">Monthly income & expense</span>
         <nb-button-group size="small" status="primary" ghost class="d-block text-center mx-3">
@@ -7,7 +7,7 @@
             </button>
 
             <button nbButton type="button" (click)="navigateToday()">
-                {{ reportPeriod()?.start.getFullYear() }}
+                {{ reportYear }}
             </button>
 
             <button nbButton type="button" (click)="navigateNext()">

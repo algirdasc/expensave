@@ -31,10 +31,16 @@ type ReportsRouteData = {
     ],
 })
 export class ReportsComponent implements OnInit {
+    public selectedCalendarMap: Record<number, boolean> = {};
+
     protected readonly activatedRoute = inject(ActivatedRoute);
     protected readonly calendarQueries = inject(CalendarQueries);
     protected readonly calendarListQuery = injectQuery(() => this.calendarQueries.list());
     protected readonly reportsStore = inject(ReportsStore);
+
+    public get calendars(): Calendar[] {
+        return this.calendarListQuery.data() ?? [];
+    }
 
     public ngOnInit(): void {
         this.applyRouteData(this.activatedRoute.snapshot.data as ReportsRouteData);
@@ -48,15 +54,23 @@ export class ReportsComponent implements OnInit {
 
             return current.filter(item => item.id !== calendar.id);
         });
-    }
-
-    public isCalendarSelected(calendar: Calendar): boolean {
-        return this.reportsStore.calendars().some(item => item.id === calendar.id);
+        this.syncSelectedCalendarMap();
     }
 
     private applyRouteData({ user, calendars }: ReportsRouteData): void {
         const defaultCalendar = calendars.find((calendar: Calendar) => calendar.isDefault(user));
 
         this.reportsStore.calendars.set(defaultCalendar ? [defaultCalendar] : []);
+        this.syncSelectedCalendarMap();
+    }
+
+    private syncSelectedCalendarMap(): void {
+        this.selectedCalendarMap = this.reportsStore
+            .calendars()
+            .reduce((map: Record<number, boolean>, calendar: Calendar) => {
+                map[calendar.id] = true;
+
+                return map;
+            }, {});
     }
 }

@@ -26,6 +26,7 @@ export class StatementReviewDialogComponent implements OnInit {
     protected readonly Object = Object;
     protected readonly DIALOG_ACTION_CLOSE = DIALOG_ACTION_CLOSE;
     protected groupedByDates: { [key: string]: Expense[] } = {};
+    protected groupedDates: string[] = [];
     protected totalExpensesAmountByDates: { [key: string]: number } = {};
     protected totalExpensesAmount: number = 0;
     protected calendarRefreshNeeded: boolean = false;
@@ -122,6 +123,7 @@ export class StatementReviewDialogComponent implements OnInit {
 
     private reloadGroupedExpenses(): void {
         this.groupedByDates = {};
+        this.groupedDates = [];
         this.totalExpensesAmountByDates = {};
         this.totalExpensesAmount = 0;
 
@@ -137,6 +139,8 @@ export class StatementReviewDialogComponent implements OnInit {
             this.groupedByDates[expenseGroup].push(expense);
             this.totalExpensesAmountByDates[expenseGroup] += expense.amount;
         });
+
+        this.groupedDates = Object.keys(this.groupedByDates);
     }
 
     private expenseGroup(expense: Expense): string {

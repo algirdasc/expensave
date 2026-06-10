@@ -10,11 +10,11 @@
             <nb-list-item
                 [@slideAnimation]
                 class="actionable"
-                [class.active]="isActive(calendar)"
+                [class.active]="selectedCalendarId === calendar.id"
                 (click)="calendarClick.emit(calendar)">
                 <nb-icon
-                    [icon]="isActive(calendar) ? 'radio-button-on' : 'radio-button-off'"
-                    [style]="isActive(calendar) ? 'primary' : ''"
+                    [icon]="selectedCalendarId === calendar.id ? 'radio-button-on' : 'radio-button-off'"
+                    [style]="selectedCalendarId === calendar.id ? 'primary' : ''"
                     class="flex-shrink-0 me-2" />
                 <div class="text-truncate">{{ calendar.name }}</div>
             </nb-list-item>

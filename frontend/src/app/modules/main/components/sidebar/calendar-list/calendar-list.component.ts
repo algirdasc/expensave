@@ -1,4 +1,4 @@
-import { Component, EventEmitter, inject, Input, Output } from '@angular/core';
+import { Component, EventEmitter, inject, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
 import {
     NbButtonModule,
     NbDialogRef,
@@ -24,7 +24,7 @@ import { ShortNumberPipe } from '../../../../../pipes/shortnumber.pipe';
     templateUrl: 'calendar-list.component.html',
     imports: [NbSpinnerModule, NbListModule, NbRadioModule, NbIconModule, NbButtonModule, ShortNumberPipe],
 })
-export class CalendarSidebarListComponent {
+export class CalendarSidebarListComponent implements OnChanges {
     @Input() public calendar: Calendar;
     @Output() public readonly calendarChange: EventEmitter<Calendar> = new EventEmitter<Calendar>();
 
@@ -38,6 +38,7 @@ export class CalendarSidebarListComponent {
     public readonly toastrService = inject(NbToastrService);
     public readonly statementImportService = inject(StatementImportService);
     public isBusy: boolean = false;
+    public selectedCalendarId: number | null = null;
 
     private dialogRef: NbDialogRef<CalendarEditComponent>;
     private dialogBack: EventEmitter<boolean> = new EventEmitter<boolean>();
@@ -53,6 +54,12 @@ export class CalendarSidebarListComponent {
                 this.dialogRef.close(calendar);
             });
         });
+    }
+
+    public ngOnChanges(changes: SimpleChanges): void {
+        if (changes.calendar) {
+            this.selectedCalendarId = changes.calendar.currentValue?.id ?? null;
+        }
     }
 
     public deleteCalendar(calendar: Calendar): void {

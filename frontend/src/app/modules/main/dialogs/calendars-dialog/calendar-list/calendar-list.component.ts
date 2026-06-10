@@ -12,12 +12,12 @@ import { NbButtonModule, NbCardModule, NbIconModule, NbListModule } from '@nebul
 })
 export class CalendarListComponent {
     @Input() public calendars: Calendar[];
-    @Input() public selectedCalendar: Calendar;
     @Output() public readonly calendarClick: EventEmitter<Calendar> = new EventEmitter<Calendar>();
     @Output() public readonly newCalendarClick: EventEmitter<boolean> = new EventEmitter<boolean>();
     @Output() public readonly back: EventEmitter<boolean> = new EventEmitter<boolean>();
+    public selectedCalendarId: number | null = null;
 
-    public isActive(calendar: Calendar): boolean {
-        return calendar.id === this.selectedCalendar?.id;
+    @Input() public set selectedCalendar(value: Calendar) {
+        this.selectedCalendarId = value?.id ?? null;
     }
 }

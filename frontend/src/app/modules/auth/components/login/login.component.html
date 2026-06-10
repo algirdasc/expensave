@@ -47,7 +47,7 @@
             placeholder="Email address"
             fieldSize="large"
             [status]="email.dirty ? (email.invalid ? 'danger' : 'success') : 'basic'"
-            [required]="getConfigValue('forms.validation.email.required')"
+            [required]="emailRequired"
             [attr.aria-invalid]="email.invalid && email.touched ? true : null" />
 
         @if (email.invalid && email.touched) {
@@ -74,16 +74,16 @@
             placeholder="Password"
             fieldSize="large"
             [status]="password.dirty ? (password.invalid ? 'danger' : 'success') : 'basic'"
-            [required]="getConfigValue('forms.validation.password.required')"
-            [minlength]="getConfigValue('forms.validation.password.minLength')"
-            [maxlength]="getConfigValue('forms.validation.password.maxLength')"
+            [required]="passwordRequired"
+            [minlength]="passwordMinLength"
+            [maxlength]="passwordMaxLength"
             [attr.aria-invalid]="password.invalid && password.touched ? true : null" />
 
         @if (password.invalid && password.touched) {
             @if (password.errors?.minlength || password.errors?.maxlength) {
                 <p class="caption status-danger">
-                    Password should contain from {{ getConfigValue('forms.validation.password.minLength') }} to
-                    {{ getConfigValue('forms.validation.password.maxLength') }}
+                    Password should contain from {{ passwordMinLength }} to
+                    {{ passwordMaxLength }}
                     characters
                 </p>
             }

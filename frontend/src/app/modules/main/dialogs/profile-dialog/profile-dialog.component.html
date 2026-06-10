@@ -16,8 +16,8 @@
                         required
                         #password="ngModel"
                         type="password"
-                        [minlength]="authOptions.getConfigValue('forms.validation.password.minLength')"
-                        [maxlength]="authOptions.getConfigValue('forms.validation.password.maxLength')"
+                        [minlength]="passwordMinLength"
+                        [maxlength]="passwordMaxLength"
                         [(ngModel)]="passwordRequest.currentPassword"
                         [status]="password.dirty ? (password.invalid ? 'danger' : 'success') : 'basic'"
                         name="currentPassword"
@@ -28,8 +28,8 @@
                     @if (password.errors?.minlength || password.errors?.maxlength) {
                         <p class="caption status-danger">
                             Password should contain from
-                            {{ authOptions.getConfigValue('forms.validation.password.minLength') }} to
-                            {{ authOptions.getConfigValue('forms.validation.password.maxLength') }}
+                            {{ passwordMinLength }} to
+                            {{ passwordMaxLength }}
                             characters
                         </p>
                     }
@@ -44,8 +44,8 @@
                         required
                         #newPassword="ngModel"
                         type="password"
-                        [minlength]="authOptions.getConfigValue('forms.validation.password.minLength')"
-                        [maxlength]="authOptions.getConfigValue('forms.validation.password.maxLength')"
+                        [minlength]="passwordMinLength"
+                        [maxlength]="passwordMaxLength"
                         [(ngModel)]="passwordRequest.newPassword"
                         [status]="newPassword.dirty ? (newPassword.invalid ? 'danger' : 'success') : 'basic'"
                         name="newPassword"
@@ -56,8 +56,8 @@
                     @if (newPassword.errors?.minlength || newPassword.errors?.maxlength) {
                         <p class="caption status-danger">
                             Password should contain from
-                            {{ authOptions.getConfigValue('forms.validation.password.minLength') }} to
-                            {{ authOptions.getConfigValue('forms.validation.password.maxLength') }}
+                            {{ passwordMinLength }} to
+                            {{ passwordMaxLength }}
                             characters
                         </p>
                     }
@@ -72,8 +72,8 @@
                         required
                         #confirmPassword="ngModel"
                         type="password"
-                        [minlength]="authOptions.getConfigValue('forms.validation.password.minLength')"
-                        [maxlength]="authOptions.getConfigValue('forms.validation.password.maxLength')"
+                        [minlength]="passwordMinLength"
+                        [maxlength]="passwordMaxLength"
                         [(ngModel)]="passwordRequest.confirmPassword"
                         [status]="confirmPassword.dirty ? (confirmPassword.invalid ? 'danger' : 'success') : 'basic'"
                         name="confirmPassword"
@@ -84,8 +84,8 @@
                     @if (confirmPassword.errors?.minlength || confirmPassword.errors?.maxlength) {
                         <p class="caption status-danger">
                             Password should contain from
-                            {{ authOptions.getConfigValue('forms.validation.password.minLength') }} to
-                            {{ authOptions.getConfigValue('forms.validation.password.maxLength') }}
+                            {{ passwordMinLength }} to
+                            {{ passwordMaxLength }}
                             characters
                         </p>
                     }

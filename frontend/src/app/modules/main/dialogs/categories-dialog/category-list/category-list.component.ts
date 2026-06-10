@@ -13,14 +13,14 @@ import { NbButtonModule, NbCardModule, NbIconModule, NbListModule } from '@nebul
 })
 export class CategoryListComponent {
     @Input() public categories: Category[];
-    @Input() public selectedCategory: Category;
     @Output() public readonly categoryClick: EventEmitter<Category> = new EventEmitter<Category>();
     @Output() public readonly newCategoryClick: EventEmitter<boolean> = new EventEmitter<boolean>();
     @Output() public readonly back: EventEmitter<boolean> = new EventEmitter<boolean>();
+    public selectedCategoryId: number | null = null;
 
     protected readonly UNCATEGORIZED_COLOR: string = UNCATEGORIZED_COLOR;
 
-    public isActive(category: Category): boolean {
-        return category.id === this.selectedCategory?.id;
+    @Input() public set selectedCategory(value: Category) {
+        this.selectedCategoryId = value?.id ?? null;
     }
 }
