@@ -48,7 +48,7 @@ export class HeaderDatePickerComponent {
     private readonly dateService = inject<NbDateService<Date>>(NbDateService);
 
     @Input({ required: true }) public visibleDate: Date;
-    @Output() public dateNavigate = new EventEmitter<Date>();
+    @Output() public readonly dateNavigate = new EventEmitter<Date>();
 
     @ViewChildren(NbPopoverDirective)
     private popovers: QueryList<NbPopoverDirective>;

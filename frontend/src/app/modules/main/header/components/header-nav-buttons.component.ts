@@ -19,7 +19,7 @@ import { NbButtonGroupModule, NbButtonModule, NbIconModule } from '@nebular/them
     imports: [NbButtonGroupModule, NbButtonModule, NbIconModule],
 })
 export class HeaderNavButtonsComponent {
-    @Output() public prev = new EventEmitter<void>();
-    @Output() public next = new EventEmitter<void>();
-    @Output() public today = new EventEmitter<void>();
+    @Output() public readonly prev = new EventEmitter<void>();
+    @Output() public readonly next = new EventEmitter<void>();
+    @Output() public readonly today = new EventEmitter<void>();
 }

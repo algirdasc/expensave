@@ -1,6 +1,6 @@
-import { Component, EventEmitter, Input, Output, inject } from '@angular/core';
+import { Component, EventEmitter, inject, Input, Output } from '@angular/core';
 import { Router } from '@angular/router';
-import { NbDialogService, NbUserModule, NbButtonModule, NbIconModule } from '@nebular/theme';
+import { NbButtonModule, NbDialogService, NbIconModule, NbUserModule } from '@nebular/theme';
 import { User } from '../../../../../api/objects/user';
 import { ConfirmDialogComponent } from '../../../dialogs/confirm-dialog/confirm-dialog.component';
 import { ProfileDialogComponent } from '../../../dialogs/profile-dialog/profile-dialog.component';
@@ -16,7 +16,7 @@ export class ProfileComponent {
     private readonly router = inject(Router);
 
     @Input() public user: User;
-    @Output() public userChange: EventEmitter<User> = new EventEmitter<User>();
+    @Output() public readonly userChange: EventEmitter<User> = new EventEmitter<User>();
 
     public showProfileDialog(): void {
         this.dialogService.open(ProfileDialogComponent, { autoFocus: false }).onClose.subscribe((user: User) => {

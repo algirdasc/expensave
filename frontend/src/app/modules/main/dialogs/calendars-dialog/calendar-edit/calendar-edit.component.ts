@@ -46,10 +46,10 @@ export class CalendarEditComponent implements OnInit {
     public calendar: Calendar;
 
     @Output()
-    public save: EventEmitter<Calendar> = new EventEmitter<Calendar>();
+    public readonly save: EventEmitter<Calendar> = new EventEmitter<Calendar>();
 
     @Output()
-    public back: EventEmitter<boolean> = new EventEmitter<boolean>();
+    public readonly back: EventEmitter<boolean> = new EventEmitter<boolean>();
 
     @ViewChild('userAutoCompleteInput')
     private userAutoCompleteInput: ElementRef;

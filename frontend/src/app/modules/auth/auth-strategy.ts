@@ -14,7 +14,7 @@ import { catchError, map } from 'rxjs/operators';
 
 type AuthRefreshToken = NbAuthRefreshableToken & NbAuthToken;
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class AuthStrategy extends NbPasswordAuthStrategy {
     protected defaultOptions: NbPasswordAuthStrategyOptions = passwordStrategyOptions;
 

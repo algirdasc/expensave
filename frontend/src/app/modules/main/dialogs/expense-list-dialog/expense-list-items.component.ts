@@ -42,7 +42,7 @@ export class ExpenseListItemsComponent implements OnInit {
     public icon: string = 'checkmark-circle-2';
 
     @Output()
-    public expenseClick: EventEmitter<Expense> = new EventEmitter<Expense>();
+    public readonly expenseClick: EventEmitter<Expense> = new EventEmitter<Expense>();
 
     protected totalExpensesAmount: number = 0;
 

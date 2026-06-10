@@ -1,7 +1,7 @@
 <nb-card size="small">
     <nb-card-header class="d-flex align-items-center justify-content-between">
         {{ title }}
-        <button nbButton status="primary" ghost (click)="dialogRef.close()">
+        <button nbButton type="button" status="primary" ghost (click)="dialogRef.close()">
             <nb-icon icon="close-outline" />
         </button>
     </nb-card-header>
@@ -18,7 +18,7 @@
     </nb-card-body>
 
     <nb-card-footer class="text-right">
-        <button nbButton status="primary" (click)="dialogRef.close(text ?? '')">
+        <button nbButton type="button" status="primary" (click)="dialogRef.close(text ?? '')">
             <nb-icon icon="save-outline" />
             Save
         </button>

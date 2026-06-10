@@ -30,7 +30,7 @@ export class PeriodSelectorComponent implements AfterViewInit {
     period: PeriodEnum;
 
     @Output()
-    dateRangeChange: EventEmitter<NbCalendarRange<Date>> = new EventEmitter<NbCalendarRange<Date>>();
+    public readonly dateRangeChange: EventEmitter<NbCalendarRange<Date>> = new EventEmitter<NbCalendarRange<Date>>();
 
     @ViewChild('rangePicker')
     rangePicker: NbRangepickerComponent<Date>;

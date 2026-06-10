@@ -1,4 +1,4 @@
-import { Injectable, inject } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { NbDateService } from '@nebular/theme';
 import { Subject } from 'rxjs';
@@ -10,7 +10,7 @@ import { ExpenseBalance } from '../../api/objects/expense-balance';
 import { User } from '../../api/objects/user';
 import { CalendarExpenseListResponse } from '../../api/response/calendar-expense-list.response';
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class MainService {
     private readonly calendarApiService = inject(CalendarApiService);
     private readonly dateService = inject<NbDateService<Date>>(NbDateService);

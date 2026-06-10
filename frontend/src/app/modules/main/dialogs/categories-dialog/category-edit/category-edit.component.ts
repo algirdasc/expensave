@@ -29,10 +29,10 @@ export class CategoryEditComponent {
     public category: Category;
 
     @Output()
-    public save: EventEmitter<Category> = new EventEmitter<Category>();
+    public readonly save: EventEmitter<Category> = new EventEmitter<Category>();
 
     @Output()
-    public back: EventEmitter<boolean> = new EventEmitter<boolean>();
+    public readonly back: EventEmitter<boolean> = new EventEmitter<boolean>();
 
     public usedColors: object = {};
     public isBusy: boolean = false;

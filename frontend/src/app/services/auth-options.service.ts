@@ -1,7 +1,7 @@
-import { Injectable, inject } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { getDeepFromObject, NB_AUTH_OPTIONS } from '@nebular/auth';
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class AuthOptionsService {
     protected options = inject(NB_AUTH_OPTIONS) ?? {};
 

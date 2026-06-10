@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { NbListModule, NbIconModule } from '@nebular/theme';
+import { NbIconModule, NbListModule } from '@nebular/theme';
 
 @Component({
     selector: 'app-expense-dialog-confirmed-list-item',
@@ -18,5 +18,5 @@ export class ConfirmedListItemComponent {
     public confirmed: boolean;
 
     @Output()
-    public confirmedChange: EventEmitter<boolean> = new EventEmitter<boolean>();
+    public readonly confirmedChange: EventEmitter<boolean> = new EventEmitter<boolean>();
 }

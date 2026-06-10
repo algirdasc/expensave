@@ -1,5 +1,5 @@
-import { Component, EventEmitter, Input, Output, inject } from '@angular/core';
-import { NbDialogService, NbListModule, NbIconModule } from '@nebular/theme';
+import { Component, EventEmitter, inject, Input, Output } from '@angular/core';
+import { NbDialogService, NbIconModule, NbListModule } from '@nebular/theme';
 import { InputDialogComponent } from '../../../input-dialog/input-dialog.component';
 
 @Component({
@@ -17,7 +17,7 @@ export class DescriptionListItemComponent {
     public description: string;
 
     @Output()
-    public descriptionChange: EventEmitter<string> = new EventEmitter<string>();
+    public readonly descriptionChange: EventEmitter<string> = new EventEmitter<string>();
 
     public addDescription(): void {
         this.dialogService

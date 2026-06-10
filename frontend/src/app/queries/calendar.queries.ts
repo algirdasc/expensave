@@ -7,7 +7,7 @@ import { lastValueFrom } from 'rxjs';
 import { HttpParams } from '@angular/common/http';
 import { Calendar } from '../api/objects/calendar';
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class CalendarQueries {
     private calendarApiService = inject(CalendarApiService);
 

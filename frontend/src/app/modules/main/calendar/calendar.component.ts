@@ -29,8 +29,8 @@ export class CalendarComponent extends NbCalendarDayPickerComponent<Date, Date> 
     @Input({ required: true }) public expenseBalances: ExpenseBalance[];
     @Input({ required: true }) public calendar: Calendar;
     @Input({ required: true }) public selectedDate: Date;
-    @Output() public calendarChange: EventEmitter<Calendar> = new EventEmitter<Calendar>();
-    @Output() public rangeChange: EventEmitter<{ dateFrom: Date; dateTo: Date }> = new EventEmitter<{
+    @Output() public readonly calendarChange: EventEmitter<Calendar> = new EventEmitter<Calendar>();
+    @Output() public readonly rangeChange: EventEmitter<{ dateFrom: Date; dateTo: Date }> = new EventEmitter<{
         dateFrom: Date;
         dateTo: Date;
     }>();

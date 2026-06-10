@@ -4,7 +4,7 @@ import { EntityInterface } from '../interfaces/entity.interface';
 import { AbstractEntityApiService } from './abstract-entity-api.service';
 import { Category } from './objects/category';
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class CategoryApiService extends AbstractEntityApiService<Category> {
     protected backend: string = '/category';
     protected entity: Type<EntityInterface> = Category;

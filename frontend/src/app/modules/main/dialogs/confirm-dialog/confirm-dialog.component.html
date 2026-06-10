@@ -5,11 +5,11 @@
         </p>
     </nb-card-body>
     <nb-card-footer class="text-right">
-        <button nbButton status="primary" (click)="dialogRef.close(true)" class="mx-1">
+        <button nbButton type="button" status="primary" (click)="dialogRef.close(true)" class="mx-1">
             <nb-icon icon="checkmark-outline" />
             {{ yesText }}
         </button>
-        <button nbButton (click)="dialogRef.close(false)" class="mx-1">
+        <button nbButton type="button" (click)="dialogRef.close(false)" class="mx-1">
             <nb-icon icon="close-outline" />
             {{ noText }}
         </button>

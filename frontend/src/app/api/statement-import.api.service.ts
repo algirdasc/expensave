@@ -4,7 +4,7 @@ import { AbstractApiService } from './abstract.api.service';
 import { Calendar } from './objects/calendar';
 import { StatementImportResponse } from './response/statement-import.response';
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class StatementImportApiService extends AbstractApiService {
     protected backend: string = '/calendar';
 

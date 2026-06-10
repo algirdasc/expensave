@@ -14,9 +14,9 @@ import { NbButtonModule, NbCardModule, NbIconModule, NbListModule } from '@nebul
 export class CategoryListComponent {
     @Input() public categories: Category[];
     @Input() public selectedCategory: Category;
-    @Output() public categoryClick: EventEmitter<Category> = new EventEmitter<Category>();
-    @Output() public newCategoryClick: EventEmitter<boolean> = new EventEmitter<boolean>();
-    @Output() public back: EventEmitter<boolean> = new EventEmitter<boolean>();
+    @Output() public readonly categoryClick: EventEmitter<Category> = new EventEmitter<Category>();
+    @Output() public readonly newCategoryClick: EventEmitter<boolean> = new EventEmitter<boolean>();
+    @Output() public readonly back: EventEmitter<boolean> = new EventEmitter<boolean>();
 
     protected readonly UNCATEGORIZED_COLOR: string = UNCATEGORIZED_COLOR;
 

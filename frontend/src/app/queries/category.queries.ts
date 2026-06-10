@@ -6,7 +6,7 @@ import { lastValueFrom } from 'rxjs';
 import { CategoryApiService } from '../api/category.api.service';
 import { Category } from '../api/objects/category';
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class CategoryQueries {
     private categoryApiService = inject(CategoryApiService);
 

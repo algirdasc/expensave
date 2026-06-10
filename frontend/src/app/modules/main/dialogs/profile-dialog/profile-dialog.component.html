@@ -2,7 +2,7 @@
     <nb-card [nbSpinner]="isBusy" class="dialog" style="min-height: 200px">
         <nb-card-header class="d-flex align-items-center justify-content-between">
             <nb-user [picture]="user.avatar" [name]="user.name" [title]="user.email" class="ms-1" />
-            <button nbButton status="primary" ghost (click)="dialogRef.close()">
+            <button nbButton type="button" status="primary" ghost (click)="dialogRef.close()">
                 <nb-icon icon="close-outline" />
             </button>
         </nb-card-header>

@@ -42,7 +42,7 @@ export class CalendarListItemComponent {
     public showLoader: boolean = false;
 
     @Output()
-    public calendarChange: EventEmitter<Calendar> = new EventEmitter<Calendar>();
+    public readonly calendarChange: EventEmitter<Calendar> = new EventEmitter<Calendar>();
 
     public selectCalendar(): void {
         this.dialogService

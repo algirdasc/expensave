@@ -15,13 +15,13 @@ export class SuggestionComponent implements OnInit, OnChanges {
     public cssClasses: string = '';
 
     @Output()
-    public suggestionChange: EventEmitter<string> = new EventEmitter<string>();
+    public readonly suggestionChange: EventEmitter<string> = new EventEmitter<string>();
 
     @Output()
-    public inputChanged: EventEmitter<string> = new EventEmitter<string>();
+    public readonly inputChanged: EventEmitter<string> = new EventEmitter<string>();
 
     @Output()
-    public suggest: EventEmitter<string> = new EventEmitter<string>();
+    public readonly suggest: EventEmitter<string> = new EventEmitter<string>();
 
     private _suggestion: string = '';
     private suggestionSubject: Subject<string> = new Subject<string>();
@@ -42,9 +42,13 @@ export class SuggestionComponent implements OnInit, OnChanges {
         this._suggestion = value === null ? '' : value;
     }
 
-    public applySuggestion(): void {
-        if (this._suggestion !== '') {
-            this.suggest.emit(this.input + this.suggestion);
+    public ngOnChanges(changes: SimpleChanges): void {
+        if (changes.suggestion && changes.suggestion.currentValue === this.input) {
+            this.applySuggestion();
+        }
+
+        if (changes.input && !changes.input.isFirstChange()) {
+            this.suggestionSubject.next(changes.input.currentValue);
         }
     }
 
@@ -54,13 +58,9 @@ export class SuggestionComponent implements OnInit, OnChanges {
         });
     }
 
-    public ngOnChanges(changes: SimpleChanges): void {
-        if (changes.suggestion && changes.suggestion.currentValue === this.input) {
-            this.applySuggestion();
-        }
-
-        if (changes.input && !changes.input.isFirstChange()) {
-            this.suggestionSubject.next(changes.input.currentValue);
+    public applySuggestion(): void {
+        if (this._suggestion !== '') {
+            this.suggest.emit(this.input + this.suggestion);
         }
     }
 }

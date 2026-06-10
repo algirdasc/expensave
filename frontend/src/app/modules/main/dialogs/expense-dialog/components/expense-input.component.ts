@@ -31,7 +31,7 @@ export class ExpenseInputComponent {
     public expense: Expense;
 
     @Output()
-    public expenseChange: EventEmitter<Expense> = new EventEmitter<Expense>();
+    public readonly expenseChange: EventEmitter<Expense> = new EventEmitter<Expense>();
 
     @Input()
     public labelEditable: boolean = true;
