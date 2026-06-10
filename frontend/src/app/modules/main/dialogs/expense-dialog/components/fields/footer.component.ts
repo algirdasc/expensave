@@ -7,7 +7,7 @@ import { ConfirmDialogComponent } from '../../../confirm-dialog/confirm-dialog.c
 @Component({
     selector: 'app-expense-dialog-footer',
     template: `<div class="d-flex flex-row-reverse justify-content-between p-3 border-top">
-        <button nbButton type="submit" status="primary" [disabled]="!form.valid || !submitEnabled" tabIndex="3">
+        <button nbButton type="submit" status="primary" [disabled]="!form.valid || !submitEnabled" [tabIndex]="3">
             <nb-icon icon="save-outline"></nb-icon>
             Save
         </button>

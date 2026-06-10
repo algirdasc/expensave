@@ -2,18 +2,18 @@
     <nb-card class="dialog">
         <nb-card-header class="d-flex align-items-center">
             <button nbButton status="primary" ghost (click)="back.emit()" class="me-3">
-                <nb-icon icon="arrow-back-outline"></nb-icon>
+                <nb-icon icon="arrow-back-outline" />
             </button>
             Manage category
         </nb-card-header>
 
         <nb-card-body>
             <div class="d-flex align-items-center mb-3">
-                <nb-icon icon="radio-button-on" class="flex-shrink-0 me-3" [style.color]="category.color"></nb-icon>
+                <nb-icon icon="radio-button-on" class="flex-shrink-0 me-3" [style.color]="category.color" />
                 <div>
                     <input type="hidden" required [(ngModel)]="category.color" name="color" />
                     <nb-form-field>
-                        <nb-icon nbPrefix icon="pricetags-outline"></nb-icon>
+                        <nb-icon nbPrefix icon="pricetags-outline" />
                         <input
                             #categoryName="ngModel"
                             nbInput
@@ -34,10 +34,10 @@
                         (click)="category.color = color"
                         [style.background-color]="color">
                         @if (category.color !== color && usedColors[color]) {
-                            <nb-icon icon="radio-button-on" style="color: white; opacity: 0.5"> </nb-icon>
+                            <nb-icon icon="radio-button-on" style="color: white; opacity: 0.5" />
                         }
                         @if (category.color === color) {
-                            <nb-icon icon="checkmark-outline" style="color: white"> </nb-icon>
+                            <nb-icon icon="checkmark-outline" style="color: white" />
                         }
                     </div>
                 }
@@ -48,13 +48,13 @@
         <nb-card-footer>
             <div class="d-flex flex-row-reverse justify-content-between">
                 <button nbButton type="submit" status="primary" [disabled]="saveButtonEnabled || !categoryForm.valid">
-                    <nb-icon icon="save-outline"></nb-icon>
+                    <nb-icon icon="save-outline" />
                     Save
                 </button>
 
                 @if (category.id && category.definedByUser) {
                     <button nbButton type="button" ghost status="danger" (click)="deleteCategory()">
-                        <nb-icon icon="trash-2-outline"></nb-icon>
+                        <nb-icon icon="trash-2-outline" />
                     </button>
                 }
             </div>

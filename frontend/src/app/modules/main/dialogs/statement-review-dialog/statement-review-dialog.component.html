@@ -6,7 +6,7 @@
             status="primary"
             ghost
             (click)="dialogRef.close({ action: DIALOG_ACTION_CLOSE, calendarRefreshNeeded: calendarRefreshNeeded })">
-            <nb-icon icon="close-outline"></nb-icon>
+            <nb-icon icon="close-outline" />
         </button>
     </nb-card-header>
     <nb-card-header class="d-flex with-background">
@@ -17,7 +17,7 @@
         @for (date of Object.keys(groupedByDates); track $index) {
             <nb-list>
                 <nb-list-item [@slideAnimation] class="with-background text-hint">
-                    <div class="d-flex w-100"><nb-icon icon="calendar-outline" class="me-1"></nb-icon> {{ date }}</div>
+                    <div class="d-flex w-100"><nb-icon icon="calendar-outline" class="me-1" /> {{ date }}</div>
                     <div>
                         {{ totalExpensesAmountByDates[date] | shortNumber }}
                     </div>
@@ -32,7 +32,7 @@
                         <nb-icon
                             [icon]="expense.confirmed ? 'radio-button-on' : 'radio-button-off'"
                             class="flex-shrink-0 me-2"
-                            [ngStyle]="{ color: expense.category?.color }"></nb-icon>
+                            [ngStyle]="{ color: expense.category?.color }" />
                         <div class="text-truncate w-100">
                             {{ expense.label }}
                             <small class="d-flex align-items-center text-hint">
@@ -48,7 +48,7 @@
     <nb-card-footer class="text-right">
         <div class="d-flex flex-row-reverse justify-content-between">
             <button nbButton type="button" status="primary" (click)="importExpenses()">
-                <nb-icon icon="save-outline"></nb-icon>
+                <nb-icon icon="save-outline" />
                 Import All
             </button>
 
@@ -59,7 +59,7 @@
                 status="danger"
                 (click)="cancelImport()"
                 title="Cancel statement import">
-                <nb-icon icon="trash-outline"></nb-icon>
+                <nb-icon icon="trash-outline" />
             </button>
         </div>
     </nb-card-footer>

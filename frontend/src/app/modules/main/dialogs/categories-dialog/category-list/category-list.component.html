@@ -1,7 +1,7 @@
 <nb-card class="dialog" size="large">
     <nb-card-header class="d-flex align-items-center">
         <button nbButton status="primary" ghost (click)="back.emit()" class="me-3">
-            <nb-icon icon="arrow-back-outline"></nb-icon>
+            <nb-icon icon="arrow-back-outline" />
         </button>
         Select category
     </nb-card-header>
@@ -16,15 +16,14 @@
                 <nb-icon
                     icon="radio-button-on"
                     class="flex-shrink-0 me-2"
-                    [style.color]="isActive(category) ? '' : category.color">
-                </nb-icon>
+                    [style.color]="isActive(category) ? '' : category.color" />
                 <div class="text-truncate">{{ category.name }}</div>
             </nb-list-item>
         }
     </nb-list>
     <nb-card-footer class="text-right">
         <button nbButton status="primary" ghost (click)="newCategoryClick.emit(true)">
-            <nb-icon icon="plus"></nb-icon> Add category
+            <nb-icon icon="plus" /> Add category
         </button>
     </nb-card-footer>
 </nb-card>

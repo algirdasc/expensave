@@ -16,7 +16,7 @@
             "node_modules/@types"
         ],
         "lib": [
-            "es2018",
+            "ES2022",
             "dom"
         ],
         "skipLibCheck": true,
@@ -40,7 +40,7 @@
         "useDefineForClassFields": false
     },
     "angularCompilerOptions": {
-        "fullTemplateTypeCheck": true,
+        "strictTemplates": true,
         "strictInjectionParameters": true
     }
 }

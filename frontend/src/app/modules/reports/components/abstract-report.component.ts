@@ -19,7 +19,6 @@ export abstract class AbstractReportComponent {
         const calendarIds = calendars.map(calendar => calendar.id);
 
         return {
-            // eslint-disable-next-line @tanstack/query/exhaustive-deps
             queryKey: ['report', this.reportsApiMethod, calendarIds, dateFrom, dateTo],
             queryFn: () => lastValueFrom(this.reportsApiService[this.reportsApiMethod](calendars, dateFrom, dateTo)),
             enabled: calendars.length > 0 && !!dateFrom && !!dateTo,

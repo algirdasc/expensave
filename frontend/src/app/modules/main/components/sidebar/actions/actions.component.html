@@ -1,14 +1,14 @@
 <div class="d-flex p-3 justify-content-center border-bottom">
     <nb-actions size="small">
-        <nb-action icon="bar-chart-outline" routerLink="/reports" nbTooltip="Reports"></nb-action>
-        <nb-action icon="pricetags-outline" (click)="editCategories()" nbTooltip="Categories"></nb-action>
+        <nb-action icon="bar-chart-outline" routerLink="/reports" nbTooltip="Reports" />
+        <nb-action icon="pricetags-outline" (click)="editCategories()" nbTooltip="Categories" />
         @if (statementImportService.expenses.length) {
             <nb-action
                 icon="attach-2-outline"
                 (click)="statementImportService.processImport()"
                 badgeDot
                 badgePosition="top right"
-                badgeStatus="danger"></nb-action>
+                badgeStatus="danger" />
         }
     </nb-actions>
 </div>

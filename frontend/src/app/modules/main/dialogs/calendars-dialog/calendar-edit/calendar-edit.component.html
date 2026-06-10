@@ -2,7 +2,7 @@
     <nb-card class="dialog">
         <nb-card-header class="d-flex align-items-center">
             <button nbButton status="primary" ghost (click)="back.emit()" class="me-3">
-                <nb-icon icon="arrow-back-outline"></nb-icon>
+                <nb-icon icon="arrow-back-outline" />
             </button>
             Manage calendar
         </nb-card-header>
@@ -10,7 +10,7 @@
         <nb-card-body>
             <div class="mb-3">
                 <nb-form-field>
-                    <nb-icon nbPrefix icon="calendar-outline"></nb-icon>
+                    <nb-icon nbPrefix icon="calendar-outline" />
                     <input
                         nbInput
                         fullWidth
@@ -53,7 +53,7 @@
                                     class="me-3"
                                     title="Remove user"
                                     (click)="removeUser(user)">
-                                    <nb-icon icon="person-remove-outline"></nb-icon>
+                                    <nb-icon icon="person-remove-outline" />
                                 </button>
                             </nb-list-item>
                         }
@@ -63,7 +63,7 @@
 
             <div class="border-top pt-3">
                 <nb-form-field>
-                    <nb-icon nbPrefix icon="person-add-outline"></nb-icon>
+                    <nb-icon nbPrefix icon="person-add-outline" />
                     <input
                         nbInput
                         #userAutoCompleteInput
@@ -87,7 +87,7 @@
 
         <nb-card-footer class="text-right">
             <button nbButton type="submit" status="primary" [disabled]="isBusy || !calendarForm.valid">
-                <nb-icon icon="save-outline"></nb-icon>
+                <nb-icon icon="save-outline" />
                 Save
             </button>
         </nb-card-footer>

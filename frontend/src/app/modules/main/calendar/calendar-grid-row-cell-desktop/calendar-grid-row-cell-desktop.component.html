@@ -17,7 +17,7 @@
             status="primary"
             class="create-expense bounceIn"
             (click)="calendarService.createExpense(calendar, date)">
-            <nb-icon icon="plus-outline"></nb-icon>
+            <nb-icon icon="plus-outline" />
         </button>
     </div>
 
@@ -26,8 +26,7 @@
             <app-calendar-expense-item
                 [class.expense-unconfirmed]="!expense.confirmed"
                 (click)="calendarService.editExpense(expense)"
-                [expense]="expense">
-            </app-calendar-expense-item>
+                [expense]="expense" />
         }
 
         @if (!!invisibleExpensesCount) {
