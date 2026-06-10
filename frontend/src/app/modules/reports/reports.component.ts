@@ -10,6 +10,11 @@ import { injectQuery } from '@tanstack/angular-query-experimental';
 import { ReportsStore } from './reports.store';
 import { User } from '../../api/objects/user';
 
+type ReportsRouteData = {
+    user: User;
+    calendars: Calendar[];
+};
+
 @Component({
     templateUrl: 'reports.component.html',
     styleUrl: 'reports.component.scss',
@@ -26,22 +31,16 @@ import { User } from '../../api/objects/user';
     ],
 })
 export class ReportsComponent implements OnInit {
-    activatedRoute = inject(ActivatedRoute);
-    calendarQueries = inject(CalendarQueries);
-    calendarListQuery = injectQuery(() => this.calendarQueries.list());
-    reportsStore = inject(ReportsStore);
+    protected readonly activatedRoute = inject(ActivatedRoute);
+    protected readonly calendarQueries = inject(CalendarQueries);
+    protected readonly calendarListQuery = injectQuery(() => this.calendarQueries.list());
+    protected readonly reportsStore = inject(ReportsStore);
 
-    ngOnInit(): void {
-        this.activatedRoute.data.subscribe(({ user, calendars }: { user: User; calendars: Calendar[] }) => {
-            for (const calendar of calendars) {
-                if (calendar.isDefault(user)) {
-                    this.reportsStore.calendars.set([calendar]);
-                }
-            }
-        });
+    public ngOnInit(): void {
+        this.applyRouteData(this.activatedRoute.snapshot.data as ReportsRouteData);
     }
 
-    onCheckedChange(calendar: Calendar, event: boolean): void {
+    public onCheckedChange(calendar: Calendar, event: boolean): void {
         this.reportsStore.calendars.update(current => {
             if (event) {
                 return current.some(item => item.id === calendar.id) ? current : [...current, calendar];
@@ -51,7 +50,13 @@ export class ReportsComponent implements OnInit {
         });
     }
 
-    isCalendarSelected(calendar: Calendar): boolean {
+    public isCalendarSelected(calendar: Calendar): boolean {
         return this.reportsStore.calendars().some(item => item.id === calendar.id);
+    }
+
+    private applyRouteData({ user, calendars }: ReportsRouteData): void {
+        const defaultCalendar = calendars.find((calendar: Calendar) => calendar.isDefault(user));
+
+        this.reportsStore.calendars.set(defaultCalendar ? [defaultCalendar] : []);
     }
 }

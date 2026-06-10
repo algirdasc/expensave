@@ -1,6 +1,15 @@
-import { Component, inject } from '@angular/core';
-import { NavigationEnd, NavigationStart, Router, RouterOutlet } from '@angular/router';
-import { NbDateService, NbLayoutModule, NbSpinnerModule } from '@nebular/theme';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { Component, DestroyRef, OnInit, inject } from '@angular/core';
+import {
+    Event,
+    NavigationCancel,
+    NavigationEnd,
+    NavigationError,
+    NavigationStart,
+    Router,
+    RouterOutlet,
+} from '@angular/router';
+import { NbLayoutModule, NbSpinnerModule } from '@nebular/theme';
 
 @Component({
     selector: 'app-root',
@@ -11,21 +20,25 @@ import { NbDateService, NbLayoutModule, NbSpinnerModule } from '@nebular/theme';
     </nb-layout>`,
     imports: [NbLayoutModule, NbSpinnerModule, RouterOutlet],
 })
-export class AppComponent {
-    private router = inject(Router);
-    private dateService = inject<NbDateService<Date>>(NbDateService);
+export class AppComponent implements OnInit {
+    private readonly destroyRef = inject(DestroyRef);
+    private readonly router = inject(Router);
 
-    public isBusy: boolean = true;
+    public isBusy = true;
 
-    public constructor() {
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        this.router.events.subscribe((event: any) => {
-            if (event instanceof NavigationEnd) {
-                this.isBusy = false;
-            }
-
+    public ngOnInit(): void {
+        this.router.events.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((event: Event) => {
             if (event instanceof NavigationStart) {
                 this.isBusy = true;
+                return;
+            }
+
+            if (
+                event instanceof NavigationEnd ||
+                event instanceof NavigationCancel ||
+                event instanceof NavigationError
+            ) {
+                this.isBusy = false;
             }
         });
     }

@@ -1,4 +1,5 @@
-import { Component, NgZone, OnInit, inject } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { Component, DestroyRef, NgZone, OnInit, inject } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import {
     NbDateService,
@@ -25,6 +26,13 @@ import { OutsideClickDirective } from '../../directives/outside-click.directive'
 import { ProfileComponent } from './components/sidebar/profile/profile.component';
 import { CalendarSidebarListComponent } from './components/sidebar/calendar-list/calendar-list.component';
 import { ActionsComponent } from './components/sidebar/actions/actions.component';
+import { take } from 'rxjs';
+
+type MainRouteData = {
+    user: User;
+    calendars: Calendar[];
+    systemCategories: Category[];
+};
 
 @Component({
     templateUrl: 'main.component.html',
@@ -44,6 +52,7 @@ import { ActionsComponent } from './components/sidebar/actions/actions.component
     ],
 })
 export class MainComponent implements OnInit {
+    private readonly destroyRef = inject(DestroyRef);
     private readonly router = inject(Router);
     private readonly activatedRoute = inject(ActivatedRoute);
     private readonly expenseApiService = inject(ExpenseApiService);
@@ -54,45 +63,14 @@ export class MainComponent implements OnInit {
     private readonly statementImportService = inject(StatementImportService);
     public readonly mainService = inject(MainService);
 
-    protected isCalendarBusy: boolean = false;
-    protected isApplicationBusy: boolean = false;
-    protected isMobile: boolean;
-
-    public constructor() {
-        this.expenseApiService.onBusyChange.subscribe((isBusy: boolean) => (this.isCalendarBusy = isBusy));
-        this.mainService.isApplicationBusy.subscribe((isBusy: boolean) => (this.isApplicationBusy = isBusy));
-    }
+    protected isCalendarBusy = false;
+    protected isApplicationBusy = false;
+    protected isMobile = false;
 
     public ngOnInit(): void {
-        this.activatedRoute.data.subscribe(
-            ({
-                user,
-                calendars,
-                systemCategories,
-            }: {
-                user: User;
-                calendars: Calendar[];
-                systemCategories: Category[];
-            }) => {
-                this.mainService.user = user;
-                this.mainService.calendars = calendars;
-                this.mainService.systemCategories = systemCategories;
-                this.mainService.calendar =
-                    this.mainService.calendars.filter((calendar: Calendar) => {
-                        return calendar.id === user.defaultCalendarId;
-                    })[0] || this.mainService.calendars[0];
-            }
-        );
-
-        this.activatedRoute.queryParams.subscribe(({ date }: { date?: string }) => {
-            if (date) {
-                const parsedDate = new Date(`${date}-01 00:00:00`);
-                if (DateUtil.valid(parsedDate)) {
-                    parsedDate.setDate(this.mainService.visibleDate.getDate());
-                    this.mainService.visibleDate = parsedDate;
-                }
-            }
-        });
+        this.bindBusyStates();
+        this.bindResolvedRouteData();
+        this.bindVisibleDateQueryParam();
 
         if (this.statementImportService.expenses.length) {
             this.statementImportService.processImport();
@@ -133,15 +111,62 @@ export class MainComponent implements OnInit {
 
     public onSidebarOutsideClick(event: MouseEvent): void {
         const sidebarToggler = document.getElementById('sidebar-toggler');
-        if (sidebarToggler.contains(event.target as HTMLElement)) {
+        if (sidebarToggler?.contains(event.target as HTMLElement)) {
             return;
         }
 
-        this.sidebarService.getSidebarState(SIDEBAR_TAG).subscribe(state => {
+        this.sidebarService.getSidebarState(SIDEBAR_TAG).pipe(take(1)).subscribe(state => {
             if (state !== 'collapsed') {
                 this.sidebarService.collapse(SIDEBAR_TAG);
             }
         });
+    }
+
+    private bindBusyStates(): void {
+        this.expenseApiService.onBusyChange
+            .pipe(takeUntilDestroyed(this.destroyRef))
+            .subscribe((isBusy: boolean) => (this.isCalendarBusy = isBusy));
+
+        this.mainService.isApplicationBusy
+            .pipe(takeUntilDestroyed(this.destroyRef))
+            .subscribe((isBusy: boolean) => (this.isApplicationBusy = isBusy));
+    }
+
+    private bindResolvedRouteData(): void {
+        this.activatedRoute.data
+            .pipe(takeUntilDestroyed(this.destroyRef))
+            .subscribe((data: MainRouteData) => this.applyRouteData(data));
+    }
+
+    private bindVisibleDateQueryParam(): void {
+        this.activatedRoute.queryParamMap
+            .pipe(takeUntilDestroyed(this.destroyRef))
+            .subscribe(params => this.updateVisibleDateFromQueryParam(params.get('date')));
+    }
+
+    private applyRouteData({ user, calendars, systemCategories }: MainRouteData): void {
+        this.mainService.user = user;
+        this.mainService.calendars = calendars;
+        this.mainService.systemCategories = systemCategories;
+        this.mainService.calendar = this.getDefaultCalendar(user, calendars);
+    }
+
+    private getDefaultCalendar(user: User, calendars: Calendar[]): Calendar {
+        return calendars.find((calendar: Calendar) => calendar.id === user.defaultCalendarId) ?? calendars[0];
+    }
+
+    private updateVisibleDateFromQueryParam(date: string | null): void {
+        if (!date) {
+            return;
+        }
+
+        const parsedDate = new Date(`${date}-01 00:00:00`);
+        if (!DateUtil.valid(parsedDate)) {
+            return;
+        }
+
+        parsedDate.setDate(this.mainService.visibleDate.getDate());
+        this.mainService.visibleDate = parsedDate;
     }
 
     protected readonly SIDEBAR_TAG = SIDEBAR_TAG;
