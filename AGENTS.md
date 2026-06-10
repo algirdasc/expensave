@@ -96,6 +96,17 @@ npm run build
 - Reuse the existing query/service layer instead of adding ad hoc fetch logic in components.
 - Keep route-level data loading aligned with `frontend/src/app/app.routes.ts`.
 - Match existing Nebular and Bootstrap usage before introducing new UI patterns.
+- Prefer `takeUntilDestroyed` or snapshot-based route reads in components instead of long-lived manual subscriptions.
+- Favor small private helper methods for route-state mapping and UI-only logic so future tests can target behavior without bootstrapping whole features.
+
+## Frontend Refactor Log
+
+- Current frontend cleanup is proceeding in small, reviewable chunks.
+- First chunk focuses on root and top-level feature components:
+  - remove unused injections and `any`-typed router event handling
+  - replace long-lived component subscriptions with Angular-managed teardown
+  - move route-data mapping into private helpers
+  - keep existing TanStack Query usage untouched for now; do not refactor migrated query code until the broader migration pass
 
 ## Notes
 
