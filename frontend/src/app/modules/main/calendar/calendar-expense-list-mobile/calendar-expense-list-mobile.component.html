@@ -4,8 +4,7 @@
             <app-calendar-expense-list-mobile-items
                 [selectedValue]="selectedValue"
                 [confirmed]="false"
-                [expenses]="unconfirmedExpenses">
-            </app-calendar-expense-list-mobile-items>
+                [expenses]="unconfirmedExpenses" />
         </div>
     }
     @if (confirmedExpenses.length) {
@@ -13,8 +12,7 @@
             <app-calendar-expense-list-mobile-items
                 [selectedValue]="selectedValue"
                 [confirmed]="true"
-                [expenses]="confirmedExpenses">
-            </app-calendar-expense-list-mobile-items>
+                [expenses]="confirmedExpenses" />
         </div>
     }
 </div>
@@ -24,5 +22,5 @@
     status="primary"
     class="create-expense"
     (click)="calendarService.createExpense(calendar, selectedValue)">
-    <nb-icon icon="plus-outline"></nb-icon>
+    <nb-icon icon="plus-outline" />
 </button>

@@ -3,8 +3,7 @@
         <app-header
             [calendar]="mainService.calendar"
             [visibleDateBalance]="mainService.visibleDateBalance"
-            [visibleDate]="mainService.visibleDate">
-        </app-header>
+            [visibleDate]="mainService.visibleDate" />
     </nb-layout-header>
 
     <nb-layout-column
@@ -20,8 +19,7 @@
             [visibleDate]="mainService.visibleDate"
             [selectedDate]="mainService.visibleDate"
             (rangeChange)="onRangeChange($event)"
-            [isMobile]="isMobile">
-        </app-calendar>
+            [isMobile]="isMobile" />
     </nb-layout-column>
 
     <nb-sidebar
@@ -30,14 +28,13 @@
         appOutsideClick
         (outsideClick)="onSidebarOutsideClick($event)">
         <div class="d-flex flex-column h-100 p-3">
-            <app-profile [user]="mainService.user"></app-profile>
+            <app-profile [user]="mainService.user" />
             <div class="border-bottom my-3"></div>
             <app-sidebar-calendar-list
                 [(calendars)]="mainService.calendars"
                 [calendar]="mainService.calendar"
-                (calendarChange)="onCalendarChange($event)">
-            </app-sidebar-calendar-list>
-            <app-sidebar-actions class="mt-auto"></app-sidebar-actions>
+                (calendarChange)="onCalendarChange($event)" />
+            <app-sidebar-actions class="mt-auto" />
         </div>
     </nb-sidebar>
 </nb-layout>

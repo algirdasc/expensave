@@ -1,15 +1,12 @@
 <div class="d-flex justify-content-between">
     <div class="d-flex align-items-center">
-        <app-header-sidebar-toggle></app-header-sidebar-toggle>
-        <app-header-calendar-info [calendar]="calendar" [visibleDateBalance]="visibleDateBalance">
-        </app-header-calendar-info>
+        <app-header-sidebar-toggle />
+        <app-header-calendar-info [calendar]="calendar" [visibleDateBalance]="visibleDateBalance" />
     </div>
 
     <div class="d-flex text-right">
-        <app-header-date-picker [visibleDate]="visibleDate" (dateNavigate)="navigateToDate($event)">
-        </app-header-date-picker>
+        <app-header-date-picker [visibleDate]="visibleDate" (dateNavigate)="navigateToDate($event)" />
 
-        <app-header-nav-buttons (prev)="navigatePrev()" (today)="navigateToday()" (next)="navigateNext()">
-        </app-header-nav-buttons>
+        <app-header-nav-buttons (prev)="navigatePrev()" (today)="navigateToday()" (next)="navigateNext()" />
     </div>
 </div>

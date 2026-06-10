@@ -5,15 +5,13 @@
             [category]="editableCategory"
             [saveButtonEnabled]="isBusy"
             (back)="editableCategory = undefined; fetch()"
-            (save)="saveCategory($event)">
-        </app-category-edit>
+            (save)="saveCategory($event)" />
     } @else {
         <app-category-list
             [categories]="categories"
             [selectedCategory]="selectedCategory"
             (newCategoryClick)="editCategory()"
             (categoryClick)="categoryClick($event)"
-            (back)="dialogRef.close()">
-        </app-category-list>
+            (back)="dialogRef.close()" />
     }
 </div>

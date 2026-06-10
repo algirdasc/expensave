@@ -1,9 +1,7 @@
 <nb-card class="mb-0" [nbSpinner]="reportQuery.isFetching()">
     <nb-card-header class="d-md-flex align-content-center justify-content-between">
         <span style="line-height: 32px" class="d-block mb-3 mb-md-0">Expenses by category</span>
-        <app-reports-period-selector
-            [period]="PeriodEnum.THIS_MONTH"
-            (dateRangeChange)="onDateRangeChange($event)"></app-reports-period-selector>
+        <app-reports-period-selector [period]="PeriodEnum.THIS_MONTH" (dateRangeChange)="onDateRangeChange($event)" />
     </nb-card-header>
     <nb-card-body class="overflow-hidden">
         <div class="mb-3">

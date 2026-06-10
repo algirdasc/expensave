@@ -1,15 +1,15 @@
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { Component, DestroyRef, NgZone, OnInit, inject } from '@angular/core';
+import { Component, DestroyRef, inject, NgZone, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import {
     NbDateService,
-    NbMediaBreakpointsService,
-    NbSidebarService,
     NbLayoutModule,
-    NbSpinnerModule,
+    NbMediaBreakpointsService,
     NbSidebarModule,
+    NbSidebarService,
+    NbSpinnerModule,
 } from '@nebular/theme';
-import { ResizedEvent, AngularResizeEventModule } from 'angular-resize-event';
+import { AngularResizeEventModule, ResizedEvent } from 'angular-resize-event';
 import { ExpenseApiService } from '../../api/expense.api.service';
 import { Calendar } from '../../api/objects/calendar';
 import { Category } from '../../api/objects/category';
@@ -115,11 +115,14 @@ export class MainComponent implements OnInit {
             return;
         }
 
-        this.sidebarService.getSidebarState(SIDEBAR_TAG).pipe(take(1)).subscribe(state => {
-            if (state !== 'collapsed') {
-                this.sidebarService.collapse(SIDEBAR_TAG);
-            }
-        });
+        this.sidebarService
+            .getSidebarState(SIDEBAR_TAG)
+            .pipe(take(1))
+            .subscribe(state => {
+                if (state !== 'collapsed') {
+                    this.sidebarService.collapse(SIDEBAR_TAG);
+                }
+            });
     }
 
     private bindBusyStates(): void {

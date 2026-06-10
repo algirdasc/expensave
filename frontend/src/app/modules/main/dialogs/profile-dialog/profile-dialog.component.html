@@ -1,15 +1,15 @@
 <form #userForm="ngForm" (ngSubmit)="onSubmit()" autocomplete="off">
     <nb-card [nbSpinner]="isBusy" class="dialog" style="min-height: 200px">
         <nb-card-header class="d-flex align-items-center justify-content-between">
-            <nb-user [picture]="user.avatar" [name]="user.name" [title]="user.email" class="ms-1"> </nb-user>
+            <nb-user [picture]="user.avatar" [name]="user.name" [title]="user.email" class="ms-1" />
             <button nbButton status="primary" ghost (click)="dialogRef.close()">
-                <nb-icon icon="close-outline"></nb-icon>
+                <nb-icon icon="close-outline" />
             </button>
         </nb-card-header>
         <nb-card-body>
             <div class="mb-3">
                 <nb-form-field>
-                    <nb-icon nbPrefix icon="shield-outline"></nb-icon>
+                    <nb-icon nbPrefix icon="shield-outline" />
                     <input
                         nbInput
                         fullWidth
@@ -37,7 +37,7 @@
             </div>
             <div class="mb-3">
                 <nb-form-field>
-                    <nb-icon nbPrefix icon="checkmark-outline"></nb-icon>
+                    <nb-icon nbPrefix icon="checkmark-outline" />
                     <input
                         nbInput
                         fullWidth
@@ -65,7 +65,7 @@
             </div>
             <div class="mb-0">
                 <nb-form-field>
-                    <nb-icon nbPrefix icon="done-all-outline"></nb-icon>
+                    <nb-icon nbPrefix icon="done-all-outline" />
                     <input
                         nbInput
                         fullWidth
@@ -94,7 +94,7 @@
         </nb-card-body>
         <nb-card-footer class="text-right">
             <button nbButton type="submit" status="primary" [disabled]="isBusy || !userForm.form.valid">
-                <nb-icon icon="save-outline"></nb-icon> Save
+                <nb-icon icon="save-outline" /> Save
             </button>
         </nb-card-footer>
     </nb-card>

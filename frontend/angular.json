@@ -23,7 +23,7 @@
                             "@angular/localize/init"
                         ],
                         "tsConfig": "tsconfig.app.json",
-                        "aot": false,
+                        "aot": true,
                         "assets": [
                             "src/manifest.json",
                             "src/favicon.ico",
@@ -59,7 +59,6 @@
                             "outputHashing": "all",
                             "sourceMap": false,
                             "namedChunks": false,
-                            "aot": true,
                             "extractLicenses": true,
                             "budgets": [
                                 {
@@ -87,18 +86,6 @@
                     "builder": "@angular-devkit/build-angular:extract-i18n",
                     "options": {
                         "buildTarget": "frontend:build"
-                    }
-                },
-                "e2e": {
-                    "builder": "@angular-devkit/build-angular:protractor",
-                    "options": {
-                        "protractorConfig": "e2e/protractor.conf.js",
-                        "devServerTarget": "frontend:serve"
-                    },
-                    "configurations": {
-                        "production": {
-                            "devServerTarget": "frontend:serve:production"
-                        }
                     }
                 },
                 "lint": {

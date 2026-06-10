@@ -8,12 +8,12 @@
                         *nbTabContent
                         #tabExpense
                         [onSubmit]="onExpenseSubmit"
-                        [onDelete]="onExpenseDelete"></app-expense>
+                        [onDelete]="onExpenseDelete" />
                 </nb-tab>
             }
             @if (showTransferTab) {
                 <nb-tab tabTitle="Transfer" class="h-100 p-0" [tabId]="TAB_ID_TRANSFER">
-                    <app-transfer [expense]="transfer" *nbTabContent #tabTransfer></app-transfer>
+                    <app-transfer [expense]="transfer" *nbTabContent #tabTransfer />
                 </nb-tab>
             }
             @if (showBalanceTab) {
@@ -23,7 +23,7 @@
                         *nbTabContent
                         #tabBalance
                         [onSubmit]="onBalanceSubmit"
-                        [onDelete]="onBalanceDelete"></app-balance>
+                        [onDelete]="onBalanceDelete" />
                 </nb-tab>
             }
         </nb-tabset>

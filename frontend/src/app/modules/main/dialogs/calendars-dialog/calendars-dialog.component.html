@@ -4,15 +4,13 @@
             [calendar]="editableCalendar"
             [isBusy]="isBusy"
             (back)="editableCalendar = undefined"
-            (save)="saveCalendar($event)">
-        </app-calendar-edit>
+            (save)="saveCalendar($event)" />
     } @else {
         <app-calendar-list
             [selectedCalendar]="this.selectedCalendar"
             [calendars]="this.calendars"
             (newCalendarClick)="editCalendar()"
             (calendarClick)="dialogRef.close($event)"
-            (back)="dialogRef.close(false)">
-        </app-calendar-list>
+            (back)="dialogRef.close(false)" />
     }
 </div>

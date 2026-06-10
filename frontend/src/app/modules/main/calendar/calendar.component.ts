@@ -1,11 +1,6 @@
 import { getLocaleFirstDayOfWeek } from '@angular/common';
 import { Component, EventEmitter, inject, Input, OnChanges, Output, SimpleChanges, Type } from '@angular/core';
-import {
-    NbCalendarCell,
-    NbCalendarDayPickerComponent,
-    NbCalendarMonthModelService,
-    NbCardModule,
-} from '@nebular/theme';
+import { NbCalendarDayPickerComponent, NbCalendarMonthModelService, NbCardModule } from '@nebular/theme';
 import { Calendar } from '../../../api/objects/calendar';
 import { Expense } from '../../../api/objects/expense';
 import { ExpenseBalance } from '../../../api/objects/expense-balance';
@@ -17,6 +12,7 @@ import { CalendarMonthModelService } from './calendar-month-model.service';
 import { CalendarDayNamesComponent } from './calendar-day-names/calendar-day-names.component';
 import { CalendarGridComponent } from './calendar-grid/calendar-grid.component';
 import { CalendarExpenseListMobileComponent } from './calendar-expense-list-mobile/calendar-expense-list-mobile.component';
+import { CalendarCellInterface } from './interfaces/calendar-cell.interface';
 
 @Component({
     styleUrls: ['calendar.component.scss'],
@@ -38,7 +34,7 @@ export class CalendarComponent extends NbCalendarDayPickerComponent<Date, Date> 
         dateFrom: Date;
         dateTo: Date;
     }>();
-    public cellComponent: Type<NbCalendarCell<Date, Date>> = CalendarGridRowCellDesktopComponent;
+    public cellComponent: Type<CalendarCellInterface> = CalendarGridRowCellDesktopComponent;
 
     public constructor() {
         const unusedMonthModelService = inject<NbCalendarMonthModelService<Date>>(NbCalendarMonthModelService);

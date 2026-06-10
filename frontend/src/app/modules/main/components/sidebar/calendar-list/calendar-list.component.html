@@ -22,9 +22,9 @@
                                                   calendar.owner.email +
                                                   ')'
                                         "
-                                        class="me-1 text-hint"></nb-icon>
+                                        class="me-1 text-hint" />
                                 } @else {
-                                    <nb-icon icon="person-outline" class="me-1 text-hint" title="Owned by me"></nb-icon>
+                                    <nb-icon icon="person-outline" class="me-1 text-hint" title="Owned by me" />
                                 }
 
                                 {{ calendar.name }}
@@ -40,7 +40,7 @@
                                     status="danger"
                                     (click)="makeDefault(calendar)"
                                     title="Make default">
-                                    <nb-icon icon="heart-outline"></nb-icon>
+                                    <nb-icon icon="heart-outline" />
                                 </button>
                                 <button
                                     nbButton
@@ -49,7 +49,7 @@
                                     status="success"
                                     (click)="statementImportService.uploadStatement(calendar)"
                                     title="Import / export statements">
-                                    <nb-icon icon="attach-outline"></nb-icon>
+                                    <nb-icon icon="attach-outline" />
                                 </button>
 
                                 @if (calendar.isOwner(mainService.user)) {
@@ -60,7 +60,7 @@
                                         status="primary"
                                         (click)="editCalendar(calendar)"
                                         title="Edit calendar">
-                                        <nb-icon icon="edit-outline"></nb-icon>
+                                        <nb-icon icon="edit-outline" />
                                     </button>
                                     <button
                                         nbButton
@@ -69,7 +69,7 @@
                                         status="danger"
                                         (click)="deleteCalendar(calendar)"
                                         title="Delete calendar">
-                                        <nb-icon icon="trash-2-outline"></nb-icon>
+                                        <nb-icon icon="trash-2-outline" />
                                     </button>
                                 }
                             </div>
@@ -81,7 +81,7 @@
     </nb-list>
     <div class="d-flex justify-content-between">
         <button nbButton fullWidth status="primary" ghost (click)="createCalendar()" class="pl-4" i18n>
-            <nb-icon icon="plus"></nb-icon>
+            <nb-icon icon="plus" />
             Add a calendar...
         </button>
     </div>
