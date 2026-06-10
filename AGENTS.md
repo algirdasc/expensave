@@ -9,7 +9,7 @@ This file applies to the entire repository.
 Expensave is a split application:
 
 - `backend/`: Symfony 7.1 API on PHP 8.3+
-- `frontend/`: Angular 20 application with Nebular and Bootstrap
+- `frontend/`: Angular 21 application with Nebular and Bootstrap
 
 The app is an expense tracking system with authentication, shared calendars, statement import, and reports.
 
@@ -50,10 +50,12 @@ php -S 0.0.0.0:18001 -t ./public ./config/router.php
 Run from `frontend/`:
 
 ```bash
-nvm use v20
+nvm use          # uses .nvmrc at repo root
 npm ci
 npm run dev
 ```
+
+**Important:** Always run `nvm use` before any `npm` commands in the frontend to ensure the correct Node version from `.nvmrc` is active.
 
 Frontend dev server runs on port `18002`.
 
