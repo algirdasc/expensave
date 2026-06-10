@@ -41,6 +41,7 @@ export class ExpenseDialogComponent implements OnInit {
     protected readonly TAB_ID_TRANSFER = 'transfer';
     protected readonly TAB_ID_BALANCE = 'balance';
     protected readonly TYPE_BALANCE_UPDATE = TYPE_BALANCE_UPDATE;
+    protected isCurrentTabConfirmed: boolean = false;
 
     private currentTab: string;
 
@@ -53,6 +54,14 @@ export class ExpenseDialogComponent implements OnInit {
             this.balance = instanceToInstance(this.expense);
             this.balance.category = this.predefinedCategories[TYPE_BALANCE_UPDATE];
         }
+
+        this.currentTab =
+            !this.expense.id || this.expense.category.type !== TYPE_BALANCE_UPDATE
+                ? this.TAB_ID_EXPENSE
+                : this.showTransferTab
+                  ? this.TAB_ID_TRANSFER
+                  : this.TAB_ID_BALANCE;
+        this.updateCurrentTabConfirmed();
     }
 
     public onTabChange(tab: NbTabComponent): void {
@@ -61,18 +70,22 @@ export class ExpenseDialogComponent implements OnInit {
             this[tabRefName]['onTabChange'](tab);
         }
         this.currentTab = tab.tabId;
+        this.updateCurrentTabConfirmed();
     }
 
-    public isTabConfirmed(): boolean {
-        switch (true) {
-            case this.currentTab === this.TAB_ID_EXPENSE:
-                return this.expense.confirmed;
-            case this.currentTab === this.TAB_ID_TRANSFER:
-                return this.transfer.confirmed;
-            case this.currentTab === this.TAB_ID_BALANCE:
-                return this.balance.confirmed;
+    private updateCurrentTabConfirmed(): void {
+        switch (this.currentTab) {
+            case this.TAB_ID_EXPENSE:
+                this.isCurrentTabConfirmed = this.expense.confirmed;
+                break;
+            case this.TAB_ID_TRANSFER:
+                this.isCurrentTabConfirmed = this.transfer.confirmed;
+                break;
+            case this.TAB_ID_BALANCE:
+                this.isCurrentTabConfirmed = this.balance.confirmed;
+                break;
+            default:
+                this.isCurrentTabConfirmed = false;
         }
-
-        return false;
     }
 }

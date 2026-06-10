@@ -68,6 +68,10 @@ export class MonthlyExpensesComponent extends AbstractReportComponent implements
     };
     reportsApiMethod: string = 'monthlyExpenses';
 
+    get reportYear(): number | null {
+        return this.currentReportPeriod?.start?.getFullYear() ?? null;
+    }
+
     ngOnInit(): void {
         this.navigateToday();
     }

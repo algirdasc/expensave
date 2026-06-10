@@ -66,6 +66,10 @@ export class CategoryExpensesComponent extends AbstractReportComponent {
     PeriodEnum = PeriodEnum;
     reportsApiMethod: string = 'categoryExpenses';
 
+    get chartHeight(): string {
+        return `${this.categoryCount * 28}px`;
+    }
+
     cleanUp(): void {
         this.barChartData = {
             datasets: [],

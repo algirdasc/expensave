@@ -1,6 +1,6 @@
 <nb-card class="dialog">
     <nb-card-body class="p-0">
-        <nb-tabset class="h-100" [class.confirmed]="isTabConfirmed()" (changeTab)="onTabChange($event)">
+        <nb-tabset class="h-100" [class.confirmed]="isCurrentTabConfirmed" (changeTab)="onTabChange($event)">
             @if (!this.expense.id || this.expense.category.type !== TYPE_BALANCE_UPDATE) {
                 <nb-tab tabTitle="Expense" class="h-100 p-0" [tabId]="TAB_ID_EXPENSE">
                     <app-expense

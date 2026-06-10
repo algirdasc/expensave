@@ -28,5 +28,10 @@
         color: nb-theme(text-hint-color);
         display: inline-block;
         width: 100%;
+        border: 0;
+        background: transparent;
+        padding: 0;
+        text-align: left;
+        font: inherit;
     }
 }

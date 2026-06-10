@@ -1,7 +1,7 @@
-<div class="suggestion" (keydown.tab)="$event.preventDefault(); applySuggestion()">
+<div class="suggestion" tabindex="0" (keydown.tab)="$event.preventDefault(); applySuggestion()">
     <ng-content />
     <div class="suggest {{ cssClasses }}">
         <span class="suggestion-prefix">{{ input }}</span>
-        <span class="suggestion-suffix" (click)="applySuggestion()">{{ suggestion }}</span>
+        <button type="button" class="suggestion-suffix" (click)="applySuggestion()">{{ suggestion }}</button>
     </div>
 </div>

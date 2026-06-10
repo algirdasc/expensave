@@ -1,36 +1,32 @@
 <div [nbSpinner]="isBusy">
     <nb-list class="mb-3">
-        @for (calendar of calendars; track $index) {
+        @for (item of calendars; track $index) {
             <nb-list-item class="p-0">
                 <nb-radio-group name="sidebar-calendar" class="w-100">
                     <nb-radio
                         class="ms-2"
-                        [value]="calendar"
+                        [value]="item"
                         (valueChange)="calendarChange.emit($event)"
-                        [checked]="calendar?.id === calendar.id">
+                        [checked]="selectedCalendarId === item.id">
                         <div class="d-flex align-items-center justify-content-between w-100">
                             <div class="calendar-name text-truncate">
-                                @if (calendar.shared) {
+                                @if (item.shared) {
                                     <nb-icon
-                                        [icon]="calendar.isOwner(mainService.user) ? 'people' : 'people-outline'"
+                                        [icon]="item.owner?.id === mainService.user.id ? 'people' : 'people-outline'"
                                         [title]="
-                                            calendar.isOwner(mainService.user)
+                                            item.owner?.id === mainService.user.id
                                                 ? 'Owned by me & shared with others'
-                                                : 'Shared with me by ' +
-                                                  calendar.owner.name +
-                                                  ' (' +
-                                                  calendar.owner.email +
-                                                  ')'
+                                                : 'Shared with me by ' + item.owner.name + ' (' + item.owner.email + ')'
                                         "
                                         class="me-1 text-hint" />
                                 } @else {
                                     <nb-icon icon="person-outline" class="me-1 text-hint" title="Owned by me" />
                                 }
 
-                                {{ calendar.name }}
+                                {{ item.name }}
                             </div>
                             <div class="calendar-balance text-hint">
-                                {{ calendar.balance | shortNumber }}
+                                {{ item.balance | shortNumber }}
                             </div>
                             <div class="calendar-actions text-right">
                                 <button
@@ -39,7 +35,7 @@
                                     ghost
                                     size="small"
                                     status="danger"
-                                    (click)="makeDefault(calendar)"
+                                    (click)="makeDefault(item)"
                                     title="Make default">
                                     <nb-icon icon="heart-outline" />
                                 </button>
@@ -49,19 +45,19 @@
                                     ghost
                                     size="small"
                                     status="success"
-                                    (click)="statementImportService.uploadStatement(calendar)"
+                                    (click)="statementImportService.uploadStatement(item)"
                                     title="Import / export statements">
                                     <nb-icon icon="attach-outline" />
                                 </button>
 
-                                @if (calendar.isOwner(mainService.user)) {
+                                @if (item.owner?.id === mainService.user.id) {
                                     <button
                                         nbButton
                                         type="button"
                                         ghost
                                         size="small"
                                         status="primary"
-                                        (click)="editCalendar(calendar)"
+                                        (click)="editCalendar(item)"
                                         title="Edit calendar">
                                         <nb-icon icon="edit-outline" />
                                     </button>
@@ -71,7 +67,7 @@
                                         ghost
                                         size="small"
                                         status="danger"
-                                        (click)="deleteCalendar(calendar)"
+                                        (click)="deleteCalendar(item)"
                                         title="Delete calendar">
                                         <nb-icon icon="trash-2-outline" />
                                     </button>

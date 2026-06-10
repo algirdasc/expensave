@@ -36,6 +36,8 @@ export class ProfileDialogComponent implements OnInit {
     public user: User = new User();
     public isBusy: boolean = true;
     public passwordRequest: PasswordRequest = new PasswordRequest();
+    public readonly passwordMinLength: number = this.authOptions.getConfigValue('forms.validation.password.minLength');
+    public readonly passwordMaxLength: number = this.authOptions.getConfigValue('forms.validation.password.maxLength');
 
     private readonly userApiService = inject(UserApiService);
     private readonly toastrService = inject(NbToastrService);
