@@ -1,4 +1,4 @@
-import { Component, Input, ViewChild, inject } from '@angular/core';
+import { Component, inject, Input, ViewChild } from '@angular/core';
 import { NbDialogRef, NbSpinnerModule } from '@nebular/theme';
 import { BalanceUpdateApiService } from '../../../../../../api/balance-update.api.service';
 import { Expense } from '../../../../../../api/objects/expense';
@@ -29,12 +29,6 @@ import { FooterComponent } from '../fields/footer.component';
     ],
 })
 export class BalanceComponent extends AbstractExpenseComponent {
-    private balanceApiService = inject(BalanceUpdateApiService);
-    private dialogRef = inject<NbDialogRef<ExpenseDialogComponent>>(NbDialogRef);
-
-    @ViewChild('expenseInput')
-    private expenseInput: ExpenseInputComponent;
-
     @Input()
     public deletable: boolean = true;
 
@@ -43,6 +37,12 @@ export class BalanceComponent extends AbstractExpenseComponent {
 
     @Input()
     public onDelete: () => void;
+
+    @ViewChild('expenseInput')
+    private expenseInput: ExpenseInputComponent;
+
+    private balanceApiService = inject(BalanceUpdateApiService);
+    private dialogRef = inject<NbDialogRef<ExpenseDialogComponent>>(NbDialogRef);
 
     public constructor() {
         super();

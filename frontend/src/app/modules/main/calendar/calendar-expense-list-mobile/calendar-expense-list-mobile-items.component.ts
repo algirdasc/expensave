@@ -1,8 +1,8 @@
-import { Component, Input, inject } from '@angular/core';
+import { Component, inject, Input } from '@angular/core';
 import { Expense } from '../../../../api/objects/expense';
 import { UNCATEGORIZED_COLOR } from '../../../../util/color.util';
 import { CalendarService } from '../calendar.service';
-import { NbListModule, NbIconModule } from '@nebular/theme';
+import { NbIconModule, NbListModule } from '@nebular/theme';
 import { DatePipe } from '@angular/common';
 import { ShortNumberPipe } from '../../../../pipes/shortnumber.pipe';
 
@@ -34,8 +34,6 @@ import { ShortNumberPipe } from '../../../../pipes/shortnumber.pipe';
     imports: [NbListModule, NbIconModule, DatePipe, ShortNumberPipe],
 })
 export class CalendarExpenseListMobileItemsComponent {
-    protected calendarService = inject(CalendarService);
-
     @Input()
     protected expenses: Expense[];
 
@@ -45,6 +43,7 @@ export class CalendarExpenseListMobileItemsComponent {
     @Input()
     protected confirmed: boolean;
 
+    protected calendarService = inject(CalendarService);
     protected readonly UNCATEGORIZED_COLOR = UNCATEGORIZED_COLOR;
 
     public get expensesSum(): number {

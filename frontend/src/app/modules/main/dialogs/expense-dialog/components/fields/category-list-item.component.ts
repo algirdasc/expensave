@@ -13,8 +13,6 @@ import { NgStyle } from '@angular/common';
     imports: [NbListModule, NbIconModule, NgStyle],
 })
 export class CategoryListItemComponent {
-    private dialogService = inject(NbDialogService);
-
     @Input({ required: true })
     public category: Category;
 
@@ -23,6 +21,8 @@ export class CategoryListItemComponent {
 
     @Output()
     public readonly categoryChange: EventEmitter<Category> = new EventEmitter<Category>();
+
+    private dialogService = inject(NbDialogService);
 
     public selectCategory(): void {
         if (!this.isActionable) {

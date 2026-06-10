@@ -12,11 +12,11 @@ import { ProfileDialogComponent } from '../../../dialogs/profile-dialog/profile-
     imports: [NbUserModule, NbButtonModule, NbIconModule],
 })
 export class ProfileComponent {
-    private readonly dialogService = inject(NbDialogService);
-    private readonly router = inject(Router);
-
     @Input() public user: User;
     @Output() public readonly userChange: EventEmitter<User> = new EventEmitter<User>();
+
+    private readonly dialogService = inject(NbDialogService);
+    private readonly router = inject(Router);
 
     public showProfileDialog(): void {
         this.dialogService.open(ProfileDialogComponent, { autoFocus: false }).onClose.subscribe((user: User) => {

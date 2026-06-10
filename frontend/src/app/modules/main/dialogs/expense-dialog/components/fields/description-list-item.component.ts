@@ -11,13 +11,13 @@ import { InputDialogComponent } from '../../../input-dialog/input-dialog.compone
     imports: [NbListModule, NbIconModule],
 })
 export class DescriptionListItemComponent {
-    private dialogService = inject(NbDialogService);
-
     @Input({ required: true })
     public description: string;
 
     @Output()
     public readonly descriptionChange: EventEmitter<string> = new EventEmitter<string>();
+
+    private dialogService = inject(NbDialogService);
 
     public addDescription(): void {
         this.dialogService

@@ -1,5 +1,5 @@
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { Component, DestroyRef, OnInit, inject } from '@angular/core';
+import { Component, DestroyRef, inject, OnInit } from '@angular/core';
 import {
     Event,
     NavigationCancel,
@@ -21,10 +21,10 @@ import { NbLayoutModule, NbSpinnerModule } from '@nebular/theme';
     imports: [NbLayoutModule, NbSpinnerModule, RouterOutlet],
 })
 export class AppComponent implements OnInit {
+    public isBusy = true;
+
     private readonly destroyRef = inject(DestroyRef);
     private readonly router = inject(Router);
-
-    public isBusy = true;
 
     public ngOnInit(): void {
         this.router.events.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((event: Event) => {

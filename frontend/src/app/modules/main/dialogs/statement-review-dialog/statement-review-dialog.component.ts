@@ -19,18 +19,19 @@ export const DIALOG_ACTION_CLOSE = 'close';
     imports: [NbCardModule, NbButtonModule, NbIconModule, NbListModule, NgStyle, ShortNumberPipe],
 })
 export class StatementReviewDialogComponent implements OnInit {
-    protected readonly dialogRef = inject<NbDialogRef<StatementReviewDialogComponent>>(NbDialogRef);
-    private readonly dialogService = inject(NbDialogService);
-
     public expenses: Expense[] = [];
     public onImportChange: (expenses: Expense[]) => void;
 
+    protected readonly dialogRef = inject<NbDialogRef<StatementReviewDialogComponent>>(NbDialogRef);
+    protected readonly Object = Object;
+    protected readonly DIALOG_ACTION_CLOSE = DIALOG_ACTION_CLOSE;
     protected groupedByDates: { [key: string]: Expense[] } = {};
     protected totalExpensesAmountByDates: { [key: string]: number } = {};
     protected totalExpensesAmount: number = 0;
-
-    private datePipe: DatePipe;
     protected calendarRefreshNeeded: boolean = false;
+
+    private readonly dialogService = inject(NbDialogService);
+    private datePipe: DatePipe;
 
     public constructor() {
         this.datePipe = new DatePipe(APP_CONFIG.locale);
@@ -107,6 +108,18 @@ export class StatementReviewDialogComponent implements OnInit {
             });
     }
 
+    public removeExpenseFromList(expense: Expense): void {
+        const index = this.expenses.indexOf(expense);
+        if (index === -1) {
+            return;
+        }
+
+        this.expenses.splice(index, 1);
+
+        this.reloadGroupedExpenses();
+        this.onImportChange(this.expenses);
+    }
+
     private reloadGroupedExpenses(): void {
         this.groupedByDates = {};
         this.totalExpensesAmountByDates = {};
@@ -126,22 +139,7 @@ export class StatementReviewDialogComponent implements OnInit {
         });
     }
 
-    public removeExpenseFromList(expense: Expense): void {
-        const index = this.expenses.indexOf(expense);
-        if (index === -1) {
-            return;
-        }
-
-        this.expenses.splice(index, 1);
-
-        this.reloadGroupedExpenses();
-        this.onImportChange(this.expenses);
-    }
-
     private expenseGroup(expense: Expense): string {
         return this.datePipe.transform(expense.createdAt);
     }
-
-    protected readonly Object = Object;
-    protected readonly DIALOG_ACTION_CLOSE = DIALOG_ACTION_CLOSE;
 }

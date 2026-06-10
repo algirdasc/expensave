@@ -42,6 +42,14 @@ export class Expense implements EntityInterface {
         return this.amount ? Math.abs(this.amount) : undefined;
     }
 
+    public get isExpense(): boolean {
+        if (this._isExpense === undefined) {
+            this._isExpense = !(this.amount > 0);
+        }
+
+        return this._isExpense;
+    }
+
     public set absoluteAmount(value: string) {
         if (value === null) {
             return;
@@ -54,14 +62,6 @@ export class Expense implements EntityInterface {
 
         const absoluteAmount = Math.abs(amount);
         this.amount = this.isExpense ? absoluteAmount * -1 : absoluteAmount;
-    }
-
-    public get isExpense(): boolean {
-        if (this._isExpense === undefined) {
-            this._isExpense = !(this.amount > 0);
-        }
-
-        return this._isExpense;
     }
 
     public set isExpense(value: boolean) {

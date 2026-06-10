@@ -1,4 +1,4 @@
-import { Component, ViewChild, inject } from '@angular/core';
+import { Component, inject, ViewChild } from '@angular/core';
 import { NbDialogRef, NbSpinnerModule } from '@nebular/theme';
 import { instanceToPlain, plainToInstance } from 'class-transformer';
 import { ExpenseApiService } from '../../../../../../api/expense.api.service';
@@ -33,13 +33,13 @@ import { FooterComponent } from '../fields/footer.component';
     ],
 })
 export class TransferComponent extends AbstractExpenseComponent {
-    private expenseApiService = inject(ExpenseApiService);
-    private dialogRef = inject<NbDialogRef<ExpenseDialogComponent>>(NbDialogRef);
+    @ViewChild('expenseInput')
+    private expenseInput: ExpenseInputComponent;
 
     public destinationCalendar: Calendar;
 
-    @ViewChild('expenseInput')
-    private expenseInput: ExpenseInputComponent;
+    private expenseApiService = inject(ExpenseApiService);
+    private dialogRef = inject<NbDialogRef<ExpenseDialogComponent>>(NbDialogRef);
 
     public constructor() {
         super();

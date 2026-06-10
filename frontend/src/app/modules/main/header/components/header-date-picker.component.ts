@@ -45,8 +45,6 @@ import { OutsideClickDirective } from '../../../../directives/outside-click.dire
     imports: [OutsideClickDirective, NbCalendarKitModule, NbPopoverModule, NbButtonGroupModule],
 })
 export class HeaderDatePickerComponent {
-    private readonly dateService = inject<NbDateService<Date>>(NbDateService);
-
     @Input({ required: true }) public visibleDate: Date;
     @Output() public readonly dateNavigate = new EventEmitter<Date>();
 
@@ -55,6 +53,8 @@ export class HeaderDatePickerComponent {
 
     protected readonly viewMode: typeof NbCalendarViewMode = NbCalendarViewMode;
     protected activeViewMode: NbCalendarViewMode = NbCalendarViewMode.DATE;
+
+    private readonly dateService = inject<NbDateService<Date>>(NbDateService);
 
     protected onOutsideClick(): void {
         // restore current date selection + close popovers by resetting view mode

@@ -37,8 +37,6 @@ import { AsyncPipe } from '@angular/common';
     ],
 })
 export class CalendarEditComponent implements OnInit {
-    private readonly userApiService = inject(UserApiService);
-
     @Input()
     public isBusy: boolean = false;
 
@@ -55,6 +53,8 @@ export class CalendarEditComponent implements OnInit {
     private userAutoCompleteInput: ElementRef;
 
     public filteredOptions: Observable<User[]>;
+
+    private readonly userApiService = inject(UserApiService);
     private availableUsers: User[] = [];
 
     public ngOnInit(): void {

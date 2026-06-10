@@ -35,12 +35,12 @@ export class CalendarGridRowCellDesktopComponent
 {
     public dateService: NbDateService<Date>;
     public calendarService = inject(CalendarService);
-    private dialogService = inject(NbDialogService);
-
     public calendar: Calendar;
     public expenseBalance: ExpenseBalance;
     public expenses: Expense[];
     public hasUnconfirmedExpenses: boolean = false;
+
+    private dialogService = inject(NbDialogService);
     private expenseListCapacity: number = 1;
 
     public constructor() {
@@ -49,10 +49,6 @@ export class CalendarGridRowCellDesktopComponent
         super(dateService);
 
         this.dateService = dateService;
-    }
-
-    public onResized(event: ResizedEvent): void {
-        this.expenseListCapacity = Math.floor(event.newRect.height / EXPENSE_LIST_ITEM_HEIGHT) - 1;
     }
 
     public get visibleExpenses(): Expense[] {
@@ -68,6 +64,10 @@ export class CalendarGridRowCellDesktopComponent
         }
 
         return 0;
+    }
+
+    public onResized(event: ResizedEvent): void {
+        this.expenseListCapacity = Math.floor(event.newRect.height / EXPENSE_LIST_ITEM_HEIGHT) - 1;
     }
 
     public openInvisibleExpenses(): void {

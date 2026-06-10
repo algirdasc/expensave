@@ -13,13 +13,13 @@ import { DatePipe } from '@angular/common';
     imports: [NbListModule, NbIconModule, DatePipe],
 })
 export class DateListItemComponent {
-    private dialogService = inject(NbDialogService);
-
     @Input({ required: true })
     public date: Date;
 
     @Output()
     public readonly dateChange: EventEmitter<Date> = new EventEmitter<Date>();
+
+    private dialogService = inject(NbDialogService);
 
     public selectDateTime(): void {
         this.dialogService

@@ -13,12 +13,12 @@ import { CalendarEditComponent } from './calendar-edit/calendar-edit.component';
 export class CalendarsDialogComponent implements OnInit {
     public readonly dialogRef = inject<NbDialogRef<CalendarsDialogComponent>>(NbDialogRef);
     public readonly toastrService = inject(NbToastrService);
-    private readonly calendarApiService = inject(CalendarApiService);
-
     public isBusy: boolean = true;
     public calendars: Calendar[];
     public selectedCalendar: Calendar;
     public editableCalendar: Calendar;
+
+    private readonly calendarApiService = inject(CalendarApiService);
 
     public constructor() {
         this.calendarApiService.onBusyChange.subscribe((isBusy: boolean) => (this.isBusy = isBusy));

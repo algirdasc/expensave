@@ -1,5 +1,5 @@
-import { AfterViewInit, Component, ElementRef, Input, ViewChild, inject } from '@angular/core';
-import { NbDialogRef, NbCardModule, NbButtonModule, NbIconModule, NbInputModule } from '@nebular/theme';
+import { AfterViewInit, Component, ElementRef, inject, Input, ViewChild } from '@angular/core';
+import { NbButtonModule, NbCardModule, NbDialogRef, NbIconModule, NbInputModule } from '@nebular/theme';
 import { FormsModule } from '@angular/forms';
 
 @Component({
@@ -8,8 +8,6 @@ import { FormsModule } from '@angular/forms';
     imports: [NbCardModule, NbButtonModule, NbIconModule, NbInputModule, FormsModule],
 })
 export class InputDialogComponent implements AfterViewInit {
-    public readonly dialogRef = inject<NbDialogRef<InputDialogComponent>>(NbDialogRef);
-
     @Input()
     public title: string = 'Input dialog';
 
@@ -21,6 +19,8 @@ export class InputDialogComponent implements AfterViewInit {
 
     @ViewChild('focus')
     private focusElement: ElementRef;
+
+    public readonly dialogRef = inject<NbDialogRef<InputDialogComponent>>(NbDialogRef);
 
     public ngAfterViewInit(): void {
         this.focusElement.nativeElement.focus();

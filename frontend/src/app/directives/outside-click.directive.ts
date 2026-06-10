@@ -2,10 +2,10 @@ import { Directive, ElementRef, EventEmitter, HostListener, inject, Output } fro
 
 @Directive({ selector: '[appOutsideClick]', standalone: true })
 export class OutsideClickDirective {
-    private elementRef = inject(ElementRef);
-
     @Output()
     public readonly outsideClick: EventEmitter<MouseEvent> = new EventEmitter();
+
+    private elementRef = inject(ElementRef);
 
     @HostListener('document:mousedown', ['$event'])
     public onClick(event: MouseEvent): void {

@@ -9,10 +9,11 @@ import { finalize, map } from 'rxjs/operators';
 export abstract class AbstractApiService {
     public onBusyChange: Subject<boolean> = new Subject<boolean>();
 
+    protected http: HttpClient = inject(HttpClient);
+
     private onBusyChangeTimeout: number;
 
     protected abstract backend: string;
-    protected http: HttpClient = inject(HttpClient);
 
     public request<K>(method: string, type: any, ...args: any): Observable<K> {
         this.changeIsBusy(true);

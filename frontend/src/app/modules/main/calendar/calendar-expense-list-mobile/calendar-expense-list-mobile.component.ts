@@ -13,9 +13,6 @@ import { CalendarExpenseListMobileItemsComponent } from './calendar-expense-list
     imports: [CalendarExpenseListMobileItemsComponent, NbButtonModule, NbIconModule],
 })
 export class CalendarExpenseListMobileComponent implements OnChanges {
-    public calendarService = inject(CalendarService);
-    private dateService = inject<NbDateService<Date>>(NbDateService);
-
     @Input()
     public isMobile: boolean;
 
@@ -31,9 +28,12 @@ export class CalendarExpenseListMobileComponent implements OnChanges {
     @Input()
     public expenseBalances: ExpenseBalance[] = [];
 
+    public calendarService = inject(CalendarService);
     public confirmedExpenses: Expense[];
     public unconfirmedExpenses: Expense[];
     public expenseBalance: ExpenseBalance;
+
+    private dateService = inject<NbDateService<Date>>(NbDateService);
 
     public ngOnChanges(changes: SimpleChanges): void {
         if (changes?.selectedValue || changes?.expenses || changes?.balances) {

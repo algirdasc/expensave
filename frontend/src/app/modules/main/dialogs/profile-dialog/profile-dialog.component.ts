@@ -32,13 +32,13 @@ import { FormsModule } from '@angular/forms';
 })
 export class ProfileDialogComponent implements OnInit {
     public readonly dialogRef = inject<NbDialogRef<ProfileDialogComponent>>(NbDialogRef);
-    private readonly userApiService = inject(UserApiService);
-    private readonly toastrService = inject(NbToastrService);
     public readonly authOptions = inject(AuthOptionsService);
-
     public user: User = new User();
     public isBusy: boolean = true;
     public passwordRequest: PasswordRequest = new PasswordRequest();
+
+    private readonly userApiService = inject(UserApiService);
+    private readonly toastrService = inject(NbToastrService);
 
     public constructor() {
         this.userApiService.onBusyChange.subscribe((isBusy: boolean) => (this.isBusy = isBusy));

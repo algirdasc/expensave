@@ -1,4 +1,4 @@
-import { Injectable, inject } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { NbDialogService, NbToastrService } from '@nebular/theme';
 import { plainToInstance } from 'class-transformer';
 import { ExpenseApiService } from '../../../api/expense.api.service';
@@ -21,14 +21,14 @@ const TOASTR_TITLE = 'Bank statement import';
 
 @Injectable()
 export class StatementImportService {
+    public expenses: Expense[] = [];
+
     private dialogService = inject(NbDialogService);
     private mainService = inject(MainService);
     private statementImportApiService = inject(StatementImportApiService);
     private expenseApiService = inject(ExpenseApiService);
     private calendarService = inject(CalendarService);
     private toastrService = inject(NbToastrService);
-
-    public expenses: Expense[] = [];
 
     public constructor() {
         this.statementImportApiService.onBusyChange.subscribe((isBusy: boolean) =>

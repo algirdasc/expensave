@@ -19,9 +19,6 @@ import { FormsModule } from '@angular/forms';
     imports: [FormsModule, NbCardModule, NbButtonModule, NbIconModule, NbFormFieldModule, NbInputModule],
 })
 export class CategoryEditComponent {
-    private dialogService = inject(NbDialogService);
-    private categoryApiService = inject(CategoryApiService);
-
     @Input()
     public saveButtonEnabled: boolean = true;
 
@@ -81,6 +78,8 @@ export class CategoryEditComponent {
         '#394852',
     ];
 
+    private dialogService = inject(NbDialogService);
+    private categoryApiService = inject(CategoryApiService);
     private _categories: Category[];
 
     @Input()
