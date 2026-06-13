@@ -15,13 +15,17 @@ export class CalendarApiService extends AbstractEntityApiService<Calendar> {
     private dateService = inject<NbDateService<Date>>(NbDateService);
 
     public listExpenses(calendar: Calendar, dateFrom: Date, dateTo: Date): Observable<CalendarExpenseListResponse> {
+        return this.listExpensesById(calendar.id, dateFrom, dateTo);
+    }
+
+    public listExpensesById(calendarId: number, dateFrom: Date, dateTo: Date): Observable<CalendarExpenseListResponse> {
         const dateFromString = this.dateService.format(dateFrom, DateUtil.DATE_FORMAT);
         const dateToString = this.dateService.format(dateTo, DateUtil.DATE_FORMAT);
 
         return super.request<CalendarExpenseListResponse>(
             'get',
             CalendarExpenseListResponse,
-            `${this.backend}/${calendar.id}/expenses/${dateFromString}/${dateToString}`
+            `${this.backend}/${calendarId}/expenses/${dateFromString}/${dateToString}`
         );
     }
 }
