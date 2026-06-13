@@ -1,9 +1,8 @@
-import { Component, ElementRef, EventEmitter, inject, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { Component, ElementRef, EventEmitter, inject, Input, Output, ViewChild } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Calendar } from '../../../../../api/objects/calendar';
 import { User } from '../../../../../api/objects/user';
-import { UserApiService } from '../../../../../api/user.api.service';
 import { FormsModule } from '@angular/forms';
 import {
     NbAutocompleteModule,
@@ -17,6 +16,8 @@ import {
     NbUserModule,
 } from '@nebular/theme';
 import { AsyncPipe } from '@angular/common';
+import { UserQueries } from '../../../../../queries/user.queries';
+import { injectQuery } from '@tanstack/angular-query-experimental';
 
 @Component({
     templateUrl: 'calendar-edit.component.html',
@@ -36,7 +37,7 @@ import { AsyncPipe } from '@angular/common';
         AsyncPipe,
     ],
 })
-export class CalendarEditComponent implements OnInit {
+export class CalendarEditComponent {
     @Input()
     public isBusy: boolean = false;
 
@@ -54,11 +55,11 @@ export class CalendarEditComponent implements OnInit {
 
     public filteredOptions: Observable<User[]>;
 
-    private readonly userApiService = inject(UserApiService);
-    private availableUsers: User[] = [];
+    private readonly userQueries = inject(UserQueries);
+    private readonly usersQuery = injectQuery(() => this.userQueries.profiles());
 
-    public ngOnInit(): void {
-        this.userApiService.list().subscribe((users: User[]) => (this.availableUsers = users));
+    private get availableUsers(): User[] {
+        return this.usersQuery.data() ?? [];
     }
 
     public onInputChange(): void {
