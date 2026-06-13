@@ -9,6 +9,9 @@ export const QueryKeys = {
         list: (params?: HttpParams) => ['calendar', 'list', paramsKey(params)] as const,
         details: ['calendar', 'detail'] as const,
         detail: (calendarId: number) => ['calendar', 'detail', calendarId] as const,
+        expenses: ['calendar', 'expenses'] as const,
+        expenseList: (calendarId: number, dateFrom: Date, dateTo: Date) =>
+            ['calendar', 'expenses', calendarId, dateFrom.getTime(), dateTo.getTime()] as const,
     },
     category: {
         all: ['category'] as const,

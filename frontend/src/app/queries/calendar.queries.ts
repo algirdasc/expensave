@@ -7,6 +7,7 @@ import { lastValueFrom } from 'rxjs';
 import { HttpParams } from '@angular/common/http';
 import { Calendar } from '../api/objects/calendar';
 import { QueryKeys } from './query-keys';
+import { CalendarExpenseListResponse } from '../api/response/calendar-expense-list.response';
 
 @Injectable({ providedIn: 'root' })
 export class CalendarQueries {
@@ -24,6 +25,14 @@ export class CalendarQueries {
         return queryOptions({
             queryKey: QueryKeys.calendar.detail(calendarId),
             queryFn: (): Promise<Calendar> => lastValueFrom(this.calendarApiService.get(calendarId)),
+        });
+    }
+
+    public expenseList(calendarId: number, dateFrom: Date, dateTo: Date) {
+        return queryOptions({
+            queryKey: QueryKeys.calendar.expenseList(calendarId, dateFrom, dateTo),
+            queryFn: (): Promise<CalendarExpenseListResponse> =>
+                lastValueFrom(this.calendarApiService.listExpensesById(calendarId, dateFrom, dateTo)),
         });
     }
 
