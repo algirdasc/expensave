@@ -5,6 +5,7 @@ import { CalendarListComponent } from './calendar-list/calendar-list.component';
 import { CalendarEditComponent } from './calendar-edit/calendar-edit.component';
 import { CalendarQueries } from '../../../../queries/calendar.queries';
 import { injectMutation, injectQuery } from '@tanstack/angular-query-experimental';
+import { MainService } from '../../main.service';
 
 @Component({
     templateUrl: 'calendars-dialog.component.html',
@@ -17,6 +18,7 @@ export class CalendarsDialogComponent {
     public selectedCalendar: Calendar;
     public editableCalendar: Calendar;
 
+    private readonly mainService = inject(MainService);
     private readonly calendarQueries = inject(CalendarQueries);
     private readonly calendarListQuery = injectQuery(() => this.calendarQueries.list());
     private readonly saveMutation = injectMutation(() => this.calendarQueries.save());
@@ -30,8 +32,7 @@ export class CalendarsDialogComponent {
     }
 
     public editCalendar(calendar?: Calendar): void {
-        // TODO: create calendar with user
-        this.editableCalendar = calendar ?? new Calendar();
+        this.editableCalendar = calendar ?? Calendar.create(this.mainService.user);
     }
 
     public saveCalendar(calendar: Calendar): void {

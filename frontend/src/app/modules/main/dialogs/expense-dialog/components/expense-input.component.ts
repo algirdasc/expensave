@@ -44,6 +44,8 @@ export class ExpenseInputComponent {
     private suggestionRequestId = 0;
 
     public handleInputChange(input: string): void {
+        const requestId = ++this.suggestionRequestId;
+
         // 1. Do not look for suggestion on empty input
         if (!input) {
             this.suggestedExpense = undefined;
@@ -51,7 +53,6 @@ export class ExpenseInputComponent {
         }
 
         // 2. Search for suggestions with stale-response protection
-        const requestId = ++this.suggestionRequestId;
         void this.queryClient
             .fetchQuery(this.expenseQueries.suggest(input))
             .then((response: Expense) => {

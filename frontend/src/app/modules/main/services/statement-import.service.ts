@@ -40,8 +40,14 @@ export class StatementImportService {
         fileInput.style.display = 'none';
         fileInput.accept = 'text/csv, text/xml, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
         fileInput.onchange = (): void => {
+            const file = fileInput.files?.[0];
+            if (!file) {
+                fileInput.remove();
+
+                return;
+            }
+
             const formData = new FormData();
-            const file = fileInput.files[0];
             formData.append('statement', file, file.name);
 
             fileInput.remove();
@@ -81,12 +87,17 @@ export class StatementImportService {
 
     public reloadImportStorage(): void {
         const localExpenses = localStorage.getItem(IMPORT_KEY);
-        if (localExpenses !== null) {
+        if (localExpenses === null) {
+            return;
+        }
+
+        try {
             const expenses = JSON.parse(localExpenses);
-            this.expenses = [];
-            for (const expense of expenses) {
-                this.expenses.push(plainToInstance(Expense, expense));
-            }
+            this.expenses = Array.isArray(expenses)
+                ? expenses.map((expense: Expense) => plainToInstance(Expense, expense))
+                : [];
+        } catch {
+            this.clearImportStorage();
         }
     }
 
@@ -107,6 +118,10 @@ export class StatementImportService {
                 },
             })
             .onClose.subscribe((result: { action: string; calendarRefreshNeeded: boolean }) => {
+                if (!result) {
+                    return;
+                }
+
                 switch (result.action) {
                     case DIALOG_ACTION_IMPORT:
                         this.mainService.isApplicationBusy.next(true);

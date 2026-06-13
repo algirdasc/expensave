@@ -16,7 +16,11 @@
                                         [title]="
                                             item.owner?.id === mainService.user.id
                                                 ? 'Owned by me & shared with others'
-                                                : 'Shared with me by ' + item.owner.name + ' (' + item.owner.email + ')'
+                                                : 'Shared with me by ' +
+                                                  item.owner?.name +
+                                                  ' (' +
+                                                  item.owner?.email +
+                                                  ')'
                                         "
                                         class="me-1 text-hint" />
                                 } @else {

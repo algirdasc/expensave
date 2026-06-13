@@ -18,13 +18,6 @@ import { ApiInterceptor } from './app/interceptors/api.interceptor';
 import { UnauthorizedInterceptor } from './app/interceptors/unauthorized.interceptor';
 import { AuthStrategy } from './app/modules/auth/auth-strategy';
 import { AuthOptionsService } from './app/services/auth-options.service';
-import { CalendarApiService } from './app/api/calendar.api.service';
-import { UserApiService } from './app/api/user.api.service';
-import { ExpenseApiService } from './app/api/expense.api.service';
-import { CategoryApiService } from './app/api/category.api.service';
-import { ReportsApiService } from './app/api/reports.api.service';
-import { BalanceUpdateApiService } from './app/api/balance-update.api.service';
-import { StatementImportApiService } from './app/api/statement-import.api.service';
 import { CommonModule } from '@angular/common';
 import { bootstrapApplication, BrowserModule } from '@angular/platform-browser';
 import { provideAnimations } from '@angular/platform-browser/animations';
@@ -45,33 +38,10 @@ import {
 import { AuthModule } from './app/modules/auth/auth.module';
 import { NbEvaIconsModule } from '@nebular/eva-icons';
 import { AppComponent } from './app/app.component';
-import { MutationCache, provideTanStackQuery, QueryClient } from '@tanstack/angular-query-experimental';
+import { provideTanStackQuery, QueryClient } from '@tanstack/angular-query-experimental';
 import { withDevtools } from '@tanstack/angular-query-experimental/devtools';
-import { CategoryQueries } from './app/queries/category.queries';
-import { CalendarQueries } from './app/queries/calendar.queries';
-import { UserQueries } from './app/queries/user.queries';
 
-const apiServices = [
-    CalendarApiService,
-    UserApiService,
-    ExpenseApiService,
-    CategoryApiService,
-    ReportsApiService,
-    BalanceUpdateApiService,
-    StatementImportApiService,
-];
-
-const queryServices = [UserQueries, CalendarQueries, CategoryQueries];
-
-const queryClient = new QueryClient({
-    mutationCache: new MutationCache({
-        onSuccess: (_data, _variables, _context, mutation): void => {
-            queryClient.invalidateQueries({
-                queryKey: mutation.options.mutationKey,
-            });
-        },
-    }),
-});
+const queryClient = new QueryClient();
 
 if (environment.production) {
     enableProdMode();
@@ -124,8 +94,6 @@ bootstrapApplication(AppComponent, {
         AuthStrategy,
         AuthOptionsService,
         MainService, // TODO: move to global service and scope out functions
-        ...apiServices,
-        ...queryServices,
         provideHttpClient(withInterceptorsFromDi()),
         provideAnimations(),
         provideRouter(appRoutes, withRouterConfig({ paramsInheritanceStrategy: 'always' })),

@@ -23,7 +23,7 @@ import { BaseChartDirective } from 'ng2-charts';
         ShortNumberPipe,
     ],
 })
-export class CategoryExpensesComponent extends AbstractReportComponent {
+export class CategoryExpensesComponent extends AbstractReportComponent<CategoryExpenseReportResponse> {
     barChartOptions: ChartConfiguration['options'] = {
         responsive: true,
         maintainAspectRatio: false,
@@ -65,10 +65,6 @@ export class CategoryExpensesComponent extends AbstractReportComponent {
     categoryCount: number = 0;
     PeriodEnum = PeriodEnum;
     readonly reportsApiMethod = 'categoryExpenses' as const;
-
-    get chartHeight(): string {
-        return `${this.categoryCount * 28}px`;
-    }
 
     get chartHeight(): string {
         return `${this.categoryCount * 28}px`;

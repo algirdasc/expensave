@@ -67,6 +67,7 @@ export class CalendarEditComponent {
     }
 
     public onUserSelect(user: User): void {
+        this.calendar.collaborators ??= [];
         this.calendar.collaborators.push(user);
         this.userAutoCompleteInput.nativeElement.value = '';
         this.onInputChange();
@@ -80,7 +81,11 @@ export class CalendarEditComponent {
                     const containsValue =
                         user.name.toLowerCase().includes(filterValue) || user.email.toLowerCase().includes(filterValue);
 
-                    return containsValue && !this.calendar.hasCollaborator(user) && !this.calendar.isOwner(user);
+                    return (
+                        containsValue &&
+                        !(this.calendar.collaborators ?? []).some(collaborator => collaborator.id === user.id) &&
+                        user.id !== this.calendar.owner?.id
+                    );
                 });
             })
         );
