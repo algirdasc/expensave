@@ -27,7 +27,16 @@ export const QueryKeys = {
     },
     report: {
         all: ['report'] as const,
+        dailyExpenses: (calendarIds: number[], dateFrom: Date, dateTo: Date) =>
+            ['report', 'daily-expenses', calendarIds, dateFrom.getTime(), dateTo.getTime()] as const,
+        monthlyExpenses: (calendarIds: number[], dateFrom: Date, dateTo: Date) =>
+            ['report', 'monthly-expenses', calendarIds, dateFrom.getTime(), dateTo.getTime()] as const,
         categoryExpenses: (calendarIds: number[], dateFrom: Date, dateTo: Date) =>
             ['report', 'category-expenses', calendarIds, dateFrom.getTime(), dateTo.getTime()] as const,
+    },
+    expense: {
+        all: ['expense'] as const,
+        detail: (expenseId: number) => ['expense', 'detail', expenseId] as const,
+        suggestion: (label: string) => ['expense', 'suggestion', label] as const,
     },
 };

@@ -1,28 +1,33 @@
-import { Injectable, inject } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
+import { QueryClient } from '@tanstack/angular-query-experimental';
 import { NbDialogRef, NbDialogService } from '@nebular/theme';
 import { plainToInstance } from 'class-transformer';
-import { ExpenseApiService } from '../../../api/expense.api.service';
 import { Calendar } from '../../../api/objects/calendar';
 import { TYPE_BALANCE_UPDATE, TYPE_UNCATEGORIZED } from '../../../api/objects/category';
 import { Expense } from '../../../api/objects/expense';
+import { ExpenseQueries } from '../../../queries/expense.queries';
 import { DateUtil } from '../../../util/date.util';
 import { ExpenseDialogComponent } from '../dialogs/expense-dialog/expense-dialog.component';
 import { MainService } from '../main.service';
 
 @Injectable()
 export class CalendarService {
-    private expenseApiService = inject(ExpenseApiService);
-    private dialogService = inject(NbDialogService);
-    private mainService = inject(MainService);
+    private readonly dialogService = inject(NbDialogService);
+    private readonly mainService = inject(MainService);
+    private readonly expenseQueries = inject(ExpenseQueries);
+    private readonly queryClient = inject(QueryClient);
 
     public editExpense(expense: Expense): void {
-        this.expenseApiService.get(expense.id).subscribe((expense: Expense) => {
-            this.openExpenseDialog(expense).onClose.subscribe((result: Expense) => {
-                if (result) {
-                    this.mainService.refreshCalendar();
-                }
-            });
-        });
+        void this.queryClient
+            .fetchQuery(this.expenseQueries.get(expense.id))
+            .then((response: Expense) => {
+                this.openExpenseDialog(response).onClose.subscribe((result: Expense) => {
+                    if (result) {
+                        this.mainService.refreshCalendar();
+                    }
+                });
+            })
+            .catch(() => undefined);
     }
 
     public createExpense(calendar: Calendar, date: Date): void {

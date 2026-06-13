@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, effect, inject } from '@angular/core';
 import { NbCardModule, NbDateService, NbIconModule, NbListModule, NbSpinnerModule } from '@nebular/theme';
 import { slideAnimation } from '../../../../animations/slide.animation';
 import { CategoryBalance } from '../../../../api/objects/category-balance';
@@ -7,7 +7,7 @@ import { DateUtil } from '../../../../util/date.util';
 import { MainService } from '../../main.service';
 import { DatePipe } from '@angular/common';
 import { ShortNumberPipe } from '../../../../pipes/shortnumber.pipe';
-import { QueryClient } from '@tanstack/angular-query-experimental';
+import { injectQuery } from '@tanstack/angular-query-experimental';
 import { ReportsQueries } from '../../../../queries/reports.queries';
 
 @Component({
@@ -17,35 +17,55 @@ import { ReportsQueries } from '../../../../queries/reports.queries';
     animations: slideAnimation,
     imports: [NbCardModule, NbIconModule, NbSpinnerModule, NbListModule, DatePipe, ShortNumberPipe],
 })
-export class ExpenseReportComponent implements OnInit {
-    public isBusy: boolean = true;
+export class ExpenseReportComponent {
     public categoryBalances: CategoryBalance[] = [];
     public income: number = 0;
     public expense: number = 0;
     public change: number = 0;
-    public dateFrom: Date;
-    public dateTo: Date;
 
     private readonly dateService = inject<NbDateService<Date>>(NbDateService);
     private readonly mainService = inject(MainService);
-    private readonly queryClient = inject(QueryClient);
     private readonly reportsQueries = inject(ReportsQueries);
+    private readonly reportQuery = injectQuery(() => {
+        const calendarId = this.mainService.calendar?.id;
 
-    public ngOnInit(): void {
-        const currentDate = this.mainService.visibleDate;
+        return {
+            ...this.reportsQueries.categoryExpenses(calendarId ? [calendarId] : [], this.dateFrom, this.dateTo),
+            enabled: !!calendarId,
+        };
+    });
 
-        this.dateFrom = this.dateService.createDate(currentDate.getFullYear(), currentDate.getMonth(), 1);
-        this.dateTo = DateUtil.endOfTheDay(
-            this.dateService.createDate(currentDate.getFullYear(), currentDate.getMonth() + 1, 0)
+    public constructor() {
+        effect(() => {
+            const response = this.reportQuery.data();
+            if (response) {
+                this.applyCategoryExpensesReport(response);
+            } else {
+                this.clearReport();
+            }
+        });
+    }
+
+    public get dateFrom(): Date {
+        return this.dateService.createDate(
+            this.mainService.visibleDate.getFullYear(),
+            this.mainService.visibleDate.getMonth(),
+            1
         );
+    }
 
-        void this.queryClient
-            .fetchQuery(
-                this.reportsQueries.categoryExpenses([this.mainService.calendar.id], this.dateFrom, this.dateTo)
+    public get dateTo(): Date {
+        return DateUtil.endOfTheDay(
+            this.dateService.createDate(
+                this.mainService.visibleDate.getFullYear(),
+                this.mainService.visibleDate.getMonth() + 1,
+                0
             )
-            .then((response: CategoryExpenseReportResponse) => this.applyCategoryExpensesReport(response))
-            .catch(() => undefined)
-            .finally(() => (this.isBusy = false));
+        );
+    }
+
+    public get isBusy(): boolean {
+        return this.reportQuery.isFetching();
     }
 
     public createRange(number: number): number[] {
@@ -69,5 +89,12 @@ export class ExpenseReportComponent implements OnInit {
         this.income = response.meta.income;
         this.expense = response.meta.expense;
         this.change = response.meta.change;
+    }
+
+    private clearReport(): void {
+        this.categoryBalances = [];
+        this.income = 0;
+        this.expense = 0;
+        this.change = 0;
     }
 }

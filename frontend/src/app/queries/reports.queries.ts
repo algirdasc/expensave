@@ -25,7 +25,7 @@ export class ReportsQueries {
 
     public dailyExpenses(calendarIds: number[], dateFrom: Date, dateTo: Date) {
         return queryOptions({
-            queryKey: ['report', 'daily-expenses', calendarIds, dateFrom.getTime(), dateTo.getTime()],
+            queryKey: QueryKeys.report.dailyExpenses(calendarIds, dateFrom, dateTo),
             queryFn: (): Promise<ExpenseReportResponse> =>
                 lastValueFrom(this.reportsApiService.dailyExpenses(this.mapCalendarIds(calendarIds), dateFrom, dateTo)),
         });
@@ -33,7 +33,7 @@ export class ReportsQueries {
 
     public monthlyExpenses(calendarIds: number[], dateFrom: Date, dateTo: Date) {
         return queryOptions({
-            queryKey: ['report', 'monthly-expenses', calendarIds, dateFrom.getTime(), dateTo.getTime()],
+            queryKey: QueryKeys.report.monthlyExpenses(calendarIds, dateFrom, dateTo),
             queryFn: (): Promise<ExpenseReportResponse> =>
                 lastValueFrom(
                     this.reportsApiService.monthlyExpenses(this.mapCalendarIds(calendarIds), dateFrom, dateTo)

@@ -9,12 +9,12 @@ import {
     ViewChild,
 } from '@angular/core';
 import { ControlContainer, FormsModule, NgForm } from '@angular/forms';
-import { Subscription } from 'rxjs';
-import { ExpenseApiService } from '../../../../../api/expense.api.service';
 import { Expense } from '../../../../../api/objects/expense';
 import { NbButtonModule, NbIconModule, NbInputModule } from '@nebular/theme';
 import { SuggestionComponent } from '../../../components/suggestion/suggestion.component';
 import { ShortNumberPipe } from '../../../../../pipes/shortnumber.pipe';
+import { QueryClient } from '@tanstack/angular-query-experimental';
+import { ExpenseQueries } from '../../../../../queries/expense.queries';
 
 @Component({
     selector: 'app-expense-input',
@@ -38,25 +38,28 @@ export class ExpenseInputComponent {
 
     public suggestedExpense: Expense;
 
-    private expenseApiService = inject(ExpenseApiService);
-    private cd = inject(ChangeDetectorRef);
-    private expenseSuggestionSubscription: Subscription;
+    private readonly cd = inject(ChangeDetectorRef);
+    private readonly queryClient = inject(QueryClient);
+    private readonly expenseQueries = inject(ExpenseQueries);
+    private suggestionRequestId = 0;
 
     public handleInputChange(input: string): void {
-        // 1. Cancel pending suggestion request
-        if (this.expenseSuggestionSubscription) {
-            this.expenseSuggestionSubscription.unsubscribe();
-        }
-
-        // 2. Do not look for suggestion on empty input
+        // 1. Do not look for suggestion on empty input
         if (!input) {
+            this.suggestedExpense = undefined;
             return;
         }
 
-        // 3. Search for suggestions
-        this.expenseSuggestionSubscription = this.expenseApiService.suggest(input).subscribe((response: Expense) => {
-            this.suggestedExpense = response;
-        });
+        // 2. Search for suggestions with stale-response protection
+        const requestId = ++this.suggestionRequestId;
+        void this.queryClient
+            .fetchQuery(this.expenseQueries.suggest(input))
+            .then((response: Expense) => {
+                if (requestId === this.suggestionRequestId) {
+                    this.suggestedExpense = response;
+                }
+            })
+            .catch(() => undefined);
     }
 
     public applyLabelSuggestion(): void {
