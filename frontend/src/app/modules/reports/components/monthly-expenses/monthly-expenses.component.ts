@@ -66,7 +66,7 @@ export class MonthlyExpensesComponent extends AbstractReportComponent implements
     barChartData: ChartConfiguration['data'] = {
         datasets: [],
     };
-    reportsApiMethod: string = 'monthlyExpenses';
+    readonly reportsApiMethod = 'monthlyExpenses' as const;
 
     get reportYear(): number | null {
         return this.currentReportPeriod?.start?.getFullYear() ?? null;

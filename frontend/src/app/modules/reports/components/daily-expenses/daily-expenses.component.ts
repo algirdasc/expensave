@@ -69,7 +69,7 @@ export class DailyExpensesComponent extends AbstractReportComponent {
         datasets: [],
     };
     PeriodEnum = PeriodEnum;
-    reportsApiMethod: string = 'dailyExpenses';
+    readonly reportsApiMethod = 'dailyExpenses' as const;
 
     cleanUp(): void {
         this.income = this.change = this.expense = 0;
