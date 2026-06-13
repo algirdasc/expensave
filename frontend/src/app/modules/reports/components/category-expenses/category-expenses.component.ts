@@ -70,6 +70,10 @@ export class CategoryExpensesComponent extends AbstractReportComponent {
         return `${this.categoryCount * 28}px`;
     }
 
+    get chartHeight(): string {
+        return `${this.categoryCount * 28}px`;
+    }
+
     cleanUp(): void {
         this.barChartData = {
             datasets: [],
