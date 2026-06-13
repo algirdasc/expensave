@@ -6,15 +6,16 @@ import { lastValueFrom } from 'rxjs';
 import { CategoryApiService } from '../api/category.api.service';
 import { Category } from '../api/objects/category';
 import { QueryKeys } from './query-keys';
+import { HttpParams } from '@angular/common/http';
 
 @Injectable({ providedIn: 'root' })
 export class CategoryQueries {
     private categoryApiService = inject(CategoryApiService);
 
-    public list() {
+    public list(params?: HttpParams) {
         return queryOptions({
-            queryKey: QueryKeys.category.list,
-            queryFn: (): Promise<Category[]> => lastValueFrom(this.categoryApiService.list()),
+            queryKey: QueryKeys.category.list(params),
+            queryFn: (): Promise<Category[]> => lastValueFrom(this.categoryApiService.list(params)),
         });
     }
 

@@ -5,6 +5,9 @@ import { CategoryApiService } from '../../../../api/category.api.service';
 import { Category } from '../../../../api/objects/category';
 import { CategoryListComponent } from './category-list/category-list.component';
 import { CategoryEditComponent } from './category-edit/category-edit.component';
+import { CategoryQueries } from '../../../../queries/category.queries';
+import { QueryClient } from '@tanstack/angular-query-experimental';
+import { QueryKeys } from '../../../../queries/query-keys';
 
 @Component({
     templateUrl: 'categories-dialog.component.html',
@@ -13,16 +16,23 @@ import { CategoryEditComponent } from './category-edit/category-edit.component';
 })
 export class CategoriesDialogComponent implements OnInit {
     public readonly dialogRef = inject<NbDialogRef<CategoriesDialogComponent>>(NbDialogRef);
-    public isBusy: boolean = true;
     public isSelectable: boolean = true;
     public categories: Category[];
     public selectedCategory: Category;
     public editableCategory: Category;
 
     private readonly categoryApiService = inject(CategoryApiService);
+    private readonly categoryQueries = inject(CategoryQueries);
+    private readonly queryClient = inject(QueryClient);
+    private isSavingBusy = false;
+    private isFetchingBusy = false;
 
     public constructor() {
-        this.categoryApiService.onBusyChange.subscribe((isBusy: boolean) => (this.isBusy = isBusy));
+        this.categoryApiService.onBusyChange.subscribe((isBusy: boolean) => (this.isSavingBusy = isBusy));
+    }
+
+    public get isBusy(): boolean {
+        return this.isSavingBusy || this.isFetchingBusy;
     }
 
     public ngOnInit(): void {
@@ -43,6 +53,7 @@ export class CategoriesDialogComponent implements OnInit {
 
     public saveCategory(category: Category): void {
         this.categoryApiService.save(category).subscribe(() => {
+            void this.queryClient.invalidateQueries({ queryKey: QueryKeys.category.lists });
             this.editableCategory = undefined;
             this.fetch();
         });
@@ -54,6 +65,12 @@ export class CategoriesDialogComponent implements OnInit {
             params = params.append('userCategoriesOnly', 0);
         }
 
-        this.categoryApiService.list(params).subscribe((categories: Category[]) => (this.categories = categories));
+        this.isFetchingBusy = true;
+
+        void this.queryClient
+            .fetchQuery(this.categoryQueries.list(params))
+            .then((categories: Category[]) => (this.categories = categories))
+            .catch(() => undefined)
+            .finally(() => (this.isFetchingBusy = false));
     }
 }

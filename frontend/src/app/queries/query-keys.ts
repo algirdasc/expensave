@@ -15,7 +15,8 @@ export const QueryKeys = {
     },
     category: {
         all: ['category'] as const,
-        list: ['category', 'list'] as const,
+        lists: ['category', 'list'] as const,
+        list: (params?: HttpParams) => ['category', 'list', paramsKey(params)] as const,
         detail: (categoryId: number) => ['category', 'detail', categoryId] as const,
         system: ['category', 'system'] as const,
     },
@@ -26,5 +27,7 @@ export const QueryKeys = {
     },
     report: {
         all: ['report'] as const,
+        categoryExpenses: (calendarIds: number[], dateFrom: Date, dateTo: Date) =>
+            ['report', 'category-expenses', calendarIds, dateFrom.getTime(), dateTo.getTime()] as const,
     },
 };
