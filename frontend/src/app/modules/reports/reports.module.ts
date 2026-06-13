@@ -36,7 +36,7 @@ import { reportsRoutes } from './reports.routes';
         NbButtonGroupModule,
         NbCalendarKitModule,
         NbPopoverModule,
-        NbSidebarModule.forRoot(),
+        NbSidebarModule,
         NbButtonModule,
         NbIconModule,
         NbListModule,
