@@ -1,7 +1,7 @@
 import { Component, inject, Input, ViewChild } from '@angular/core';
 import { NbDialogRef, NbSpinnerModule } from '@nebular/theme';
-import { BalanceUpdateApiService } from '../../../../../../api/balance-update.api.service';
 import { Expense } from '../../../../../../api/objects/expense';
+import { BalanceUpdateQueries } from '../../../../../../queries/balance-update.queries';
 import { ExpenseDialogComponent } from '../../expense-dialog.component';
 import { AbstractExpenseComponent } from '../abstract-expense.component';
 import { ExpenseInputComponent } from '../expense-input.component';
@@ -12,6 +12,7 @@ import { DateListItemComponent } from '../fields/date-list-item.component';
 import { DescriptionListItemComponent } from '../fields/description-list-item.component';
 import { UserListItemComponent } from '../fields/user-list-item.component';
 import { FooterComponent } from '../fields/footer.component';
+import { injectMutation } from '@tanstack/angular-query-experimental';
 
 @Component({
     selector: 'app-balance',
@@ -41,21 +42,25 @@ export class BalanceComponent extends AbstractExpenseComponent {
     @ViewChild('expenseInput')
     private expenseInput: ExpenseInputComponent;
 
-    private balanceApiService = inject(BalanceUpdateApiService);
-    private dialogRef = inject<NbDialogRef<ExpenseDialogComponent>>(NbDialogRef);
-
-    public constructor() {
-        super();
-
-        this.balanceApiService.onBusyChange.subscribe((isBusy: boolean) => (this.isBusy = isBusy));
-    }
+    private readonly balanceUpdateQueries = inject(BalanceUpdateQueries);
+    private readonly dialogRef = inject<NbDialogRef<ExpenseDialogComponent>>(NbDialogRef);
+    private readonly saveMutation = injectMutation(() => this.balanceUpdateQueries.save());
+    private readonly deleteMutation = injectMutation(() => this.balanceUpdateQueries.delete());
 
     public onDefaultSubmit(): void {
-        this.balanceApiService.save(this.expense).subscribe((expense: Expense) => this.dialogRef.close(expense));
+        this.isBusy = true;
+        this.saveMutation.mutate(this.expense, {
+            onSuccess: (expense: Expense) => this.dialogRef.close(expense),
+            onSettled: () => (this.isBusy = false),
+        });
     }
 
     public onDefaultDelete(): void {
-        this.balanceApiService.delete(this.expense.id).subscribe(() => this.dialogRef.close(true));
+        this.isBusy = true;
+        this.deleteMutation.mutate(this.expense, {
+            onSuccess: () => this.dialogRef.close(true),
+            onSettled: () => (this.isBusy = false),
+        });
     }
 
     // noinspection JSUnusedGlobalSymbols

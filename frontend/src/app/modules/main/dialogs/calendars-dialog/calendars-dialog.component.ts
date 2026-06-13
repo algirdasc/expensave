@@ -1,12 +1,10 @@
 import { Component, inject } from '@angular/core';
 import { NbDialogRef, NbSpinnerModule, NbToastrService } from '@nebular/theme';
-import { CalendarApiService } from '../../../../api/calendar.api.service';
 import { Calendar } from '../../../../api/objects/calendar';
 import { CalendarListComponent } from './calendar-list/calendar-list.component';
 import { CalendarEditComponent } from './calendar-edit/calendar-edit.component';
 import { CalendarQueries } from '../../../../queries/calendar.queries';
-import { injectQuery, QueryClient } from '@tanstack/angular-query-experimental';
-import { QueryKeys } from '../../../../queries/query-keys';
+import { injectMutation, injectQuery } from '@tanstack/angular-query-experimental';
 
 @Component({
     templateUrl: 'calendars-dialog.component.html',
@@ -16,21 +14,15 @@ import { QueryKeys } from '../../../../queries/query-keys';
 export class CalendarsDialogComponent {
     public readonly dialogRef = inject<NbDialogRef<CalendarsDialogComponent>>(NbDialogRef);
     public readonly toastrService = inject(NbToastrService);
-    public isSavingBusy: boolean = false;
     public selectedCalendar: Calendar;
     public editableCalendar: Calendar;
 
-    private readonly calendarApiService = inject(CalendarApiService);
-    private readonly queryClient = inject(QueryClient);
     private readonly calendarQueries = inject(CalendarQueries);
     private readonly calendarListQuery = injectQuery(() => this.calendarQueries.list());
-
-    public constructor() {
-        this.calendarApiService.onBusyChange.subscribe((isBusy: boolean) => (this.isSavingBusy = isBusy));
-    }
+    private readonly saveMutation = injectMutation(() => this.calendarQueries.save());
 
     public get isBusy(): boolean {
-        return this.isSavingBusy || this.calendarListQuery.isFetching();
+        return this.saveMutation.isPending() || this.calendarListQuery.isFetching();
     }
 
     public get calendars(): Calendar[] {
@@ -43,10 +35,11 @@ export class CalendarsDialogComponent {
     }
 
     public saveCalendar(calendar: Calendar): void {
-        this.calendarApiService.save(calendar).subscribe(() => {
-            this.editableCalendar = undefined;
-            this.toastrService.success('Calendar deleted successfully', 'Calendar delete');
-            this.queryClient.invalidateQueries({ queryKey: QueryKeys.calendar.lists });
+        this.saveMutation.mutate(calendar, {
+            onSuccess: () => {
+                this.editableCalendar = undefined;
+                this.toastrService.success('Calendar saved successfully', 'Calendar update');
+            },
         });
     }
 }

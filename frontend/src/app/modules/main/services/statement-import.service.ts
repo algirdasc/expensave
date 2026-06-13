@@ -1,12 +1,11 @@
 import { inject, Injectable } from '@angular/core';
+import { injectMutation } from '@tanstack/angular-query-experimental';
 import { NbDialogService, NbToastrService } from '@nebular/theme';
 import { plainToInstance } from 'class-transformer';
-import { ExpenseApiService } from '../../../api/expense.api.service';
 import { Calendar } from '../../../api/objects/calendar';
 import { Expense } from '../../../api/objects/expense';
-import { StatementImportResponse } from '../../../api/response/statement-import.response';
-import { StatementImportApiService } from '../../../api/statement-import.api.service';
-import { CalendarService } from '../calendar/calendar.service';
+import { ExpenseQueries } from '../../../queries/expense.queries';
+import { StatementImportQueries } from '../../../queries/statement-import.queries';
 import {
     DIALOG_ACTION_CANCEL,
     DIALOG_ACTION_IMPORT,
@@ -23,18 +22,15 @@ const TOASTR_TITLE = 'Bank statement import';
 export class StatementImportService {
     public expenses: Expense[] = [];
 
-    private dialogService = inject(NbDialogService);
-    private mainService = inject(MainService);
-    private statementImportApiService = inject(StatementImportApiService);
-    private expenseApiService = inject(ExpenseApiService);
-    private calendarService = inject(CalendarService);
-    private toastrService = inject(NbToastrService);
+    private readonly dialogService = inject(NbDialogService);
+    private readonly mainService = inject(MainService);
+    private readonly statementImportQueries = inject(StatementImportQueries);
+    private readonly expenseQueries = inject(ExpenseQueries);
+    private readonly toastrService = inject(NbToastrService);
+    private readonly statementImportMutation = injectMutation(() => this.statementImportQueries.import());
+    private readonly expenseImportMutation = injectMutation(() => this.expenseQueries.import());
 
     public constructor() {
-        this.statementImportApiService.onBusyChange.subscribe((isBusy: boolean) =>
-            this.mainService.isApplicationBusy.next(isBusy)
-        );
-
         this.reloadImportStorage();
     }
 
@@ -50,21 +46,28 @@ export class StatementImportService {
 
             fileInput.remove();
 
-            this.statementImportApiService.import(calendar, formData).subscribe((response: StatementImportResponse) => {
-                if (response.expenses.length === 0) {
-                    this.toastrService.warning(
-                        'Selected file does not contain any importable transactions',
-                        TOASTR_TITLE
-                    );
+            this.mainService.isApplicationBusy.next(true);
+            this.statementImportMutation.mutate(
+                { calendar, formData },
+                {
+                    onSuccess: response => {
+                        if (response.expenses.length === 0) {
+                            this.toastrService.warning(
+                                'Selected file does not contain any importable transactions',
+                                TOASTR_TITLE
+                            );
 
-                    return;
+                            return;
+                        }
+
+                        this.updateImportStorage(response.expenses);
+                        this.reloadImportStorage();
+
+                        this.processImport();
+                    },
+                    onSettled: () => this.mainService.isApplicationBusy.next(false),
                 }
-
-                this.updateImportStorage(response.expenses);
-                this.reloadImportStorage();
-
-                this.processImport();
-            });
+            );
         };
 
         document.body.appendChild(fileInput);
@@ -106,13 +109,17 @@ export class StatementImportService {
             .onClose.subscribe((result: { action: string; calendarRefreshNeeded: boolean }) => {
                 switch (result.action) {
                     case DIALOG_ACTION_IMPORT:
-                        this.expenseApiService.import(this.expenses).subscribe(() => {
-                            this.toastrService.success(
-                                'Transactions are being imported, please be patient',
-                                TOASTR_TITLE
-                            );
+                        this.mainService.isApplicationBusy.next(true);
+                        this.expenseImportMutation.mutate(this.expenses, {
+                            onSuccess: () => {
+                                this.toastrService.success(
+                                    'Transactions are being imported, please be patient',
+                                    TOASTR_TITLE
+                                );
 
-                            this.clearImportStorage();
+                                this.clearImportStorage();
+                            },
+                            onSettled: () => this.mainService.isApplicationBusy.next(false),
                         });
                         break;
                     case DIALOG_ACTION_CANCEL:
@@ -127,6 +134,6 @@ export class StatementImportService {
     }
 
     public importStorage(): void {
-        this.expenseApiService.import(this.expenses).subscribe(() => {});
+        this.expenseImportMutation.mutate(this.expenses);
     }
 }

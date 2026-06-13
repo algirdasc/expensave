@@ -1,13 +1,11 @@
 import { HttpParams } from '@angular/common/http';
 import { Component, inject, OnInit } from '@angular/core';
 import { NbDialogRef, NbSpinnerModule } from '@nebular/theme';
-import { CategoryApiService } from '../../../../api/category.api.service';
 import { Category } from '../../../../api/objects/category';
 import { CategoryListComponent } from './category-list/category-list.component';
 import { CategoryEditComponent } from './category-edit/category-edit.component';
 import { CategoryQueries } from '../../../../queries/category.queries';
-import { QueryClient } from '@tanstack/angular-query-experimental';
-import { QueryKeys } from '../../../../queries/query-keys';
+import { injectMutation, QueryClient } from '@tanstack/angular-query-experimental';
 
 @Component({
     templateUrl: 'categories-dialog.component.html',
@@ -21,18 +19,13 @@ export class CategoriesDialogComponent implements OnInit {
     public selectedCategory: Category;
     public editableCategory: Category;
 
-    private readonly categoryApiService = inject(CategoryApiService);
     private readonly categoryQueries = inject(CategoryQueries);
     private readonly queryClient = inject(QueryClient);
-    private isSavingBusy = false;
     private isFetchingBusy = false;
-
-    public constructor() {
-        this.categoryApiService.onBusyChange.subscribe((isBusy: boolean) => (this.isSavingBusy = isBusy));
-    }
+    private readonly saveMutation = injectMutation(() => this.categoryQueries.save());
 
     public get isBusy(): boolean {
-        return this.isSavingBusy || this.isFetchingBusy;
+        return this.saveMutation.isPending() || this.isFetchingBusy;
     }
 
     public ngOnInit(): void {
@@ -52,10 +45,11 @@ export class CategoriesDialogComponent implements OnInit {
     }
 
     public saveCategory(category: Category): void {
-        this.categoryApiService.save(category).subscribe(() => {
-            void this.queryClient.invalidateQueries({ queryKey: QueryKeys.category.lists });
-            this.editableCategory = undefined;
-            this.fetch();
+        this.saveMutation.mutate(category, {
+            onSuccess: () => {
+                this.editableCategory = undefined;
+                this.fetch();
+            },
         });
     }
 

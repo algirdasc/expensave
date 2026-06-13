@@ -9,17 +9,15 @@ import {
     NbSpinnerModule,
     NbToastrService,
 } from '@nebular/theme';
-import { CalendarApiService } from '../../../../../api/calendar.api.service';
 import { Calendar } from '../../../../../api/objects/calendar';
-import { UserApiService } from '../../../../../api/user.api.service';
 import { CalendarQueries } from '../../../../../queries/calendar.queries';
-import { QueryKeys } from '../../../../../queries/query-keys';
+import { UserQueries } from '../../../../../queries/user.queries';
 import { CalendarEditComponent } from '../../../dialogs/calendars-dialog/calendar-edit/calendar-edit.component';
 import { ConfirmDialogComponent } from '../../../dialogs/confirm-dialog/confirm-dialog.component';
 import { MainService } from '../../../main.service';
 import { StatementImportService } from '../../../services/statement-import.service';
 import { ShortNumberPipe } from '../../../../../pipes/shortnumber.pipe';
-import { QueryClient } from '@tanstack/angular-query-experimental';
+import { injectMutation, QueryClient } from '@tanstack/angular-query-experimental';
 
 @Component({
     selector: 'app-sidebar-calendar-list',
@@ -36,35 +34,40 @@ export class CalendarSidebarListComponent implements OnChanges {
 
     public readonly dialogService = inject(NbDialogService);
     public readonly mainService = inject(MainService);
-    public readonly calendarApiService = inject(CalendarApiService);
-    public readonly userApiService = inject(UserApiService);
     public readonly toastrService = inject(NbToastrService);
     public readonly statementImportService = inject(StatementImportService);
     public selectedCalendarId: number | null = null;
 
     private readonly calendarQueries = inject(CalendarQueries);
+    private readonly userQueries = inject(UserQueries);
     private readonly queryClient = inject(QueryClient);
     private dialogRef: NbDialogRef<CalendarEditComponent>;
     private dialogBack: EventEmitter<boolean> = new EventEmitter<boolean>();
     private dialogSave: EventEmitter<Calendar> = new EventEmitter<Calendar>();
-    private isSavingBusy = false;
     private isFetchingBusy = false;
+    private readonly saveMutation = injectMutation(() => this.calendarQueries.save());
+    private readonly deleteMutation = injectMutation(() => this.calendarQueries.delete());
+    private readonly defaultCalendarMutation = injectMutation(() => this.userQueries.defaultCalendar());
 
     public constructor() {
-        this.calendarApiService.onBusyChange.subscribe((isBusy: boolean) => (this.isSavingBusy = isBusy));
-
         this.dialogBack.subscribe(() => this.dialogRef.close());
         this.dialogSave.subscribe((calendar: Calendar) => {
-            this.calendarApiService.save(calendar).subscribe((calendar: Calendar) => {
-                void this.queryClient.invalidateQueries({ queryKey: QueryKeys.calendar.lists });
-                this.toastrService.success('Calendar saved successfully', 'Calendar update');
-                this.dialogRef.close(calendar);
+            this.saveMutation.mutate(calendar, {
+                onSuccess: (response: Calendar) => {
+                    this.toastrService.success('Calendar saved successfully', 'Calendar update');
+                    this.dialogRef.close(response);
+                },
             });
         });
     }
 
     public get isBusy(): boolean {
-        return this.isSavingBusy || this.isFetchingBusy;
+        return (
+            this.saveMutation.isPending() ||
+            this.deleteMutation.isPending() ||
+            this.defaultCalendarMutation.isPending() ||
+            this.isFetchingBusy
+        );
     }
 
     public ngOnChanges(changes: SimpleChanges): void {
@@ -83,22 +86,25 @@ export class CalendarSidebarListComponent implements OnChanges {
             })
             .onClose.subscribe((result?: boolean) => {
                 if (result) {
-                    this.calendarApiService.delete(calendar.id).subscribe(() => {
-                        void this.queryClient.invalidateQueries({ queryKey: QueryKeys.calendar.lists });
-                        this.toastrService.success('Calendar deleted successfully', 'Calendar delete');
-                        this.fetch();
+                    this.deleteMutation.mutate(calendar, {
+                        onSuccess: () => {
+                            this.toastrService.success('Calendar deleted successfully', 'Calendar delete');
+                            this.fetch();
+                        },
                     });
                 }
             });
     }
 
     public makeDefault(calendar: Calendar): void {
-        this.userApiService.defaultCalendar(calendar).subscribe(() => {
-            this.calendarChange.emit(calendar);
-            this.toastrService.success(
-                `Calendar '${calendar.name}' is now default`,
-                'You changed your default calendar'
-            );
+        this.defaultCalendarMutation.mutate(calendar, {
+            onSuccess: () => {
+                this.calendarChange.emit(calendar);
+                this.toastrService.success(
+                    `Calendar '${calendar.name}' is now default`,
+                    'You changed your default calendar'
+                );
+            },
         });
     }
 

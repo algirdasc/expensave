@@ -1,9 +1,9 @@
 import { Component, inject, ViewChild } from '@angular/core';
 import { NbDialogRef, NbSpinnerModule } from '@nebular/theme';
 import { instanceToPlain, plainToInstance } from 'class-transformer';
-import { ExpenseApiService } from '../../../../../../api/expense.api.service';
 import { Calendar } from '../../../../../../api/objects/calendar';
 import { Expense } from '../../../../../../api/objects/expense';
+import { ExpenseQueries } from '../../../../../../queries/expense.queries';
 import { ExpenseDialogComponent } from '../../expense-dialog.component';
 import { AbstractExpenseComponent } from '../abstract-expense.component';
 import { ExpenseInputComponent } from '../expense-input.component';
@@ -15,6 +15,7 @@ import { DateListItemComponent } from '../fields/date-list-item.component';
 import { DescriptionListItemComponent } from '../fields/description-list-item.component';
 import { UserListItemComponent } from '../fields/user-list-item.component';
 import { FooterComponent } from '../fields/footer.component';
+import { injectMutation } from '@tanstack/angular-query-experimental';
 
 @Component({
     selector: 'app-transfer',
@@ -38,14 +39,9 @@ export class TransferComponent extends AbstractExpenseComponent {
 
     public destinationCalendar: Calendar;
 
-    private expenseApiService = inject(ExpenseApiService);
-    private dialogRef = inject<NbDialogRef<ExpenseDialogComponent>>(NbDialogRef);
-
-    public constructor() {
-        super();
-
-        this.expenseApiService.onBusyChange.subscribe((isBusy: boolean) => (this.isBusy = isBusy));
-    }
+    private readonly expenseQueries = inject(ExpenseQueries);
+    private readonly dialogRef = inject<NbDialogRef<ExpenseDialogComponent>>(NbDialogRef);
+    private readonly saveMutation = injectMutation(() => this.expenseQueries.save());
 
     public onSubmit(): void {
         const transferExpense = plainToInstance(Expense, instanceToPlain(this.expense));
@@ -53,11 +49,13 @@ export class TransferComponent extends AbstractExpenseComponent {
         transferExpense.calendar = this.destinationCalendar;
         transferExpense.amount = -1 * transferExpense.amount;
 
-        this.expenseApiService.save(this.expense).subscribe(() => {
-            this.expenseApiService.save(transferExpense).subscribe(() => {
-                this.dialogRef.close(true);
-            });
-        });
+        this.isBusy = true;
+        void this.saveMutation
+            .mutateAsync(this.expense)
+            .then(() => this.saveMutation.mutateAsync(transferExpense))
+            .then(() => this.dialogRef.close(true))
+            .catch(() => undefined)
+            .finally(() => (this.isBusy = false));
     }
 
     // noinspection JSUnusedGlobalSymbols

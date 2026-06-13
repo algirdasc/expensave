@@ -7,10 +7,11 @@ import {
     NbIconModule,
     NbInputModule,
 } from '@nebular/theme';
-import { CategoryApiService } from '../../../../../api/category.api.service';
 import { Category } from '../../../../../api/objects/category';
+import { CategoryQueries } from '../../../../../queries/category.queries';
 import { ConfirmDialogComponent } from '../../confirm-dialog/confirm-dialog.component';
 import { FormsModule } from '@angular/forms';
+import { injectMutation } from '@tanstack/angular-query-experimental';
 
 @Component({
     templateUrl: 'category-edit.component.html',
@@ -79,8 +80,9 @@ export class CategoryEditComponent {
     ];
 
     private dialogService = inject(NbDialogService);
-    private categoryApiService = inject(CategoryApiService);
+    private categoryQueries = inject(CategoryQueries);
     private _categories: Category[];
+    private deleteMutation = injectMutation(() => this.categoryQueries.delete());
 
     @Input()
     public get categories(): Category[] {
@@ -103,7 +105,9 @@ export class CategoryEditComponent {
             })
             .onClose.subscribe((result?: boolean) => {
                 if (result) {
-                    this.categoryApiService.delete(this.category.id).subscribe(() => this.back.emit(true));
+                    this.deleteMutation.mutate(this.category, {
+                        onSuccess: () => this.back.emit(true),
+                    });
                 }
             });
     }
