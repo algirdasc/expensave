@@ -12,11 +12,14 @@ import {
 import { CalendarApiService } from '../../../../../api/calendar.api.service';
 import { Calendar } from '../../../../../api/objects/calendar';
 import { UserApiService } from '../../../../../api/user.api.service';
+import { CalendarQueries } from '../../../../../queries/calendar.queries';
+import { QueryKeys } from '../../../../../queries/query-keys';
 import { CalendarEditComponent } from '../../../dialogs/calendars-dialog/calendar-edit/calendar-edit.component';
 import { ConfirmDialogComponent } from '../../../dialogs/confirm-dialog/confirm-dialog.component';
 import { MainService } from '../../../main.service';
 import { StatementImportService } from '../../../services/statement-import.service';
 import { ShortNumberPipe } from '../../../../../pipes/shortnumber.pipe';
+import { QueryClient } from '@tanstack/angular-query-experimental';
 
 @Component({
     selector: 'app-sidebar-calendar-list',
@@ -37,23 +40,31 @@ export class CalendarSidebarListComponent implements OnChanges {
     public readonly userApiService = inject(UserApiService);
     public readonly toastrService = inject(NbToastrService);
     public readonly statementImportService = inject(StatementImportService);
-    public isBusy: boolean = false;
     public selectedCalendarId: number | null = null;
 
+    private readonly calendarQueries = inject(CalendarQueries);
+    private readonly queryClient = inject(QueryClient);
     private dialogRef: NbDialogRef<CalendarEditComponent>;
     private dialogBack: EventEmitter<boolean> = new EventEmitter<boolean>();
     private dialogSave: EventEmitter<Calendar> = new EventEmitter<Calendar>();
+    private isSavingBusy = false;
+    private isFetchingBusy = false;
 
     public constructor() {
-        this.calendarApiService.onBusyChange.subscribe((isBusy: boolean) => (this.isBusy = isBusy));
+        this.calendarApiService.onBusyChange.subscribe((isBusy: boolean) => (this.isSavingBusy = isBusy));
 
         this.dialogBack.subscribe(() => this.dialogRef.close());
         this.dialogSave.subscribe((calendar: Calendar) => {
             this.calendarApiService.save(calendar).subscribe((calendar: Calendar) => {
+                void this.queryClient.invalidateQueries({ queryKey: QueryKeys.calendar.lists });
                 this.toastrService.success('Calendar saved successfully', 'Calendar update');
                 this.dialogRef.close(calendar);
             });
         });
+    }
+
+    public get isBusy(): boolean {
+        return this.isSavingBusy || this.isFetchingBusy;
     }
 
     public ngOnChanges(changes: SimpleChanges): void {
@@ -73,6 +84,7 @@ export class CalendarSidebarListComponent implements OnChanges {
             .onClose.subscribe((result?: boolean) => {
                 if (result) {
                     this.calendarApiService.delete(calendar.id).subscribe(() => {
+                        void this.queryClient.invalidateQueries({ queryKey: QueryKeys.calendar.lists });
                         this.toastrService.success('Calendar deleted successfully', 'Calendar delete');
                         this.fetch();
                     });
@@ -95,14 +107,26 @@ export class CalendarSidebarListComponent implements OnChanges {
     }
 
     public editCalendar(calendar: Calendar): void {
-        this.calendarApiService.get(calendar.id).subscribe((calendar: Calendar) => this.openCalendarDialog(calendar));
+        this.isFetchingBusy = true;
+
+        void this.queryClient
+            .fetchQuery(this.calendarQueries.get(calendar.id))
+            .then((response: Calendar) => this.openCalendarDialog(response))
+            .catch(() => undefined)
+            .finally(() => (this.isFetchingBusy = false));
     }
 
     public fetch(): void {
-        this.calendarApiService.list().subscribe((calendars: Calendar[]) => {
-            this.calendars = calendars;
-            this.calendarsChange.emit(this.calendars);
-        });
+        this.isFetchingBusy = true;
+
+        void this.queryClient
+            .fetchQuery(this.calendarQueries.list())
+            .then((calendars: Calendar[]) => {
+                this.calendars = calendars;
+                this.calendarsChange.emit(this.calendars);
+            })
+            .catch(() => undefined)
+            .finally(() => (this.isFetchingBusy = false));
     }
 
     private openCalendarDialog(calendar: Calendar, onClose?: (calendar: Calendar) => void): void {
