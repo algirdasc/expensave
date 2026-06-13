@@ -82,7 +82,7 @@ import { StatementImportService } from './services/statement-import.service';
         RouterModule.forChild(mainRoutes),
         FormsModule,
         NbLayoutModule,
-        NbSidebarModule.forRoot(),
+        NbSidebarModule,
         NbCalendarModule,
         NbRadioModule,
         NbButtonModule,
@@ -154,6 +154,11 @@ import { StatementImportService } from './services/statement-import.service';
         SwipeDirective,
         OutsideClickDirective,
     ],
-    providers: [CalendarService, CalendarMonthModelService, StatementImportService],
+    providers: [
+        // Intentional module-scoped services: tied to MainModule lifecycle/UI state.
+        CalendarService,
+        CalendarMonthModelService,
+        StatementImportService,
+    ],
 })
 export class MainModule {}
