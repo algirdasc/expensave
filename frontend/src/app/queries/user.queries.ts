@@ -1,36 +1,43 @@
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
 
 import { inject, Injectable } from '@angular/core';
-import { mutationOptions, queryOptions } from '@tanstack/angular-query-experimental';
+import { mutationOptions, QueryClient, queryOptions } from '@tanstack/angular-query-experimental';
 import { lastValueFrom } from 'rxjs';
 import { UserApiService } from '../api/user.api.service';
 import { Calendar } from '../api/objects/calendar';
 import { User } from '../api/objects/user';
+import { QueryKeys } from './query-keys';
 
 @Injectable({ providedIn: 'root' })
 export class UserQueries {
     private userApiService: UserApiService = inject(UserApiService);
+    private queryClient: QueryClient = inject(QueryClient);
 
     // @eslint-
     public profile() {
         return queryOptions({
-            queryKey: ['users'],
+            queryKey: QueryKeys.user.profile,
             queryFn: (): Promise<User> => lastValueFrom(this.userApiService.profile()),
         });
     }
 
     public profiles() {
         return queryOptions({
-            queryKey: ['users'],
+            queryKey: QueryKeys.user.list,
             queryFn: (): Promise<User[]> => lastValueFrom(this.userApiService.list()),
         });
     }
 
     public defaultCalendar() {
         return mutationOptions({
-            mutationKey: ['calendar'],
+            mutationKey: ['user', 'default-calendar'],
             mutationFn: (calendar: Calendar): Promise<User> =>
                 lastValueFrom(this.userApiService.defaultCalendar(calendar)),
+            onSuccess: (): Promise<void[]> =>
+                Promise.all([
+                    this.queryClient.invalidateQueries({ queryKey: QueryKeys.user.profile }),
+                    this.queryClient.invalidateQueries({ queryKey: QueryKeys.user.list }),
+                ]),
         });
     }
 }

@@ -20,11 +20,14 @@ export abstract class AbstractReportComponent {
 
         return {
             queryKey: ['report', this.reportsApiMethod, calendarIds, dateFrom, dateTo],
-            queryFn: () => lastValueFrom(this.reportsApiService[this.reportsApiMethod](calendars, dateFrom, dateTo)),
+            queryFn: (): Promise<unknown> =>
+                lastValueFrom(
+                    this.reportsApiService[this.reportsApiMethod](this.reportsStore.calendars(), dateFrom, dateTo)
+                ),
             enabled: calendars.length > 0 && !!dateFrom && !!dateTo,
         };
     });
-    abstract reportsApiMethod: string;
+    abstract readonly reportsApiMethod: 'dailyExpenses' | 'monthlyExpenses' | 'categoryExpenses';
 
     constructor() {
         effect(() => {
