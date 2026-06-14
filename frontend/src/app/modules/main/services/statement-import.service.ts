@@ -18,6 +18,7 @@ export const IMPORT_COUNT_KEY = 'statementImportCount';
 
 const TOASTR_TITLE = 'Bank statement import';
 
+// eslint-disable-next-line @angular-eslint/use-injectable-provided-in -- Intentionally scoped through MainModule providers.
 @Injectable()
 export class StatementImportService {
     public expenses: Expense[] = [];

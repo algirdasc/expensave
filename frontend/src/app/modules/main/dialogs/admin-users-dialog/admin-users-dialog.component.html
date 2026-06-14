@@ -19,11 +19,7 @@
         <nb-list>
             @for (user of users; track user.id) {
                 <nb-list-item>
-                    <nb-user
-                        [picture]="user.avatar"
-                        [name]="user.name"
-                        [title]="user.email"
-                        class="w-100" />
+                    <nb-user [picture]="user.avatar" [name]="user.name" [title]="user.email" class="w-100" />
                     @if (!user.active) {
                         <nb-badge text="DEACTIVATED" status="danger" style="position: relative" class="mx-1" />
                     } @else {
