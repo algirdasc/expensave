@@ -167,6 +167,10 @@ class ApplicationTestCase extends KernelTestCase
                 : $this->normalizeGeneratedIdentifiers($nestedValue);
         }
 
+        if (!array_is_list($normalized)) {
+            ksort($normalized);
+        }
+
         return $normalized;
     }
 
