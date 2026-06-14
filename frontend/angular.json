@@ -96,6 +96,35 @@
                             "src/**/*.html"
                         ]
                     }
+                },
+                "test": {
+                    "builder": "@angular-devkit/build-angular:karma",
+                    "options": {
+                        "main": "src/test.ts",
+                        "polyfills": [
+                            "src/polyfills.ts",
+                            "@angular/localize/init"
+                        ],
+                        "tsConfig": "tsconfig.spec.json",
+                        "karmaConfig": "karma.conf.js",
+                        "assets": [
+                            "src/manifest.json",
+                            "src/favicon.ico",
+                            "src/assets",
+                            "src/config.dev.json",
+                            {
+                                "glob": "*.js",
+                                "input": "node_modules/@angular/common/locales/",
+                                "output": "assets/l10n/locales/"
+                            }
+                        ],
+                        "styles": [
+                            "src/styles.scss"
+                        ],
+                        "scripts": [
+                            "node_modules/reflect-metadata/Reflect.js"
+                        ]
+                    }
                 }
             }
         }

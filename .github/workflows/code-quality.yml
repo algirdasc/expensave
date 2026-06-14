@@ -75,7 +75,9 @@ jobs:
       - name: Code checkout
         uses: actions/checkout@v4
         with:
-          sparse-checkout: 'frontend/'
+          sparse-checkout: |
+            .nvmrc
+            frontend/
           sparse-checkout-cone-mode: false
       - name: Move frontend to root
         run: |
@@ -86,8 +88,34 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version-file: .nvmrc
       - name: Packages Install
         run: npm ci
       - name: Run ESLint
         run: npm run analyze
+
+  frontend-tests:
+    name: Frontend tests
+    runs-on: ubuntu-latest
+    steps:
+      - name: Code checkout
+        uses: actions/checkout@v4
+        with:
+          sparse-checkout: |
+            .nvmrc
+            frontend/
+          sparse-checkout-cone-mode: false
+      - name: Move frontend to root
+        run: |
+          shopt -s dotglob
+          mv frontend/* ./
+          rm -rf frontend/
+          ls -lah
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+      - name: Packages Install
+        run: npm ci
+      - name: Run frontend tests
+        run: npm test
