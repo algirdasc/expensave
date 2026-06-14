@@ -126,4 +126,19 @@ class CalendarControllerTest extends ApplicationTestCase
         $this->client->jsonRequest('GET', sprintf('/api/calendar/%d', $calendarId));
         $this->assertResponseStatusCodeSame(Response::HTTP_NOT_FOUND);
     }
+
+    public function testDeleteCalendarWithExpensesReturnsFriendlyConflict(): void
+    {
+        $this->client->jsonRequest('DELETE', sprintf('/api/calendar/%d', $this->getCalendarId('User 1 Calendar')));
+
+        $this->assertResponseStatusCodeSame(Response::HTTP_CONFLICT);
+
+        $response = $this->getJsonResponse($this->client);
+        $this->assertSame(
+            'This calendar contains expenses. Delete or move those expenses before deleting the calendar.',
+            $response['messages'][0]['message']
+        );
+        $this->assertSame('calendar', $response['messages'][0]['propertyPath']);
+        $this->assertStringNotContainsString('SQLSTATE', $this->client->getResponse()->getContent());
+    }
 }

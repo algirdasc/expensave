@@ -14,7 +14,7 @@ export class ApiInterceptor implements HttpInterceptor {
         }
 
         const apiReq = req.clone({
-            url: APP_CONFIG.apiUrl + req.urlWithParams,
+            url: APP_CONFIG.apiUrl + req.url,
             headers: headers,
         });
 
