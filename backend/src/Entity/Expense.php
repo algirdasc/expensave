@@ -114,6 +114,24 @@ class Expense
         return $this->recurringExpense;
     }
 
+    #[Groups(ExpenseContextGroupConst::ALWAYS)]
+    public function isRecurring(): bool
+    {
+        return $this->recurringExpense !== null;
+    }
+
+    #[Groups(ExpenseContextGroupConst::ALWAYS)]
+    public function getRecurringFrequency(): ?string
+    {
+        return $this->recurringExpense?->getFrequency()->value;
+    }
+
+    #[Groups(ExpenseContextGroupConst::ALWAYS)]
+    public function getRecurringOccurrences(): ?int
+    {
+        return $this->recurringExpense?->getOccurrences();
+    }
+
     public function setRecurringExpense(?RecurringExpense $recurringExpense): self
     {
         $this->recurringExpense = $recurringExpense;

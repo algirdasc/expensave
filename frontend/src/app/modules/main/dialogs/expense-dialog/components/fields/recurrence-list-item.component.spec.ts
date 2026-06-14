@@ -30,4 +30,14 @@ describe('RecurrenceListItemComponent', () => {
 
         expect(component.frequencyLabel).toBe('Weekly');
     });
+
+    it('falls back to monthly when a non-recurring API response has no frequency', (): void => {
+        component.expense.recurringFrequency = null;
+
+        expect(component.frequencyLabel).toBe('Monthly');
+    });
+
+    it('uses this occurrence as the default recurring update scope', (): void => {
+        expect(component.expense.recurringUpdateScope).toBe('this');
+    });
 });

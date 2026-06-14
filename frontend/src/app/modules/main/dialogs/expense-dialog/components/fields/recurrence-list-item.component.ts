@@ -9,26 +9,50 @@ import { Expense } from '../../../../../../api/objects/expense';
         <nb-icon icon="repeat-outline" class="me-3" [class.active]="expense.recurring"></nb-icon>
 
         <div class="w-100">
-            <div class="d-flex align-items-center justify-content-between gap-3">
-                <div class="text-truncate">
-                    <span>Repeat expense</span>
-                    @if (expense.recurring) {
+            @if (expense.id && expense.recurring) {
+                <div class="recurring-edit">
+                    <div class="text-truncate">
+                        <span>Recurring expense</span>
                         <small class="d-block text-hint">
                             {{ frequencyLabel }} for {{ expense.recurringOccurrences }} expenses
                         </small>
-                    }
-                </div>
-                <button
-                    nbButton
-                    type="button"
-                    size="tiny"
-                    [status]="expense.recurring ? 'primary' : 'basic'"
-                    (click)="toggleRecurring()">
-                    {{ expense.recurring ? 'On' : 'Off' }}
-                </button>
-            </div>
+                    </div>
 
-            @if (expense.recurring) {
+                    <label>
+                        <span>Update</span>
+                        <select
+                            class="form-select form-select-sm"
+                            name="recurringUpdateScope"
+                            [(ngModel)]="expense.recurringUpdateScope">
+                            <option value="this">This occurrence</option>
+                            <option value="future">This and future</option>
+                            <option value="past">This and past</option>
+                            <option value="all">All occurrences</option>
+                        </select>
+                    </label>
+                </div>
+            } @else {
+                <div class="d-flex align-items-center justify-content-between gap-3">
+                    <div class="text-truncate">
+                        <span>Repeat expense</span>
+                        @if (expense.recurring) {
+                            <small class="d-block text-hint">
+                                {{ frequencyLabel }} for {{ expense.recurringOccurrences }} expenses
+                            </small>
+                        }
+                    </div>
+                    <button
+                        nbButton
+                        type="button"
+                        size="tiny"
+                        [status]="expense.recurring ? 'primary' : 'basic'"
+                        (click)="toggleRecurring()">
+                        {{ expense.recurring ? 'On' : 'Off' }}
+                    </button>
+                </div>
+            }
+
+            @if (!expense.id && expense.recurring) {
                 <div class="recurring-controls">
                     <label>
                         <span>Period</span>
@@ -77,15 +101,31 @@ import { Expense } from '../../../../../../api/objects/expense';
                 margin-top: 0.75rem;
             }
 
-            .recurring-controls label {
+            .recurring-edit {
+                display: grid;
+                grid-template-columns: minmax(0, 1fr) minmax(140px, 176px);
+                gap: 0.75rem;
+                align-items: center;
+            }
+
+            .recurring-controls label,
+            .recurring-edit label {
                 display: grid;
                 gap: 0.25rem;
                 margin: 0;
             }
 
-            .recurring-controls span {
+            .recurring-controls span,
+            .recurring-edit label span {
                 color: var(--text-hint-color);
                 font-size: 0.75rem;
+            }
+
+            @media (max-width: 420px) {
+                .recurring-edit,
+                .recurring-controls {
+                    grid-template-columns: minmax(0, 1fr);
+                }
             }
         `,
     ],
@@ -97,7 +137,9 @@ export class RecurrenceListItemComponent {
     public expense: Expense;
 
     protected get frequencyLabel(): string {
-        return this.expense.recurringFrequency[0].toUpperCase() + this.expense.recurringFrequency.slice(1);
+        const frequency = this.expense.recurringFrequency ?? 'monthly';
+
+        return frequency[0].toUpperCase() + frequency.slice(1);
     }
 
     protected toggleRecurring(): void {

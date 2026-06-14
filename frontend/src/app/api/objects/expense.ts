@@ -4,6 +4,9 @@ import { Calendar } from './calendar';
 import { Category } from './category';
 import { User } from './user';
 
+export type RecurringExpenseFrequency = 'daily' | 'weekly' | 'monthly' | 'yearly';
+export type RecurringExpenseUpdateScope = 'this' | 'future' | 'past' | 'all';
+
 export class Expense implements EntityInterface {
     @Expose()
     public id: number;
@@ -36,11 +39,16 @@ export class Expense implements EntityInterface {
     @Expose()
     public description?: string;
 
+    @Expose()
     public recurring: boolean = false;
 
-    public recurringFrequency: 'daily' | 'weekly' | 'monthly' | 'yearly' = 'monthly';
+    @Expose()
+    public recurringFrequency: RecurringExpenseFrequency | null = 'monthly';
 
-    public recurringOccurrences: number = 12;
+    @Expose()
+    public recurringOccurrences: number | null = 12;
+
+    public recurringUpdateScope: RecurringExpenseUpdateScope = 'this';
 
     private _isExpense: boolean;
 
