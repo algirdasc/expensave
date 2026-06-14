@@ -8,6 +8,8 @@ use App\DTO\Statement\Import\StatementImportRowInterface;
 use App\Entity\Calendar;
 use App\Entity\Category;
 use App\Entity\Expense;
+use App\Entity\RecurringExpense;
+use App\Enum\RecurringExpenseUpdateScope;
 use DateTime;
 use Doctrine\ORM\AbstractQuery;
 use Doctrine\ORM\QueryBuilder;
@@ -63,6 +65,34 @@ class ExpenseRepository extends AbstractRepository
             ->setMaxResults(1)
             ->getQuery()
             ->getOneOrNullResult(AbstractQuery::HYDRATE_SINGLE_SCALAR) !== null;
+    }
+
+    /**
+     * @return list<Expense>
+     */
+    public function findByRecurringExpenseAndUpdateScope(
+        RecurringExpense $recurringExpense,
+        DateTime $selectedDate,
+        RecurringExpenseUpdateScope $scope,
+    ): array {
+        $queryBuilder = $this->createQueryBuilder('e')
+            ->where('e.recurringExpense = :recurringExpense')
+            ->setParameter('recurringExpense', $recurringExpense)
+            ->orderBy('e.createdAt', 'ASC')
+        ;
+
+        match ($scope) {
+            RecurringExpenseUpdateScope::THIS => $queryBuilder->andWhere('e.createdAt = :selectedDate'),
+            RecurringExpenseUpdateScope::FUTURE => $queryBuilder->andWhere('e.createdAt >= :selectedDate'),
+            RecurringExpenseUpdateScope::PAST => $queryBuilder->andWhere('e.createdAt <= :selectedDate'),
+            RecurringExpenseUpdateScope::ALL => null,
+        };
+
+        if ($scope !== RecurringExpenseUpdateScope::ALL) {
+            $queryBuilder->setParameter('selectedDate', $selectedDate);
+        }
+
+        return $queryBuilder->getQuery()->getResult();
     }
 
     /**

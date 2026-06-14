@@ -57,17 +57,7 @@ class ExpenseController extends AbstractApiController
         $this->denyAccessUnlessGranted(ExpenseVoter::EDIT, $expense);
         $this->denyAccessUnlessGranted(CalendarVoter::ADD_EXPENSE, $request->getCalendar());
 
-        $expense
-            ->setCalendar($request->getCalendar())
-            ->setCategory($request->getCategory())
-            ->setLabel($request->getLabel())
-            ->setAmount($request->getAmount())
-            ->setCreatedAt($request->getCreatedAt())
-            ->setConfirmed($request->isConfirmed())
-            ->setDescription($request->getDescription())
-        ;
-
-        $this->expenseRepository->save($expense);
+        $expense = $this->recurringExpenseService->updateFromRequest($expense, $request);
 
         return $this->respond($expense, groups: ExpenseContextGroupConst::DETAILS);
     }

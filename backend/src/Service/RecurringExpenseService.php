@@ -8,9 +8,11 @@ use App\Entity\Expense;
 use App\Entity\RecurringExpense;
 use App\Entity\User;
 use App\Enum\RecurringExpenseFrequency;
+use App\Enum\RecurringExpenseUpdateScope;
 use App\Repository\ExpenseRepository;
 use App\Repository\RecurringExpenseRepository;
 use App\Request\Expense\CreateExpenseRequest;
+use App\Request\Expense\UpdateExpenseRequest;
 use DateInterval;
 use DateTime;
 use InvalidArgumentException;
@@ -51,6 +53,28 @@ readonly class RecurringExpenseService
     {
         $expense->setUser($user);
         $this->expenseRepository->save($expense);
+
+        return $expense;
+    }
+
+    public function updateFromRequest(Expense $expense, UpdateExpenseRequest $request): Expense
+    {
+        $originalSelectedDate = clone $expense->getCreatedAt();
+        $dateShiftSeconds = $request->getCreatedAt()->getTimestamp() - $originalSelectedDate->getTimestamp();
+
+        foreach ($this->getExpensesForUpdate($expense, $request->getRecurringUpdateScope()) as $targetExpense) {
+            $this->applyRequestToExpense(
+                expense: $targetExpense,
+                request: $request,
+                createdAt: $this->shiftDate($targetExpense->getCreatedAt(), $dateShiftSeconds),
+            );
+
+            $this->expenseRepository->save($targetExpense);
+        }
+
+        if ($request->getRecurringUpdateScope() === RecurringExpenseUpdateScope::ALL) {
+            $this->updateRecurringExpense($expense, $request, $dateShiftSeconds);
+        }
 
         return $expense;
     }
@@ -111,6 +135,68 @@ readonly class RecurringExpenseService
             ->setConfirmed($template->isConfirmed())
             ->setDescription($template->getDescription())
         ;
+    }
+
+    /**
+     * @return list<Expense>
+     */
+    private function getExpensesForUpdate(Expense $expense, RecurringExpenseUpdateScope $scope): array
+    {
+        $recurringExpense = $expense->getRecurringExpense();
+        if ($recurringExpense === null) {
+            return [$expense];
+        }
+
+        $expenses = $this->expenseRepository->findByRecurringExpenseAndUpdateScope(
+            recurringExpense: $recurringExpense,
+            selectedDate: $expense->getCreatedAt(),
+            scope: $scope,
+        );
+
+        return $expenses === [] ? [$expense] : $expenses;
+    }
+
+    private function applyRequestToExpense(Expense $expense, UpdateExpenseRequest $request, DateTime $createdAt): void
+    {
+        $expense
+            ->setCalendar($request->getCalendar())
+            ->setCategory($request->getCategory())
+            ->setLabel($request->getLabel())
+            ->setAmount($request->getAmount())
+            ->setCreatedAt($createdAt)
+            ->setConfirmed($request->isConfirmed())
+            ->setDescription($request->getDescription())
+        ;
+    }
+
+    private function updateRecurringExpense(Expense $expense, UpdateExpenseRequest $request, int $dateShiftSeconds): void
+    {
+        $recurringExpense = $expense->getRecurringExpense();
+        if ($recurringExpense === null) {
+            return;
+        }
+
+        $recurringExpense
+            ->setCalendar($request->getCalendar())
+            ->setCategory($request->getCategory())
+            ->setLabel($request->getLabel())
+            ->setAmount($request->getAmount())
+            ->setConfirmed($request->isConfirmed())
+            ->setDescription($request->getDescription())
+            ->setStartsAt($this->shiftDate($recurringExpense->getStartsAt(), $dateShiftSeconds))
+        ;
+
+        $this->recurringExpenseRepository->save($recurringExpense);
+    }
+
+    private function shiftDate(DateTime $date, int $seconds): DateTime
+    {
+        $shiftedDate = clone $date;
+        if ($seconds === 0) {
+            return $shiftedDate;
+        }
+
+        return $shiftedDate->modify(sprintf('%+d seconds', $seconds));
     }
 
     private function getOccurrenceDate(DateTime $startDate, RecurringExpenseFrequency $frequency, int $index): DateTime

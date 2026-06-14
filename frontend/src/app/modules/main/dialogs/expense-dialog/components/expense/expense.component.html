@@ -13,7 +13,7 @@
             <app-expense-dialog-category-list-item [(category)]="expense.category" />
             <app-expense-dialog-date-list-item [(date)]="expense.createdAt" />
             <app-expense-dialog-description-list-item [(description)]="expense.description" />
-            @if (!expense.id) {
+            @if (!expense.id || expense.recurring) {
                 <app-expense-dialog-recurrence-list-item [expense]="expense" />
             }
             <app-expense-dialog-user-list-item [user]="expense.user" />
