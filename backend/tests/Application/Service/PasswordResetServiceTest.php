@@ -28,8 +28,6 @@ class PasswordResetServiceTest extends TestCase
 
         $service = new PasswordResetService($repo);
         $service->forgotPassword('missing@example.com');
-
-        $this->assertTrue(true); // explicit: no exception, no save
     }
 
     public function testForgotPasswordRandomizesPasswordAndPersistsUser(): void
@@ -74,8 +72,6 @@ class PasswordResetServiceTest extends TestCase
 
         $service = new PasswordResetService($repo);
         $service->resetPassword('missing-hash', 'new-password');
-
-        $this->assertTrue(true);
     }
 
     public function testResetPasswordSetsPlainPasswordAndPersistsUser(): void

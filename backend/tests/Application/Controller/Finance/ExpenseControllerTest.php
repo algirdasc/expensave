@@ -39,25 +39,28 @@ class ExpenseControllerTest extends ApplicationTestCase
 
     public function testExpenseLifecycle(): void
     {
+        $calendarId = $this->getCalendarId('User 1 Calendar');
+
         // Create
         $this->client->jsonRequest('POST', '/api/expense', [
             'label' => 'Test Label',
-            'calendar' => 1,
+            'calendar' => $calendarId,
             'createdAt' => '2024-05-15 15:30:15',
             'amount' => -10,
         ]);
 
         $this->assertResponseIsSuccessful();
-        $this->assertSame(10, $this->getJsonResponse($this->client)['id']);
+        $expenseId = $this->getJsonResponse($this->client)['id'];
+        $this->assertIsInt($expenseId);
 
         // Get
-        $this->client->jsonRequest('GET', '/api/expense/10');
+        $this->client->jsonRequest('GET', sprintf('/api/expense/%d', $expenseId));
         $this->assertResponseIsSuccessful();
 
         // Update
-        $this->client->jsonRequest('PUT', '/api/expense/10', [
+        $this->client->jsonRequest('PUT', sprintf('/api/expense/%d', $expenseId), [
             'label' => 'Test Modified Label',
-            'calendar' => 1,
+            'calendar' => $calendarId,
             'createdAt' => '2024-05-15 15:30:15',
             'amount' => -100,
         ]);
@@ -66,11 +69,11 @@ class ExpenseControllerTest extends ApplicationTestCase
         $this->assertSame('Test Modified Label', $this->getJsonResponse($this->client)['label']);
 
         // Delete
-        $this->client->jsonRequest('DELETE', '/api/expense/10');
+        $this->client->jsonRequest('DELETE', sprintf('/api/expense/%d', $expenseId));
         $this->assertResponseIsSuccessful();
 
         // Get again
-        $this->client->jsonRequest('GET', '/api/expense/10');
+        $this->client->jsonRequest('GET', sprintf('/api/expense/%d', $expenseId));
         $this->assertResponseStatusCodeSame(Response::HTTP_NOT_FOUND);
     }
 }

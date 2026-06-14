@@ -5,13 +5,8 @@ declare(strict_types=1);
 namespace App\Tests\Application\Controller\Report;
 
 use App\Controller\Report\CategoryExpensesReportController;
-use App\Entity\Calendar;
-use App\Repository\CalendarRepository;
 use App\Tests\ApplicationTestCase;
-use App\Tests\BrowserTestCase;
 use PHPUnit\Framework\Attributes\CoversClass;
-use Symfony\Bundle\FrameworkBundle\KernelBrowser;
-use Symfony\Component\HttpFoundation\Response;
 
 #[CoversClass(CategoryExpensesReportController::class)]
 class CategoryExpensesReportControllerTest extends ApplicationTestCase
@@ -19,8 +14,9 @@ class CategoryExpensesReportControllerTest extends ApplicationTestCase
     public function testInvoke(): void
     {
         $client = $this->getAuthenticatedClient();
+        $calendarIds = sprintf('%d,%d', $this->getCalendarId('User 1 Calendar'), $this->getCalendarId('Shared Calendar'));
 
-        $client->jsonRequest('GET', '/api/report/category-expenses/1,3/2024-01-01/2024-12-31');
+        $client->jsonRequest('GET', sprintf('/api/report/category-expenses/%s/2024-01-01/2024-12-31', $calendarIds));
 
         $response = $client->getResponse();
 

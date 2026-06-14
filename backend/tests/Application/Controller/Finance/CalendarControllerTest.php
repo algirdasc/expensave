@@ -32,7 +32,9 @@ class CalendarControllerTest extends ApplicationTestCase
 
     public function testListExpenses(): void
     {
-        $this->client->jsonRequest('GET', '/api/calendar/1/expenses/2024-01-01/2024-12-31');
+        $calendarId = $this->getCalendarId('User 1 Calendar');
+
+        $this->client->jsonRequest('GET', sprintf('/api/calendar/%d/expenses/2024-01-01/2024-12-31', $calendarId));
 
         $json = $this->getJsonResponse($this->client);
 
@@ -52,14 +54,15 @@ class CalendarControllerTest extends ApplicationTestCase
         ]);
 
         $this->assertResponseIsSuccessful();
-        $this->assertSame(4, $this->getJsonResponse($this->client)['id']);
+        $calendarId = $this->getJsonResponse($this->client)['id'];
+        $this->assertIsInt($calendarId);
 
         // Get
-        $this->client->jsonRequest('GET', '/api/calendar/4');
+        $this->client->jsonRequest('GET', sprintf('/api/calendar/%d', $calendarId));
         $this->assertResponseIsSuccessful();
 
         // Update
-        $this->client->jsonRequest('PUT', "/api/calendar/4", [
+        $this->client->jsonRequest('PUT', sprintf('/api/calendar/%d', $calendarId), [
             'name' => 'Test Modified Name',
         ]);
 
@@ -67,11 +70,11 @@ class CalendarControllerTest extends ApplicationTestCase
         $this->assertSame('Test Modified Name', $this->getJsonResponse($this->client)['name']);
 
         // Delete
-        $this->client->jsonRequest('DELETE', "/api/calendar/4");
+        $this->client->jsonRequest('DELETE', sprintf('/api/calendar/%d', $calendarId));
         $this->assertResponseIsSuccessful();
 
         // Get again
-        $this->client->jsonRequest('GET', "/api/calendar/4");
+        $this->client->jsonRequest('GET', sprintf('/api/calendar/%d', $calendarId));
         $this->assertResponseStatusCodeSame(Response::HTTP_NOT_FOUND);
     }
 }

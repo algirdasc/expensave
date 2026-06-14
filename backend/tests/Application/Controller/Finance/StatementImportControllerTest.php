@@ -25,8 +25,9 @@ class StatementImportControllerTest extends ApplicationTestCase
     {
         // Mark as "test" upload; otherwise Symfony treats it as non-uploaded and validation may see an empty request.
         $uploadedFile = new UploadedFile($filePath, basename($filePath), test: true);
+        $calendarId = $this->getCalendarId('User 1 Calendar');
 
-        $this->client->request('POST', '/api/calendar/1/import', [], [
+        $this->client->request('POST', sprintf('/api/calendar/%d/import', $calendarId), [], [
             'statement' => $uploadedFile
         ], [
             'CONTENT_TYPE' => 'multipart/form-data',

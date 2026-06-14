@@ -27,8 +27,6 @@ class ValidationServiceTest extends TestCase
 
         $service = new ValidationService($validator);
         $service->validateOrException(new stdClass());
-
-        $this->assertTrue(true); // explicit: no exception
     }
 
     public function testValidateOrExceptionThrowsWhenViolationsExist(): void
