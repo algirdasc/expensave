@@ -1,7 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { Title } from '@angular/platform-browser';
 import { Calendar } from '../../api/objects/calendar';
-import { Category } from '../../api/objects/category';
 import { MainService } from './main.service';
 
 describe('MainService', () => {
@@ -31,13 +30,6 @@ describe('MainService', () => {
 
         expect(service.visibleDate).toBe(visibleDate);
     });
-
-    it('finds system categories by type', (): void => {
-        const category = categoryWithType('uncategorized');
-        service.systemCategories = [categoryWithType('balance_update'), category];
-
-        expect(service.getSystemCategory('uncategorized')).toBe(category);
-    });
 });
 
 const calendarWithId = (id: number, name: string): Calendar => {
@@ -46,11 +38,4 @@ const calendarWithId = (id: number, name: string): Calendar => {
     calendar.name = name;
 
     return calendar;
-};
-
-const categoryWithType = (type: string): Category => {
-    const category = new Category();
-    category.type = type;
-
-    return category;
 };

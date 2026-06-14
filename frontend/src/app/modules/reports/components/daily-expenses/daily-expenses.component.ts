@@ -1,5 +1,5 @@
 import { FormatWidth, getLocaleDateFormat } from '@angular/common';
-import { Component, inject } from '@angular/core';
+import { Component, computed, inject } from '@angular/core';
 import { NbCardModule, NbDateService, NbSpinnerModule } from '@nebular/theme';
 import { ChartConfiguration, ScriptableLineSegmentContext } from 'chart.js';
 import { ExpenseBalance } from '../../../../api/objects/expense-balance';
@@ -26,9 +26,6 @@ import { BaseChartDirective } from 'ng2-charts';
 })
 export class DailyExpensesComponent extends AbstractReportComponent<ExpenseReportResponse> {
     dateService = inject<NbDateService<Date>>(NbDateService);
-    income: number = 0;
-    expense: number = 0;
-    change: number = 0;
     lineChartOptions: ChartConfiguration<'line', ExpenseBalance>['options'] = {
         responsive: true,
         parsing: {
@@ -65,26 +62,18 @@ export class DailyExpensesComponent extends AbstractReportComponent<ExpenseRepor
             },
         },
     };
-    lineChartData: ChartConfiguration<'line', ExpenseBalance[]>['data'] = {
-        datasets: [],
-    };
     PeriodEnum = PeriodEnum;
     readonly reportsApiMethod = 'dailyExpenses' as const;
 
-    cleanUp(): void {
-        this.income = this.change = this.expense = 0;
-        this.lineChartData = {
-            datasets: [],
-        };
-    }
-
-    parseReport(response: ExpenseReportResponse): void {
-        this.income = response.meta.income;
-        this.change = response.meta.change;
-        this.expense = Math.abs(response.meta.expense);
+    private readonly lineChartDataValue = computed<ChartConfiguration<'line', ExpenseBalance[]>['data']>(() => {
+        const response = this.reportData();
+        if (!response) {
+            return {
+                datasets: [],
+            };
+        }
 
         const currentDate = new Date();
-
         const xAxisData: string[] = [];
         const balances: ExpenseBalance[] = [];
 
@@ -98,7 +87,7 @@ export class DailyExpensesComponent extends AbstractReportComponent<ExpenseRepor
             balances.push(expenseBalance);
         }
 
-        this.lineChartData = {
+        return {
             datasets: [
                 {
                     data: balances,
@@ -117,5 +106,22 @@ export class DailyExpensesComponent extends AbstractReportComponent<ExpenseRepor
             ],
             labels: xAxisData,
         };
+    });
+    private readonly reportMeta = computed(() => this.reportData()?.meta);
+
+    get lineChartData(): ChartConfiguration<'line', ExpenseBalance[]>['data'] {
+        return this.lineChartDataValue();
+    }
+
+    get income(): number {
+        return this.reportMeta()?.income ?? 0;
+    }
+
+    get change(): number {
+        return this.reportMeta()?.change ?? 0;
+    }
+
+    get expense(): number {
+        return Math.abs(this.reportMeta()?.expense ?? 0);
     }
 }

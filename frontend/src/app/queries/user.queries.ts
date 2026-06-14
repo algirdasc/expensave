@@ -34,11 +34,11 @@ export class UserQueries {
             mutationKey: ['user', 'default-calendar'],
             mutationFn: (calendar: Calendar): Promise<User> =>
                 lastValueFrom(this.userApiService.defaultCalendar(calendar)),
-            onSuccess: (): Promise<void[]> =>
-                Promise.all([
-                    this.queryClient.invalidateQueries({ queryKey: QueryKeys.user.profile }),
-                    this.queryClient.invalidateQueries({ queryKey: QueryKeys.user.list }),
-                ]),
+            onSuccess: (user: User): Promise<void> => {
+                this.queryClient.setQueryData(QueryKeys.user.profile, user);
+
+                return this.queryClient.invalidateQueries({ queryKey: QueryKeys.user.list });
+            },
         });
     }
 

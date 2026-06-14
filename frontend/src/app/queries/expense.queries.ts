@@ -30,13 +30,7 @@ export class ExpenseQueries {
         return mutationOptions({
             mutationKey: ['expense', 'save'],
             mutationFn: (expense: Expense): Promise<Expense> => lastValueFrom(this.expenseApiService.save(expense)),
-            onSuccess: (): Promise<void[]> =>
-                Promise.all([
-                    this.queryClient.invalidateQueries({ queryKey: QueryKeys.calendar.lists }),
-                    this.queryClient.invalidateQueries({ queryKey: QueryKeys.calendar.details }),
-                    this.queryClient.invalidateQueries({ queryKey: QueryKeys.calendar.expenses }),
-                    this.queryClient.invalidateQueries({ queryKey: QueryKeys.report.all }),
-                ]),
+            onSuccess: (): Promise<void[]> => this.invalidateExpenseAffectedQueries(),
         });
     }
 
@@ -45,13 +39,7 @@ export class ExpenseQueries {
             mutationKey: ['expense', 'delete'],
             mutationFn: (expense: Expense): Promise<Expense[]> =>
                 lastValueFrom(this.expenseApiService.delete(expense.id)),
-            onSuccess: (): Promise<void[]> =>
-                Promise.all([
-                    this.queryClient.invalidateQueries({ queryKey: QueryKeys.calendar.lists }),
-                    this.queryClient.invalidateQueries({ queryKey: QueryKeys.calendar.details }),
-                    this.queryClient.invalidateQueries({ queryKey: QueryKeys.calendar.expenses }),
-                    this.queryClient.invalidateQueries({ queryKey: QueryKeys.report.all }),
-                ]),
+            onSuccess: (): Promise<void[]> => this.invalidateExpenseAffectedQueries(),
         });
     }
 
@@ -60,13 +48,17 @@ export class ExpenseQueries {
             mutationKey: ['expense', 'import'],
             mutationFn: (expenses: Expense[]): Promise<Expense[]> =>
                 lastValueFrom(this.expenseApiService.import(expenses)),
-            onSuccess: (): Promise<void[]> =>
-                Promise.all([
-                    this.queryClient.invalidateQueries({ queryKey: QueryKeys.calendar.lists }),
-                    this.queryClient.invalidateQueries({ queryKey: QueryKeys.calendar.details }),
-                    this.queryClient.invalidateQueries({ queryKey: QueryKeys.calendar.expenses }),
-                    this.queryClient.invalidateQueries({ queryKey: QueryKeys.report.all }),
-                ]),
+            onSuccess: (): Promise<void[]> => this.invalidateExpenseAffectedQueries(),
         });
+    }
+
+    private invalidateExpenseAffectedQueries(): Promise<void[]> {
+        return Promise.all([
+            this.queryClient.invalidateQueries({ queryKey: QueryKeys.calendar.lists }),
+            this.queryClient.invalidateQueries({ queryKey: QueryKeys.calendar.details }),
+            this.queryClient.invalidateQueries({ queryKey: QueryKeys.calendar.expenses }),
+            this.queryClient.invalidateQueries({ queryKey: QueryKeys.report.all }),
+            this.queryClient.invalidateQueries({ queryKey: QueryKeys.expense.all }),
+        ]);
     }
 }

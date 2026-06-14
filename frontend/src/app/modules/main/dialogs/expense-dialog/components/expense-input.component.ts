@@ -6,6 +6,7 @@ import {
     inject,
     Input,
     Output,
+    signal,
     ViewChild,
 } from '@angular/core';
 import { ControlContainer, FormsModule, NgForm } from '@angular/forms';
@@ -13,7 +14,7 @@ import { Expense } from '../../../../../api/objects/expense';
 import { NbButtonModule, NbIconModule, NbInputModule } from '@nebular/theme';
 import { SuggestionComponent } from '../../../components/suggestion/suggestion.component';
 import { ShortNumberPipe } from '../../../../../pipes/shortnumber.pipe';
-import { QueryClient } from '@tanstack/angular-query-experimental';
+import { injectQuery } from '@tanstack/angular-query-experimental';
 import { ExpenseQueries } from '../../../../../queries/expense.queries';
 
 @Component({
@@ -36,34 +37,31 @@ export class ExpenseInputComponent {
     @ViewChild('focusElement')
     private focusElement: ElementRef;
 
-    public suggestedExpense: Expense;
-
     private readonly cd = inject(ChangeDetectorRef);
-    private readonly queryClient = inject(QueryClient);
     private readonly expenseQueries = inject(ExpenseQueries);
-    private suggestionRequestId = 0;
+    private readonly suggestionInput = signal<string>('');
+    private readonly suggestionQuery = injectQuery(() => {
+        const input = this.suggestionInput().trim();
+
+        return {
+            ...this.expenseQueries.suggest(input),
+            enabled: !!input,
+        };
+    });
+
+    public get suggestedExpense(): Expense | undefined {
+        return this.suggestionQuery.data();
+    }
 
     public handleInputChange(input: string): void {
-        const requestId = ++this.suggestionRequestId;
-
-        // 1. Do not look for suggestion on empty input
-        if (!input) {
-            this.suggestedExpense = undefined;
-            return;
-        }
-
-        // 2. Search for suggestions with stale-response protection
-        void this.queryClient
-            .fetchQuery(this.expenseQueries.suggest(input))
-            .then((response: Expense) => {
-                if (requestId === this.suggestionRequestId) {
-                    this.suggestedExpense = response;
-                }
-            })
-            .catch(() => undefined);
+        this.suggestionInput.set(input);
     }
 
     public applyLabelSuggestion(): void {
+        if (!this.suggestedExpense) {
+            return;
+        }
+
         this.expense.label = this.suggestedExpense.label;
         this.expense.category = this.suggestedExpense.category;
         // this.expense.isExpense = this.suggestedExpense.isExpense;

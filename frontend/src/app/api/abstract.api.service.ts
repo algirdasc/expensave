@@ -2,40 +2,23 @@
 import { HttpClient, HttpResponse } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { plainToInstance } from 'class-transformer';
-import { Observable, Subject } from 'rxjs';
-import { finalize, map } from 'rxjs/operators';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 @Injectable({ providedIn: 'root' })
 export abstract class AbstractApiService {
-    public onBusyChange: Subject<boolean> = new Subject<boolean>();
-
     protected http: HttpClient = inject(HttpClient);
-
-    private onBusyChangeTimeout: number;
 
     protected abstract backend: string;
 
     public request<K>(method: string, type: any, ...args: any): Observable<K> {
-        this.changeIsBusy(true);
-
         return this.http[method](args[0] ?? this.backend, args[1]).pipe(
-            finalize(() => this.changeIsBusy(false)),
             map((response: HttpResponse<K>) => this.convertToType<K>(type, response))
         );
     }
 
     protected convertToType<K>(type: any, response: HttpResponse<K>): K {
         return plainToInstance(type, response, { excludeExtraneousValues: true });
-    }
-
-    protected changeIsBusy(isBusy: boolean): void {
-        clearTimeout(this.onBusyChangeTimeout);
-
-        if (!isBusy) {
-            return this.onBusyChange.next(isBusy);
-        }
-
-        this.onBusyChangeTimeout = window.setTimeout(() => this.onBusyChange.next(isBusy), 750);
     }
 
     protected idUrl(id?: number): string {

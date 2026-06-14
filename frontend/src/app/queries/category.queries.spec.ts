@@ -86,6 +86,9 @@ describe('CategoryQueries', () => {
         expect(queryClient.invalidateQueries).toHaveBeenCalledWith({
             queryKey: QueryKeys.category.detail(category.id),
         });
+        expect(queryClient.invalidateQueries).toHaveBeenCalledWith({ queryKey: QueryKeys.calendar.expenses });
+        expect(queryClient.invalidateQueries).toHaveBeenCalledWith({ queryKey: QueryKeys.report.all });
+        expect(queryClient.invalidateQueries).toHaveBeenCalledWith({ queryKey: QueryKeys.expense.all });
     });
 
     it('deletes categories and invalidates category list and detail caches', async (): Promise<void> => {
@@ -104,6 +107,9 @@ describe('CategoryQueries', () => {
         expect(queryClient.invalidateQueries).toHaveBeenCalledWith({
             queryKey: QueryKeys.category.detail(category.id),
         });
+        expect(queryClient.invalidateQueries).toHaveBeenCalledWith({ queryKey: QueryKeys.calendar.expenses });
+        expect(queryClient.invalidateQueries).toHaveBeenCalledWith({ queryKey: QueryKeys.report.all });
+        expect(queryClient.invalidateQueries).toHaveBeenCalledWith({ queryKey: QueryKeys.expense.all });
     });
 });
 

@@ -90,9 +90,10 @@ describe('CalendarQueries', () => {
         expect(queryClient.invalidateQueries).toHaveBeenCalledWith({
             queryKey: QueryKeys.calendar.detail(calendar.id),
         });
+        expect(queryClient.invalidateQueries).toHaveBeenCalledWith({ queryKey: QueryKeys.calendar.expenses });
     });
 
-    it('deletes calendars and invalidates calendar list and detail caches', async (): Promise<void> => {
+    it('deletes calendars and invalidates affected calendar and report caches', async (): Promise<void> => {
         const calendar = calendarWithId(13);
         const calendars = [calendarWithId(14)];
         const mutation = calendarQueries.delete();
@@ -108,6 +109,8 @@ describe('CalendarQueries', () => {
         expect(queryClient.invalidateQueries).toHaveBeenCalledWith({
             queryKey: QueryKeys.calendar.detail(calendar.id),
         });
+        expect(queryClient.invalidateQueries).toHaveBeenCalledWith({ queryKey: QueryKeys.calendar.expenses });
+        expect(queryClient.invalidateQueries).toHaveBeenCalledWith({ queryKey: QueryKeys.report.all });
     });
 });
 

@@ -1,5 +1,5 @@
 import { FormStyle, getLocaleMonthNames, TranslationWidth } from '@angular/common';
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, computed, inject, OnInit } from '@angular/core';
 import {
     NbButtonGroupModule,
     NbButtonModule,
@@ -33,9 +33,9 @@ import { BaseChartDirective } from 'ng2-charts';
 })
 export class MonthlyExpensesComponent extends AbstractReportComponent<ExpenseReportResponse> implements OnInit {
     readonly dateService = inject<NbDateService<Date>>(NbDateService);
-    income: number = 0;
-    expense: number = 0;
-    change: number = 0;
+    readonly monthLabels: string[] = [
+        ...getLocaleMonthNames(APP_CONFIG.locale, FormStyle.Format, TranslationWidth.Short),
+    ];
     barChartOptions: ChartConfiguration['options'] = {
         responsive: true,
         scales: {
@@ -63,13 +63,60 @@ export class MonthlyExpensesComponent extends AbstractReportComponent<ExpenseRep
             },
         },
     };
-    barChartData: ChartConfiguration['data'] = {
-        datasets: [],
-    };
     readonly reportsApiMethod = 'monthlyExpenses' as const;
+
+    private readonly barChartDataValue = computed<ChartConfiguration['data']>(() => {
+        const response = this.reportData();
+        if (!response) {
+            return {
+                datasets: [],
+            };
+        }
+
+        const incomeData: number[] = [];
+        const expenseData: number[] = [];
+
+        for (const expenseBalance of response.expenseBalances) {
+            incomeData.push(expenseBalance.income);
+            expenseData.push(Math.abs(expenseBalance.expense));
+        }
+
+        return {
+            datasets: [
+                {
+                    data: incomeData,
+                    label: 'Income',
+                    backgroundColor: '#00D68F',
+                },
+                {
+                    data: expenseData,
+                    label: 'Expense',
+                    backgroundColor: '#FF3D71',
+                },
+            ],
+            labels: this.monthLabels,
+        };
+    });
+    private readonly reportMeta = computed(() => this.reportData()?.meta);
 
     get reportYear(): number | null {
         return this.currentReportPeriod?.start?.getFullYear() ?? null;
+    }
+
+    get barChartData(): ChartConfiguration['data'] {
+        return this.barChartDataValue();
+    }
+
+    get income(): number {
+        return this.reportMeta()?.income ?? 0;
+    }
+
+    get change(): number {
+        return this.reportMeta()?.change ?? 0;
+    }
+
+    get expense(): number {
+        return Math.abs(this.reportMeta()?.expense ?? 0);
     }
 
     ngOnInit(): void {
@@ -93,45 +140,5 @@ export class MonthlyExpensesComponent extends AbstractReportComponent<ExpenseRep
             start: this.dateService.getYearStart(date),
             end: DateUtil.endOfTheDay(this.dateService.getYearEnd(date)),
         });
-    }
-
-    cleanUp(): void {
-        this.income = this.change = this.expense = 0;
-        this.barChartData = {
-            datasets: [],
-        };
-    }
-
-    parseReport(response: ExpenseReportResponse): void {
-        const xAxisData: string[] = [
-            ...getLocaleMonthNames(APP_CONFIG.locale, FormStyle.Format, TranslationWidth.Short),
-        ];
-        const incomeData: number[] = [];
-        const expenseData: number[] = [];
-
-        for (const expenseBalance of response.expenseBalances) {
-            this.income = response.meta.income;
-            this.change = response.meta.change;
-            this.expense = Math.abs(response.meta.expense);
-
-            incomeData.push(expenseBalance.income);
-            expenseData.push(Math.abs(expenseBalance.expense));
-        }
-
-        this.barChartData = {
-            datasets: [
-                {
-                    data: incomeData,
-                    label: 'Income',
-                    backgroundColor: '#00D68F',
-                },
-                {
-                    data: expenseData,
-                    label: 'Expense',
-                    backgroundColor: '#FF3D71',
-                },
-            ],
-            labels: xAxisData,
-        };
     }
 }

@@ -51,19 +51,19 @@ export class ExpenseComponent extends AbstractExpenseComponent {
     private readonly saveMutation = injectMutation(() => this.expenseQueries.save());
     private readonly deleteMutation = injectMutation(() => this.expenseQueries.delete());
 
+    public get isBusy(): boolean {
+        return this.saveMutation.isPending() || this.deleteMutation.isPending();
+    }
+
     public onDefaultSubmit(): void {
-        this.isBusy = true;
         this.saveMutation.mutate(this.expense, {
             onSuccess: (expense: Expense) => this.dialogRef.close(expense),
-            onSettled: () => (this.isBusy = false),
         });
     }
 
     public onDefaultDelete(): void {
-        this.isBusy = true;
         this.deleteMutation.mutate(this.expense, {
             onSuccess: () => this.dialogRef.close(true),
-            onSettled: () => (this.isBusy = false),
         });
     }
 

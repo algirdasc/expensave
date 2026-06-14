@@ -43,6 +43,9 @@ export class CategoryQueries {
                 Promise.all([
                     this.queryClient.invalidateQueries({ queryKey: QueryKeys.category.lists }),
                     this.queryClient.invalidateQueries({ queryKey: QueryKeys.category.detail(category.id) }),
+                    this.queryClient.invalidateQueries({ queryKey: QueryKeys.calendar.expenses }),
+                    this.queryClient.invalidateQueries({ queryKey: QueryKeys.report.all }),
+                    this.queryClient.invalidateQueries({ queryKey: QueryKeys.expense.all }),
                 ]),
         });
     }
@@ -56,6 +59,9 @@ export class CategoryQueries {
                 Promise.all([
                     this.queryClient.invalidateQueries({ queryKey: QueryKeys.category.lists }),
                     this.queryClient.invalidateQueries({ queryKey: QueryKeys.category.detail(category.id) }),
+                    this.queryClient.invalidateQueries({ queryKey: QueryKeys.calendar.expenses }),
+                    this.queryClient.invalidateQueries({ queryKey: QueryKeys.report.all }),
+                    this.queryClient.invalidateQueries({ queryKey: QueryKeys.expense.all }),
                 ]),
         });
     }

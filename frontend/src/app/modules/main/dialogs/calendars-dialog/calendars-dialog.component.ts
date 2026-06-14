@@ -5,7 +5,7 @@ import { CalendarListComponent } from './calendar-list/calendar-list.component';
 import { CalendarEditComponent } from './calendar-edit/calendar-edit.component';
 import { CalendarQueries } from '../../../../queries/calendar.queries';
 import { injectMutation, injectQuery } from '@tanstack/angular-query-experimental';
-import { MainService } from '../../main.service';
+import { UserQueries } from '../../../../queries/user.queries';
 
 @Component({
     templateUrl: 'calendars-dialog.component.html',
@@ -18,13 +18,16 @@ export class CalendarsDialogComponent {
     public selectedCalendar: Calendar;
     public editableCalendar: Calendar;
 
-    private readonly mainService = inject(MainService);
     private readonly calendarQueries = inject(CalendarQueries);
+    private readonly userQueries = inject(UserQueries);
+    private readonly userProfileQuery = injectQuery(() => this.userQueries.profile());
     private readonly calendarListQuery = injectQuery(() => this.calendarQueries.list());
     private readonly saveMutation = injectMutation(() => this.calendarQueries.save());
 
     public get isBusy(): boolean {
-        return this.saveMutation.isPending() || this.calendarListQuery.isFetching();
+        return (
+            this.saveMutation.isPending() || this.calendarListQuery.isFetching() || this.userProfileQuery.isFetching()
+        );
     }
 
     public get calendars(): Calendar[] {
@@ -32,7 +35,17 @@ export class CalendarsDialogComponent {
     }
 
     public editCalendar(calendar?: Calendar): void {
-        this.editableCalendar = calendar ?? Calendar.create(this.mainService.user);
+        if (calendar) {
+            this.editableCalendar = calendar;
+            return;
+        }
+
+        const user = this.userProfileQuery.data();
+        if (!user) {
+            return;
+        }
+
+        this.editableCalendar = Calendar.create(user);
     }
 
     public saveCalendar(calendar: Calendar): void {

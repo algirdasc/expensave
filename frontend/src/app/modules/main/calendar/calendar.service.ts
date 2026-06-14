@@ -1,38 +1,40 @@
 import { inject, Injectable } from '@angular/core';
-import { QueryClient } from '@tanstack/angular-query-experimental';
 import { NbDialogRef, NbDialogService } from '@nebular/theme';
 import { plainToInstance } from 'class-transformer';
 import { Calendar } from '../../../api/objects/calendar';
-import { TYPE_BALANCE_UPDATE, TYPE_UNCATEGORIZED } from '../../../api/objects/category';
+import { Category, TYPE_BALANCE_UPDATE, TYPE_UNCATEGORIZED } from '../../../api/objects/category';
 import { Expense } from '../../../api/objects/expense';
-import { ExpenseQueries } from '../../../queries/expense.queries';
 import { DateUtil } from '../../../util/date.util';
 import { ExpenseDialogComponent } from '../dialogs/expense-dialog/expense-dialog.component';
-import { MainService } from '../main.service';
+import { CategoryQueries } from '../../../queries/category.queries';
+import { UserQueries } from '../../../queries/user.queries';
+import { injectQuery } from '@tanstack/angular-query-experimental';
 
 @Injectable()
 export class CalendarService {
     private readonly dialogService = inject(NbDialogService);
-    private readonly mainService = inject(MainService);
-    private readonly expenseQueries = inject(ExpenseQueries);
-    private readonly queryClient = inject(QueryClient);
+    private readonly categoryQueries = inject(CategoryQueries);
+    private readonly userQueries = inject(UserQueries);
+    private readonly systemCategoriesQuery = injectQuery(() => this.categoryQueries.system());
+    private readonly userProfileQuery = injectQuery(() => this.userQueries.profile());
 
     public editExpense(expense: Expense): void {
-        void this.queryClient
-            .fetchQuery(this.expenseQueries.get(expense.id))
-            .then((response: Expense) => {
-                this.openExpenseDialog(response);
-            })
-            .catch(() => undefined);
+        this.openExpenseDialog(expense);
     }
 
     public createExpense(calendar: Calendar, date: Date): void {
+        const user = this.userProfileQuery.data();
+        const uncategorizedCategory = this.getSystemCategory(TYPE_UNCATEGORIZED);
+        if (!user || !uncategorizedCategory) {
+            return;
+        }
+
         const expense = plainToInstance(Expense, {
             createdAt: DateUtil.setTime(date, new Date()),
             calendar: calendar,
-            user: this.mainService.user,
+            user: user,
             confirmed: true,
-            category: this.mainService.getSystemCategory(TYPE_UNCATEGORIZED),
+            category: uncategorizedCategory,
         });
 
         this.openExpenseDialog(expense);
@@ -40,7 +42,7 @@ export class CalendarService {
 
     private openExpenseDialog(expense: Expense): NbDialogRef<ExpenseDialogComponent> {
         const predefinedCategories = {};
-        predefinedCategories[TYPE_BALANCE_UPDATE] = this.mainService.getSystemCategory(TYPE_BALANCE_UPDATE);
+        predefinedCategories[TYPE_BALANCE_UPDATE] = this.getSystemCategory(TYPE_BALANCE_UPDATE);
 
         return this.dialogService.open(ExpenseDialogComponent, {
             context: {
@@ -51,5 +53,9 @@ export class CalendarService {
                 predefinedCategories: predefinedCategories,
             },
         });
+    }
+
+    private getSystemCategory(type: string): Category | undefined {
+        return this.systemCategoriesQuery.data()?.find((category: Category) => category.type === type);
     }
 }

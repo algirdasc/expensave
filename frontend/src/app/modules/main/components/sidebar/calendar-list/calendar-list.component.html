@@ -12,9 +12,9 @@
                             <div class="calendar-name text-truncate">
                                 @if (item.shared) {
                                     <nb-icon
-                                        [icon]="item.owner?.id === mainService.user.id ? 'people' : 'people-outline'"
+                                        [icon]="item.owner?.id === user?.id ? 'people' : 'people-outline'"
                                         [title]="
-                                            item.owner?.id === mainService.user.id
+                                            item.owner?.id === user?.id
                                                 ? 'Owned by me & shared with others'
                                                 : 'Shared with me by ' +
                                                   item.owner?.name +
@@ -54,7 +54,7 @@
                                     <nb-icon icon="attach-outline" />
                                 </button>
 
-                                @if (item.owner?.id === mainService.user.id) {
+                                @if (item.owner?.id === user?.id) {
                                     <button
                                         nbButton
                                         type="button"

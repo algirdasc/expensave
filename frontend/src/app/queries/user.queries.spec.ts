@@ -59,7 +59,7 @@ describe('UserQueries', () => {
         expect(userApiService.list).toHaveBeenCalledOnceWith();
     });
 
-    it('sets default calendar and invalidates user profile and list caches', async (): Promise<void> => {
+    it('sets default calendar, updates the profile cache, and invalidates the user list', async (): Promise<void> => {
         const calendar = calendarWithId(7);
         const user = userWithId(3);
         const mutation = userQueries.defaultCalendar();
@@ -71,8 +71,8 @@ describe('UserQueries', () => {
 
         await mutation.onSuccess?.(user, calendar, undefined, undefined);
 
-        expect(queryClient.invalidateQueries).toHaveBeenCalledWith({ queryKey: QueryKeys.user.profile });
-        expect(queryClient.invalidateQueries).toHaveBeenCalledWith({ queryKey: QueryKeys.user.list });
+        expect(queryClient.setQueryData).toHaveBeenCalledOnceWith(QueryKeys.user.profile, user);
+        expect(queryClient.invalidateQueries).toHaveBeenCalledOnceWith({ queryKey: QueryKeys.user.list });
     });
 
     it('changes password, updates the profile cache, and invalidates the user list', async (): Promise<void> => {

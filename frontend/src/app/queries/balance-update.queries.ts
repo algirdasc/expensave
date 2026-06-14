@@ -17,13 +17,7 @@ export class BalanceUpdateQueries {
             mutationKey: ['balance-update', 'save'],
             mutationFn: (expense: Expense): Promise<Expense> =>
                 lastValueFrom(this.balanceUpdateApiService.save(expense)),
-            onSuccess: (): Promise<void[]> =>
-                Promise.all([
-                    this.queryClient.invalidateQueries({ queryKey: QueryKeys.calendar.lists }),
-                    this.queryClient.invalidateQueries({ queryKey: QueryKeys.calendar.details }),
-                    this.queryClient.invalidateQueries({ queryKey: QueryKeys.calendar.expenses }),
-                    this.queryClient.invalidateQueries({ queryKey: QueryKeys.report.all }),
-                ]),
+            onSuccess: (): Promise<void[]> => this.invalidateBalanceUpdateAffectedQueries(),
         });
     }
 
@@ -32,13 +26,17 @@ export class BalanceUpdateQueries {
             mutationKey: ['balance-update', 'delete'],
             mutationFn: (expense: Expense): Promise<Expense[]> =>
                 lastValueFrom(this.balanceUpdateApiService.delete(expense.id)),
-            onSuccess: (): Promise<void[]> =>
-                Promise.all([
-                    this.queryClient.invalidateQueries({ queryKey: QueryKeys.calendar.lists }),
-                    this.queryClient.invalidateQueries({ queryKey: QueryKeys.calendar.details }),
-                    this.queryClient.invalidateQueries({ queryKey: QueryKeys.calendar.expenses }),
-                    this.queryClient.invalidateQueries({ queryKey: QueryKeys.report.all }),
-                ]),
+            onSuccess: (): Promise<void[]> => this.invalidateBalanceUpdateAffectedQueries(),
         });
+    }
+
+    private invalidateBalanceUpdateAffectedQueries(): Promise<void[]> {
+        return Promise.all([
+            this.queryClient.invalidateQueries({ queryKey: QueryKeys.calendar.lists }),
+            this.queryClient.invalidateQueries({ queryKey: QueryKeys.calendar.details }),
+            this.queryClient.invalidateQueries({ queryKey: QueryKeys.calendar.expenses }),
+            this.queryClient.invalidateQueries({ queryKey: QueryKeys.report.all }),
+            this.queryClient.invalidateQueries({ queryKey: QueryKeys.expense.all }),
+        ]);
     }
 }
