@@ -122,6 +122,21 @@ class CategoryControllerTest extends ApplicationTestCase
 
     }
 
+    public function testDeleteCategoryUsedByExpensesReturnsFriendlyConflict(): void
+    {
+        $this->client->jsonRequest('DELETE', sprintf('/api/category/%d', $this->getCategoryId('Category 1')));
+
+        $this->assertResponseStatusCodeSame(Response::HTTP_CONFLICT);
+
+        $response = $this->getJsonResponse($this->client);
+        $this->assertSame(
+            'This category is used by existing expenses. Move or delete those expenses before deleting the category.',
+            $response['messages'][0]['message']
+        );
+        $this->assertSame('category', $response['messages'][0]['propertyPath']);
+        $this->assertStringNotContainsString('SQLSTATE', $this->client->getResponse()->getContent());
+    }
+
     public function testUpdateSystemCategory(): void
     {
         $this->client->jsonRequest('PUT', sprintf('/api/category/%d', $this->getCategoryId('Uncategorized')), [

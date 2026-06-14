@@ -6,6 +6,7 @@ namespace App\Repository;
 
 use App\DTO\Statement\Import\StatementImportRowInterface;
 use App\Entity\Calendar;
+use App\Entity\Category;
 use App\Entity\Expense;
 use DateTime;
 use Doctrine\ORM\AbstractQuery;
@@ -40,6 +41,28 @@ class ExpenseRepository extends AbstractRepository
         ;
 
         return $queryBuilder->getQuery()->getOneOrNullResult();
+    }
+
+    public function hasCategory(Category $category): bool
+    {
+        return $this->createQueryBuilder('e')
+            ->select('1')
+            ->where('e.category = :category')
+            ->setParameter('category', $category)
+            ->setMaxResults(1)
+            ->getQuery()
+            ->getOneOrNullResult(AbstractQuery::HYDRATE_SINGLE_SCALAR) !== null;
+    }
+
+    public function hasCalendar(Calendar $calendar): bool
+    {
+        return $this->createQueryBuilder('e')
+            ->select('1')
+            ->where('e.calendar = :calendar')
+            ->setParameter('calendar', $calendar)
+            ->setMaxResults(1)
+            ->getQuery()
+            ->getOneOrNullResult(AbstractQuery::HYDRATE_SINGLE_SCALAR) !== null;
     }
 
     /**

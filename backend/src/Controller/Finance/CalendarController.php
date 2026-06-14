@@ -17,6 +17,7 @@ use App\Request\Calendar\UpdateCalendarRequest;
 use App\Response\EmptyResponse;
 use App\Response\Statement\ExpenseListResponse;
 use App\Security\Voters\CalendarVoter;
+use App\Service\CalendarService;
 use App\Service\Report\DailyExpenseReportService;
 use DateTime;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -31,6 +32,7 @@ class CalendarController extends AbstractApiController
         private readonly CalendarRepository        $calendarRepository,
         private readonly ExpenseRepository         $expenseRepository,
         private readonly DailyExpenseReportService $cashFlowReportService,
+        private readonly CalendarService           $calendarService,
     ) {
     }
 
@@ -99,7 +101,7 @@ class CalendarController extends AbstractApiController
     {
         $this->denyAccessUnlessGranted(CalendarVoter::DELETE, $calendar);
 
-        $this->calendarRepository->remove($calendar);
+        $this->calendarService->remove($calendar);
 
         return $this->respond(new EmptyResponse());
     }

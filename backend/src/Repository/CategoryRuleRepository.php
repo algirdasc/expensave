@@ -6,6 +6,7 @@ namespace App\Repository;
 
 use App\Entity\Category;
 use App\Entity\CategoryRule;
+use Doctrine\ORM\AbstractQuery;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -32,5 +33,16 @@ class CategoryRuleRepository extends AbstractRepository
         }
 
         return null;
+    }
+
+    public function hasCategory(Category $category): bool
+    {
+        return $this->createQueryBuilder('r')
+            ->select('1')
+            ->where('r.category = :category')
+            ->setParameter('category', $category)
+            ->setMaxResults(1)
+            ->getQuery()
+            ->getOneOrNullResult(AbstractQuery::HYDRATE_SINGLE_SCALAR) !== null;
     }
 }
