@@ -7,8 +7,14 @@ parameters:
     defaultFalse: false
     defaultTrue: true
     defaultTimezone: UTC
+    defaultDatabaseServerVersion: 'mariadb-11.0.0'
+    defaultFrontendUrl: 'http://localhost:18002'
+    defaultMailerFrom: 'no-reply@expensave.local'
     timezone: '%env(default:defaultTimezone:TZ)%'
     registrationDisabled: '%env(bool:default:defaultFalse::REGISTRATION_DISABLED)%'
+    databaseServerVersion: '%env(default:defaultDatabaseServerVersion:DATABASE_SERVER_VERSION)%'
+    frontendUrl: '%env(default:defaultFrontendUrl:FRONTEND_URL)%'
+    mailerFrom: '%env(default:defaultMailerFrom:MAILER_FROM)%'
 
 services:
     # default configuration for services in *this* file

@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Const\ContextGroup\UserContextGroupConst;
 use App\Repository\UserRepository;
+use DateTimeInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -58,6 +59,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(nullable: true)]
     #[Groups(UserContextGroupConst::DETAILS)]
     private ?int $defaultCalendarId = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?string $passwordResetToken = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?\DateTimeImmutable $passwordResetTokenExpiresAt = null;
 
     public function __construct()
     {
@@ -171,6 +178,45 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setDefaultCalendarId(?int $defaultCalendarId): self
     {
         $this->defaultCalendarId = $defaultCalendarId;
+
+        return $this;
+    }
+
+    public function getPasswordResetToken(): ?string
+    {
+        return $this->passwordResetToken;
+    }
+
+    public function setPasswordResetToken(?string $passwordResetToken): self
+    {
+        $this->passwordResetToken = $passwordResetToken;
+
+        return $this;
+    }
+
+    public function getPasswordResetTokenExpiresAt(): ?\DateTimeImmutable
+    {
+        return $this->passwordResetTokenExpiresAt;
+    }
+
+    public function setPasswordResetTokenExpiresAt(?\DateTimeImmutable $passwordResetTokenExpiresAt): self
+    {
+        $this->passwordResetTokenExpiresAt = $passwordResetTokenExpiresAt;
+
+        return $this;
+    }
+
+    public function hasValidPasswordResetToken(string $token, DateTimeInterface $now): bool
+    {
+        return $this->passwordResetToken === $token
+            && $this->passwordResetTokenExpiresAt !== null
+            && $this->passwordResetTokenExpiresAt > $now;
+    }
+
+    public function clearPasswordResetToken(): self
+    {
+        $this->passwordResetToken = null;
+        $this->passwordResetTokenExpiresAt = null;
 
         return $this;
     }
