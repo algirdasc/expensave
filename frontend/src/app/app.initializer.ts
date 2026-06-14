@@ -17,7 +17,7 @@ export class AppInitializer {
                 APP_CONFIG.locale = config.locale;
                 APP_CONFIG.registrationDisabled = config.registrationDisabled;
 
-                import(/* @vite-ignore */ `/ui/assets/l10n/locales/${config.locale}.js`)
+                import(/* @vite-ignore */ /* webpackIgnore: true */ `/ui/assets/l10n/locales/${config.locale}.js`)
                     // eslint-disable-next-line @typescript-eslint/no-explicit-any
                     .then((locale: any) => registerLocaleData(locale.default));
             })
