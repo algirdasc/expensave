@@ -36,6 +36,12 @@ export class Expense implements EntityInterface {
     @Expose()
     public description?: string;
 
+    public recurring: boolean = false;
+
+    public recurringFrequency: 'daily' | 'weekly' | 'monthly' | 'yearly' = 'monthly';
+
+    public recurringOccurrences: number = 12;
+
     private _isExpense: boolean;
 
     public get absoluteAmount(): number {

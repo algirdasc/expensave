@@ -19,9 +19,9 @@ use App\Request\Expense\UpdateExpenseRequest;
 use App\Response\EmptyResponse;
 use App\Security\Voters\CalendarVoter;
 use App\Security\Voters\ExpenseVoter;
+use App\Service\RecurringExpenseService;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Messenger\Exception\ExceptionInterface;
 use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\CurrentUser;
@@ -31,6 +31,7 @@ class ExpenseController extends AbstractApiController
 {
     public function __construct(
         private readonly ExpenseRepository $expenseRepository,
+        private readonly RecurringExpenseService $recurringExpenseService,
     ) {
     }
 
@@ -50,7 +51,6 @@ class ExpenseController extends AbstractApiController
         $expense = (new Expense())
             ->setCalendar($request->getCalendar())
             ->setCategory($request->getCategory())
-            ->setUser($user)
             ->setLabel($request->getLabel())
             ->setAmount($request->getAmount())
             ->setCreatedAt($request->getCreatedAt())
@@ -58,7 +58,23 @@ class ExpenseController extends AbstractApiController
             ->setDescription($request->getDescription())
         ;
 
-        $this->expenseRepository->save($expense);
+        if ($request->isRecurring()) {
+            $frequency = $request->getRecurringFrequency();
+            if ($frequency === null) {
+                throw new \InvalidArgumentException('Recurring frequency is required.');
+            }
+
+            $generatedExpenses = $this->recurringExpenseService->createRecurringExpenses(
+                user: $user,
+                template: $expense,
+                frequency: $frequency,
+                occurrences: (int) $request->getRecurringOccurrences(),
+            );
+
+            $expense = $generatedExpenses[0];
+        } else {
+            $this->recurringExpenseService->createSingleExpense($user, $expense);
+        }
 
         return $this->respond($expense, groups: ExpenseContextGroupConst::DETAILS);
     }
