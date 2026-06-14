@@ -20,7 +20,6 @@ use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestAssertionsTrait;
 use Symfony\Component\BrowserKit\AbstractBrowser;
-use Symfony\Component\HttpFoundation\Response;
 
 class ApplicationTestCase extends KernelTestCase
 {
@@ -75,17 +74,6 @@ class ApplicationTestCase extends KernelTestCase
         return $browser;
     }
 
-    protected function assertResponseEqualToJson(Response $response, string $jsonFile): void
-    {
-        $expected = json_decode((string) file_get_contents(self::getAssetFile($jsonFile)), true);
-        $actual = json_decode((string) $response->getContent(), true);
-
-        $this->assertSame(
-            $this->normalizeGeneratedIdentifiers($expected),
-            $this->normalizeGeneratedIdentifiers($actual)
-        );
-    }
-
     protected static function getAssetFile(string $path): string
     {
         return __DIR__ . DIRECTORY_SEPARATOR . $path;
@@ -94,6 +82,26 @@ class ApplicationTestCase extends KernelTestCase
     protected function getJsonResponse(AbstractBrowser $browser): array
     {
         return json_decode($browser->getResponse()->getContent(), true);
+    }
+
+    /**
+     * @param list<array<string, mixed>> $items
+     *
+     * @return array<string|int, array<string, mixed>>
+     */
+    protected function indexBy(array $items, string $key): array
+    {
+        $indexed = [];
+
+        foreach ($items as $item) {
+            if (!array_key_exists($key, $item)) {
+                throw new InvalidArgumentException(sprintf('Cannot index item without key "%s"', $key));
+            }
+
+            $indexed[$item[$key]] = $item;
+        }
+
+        return $indexed;
     }
 
     protected function getCalendarId(string $name): int
@@ -152,26 +160,6 @@ class ApplicationTestCase extends KernelTestCase
         }
 
         return $entity;
-    }
-
-    private function normalizeGeneratedIdentifiers(mixed $value): mixed
-    {
-        if (!is_array($value)) {
-            return $value;
-        }
-
-        $normalized = [];
-        foreach ($value as $key => $nestedValue) {
-            $normalized[$key] = $nestedValue !== null && in_array($key, ['id', 'defaultCalendarId'], true)
-                ? '__generated_id__'
-                : $this->normalizeGeneratedIdentifiers($nestedValue);
-        }
-
-        if (!array_is_list($normalized)) {
-            ksort($normalized);
-        }
-
-        return $normalized;
     }
 
     private function loadFixtures(): void

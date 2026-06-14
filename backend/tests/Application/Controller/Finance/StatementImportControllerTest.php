@@ -35,10 +35,22 @@ class StatementImportControllerTest extends ApplicationTestCase
         ]);
 
         $this->assertResponseIsSuccessful();
-        $this->assertResponseEqualToJson(
-            $this->client->getResponse(),
-            sprintf('Response/StatementImport/%s.json', $uploadedFile->getBasename())
-        );
+
+        $response = $this->getJsonResponse($this->client);
+        $this->assertArrayHasKey('expenses', $response);
+        $this->assertCount(1, $response['expenses']);
+
+        $expense = $response['expenses'][0];
+        $this->assertNull($expense['id']);
+        $this->assertSame(-0.2, $expense['amount']);
+        $this->assertSame('Something', $expense['label']);
+        $this->assertSame('Something', $expense['description']);
+        $this->assertTrue($expense['confirmed']);
+        $this->assertSame('2024-08-01 09:55:13', $expense['createdAt']);
+        $this->assertSame('User 1 Calendar', $expense['calendar']['name']);
+        $this->assertSame('user1@email.com', $expense['user']['email']);
+        $this->assertSame('Uncategorized', $expense['category']['name']);
+        $this->assertSame('uncategorized', $expense['category']['type']);
     }
 
     public static function filePathProvider(): array
