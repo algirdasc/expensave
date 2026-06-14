@@ -61,15 +61,7 @@ See wiki: [Installation](https://github.com/algirdasc/expensave/wiki/Installatio
 
 ### Password Reset Email
 
-Password reset emails are sent through Symfony Mailer. Configure these backend environment variables for reminders to work:
-
-```bash
-MAILER_DSN=smtp://user:pass@smtp.example.com:587
-MAILER_FROM=no-reply@example.com
-FRONTEND_URL=https://your-expensave-domain.example
-```
-
-`FRONTEND_URL` is used to build reset links for `/auth/reset-password`.
+Password reset emails are sent through Symfony Mailer. See [Mail sending setup](./docs/MAIL_SENDING.md) for generic SMTP configuration and Gmail mailbox setup.
 
 ## Installing Mobile Version
 
