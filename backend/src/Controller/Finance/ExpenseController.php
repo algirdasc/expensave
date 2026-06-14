@@ -8,8 +8,6 @@ use App\Const\ContextGroup\ExpenseContextGroupConst;
 use App\Controller\AbstractApiController;
 use App\Entity\Expense;
 use App\Entity\User;
-use App\Enum\CalendarPermission;
-use App\Enum\ExpensePermission;
 use App\Message\ImportExpenseMessage;
 use App\Repository\ExpenseRepository;
 use App\Request\Expense\CreateExpenseRequest;
@@ -48,33 +46,7 @@ class ExpenseController extends AbstractApiController
     {
         $this->denyAccessUnlessGranted(CalendarVoter::ADD_EXPENSE, $request->getCalendar());
 
-        $expense = (new Expense())
-            ->setCalendar($request->getCalendar())
-            ->setCategory($request->getCategory())
-            ->setLabel($request->getLabel())
-            ->setAmount($request->getAmount())
-            ->setCreatedAt($request->getCreatedAt())
-            ->setConfirmed($request->isConfirmed())
-            ->setDescription($request->getDescription())
-        ;
-
-        if ($request->isRecurring()) {
-            $frequency = $request->getRecurringFrequency();
-            if ($frequency === null) {
-                throw new \InvalidArgumentException('Recurring frequency is required.');
-            }
-
-            $generatedExpenses = $this->recurringExpenseService->createRecurringExpenses(
-                user: $user,
-                template: $expense,
-                frequency: $frequency,
-                occurrences: (int) $request->getRecurringOccurrences(),
-            );
-
-            $expense = $generatedExpenses[0];
-        } else {
-            $this->recurringExpenseService->createSingleExpense($user, $expense);
-        }
+        $expense = $this->recurringExpenseService->createFromRequest($user, $request);
 
         return $this->respond($expense, groups: ExpenseContextGroupConst::DETAILS);
     }

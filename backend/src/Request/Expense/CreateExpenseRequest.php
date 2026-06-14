@@ -139,9 +139,9 @@ class CreateExpenseRequest extends AbstractRequest
         return $this;
     }
 
-    public function getRecurringFrequency(): ?RecurringExpenseFrequency
+    public function getRecurringFrequency(): RecurringExpenseFrequency
     {
-        return $this->recurringFrequency === null ? null : RecurringExpenseFrequency::from($this->recurringFrequency);
+        return RecurringExpenseFrequency::from((string) $this->recurringFrequency);
     }
 
     public function setRecurringFrequency(?string $recurringFrequency): self
@@ -151,9 +151,9 @@ class CreateExpenseRequest extends AbstractRequest
         return $this;
     }
 
-    public function getRecurringOccurrences(): ?int
+    public function getRecurringOccurrences(): int
     {
-        return $this->recurringOccurrences;
+        return (int) $this->recurringOccurrences;
     }
 
     public function setRecurringOccurrences(?int $recurringOccurrences): self
