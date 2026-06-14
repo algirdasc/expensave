@@ -59,6 +59,9 @@ Your sponsorship will help me dedicate more time and resources to improve the pr
 
 See wiki: [Installation](https://github.com/algirdasc/expensave/wiki/Installation).
 
+### Password Reset Email
+
+Password reset emails are sent through Symfony Mailer. See [Mail sending setup](./docs/MAIL_SENDING.md) for generic SMTP configuration and Gmail mailbox setup.
 
 ## Installing Mobile Version
 

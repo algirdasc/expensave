@@ -5,7 +5,7 @@ doctrine:
         port: '%env(DATABASE_PORT)%'
         user: '%env(DATABASE_USER)%'
         password: '%env(DATABASE_PASS)%'
-        server_version: 'mariadb-10.6.0'
+        server_version: '%databaseServerVersion%'
         charset: 'utf8mb4'
         logging: '%kernel.debug%'
         options:

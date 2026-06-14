@@ -62,7 +62,7 @@ export class AuthModule {
                     },
                 },
                 resetPassword: {
-                    redirectDelay: 5000,
+                    redirectDelay: 1500,
                     strategy: 'jwt',
                     showMessages: {
                         error: false,
@@ -107,6 +107,9 @@ export class AuthModule {
                     resetPass: {
                         endpoint: 'password/reset',
                         resetPasswordTokenKey: 'hash',
+                        redirect: {
+                            success: '/auth/login',
+                        },
                     },
                 }),
             ],
