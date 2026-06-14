@@ -8,9 +8,11 @@ use App\Attribute\Request\ResolveEntity;
 use App\Entity\Calendar;
 use App\Entity\Category;
 use App\Enum\CategoryType;
+use App\Enum\RecurringExpenseFrequency;
 use App\Request\AbstractRequest;
 use DateTime;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
 class CreateExpenseRequest extends AbstractRequest
 {
@@ -34,6 +36,13 @@ class CreateExpenseRequest extends AbstractRequest
 
     #[Assert\NotBlank]
     protected DateTime $createdAt;
+
+    protected bool $recurring = false;
+
+    #[Assert\Choice(callback: [RecurringExpenseFrequency::class, 'values'])]
+    protected ?string $recurringFrequency = null;
+
+    protected ?int $recurringOccurrences = null;
 
     public function getCalendar(): Calendar
     {
@@ -116,5 +125,63 @@ class CreateExpenseRequest extends AbstractRequest
     {
         $this->description = $description;
         return $this;
+    }
+
+    public function isRecurring(): bool
+    {
+        return $this->recurring;
+    }
+
+    public function setRecurring(bool $recurring): self
+    {
+        $this->recurring = $recurring;
+
+        return $this;
+    }
+
+    public function getRecurringFrequency(): ?RecurringExpenseFrequency
+    {
+        return $this->recurringFrequency === null ? null : RecurringExpenseFrequency::from($this->recurringFrequency);
+    }
+
+    public function setRecurringFrequency(?string $recurringFrequency): self
+    {
+        $this->recurringFrequency = $recurringFrequency;
+
+        return $this;
+    }
+
+    public function getRecurringOccurrences(): ?int
+    {
+        return $this->recurringOccurrences;
+    }
+
+    public function setRecurringOccurrences(?int $recurringOccurrences): self
+    {
+        $this->recurringOccurrences = $recurringOccurrences;
+
+        return $this;
+    }
+
+    #[Assert\Callback]
+    public function validateRecurringExpense(ExecutionContextInterface $context): void
+    {
+        if (!$this->recurring) {
+            return;
+        }
+
+        if ($this->recurringFrequency === null) {
+            $context
+                ->buildViolation('Recurring frequency is required.')
+                ->atPath('recurringFrequency')
+                ->addViolation();
+        }
+
+        if ($this->recurringOccurrences === null || $this->recurringOccurrences < 2 || $this->recurringOccurrences > 120) {
+            $context
+                ->buildViolation('Recurring occurrences must be between 2 and 120.')
+                ->atPath('recurringOccurrences')
+                ->addViolation();
+        }
     }
 }

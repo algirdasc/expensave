@@ -14,6 +14,7 @@ import { DescriptionListItemComponent } from '../fields/description-list-item.co
 import { UserListItemComponent } from '../fields/user-list-item.component';
 import { FooterComponent } from '../fields/footer.component';
 import { injectMutation } from '@tanstack/angular-query-experimental';
+import { RecurrenceListItemComponent } from '../fields/recurrence-list-item.component';
 
 @Component({
     selector: 'app-expense',
@@ -28,6 +29,7 @@ import { injectMutation } from '@tanstack/angular-query-experimental';
         DateListItemComponent,
         DescriptionListItemComponent,
         UserListItemComponent,
+        RecurrenceListItemComponent,
         FooterComponent,
     ],
 })

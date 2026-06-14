@@ -79,6 +79,73 @@ class ExpenseControllerTest extends ApplicationTestCase
         $this->assertSame('user2@email.com', $expense['user']['email']);
     }
 
+    public function testCreateRecurringExpenseGeneratesExpensesForSelectedPeriod(): void
+    {
+        $calendarId = $this->getCalendarId('User 1 Calendar');
+
+        $this->client->jsonRequest('POST', '/api/expense', [
+            'label' => 'Weekly Rent',
+            'calendar' => $calendarId,
+            'category' => $this->getCategoryId('Category 1'),
+            'createdAt' => '2024-01-01 09:00:00',
+            'amount' => -100,
+            'recurring' => true,
+            'recurringFrequency' => 'weekly',
+            'recurringOccurrences' => 4,
+        ]);
+
+        $this->assertResponseIsSuccessful();
+        $response = $this->getJsonResponse($this->client);
+        $this->assertSame('Weekly Rent', $response['label']);
+        $this->assertSame('2024-01-01 09:00:00', $response['createdAt']);
+
+        $this->client->jsonRequest('GET', sprintf('/api/calendar/%d/expenses/2024-01-01/2024-01-31', $calendarId));
+
+        $expenses = array_values(array_filter(
+            $this->getJsonResponse($this->client)['expenses'],
+            static fn (array $expense): bool => $expense['label'] === 'Weekly Rent'
+        ));
+
+        $this->assertCount(4, $expenses);
+        $createdAtDates = array_column($expenses, 'createdAt');
+        sort($createdAtDates);
+
+        $this->assertSame(
+            [
+                '2024-01-01 09:00:00',
+                '2024-01-08 09:00:00',
+                '2024-01-15 09:00:00',
+                '2024-01-22 09:00:00',
+            ],
+            $createdAtDates
+        );
+    }
+
+    public function testCreateRecurringExpenseWithInvalidPayloadReturnsValidationError(): void
+    {
+        $this->client->jsonRequest('POST', '/api/expense', [
+            'label' => 'Invalid Recurrence',
+            'calendar' => $this->getCalendarId('User 1 Calendar'),
+            'createdAt' => '2024-01-01 09:00:00',
+            'amount' => -100,
+            'recurring' => true,
+            'recurringFrequency' => 'fortnightly',
+            'recurringOccurrences' => 1,
+        ]);
+
+        $this->assertResponseStatusCodeSame(Response::HTTP_UNPROCESSABLE_ENTITY);
+
+        $response = $this->getJsonResponse($this->client);
+        $this->assertSame('App\Exception\RequestValidationException', $response['throwable']);
+        $propertyPaths = array_column($response['messages'], 'propertyPath');
+        sort($propertyPaths);
+
+        $this->assertSame(
+            ['recurringFrequency', 'recurringOccurrences'],
+            $propertyPaths
+        );
+    }
+
     public function testExpenseLifecycle(): void
     {
         $calendarId = $this->getCalendarId('User 1 Calendar');

@@ -33,6 +33,9 @@ class Expense
     #[Groups(ExpenseContextGroupConst::ALWAYS)]
     private User $user;
 
+    #[ORM\ManyToOne(targetEntity: RecurringExpense::class)]
+    private ?RecurringExpense $recurringExpense = null;
+
     #[ORM\Column]
     #[Groups(ExpenseContextGroupConst::ALWAYS)]
     private float $amount = 0;
@@ -102,6 +105,18 @@ class Expense
     public function setUser(User $user): self
     {
         $this->user = $user;
+
+        return $this;
+    }
+
+    public function getRecurringExpense(): ?RecurringExpense
+    {
+        return $this->recurringExpense;
+    }
+
+    public function setRecurringExpense(?RecurringExpense $recurringExpense): self
+    {
+        $this->recurringExpense = $recurringExpense;
 
         return $this;
     }
