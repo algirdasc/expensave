@@ -21,11 +21,7 @@ export class CalendarService {
         void this.queryClient
             .fetchQuery(this.expenseQueries.get(expense.id))
             .then((response: Expense) => {
-                this.openExpenseDialog(response).onClose.subscribe((result: Expense) => {
-                    if (result) {
-                        this.mainService.refreshCalendar();
-                    }
-                });
+                this.openExpenseDialog(response);
             })
             .catch(() => undefined);
     }
@@ -39,11 +35,7 @@ export class CalendarService {
             category: this.mainService.getSystemCategory(TYPE_UNCATEGORIZED),
         });
 
-        this.openExpenseDialog(expense).onClose.subscribe((result: Expense) => {
-            if (result) {
-                this.mainService.refreshCalendar();
-            }
-        });
+        this.openExpenseDialog(expense);
     }
 
     private openExpenseDialog(expense: Expense): NbDialogRef<ExpenseDialogComponent> {

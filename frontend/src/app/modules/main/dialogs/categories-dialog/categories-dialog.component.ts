@@ -1,11 +1,11 @@
 import { HttpParams } from '@angular/common/http';
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnInit, signal } from '@angular/core';
 import { NbDialogRef, NbSpinnerModule } from '@nebular/theme';
 import { Category } from '../../../../api/objects/category';
 import { CategoryListComponent } from './category-list/category-list.component';
 import { CategoryEditComponent } from './category-edit/category-edit.component';
 import { CategoryQueries } from '../../../../queries/category.queries';
-import { injectMutation, QueryClient } from '@tanstack/angular-query-experimental';
+import { injectMutation, injectQuery } from '@tanstack/angular-query-experimental';
 
 @Component({
     templateUrl: 'categories-dialog.component.html',
@@ -15,21 +15,29 @@ import { injectMutation, QueryClient } from '@tanstack/angular-query-experimenta
 export class CategoriesDialogComponent implements OnInit {
     public readonly dialogRef = inject<NbDialogRef<CategoriesDialogComponent>>(NbDialogRef);
     public isSelectable: boolean = true;
-    public categories: Category[];
     public selectedCategory: Category;
     public editableCategory: Category;
 
     private readonly categoryQueries = inject(CategoryQueries);
-    private readonly queryClient = inject(QueryClient);
-    private isFetchingBusy = false;
+    private readonly categoryListParams = signal<HttpParams>(new HttpParams());
+    private readonly categoryListQueryEnabled = signal<boolean>(false);
+    private readonly categoryListQuery = injectQuery(() => ({
+        ...this.categoryQueries.list(this.categoryListParams()),
+        enabled: this.categoryListQueryEnabled(),
+    }));
     private readonly saveMutation = injectMutation(() => this.categoryQueries.save());
 
     public get isBusy(): boolean {
-        return this.saveMutation.isPending() || this.isFetchingBusy;
+        return this.saveMutation.isPending() || this.categoryListQuery.isFetching();
+    }
+
+    public get categories(): Category[] {
+        return this.categoryListQuery.data() ?? [];
     }
 
     public ngOnInit(): void {
-        this.fetch();
+        this.categoryListParams.set(this.getCategoryListParams());
+        this.categoryListQueryEnabled.set(true);
     }
 
     public categoryClick(category: Category): void {
@@ -46,25 +54,16 @@ export class CategoriesDialogComponent implements OnInit {
 
     public saveCategory(category: Category): void {
         this.saveMutation.mutate(category, {
-            onSuccess: () => {
-                this.editableCategory = undefined;
-                this.fetch();
-            },
+            onSuccess: () => (this.editableCategory = undefined),
         });
     }
 
-    public fetch(): void {
+    private getCategoryListParams(): HttpParams {
         let params = new HttpParams();
         if (!this.isSelectable) {
             params = params.append('userCategoriesOnly', 0);
         }
 
-        this.isFetchingBusy = true;
-
-        void this.queryClient
-            .fetchQuery(this.categoryQueries.list(params))
-            .then((categories: Category[]) => (this.categories = categories))
-            .catch(() => undefined)
-            .finally(() => (this.isFetchingBusy = false));
+        return params;
     }
 }

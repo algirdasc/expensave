@@ -36,7 +36,7 @@ export class CalendarExpenseListMobileComponent implements OnChanges {
     private dateService = inject<NbDateService<Date>>(NbDateService);
 
     public ngOnChanges(changes: SimpleChanges): void {
-        if (changes?.selectedValue || changes?.expenses || changes?.balances) {
+        if (changes?.selectedValue || changes?.expenses || changes?.expenseBalances) {
             this.confirmedExpenses = this.expenses.filter((expense: Expense) => {
                 return this.dateService.isSameDaySafe(this.selectedValue, expense.createdAt) && expense.confirmed;
             });
