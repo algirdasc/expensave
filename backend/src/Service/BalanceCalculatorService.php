@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Service;
 
 use App\Entity\Calendar;
+use App\Entity\Expense;
 use App\Repository\ExpenseRepository;
 use DateTime;
 
@@ -15,9 +16,9 @@ readonly class BalanceCalculatorService
     ) {
     }
 
-    public function calculateAmount(float $desiredBalance, DateTime $dateTo, Calendar $calendar): float
+    public function calculateAmount(float $desiredBalance, DateTime $dateTo, Calendar $calendar, ?Expense $excludedExpense = null): float
     {
-        $calendarBalance = $this->expenseRepository->getTotalBalanceToDate([$calendar], $dateTo);
+        $calendarBalance = $this->expenseRepository->getTotalBalanceToDate([$calendar], $dateTo, $excludedExpense);
 
         return round($desiredBalance - $calendarBalance, 2);
     }

@@ -121,4 +121,19 @@ class CategoryControllerTest extends ApplicationTestCase
         $this->assertResponseStatusCodeSame(Response::HTTP_FORBIDDEN);
 
     }
+
+    public function testUpdateSystemCategory(): void
+    {
+        $this->client->jsonRequest('PUT', sprintf('/api/category/%d', $this->getCategoryId('Uncategorized')), [
+            'name' => 'Modified Uncategorized',
+            'color' => '#123456',
+        ]);
+        $this->assertResponseStatusCodeSame(Response::HTTP_FORBIDDEN);
+
+        $this->client->jsonRequest('PUT', sprintf('/api/category/%d', $this->getCategoryId('Balance Update')), [
+            'name' => 'Modified Balance Update',
+            'color' => '#123456',
+        ]);
+        $this->assertResponseStatusCodeSame(Response::HTTP_FORBIDDEN);
+    }
 }

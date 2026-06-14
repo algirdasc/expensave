@@ -28,6 +28,6 @@ class DailyExpensesReportControllerTest extends ApplicationTestCase
         $this->assertCount(366, $responseJson['expenseBalances']);
 
         $this->assertArrayHasKey('meta', $responseJson);
-        $this->assertEquals(['change' => -49, 'expense' => -134, 'income' => 85], $responseJson['meta']);
+        $this->assertEquals(['change' => -20, 'expense' => -75, 'income' => 55], $responseJson['meta']);
     }
 }

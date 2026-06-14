@@ -63,18 +63,24 @@ class ExpenseRepository extends AbstractRepository
     /**
      * @param array<Calendar> $calendars
      */
-    public function getTotalBalanceToDate(array $calendars, DateTime $dateTo): float
+    public function getTotalBalanceToDate(array $calendars, DateTime $dateTo, ?Expense $excludedExpense = null): float
     {
-        return $this->createQueryBuilder('e')
+        $queryBuilder = $this->createQueryBuilder('e')
             ->select('SUM(e.amount)')
             ->where('e.calendar IN (:calendars)')
             ->andWhere('e.confirmed = true')
             ->andWhere('e.createdAt < :dateTo')
             ->setParameter('calendars', $calendars)
             ->setParameter('dateTo', $dateTo)
-            ->orderBy('e.createdAt', 'ASC')
-            ->getQuery()
-            ->getOneOrNullResult(AbstractQuery::HYDRATE_SINGLE_SCALAR) ?? 0;
+            ->orderBy('e.createdAt', 'ASC');
+
+        if ($excludedExpense !== null) {
+            $queryBuilder
+                ->andWhere('e != :excludedExpense')
+                ->setParameter('excludedExpense', $excludedExpense);
+        }
+
+        return $queryBuilder->getQuery()->getOneOrNullResult(AbstractQuery::HYDRATE_SINGLE_SCALAR) ?? 0;
     }
 
     public function getTotalBalance(Calendar $calendar): float

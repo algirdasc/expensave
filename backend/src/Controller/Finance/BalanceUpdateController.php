@@ -5,18 +5,15 @@ declare(strict_types=1);
 namespace App\Controller\Finance;
 
 use App\Const\ContextGroup\ExpenseContextGroupConst;
-use App\Const\StringConst;
 use App\Controller\AbstractApiController;
 use App\Entity\Expense;
 use App\Entity\User;
-use App\Repository\CategoryRepository;
-use App\Repository\ExpenseRepository;
 use App\Request\BalanceUpdate\CreateBalanceUpdateRequest;
 use App\Request\BalanceUpdate\UpdateBalanceUpdateRequest;
 use App\Response\EmptyResponse;
 use App\Security\Voters\CalendarVoter;
 use App\Security\Voters\ExpenseVoter;
-use App\Service\BalanceCalculatorService;
+use App\Service\BalanceUpdateService;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Attribute\Route;
@@ -26,9 +23,7 @@ use Symfony\Component\Security\Http\Attribute\CurrentUser;
 class BalanceUpdateController extends AbstractApiController
 {
     public function __construct(
-        private readonly ExpenseRepository $expenseRepository,
-        private readonly CategoryRepository $categoryRepository,
-        private readonly BalanceCalculatorService $balanceCalculatorService,
+        private readonly BalanceUpdateService $balanceUpdateService,
     ) {
     }
 
@@ -37,24 +32,7 @@ class BalanceUpdateController extends AbstractApiController
     {
         $this->denyAccessUnlessGranted(CalendarVoter::ADD_EXPENSE, $request->getCalendar());
 
-        $amount = $this->balanceCalculatorService->calculateAmount(
-            $request->getAmount(),
-            $request->getCreatedAt(),
-            $request->getCalendar()
-        );
-
-        $balanceUpdate = (new Expense())
-            ->setCalendar($request->getCalendar())
-            ->setCategory($this->categoryRepository->getBalanceCategory())
-            ->setLabel(StringConst::BALANCE_UPDATE_LABEL)
-            ->setUser($user)
-            ->setAmount($amount)
-            ->setCreatedAt($request->getCreatedAt())
-            ->setConfirmed(true)
-            ->setDescription($request->getDescription())
-        ;
-
-        $this->expenseRepository->save($balanceUpdate);
+        $balanceUpdate = $this->balanceUpdateService->create($user, $request);
 
         return $this->respond($balanceUpdate, groups: ExpenseContextGroupConst::DETAILS);
     }
@@ -65,20 +43,7 @@ class BalanceUpdateController extends AbstractApiController
         $this->denyAccessUnlessGranted(ExpenseVoter::EDIT, $balanceUpdate);
         $this->denyAccessUnlessGranted(CalendarVoter::ADD_EXPENSE, $request->getCalendar());
 
-        $amount = $this->balanceCalculatorService->calculateAmount(
-            $request->getAmount(),
-            $request->getCreatedAt(),
-            $request->getCalendar()
-        );
-
-        $balanceUpdate
-            ->setCalendar($request->getCalendar())
-            ->setAmount($amount)
-            ->setCreatedAt($request->getCreatedAt())
-            ->setDescription($request->getDescription())
-        ;
-
-        $this->expenseRepository->save($balanceUpdate);
+        $balanceUpdate = $this->balanceUpdateService->update($balanceUpdate, $request);
 
         return $this->respond($balanceUpdate, groups: ExpenseContextGroupConst::DETAILS);
     }
@@ -88,7 +53,7 @@ class BalanceUpdateController extends AbstractApiController
     {
         $this->denyAccessUnlessGranted(ExpenseVoter::DELETE, $balanceUpdate);
 
-        $this->expenseRepository->remove($balanceUpdate);
+        $this->balanceUpdateService->remove($balanceUpdate);
 
         return $this->respond(new EmptyResponse());
     }

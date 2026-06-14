@@ -184,4 +184,17 @@ class CreateExpenseRequest extends AbstractRequest
                 ->addViolation();
         }
     }
+
+    #[Assert\Callback]
+    public function validateCategory(ExecutionContextInterface $context): void
+    {
+        if (!isset($this->category) || $this->category->getType() !== CategoryType::BALANCE_UPDATE) {
+            return;
+        }
+
+        $context
+            ->buildViolation('Balance update category cannot be used for expenses.')
+            ->atPath('category')
+            ->addViolation();
+    }
 }
