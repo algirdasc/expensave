@@ -6,7 +6,7 @@ namespace App\Response\StatementImport;
 
 use App\Const\ContextGroupConst;
 use App\Entity\Expense;
-use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Serializer\Attribute\Groups;
 
 /**
  * @codeCoverageIgnore

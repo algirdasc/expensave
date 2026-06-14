@@ -6,7 +6,7 @@ namespace App\DTO\Report;
 
 use App\Const\ContextGroupConst;
 use DateTime;
-use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Serializer\Attribute\Groups;
 
 /**
  * @codeCoverageIgnore

@@ -6,7 +6,7 @@ namespace App\Response\Error;
 
 use App\Const\ContextGroupConst;
 use App\Handler\Error\ErrorHandlerInterface;
-use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Serializer\Attribute\Groups;
 
 /**
  * @codeCoverageIgnore

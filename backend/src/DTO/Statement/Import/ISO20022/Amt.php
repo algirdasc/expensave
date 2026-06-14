@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\DTO\Statement\Import\ISO20022;
 
-use Symfony\Component\Serializer\Annotation\SerializedName;
+use Symfony\Component\Serializer\Attribute\SerializedName;
 
 /**
  * @codeCoverageIgnore

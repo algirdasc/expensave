@@ -6,7 +6,8 @@
 parameters:
     defaultFalse: false
     defaultTrue: true
-    timezone: '%env(TZ)%'
+    defaultTimezone: UTC
+    timezone: '%env(default:defaultTimezone:TZ)%'
     registrationDisabled: '%env(bool:default:defaultFalse::REGISTRATION_DISABLED)%'
 
 services:
