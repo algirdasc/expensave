@@ -4,60 +4,92 @@ declare(strict_types=1);
 
 namespace App\EventListener;
 
+use App\Entity\Calendar;
 use App\Entity\Expense;
-use Doctrine\Bundle\DoctrineBundle\Attribute\AsEntityListener;
+use Doctrine\Bundle\DoctrineBundle\Attribute\AsDoctrineListener;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\Event\OnFlushEventArgs;
 use Doctrine\ORM\Events;
-use Doctrine\Persistence\Event\LifecycleEventArgs;
 
-#[AsEntityListener(event: Events::postUpdate, entity: Expense::class)]
-#[AsEntityListener(event: Events::postRemove, entity: Expense::class)]
-#[AsEntityListener(event: Events::postPersist, entity: Expense::class)]
+#[AsDoctrineListener(event: Events::onFlush)]
 class CalendarBalanceListener
 {
-    /**
-     * @param LifecycleEventArgs<EntityManagerInterface> $eventArgs
-     */
-    public function postUpdate(Expense $expense, LifecycleEventArgs $eventArgs): void
+    public function onFlush(OnFlushEventArgs $eventArgs): void
     {
         /** @var EntityManagerInterface $entityManager */
         $entityManager = $eventArgs->getObjectManager();
-        $changes = $entityManager->getUnitOfWork()->getEntityChangeSet($expense);
+        $unitOfWork = $entityManager->getUnitOfWork();
 
-        if (empty($changes['amount'])) {
-            return;
+        /** @var array<int, array{calendar: Calendar, delta: float}> $balanceChanges */
+        $balanceChanges = [];
+
+        foreach ($unitOfWork->getScheduledEntityInsertions() as $entity) {
+            if ($entity instanceof Expense && $entity->isConfirmed()) {
+                $this->addBalanceChange($balanceChanges, $entity->getCalendar(), $entity->getAmount());
+            }
         }
 
-        $expense
-            ->getCalendar()
-            ->subBalance($changes['amount'][0])
-            ->addBalance($changes['amount'][1])
-        ;
+        foreach ($unitOfWork->getScheduledEntityUpdates() as $entity) {
+            if (!$entity instanceof Expense) {
+                continue;
+            }
 
-        $entityManager->flush();
+            $changeSet = $unitOfWork->getEntityChangeSet($entity);
+            if (!$this->hasBalanceChange($changeSet)) {
+                continue;
+            }
+
+            /** @var Calendar $oldCalendar */
+            $oldCalendar = $changeSet['calendar'][0] ?? $entity->getCalendar();
+            $oldAmount = (float) ($changeSet['amount'][0] ?? $entity->getAmount());
+            $oldConfirmed = (bool) ($changeSet['confirmed'][0] ?? $entity->isConfirmed());
+
+            if ($oldConfirmed) {
+                $this->addBalanceChange($balanceChanges, $oldCalendar, -$oldAmount);
+            }
+
+            if ($entity->isConfirmed()) {
+                $this->addBalanceChange($balanceChanges, $entity->getCalendar(), $entity->getAmount());
+            }
+        }
+
+        foreach ($unitOfWork->getScheduledEntityDeletions() as $entity) {
+            if ($entity instanceof Expense && $entity->isConfirmed()) {
+                $this->addBalanceChange($balanceChanges, $entity->getCalendar(), -$entity->getAmount());
+            }
+        }
+
+        $calendarMetadata = $entityManager->getClassMetadata(Calendar::class);
+        foreach ($balanceChanges as $balanceChange) {
+            if ($balanceChange['delta'] === 0.0) {
+                continue;
+            }
+
+            $balanceChange['calendar']->addBalance($balanceChange['delta']);
+            $unitOfWork->recomputeSingleEntityChangeSet($calendarMetadata, $balanceChange['calendar']);
+        }
     }
 
     /**
-     * @param LifecycleEventArgs<EntityManagerInterface> $eventArgs
+     * @param array<int, array{calendar: Calendar, delta: float}> $balanceChanges
      */
-    public function postRemove(Expense $expense, LifecycleEventArgs $eventArgs): void
+    private function addBalanceChange(array &$balanceChanges, Calendar $calendar, float $delta): void
     {
-        $expense
-            ->getCalendar()
-            ->subBalance($expense->getAmount())
-        ;
-
-        $eventArgs->getObjectManager()->flush();
+        $key = spl_object_id($calendar);
+        $balanceChanges[$key] ??= [
+            'calendar' => $calendar,
+            'delta' => 0.0,
+        ];
+        $balanceChanges[$key]['delta'] += $delta;
     }
 
     /**
-     * @param LifecycleEventArgs<EntityManagerInterface> $eventArgs
+     * @param array<string, mixed> $changeSet
      */
-    public function postPersist(Expense $expense, LifecycleEventArgs $eventArgs): void
+    private function hasBalanceChange(array $changeSet): bool
     {
-        /** @var Expense $expense */
-        $expense->getCalendar()->addBalance($expense->getAmount());
-
-        $eventArgs->getObjectManager()->flush();
+        return isset($changeSet['amount'])
+            || isset($changeSet['calendar'])
+            || isset($changeSet['confirmed']);
     }
 }

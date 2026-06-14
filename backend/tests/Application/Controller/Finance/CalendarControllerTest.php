@@ -34,7 +34,7 @@ class CalendarControllerTest extends ApplicationTestCase
         $this->assertArrayHasKey('Shared Calendar', $calendars);
 
         $this->assertIsInt($calendars['User 1 Calendar']['id']);
-        $this->assertSame(-75, $calendars['User 1 Calendar']['balance']);
+        $this->assertSame(-20, $calendars['User 1 Calendar']['balance']);
         $this->assertFalse($calendars['User 1 Calendar']['shared']);
         $this->assertSame('user1@email.com', $calendars['User 1 Calendar']['owner']['email']);
 

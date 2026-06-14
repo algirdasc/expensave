@@ -10,6 +10,7 @@ use App\Entity\User;
 use App\Enum\RecurringExpenseFrequency;
 use App\Repository\ExpenseRepository;
 use App\Repository\RecurringExpenseRepository;
+use App\Request\Expense\CreateExpenseRequest;
 use DateInterval;
 use DateTime;
 use InvalidArgumentException;
@@ -20,6 +21,30 @@ readonly class RecurringExpenseService
         private RecurringExpenseRepository $recurringExpenseRepository,
         private ExpenseRepository $expenseRepository,
     ) {
+    }
+
+    public function createFromRequest(User $user, CreateExpenseRequest $request): Expense
+    {
+        $expense = (new Expense())
+            ->setCalendar($request->getCalendar())
+            ->setCategory($request->getCategory())
+            ->setLabel($request->getLabel())
+            ->setAmount($request->getAmount())
+            ->setCreatedAt($request->getCreatedAt())
+            ->setConfirmed($request->isConfirmed())
+            ->setDescription($request->getDescription())
+        ;
+
+        if (!$request->isRecurring()) {
+            return $this->createSingleExpense($user, $expense);
+        }
+
+        return $this->createRecurringExpenses(
+            user: $user,
+            template: $expense,
+            frequency: $request->getRecurringFrequency(),
+            occurrences: $request->getRecurringOccurrences(),
+        )[0];
     }
 
     public function createSingleExpense(User $user, Expense $expense): Expense
