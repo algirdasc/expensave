@@ -10,11 +10,11 @@ use Symfony\Component\Validator\Constraints as Assert;
 class UpdateExpenseRequest extends CreateExpenseRequest
 {
     #[Assert\Choice(callback: [RecurringExpenseUpdateScope::class, 'values'])]
-    protected string $recurringUpdateScope = 'this';
+    protected ?string $recurringUpdateScope = null;
 
     public function getRecurringUpdateScope(): RecurringExpenseUpdateScope
     {
-        return RecurringExpenseUpdateScope::from($this->recurringUpdateScope);
+        return RecurringExpenseUpdateScope::from($this->recurringUpdateScope ?? RecurringExpenseUpdateScope::THIS->value);
     }
 
     public function setRecurringUpdateScope(?string $recurringUpdateScope): self
