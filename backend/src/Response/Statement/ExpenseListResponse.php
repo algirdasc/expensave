@@ -6,7 +6,7 @@ use App\Const\ContextGroupConst;
 use App\DTO\Report\ExpenseBalance;
 use App\Entity\Calendar;
 use App\Entity\Expense;
-use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Serializer\Attribute\Groups;
 
 /**
  * @codeCoverageIgnore

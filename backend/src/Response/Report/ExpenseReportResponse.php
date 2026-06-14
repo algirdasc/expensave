@@ -7,7 +7,7 @@ namespace App\Response\Report;
 use App\Const\ContextGroupConst;
 use App\DTO\Report\BalanceMeta;
 use App\DTO\Report\ExpenseBalance;
-use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Serializer\Attribute\Groups;
 
 /**
  * @codeCoverageIgnore

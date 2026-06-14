@@ -5,7 +5,7 @@ namespace App\DTO\Statement\Import\Dollarbird;
 use App\DTO\Statement\Import\StatementImportRowInterface;
 use DateTime;
 use DateTimeInterface;
-use Symfony\Component\Serializer\Annotation\SerializedName;
+use Symfony\Component\Serializer\Attribute\SerializedName;
 
 /**
  * @codeCoverageIgnore

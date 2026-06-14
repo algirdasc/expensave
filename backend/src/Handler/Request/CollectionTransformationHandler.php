@@ -9,6 +9,11 @@ use Doctrine\ORM\EntityManagerInterface;
 use ReflectionNamedType;
 use ReflectionProperty;
 use Symfony\Component\PropertyInfo\Extractor\PhpDocExtractor;
+use Symfony\Component\TypeInfo\Type;
+use Symfony\Component\TypeInfo\Type\CollectionType;
+use Symfony\Component\TypeInfo\Type\CompositeTypeInterface;
+use Symfony\Component\TypeInfo\Type\ObjectType;
+use Symfony\Component\TypeInfo\Type\WrappingTypeInterface;
 
 readonly class CollectionTransformationHandler implements TransformationHandlerInterface
 {
@@ -39,15 +44,13 @@ readonly class CollectionTransformationHandler implements TransformationHandlerI
             return $allowsNull ? null : new ArrayCollection();
         }
 
-        $collectionTypes = (new PhpDocExtractor())->getTypes($request::class, $property->getName());
+        $collectionType = (new PhpDocExtractor())->getType($request::class, $property->getName());
 
-        if ($collectionTypes === null) {
+        if ($collectionType === null) {
             return $allowsNull ? null : new ArrayCollection();
         }
 
-        $valueTypes = $collectionTypes[0]->getCollectionValueTypes();
-        $valueType = $valueTypes[0] ?? null;
-        $entityClassName = $valueType?->getClassName();
+        $entityClassName = $this->getCollectionValueClassName($collectionType);
 
         // If we cannot resolve the collection element class, do not blow up the request population
         if ($entityClassName === null || !class_exists($entityClassName)) {
@@ -72,5 +75,35 @@ readonly class CollectionTransformationHandler implements TransformationHandlerI
         }
 
         return new ArrayCollection($repository->findBy([$idField => $idValues]));
+    }
+
+    /**
+     * @return class-string|null
+     */
+    private function getCollectionValueClassName(Type $type): ?string
+    {
+        if ($type instanceof CollectionType) {
+            return $this->getCollectionValueClassName($type->getCollectionValueType());
+        }
+
+        if ($type instanceof ObjectType) {
+            $className = $type->getClassName();
+
+            return class_exists($className) ? $className : null;
+        }
+
+        if ($type instanceof CompositeTypeInterface) {
+            foreach ($type->getTypes() as $nestedType) {
+                if (null !== $className = $this->getCollectionValueClassName($nestedType)) {
+                    return $className;
+                }
+            }
+        }
+
+        if ($type instanceof WrappingTypeInterface) {
+            return $this->getCollectionValueClassName($type->getWrappedType());
+        }
+
+        return null;
     }
 }

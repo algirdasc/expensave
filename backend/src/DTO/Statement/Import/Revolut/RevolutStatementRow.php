@@ -6,7 +6,7 @@ namespace App\DTO\Statement\Import\Revolut;
 
 use App\DTO\Statement\Import\StatementImportRowInterface;
 use DateTime;
-use Symfony\Component\Serializer\Annotation\SerializedName;
+use Symfony\Component\Serializer\Attribute\SerializedName;
 
 /**
  * @codeCoverageIgnore

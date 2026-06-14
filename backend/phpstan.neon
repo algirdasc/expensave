@@ -3,9 +3,7 @@ parameters:
     paths:
         - src
     symfony:
-        containerXmlPath: var/cache/dev/App_KernelDevDebugContainer.xml
-    scanDirectories:
-        - var/cache/dev/Symfony/Config
+        containerXmlPath: var/cache/test/App_KernelTestDebugContainer.xml
     ignoreErrors:
         - identifier: doctrine.associationType
         - identifier: missingType.generics
