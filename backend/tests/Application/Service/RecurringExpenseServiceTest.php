@@ -116,6 +116,72 @@ class RecurringExpenseServiceTest extends TestCase
         $this->assertSame($updatedCategory, $recurringExpense->getCategory());
     }
 
+    public function testUpdateFromRequestConvertsSingleExpenseToRecurringSeries(): void
+    {
+        $calendar = new Calendar('Calendar', new User());
+        $category = new Category();
+        $user = new User();
+        $expense = (new Expense())
+            ->setCalendar($calendar)
+            ->setCategory($category)
+            ->setUser($user)
+            ->setLabel('Rent')
+            ->setAmount(-100)
+            ->setCreatedAt(new DateTime('2024-01-01 09:00:00'))
+            ->setConfirmed(true)
+        ;
+        $request = $this->createUpdateRequest(
+            calendar: $calendar,
+            category: $category,
+            scope: RecurringExpenseUpdateScope::THIS,
+        );
+        $savedRecurringExpenses = [];
+        $savedExpenses = [];
+
+        $this->expenseRepository->expects($this->never())->method('findByRecurringExpenseAndUpdateScope');
+        $this->recurringExpenseRepository
+            ->expects($this->once())
+            ->method('save')
+            ->willReturnCallback(static function (RecurringExpense $recurringExpense) use (&$savedRecurringExpenses): void {
+                $savedRecurringExpenses[] = $recurringExpense;
+            });
+        $this->expenseRepository
+            ->expects($this->exactly(4))
+            ->method('save')
+            ->willReturnCallback(static function (Expense $expense) use (&$savedExpenses): void {
+                $savedExpenses[] = $expense;
+            });
+
+        $result = $this->recurringExpenseService->updateFromRequest($expense, $request);
+
+        $this->assertSame($expense, $result);
+        $this->assertCount(1, $savedRecurringExpenses);
+        $recurringExpense = $savedRecurringExpenses[0];
+        $this->assertSame($recurringExpense, $expense->getRecurringExpense());
+        $this->assertSame($user, $recurringExpense->getUser());
+        $this->assertSame(RecurringExpenseFrequency::WEEKLY, $recurringExpense->getFrequency());
+        $this->assertSame(4, $recurringExpense->getOccurrences());
+        $this->assertSame('Updated rent', $recurringExpense->getLabel());
+        $this->assertSame(-125.0, $recurringExpense->getAmount());
+        $this->assertSame('2024-01-16 09:00:00', $recurringExpense->getStartsAt()->format('Y-m-d H:i:s'));
+
+        $this->assertSame($expense, $savedExpenses[0]);
+        $this->assertSame(
+            [
+                '2024-01-16 09:00:00',
+                '2024-01-23 09:00:00',
+                '2024-01-30 09:00:00',
+                '2024-02-06 09:00:00',
+            ],
+            array_map(
+                static fn (Expense $savedExpense): string => $savedExpense->getCreatedAt()->format('Y-m-d H:i:s'),
+                $savedExpenses
+            )
+        );
+        $this->assertSame($recurringExpense, $savedExpenses[3]->getRecurringExpense());
+        $this->assertSame('Updated rent', $savedExpenses[3]->getLabel());
+    }
+
     private function createRecurringExpense(Calendar $calendar, Category $category): RecurringExpense
     {
         return (new RecurringExpense())

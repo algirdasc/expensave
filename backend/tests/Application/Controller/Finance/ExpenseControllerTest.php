@@ -125,6 +125,61 @@ class ExpenseControllerTest extends ApplicationTestCase
         );
     }
 
+    public function testUpdateSingleExpenseCanConvertItToRecurringExpense(): void
+    {
+        $calendarId = $this->getCalendarId('User 1 Calendar');
+
+        $this->client->jsonRequest('POST', '/api/expense', [
+            'label' => 'One-off Subscription',
+            'calendar' => $calendarId,
+            'category' => $this->getCategoryId('Category 1'),
+            'createdAt' => '2024-01-03 09:00:00',
+            'amount' => -20,
+        ]);
+
+        $this->assertResponseIsSuccessful();
+        $expenseId = $this->getJsonResponse($this->client)['id'];
+
+        $this->client->jsonRequest('PUT', sprintf('/api/expense/%d', $expenseId), [
+            'label' => 'Recurring Subscription',
+            'calendar' => $calendarId,
+            'category' => $this->getCategoryId('Category 2'),
+            'createdAt' => '2024-01-03 09:00:00',
+            'amount' => -25,
+            'confirmed' => true,
+            'description' => 'Converted from one-off expense',
+            'recurring' => true,
+            'recurringFrequency' => 'weekly',
+            'recurringOccurrences' => 4,
+        ]);
+
+        $this->assertResponseIsSuccessful();
+        $response = $this->getJsonResponse($this->client);
+        $this->assertSame($expenseId, $response['id']);
+        $this->assertTrue($response['recurring']);
+        $this->assertSame('weekly', $response['recurringFrequency']);
+        $this->assertSame(4, $response['recurringOccurrences']);
+
+        $expenses = $this->getExpensesByLabels($calendarId, ['Recurring Subscription']);
+
+        $this->assertCount(4, $expenses);
+        $this->assertSame(
+            [
+                '2024-01-03 09:00:00',
+                '2024-01-10 09:00:00',
+                '2024-01-17 09:00:00',
+                '2024-01-24 09:00:00',
+            ],
+            array_column($expenses, 'createdAt')
+        );
+
+        foreach ($expenses as $expense) {
+            $this->assertSame(-25, $expense['amount']);
+            $this->assertSame('Category 2', $expense['category']['name']);
+            $this->assertSame('Converted from one-off expense', $expense['description']);
+        }
+    }
+
     /**
      * @param array<string, string> $expectedLabelsByDate
      */

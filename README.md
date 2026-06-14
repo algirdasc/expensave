@@ -42,8 +42,7 @@ Your sponsorship will help me dedicate more time and resources to improve the pr
 
 - Multiple user support
 - Shared expense calendars between family members
-- Multiple & unlimited expense calendars
-- Recurring expenses with daily, weekly, monthly, and yearly schedules, including scoped edits for one, past, future, or all occurrences
+- Multiple & unlimited expense calendars- Recurring expenses with daily, weekly, monthly, and yearly schedules
 - Import your balance from financial institutions in various [formats](https://github.com/algirdasc/expensave/wiki/Bank-statement-import#supported-banks) 
 - Reports on your spending and income habits
 - Responsive design

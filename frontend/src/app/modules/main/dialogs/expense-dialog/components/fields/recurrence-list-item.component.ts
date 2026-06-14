@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnChanges } from '@angular/core';
 import { ControlContainer, FormsModule, NgForm } from '@angular/forms';
 import { NbButtonModule, NbIconModule, NbInputModule, NbListModule } from '@nebular/theme';
 import { Expense } from '../../../../../../api/objects/expense';
@@ -9,7 +9,7 @@ import { Expense } from '../../../../../../api/objects/expense';
         <nb-icon icon="repeat-outline" class="me-3" [class.active]="expense.recurring"></nb-icon>
 
         <div class="w-100">
-            @if (expense.id && expense.recurring) {
+            @if (isExistingRecurringExpense) {
                 <div class="recurring-edit">
                     <div class="text-truncate">
                         <span>Recurring expense</span>
@@ -52,7 +52,7 @@ import { Expense } from '../../../../../../api/objects/expense';
                 </div>
             }
 
-            @if (!expense.id && expense.recurring) {
+            @if (expense.recurring && !isExistingRecurringExpense) {
                 <div class="recurring-controls">
                     <label>
                         <span>Period</span>
@@ -132,14 +132,24 @@ import { Expense } from '../../../../../../api/objects/expense';
     viewProviders: [{ provide: ControlContainer, useExisting: NgForm }],
     imports: [FormsModule, NbButtonModule, NbIconModule, NbInputModule, NbListModule],
 })
-export class RecurrenceListItemComponent {
+export class RecurrenceListItemComponent implements OnChanges {
     @Input({ required: true })
     public expense: Expense;
+
+    private openedAsRecurringExpense = false;
+
+    protected get isExistingRecurringExpense(): boolean {
+        return Boolean(this.expense.id && this.openedAsRecurringExpense);
+    }
 
     protected get frequencyLabel(): string {
         const frequency = this.expense.recurringFrequency ?? 'monthly';
 
         return frequency[0].toUpperCase() + frequency.slice(1);
+    }
+
+    public ngOnChanges(): void {
+        this.openedAsRecurringExpense = this.expense.recurring;
     }
 
     protected toggleRecurring(): void {

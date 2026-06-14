@@ -59,6 +59,10 @@ readonly class RecurringExpenseService
 
     public function updateFromRequest(Expense $expense, UpdateExpenseRequest $request): Expense
     {
+        if ($expense->getRecurringExpense() === null && $request->isRecurring()) {
+            return $this->convertSingleExpenseToRecurring($expense, $request);
+        }
+
         $originalSelectedDate = clone $expense->getCreatedAt();
         $dateShiftSeconds = $request->getCreatedAt()->getTimestamp() - $originalSelectedDate->getTimestamp();
 
@@ -88,23 +92,7 @@ readonly class RecurringExpenseService
         RecurringExpenseFrequency $frequency,
         int $occurrences,
     ): array {
-        if ($occurrences < 2) {
-            throw new InvalidArgumentException('Recurring expenses require at least two occurrences.');
-        }
-
-        $recurringExpense = (new RecurringExpense())
-            ->setCalendar($template->getCalendar())
-            ->setCategory($template->getCategory())
-            ->setUser($user)
-            ->setFrequency($frequency)
-            ->setOccurrences($occurrences)
-            ->setLabel($template->getLabel())
-            ->setAmount($template->getAmount())
-            ->setConfirmed($template->isConfirmed())
-            ->setDescription($template->getDescription())
-            ->setStartsAt($template->getCreatedAt())
-        ;
-
+        $recurringExpense = $this->createRecurringExpenseRule($user, $template, $frequency, $occurrences);
         $this->recurringExpenseRepository->save($recurringExpense);
 
         $expenses = [];
@@ -116,6 +104,54 @@ readonly class RecurringExpenseService
         }
 
         return $expenses;
+    }
+
+    private function convertSingleExpenseToRecurring(Expense $expense, UpdateExpenseRequest $request): Expense
+    {
+        $this->applyRequestToExpense($expense, $request, clone $request->getCreatedAt());
+
+        $user = $expense->getUser();
+        $recurringExpense = $this->createRecurringExpenseRule(
+            user: $user,
+            template: $expense,
+            frequency: $request->getRecurringFrequency(),
+            occurrences: $request->getRecurringOccurrences(),
+        );
+
+        $this->recurringExpenseRepository->save($recurringExpense);
+        $expense->setRecurringExpense($recurringExpense);
+        $this->expenseRepository->save($expense);
+
+        for ($index = 1; $index < $request->getRecurringOccurrences(); $index++) {
+            $occurrence = $this->createExpenseOccurrence($expense, $user, $recurringExpense, $index);
+            $this->expenseRepository->save($occurrence);
+        }
+
+        return $expense;
+    }
+
+    private function createRecurringExpenseRule(
+        User $user,
+        Expense $template,
+        RecurringExpenseFrequency $frequency,
+        int $occurrences,
+    ): RecurringExpense {
+        if ($occurrences < 2) {
+            throw new InvalidArgumentException('Recurring expenses require at least two occurrences.');
+        }
+
+        return (new RecurringExpense())
+            ->setCalendar($template->getCalendar())
+            ->setCategory($template->getCategory())
+            ->setUser($user)
+            ->setFrequency($frequency)
+            ->setOccurrences($occurrences)
+            ->setLabel($template->getLabel())
+            ->setAmount($template->getAmount())
+            ->setConfirmed($template->isConfirmed())
+            ->setDescription($template->getDescription())
+            ->setStartsAt($template->getCreatedAt())
+        ;
     }
 
     private function createExpenseOccurrence(
