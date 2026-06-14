@@ -67,7 +67,7 @@ export class CalendarGridRowCellDesktopComponent
     }
 
     public onResized(event: ResizedEvent): void {
-        this.expenseListCapacity = Math.floor(event.newRect.height / EXPENSE_LIST_ITEM_HEIGHT) - 1;
+        this.expenseListCapacity = Math.max(1, Math.floor(event.newRect.height / EXPENSE_LIST_ITEM_HEIGHT) - 1);
     }
 
     public openInvisibleExpenses(): void {

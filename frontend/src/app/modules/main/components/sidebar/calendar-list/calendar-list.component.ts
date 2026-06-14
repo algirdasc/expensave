@@ -89,7 +89,6 @@ export class CalendarSidebarListComponent implements OnChanges {
                     this.deleteMutation.mutate(calendar, {
                         onSuccess: () => {
                             this.toastrService.success('Calendar deleted successfully', 'Calendar delete');
-                            this.fetch();
                         },
                     });
                 }
@@ -122,19 +121,6 @@ export class CalendarSidebarListComponent implements OnChanges {
             .finally(() => (this.isFetchingBusy = false));
     }
 
-    public fetch(): void {
-        this.isFetchingBusy = true;
-
-        void this.queryClient
-            .fetchQuery(this.calendarQueries.list())
-            .then((calendars: Calendar[]) => {
-                this.calendars = calendars;
-                this.calendarsChange.emit(this.calendars);
-            })
-            .catch(() => undefined)
-            .finally(() => (this.isFetchingBusy = false));
-    }
-
     private openCalendarDialog(calendar: Calendar, onClose?: (calendar: Calendar) => void): void {
         this.dialogRef = this.dialogService.open(CalendarEditComponent, {
             context: {
@@ -147,10 +133,6 @@ export class CalendarSidebarListComponent implements OnChanges {
         this.dialogRef.onClose.subscribe((calendar: Calendar) => {
             if (onClose !== undefined) {
                 onClose(calendar);
-            }
-
-            if (calendar !== undefined) {
-                this.fetch();
             }
         });
     }

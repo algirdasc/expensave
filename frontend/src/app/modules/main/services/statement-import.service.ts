@@ -141,10 +141,6 @@ export class StatementImportService {
                         this.clearImportStorage();
                         break;
                 }
-
-                if (result.calendarRefreshNeeded) {
-                    this.mainService.refreshCalendar();
-                }
             });
     }
 

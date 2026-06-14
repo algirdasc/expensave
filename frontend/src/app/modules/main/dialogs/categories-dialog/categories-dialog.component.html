@@ -4,7 +4,7 @@
             [categories]="categories"
             [category]="editableCategory"
             [saveButtonEnabled]="isBusy"
-            (back)="editableCategory = undefined; fetch()"
+            (back)="editableCategory = undefined"
             (save)="saveCategory($event)" />
     } @else {
         <app-category-list

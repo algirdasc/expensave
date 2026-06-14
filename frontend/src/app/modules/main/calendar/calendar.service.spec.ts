@@ -21,7 +21,7 @@ describe('CalendarService', () => {
     beforeEach(() => {
         dialogService = jasmine.createSpyObj<NbDialogService>('NbDialogService', ['open']);
         expenseQueries = jasmine.createSpyObj<ExpenseQueries>('ExpenseQueries', ['get']);
-        mainService = jasmine.createSpyObj<MainService>('MainService', ['getSystemCategory', 'refreshCalendar'], {
+        mainService = jasmine.createSpyObj<MainService>('MainService', ['getSystemCategory'], {
             user: userWithId(1),
         });
         queryClient = jasmine.createSpyObj<QueryClient>('QueryClient', ['fetchQuery']);
@@ -72,7 +72,7 @@ describe('CalendarService', () => {
         expect(context.expense.createdAt.getFullYear()).toBe(2026);
         expect(context.expense.createdAt.getMonth()).toBe(0);
         expect(context.expense.createdAt.getDate()).toBe(15);
-        expect(mainService.refreshCalendar).toHaveBeenCalledOnceWith();
+        expect(dialogService.open).toHaveBeenCalled();
     });
 
     it('fetches an existing expense before opening the edit dialog', async (): Promise<void> => {
@@ -102,7 +102,7 @@ describe('CalendarService', () => {
                 }),
             })
         );
-        expect(mainService.refreshCalendar).toHaveBeenCalledOnceWith();
+        expect(dialogService.open).toHaveBeenCalled();
     });
 
     it('shows the balance tab when editing a balance update expense', async (): Promise<void> => {
@@ -129,7 +129,7 @@ describe('CalendarService', () => {
                 }),
             })
         );
-        expect(mainService.refreshCalendar).not.toHaveBeenCalled();
+        expect(dialogService.open).toHaveBeenCalled();
     });
 });
 

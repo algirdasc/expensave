@@ -1,21 +1,21 @@
 <nb-layout [nbSpinner]="isApplicationBusy">
     <nb-layout-header fixed>
         <app-header
-            [calendar]="mainService.calendar"
-            [visibleDateBalance]="mainService.visibleDateBalance"
+            [calendar]="selectedCalendar"
+            [visibleDateBalance]="visibleDateBalance"
             [visibleDate]="mainService.visibleDate" />
     </nb-layout-header>
 
     <nb-layout-column
         class="p-0 p-sm-3"
-        [nbSpinner]="isCalendarBusy"
+        [nbSpinner]="calendarBusy"
         (resized)="onResized($event)"
         appSwipe
         (swipeEnd)="onSwipeEnd($event)">
         <app-calendar
-            [calendar]="mainService.calendar"
-            [expenses]="mainService.expenses"
-            [expenseBalances]="mainService.expenseBalances"
+            [calendar]="selectedCalendar"
+            [expenses]="expenses"
+            [expenseBalances]="expenseBalances"
             [visibleDate]="mainService.visibleDate"
             [selectedDate]="mainService.visibleDate"
             (rangeChange)="onRangeChange($event)"
@@ -31,8 +31,8 @@
             <app-profile [user]="mainService.user" />
             <div class="border-bottom my-3"></div>
             <app-sidebar-calendar-list
-                [(calendars)]="mainService.calendars"
-                [calendar]="mainService.calendar"
+                [calendars]="calendars"
+                [calendar]="selectedCalendar"
                 (calendarChange)="onCalendarChange($event)" />
             <app-sidebar-actions class="mt-auto" />
         </div>

@@ -1,5 +1,5 @@
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { Component, DestroyRef, inject, NgZone, OnInit } from '@angular/core';
+import { Component, DestroyRef, inject, NgZone, OnInit, signal } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import {
     NbDateService,
@@ -13,6 +13,8 @@ import { AngularResizeEventModule, ResizedEvent } from 'angular-resize-event';
 import { ExpenseApiService } from '../../api/expense.api.service';
 import { Calendar } from '../../api/objects/calendar';
 import { Category } from '../../api/objects/category';
+import { Expense } from '../../api/objects/expense';
+import { ExpenseBalance } from '../../api/objects/expense-balance';
 import { User } from '../../api/objects/user';
 import { APP_CONFIG } from '../../app.initializer';
 import { SwipeEvent } from '../../interfaces/swipe.interface';
@@ -27,6 +29,8 @@ import { ProfileComponent } from './components/sidebar/profile/profile.component
 import { CalendarSidebarListComponent } from './components/sidebar/calendar-list/calendar-list.component';
 import { ActionsComponent } from './components/sidebar/actions/actions.component';
 import { take } from 'rxjs';
+import { injectQuery } from '@tanstack/angular-query-experimental';
+import { CalendarQueries } from '../../queries/calendar.queries';
 
 type MainRouteData = {
     user: User;
@@ -60,15 +64,67 @@ export class MainComponent implements OnInit {
     protected isApplicationBusy = false;
     protected isMobile = false;
 
+    private readonly selectedCalendarId = signal<number>(null);
+    private readonly calendarDateRange = signal<{ dateFrom: Date; dateTo: Date }>(null);
     private readonly destroyRef = inject(DestroyRef);
     private readonly router = inject(Router);
     private readonly activatedRoute = inject(ActivatedRoute);
     private readonly expenseApiService = inject(ExpenseApiService);
+    private readonly calendarQueries = inject(CalendarQueries);
     private readonly breakpointService = inject(NbMediaBreakpointsService);
     private readonly dateService = inject<NbDateService<Date>>(NbDateService);
     private readonly zone = inject(NgZone);
     private readonly sidebarService = inject(NbSidebarService);
     private readonly statementImportService = inject(StatementImportService);
+    private readonly calendarListQuery = injectQuery(() => this.calendarQueries.list());
+    private readonly calendarExpensesQuery = injectQuery(() => {
+        const calendarId = this.selectedCalendarId();
+        const dateRange = this.calendarDateRange();
+        const dateFrom = dateRange?.dateFrom ?? new Date(0);
+        const dateTo = dateRange?.dateTo ?? new Date(0);
+
+        return {
+            ...this.calendarQueries.expenseList(calendarId ?? 0, dateFrom, dateTo),
+            enabled: !!calendarId && !!dateRange,
+        };
+    });
+
+    protected get calendarBusy(): boolean {
+        return this.isCalendarBusy || this.calendarExpensesQuery.isFetching();
+    }
+
+    protected get calendars(): Calendar[] {
+        return this.calendarListQuery.data() ?? this.mainService.calendars ?? [];
+    }
+
+    protected get selectedCalendar(): Calendar {
+        const selectedCalendarId = this.selectedCalendarId();
+        const responseCalendar = this.calendarExpensesQuery.data()?.calendar;
+        if (responseCalendar?.id === selectedCalendarId) {
+            return responseCalendar;
+        }
+
+        return this.calendars.find((calendar: Calendar) => calendar.id === selectedCalendarId);
+    }
+
+    protected get expenses(): Expense[] {
+        return this.calendarExpensesQuery.data()?.expenses ?? [];
+    }
+
+    protected get expenseBalances(): ExpenseBalance[] {
+        return this.calendarExpensesQuery.data()?.expenseBalances ?? [];
+    }
+
+    protected get visibleDateBalance(): number {
+        return this.expenseBalances
+            .filter((balance: ExpenseBalance) => {
+                return (
+                    this.dateService.isSameYearSafe(this.mainService.visibleDate, balance.balanceAt) &&
+                    this.dateService.isSameMonthSafe(this.mainService.visibleDate, balance.balanceAt)
+                );
+            })
+            .reduce((sum: number, balance: ExpenseBalance) => sum + balance.change, 0);
+    }
 
     public ngOnInit(): void {
         this.bindBusyStates();
@@ -102,14 +158,12 @@ export class MainComponent implements OnInit {
     }
 
     public onRangeChange({ dateFrom, dateTo }: { dateFrom: Date; dateTo: Date }): void {
-        this.mainService.calendarDateFrom = dateFrom;
-        this.mainService.calendarDateTo = dateTo;
-
-        this.mainService.refreshCalendar();
+        this.calendarDateRange.set({ dateFrom, dateTo });
     }
 
     public onCalendarChange(calendar: Calendar): void {
-        this.mainService.refreshCalendar(calendar);
+        this.selectedCalendarId.set(calendar.id);
+        this.mainService.calendar = calendar;
     }
 
     public onSidebarOutsideClick(event: MouseEvent): void {
@@ -154,7 +208,10 @@ export class MainComponent implements OnInit {
         this.mainService.user = user;
         this.mainService.calendars = calendars;
         this.mainService.systemCategories = systemCategories;
-        this.mainService.calendar = this.getDefaultCalendar(user, calendars);
+        const defaultCalendar = this.getDefaultCalendar(user, calendars);
+
+        this.selectedCalendarId.set(defaultCalendar?.id ?? null);
+        this.mainService.calendar = defaultCalendar;
     }
 
     private getDefaultCalendar(user: User, calendars: Calendar[]): Calendar {
