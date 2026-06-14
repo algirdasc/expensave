@@ -66,6 +66,10 @@ export class ExpenseReportComponent {
         return this.reportQuery.isFetching();
     }
 
+    public get showEmptyLoader(): boolean {
+        return this.isBusy && this.categoryBalances.length === 0;
+    }
+
     public get categoryBalances(): CategoryBalance[] {
         return this.categoryBalancesValue();
     }

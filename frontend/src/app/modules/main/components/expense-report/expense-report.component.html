@@ -4,11 +4,7 @@
         <nb-icon icon="arrow-forward-outline" class="mx-3" />
         <span class="text-hint">{{ dateTo | date: 'mediumDate' }}</span>
     </nb-card-header>
-    <nb-card-body class="p-0">
-        @if (isBusy) {
-            <div class="p-5" [nbSpinner]="true"></div>
-        }
-
+    <nb-card-body class="p-0 report-body" [class.empty-loading]="showEmptyLoader" [nbSpinner]="isBusy">
         <nb-list>
             @for (categoryBalance of categoryBalances; track $index) {
                 <nb-list-item [@slideAnimation]>

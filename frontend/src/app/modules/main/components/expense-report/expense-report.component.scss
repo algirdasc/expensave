@@ -5,3 +5,11 @@
     max-height: 640px;
     width: 300px;
 }
+
+.report-body {
+    min-height: 0;
+}
+
+.report-body.empty-loading {
+    min-height: 96px;
+}
