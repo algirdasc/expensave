@@ -37,11 +37,17 @@ jobs:
           mkdir -p ./var/log
           chmod 775 ./var/cache
           chmod 775 ./var/log
-          php -v
-      - name: Packages install
-        uses: php-actions/composer@v6
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
         with:
-          args: --profile --ignore-platform-reqs
+          php-version: '8.4'
+          extensions: ctype, gd, iconv, zip, intl, mbstring, curl, pdo, pdo_mysql, sysvsem, dom
+          coverage: xdebug
+          tools: composer:v2
+      - name: Show PHP version
+        run: php -v
+      - name: Packages install
+        run: composer install --profile --no-interaction --no-progress
 #      - name: Run PHPCS
 #        uses: php-actions/phpcs@v1
 #        with:
@@ -50,23 +56,15 @@ jobs:
       - name: Warmup cache for PHPStan
         run: php bin/console cache:warmup -n --env=dev
       - name: Run PHPStan
-        uses: php-actions/phpstan@v3
         env:
           APP_ENV: dev
-        with:
-          php_version: 8.3
-          path: 'src/'
+        run: vendor/bin/phpstan analyse
       - name: Create schema for testing
         run: php bin/console doctrine:schema:create -n --env=test
       - name: Run PHPUnit
-        uses: php-actions/phpunit@v4
         env:
           XDEBUG_MODE: coverage
-        with:
-          php_version: 8.3
-          php_extensions: xdebug pdo pdo_mysql
-          coverage_clover: coverage.xml
-          log_junit: report.xml
+        run: php bin/phpunit --coverage-clover coverage.xml --log-junit report.xml
 
   frontend-code-quality:
     name: Frontend code quality checks

@@ -1,4 +1,4 @@
-FROM php:8.3-apache AS expensave-base
+FROM php:8.4-apache AS expensave-base
 
 LABEL org.opencontainers.image.authors="algirdas@cici.lt"
 
