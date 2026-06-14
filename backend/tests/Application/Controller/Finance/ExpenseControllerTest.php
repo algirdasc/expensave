@@ -146,6 +146,40 @@ class ExpenseControllerTest extends ApplicationTestCase
         );
     }
 
+    public function testCreateWithBalanceUpdateCategoryReturnsValidationError(): void
+    {
+        $this->client->jsonRequest('POST', '/api/expense', [
+            'label' => 'Invalid Balance Update Category',
+            'calendar' => $this->getCalendarId('User 1 Calendar'),
+            'category' => $this->getCategoryId('Balance Update'),
+            'createdAt' => '2024-05-15 15:30:15',
+            'amount' => -10,
+        ]);
+
+        $this->assertResponseStatusCodeSame(Response::HTTP_UNPROCESSABLE_ENTITY);
+
+        $response = $this->getJsonResponse($this->client);
+        $this->assertSame('App\Exception\RequestValidationException', $response['throwable']);
+        $this->assertSame('category', $response['messages'][0]['propertyPath']);
+    }
+
+    public function testUpdateWithBalanceUpdateCategoryReturnsValidationError(): void
+    {
+        $this->client->jsonRequest('PUT', sprintf('/api/expense/%d', $this->getExpenseId('Test expense 0', 'User 1 Calendar')), [
+            'label' => 'Invalid Balance Update Category',
+            'calendar' => $this->getCalendarId('User 1 Calendar'),
+            'category' => $this->getCategoryId('Balance Update'),
+            'createdAt' => '2024-05-15 15:30:15',
+            'amount' => -10,
+        ]);
+
+        $this->assertResponseStatusCodeSame(Response::HTTP_UNPROCESSABLE_ENTITY);
+
+        $response = $this->getJsonResponse($this->client);
+        $this->assertSame('App\Exception\RequestValidationException', $response['throwable']);
+        $this->assertSame('category', $response['messages'][0]['propertyPath']);
+    }
+
     public function testExpenseLifecycle(): void
     {
         $calendarId = $this->getCalendarId('User 1 Calendar');

@@ -37,9 +37,9 @@ class DailyExpenseReportServiceTest extends ApplicationTestCase
         $this->assertEquals(-75, $balancesByDate['2024-01-05']->getExpense());
         $this->assertEquals(25, $balancesByDate['2024-02-10']->getIncome());
         $this->assertEquals(30, $balancesByDate['2024-03-15']->getIncome());
-        $this->assertEquals(-9, $balancesByDate['2024-04-20']->getExpense());
-        $this->assertEquals(-50, $balancesByDate['2024-08-20']->getExpense());
-        $this->assertEquals(30, $balancesByDate['2024-09-25']->getIncome());
-        $this->assertEquals(-49, $balancesByDate['2024-12-31']->getBalance());
+        $this->assertEquals(0, $balancesByDate['2024-04-20']->getExpense());
+        $this->assertEquals(0, $balancesByDate['2024-08-20']->getExpense());
+        $this->assertEquals(0, $balancesByDate['2024-09-25']->getIncome());
+        $this->assertEquals(-20, $balancesByDate['2024-12-31']->getBalance());
     }
 }

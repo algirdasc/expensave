@@ -72,6 +72,47 @@ class BalanceUpdateControllerTest extends ApplicationTestCase
         $this->assertResponseStatusCodeSame(Response::HTTP_NOT_FOUND);
     }
 
+    public function testUpdateRegularExpenseAsBalanceUpdateReturnsNotFound(): void
+    {
+        $this->client->jsonRequest('PUT', sprintf('/api/balance-update/%d', $this->getExpenseId('Test expense 0', 'User 1 Calendar')), [
+            'calendar' => $this->getCalendarId('User 1 Calendar'),
+            'createdAt' => '2024-05-15 15:30:15',
+            'amount' => 400,
+        ]);
+
+        $this->assertResponseStatusCodeSame(Response::HTTP_NOT_FOUND);
+    }
+
+    public function testDeleteRegularExpenseAsBalanceUpdateReturnsNotFound(): void
+    {
+        $this->client->jsonRequest('DELETE', sprintf('/api/balance-update/%d', $this->getExpenseId('Test expense 0', 'User 1 Calendar')));
+
+        $this->assertResponseStatusCodeSame(Response::HTTP_NOT_FOUND);
+    }
+
+    public function testUpdateExcludesExistingBalanceUpdateFromAmountCalculation(): void
+    {
+        $calendarId = $this->getCalendarId('User 1 Calendar');
+
+        $this->client->jsonRequest('POST', '/api/balance-update', [
+            'calendar' => $calendarId,
+            'createdAt' => '2024-05-15 15:30:15',
+            'amount' => 300,
+        ]);
+
+        $this->assertResponseIsSuccessful();
+        $balanceUpdateId = $this->getJsonResponse($this->client)['id'];
+
+        $this->client->jsonRequest('PUT', sprintf('/api/balance-update/%d', $balanceUpdateId), [
+            'calendar' => $calendarId,
+            'createdAt' => '2024-12-31 15:30:15',
+            'amount' => 400,
+        ]);
+
+        $this->assertResponseIsSuccessful();
+        $this->assertSame(420, $this->getJsonResponse($this->client)['amount']);
+    }
+
     public function testCreateWithInvalidPayloadReturnsValidationError(): void
     {
         $this->client->jsonRequest('POST', '/api/balance-update', [

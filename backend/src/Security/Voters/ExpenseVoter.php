@@ -18,7 +18,12 @@ class ExpenseVoter extends Voter
 
     protected function supports(string $attribute, mixed $subject): bool
     {
-        return $subject instanceof Expense;
+        return $subject instanceof Expense
+            && in_array($attribute, [
+                self::VIEW,
+                self::EDIT,
+                self::DELETE,
+            ], true);
     }
 
     /**
@@ -32,9 +37,10 @@ class ExpenseVoter extends Voter
             return false;
         }
 
-        return match($attribute) {
+        return match ($attribute) {
             self::VIEW => $subject->getUser() === $user || $subject->getCalendar()->getOwner() === $user || $subject->getCalendar()->getCollaborators()->contains($user),
-            default => $subject->getUser() === $user
+            self::EDIT, self::DELETE => $subject->getUser() === $user,
+            default => false,
         };
     }
 }

@@ -39,7 +39,8 @@ readonly abstract class AbstractExpenseReportService extends AbstractReportServi
         foreach ($period as $dt) {
             $dailyExpenses = $expenses
                 ->filter(function (Expense $expense) use ($dt) {
-                    return $expense->getCreatedAt()->format($this->getDateGroupingFormat()) === $dt->format($this->getDateGroupingFormat());
+                    return $expense->isConfirmed()
+                        && $expense->getCreatedAt()->format($this->getDateGroupingFormat()) === $dt->format($this->getDateGroupingFormat());
                 });
 
             $balance = ExpenseBalanceFactory::createFromExpenseArray($dt, $dailyExpenses->toArray());

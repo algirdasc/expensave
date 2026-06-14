@@ -11,6 +11,7 @@ use App\Repository\CategoryRepository;
 use App\Request\Category\CreateCategoryRequest;
 use App\Request\Category\UpdateCategoryRequest;
 use App\Response\EmptyResponse;
+use App\Service\CategoryService;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Attribute\Route;
@@ -20,6 +21,7 @@ class CategoryController extends AbstractApiController
 {
     public function __construct(
         private readonly CategoryRepository $categoryRepository,
+        private readonly CategoryService $categoryService,
     ) {
     }
 
@@ -53,13 +55,7 @@ class CategoryController extends AbstractApiController
     #[Route('', name: 'create', methods: Request::METHOD_POST)]
     public function create(CreateCategoryRequest $request): JsonResponse
     {
-        $category = (new Category())
-            ->setName($request->getName())
-            ->setColor($request->getColor())
-            ->setType(CategoryType::USER)
-        ;
-
-        $this->categoryRepository->save($category);
+        $category = $this->categoryService->create($request);
 
         return $this->respond($category);
     }
@@ -67,12 +63,7 @@ class CategoryController extends AbstractApiController
     #[Route('/{category}', name: 'update', methods: Request::METHOD_PUT)]
     public function update(Category $category, UpdateCategoryRequest $request): JsonResponse
     {
-        $category
-            ->setName($request->getName())
-            ->setColor($request->getColor())
-        ;
-
-        $this->categoryRepository->save($category);
+        $category = $this->categoryService->update($category, $request);
 
         return $this->respond($category);
     }
@@ -80,11 +71,7 @@ class CategoryController extends AbstractApiController
     #[Route('/{category}', name: 'remove', methods: Request::METHOD_DELETE)]
     public function remove(Category $category): JsonResponse
     {
-        if (!$category->isDefinedByUser()) {
-            throw $this->createAccessDeniedException();
-        }
-
-        $this->categoryRepository->remove($category);
+        $this->categoryService->remove($category);
 
         return $this->respond(new EmptyResponse());
     }

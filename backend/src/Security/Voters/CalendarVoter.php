@@ -6,7 +6,6 @@ namespace App\Security\Voters;
 
 use App\Entity\Calendar;
 use App\Entity\User;
-use App\Enum\CalendarPermission;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Vote;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
@@ -21,7 +20,14 @@ class CalendarVoter extends Voter
 
     protected function supports(string $attribute, mixed $subject): bool
     {
-        return $subject instanceof Calendar;
+        return $subject instanceof Calendar
+            && in_array($attribute, [
+                self::VIEW,
+                self::EDIT,
+                self::DELETE,
+                self::ADD_EXPENSE,
+                self::IMPORT,
+            ], true);
     }
 
     /**
@@ -37,7 +43,8 @@ class CalendarVoter extends Voter
 
         return match ($attribute) {
             self::VIEW, self::ADD_EXPENSE => $user->getCalendars()->contains($subject) || $user->getSharedCalendars()->contains($subject),
-            default => $user->getCalendars()->contains($subject),
+            self::EDIT, self::DELETE, self::IMPORT => $user->getCalendars()->contains($subject),
+            default => false,
         };
     }
 }
