@@ -1,0 +1,70 @@
+<nb-card [nbSpinner]="isBusy" class="dialog">
+    <nb-card-header class="d-flex align-items-center justify-content-between">
+        Manage users
+        <button nbButton type="button" status="primary" ghost (click)="dialogRef.close()">
+            <nb-icon icon="close-outline" />
+        </button>
+    </nb-card-header>
+
+    <nb-card-body>
+        @if (temporaryPassword) {
+            <nb-alert accent="success">
+                <div>
+                    Password for {{ temporaryPasswordUser?.name }}:
+                    <code style="color: brown">{{ temporaryPassword }}</code>
+                </div>
+            </nb-alert>
+        }
+
+        <nb-list>
+            @for (user of users; track user.id) {
+                <nb-list-item>
+                    <nb-user
+                        [picture]="user.avatar"
+                        [name]="user.name"
+                        [title]="user.email"
+                        class="w-100" />
+                    @if (!user.active) {
+                        <nb-badge text="DEACTIVATED" status="danger" style="position: relative" class="mx-1" />
+                    } @else {
+                        <nb-select
+                            size="small"
+                            class="mx-1"
+                            [(ngModel)]="user.role"
+                            [disabled]="isBusy || currentUser?.id === user.id"
+                            (ngModelChange)="updateRole(user, $event)">
+                            @for (role of roles; track role) {
+                                <nb-option [value]="role">{{ role === 'admin' ? 'Admin' : 'User' }}</nb-option>
+                            }
+                        </nb-select>
+                    }
+                    <nb-actions size="small">
+                        <nb-action
+                            icon="email-outline"
+                            nbTooltip="Send reset email"
+                            (click)="sendPasswordReset(user)"
+                            [disabled]="isBusy || !user.active || currentUser?.id === user.id" />
+                        <nb-action
+                            icon="shield-outline"
+                            nbTooltip="Generate new password"
+                            (click)="resetPassword(user)"
+                            [disabled]="isBusy || !user.active || currentUser?.id === user.id" />
+                        @if (user.active) {
+                            <nb-action
+                                icon="person-remove-outline"
+                                nbTooltip="Deactivate user"
+                                (click)="deactivateUser(user)"
+                                [disabled]="isBusy || currentUser?.id === user.id" />
+                        } @else {
+                            <nb-action
+                                icon="person-add-outline"
+                                nbTooltip="Activate user"
+                                (click)="activateUser(user)"
+                                [disabled]="isBusy || currentUser?.id === user.id" />
+                        }
+                    </nb-actions>
+                </nb-list-item>
+            }
+        </nb-list>
+    </nb-card-body>
+</nb-card>

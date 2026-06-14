@@ -1,21 +1,29 @@
-import { Component, inject } from '@angular/core';
-import { NbActionsModule, NbDialogService, NbTooltipModule } from '@nebular/theme';
+import { Component, inject, Input } from '@angular/core';
+import { NbActionsModule, NbButtonModule, NbDialogService, NbIconModule, NbTooltipModule } from '@nebular/theme';
 import { environment } from '../../../../../../environments/environment';
+import { User } from '../../../../../api/objects/user';
 import { CategoriesDialogComponent } from '../../../dialogs/categories-dialog/categories-dialog.component';
+import { AdminUsersDialogComponent } from '../../../dialogs/admin-users-dialog/admin-users-dialog.component';
+import { ProfileDialogComponent } from '../../../dialogs/profile-dialog/profile-dialog.component';
 import { StatementImportService } from '../../../services/statement-import.service';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
+import { ConfirmDialogComponent } from '../../../dialogs/confirm-dialog/confirm-dialog.component';
 
 @Component({
     selector: 'app-sidebar-actions',
     templateUrl: 'actions.component.html',
     styleUrl: 'actions.component.scss',
-    imports: [NbActionsModule, RouterLink, NbTooltipModule],
+    imports: [NbActionsModule, RouterLink, NbTooltipModule, NbButtonModule, NbIconModule],
 })
 export class ActionsComponent {
+    @Input()
+    public user: User;
+
     protected statementImportService = inject(StatementImportService);
     protected readonly environment = environment;
 
     private dialogService = inject(NbDialogService);
+    private router = inject(Router);
 
     public editCategories(): void {
         this.dialogService.open(CategoriesDialogComponent, {
@@ -23,5 +31,33 @@ export class ActionsComponent {
                 isSelectable: false,
             },
         });
+    }
+
+    public editProfile(): void {
+        this.dialogService.open(ProfileDialogComponent, { autoFocus: false });
+    }
+
+    public manageUsers(): void {
+        this.dialogService.open(AdminUsersDialogComponent, {
+            autoFocus: false,
+            context: {
+                currentUser: this.user,
+            },
+        });
+    }
+
+    public showLogoutConfirmDialog(): void {
+        this.dialogService
+            .open(ConfirmDialogComponent, {
+                autoFocus: true,
+                context: {
+                    question: 'Are you sure you want to logout?',
+                },
+            })
+            .onClose.subscribe((result: boolean) => {
+                if (result) {
+                    this.router.navigate(['/auth/logout']);
+                }
+            });
     }
 }

@@ -2,6 +2,9 @@
     <nb-actions size="small">
         <nb-action icon="bar-chart-outline" routerLink="/reports" nbTooltip="Reports" />
         <nb-action icon="pricetags-outline" (click)="editCategories()" nbTooltip="Categories" />
+        @if (user?.isAdmin) {
+            <nb-action icon="people-outline" (click)="manageUsers()" nbTooltip="Users" />
+        }
         @if (statementImportService.expenses.length) {
             <nb-action
                 icon="attach-2-outline"
@@ -10,6 +13,8 @@
                 badgePosition="top right"
                 badgeStatus="danger" />
         }
+        <nb-action icon="person-outline" (click)="editProfile()" nbTooltip="Profile" />
+        <nb-action icon="log-out-outline" (click)="showLogoutConfirmDialog()" nbTooltip="Logout" />
     </nb-actions>
 </div>
 

@@ -20,10 +20,16 @@ describe('UserQueries', () => {
         queryClient = jasmine.createSpyObj<QueryClient>('QueryClient', ['invalidateQueries', 'setQueryData']);
         queryClient.invalidateQueries.and.resolveTo();
         userApiService = jasmine.createSpyObj<UserApiService>('UserApiService', [
+            'activate',
+            'adminList',
             'changePassword',
+            'deactivate',
             'defaultCalendar',
             'list',
             'profile',
+            'resetPassword',
+            'sendPasswordReset',
+            'updateRole',
         ]);
 
         TestBed.configureTestingModule({
@@ -59,6 +65,17 @@ describe('UserQueries', () => {
         expect(userApiService.list).toHaveBeenCalledOnceWith();
     });
 
+    it('builds the admin user list query and delegates to the API service', async (): Promise<void> => {
+        const users = [userWithId(1), userWithId(2)];
+        const query = userQueries.adminProfiles();
+
+        userApiService.adminList.and.returnValue(of(users));
+
+        expect(query.queryKey).toEqual(QueryKeys.user.adminList);
+        await expectAsync(queryFn<User[]>(query)()).toBeResolvedTo(users);
+        expect(userApiService.adminList).toHaveBeenCalledOnceWith();
+    });
+
     it('sets default calendar, updates the profile cache, and invalidates the user list', async (): Promise<void> => {
         const calendar = calendarWithId(7);
         const user = userWithId(3);
@@ -89,6 +106,82 @@ describe('UserQueries', () => {
 
         expect(queryClient.setQueryData).toHaveBeenCalledOnceWith(QueryKeys.user.profile, user);
         expect(queryClient.invalidateQueries).toHaveBeenCalledOnceWith({ queryKey: QueryKeys.user.list });
+    });
+
+    it('updates a user role and invalidates user caches', async (): Promise<void> => {
+        const user = userWithId(8);
+        const updatedUser = userWithId(8);
+        updatedUser.role = 'admin';
+        const mutation = userQueries.updateRole();
+
+        userApiService.updateRole.and.returnValue(of(updatedUser));
+
+        await expectAsync(
+            mutationFn<User, { user: User; role: 'admin' }>(mutation)({ user, role: 'admin' })
+        ).toBeResolvedTo(updatedUser);
+        expect(userApiService.updateRole).toHaveBeenCalledOnceWith(user, 'admin');
+
+        await mutation.onSuccess?.(updatedUser, { user, role: 'admin' }, undefined, undefined);
+
+        expect(queryClient.invalidateQueries).toHaveBeenCalledWith({ queryKey: QueryKeys.user.profile });
+        expect(queryClient.invalidateQueries).toHaveBeenCalledWith({ queryKey: QueryKeys.user.list });
+        expect(queryClient.invalidateQueries).toHaveBeenCalledWith({ queryKey: QueryKeys.user.adminList });
+    });
+
+    it('activates a user and invalidates user caches', async (): Promise<void> => {
+        const user = userWithId(11);
+        const updatedUser = userWithId(11);
+        updatedUser.active = true;
+        const mutation = userQueries.activate();
+
+        userApiService.activate.and.returnValue(of(updatedUser));
+
+        await expectAsync(mutationFn<User, User>(mutation)(user)).toBeResolvedTo(updatedUser);
+        expect(userApiService.activate).toHaveBeenCalledOnceWith(user);
+
+        await mutation.onSuccess?.(updatedUser, user, undefined, undefined);
+
+        expect(queryClient.invalidateQueries).toHaveBeenCalledWith({ queryKey: QueryKeys.user.profile });
+        expect(queryClient.invalidateQueries).toHaveBeenCalledWith({ queryKey: QueryKeys.user.list });
+        expect(queryClient.invalidateQueries).toHaveBeenCalledWith({ queryKey: QueryKeys.user.adminList });
+    });
+
+    it('deactivates a user and invalidates user caches', async (): Promise<void> => {
+        const user = userWithId(12);
+        const updatedUser = userWithId(12);
+        updatedUser.active = false;
+        const mutation = userQueries.deactivate();
+
+        userApiService.deactivate.and.returnValue(of(updatedUser));
+
+        await expectAsync(mutationFn<User, User>(mutation)(user)).toBeResolvedTo(updatedUser);
+        expect(userApiService.deactivate).toHaveBeenCalledOnceWith(user);
+
+        await mutation.onSuccess?.(updatedUser, user, undefined, undefined);
+
+        expect(queryClient.invalidateQueries).toHaveBeenCalledWith({ queryKey: QueryKeys.user.profile });
+        expect(queryClient.invalidateQueries).toHaveBeenCalledWith({ queryKey: QueryKeys.user.list });
+        expect(queryClient.invalidateQueries).toHaveBeenCalledWith({ queryKey: QueryKeys.user.adminList });
+    });
+
+    it('sends a password reset email', async (): Promise<void> => {
+        const user = userWithId(9);
+        const mutation = userQueries.sendPasswordReset();
+
+        userApiService.sendPasswordReset.and.returnValue(of(undefined));
+
+        await expectAsync(mutationFn<void, User>(mutation)(user)).toBeResolved();
+        expect(userApiService.sendPasswordReset).toHaveBeenCalledOnceWith(user);
+    });
+
+    it('resets a user password and returns a temporary password', async (): Promise<void> => {
+        const user = userWithId(10);
+        const mutation = userQueries.resetPassword();
+
+        userApiService.resetPassword.and.returnValue(of({ password: 'temporary-password' }));
+
+        await expectAsync(mutationFn<string, User>(mutation)(user)).toBeResolvedTo('temporary-password');
+        expect(userApiService.resetPassword).toHaveBeenCalledOnceWith(user);
     });
 });
 

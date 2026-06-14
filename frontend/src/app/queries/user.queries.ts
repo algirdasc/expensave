@@ -5,7 +5,7 @@ import { mutationOptions, QueryClient, queryOptions } from '@tanstack/angular-qu
 import { lastValueFrom } from 'rxjs';
 import { UserApiService } from '../api/user.api.service';
 import { Calendar } from '../api/objects/calendar';
-import { User } from '../api/objects/user';
+import { User, UserRole } from '../api/objects/user';
 import { QueryKeys } from './query-keys';
 import { PasswordRequest } from '../api/request/password.request';
 
@@ -26,6 +26,13 @@ export class UserQueries {
         return queryOptions({
             queryKey: QueryKeys.user.list,
             queryFn: (): Promise<User[]> => lastValueFrom(this.userApiService.list()),
+        });
+    }
+
+    public adminProfiles() {
+        return queryOptions({
+            queryKey: QueryKeys.user.adminList,
+            queryFn: (): Promise<User[]> => lastValueFrom(this.userApiService.adminList()),
         });
     }
 
@@ -53,5 +60,51 @@ export class UserQueries {
                 return this.queryClient.invalidateQueries({ queryKey: QueryKeys.user.list });
             },
         });
+    }
+
+    public updateRole() {
+        return mutationOptions({
+            mutationKey: ['user', 'update-role'],
+            mutationFn: ({ user, role }: { user: User; role: UserRole }): Promise<User> =>
+                lastValueFrom(this.userApiService.updateRole(user, role)),
+            onSuccess: (): Promise<void> => this.invalidateUsers(),
+        });
+    }
+
+    public activate() {
+        return mutationOptions({
+            mutationKey: ['user', 'activate'],
+            mutationFn: (user: User): Promise<User> => lastValueFrom(this.userApiService.activate(user)),
+            onSuccess: (): Promise<void> => this.invalidateUsers(),
+        });
+    }
+
+    public deactivate() {
+        return mutationOptions({
+            mutationKey: ['user', 'deactivate'],
+            mutationFn: (user: User): Promise<User> => lastValueFrom(this.userApiService.deactivate(user)),
+            onSuccess: (): Promise<void> => this.invalidateUsers(),
+        });
+    }
+
+    public sendPasswordReset() {
+        return mutationOptions({
+            mutationKey: ['user', 'send-password-reset'],
+            mutationFn: (user: User): Promise<void> => lastValueFrom(this.userApiService.sendPasswordReset(user)),
+        });
+    }
+
+    public resetPassword() {
+        return mutationOptions({
+            mutationKey: ['user', 'reset-password'],
+            mutationFn: (user: User): Promise<string> =>
+                lastValueFrom(this.userApiService.resetPassword(user)).then(response => response.password),
+        });
+    }
+
+    private async invalidateUsers(): Promise<void> {
+        await this.queryClient.invalidateQueries({ queryKey: QueryKeys.user.profile });
+        await this.queryClient.invalidateQueries({ queryKey: QueryKeys.user.list });
+        await this.queryClient.invalidateQueries({ queryKey: QueryKeys.user.adminList });
     }
 }

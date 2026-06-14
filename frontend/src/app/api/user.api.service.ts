@@ -4,8 +4,12 @@ import { plainToInstance } from 'class-transformer';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Calendar } from './objects/calendar';
-import { User } from './objects/user';
+import { User, UserRole } from './objects/user';
 import { PasswordRequest } from './request/password.request';
+
+export interface TemporaryPasswordResponse {
+    password: string;
+}
 
 @Injectable({ providedIn: 'root' })
 export class UserApiService {
@@ -34,6 +38,38 @@ export class UserApiService {
         return this.http
             .get(`${this.backend}`)
             .pipe(map(response => plainToInstance(User, <User[]>response, { excludeExtraneousValues: true })));
+    }
+
+    public adminList(): Observable<User[]> {
+        return this.http
+            .get('/admin/users')
+            .pipe(map(response => plainToInstance(User, <User[]>response, { excludeExtraneousValues: true })));
+    }
+
+    public updateRole(user: User, role: UserRole): Observable<User> {
+        return this.http
+            .put(`/admin/users/${user.id}/role`, { role })
+            .pipe(map((response: HttpResponse<User>) => this.convertToType(response)));
+    }
+
+    public activate(user: User): Observable<User> {
+        return this.http
+            .put(`/admin/users/${user.id}/activate`, {})
+            .pipe(map((response: HttpResponse<User>) => this.convertToType(response)));
+    }
+
+    public deactivate(user: User): Observable<User> {
+        return this.http
+            .put(`/admin/users/${user.id}/deactivate`, {})
+            .pipe(map((response: HttpResponse<User>) => this.convertToType(response)));
+    }
+
+    public sendPasswordReset(user: User): Observable<void> {
+        return this.http.post<void>(`/admin/users/${user.id}/password-reset`, {});
+    }
+
+    public resetPassword(user: User): Observable<TemporaryPasswordResponse> {
+        return this.http.post<TemporaryPasswordResponse>(`/admin/users/${user.id}/temporary-password`, {});
     }
 
     private convertToType(response: HttpResponse<User>): User {
