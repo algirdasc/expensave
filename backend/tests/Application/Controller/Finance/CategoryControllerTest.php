@@ -25,19 +25,36 @@ class CategoryControllerTest extends ApplicationTestCase
     public function testList(): void
     {
         $this->client->jsonRequest('GET', '/api/category');
-        $response = $this->client->getResponse();
 
         $this->assertResponseIsSuccessful();
-        $this->assertResponseEqualToJson($response, 'Response/Category/category-list.json');
+
+        $categories = $this->indexBy($this->getJsonResponse($this->client), 'name');
+        $this->assertCount(3, $categories);
+        $this->assertSame('#00ff00', $categories['Category 1']['color']);
+        $this->assertSame('user', $categories['Category 1']['type']);
+        $this->assertTrue($categories['Category 1']['definedByUser']);
+        $this->assertSame('#ffff00', $categories['Category 2']['color']);
+        $this->assertSame('user', $categories['Category 2']['type']);
+        $this->assertTrue($categories['Category 2']['definedByUser']);
+        $this->assertSame('#00ffff', $categories['Uncategorized']['color']);
+        $this->assertSame('uncategorized', $categories['Uncategorized']['type']);
+        $this->assertFalse($categories['Uncategorized']['definedByUser']);
     }
 
     public function testSystemList(): void
     {
         $this->client->jsonRequest('GET', '/api/category/system');
-        $response = $this->client->getResponse();
 
         $this->assertResponseIsSuccessful();
-        $this->assertResponseEqualToJson($response, 'Response/Category/category-system-list.json');
+
+        $categories = $this->indexBy($this->getJsonResponse($this->client), 'name');
+        $this->assertCount(2, $categories);
+        $this->assertSame('#00ffff', $categories['Uncategorized']['color']);
+        $this->assertSame('uncategorized', $categories['Uncategorized']['type']);
+        $this->assertFalse($categories['Uncategorized']['definedByUser']);
+        $this->assertSame('#0fff0f', $categories['Balance Update']['color']);
+        $this->assertSame('balance_update', $categories['Balance Update']['type']);
+        $this->assertFalse($categories['Balance Update']['definedByUser']);
     }
 
     public function testCategoryLifecycle(): void

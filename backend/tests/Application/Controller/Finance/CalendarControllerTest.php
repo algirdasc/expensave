@@ -27,7 +27,21 @@ class CalendarControllerTest extends ApplicationTestCase
         $this->client->jsonRequest('GET', '/api/calendar');
 
         $this->assertResponseIsSuccessful();
-        $this->assertResponseEqualToJson($this->client->getResponse(), 'Response/Calendar/calendar-list.json');
+
+        $calendars = $this->indexBy($this->getJsonResponse($this->client), 'name');
+        $this->assertCount(2, $calendars);
+        $this->assertArrayHasKey('User 1 Calendar', $calendars);
+        $this->assertArrayHasKey('Shared Calendar', $calendars);
+
+        $this->assertIsInt($calendars['User 1 Calendar']['id']);
+        $this->assertSame(-75, $calendars['User 1 Calendar']['balance']);
+        $this->assertFalse($calendars['User 1 Calendar']['shared']);
+        $this->assertSame('user1@email.com', $calendars['User 1 Calendar']['owner']['email']);
+
+        $this->assertIsInt($calendars['Shared Calendar']['id']);
+        $this->assertSame(0, $calendars['Shared Calendar']['balance']);
+        $this->assertTrue($calendars['Shared Calendar']['shared']);
+        $this->assertSame('user1@email.com', $calendars['Shared Calendar']['owner']['email']);
     }
 
     public function testListExpenses(): void

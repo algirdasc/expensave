@@ -35,7 +35,14 @@ class RegistrationControllerTest extends ApplicationTestCase
         $registeredClient = $this->getAuthenticatedClient($this->getUser('Registered User'));
 
         $registeredClient->jsonRequest('GET', '/api/user/profile');
-        $this->assertResponseEqualToJson($registeredClient->getResponse(), 'Response/Auth/user-registration.json');
+        $this->assertResponseIsSuccessful();
+
+        $profile = $this->getJsonResponse($registeredClient);
+        $this->assertIsInt($profile['id']);
+        $this->assertSame('registration@email.com', $profile['email']);
+        $this->assertSame('Registered User', $profile['name']);
+        $this->assertTrue($profile['active']);
+        $this->assertIsInt($profile['defaultCalendarId']);
     }
 
     public function testDisabledRegistration(): void

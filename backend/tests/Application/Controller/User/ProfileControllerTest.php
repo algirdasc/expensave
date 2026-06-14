@@ -26,7 +26,15 @@ class ProfileControllerTest extends ApplicationTestCase
         $this->client->jsonRequest('GET', '/api/user');
 
         $this->assertResponseIsSuccessful();
-        $this->assertResponseEqualToJson($this->client->getResponse(), 'Response/User/user-list.json');
+
+        $users = $this->indexBy($this->getJsonResponse($this->client), 'email');
+        $this->assertCount(2, $users);
+        $this->assertArrayHasKey('user1@email.com', $users);
+        $this->assertArrayHasKey('user2@email.com', $users);
+        $this->assertSame('User 1', $users['user1@email.com']['name']);
+        $this->assertSame('User 2', $users['user2@email.com']['name']);
+        $this->assertTrue($users['user1@email.com']['active']);
+        $this->assertTrue($users['user2@email.com']['active']);
     }
 
     public function testChangePassword(): void
@@ -47,7 +55,13 @@ class ProfileControllerTest extends ApplicationTestCase
         $this->client->jsonRequest('PUT', sprintf('/api/user/default-calendar/%d', $calendarId));
 
         $this->assertResponseIsSuccessful();
-        $this->assertResponseEqualToJson($this->client->getResponse(), 'Response/User/user-default-calendar.json');
+
+        $profile = $this->getJsonResponse($this->client);
+        $this->assertIsInt($profile['id']);
+        $this->assertSame('user1@email.com', $profile['email']);
+        $this->assertSame('User 1', $profile['name']);
+        $this->assertTrue($profile['active']);
+        $this->assertSame($calendarId, $profile['defaultCalendarId']);
     }
 
     public function testProfile(): void
@@ -55,6 +69,12 @@ class ProfileControllerTest extends ApplicationTestCase
         $this->client->jsonRequest('GET', '/api/user/profile');
 
         $this->assertResponseIsSuccessful();
-        $this->assertResponseEqualToJson($this->client->getResponse(), 'Response/User/user-profile.json');
+
+        $profile = $this->getJsonResponse($this->client);
+        $this->assertIsInt($profile['id']);
+        $this->assertSame('user1@email.com', $profile['email']);
+        $this->assertSame('User 1', $profile['name']);
+        $this->assertTrue($profile['active']);
+        $this->assertNull($profile['defaultCalendarId']);
     }
 }
