@@ -12,13 +12,10 @@ import {
 } from '@nebular/theme';
 import { User } from '../../../../api/objects/user';
 import { PasswordRequest } from '../../../../api/request/password.request';
-import { UserApiService } from '../../../../api/user.api.service';
 import { AuthOptionsService } from '../../../../services/auth-options.service';
 import { FormsModule } from '@angular/forms';
-import { injectQuery, QueryClient } from '@tanstack/angular-query-experimental';
+import { injectMutation, injectQuery } from '@tanstack/angular-query-experimental';
 import { UserQueries } from '../../../../queries/user.queries';
-import { finalize } from 'rxjs/operators';
-import { QueryKeys } from '../../../../queries/query-keys';
 
 @Component({
     templateUrl: 'profile-dialog.component.html',
@@ -41,30 +38,25 @@ export class ProfileDialogComponent {
     public readonly passwordMinLength: number = this.authOptions.getConfigValue('forms.validation.password.minLength');
     public readonly passwordMaxLength: number = this.authOptions.getConfigValue('forms.validation.password.maxLength');
 
-    private readonly userApiService = inject(UserApiService);
     private readonly userQueries = inject(UserQueries);
-    private readonly queryClient = inject(QueryClient);
     private readonly toastrService = inject(NbToastrService);
     private readonly profileQuery = injectQuery(() => this.userQueries.profile());
-    private isChangingPassword = false;
+    private readonly changePasswordMutation = injectMutation(() => this.userQueries.changePassword());
 
     public get user(): User {
         return this.profileQuery.data() ?? new User();
     }
 
     public get isBusy(): boolean {
-        return this.isChangingPassword || this.profileQuery.isFetching();
+        return this.changePasswordMutation.isPending() || this.profileQuery.isFetching();
     }
 
     public onSubmit(): void {
-        this.isChangingPassword = true;
-        this.userApiService
-            .changePassword(this.passwordRequest)
-            .pipe(finalize(() => (this.isChangingPassword = false)))
-            .subscribe((user: User) => {
-                this.queryClient.setQueryData(QueryKeys.user.profile, user);
+        this.changePasswordMutation.mutate(this.passwordRequest, {
+            onSuccess: (user: User) => {
                 this.toastrService.success('Password changed successfully!', 'Password change');
                 this.dialogRef.close(user);
-            });
+            },
+        });
     }
 }

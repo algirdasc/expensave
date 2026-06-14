@@ -68,11 +68,6 @@ export class ExpenseReportComponent {
         return this.reportQuery.isFetching();
     }
 
-    public createRange(number: number): number[] {
-        // return new Array(number);
-        return new Array(number).fill(0).map((n, index) => index + 1);
-    }
-
     private applyCategoryExpensesReport(response: CategoryExpenseReportResponse): void {
         const balances = response.categoryBalances.filter(
             (categoryBalance: CategoryBalance) => categoryBalance.change !== 0

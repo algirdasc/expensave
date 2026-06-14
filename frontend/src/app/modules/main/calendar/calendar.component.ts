@@ -35,15 +35,10 @@ export class CalendarComponent extends NbCalendarDayPickerComponent<Date, Date> 
 
     public cellComponent: Type<CalendarCellInterface> = CalendarGridRowCellDesktopComponent;
 
-    private readonly unusedMonthModelService: NbCalendarMonthModelService<Date>;
     private readonly monthModelService = inject<CalendarMonthModelService<Date>>(CalendarMonthModelService);
 
     public constructor() {
-        const unusedMonthModelService = inject<NbCalendarMonthModelService<Date>>(NbCalendarMonthModelService);
-
-        super(unusedMonthModelService);
-
-        this.unusedMonthModelService = unusedMonthModelService;
+        super(inject<NbCalendarMonthModelService<Date>>(NbCalendarMonthModelService));
     }
 
     public ngOnChanges(changes: SimpleChanges): void {

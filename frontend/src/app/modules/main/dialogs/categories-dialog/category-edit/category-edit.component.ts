@@ -32,8 +32,7 @@ export class CategoryEditComponent {
     @Output()
     public readonly back: EventEmitter<boolean> = new EventEmitter<boolean>();
 
-    public usedColors: object = {};
-    public isBusy: boolean = false;
+    public usedColors: Record<string, boolean> = {};
     public colors: string[] = [
         '#f3d04f',
         '#f9c463',
@@ -79,10 +78,10 @@ export class CategoryEditComponent {
         '#394852',
     ];
 
-    private dialogService = inject(NbDialogService);
-    private categoryQueries = inject(CategoryQueries);
+    private readonly dialogService = inject(NbDialogService);
+    private readonly categoryQueries = inject(CategoryQueries);
     private _categories: Category[];
-    private deleteMutation = injectMutation(() => this.categoryQueries.delete());
+    private readonly deleteMutation = injectMutation(() => this.categoryQueries.delete());
 
     @Input()
     public get categories(): Category[] {
@@ -90,7 +89,9 @@ export class CategoryEditComponent {
     }
 
     public set categories(value: Category[]) {
-        this._categories = value;
+        this._categories = value ?? [];
+        this.usedColors = {};
+
         for (const category of this._categories) {
             this.usedColors[category.color] = true;
         }

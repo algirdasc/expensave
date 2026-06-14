@@ -9,9 +9,34 @@ import { CategoryExpenseReportResponse } from '../api/response/category-expense-
 import { ExpenseReportResponse } from '../api/response/expense-report.response';
 import { QueryKeys } from './query-keys';
 
+export type ReportMethod = 'dailyExpenses' | 'monthlyExpenses' | 'categoryExpenses';
+export type ReportResponse = ExpenseReportResponse | CategoryExpenseReportResponse;
+
 @Injectable({ providedIn: 'root' })
 export class ReportsQueries {
     private readonly reportsApiService = inject(ReportsApiService);
+
+    public report(method: ReportMethod, calendarIds: number[], dateFrom: Date, dateTo: Date) {
+        return queryOptions({
+            queryKey: QueryKeys.report.byMethod(method, calendarIds, dateFrom, dateTo),
+            queryFn: (): Promise<ReportResponse> => {
+                switch (method) {
+                    case 'dailyExpenses':
+                        return lastValueFrom(
+                            this.reportsApiService.dailyExpenses(this.mapCalendarIds(calendarIds), dateFrom, dateTo)
+                        );
+                    case 'monthlyExpenses':
+                        return lastValueFrom(
+                            this.reportsApiService.monthlyExpenses(this.mapCalendarIds(calendarIds), dateFrom, dateTo)
+                        );
+                    case 'categoryExpenses':
+                        return lastValueFrom(
+                            this.reportsApiService.categoryExpenses(this.mapCalendarIds(calendarIds), dateFrom, dateTo)
+                        );
+                }
+            },
+        });
+    }
 
     public categoryExpenses(calendarIds: number[], dateFrom: Date, dateTo: Date) {
         return queryOptions({

@@ -24,7 +24,7 @@ import { BaseChartDirective } from 'ng2-charts';
         ShortNumberPipe,
     ],
 })
-export class DailyExpensesComponent extends AbstractReportComponent {
+export class DailyExpensesComponent extends AbstractReportComponent<ExpenseReportResponse> {
     dateService = inject<NbDateService<Date>>(NbDateService);
     income: number = 0;
     expense: number = 0;

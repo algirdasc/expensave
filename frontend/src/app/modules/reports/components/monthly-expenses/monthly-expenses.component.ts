@@ -31,7 +31,7 @@ import { BaseChartDirective } from 'ng2-charts';
         ShortNumberPipe,
     ],
 })
-export class MonthlyExpensesComponent extends AbstractReportComponent implements OnInit {
+export class MonthlyExpensesComponent extends AbstractReportComponent<ExpenseReportResponse> implements OnInit {
     readonly dateService = inject<NbDateService<Date>>(NbDateService);
     income: number = 0;
     expense: number = 0;
@@ -67,10 +67,6 @@ export class MonthlyExpensesComponent extends AbstractReportComponent implements
         datasets: [],
     };
     readonly reportsApiMethod = 'monthlyExpenses' as const;
-
-    get reportYear(): number | null {
-        return this.currentReportPeriod?.start?.getFullYear() ?? null;
-    }
 
     get reportYear(): number | null {
         return this.currentReportPeriod?.start?.getFullYear() ?? null;

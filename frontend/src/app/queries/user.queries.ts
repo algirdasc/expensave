@@ -7,6 +7,7 @@ import { UserApiService } from '../api/user.api.service';
 import { Calendar } from '../api/objects/calendar';
 import { User } from '../api/objects/user';
 import { QueryKeys } from './query-keys';
+import { PasswordRequest } from '../api/request/password.request';
 
 @Injectable({ providedIn: 'root' })
 export class UserQueries {
@@ -38,6 +39,19 @@ export class UserQueries {
                     this.queryClient.invalidateQueries({ queryKey: QueryKeys.user.profile }),
                     this.queryClient.invalidateQueries({ queryKey: QueryKeys.user.list }),
                 ]),
+        });
+    }
+
+    public changePassword() {
+        return mutationOptions({
+            mutationKey: ['user', 'change-password'],
+            mutationFn: (password: PasswordRequest): Promise<User> =>
+                lastValueFrom(this.userApiService.changePassword(password)),
+            onSuccess: (user: User): Promise<void> => {
+                this.queryClient.setQueryData(QueryKeys.user.profile, user);
+
+                return this.queryClient.invalidateQueries({ queryKey: QueryKeys.user.list });
+            },
         });
     }
 }

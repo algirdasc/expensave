@@ -88,7 +88,7 @@ export class AuthModule {
                     baseEndpoint: '/auth/',
                     token: {
                         class: JwtRefreshableToken,
-                        getter: (module: string, response: HttpResponse<{ token: string; refreshToken: string }>) => {
+                        getter: (_module: string, response: HttpResponse<{ token: string; refreshToken: string }>) => {
                             return response.body;
                         },
                     },
