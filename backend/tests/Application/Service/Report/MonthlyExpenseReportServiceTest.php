@@ -29,6 +29,17 @@ class MonthlyExpenseReportServiceTest extends ApplicationTestCase
 
         $this->assertCount(12, $result);
 
-        $this->assertEquals(-49, $result[11]->getBalance());
+        $balancesByMonth = [];
+        foreach ($result as $balance) {
+            $balancesByMonth[$balance->getBalanceAt()->format('Y-m')] = $balance;
+        }
+
+        $this->assertEquals(-75, $balancesByMonth['2024-01']->getExpense());
+        $this->assertEquals(25, $balancesByMonth['2024-02']->getIncome());
+        $this->assertEquals(30, $balancesByMonth['2024-03']->getIncome());
+        $this->assertEquals(-9, $balancesByMonth['2024-04']->getExpense());
+        $this->assertEquals(-50, $balancesByMonth['2024-08']->getExpense());
+        $this->assertEquals(30, $balancesByMonth['2024-09']->getIncome());
+        $this->assertEquals(-49, $balancesByMonth['2024-12']->getBalance());
     }
 }

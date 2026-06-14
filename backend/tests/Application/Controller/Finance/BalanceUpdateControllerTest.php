@@ -8,6 +8,7 @@ use App\Controller\Finance\BalanceUpdateController;
 use App\Tests\ApplicationTestCase;
 use PHPUnit\Framework\Attributes\CoversClass;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
+use Symfony\Component\HttpFoundation\Response;
 
 #[CoversClass(BalanceUpdateController::class)]
 class BalanceUpdateControllerTest extends ApplicationTestCase
@@ -58,5 +59,31 @@ class BalanceUpdateControllerTest extends ApplicationTestCase
         // Delete
         $this->client->jsonRequest('DELETE', sprintf('/api/balance-update/%d', $id));
         $this->assertResponseIsSuccessful();
+    }
+
+    public function testUpdateMissingBalanceUpdateReturnsNotFound(): void
+    {
+        $this->client->jsonRequest('PUT', '/api/balance-update/999999', [
+            'calendar' => $this->getCalendarId('User 1 Calendar'),
+            'createdAt' => '2024-05-15 15:30:15',
+            'amount' => 400,
+        ]);
+
+        $this->assertResponseStatusCodeSame(Response::HTTP_NOT_FOUND);
+    }
+
+    public function testCreateWithInvalidPayloadReturnsValidationError(): void
+    {
+        $this->client->jsonRequest('POST', '/api/balance-update', [
+            'calendar' => $this->getCalendarId('User 1 Calendar'),
+            'createdAt' => '2024-05-15 15:30:15',
+            'amount' => 0,
+        ]);
+
+        $this->assertResponseStatusCodeSame(Response::HTTP_UNPROCESSABLE_ENTITY);
+
+        $response = $this->getJsonResponse($this->client);
+        $this->assertSame('App\Exception\RequestValidationException', $response['throwable']);
+        $this->assertSame('amount', $response['messages'][0]['propertyPath']);
     }
 }

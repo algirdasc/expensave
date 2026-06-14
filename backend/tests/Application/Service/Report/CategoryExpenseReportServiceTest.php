@@ -29,20 +29,25 @@ class CategoryExpenseReportServiceTest extends ApplicationTestCase
 
         $this->assertCount(4, $result);
 
-        $this->assertEquals(0, $result[0]->getIncome());
-        $this->assertEquals(0, $result[0]->getExpense());
-        $this->assertEquals(0, $result[0]->getBalance());
+        $balancesByCategory = [];
+        foreach ($result as $balance) {
+            $balancesByCategory[$balance->getCategory()->getName()] = $balance;
+        }
 
-        $this->assertEquals(0, $result[1]->getIncome());
-        $this->assertEquals(-75, $result[1]->getExpense());
-        $this->assertEquals(0, $result[1]->getBalance());
+        $this->assertEquals(0, $balancesByCategory['Balance Update']->getIncome());
+        $this->assertEquals(0, $balancesByCategory['Balance Update']->getExpense());
+        $this->assertEquals(0, $balancesByCategory['Balance Update']->getBalance());
 
-        $this->assertEquals(25, $result[2]->getIncome());
-        $this->assertEquals(0, $result[2]->getExpense());
-        $this->assertEquals(0, $result[2]->getBalance());
+        $this->assertEquals(0, $balancesByCategory['Category 1']->getIncome());
+        $this->assertEquals(-75, $balancesByCategory['Category 1']->getExpense());
+        $this->assertEquals(0, $balancesByCategory['Category 1']->getBalance());
 
-        $this->assertEquals(30, $result[3]->getIncome());
-        $this->assertEquals(0, $result[3]->getExpense());
-        $this->assertEquals(0, $result[3]->getBalance());
+        $this->assertEquals(25, $balancesByCategory['Category 2']->getIncome());
+        $this->assertEquals(0, $balancesByCategory['Category 2']->getExpense());
+        $this->assertEquals(0, $balancesByCategory['Category 2']->getBalance());
+
+        $this->assertEquals(30, $balancesByCategory['Uncategorized']->getIncome());
+        $this->assertEquals(0, $balancesByCategory['Uncategorized']->getExpense());
+        $this->assertEquals(0, $balancesByCategory['Uncategorized']->getBalance());
     }
 }

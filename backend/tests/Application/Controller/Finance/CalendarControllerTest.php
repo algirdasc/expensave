@@ -60,6 +60,41 @@ class CalendarControllerTest extends ApplicationTestCase
         $this->assertCount(4, $json['expenses']);
     }
 
+    public function testGetMissingCalendarReturnsNotFound(): void
+    {
+        $this->client->jsonRequest('GET', '/api/calendar/999999');
+
+        $this->assertResponseStatusCodeSame(Response::HTTP_NOT_FOUND);
+    }
+
+    public function testCreateWithInvalidPayloadReturnsValidationError(): void
+    {
+        $this->client->jsonRequest('POST', '/api/calendar', [
+            'name' => '',
+        ]);
+
+        $this->assertResponseStatusCodeSame(Response::HTTP_UNPROCESSABLE_ENTITY);
+
+        $response = $this->getJsonResponse($this->client);
+        $this->assertSame('App\Exception\RequestValidationException', $response['throwable']);
+        $this->assertSame('name', $response['messages'][0]['propertyPath']);
+    }
+
+    public function testCollaboratorCanViewSharedCalendarButCannotEditIt(): void
+    {
+        $sharedCalendarId = $this->getCalendarId('Shared Calendar');
+        $client = $this->getAuthenticatedClient($this->getUser('User 2'));
+
+        $client->jsonRequest('GET', sprintf('/api/calendar/%d', $sharedCalendarId));
+        $this->assertResponseIsSuccessful();
+        $this->assertSame('Shared Calendar', $this->getJsonResponse($client)['name']);
+
+        $client->jsonRequest('PUT', sprintf('/api/calendar/%d', $sharedCalendarId), [
+            'name' => 'Collaborator Rename Attempt',
+        ]);
+        $this->assertResponseStatusCodeSame(Response::HTTP_FORBIDDEN);
+    }
+
     public function testCalendarLifecycle(): void
     {
         // Create

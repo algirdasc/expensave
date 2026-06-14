@@ -37,6 +37,48 @@ class ExpenseControllerTest extends ApplicationTestCase
         $this->assertSame('User 1', $this->getJsonResponse($this->client)['user']['name']);
     }
 
+    public function testGetMissingExpenseReturnsNotFound(): void
+    {
+        $this->client->jsonRequest('GET', '/api/expense/999999');
+
+        $this->assertResponseStatusCodeSame(Response::HTTP_NOT_FOUND);
+    }
+
+    public function testCreateWithInvalidPayloadReturnsValidationError(): void
+    {
+        $this->client->jsonRequest('POST', '/api/expense', [
+            'label' => '',
+            'calendar' => $this->getCalendarId('User 1 Calendar'),
+            'createdAt' => '2024-05-15 15:30:15',
+            'amount' => 0,
+        ]);
+
+        $this->assertResponseStatusCodeSame(Response::HTTP_UNPROCESSABLE_ENTITY);
+
+        $response = $this->getJsonResponse($this->client);
+        $this->assertSame('App\Exception\RequestValidationException', $response['throwable']);
+        $this->assertSame(['label', 'amount'], array_column($response['messages'], 'propertyPath'));
+    }
+
+    public function testCollaboratorCanCreateExpenseInSharedCalendar(): void
+    {
+        $client = $this->getAuthenticatedClient($this->getUser('User 2'));
+        $client->jsonRequest('POST', '/api/expense', [
+            'label' => 'Collaborator Expense',
+            'calendar' => $this->getCalendarId('Shared Calendar'),
+            'createdAt' => '2024-05-15 15:30:15',
+            'amount' => -12.5,
+        ]);
+
+        $this->assertResponseIsSuccessful();
+
+        $expense = $this->getJsonResponse($client);
+        $this->assertIsInt($expense['id']);
+        $this->assertSame('Collaborator Expense', $expense['label']);
+        $this->assertSame('Shared Calendar', $expense['calendar']['name']);
+        $this->assertSame('user2@email.com', $expense['user']['email']);
+    }
+
     public function testExpenseLifecycle(): void
     {
         $calendarId = $this->getCalendarId('User 1 Calendar');
