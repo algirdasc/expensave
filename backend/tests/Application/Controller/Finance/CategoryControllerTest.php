@@ -57,6 +57,27 @@ class CategoryControllerTest extends ApplicationTestCase
         $this->assertFalse($categories['Balance Update']['definedByUser']);
     }
 
+    public function testGetMissingCategoryReturnsNotFound(): void
+    {
+        $this->client->jsonRequest('GET', '/api/category/999999');
+
+        $this->assertResponseStatusCodeSame(Response::HTTP_NOT_FOUND);
+    }
+
+    public function testCreateWithInvalidPayloadReturnsValidationError(): void
+    {
+        $this->client->jsonRequest('POST', '/api/category', [
+            'name' => '',
+            'color' => 'not-a-color',
+        ]);
+
+        $this->assertResponseStatusCodeSame(Response::HTTP_UNPROCESSABLE_ENTITY);
+
+        $response = $this->getJsonResponse($this->client);
+        $this->assertSame('App\Exception\RequestValidationException', $response['throwable']);
+        $this->assertSame(['name', 'color'], array_column($response['messages'], 'propertyPath'));
+    }
+
     public function testCategoryLifecycle(): void
     {
         // Create
