@@ -1,45 +1,53 @@
 import { TestBed } from '@angular/core/testing';
 import { of } from 'rxjs';
 import { NbDialogService } from '@nebular/theme';
-import { QueryClient } from '@tanstack/angular-query-experimental';
+import { provideTanStackQuery, QueryClient, queryOptions } from '@tanstack/angular-query-experimental';
 import { Calendar } from '../../../api/objects/calendar';
 import { Category, TYPE_BALANCE_UPDATE, TYPE_UNCATEGORIZED } from '../../../api/objects/category';
 import { Expense } from '../../../api/objects/expense';
 import { User } from '../../../api/objects/user';
-import { ExpenseQueries } from '../../../queries/expense.queries';
+import { CategoryQueries } from '../../../queries/category.queries';
+import { UserQueries } from '../../../queries/user.queries';
 import { ExpenseDialogComponent } from '../dialogs/expense-dialog/expense-dialog.component';
-import { MainService } from '../main.service';
 import { CalendarService } from './calendar.service';
 
 describe('CalendarService', () => {
     let dialogService: jasmine.SpyObj<NbDialogService>;
-    let expenseQueries: jasmine.SpyObj<ExpenseQueries>;
-    let mainService: jasmine.SpyObj<MainService>;
-    let queryClient: jasmine.SpyObj<QueryClient>;
+    let categoryQueries: jasmine.SpyObj<CategoryQueries>;
+    let userQueries: jasmine.SpyObj<UserQueries>;
+    let user: User;
     let service: CalendarService;
 
     beforeEach(() => {
-        dialogService = jasmine.createSpyObj<NbDialogService>('NbDialogService', ['open']);
-        expenseQueries = jasmine.createSpyObj<ExpenseQueries>('ExpenseQueries', ['get']);
-        mainService = jasmine.createSpyObj<MainService>('MainService', ['getSystemCategory'], {
-            user: userWithId(1),
-        });
-        queryClient = jasmine.createSpyObj<QueryClient>('QueryClient', ['fetchQuery']);
+        user = userWithId(1);
+        const categories = [categoryWithType(TYPE_UNCATEGORIZED), categoryWithType(TYPE_BALANCE_UPDATE)];
 
-        mainService.getSystemCategory
-            .withArgs(TYPE_UNCATEGORIZED)
-            .and.returnValue(categoryWithType(TYPE_UNCATEGORIZED));
-        mainService.getSystemCategory
-            .withArgs(TYPE_BALANCE_UPDATE)
-            .and.returnValue(categoryWithType(TYPE_BALANCE_UPDATE));
+        dialogService = jasmine.createSpyObj<NbDialogService>('NbDialogService', ['open']);
+        categoryQueries = jasmine.createSpyObj<CategoryQueries>('CategoryQueries', ['system']);
+        userQueries = jasmine.createSpyObj<UserQueries>('UserQueries', ['profile']);
+
+        categoryQueries.system.and.returnValue(
+            queryOptions({
+                queryKey: ['category', 'system'],
+                queryFn: (): Promise<Category[]> => Promise.resolve(categories),
+                initialData: categories,
+            })
+        );
+        userQueries.profile.and.returnValue(
+            queryOptions({
+                queryKey: ['user', 'profile'],
+                queryFn: (): Promise<User> => Promise.resolve(userWithId(1)),
+                initialData: user,
+            })
+        );
 
         TestBed.configureTestingModule({
             providers: [
                 CalendarService,
+                provideTanStackQuery(new QueryClient()),
                 { provide: NbDialogService, useValue: dialogService },
-                { provide: ExpenseQueries, useValue: expenseQueries },
-                { provide: MainService, useValue: mainService },
-                { provide: QueryClient, useValue: queryClient },
+                { provide: CategoryQueries, useValue: categoryQueries },
+                { provide: UserQueries, useValue: userQueries },
             ],
         });
 
@@ -66,7 +74,7 @@ describe('CalendarService', () => {
 
         const context = dialogService.open.calls.mostRecent().args[1].context as { expense: Expense };
         expect(context.expense.calendar.id).toBe(calendar.id);
-        expect(context.expense.user.id).toBe(mainService.user.id);
+        expect(context.expense.user.id).toBe(user.id);
         expect(context.expense.confirmed).toBeTrue();
         expect(context.expense.category.type).toBe(TYPE_UNCATEGORIZED);
         expect(context.expense.createdAt.getFullYear()).toBe(2026);
@@ -75,27 +83,17 @@ describe('CalendarService', () => {
         expect(dialogService.open).toHaveBeenCalled();
     });
 
-    it('fetches an existing expense before opening the edit dialog', async (): Promise<void> => {
-        const requestedExpense = expenseWithId(5, categoryWithType(TYPE_UNCATEGORIZED));
-        const fetchedExpense = expenseWithId(5, categoryWithType(TYPE_UNCATEGORIZED));
-        const queryOptions = { queryKey: ['expense', 'detail', requestedExpense.id] } as unknown as ReturnType<
-            ExpenseQueries['get']
-        >;
+    it('opens the edit dialog directly from the clicked expense payload', (): void => {
+        const expense = expenseWithId(5, categoryWithType(TYPE_UNCATEGORIZED));
+        dialogService.open.and.returnValue(dialogRefWithCloseResult(expense));
 
-        expenseQueries.get.and.returnValue(queryOptions);
-        queryClient.fetchQuery.and.resolveTo(fetchedExpense);
-        dialogService.open.and.returnValue(dialogRefWithCloseResult(fetchedExpense));
+        service.editExpense(expense);
 
-        service.editExpense(requestedExpense);
-        await Promise.resolve();
-
-        expect(expenseQueries.get).toHaveBeenCalledOnceWith(requestedExpense.id);
-        expect(queryClient.fetchQuery).toHaveBeenCalledOnceWith(queryOptions);
         expect(dialogService.open).toHaveBeenCalledOnceWith(
             ExpenseDialogComponent,
             jasmine.objectContaining({
                 context: jasmine.objectContaining({
-                    expense: fetchedExpense,
+                    expense: expense,
                     showBalanceTab: false,
                     showTransferTab: false,
                     deletable: true,
@@ -105,18 +103,11 @@ describe('CalendarService', () => {
         expect(dialogService.open).toHaveBeenCalled();
     });
 
-    it('shows the balance tab when editing a balance update expense', async (): Promise<void> => {
+    it('shows the balance tab when editing a balance update expense', (): void => {
         const expense = expenseWithId(7, categoryWithType(TYPE_BALANCE_UPDATE));
-        const queryOptions = { queryKey: ['expense', 'detail', expense.id] } as unknown as ReturnType<
-            ExpenseQueries['get']
-        >;
-
-        expenseQueries.get.and.returnValue(queryOptions);
-        queryClient.fetchQuery.and.resolveTo(expense);
         dialogService.open.and.returnValue(dialogRefWithCloseResult(undefined));
 
         service.editExpense(expense);
-        await Promise.resolve();
 
         expect(dialogService.open).toHaveBeenCalledOnceWith(
             ExpenseDialogComponent,

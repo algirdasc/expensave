@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, computed } from '@angular/core';
 import { ChartConfiguration } from 'chart.js';
 import { CategoryExpenseReportResponse } from '../../../../api/response/category-expense-report.response';
 import { ShortNumberPipe } from '../../../../pipes/shortnumber.pipe';
@@ -57,26 +57,17 @@ export class CategoryExpensesComponent extends AbstractReportComponent<CategoryE
             },
         },
     };
-
-    barChartData: ChartConfiguration['data'] = {
-        datasets: [],
-    };
-
-    categoryCount: number = 0;
     PeriodEnum = PeriodEnum;
     readonly reportsApiMethod = 'categoryExpenses' as const;
 
-    get chartHeight(): string {
-        return `${this.categoryCount * 28}px`;
-    }
+    private readonly barChartDataValue = computed<ChartConfiguration['data']>(() => {
+        const response = this.reportData();
+        if (!response) {
+            return {
+                datasets: [],
+            };
+        }
 
-    cleanUp(): void {
-        this.barChartData = {
-            datasets: [],
-        };
-    }
-
-    parseReport(response: CategoryExpenseReportResponse): void {
         const backgroundColors: string[] = [];
         const expenseLabels: string[] = [];
         const absoluteExpenseValues: number[] = [];
@@ -87,18 +78,23 @@ export class CategoryExpensesComponent extends AbstractReportComponent<CategoryE
             backgroundColors.push(categoryBalance.category?.color ?? UNCATEGORIZED_COLOR);
         }
 
-        this.categoryCount = response.categoryBalances.length;
-
-        this.barChartData = {
+        return {
             labels: expenseLabels,
             datasets: [
                 {
                     data: absoluteExpenseValues,
                     backgroundColor: backgroundColors,
-                    // maxBarThickness: 8,
-                    // categoryPercentage: 0.5,
                 },
             ],
         };
+    });
+    private readonly categoryCountValue = computed(() => this.reportData()?.categoryBalances.length ?? 0);
+
+    get barChartData(): ChartConfiguration['data'] {
+        return this.barChartDataValue();
+    }
+
+    get chartHeight(): string {
+        return `${this.categoryCountValue() * 28}px`;
     }
 }

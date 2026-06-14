@@ -44,6 +44,7 @@ export class CalendarQueries {
                 Promise.all([
                     this.queryClient.invalidateQueries({ queryKey: QueryKeys.calendar.lists }),
                     this.queryClient.invalidateQueries({ queryKey: QueryKeys.calendar.detail(calendar.id) }),
+                    this.queryClient.invalidateQueries({ queryKey: QueryKeys.calendar.expenses }),
                 ]),
         });
     }
@@ -57,6 +58,8 @@ export class CalendarQueries {
                 Promise.all([
                     this.queryClient.invalidateQueries({ queryKey: QueryKeys.calendar.lists }),
                     this.queryClient.invalidateQueries({ queryKey: QueryKeys.calendar.detail(calendar.id) }),
+                    this.queryClient.invalidateQueries({ queryKey: QueryKeys.calendar.expenses }),
+                    this.queryClient.invalidateQueries({ queryKey: QueryKeys.report.all }),
                 ]),
         });
     }

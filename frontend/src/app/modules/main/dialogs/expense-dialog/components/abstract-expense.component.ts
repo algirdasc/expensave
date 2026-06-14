@@ -7,6 +7,4 @@ import { Expense } from '../../../../../api/objects/expense';
 export abstract class AbstractExpenseComponent {
     @Input({ required: true })
     public expense: Expense;
-
-    protected isBusy: boolean = false;
 }

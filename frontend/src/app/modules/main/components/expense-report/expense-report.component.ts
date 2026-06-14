@@ -1,8 +1,7 @@
-import { Component, effect, inject } from '@angular/core';
+import { Component, computed, inject } from '@angular/core';
 import { NbCardModule, NbDateService, NbIconModule, NbListModule, NbSpinnerModule } from '@nebular/theme';
 import { slideAnimation } from '../../../../animations/slide.animation';
 import { CategoryBalance } from '../../../../api/objects/category-balance';
-import { CategoryExpenseReportResponse } from '../../../../api/response/category-expense-report.response';
 import { DateUtil } from '../../../../util/date.util';
 import { MainService } from '../../main.service';
 import { DatePipe } from '@angular/common';
@@ -18,11 +17,6 @@ import { ReportsQueries } from '../../../../queries/reports.queries';
     imports: [NbCardModule, NbIconModule, NbSpinnerModule, NbListModule, DatePipe, ShortNumberPipe],
 })
 export class ExpenseReportComponent {
-    public categoryBalances: CategoryBalance[] = [];
-    public income: number = 0;
-    public expense: number = 0;
-    public change: number = 0;
-
     private readonly dateService = inject<NbDateService<Date>>(NbDateService);
     private readonly mainService = inject(MainService);
     private readonly reportsQueries = inject(ReportsQueries);
@@ -34,17 +28,21 @@ export class ExpenseReportComponent {
             enabled: !!calendarId,
         };
     });
+    private readonly reportData = computed(() => this.reportQuery.data());
+    private readonly categoryBalancesValue = computed(() => {
+        const balances =
+            this.reportData()?.categoryBalances.filter(
+                (categoryBalance: CategoryBalance) => categoryBalance.change !== 0
+            ) ?? [];
 
-    public constructor() {
-        effect(() => {
-            const response = this.reportQuery.data();
-            if (response) {
-                this.applyCategoryExpensesReport(response);
-            } else {
-                this.clearReport();
+        return [...balances].sort((a: CategoryBalance, b: CategoryBalance) => {
+            if (a.change > 0 && b.change < 0) {
+                return -1;
             }
+
+            return Math.abs(b.change) - Math.abs(a.change);
         });
-    }
+    });
 
     public get dateFrom(): Date {
         return this.dateService.createDate(
@@ -68,28 +66,19 @@ export class ExpenseReportComponent {
         return this.reportQuery.isFetching();
     }
 
-    private applyCategoryExpensesReport(response: CategoryExpenseReportResponse): void {
-        const balances = response.categoryBalances.filter(
-            (categoryBalance: CategoryBalance) => categoryBalance.change !== 0
-        );
-        balances.sort((a: CategoryBalance, b: CategoryBalance) => {
-            if (a.change > 0 && b.change < 0) {
-                return -1;
-            }
-
-            return Math.abs(b.change) - Math.abs(a.change);
-        });
-
-        this.categoryBalances = balances;
-        this.income = response.meta.income;
-        this.expense = response.meta.expense;
-        this.change = response.meta.change;
+    public get categoryBalances(): CategoryBalance[] {
+        return this.categoryBalancesValue();
     }
 
-    private clearReport(): void {
-        this.categoryBalances = [];
-        this.income = 0;
-        this.expense = 0;
-        this.change = 0;
+    public get income(): number {
+        return this.reportData()?.meta.income ?? 0;
+    }
+
+    public get expense(): number {
+        return this.reportData()?.meta.expense ?? 0;
+    }
+
+    public get change(): number {
+        return this.reportData()?.meta.change ?? 0;
     }
 }

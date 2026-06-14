@@ -66,6 +66,7 @@ describe('BalanceUpdateQueries', () => {
         expect(queryClient.invalidateQueries).toHaveBeenCalledWith({ queryKey: QueryKeys.calendar.details });
         expect(queryClient.invalidateQueries).toHaveBeenCalledWith({ queryKey: QueryKeys.calendar.expenses });
         expect(queryClient.invalidateQueries).toHaveBeenCalledWith({ queryKey: QueryKeys.report.all });
+        expect(queryClient.invalidateQueries).toHaveBeenCalledWith({ queryKey: QueryKeys.expense.all });
     };
 });
 

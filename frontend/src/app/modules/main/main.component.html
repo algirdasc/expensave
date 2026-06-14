@@ -28,10 +28,13 @@
         appOutsideClick
         (outsideClick)="onSidebarOutsideClick($event)">
         <div class="d-flex flex-column h-100 p-3">
-            <app-profile [user]="mainService.user" />
+            @if (user) {
+                <app-profile [user]="user" />
+            }
             <div class="border-bottom my-3"></div>
             <app-sidebar-calendar-list
                 [calendars]="calendars"
+                [user]="user"
                 [calendar]="selectedCalendar"
                 (calendarChange)="onCalendarChange($event)" />
             <app-sidebar-actions class="mt-auto" />

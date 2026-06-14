@@ -1,4 +1,14 @@
-import { Component, EventEmitter, inject, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
+import {
+    Component,
+    effect,
+    EventEmitter,
+    inject,
+    Input,
+    OnChanges,
+    Output,
+    signal,
+    SimpleChanges,
+} from '@angular/core';
 import {
     NbButtonModule,
     NbDialogRef,
@@ -12,12 +22,12 @@ import {
 import { Calendar } from '../../../../../api/objects/calendar';
 import { CalendarQueries } from '../../../../../queries/calendar.queries';
 import { UserQueries } from '../../../../../queries/user.queries';
+import { User } from '../../../../../api/objects/user';
 import { CalendarEditComponent } from '../../../dialogs/calendars-dialog/calendar-edit/calendar-edit.component';
 import { ConfirmDialogComponent } from '../../../dialogs/confirm-dialog/confirm-dialog.component';
-import { MainService } from '../../../main.service';
 import { StatementImportService } from '../../../services/statement-import.service';
 import { ShortNumberPipe } from '../../../../../pipes/shortnumber.pipe';
-import { injectMutation, QueryClient } from '@tanstack/angular-query-experimental';
+import { injectMutation, injectQuery } from '@tanstack/angular-query-experimental';
 
 @Component({
     selector: 'app-sidebar-calendar-list',
@@ -32,19 +42,28 @@ export class CalendarSidebarListComponent implements OnChanges {
     @Input() public calendars: Calendar[];
     @Output() public readonly calendarsChange: EventEmitter<Calendar[]> = new EventEmitter<Calendar[]>();
 
+    @Input() public user: User;
+
     public readonly dialogService = inject(NbDialogService);
-    public readonly mainService = inject(MainService);
     public readonly toastrService = inject(NbToastrService);
     public readonly statementImportService = inject(StatementImportService);
     public selectedCalendarId: number | null = null;
 
     private readonly calendarQueries = inject(CalendarQueries);
     private readonly userQueries = inject(UserQueries);
-    private readonly queryClient = inject(QueryClient);
+    private readonly editableCalendarId = signal<number | null>(null);
+    private readonly openedCalendarEditId = signal<number | null>(null);
+    private readonly calendarDetailQuery = injectQuery(() => {
+        const calendarId = this.editableCalendarId();
+
+        return {
+            ...this.calendarQueries.get(calendarId ?? 0),
+            enabled: !!calendarId,
+        };
+    });
     private dialogRef: NbDialogRef<CalendarEditComponent>;
     private dialogBack: EventEmitter<boolean> = new EventEmitter<boolean>();
     private dialogSave: EventEmitter<Calendar> = new EventEmitter<Calendar>();
-    private isFetchingBusy = false;
     private readonly saveMutation = injectMutation(() => this.calendarQueries.save());
     private readonly deleteMutation = injectMutation(() => this.calendarQueries.delete());
     private readonly defaultCalendarMutation = injectMutation(() => this.userQueries.defaultCalendar());
@@ -59,14 +78,15 @@ export class CalendarSidebarListComponent implements OnChanges {
                 },
             });
         });
+        effect(() => this.openCalendarEditDialogWhenDetailsResolve());
     }
 
     public get isBusy(): boolean {
         return (
+            this.calendarDetailQuery.isFetching() ||
             this.saveMutation.isPending() ||
             this.deleteMutation.isPending() ||
-            this.defaultCalendarMutation.isPending() ||
-            this.isFetchingBusy
+            this.defaultCalendarMutation.isPending()
         );
     }
 
@@ -108,17 +128,20 @@ export class CalendarSidebarListComponent implements OnChanges {
     }
 
     public createCalendar(): void {
-        this.openCalendarDialog(Calendar.create(this.mainService.user));
+        if (!this.user) {
+            return;
+        }
+
+        this.openCalendarDialog(Calendar.create(this.user));
     }
 
     public editCalendar(calendar: Calendar): void {
-        this.isFetchingBusy = true;
+        if (this.editableCalendarId() === calendar.id) {
+            this.editableCalendarId.set(null);
+        }
 
-        void this.queryClient
-            .fetchQuery(this.calendarQueries.get(calendar.id))
-            .then((response: Calendar) => this.openCalendarDialog(response))
-            .catch(() => undefined)
-            .finally(() => (this.isFetchingBusy = false));
+        this.editableCalendarId.set(calendar.id);
+        this.openedCalendarEditId.set(null);
     }
 
     private openCalendarDialog(calendar: Calendar, onClose?: (calendar: Calendar) => void): void {
@@ -134,6 +157,24 @@ export class CalendarSidebarListComponent implements OnChanges {
             if (onClose !== undefined) {
                 onClose(calendar);
             }
+        });
+    }
+
+    private openCalendarEditDialogWhenDetailsResolve(): void {
+        const calendarId = this.editableCalendarId();
+        if (!calendarId || this.openedCalendarEditId() === calendarId || this.calendarDetailQuery.isFetching()) {
+            return;
+        }
+
+        const calendar = this.calendarDetailQuery.data();
+        if (!calendar || calendar.id !== calendarId) {
+            return;
+        }
+
+        this.openedCalendarEditId.set(calendarId);
+        this.openCalendarDialog(calendar, () => {
+            this.editableCalendarId.set(null);
+            this.openedCalendarEditId.set(null);
         });
     }
 }

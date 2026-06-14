@@ -1,4 +1,4 @@
-import { Component, effect, inject, signal, WritableSignal } from '@angular/core';
+import { Component, computed, inject, signal, WritableSignal } from '@angular/core';
 import { NbCalendarRange } from '@nebular/theme';
 import { ReportsStore } from '../reports.store';
 import { injectQuery } from '@tanstack/angular-query-experimental';
@@ -24,18 +24,8 @@ export abstract class AbstractReportComponent<TReportResponse extends ReportResp
             enabled: calendars.length > 0 && !!dateFrom && !!dateTo,
         };
     });
+    protected readonly reportData = computed(() => this.reportQuery.data() as TReportResponse | undefined);
     abstract readonly reportsApiMethod: ReportMethod;
-
-    constructor() {
-        effect(() => {
-            const data = this.reportQuery.data();
-            if (data) {
-                this.parseReport(data as TReportResponse);
-            } else {
-                this.cleanUp();
-            }
-        });
-    }
 
     get currentReportPeriod(): NbCalendarRange<Date> {
         return this.reportPeriod();
@@ -48,8 +38,4 @@ export abstract class AbstractReportComponent<TReportResponse extends ReportResp
     onDateRangeChange(event: NbCalendarRange<Date>): void {
         this.reportPeriod.set(event);
     }
-
-    abstract cleanUp(): void;
-
-    abstract parseReport(response: TReportResponse): void;
 }

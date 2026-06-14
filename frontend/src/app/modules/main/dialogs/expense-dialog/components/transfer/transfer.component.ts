@@ -43,19 +43,21 @@ export class TransferComponent extends AbstractExpenseComponent {
     private readonly dialogRef = inject<NbDialogRef<ExpenseDialogComponent>>(NbDialogRef);
     private readonly saveMutation = injectMutation(() => this.expenseQueries.save());
 
+    public get isBusy(): boolean {
+        return this.saveMutation.isPending();
+    }
+
     public onSubmit(): void {
         const transferExpense = plainToInstance(Expense, instanceToPlain(this.expense));
 
         transferExpense.calendar = this.destinationCalendar;
         transferExpense.amount = -1 * transferExpense.amount;
 
-        this.isBusy = true;
         void this.saveMutation
             .mutateAsync(this.expense)
             .then(() => this.saveMutation.mutateAsync(transferExpense))
             .then(() => this.dialogRef.close(true))
-            .catch(() => undefined)
-            .finally(() => (this.isBusy = false));
+            .catch(() => undefined);
     }
 
     // noinspection JSUnusedGlobalSymbols

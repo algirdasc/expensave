@@ -10,9 +10,7 @@ import {
     NbSpinnerModule,
 } from '@nebular/theme';
 import { AngularResizeEventModule, ResizedEvent } from 'angular-resize-event';
-import { ExpenseApiService } from '../../api/expense.api.service';
 import { Calendar } from '../../api/objects/calendar';
-import { Category } from '../../api/objects/category';
 import { Expense } from '../../api/objects/expense';
 import { ExpenseBalance } from '../../api/objects/expense-balance';
 import { User } from '../../api/objects/user';
@@ -31,11 +29,10 @@ import { ActionsComponent } from './components/sidebar/actions/actions.component
 import { take } from 'rxjs';
 import { injectQuery } from '@tanstack/angular-query-experimental';
 import { CalendarQueries } from '../../queries/calendar.queries';
+import { UserQueries } from '../../queries/user.queries';
 
 type MainRouteData = {
-    user: User;
     calendars: Calendar[];
-    systemCategories: Category[];
 };
 
 @Component({
@@ -60,7 +57,6 @@ export class MainComponent implements OnInit {
 
     protected readonly SIDEBAR_TAG = SIDEBAR_TAG;
     protected readonly APP_CONFIG = APP_CONFIG;
-    protected isCalendarBusy = false;
     protected isApplicationBusy = false;
     protected isMobile = false;
 
@@ -69,13 +65,14 @@ export class MainComponent implements OnInit {
     private readonly destroyRef = inject(DestroyRef);
     private readonly router = inject(Router);
     private readonly activatedRoute = inject(ActivatedRoute);
-    private readonly expenseApiService = inject(ExpenseApiService);
     private readonly calendarQueries = inject(CalendarQueries);
+    private readonly userQueries = inject(UserQueries);
     private readonly breakpointService = inject(NbMediaBreakpointsService);
     private readonly dateService = inject<NbDateService<Date>>(NbDateService);
     private readonly zone = inject(NgZone);
     private readonly sidebarService = inject(NbSidebarService);
     private readonly statementImportService = inject(StatementImportService);
+    private readonly userProfileQuery = injectQuery(() => this.userQueries.profile());
     private readonly calendarListQuery = injectQuery(() => this.calendarQueries.list());
     private readonly calendarExpensesQuery = injectQuery(() => {
         const calendarId = this.selectedCalendarId();
@@ -90,11 +87,15 @@ export class MainComponent implements OnInit {
     });
 
     protected get calendarBusy(): boolean {
-        return this.isCalendarBusy || this.calendarExpensesQuery.isFetching();
+        return this.calendarExpensesQuery.isFetching();
     }
 
     protected get calendars(): Calendar[] {
-        return this.calendarListQuery.data() ?? this.mainService.calendars ?? [];
+        return this.calendarListQuery.data() ?? [];
+    }
+
+    protected get user(): User | undefined {
+        return this.userProfileQuery.data();
     }
 
     protected get selectedCalendar(): Calendar {
@@ -183,10 +184,6 @@ export class MainComponent implements OnInit {
     }
 
     private bindBusyStates(): void {
-        this.expenseApiService.onBusyChange
-            .pipe(takeUntilDestroyed(this.destroyRef))
-            .subscribe((isBusy: boolean) => (this.isCalendarBusy = isBusy));
-
         this.mainService.isApplicationBusy
             .pipe(takeUntilDestroyed(this.destroyRef))
             .subscribe((isBusy: boolean) => (this.isApplicationBusy = isBusy));
@@ -204,18 +201,16 @@ export class MainComponent implements OnInit {
             .subscribe(params => this.updateVisibleDateFromQueryParam(params.get('date')));
     }
 
-    private applyRouteData({ user, calendars, systemCategories }: MainRouteData): void {
-        this.mainService.user = user;
-        this.mainService.calendars = calendars;
-        this.mainService.systemCategories = systemCategories;
+    private applyRouteData({ calendars }: MainRouteData): void {
+        const user = this.user;
         const defaultCalendar = this.getDefaultCalendar(user, calendars);
 
         this.selectedCalendarId.set(defaultCalendar?.id ?? null);
         this.mainService.calendar = defaultCalendar;
     }
 
-    private getDefaultCalendar(user: User, calendars: Calendar[]): Calendar {
-        return calendars.find((calendar: Calendar) => calendar.id === user.defaultCalendarId) ?? calendars[0];
+    private getDefaultCalendar(user: User | undefined, calendars: Calendar[]): Calendar {
+        return calendars.find((calendar: Calendar) => calendar.id === user?.defaultCalendarId) ?? calendars[0];
     }
 
     private updateVisibleDateFromQueryParam(date: string | null): void {
