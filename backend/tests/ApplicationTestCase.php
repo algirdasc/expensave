@@ -106,40 +106,54 @@ class ApplicationTestCase extends KernelTestCase
 
     protected function getCalendarId(string $name): int
     {
-        return $this->getEntityId(Calendar::class, ['name' => $name]);
+        return $this->getEntityId($this->getCalendar($name));
     }
 
     protected function getCategoryId(string $name): int
     {
-        return $this->getEntityId(Category::class, ['name' => $name]);
+        return $this->getEntityId($this->getCategory($name));
     }
 
     protected function getExpenseId(string $label, ?string $calendarName = null): int
     {
+        return $this->getEntityId($this->getExpense($label, $calendarName));
+    }
+
+    protected function getCalendar(string $name): Calendar
+    {
+        /** @var Calendar $calendar */
+        $calendar = $this->getEntity(Calendar::class, ['name' => $name]);
+
+        return $calendar;
+    }
+
+    protected function getCategory(string $name): Category
+    {
+        /** @var Category $category */
+        $category = $this->getEntity(Category::class, ['name' => $name]);
+
+        return $category;
+    }
+
+    protected function getExpense(string $label, ?string $calendarName = null): Expense
+    {
         $criteria = ['label' => $label];
 
         if ($calendarName !== null) {
-            $criteria['calendar'] = $this->getEntity(Calendar::class, ['name' => $calendarName]);
+            $criteria['calendar'] = $this->getCalendar($calendarName);
         }
 
-        return $this->getEntityId(Expense::class, $criteria);
+        /** @var Expense $expense */
+        $expense = $this->getEntity(Expense::class, $criteria);
+
+        return $expense;
     }
 
-    /**
-     * @param class-string $entityClass
-     * @param array<string, mixed> $criteria
-     */
-    private function getEntityId(string $entityClass, array $criteria): int
+    private function getEntityId(Calendar|Category|Expense $entity): int
     {
-        $entity = $this->getEntity($entityClass, $criteria);
-
-        if (!method_exists($entity, 'getId')) {
-            throw new InvalidArgumentException(sprintf('Entity "%s" does not expose getId()', $entityClass));
-        }
-
         $id = $entity->getId();
         if (!is_int($id)) {
-            throw new InvalidArgumentException(sprintf('Entity "%s" has no persisted integer ID', $entityClass));
+            throw new InvalidArgumentException(sprintf('Entity "%s" has no persisted integer ID', $entity::class));
         }
 
         return $id;

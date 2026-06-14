@@ -4,9 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Application\EventListener;
 
-use App\Entity\Expense;
 use App\EventListener\CalendarBalanceListener;
-use App\Repository\CalendarRepository;
 use App\Repository\ExpenseRepository;
 use App\Tests\ApplicationTestCase;
 use PHPUnit\Framework\Attributes\CoversClass;
@@ -25,7 +23,7 @@ class CalendarBalanceListenerTest extends ApplicationTestCase
 
     public function testPostUpdate(): void
     {
-        $expense = $this->expenseRepository->find(1);
+        $expense = $this->getExpense('Test expense 0', 'User 1 Calendar');
 
         $expense->setAmount(30);
 
@@ -36,7 +34,7 @@ class CalendarBalanceListenerTest extends ApplicationTestCase
 
     public function testPostRemove(): void
     {
-        $expense = $this->expenseRepository->find(1);
+        $expense = $this->getExpense('Test expense 0', 'User 1 Calendar');
 
         $this->expenseRepository->remove($expense);
 

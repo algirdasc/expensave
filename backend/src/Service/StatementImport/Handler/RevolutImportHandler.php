@@ -30,7 +30,7 @@ readonly class RevolutImportHandler implements StatementImportHandlerInterface
         }
 
         $header = null;
-        while (($data = fgetcsv($handle)) !== false) {
+        while (($data = fgetcsv($handle, escape: '')) !== false) {
             if ($header === null) {
                 $header = $data;
                 continue;
