@@ -24,6 +24,7 @@ export const QueryKeys = {
         all: ['user'] as const,
         profile: ['user', 'profile'] as const,
         list: ['user', 'list'] as const,
+        adminList: ['user', 'admin-list'] as const,
     },
     report: {
         all: ['report'] as const,

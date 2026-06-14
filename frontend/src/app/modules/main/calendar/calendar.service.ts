@@ -10,6 +10,7 @@ import { CategoryQueries } from '../../../queries/category.queries';
 import { UserQueries } from '../../../queries/user.queries';
 import { injectQuery } from '@tanstack/angular-query-experimental';
 
+// eslint-disable-next-line @angular-eslint/use-injectable-provided-in -- Intentionally scoped through MainModule providers.
 @Injectable()
 export class CalendarService {
     private readonly dialogService = inject(NbDialogService);

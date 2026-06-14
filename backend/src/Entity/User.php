@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Const\ContextGroup\UserContextGroupConst;
+use App\Enum\UserRole;
 use App\Repository\UserRepository;
 use DateTimeInterface;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -37,6 +38,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column]
     private string $password;
+
+    #[ORM\Column(length: 16, enumType: UserRole::class)]
+    #[Groups(UserContextGroupConst::ALWAYS)]
+    private UserRole $role = UserRole::USER;
 
     private ?string $plainPassword = null;
 
@@ -115,7 +120,25 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function getRoles(): array
     {
-        return ['ROLE_USER'];
+        $roles = ['ROLE_USER'];
+
+        if ($this->role === UserRole::ADMIN) {
+            $roles[] = 'ROLE_ADMIN';
+        }
+
+        return $roles;
+    }
+
+    public function getRole(): UserRole
+    {
+        return $this->role;
+    }
+
+    public function setRole(UserRole $role): self
+    {
+        $this->role = $role;
+
+        return $this;
     }
 
     public function getPassword(): string

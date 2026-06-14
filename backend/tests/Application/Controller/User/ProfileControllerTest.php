@@ -35,6 +35,8 @@ class ProfileControllerTest extends ApplicationTestCase
         $this->assertSame('User 2', $users['user2@email.com']['name']);
         $this->assertTrue($users['user1@email.com']['active']);
         $this->assertTrue($users['user2@email.com']['active']);
+        $this->assertSame('admin', $users['user1@email.com']['role']);
+        $this->assertSame('user', $users['user2@email.com']['role']);
     }
 
     public function testChangePassword(): void
@@ -76,5 +78,6 @@ class ProfileControllerTest extends ApplicationTestCase
         $this->assertSame('User 1', $profile['name']);
         $this->assertTrue($profile['active']);
         $this->assertNull($profile['defaultCalendarId']);
+        $this->assertSame('admin', $profile['role']);
     }
 }

@@ -5,7 +5,9 @@ declare(strict_types=1);
 namespace App\Repository;
 
 use App\Entity\User;
+use App\Enum\UserRole;
 use App\Request\Auth\RegistrationRequest;
+use Doctrine\ORM\AbstractQuery;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bridge\Doctrine\Security\User\UserLoaderInterface;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
@@ -45,6 +47,10 @@ class UserRepository extends AbstractRepository implements PasswordUpgraderInter
 
     public function save($entity): void
     {
+        if ($this->shouldAssignFirstRegisteredUserAdminRole($entity)) {
+            $entity->setRole(UserRole::ADMIN);
+        }
+
         if ($entity->getPlainPassword() !== null) {
             $entity
                 ->setPassword($this->passwordHasher->hashPassword($entity, $entity->getPlainPassword()))
@@ -53,6 +59,39 @@ class UserRepository extends AbstractRepository implements PasswordUpgraderInter
         }
 
         parent::save($entity);
+    }
+
+    public function countByRole(UserRole $role): int
+    {
+        return (int) $this->createQueryBuilder('u')
+            ->select('COUNT(u.id)')
+            ->where('u.role = :role')
+            ->setParameter('role', $role)
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
+
+    public function countActiveByRole(UserRole $role): int
+    {
+        return (int) $this->createQueryBuilder('u')
+            ->select('COUNT(u.id)')
+            ->where('u.role = :role')
+            ->andWhere('u.active = true')
+            ->setParameter('role', $role)
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
+
+    /**
+     * @return list<User>
+     */
+    public function findAllForAdministration(): array
+    {
+        return $this->createQueryBuilder('u')
+            ->orderBy('u.name', 'ASC')
+            ->addOrderBy('u.email', 'ASC')
+            ->getQuery()
+            ->getResult(AbstractQuery::HYDRATE_OBJECT);
     }
 
     public function upgradePassword(PasswordAuthenticatedUserInterface $user, string $newHashedPassword): void
@@ -69,5 +108,10 @@ class UserRepository extends AbstractRepository implements PasswordUpgraderInter
     public function loadUserByIdentifier(string $identifier): ?UserInterface
     {
         return $this->findOneBy(['email' => $identifier, 'active' => true]);
+    }
+
+    private function shouldAssignFirstRegisteredUserAdminRole(User $user): bool
+    {
+        return $user->getId() === null && $this->count([]) === 0;
     }
 }

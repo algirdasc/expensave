@@ -42,6 +42,7 @@ class RegistrationControllerTest extends ApplicationTestCase
         $this->assertSame('registration@email.com', $profile['email']);
         $this->assertSame('Registered User', $profile['name']);
         $this->assertTrue($profile['active']);
+        $this->assertSame('user', $profile['role']);
         $this->assertIsInt($profile['defaultCalendarId']);
     }
 

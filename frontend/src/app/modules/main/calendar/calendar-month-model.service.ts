@@ -1,7 +1,8 @@
-import { Injectable, inject } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { NbDateService } from '@nebular/theme';
 import { batch, range } from './helpers/helpers';
 
+// eslint-disable-next-line @angular-eslint/use-injectable-provided-in -- Intentionally scoped through MainModule providers.
 @Injectable()
 export class CalendarMonthModelService<D> {
     protected dateService = inject<NbDateService<D>>(NbDateService);

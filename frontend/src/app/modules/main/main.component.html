@@ -37,7 +37,7 @@
                 [user]="user"
                 [calendar]="selectedCalendar"
                 (calendarChange)="onCalendarChange($event)" />
-            <app-sidebar-actions class="mt-auto" />
+            <app-sidebar-actions [user]="user" class="mt-auto" />
         </div>
     </nb-sidebar>
 </nb-layout>
