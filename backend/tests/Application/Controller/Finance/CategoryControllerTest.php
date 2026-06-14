@@ -48,14 +48,15 @@ class CategoryControllerTest extends ApplicationTestCase
             'color' => '#123456',
         ]);
         $this->assertResponseIsSuccessful();
-        $this->assertSame(5, $this->getJsonResponse($this->client)['id']);
+        $categoryId = $this->getJsonResponse($this->client)['id'];
+        $this->assertIsInt($categoryId);
 
         // Get
-        $this->client->jsonRequest('GET', '/api/category/5');
+        $this->client->jsonRequest('GET', sprintf('/api/category/%d', $categoryId));
         $this->assertResponseIsSuccessful();
 
         // Update
-        $this->client->jsonRequest('PUT', '/api/category/5', [
+        $this->client->jsonRequest('PUT', sprintf('/api/category/%d', $categoryId), [
             'name' => 'Test Modified Name',
             'color' => '#654321',
         ]);
@@ -65,20 +66,20 @@ class CategoryControllerTest extends ApplicationTestCase
         $this->assertSame('Test Modified Name', $responseJson['name']);
 
         // Delete
-        $this->client->jsonRequest('DELETE', '/api/category/5');
+        $this->client->jsonRequest('DELETE', sprintf('/api/category/%d', $categoryId));
         $this->assertResponseIsSuccessful();
 
         // Get again
-        $this->client->jsonRequest('GET', '/api/category/5');
+        $this->client->jsonRequest('GET', sprintf('/api/category/%d', $categoryId));
         $this->assertResponseStatusCodeSame(Response::HTTP_NOT_FOUND);
     }
 
     public function testDeleteSystemCategory(): void
     {
-        $this->client->jsonRequest('DELETE', '/api/category/3');
+        $this->client->jsonRequest('DELETE', sprintf('/api/category/%d', $this->getCategoryId('Uncategorized')));
         $this->assertResponseStatusCodeSame(Response::HTTP_FORBIDDEN);
 
-        $this->client->jsonRequest('DELETE', '/api/category/4');
+        $this->client->jsonRequest('DELETE', sprintf('/api/category/%d', $this->getCategoryId('Balance Update')));
         $this->assertResponseStatusCodeSame(Response::HTTP_FORBIDDEN);
 
     }

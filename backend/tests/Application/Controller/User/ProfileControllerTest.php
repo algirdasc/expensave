@@ -42,7 +42,9 @@ class ProfileControllerTest extends ApplicationTestCase
 
     public function testDefaultCalendar(): void
     {
-        $this->client->jsonRequest('PUT', '/api/user/default-calendar/3');
+        $calendarId = $this->getCalendarId('Shared Calendar');
+
+        $this->client->jsonRequest('PUT', sprintf('/api/user/default-calendar/%d', $calendarId));
 
         $this->assertResponseIsSuccessful();
         $this->assertResponseEqualToJson($this->client->getResponse(), 'Response/User/user-default-calendar.json');

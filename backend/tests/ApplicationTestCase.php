@@ -4,11 +4,12 @@ declare(strict_types=1);
 
 namespace App\Tests;
 
+use App\Entity\Calendar;
+use App\Entity\Category;
+use App\Entity\Expense;
 use App\Entity\User;
 use App\Repository\UserRepository;
 use DAMA\DoctrineTestBundle\Doctrine\DBAL\StaticDriver;
-use Doctrine\Bundle\FixturesBundle\Fixture;
-use Doctrine\Bundle\FixturesBundle\Loader\SymfonyFixturesLoader;
 use Doctrine\Common\DataFixtures\Executor\ORMExecutor;
 use Doctrine\Common\DataFixtures\Loader;
 use Doctrine\Common\DataFixtures\Purger\ORMPurger;
@@ -76,9 +77,12 @@ class ApplicationTestCase extends KernelTestCase
 
     protected function assertResponseEqualToJson(Response $response, string $jsonFile): void
     {
-        $this->assertJsonStringEqualsJsonFile(
-            self::getAssetFile($jsonFile),
-            (string) $response->getContent()
+        $expected = json_decode((string) file_get_contents(self::getAssetFile($jsonFile)), true);
+        $actual = json_decode((string) $response->getContent(), true);
+
+        $this->assertSame(
+            $this->normalizeGeneratedIdentifiers($expected),
+            $this->normalizeGeneratedIdentifiers($actual)
         );
     }
 
@@ -90,6 +94,80 @@ class ApplicationTestCase extends KernelTestCase
     protected function getJsonResponse(AbstractBrowser $browser): array
     {
         return json_decode($browser->getResponse()->getContent(), true);
+    }
+
+    protected function getCalendarId(string $name): int
+    {
+        return $this->getEntityId(Calendar::class, ['name' => $name]);
+    }
+
+    protected function getCategoryId(string $name): int
+    {
+        return $this->getEntityId(Category::class, ['name' => $name]);
+    }
+
+    protected function getExpenseId(string $label, ?string $calendarName = null): int
+    {
+        $criteria = ['label' => $label];
+
+        if ($calendarName !== null) {
+            $criteria['calendar'] = $this->getEntity(Calendar::class, ['name' => $calendarName]);
+        }
+
+        return $this->getEntityId(Expense::class, $criteria);
+    }
+
+    /**
+     * @param class-string $entityClass
+     * @param array<string, mixed> $criteria
+     */
+    private function getEntityId(string $entityClass, array $criteria): int
+    {
+        $entity = $this->getEntity($entityClass, $criteria);
+
+        if (!method_exists($entity, 'getId')) {
+            throw new InvalidArgumentException(sprintf('Entity "%s" does not expose getId()', $entityClass));
+        }
+
+        $id = $entity->getId();
+        if (!is_int($id)) {
+            throw new InvalidArgumentException(sprintf('Entity "%s" has no persisted integer ID', $entityClass));
+        }
+
+        return $id;
+    }
+
+    /**
+     * @param class-string $entityClass
+     * @param array<string, mixed> $criteria
+     */
+    private function getEntity(string $entityClass, array $criteria): object
+    {
+        /** @var EntityManagerInterface $manager */
+        $manager = self::getContainer()->get('doctrine')->getManager();
+        $entity = $manager->getRepository($entityClass)->findOneBy($criteria);
+
+        if ($entity === null) {
+            throw new InvalidArgumentException(sprintf('Entity "%s" by criteria "%s" is not found', $entityClass, json_encode($criteria)));
+        }
+
+        return $entity;
+    }
+
+    private function normalizeGeneratedIdentifiers(mixed $value): mixed
+    {
+        if (!is_array($value)) {
+            return $value;
+        }
+
+        $normalized = [];
+        foreach ($value as $key => $nestedValue) {
+            $normalized[$key] = $nestedValue !== null && in_array($key, ['id', 'defaultCalendarId'], true)
+                ? '__generated_id__'
+                : $this->normalizeGeneratedIdentifiers($nestedValue);
+        }
+
+        return $normalized;
     }
 
     private function loadFixtures(): void

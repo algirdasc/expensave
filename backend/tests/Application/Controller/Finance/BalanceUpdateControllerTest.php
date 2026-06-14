@@ -23,10 +23,12 @@ class BalanceUpdateControllerTest extends ApplicationTestCase
 
     public function testBalanceUpdateLifecycle(): void
     {
+        $calendarId = $this->getCalendarId('User 1 Calendar');
+
         // Create
         $this->client->jsonRequest('POST', '/api/balance-update', [
             'label' => 'Test Balance Update',
-            'calendar' => 1,
+            'calendar' => $calendarId,
             'createdAt' => '2024-05-15 15:30:15',
             'amount' => 300,
         ]);
@@ -42,7 +44,7 @@ class BalanceUpdateControllerTest extends ApplicationTestCase
         // Update
         $this->client->jsonRequest('PUT', sprintf('/api/balance-update/%d', $id), [
             'label' => 'Test Modified Label',
-            'calendar' => 1,
+            'calendar' => $calendarId,
             'createdAt' => '2024-05-15 15:30:15',
             'amount' => 400,
         ]);

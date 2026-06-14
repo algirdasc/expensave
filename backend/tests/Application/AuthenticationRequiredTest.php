@@ -6,7 +6,6 @@ namespace App\Tests\Application;
 
 use App\Tests\ApplicationTestCase;
 use PHPUnit\Framework\Attributes\DataProvider;
-use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Component\HttpFoundation\Response;
 
 class AuthenticationRequiredTest extends ApplicationTestCase
@@ -14,6 +13,10 @@ class AuthenticationRequiredTest extends ApplicationTestCase
     #[DataProvider('endpointProvider')]
     public function testRequiresAuth(string $method, string $endpoint, array $data = []): void
     {
+        if (($data['calendar'] ?? null) === '{user1Calendar}') {
+            $data['calendar'] = $this->getCalendarId('User 1 Calendar');
+        }
+
         /** @var \Symfony\Bundle\FrameworkBundle\KernelBrowser $client */
         $client = self::getContainer()->get('test.client');
 
@@ -32,7 +35,7 @@ class AuthenticationRequiredTest extends ApplicationTestCase
             'Expense create' => ['POST', '/api/expense', [
                 'label' => 'Test',
                 'amount' => -10,
-                'calendar' => 1,
+                'calendar' => '{user1Calendar}',
                 'createdAt' => '2024-05-15 15:30:15',
             ]],
         ];

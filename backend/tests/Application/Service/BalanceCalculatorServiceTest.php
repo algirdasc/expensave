@@ -20,7 +20,7 @@ class BalanceCalculatorServiceTest extends ApplicationTestCase
         $calendarRepository = self::getContainer()->get(CalendarRepository::class);
 
         /** @var Calendar $calendar */
-        $calendar = $calendarRepository->find(1);
+        $calendar = $calendarRepository->find($this->getCalendarId('User 1 Calendar'));
 
         /** @var BalanceCalculatorService $service */
         $service = self::getContainer()->get(BalanceCalculatorService::class);

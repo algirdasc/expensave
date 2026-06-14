@@ -5,13 +5,12 @@ declare(strict_types=1);
 namespace App\Tests\Application\Service\Report;
 
 use App\Repository\CalendarRepository;
-use App\Service\Report\CategoryExpenseReportService;
 use App\Service\Report\DailyExpenseReportService;
 use App\Tests\ApplicationTestCase;
 use DateTime;
 use PHPUnit\Framework\Attributes\CoversClass;
 
-#[CoversClass(CategoryExpenseReportService::class)]
+#[CoversClass(DailyExpenseReportService::class)]
 class DailyExpenseReportServiceTest extends ApplicationTestCase
 {
     public function testGenerate(): void
