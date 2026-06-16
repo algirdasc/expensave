@@ -6,11 +6,12 @@ import { StatementImportService } from '../../services/statement-import.service'
 @Component({
     selector: 'app-header-sidebar-toggle',
     template: `
-        <div style="position: relative">
+        <div class="sidebar-toggler-shell">
             <button
                 nbButton
-                ghost
-                [status]="statementImportService.expenses.length ? 'danger' : 'primary'"
+                type="button"
+                class="sidebar-toggler-button"
+                [status]="statementImportService.expenses.length ? 'danger' : 'basic'"
                 (click)="toggleSidebar()"
                 id="sidebar-toggler">
                 <nb-icon icon="menu-2-outline"></nb-icon>
@@ -20,6 +21,20 @@ import { StatementImportService } from '../../services/statement-import.service'
             }
         </div>
     `,
+    styles: [
+        `
+            .sidebar-toggler-shell {
+                position: relative;
+            }
+
+            .sidebar-toggler-button {
+                width: 2.75rem;
+                min-width: 2.75rem;
+                height: 2.75rem;
+                padding: 0;
+            }
+        `,
+    ],
     imports: [NbButtonModule, NbIconModule, NbBadgeModule],
 })
 export class HeaderSidebarToggleComponent {

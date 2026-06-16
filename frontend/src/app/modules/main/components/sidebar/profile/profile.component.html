@@ -12,10 +12,8 @@
         status="basic"
         class="theme-preference-button flex-shrink-0"
         [attr.aria-label]="'Theme preference: ' + themeLabel"
-        [nbContextMenu]="themeMenuItems"
-        nbContextMenuTag="theme-preference"
-        [nbContextMenuPlacement]="contextMenuPlacement"
-        nbTooltip="Theme">
+        [nbTooltip]="'Theme: ' + themeLabel"
+        (click)="onThemePreferenceClick()">
         <nb-icon [icon]="themeIcon" />
     </button>
 </div>

@@ -25,6 +25,7 @@ import { Expense } from '../../../../../../api/objects/expense';
                 </div>
 
                 <nb-toggle
+                    class="recurrence-toggle"
                     status="primary"
                     [disabled]="isExistingRecurringExpense"
                     [checked]="expense.recurring"
@@ -97,6 +98,14 @@ import { Expense } from '../../../../../../api/objects/expense';
 
             .expense-suffix {
                 padding-right: 300px;
+            }
+
+            .recurrence-toggle {
+                --toggle-height: 1.625rem;
+                --toggle-width: 2.75rem;
+                --toggle-outline-width: 0;
+                --toggle-switcher-size: 1.5rem;
+                --toggle-switcher-icon-size: 0.625rem;
             }
         `,
     ],

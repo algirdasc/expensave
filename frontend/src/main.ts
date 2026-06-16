@@ -40,7 +40,11 @@ import { NbEvaIconsModule } from '@nebular/eva-icons';
 import { AppComponent } from './app/app.component';
 import { provideTanStackQuery, QueryClient } from '@tanstack/angular-query-experimental';
 import { withDevtools } from '@tanstack/angular-query-experimental/devtools';
-import { ThemePreferenceService } from './app/services/theme-preference.service';
+import {
+    resolveInitialThemeName,
+    THEME_JS_THEMES,
+    ThemePreferenceService,
+} from './app/services/theme-preference.service';
 
 const queryClient = new QueryClient();
 
@@ -54,7 +58,7 @@ bootstrapApplication(AppComponent, {
         importProvidersFrom(
             CommonModule,
             BrowserModule,
-            NbThemeModule.forRoot({ name: 'expensave' }),
+            NbThemeModule.forRoot({ name: resolveInitialThemeName() }, THEME_JS_THEMES),
             AuthModule.forRoot(),
             NbDialogModule.forRoot(),
             NbToastrModule.forRoot(),

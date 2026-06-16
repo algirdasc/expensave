@@ -16,6 +16,7 @@
 }
 
 .expense-header.confirmed {
+    background-color: var(--expense-category-color, transparent);
     color: hsla(0, 0%, 100%, .8) !important;
 
     button.toggle-sign {
@@ -30,6 +31,35 @@
     input.t-input::placeholder {
         color: hsla(0, 0%, 100%, .4) !important;
     }
+}
+
+:host-context(.nb-theme-expensave-dark) .expense-header.confirmed {
+    background:
+        linear-gradient(
+            0deg,
+            color-mix(in srgb, var(--expense-category-color) 28%, transparent),
+            color-mix(in srgb, var(--expense-category-color) 28%, transparent)
+        ),
+        nb-theme(background-basic-color-2);
+    color: nb-theme(text-basic-color) !important;
+
+    button.toggle-sign {
+        background-color: color-mix(in srgb, var(--expense-category-color) 32%, nb-theme(background-basic-color-4));
+        color: color-mix(in srgb, var(--expense-category-color) 70%, nb-theme(text-basic-color)) !important;
+    }
+
+    input.t-input {
+        color: nb-theme(text-basic-color) !important;
+        border-color: color-mix(in srgb, var(--expense-category-color) 50%, nb-theme(border-basic-color-4)) !important;
+    }
+
+    input.t-input::placeholder {
+        color: nb-theme(text-hint-color) !important;
+    }
+}
+
+:host-context(.nb-theme-expensave-dark) ::ng-deep .expense-header.confirmed .suggestion-suffix {
+    color: nb-theme(text-hint-color) !important;
 }
 
 button.toggle-sign {
