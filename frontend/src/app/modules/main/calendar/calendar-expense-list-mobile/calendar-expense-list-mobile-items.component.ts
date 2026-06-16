@@ -25,6 +25,9 @@ import { ShortNumberPipe } from '../../../../pipes/shortnumber.pipe';
                     <nb-icon class="flex-shrink-0" icon="{{ expense.category?.icon }}pricetags-outline"></nb-icon>
                     <div class="text-truncate w-100">
                         <strong class="mx-2">{{ expense.amount | shortNumber }}</strong>
+                        @if (expense.recurring) {
+                            <nb-icon icon="sync-outline" class="repeat-icon me-1" />
+                        }
                         <span>{{ expense.label }}</span>
                     </div>
                     <small class="w-50 text-right text-truncate">{{ expense.category?.name }}</small>

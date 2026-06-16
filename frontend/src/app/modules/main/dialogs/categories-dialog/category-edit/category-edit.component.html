@@ -31,7 +31,7 @@
                 @for (color of colors; track $index) {
                     <button
                         type="button"
-                        class="color-picker-color d-flex justify-content-center align-items-center m-1"
+                        class="color-picker-color d-flex justify-content-center align-items-center"
                         (click)="category.color = color"
                         [style.background-color]="color">
                         @if (category.color !== color && usedColors[color]) {
@@ -42,7 +42,6 @@
                         }
                     </button>
                 }
-                <div class="clearfix"></div>
             </div>
         </nb-card-body>
 

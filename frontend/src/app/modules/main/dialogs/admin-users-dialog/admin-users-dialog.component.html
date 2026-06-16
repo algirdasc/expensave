@@ -21,7 +21,7 @@
                 <nb-list-item>
                     <nb-user [picture]="user.avatar" [name]="user.name" [title]="user.email" class="w-100" />
                     @if (!user.active) {
-                        <nb-badge text="DEACTIVATED" status="danger" style="position: relative" class="mx-1" />
+                        <nb-badge text="DEACTIVATED" status="danger" class="position-relative mx-1" />
                     } @else {
                         <nb-select
                             size="small"
