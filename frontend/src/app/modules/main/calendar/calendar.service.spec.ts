@@ -83,7 +83,7 @@ describe('CalendarService', () => {
         expect(dialogService.open).toHaveBeenCalled();
     });
 
-    it('opens the edit dialog directly from the clicked expense payload', (): void => {
+    it('opens the edit dialog with a copy of the clicked expense payload', (): void => {
         const expense = expenseWithId(5, categoryWithType(TYPE_UNCATEGORIZED));
         dialogService.open.and.returnValue(dialogRefWithCloseResult(expense));
 
@@ -93,13 +93,16 @@ describe('CalendarService', () => {
             ExpenseDialogComponent,
             jasmine.objectContaining({
                 context: jasmine.objectContaining({
-                    expense: expense,
                     showBalanceTab: false,
                     showTransferTab: false,
                     deletable: true,
                 }),
             })
         );
+        const context = dialogService.open.calls.mostRecent().args[1].context as { expense: Expense };
+        expect(context.expense).not.toBe(expense);
+        expect(context.expense.id).toBe(expense.id);
+        expect(context.expense.category.type).toBe(expense.category.type);
         expect(dialogService.open).toHaveBeenCalled();
     });
 
@@ -113,13 +116,16 @@ describe('CalendarService', () => {
             ExpenseDialogComponent,
             jasmine.objectContaining({
                 context: jasmine.objectContaining({
-                    expense,
                     showBalanceTab: true,
                     showTransferTab: false,
                     deletable: true,
                 }),
             })
         );
+        const context = dialogService.open.calls.mostRecent().args[1].context as { expense: Expense };
+        expect(context.expense).not.toBe(expense);
+        expect(context.expense.id).toBe(expense.id);
+        expect(context.expense.category.type).toBe(expense.category.type);
         expect(dialogService.open).toHaveBeenCalled();
     });
 });

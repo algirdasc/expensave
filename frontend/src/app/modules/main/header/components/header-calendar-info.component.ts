@@ -23,8 +23,8 @@ import { ExpenseReportComponent } from '../../components/expense-report/expense-
                             [nbPopover]="expenseReportComponent"
                             nbPopoverPlacement="bottom"
                             (click)="$event.preventDefault()"
-                            [class.text-success]="visibleDateBalance > 0"
-                            [class.text-danger]="visibleDateBalance < 0">
+                            [class.balance-positive]="visibleDateBalance > 0"
+                            [class.balance-negative]="visibleDateBalance < 0">
                             {{ visibleDateBalance | shortNumber }}
                         </a>
                     </span>
@@ -32,6 +32,17 @@ import { ExpenseReportComponent } from '../../components/expense-report/expense-
             </small>
         </div>
     `,
+    styles: [
+        `
+            .balance-positive {
+                color: var(--text-success-color);
+            }
+
+            .balance-negative {
+                color: var(--text-danger-color);
+            }
+        `,
+    ],
     imports: [NbPopoverModule, ShortNumberPipe, DecimalPipe],
 })
 export class HeaderCalendarInfoComponent {

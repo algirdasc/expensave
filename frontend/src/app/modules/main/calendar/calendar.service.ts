@@ -1,6 +1,6 @@
 import { inject, Injectable } from '@angular/core';
 import { NbDialogRef, NbDialogService } from '@nebular/theme';
-import { plainToInstance } from 'class-transformer';
+import { instanceToInstance, plainToInstance } from 'class-transformer';
 import { Calendar } from '../../../api/objects/calendar';
 import { Category, TYPE_BALANCE_UPDATE, TYPE_UNCATEGORIZED } from '../../../api/objects/category';
 import { Expense } from '../../../api/objects/expense';
@@ -20,7 +20,7 @@ export class CalendarService {
     private readonly userProfileQuery = injectQuery(() => this.userQueries.profile());
 
     public editExpense(expense: Expense): void {
-        this.openExpenseDialog(expense);
+        this.openExpenseDialog(instanceToInstance(expense));
     }
 
     public createExpense(calendar: Calendar, date: Date): void {
