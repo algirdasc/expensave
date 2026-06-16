@@ -40,6 +40,7 @@ import { NbEvaIconsModule } from '@nebular/eva-icons';
 import { AppComponent } from './app/app.component';
 import { provideTanStackQuery, QueryClient } from '@tanstack/angular-query-experimental';
 import { withDevtools } from '@tanstack/angular-query-experimental/devtools';
+import { ThemePreferenceService } from './app/services/theme-preference.service';
 
 const queryClient = new QueryClient();
 
@@ -74,6 +75,9 @@ bootstrapApplication(AppComponent, {
                     appInitializer.initializeApp()
             )(inject(AppInitializer));
             return initializerFn();
+        }),
+        provideAppInitializer(() => {
+            inject(ThemePreferenceService).initialize();
         }),
         {
             provide: LOCALE_ID,

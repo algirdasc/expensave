@@ -11,6 +11,11 @@
     @include nb-theme-global();
 }
 
+body {
+    --bs-border-color: var(--divider-color);
+    --bs-border-color-translucent: var(--divider-color);
+}
+
 nb-card-header.with-background,
 nb-card-footer.with-background,
 nb-list-item.with-background {
