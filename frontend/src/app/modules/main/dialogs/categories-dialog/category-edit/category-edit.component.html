@@ -10,10 +10,9 @@
         <nb-card-body>
             <div class="d-flex align-items-center mb-3">
                 <nb-icon icon="radio-button-on" class="flex-shrink-0 me-3" [style.color]="category.color" />
-                <div>
+                <div class="w-100">
                     <input type="hidden" required [(ngModel)]="category.color" name="color" />
-                    <nb-form-field>
-                        <nb-icon nbPrefix icon="pricetags-outline" />
+                    <nb-form-field class="w-100">
                         <input
                             #categoryName="ngModel"
                             nbInput
