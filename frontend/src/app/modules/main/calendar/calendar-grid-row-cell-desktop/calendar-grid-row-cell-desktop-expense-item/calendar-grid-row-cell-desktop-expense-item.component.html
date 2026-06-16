@@ -6,6 +6,9 @@
     [style.background-color]="expense.confirmed ? (expense.category?.color ?? UNCATEGORIZED_COLOR) : undefined"></div>
 
 <div class="expense-label text-truncate">
+    @if (expense.recurring) {
+        <nb-icon icon="sync-outline" class="text-hint repeat-icon" />
+    }
     {{ expense.label }}
 </div>
 

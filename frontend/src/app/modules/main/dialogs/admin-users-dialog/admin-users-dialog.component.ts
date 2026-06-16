@@ -17,6 +17,7 @@ import {
     NbUserModule,
 } from '@nebular/theme';
 import { injectMutation, injectQuery } from '@tanstack/angular-query-experimental';
+import { APP_CONFIG } from '../../../../app.initializer';
 import { User, UserRole } from '../../../../api/objects/user';
 import { UserQueries } from '../../../../queries/user.queries';
 import { ConfirmDialogComponent } from '../confirm-dialog/confirm-dialog.component';
@@ -43,6 +44,7 @@ export class AdminUsersDialogComponent {
     public readonly dialogRef = inject<NbDialogRef<AdminUsersDialogComponent>>(NbDialogRef);
     public currentUser: User;
 
+    protected readonly APP_CONFIG = APP_CONFIG;
     protected readonly roles: UserRole[] = ['user', 'admin'];
     protected temporaryPassword: string;
     protected temporaryPasswordUser: User;
@@ -192,6 +194,27 @@ export class AdminUsersDialogComponent {
                         this.toastrService.success('New password generated.', 'Users');
                     },
                 });
+            });
+    }
+
+    protected copyTemporaryPassword(): void {
+        if (!this.temporaryPassword) {
+            return;
+        }
+
+        if (!navigator.clipboard) {
+            this.toastrService.warning('Clipboard is not available.', 'Users');
+
+            return;
+        }
+
+        void navigator.clipboard
+            .writeText(this.temporaryPassword)
+            .then(() => {
+                this.toastrService.success('Temporary password copied.', 'Users');
+            })
+            .catch(() => {
+                this.toastrService.danger('Could not copy temporary password.', 'Users');
             });
     }
 

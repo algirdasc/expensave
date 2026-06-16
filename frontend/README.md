@@ -3,6 +3,6 @@
 ## Start dev server
 
 ```bash
-nvm use v20
+nvm use
 npm run dev
 ```

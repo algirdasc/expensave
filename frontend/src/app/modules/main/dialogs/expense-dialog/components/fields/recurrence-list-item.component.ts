@@ -1,136 +1,115 @@
 import { Component, Input, OnChanges } from '@angular/core';
 import { ControlContainer, FormsModule, NgForm } from '@angular/forms';
-import { NbButtonModule, NbIconModule, NbInputModule, NbListModule } from '@nebular/theme';
+import {
+    NbFormFieldModule,
+    NbIconModule,
+    NbInputModule,
+    NbListModule,
+    NbSelectModule,
+    NbToggleModule,
+} from '@nebular/theme';
 import { Expense } from '../../../../../../api/objects/expense';
 
 @Component({
     selector: 'app-expense-dialog-recurrence-list-item',
-    template: `<nb-list-item class="border-0 recurring-list-item">
-        <nb-icon icon="repeat-outline" class="me-3" [class.active]="expense.recurring"></nb-icon>
+    template: `<nb-list-item class="border-0 align-items-start">
+        <nb-icon icon="repeat-outline" class="mt-1 me-3" [class.active]="expense.recurring"></nb-icon>
 
-        <div class="w-100">
-            @if (isExistingRecurringExpense) {
-                <div class="recurring-edit">
-                    <div class="text-truncate">
-                        <span>Recurring expense</span>
-                        <small class="d-block text-hint">
-                            {{ frequencyLabel }} for {{ expense.recurringOccurrences }} expenses
-                        </small>
-                    </div>
-
-                    <label>
-                        <span>Update</span>
-                        <select
-                            class="form-select form-select-sm"
-                            name="recurringUpdateScope"
-                            [(ngModel)]="expense.recurringUpdateScope">
-                            <option value="this">This occurrence</option>
-                            <option value="future">This and future</option>
-                            <option value="past">This and past</option>
-                            <option value="all">All occurrences</option>
-                        </select>
-                    </label>
+        <div class="d-grid gap-2 w-100 overflow-hidden">
+            <div class="d-flex align-items-center justify-content-between gap-3 overflow-hidden">
+                <div class="overflow-hidden">
+                    <div class="text-truncate">{{ expense.recurring ? 'Repeating expense' : 'Repeat expense' }}</div>
+                    @if (expense.recurring) {
+                        <small class="d-block text-hint text-truncate">{{ recurrenceSummary }}</small>
+                    }
                 </div>
-            } @else {
-                <div class="d-flex align-items-center justify-content-between gap-3">
-                    <div class="text-truncate">
-                        <span>Repeat expense</span>
-                        @if (expense.recurring) {
-                            <small class="d-block text-hint">
-                                {{ frequencyLabel }} for {{ expense.recurringOccurrences }} expenses
-                            </small>
-                        }
-                    </div>
-                    <button
-                        nbButton
-                        type="button"
-                        size="tiny"
-                        [status]="expense.recurring ? 'primary' : 'basic'"
-                        (click)="toggleRecurring()">
-                        {{ expense.recurring ? 'On' : 'Off' }}
-                    </button>
-                </div>
-            }
 
-            @if (expense.recurring && !isExistingRecurringExpense) {
-                <div class="recurring-controls">
-                    <label>
-                        <span>Period</span>
-                        <select
-                            class="form-select form-select-sm"
-                            name="recurringFrequency"
-                            [(ngModel)]="expense.recurringFrequency">
-                            <option value="daily">Daily</option>
-                            <option value="weekly">Weekly</option>
-                            <option value="monthly">Monthly</option>
-                            <option value="yearly">Yearly</option>
-                        </select>
-                    </label>
+                <nb-toggle
+                    status="primary"
+                    [disabled]="isExistingRecurringExpense"
+                    [checked]="expense.recurring"
+                    (checkedChange)="setRecurring($event)">
+                </nb-toggle>
+            </div>
 
-                    <label>
-                        <span>Length</span>
-                        <input
-                            nbInput
-                            fullWidth
-                            size="small"
-                            type="number"
-                            name="recurringOccurrences"
-                            min="2"
-                            max="120"
-                            required
-                            [(ngModel)]="expense.recurringOccurrences" />
-                    </label>
+            @if (expense.recurring) {
+                <div class="border-top pt-2 d-grid gap-2">
+                    @if (isExistingRecurringExpense) {
+                        <div>
+                            <small class="d-block text-hint pb-1 text-uppercase">Update</small>
+                            <nb-select
+                                size="small"
+                                name="recurringUpdateScope"
+                                fullWidth
+                                [(ngModel)]="expense.recurringUpdateScope">
+                                <nb-option value="this">Only this expense</nb-option>
+                                <nb-option value="future">This and future expenses</nb-option>
+                                <nb-option value="past">This and past expenses</nb-option>
+                                <nb-option value="all">All related expenses</nb-option>
+                            </nb-select>
+                        </div>
+                    } @else {
+                        <div>
+                            <small class="d-block text-hint pb-1 text-uppercase">Frequency</small>
+                            <nb-form-field>
+                                <nb-icon nbPrefix icon="calendar-outline" />
+                                <nb-select
+                                    size="small"
+                                    name="recurringFrequency"
+                                    fullWidth
+                                    [(ngModel)]="expense.recurringFrequency">
+                                    <nb-option value="daily">Daily</nb-option>
+                                    <nb-option value="weekly">Weekly</nb-option>
+                                    <nb-option value="monthly">Monthly</nb-option>
+                                    <nb-option value="yearly">Yearly</nb-option>
+                                </nb-select>
+                            </nb-form-field>
+                        </div>
+
+                        <div>
+                            <small class="d-block text-hint pb-1 text-uppercase">Ends after</small>
+                            <nb-form-field>
+                                <nb-icon nbPrefix icon="hash-outline" />
+                                <input
+                                    nbInput
+                                    fullWidth
+                                    fieldSize="small"
+                                    type="number"
+                                    name="recurringOccurrences"
+                                    min="2"
+                                    max="120"
+                                    required
+                                    class="ends-after"
+                                    [(ngModel)]="expense.recurringOccurrences" />
+                                <span nbSuffix class="text-hint expense-suffix">expenses</span>
+                            </nb-form-field>
+                        </div>
+                    }
                 </div>
             }
         </div>
     </nb-list-item>`,
     styles: [
         `
-            :host {
-                display: block;
+            .ends-after {
+                padding-right: 210px !important;
             }
 
-            .recurring-list-item {
-                align-items: flex-start;
-            }
-
-            .recurring-controls {
-                display: grid;
-                grid-template-columns: minmax(0, 1fr) 96px;
-                gap: 0.75rem;
-                margin-top: 0.75rem;
-            }
-
-            .recurring-edit {
-                display: grid;
-                grid-template-columns: minmax(0, 1fr) minmax(140px, 176px);
-                gap: 0.75rem;
-                align-items: center;
-            }
-
-            .recurring-controls label,
-            .recurring-edit label {
-                display: grid;
-                gap: 0.25rem;
-                margin: 0;
-            }
-
-            .recurring-controls span,
-            .recurring-edit label span {
-                color: var(--text-hint-color);
-                font-size: 0.75rem;
-            }
-
-            @media (max-width: 420px) {
-                .recurring-edit,
-                .recurring-controls {
-                    grid-template-columns: minmax(0, 1fr);
-                }
+            .expense-suffix {
+                padding-right: 300px;
             }
         `,
     ],
     viewProviders: [{ provide: ControlContainer, useExisting: NgForm }],
-    imports: [FormsModule, NbButtonModule, NbIconModule, NbInputModule, NbListModule],
+    imports: [
+        FormsModule,
+        NbIconModule,
+        NbInputModule,
+        NbListModule,
+        NbSelectModule,
+        NbFormFieldModule,
+        NbToggleModule,
+    ],
 })
 export class RecurrenceListItemComponent implements OnChanges {
     @Input({ required: true })
@@ -148,16 +127,24 @@ export class RecurrenceListItemComponent implements OnChanges {
         return frequency[0].toUpperCase() + frequency.slice(1);
     }
 
+    protected get recurrenceSummary(): string {
+        return `Repeats ${this.frequencyLabel.toLowerCase()} for ${this.expense.recurringOccurrences ?? 12} expenses`;
+    }
+
     public ngOnChanges(): void {
         this.openedAsRecurringExpense = this.expense.recurring;
     }
 
-    protected toggleRecurring(): void {
-        this.expense.recurring = !this.expense.recurring;
+    protected setRecurring(recurring: boolean): void {
+        this.expense.recurring = recurring;
 
         if (this.expense.recurring) {
             this.expense.recurringFrequency ??= 'monthly';
             this.expense.recurringOccurrences ||= 12;
         }
+    }
+
+    protected toggleRecurring(): void {
+        this.setRecurring(!this.expense.recurring);
     }
 }

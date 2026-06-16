@@ -1,15 +1,21 @@
+.color-picker {
+    display: grid;
+    grid-template-columns: repeat(7, minmax(0, 1fr));
+    gap: 0.5rem;
+    justify-items: center;
+}
+
 .color-picker-color {
-  float: left;
-  height: 32px;
-  width: 32px;
-  border-radius: 50%;
-  cursor: pointer;
-  border: 0;
-  padding: 0;
+    height: 34px;
+    width: 34px;
+    border-radius: 50%;
+    cursor: pointer;
+    border: 0;
+    padding: 0;
 }
 
 .selected-color {
-  height: 24px;
-  width: 24px;
-  border-radius: 50%;
+    height: 24px;
+    width: 24px;
+    border-radius: 50%;
 }

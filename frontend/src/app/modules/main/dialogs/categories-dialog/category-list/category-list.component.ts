@@ -2,14 +2,14 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { slideAnimation } from '../../../../../animations/slide.animation';
 import { Category } from '../../../../../api/objects/category';
 import { UNCATEGORIZED_COLOR } from '../../../../../util/color.util';
-import { NbButtonModule, NbCardModule, NbIconModule, NbListModule } from '@nebular/theme';
+import { NbButtonModule, NbCardModule, NbIconModule, NbListModule, NbTooltipModule } from '@nebular/theme';
 
 @Component({
     templateUrl: 'category-list.component.html',
     styleUrls: ['category-list.component.scss'],
     selector: 'app-category-list',
     animations: slideAnimation,
-    imports: [NbCardModule, NbButtonModule, NbIconModule, NbListModule],
+    imports: [NbCardModule, NbButtonModule, NbIconModule, NbListModule, NbTooltipModule],
 })
 export class CategoryListComponent {
     @Input() public categories: Category[];

@@ -1,8 +1,15 @@
 <form #userForm="ngForm" (ngSubmit)="onSubmit()" autocomplete="off">
-    <nb-card [nbSpinner]="isBusy" class="dialog" style="min-height: 200px">
+    <nb-card [nbSpinner]="isBusy" class="dialog">
         <nb-card-header class="d-flex align-items-center justify-content-between">
             <nb-user [picture]="user.avatar" [name]="user.name" [title]="user.email" class="ms-1" />
-            <button nbButton type="button" status="primary" ghost (click)="dialogRef.close()">
+            <button
+                nbButton
+                type="button"
+                status="primary"
+                ghost
+                aria-label="Close profile dialog"
+                nbTooltip="Close"
+                (click)="dialogRef.close()">
                 <nb-icon icon="close-outline" />
             </button>
         </nb-card-header>
@@ -92,7 +99,7 @@
                 }
             </div>
         </nb-card-body>
-        <nb-card-footer class="text-right">
+        <nb-card-footer class="d-flex justify-content-end">
             <button nbButton type="submit" status="primary" [disabled]="isBusy || !userForm.form.valid">
                 <nb-icon icon="save-outline" /> Save
             </button>

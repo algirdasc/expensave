@@ -1,3 +1,73 @@
 .dialog {
     width: min(760px, calc(100vw - 2rem));
+    height: auto;
+    min-height: 0;
+    max-height: min(75vh, 640px);
+}
+
+nb-card-body {
+    overflow: auto;
+}
+
+.users-hint {
+    margin-bottom: 1rem;
+}
+
+.temporary-password {
+    color: var(--text-success-color);
+}
+
+.user-list-item {
+    padding-inline: 0;
+}
+
+.user-row {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    width: 100%;
+    min-width: 0;
+}
+
+.user-identity {
+    flex: 1 1 auto;
+    min-width: 0;
+}
+
+.user-controls {
+    display: grid;
+    grid-template-columns: minmax(10rem, 12rem) auto;
+    align-items: center;
+    justify-items: center;
+    justify-content: flex-end;
+    gap: 0.5rem;
+    flex: 0 0 auto;
+}
+
+.role-select {
+    width: 100%;
+    min-width: 10rem;
+}
+
+.user-actions {
+    flex: 0 0 auto;
+    justify-self: end;
+}
+
+.status-indicator {
+    justify-self: center;
+}
+
+@media (max-width: 575.98px) {
+    .user-row {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 0.75rem;
+    }
+
+    .user-controls {
+        grid-template-columns: minmax(10rem, 1fr) auto;
+        justify-content: space-between;
+        width: 100%;
+    }
 }

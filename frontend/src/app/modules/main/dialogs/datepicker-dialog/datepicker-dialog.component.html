@@ -1,6 +1,13 @@
 <nb-card class="dialog">
     <nb-card-header class="d-flex align-items-center justify-content-between">
-        <button nbButton type="button" status="primary" ghost (click)="dialogRef.close()">
+        <button
+            nbButton
+            type="button"
+            status="primary"
+            ghost
+            aria-label="Back from date picker"
+            nbTooltip="Back"
+            (click)="dialogRef.close()">
             <nb-icon icon="arrow-back-outline" />
         </button>
         Pick a date
