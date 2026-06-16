@@ -1,6 +1,14 @@
 <nb-card class="dialog">
     <nb-card-header class="d-flex align-items-center">
-        <button nbButton type="button" status="primary" ghost (click)="back.emit(true)" class="me-3">
+        <button
+            nbButton
+            type="button"
+            status="primary"
+            ghost
+            aria-label="Back from calendar selection"
+            nbTooltip="Back"
+            (click)="back.emit(true)"
+            class="me-3">
             <nb-icon icon="arrow-back-outline" />
         </button>
         Select calendar
@@ -20,7 +28,7 @@
             </nb-list-item>
         }
     </nb-list>
-    <nb-card-footer class="text-right">
+    <nb-card-footer class="d-flex justify-content-end">
         <button nbButton type="button" status="primary" ghost (click)="newCalendarClick.emit(true)">
             <nb-icon icon="plus" /> Add calendar
         </button>

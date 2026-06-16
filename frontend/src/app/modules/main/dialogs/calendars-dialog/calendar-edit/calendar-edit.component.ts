@@ -13,6 +13,7 @@ import {
     NbInputModule,
     NbListModule,
     NbOptionModule,
+    NbTooltipModule,
     NbUserModule,
 } from '@nebular/theme';
 import { AsyncPipe } from '@angular/common';
@@ -34,6 +35,7 @@ import { injectQuery } from '@tanstack/angular-query-experimental';
         NbListModule,
         NbAutocompleteModule,
         NbOptionModule,
+        NbTooltipModule,
         AsyncPipe,
     ],
 })

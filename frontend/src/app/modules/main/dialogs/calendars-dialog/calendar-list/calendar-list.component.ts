@@ -1,14 +1,14 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { slideAnimation } from '../../../../../animations/slide.animation';
 import { Calendar } from '../../../../../api/objects/calendar';
-import { NbButtonModule, NbCardModule, NbIconModule, NbListModule } from '@nebular/theme';
+import { NbButtonModule, NbCardModule, NbIconModule, NbListModule, NbTooltipModule } from '@nebular/theme';
 
 @Component({
     selector: 'app-calendar-list',
     templateUrl: 'calendar-list.component.html',
     styleUrls: ['calendar-list.component.scss'],
     animations: slideAnimation,
-    imports: [NbCardModule, NbButtonModule, NbIconModule, NbListModule],
+    imports: [NbCardModule, NbButtonModule, NbIconModule, NbListModule, NbTooltipModule],
 })
 export class CalendarListComponent {
     @Input() public calendars: Calendar[];

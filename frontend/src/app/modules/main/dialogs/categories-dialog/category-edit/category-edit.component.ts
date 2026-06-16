@@ -6,6 +6,7 @@ import {
     NbFormFieldModule,
     NbIconModule,
     NbInputModule,
+    NbTooltipModule,
 } from '@nebular/theme';
 import { Category } from '../../../../../api/objects/category';
 import { CategoryQueries } from '../../../../../queries/category.queries';
@@ -17,7 +18,15 @@ import { injectMutation } from '@tanstack/angular-query-experimental';
     templateUrl: 'category-edit.component.html',
     styleUrls: ['category-edit.component.scss'],
     selector: 'app-category-edit',
-    imports: [FormsModule, NbCardModule, NbButtonModule, NbIconModule, NbFormFieldModule, NbInputModule],
+    imports: [
+        FormsModule,
+        NbCardModule,
+        NbButtonModule,
+        NbIconModule,
+        NbFormFieldModule,
+        NbInputModule,
+        NbTooltipModule,
+    ],
 })
 export class CategoryEditComponent {
     @Input()

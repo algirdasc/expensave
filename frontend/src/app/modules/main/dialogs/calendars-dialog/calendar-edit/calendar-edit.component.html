@@ -1,7 +1,15 @@
 <form #calendarForm="ngForm" (submit)="save.emit(this.calendar)" autocomplete="off">
     <nb-card class="dialog">
         <nb-card-header class="d-flex align-items-center">
-            <button nbButton type="button" status="primary" ghost (click)="back.emit()" class="me-3">
+            <button
+                nbButton
+                type="button"
+                status="primary"
+                ghost
+                aria-label="Back from calendar management"
+                nbTooltip="Back"
+                (click)="back.emit()"
+                class="me-3">
                 <nb-icon icon="arrow-back-outline" />
             </button>
             Manage calendar
@@ -51,7 +59,8 @@
                                     size="small"
                                     status="danger"
                                     class="me-3"
-                                    title="Remove user"
+                                    [attr.aria-label]="'Remove ' + user.name + ' from calendar'"
+                                    nbTooltip="Remove user"
                                     (click)="removeUser(user)">
                                     <nb-icon icon="person-remove-outline" />
                                 </button>
@@ -85,7 +94,7 @@
             </div>
         </nb-card-body>
 
-        <nb-card-footer class="text-right">
+        <nb-card-footer class="d-flex justify-content-end">
             <button nbButton type="submit" status="primary" [disabled]="isBusy || !calendarForm.valid">
                 <nb-icon icon="save-outline" />
                 Save

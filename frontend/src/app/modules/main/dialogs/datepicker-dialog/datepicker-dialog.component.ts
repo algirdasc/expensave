@@ -1,10 +1,17 @@
 import { Component, inject, Input } from '@angular/core';
-import { NbButtonModule, NbCalendarModule, NbCardModule, NbDialogRef, NbIconModule } from '@nebular/theme';
+import {
+    NbButtonModule,
+    NbCalendarModule,
+    NbCardModule,
+    NbDialogRef,
+    NbIconModule,
+    NbTooltipModule,
+} from '@nebular/theme';
 
 @Component({
     templateUrl: 'datepicker-dialog.component.html',
     styleUrls: ['datepicker-dialog.component.scss'],
-    imports: [NbCardModule, NbButtonModule, NbIconModule, NbCalendarModule],
+    imports: [NbCardModule, NbButtonModule, NbIconModule, NbTooltipModule, NbCalendarModule],
 })
 export class DatepickerDialogComponent {
     @Input() public date: Date;

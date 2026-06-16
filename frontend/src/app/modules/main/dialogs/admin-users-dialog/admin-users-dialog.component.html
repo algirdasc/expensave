@@ -1,66 +1,119 @@
 <nb-card [nbSpinner]="isBusy" class="dialog">
     <nb-card-header class="d-flex align-items-center justify-content-between">
         Manage users
-        <button nbButton type="button" status="primary" ghost (click)="dialogRef.close()">
+        <button
+            nbButton
+            type="button"
+            status="primary"
+            ghost
+            aria-label="Close manage users dialog"
+            nbTooltip="Close"
+            (click)="dialogRef.close()">
             <nb-icon icon="close-outline" />
         </button>
     </nb-card-header>
 
     <nb-card-body>
+        @if (APP_CONFIG.registrationDisabled) {
+            <nb-alert accent="warning" class="users-hint">
+                Registration is currently disabled. New users will not be able to create accounts until registration is
+                enabled in the application environment by setting "REGISTRATION_DISABLED=false".
+            </nb-alert>
+        }
+
         @if (temporaryPassword) {
             <nb-alert accent="success">
-                <div>
-                    Password for {{ temporaryPasswordUser?.name }}:
-                    <code style="color: brown">{{ temporaryPassword }}</code>
+                <div class="d-flex align-items-center justify-content-between gap-3">
+                    <div class="overflow-hidden">
+                        <div class="text-truncate">Password for {{ temporaryPasswordUser?.name }}</div>
+                        <code class="temporary-password d-block text-truncate">{{ temporaryPassword }}</code>
+                    </div>
+                    <button
+                        nbButton
+                        type="button"
+                        size="tiny"
+                        status="success"
+                        ghost
+                        aria-label="Copy temporary password"
+                        nbTooltip="Copy password"
+                        (click)="copyTemporaryPassword()">
+                        <nb-icon icon="copy-outline" />
+                    </button>
                 </div>
             </nb-alert>
         }
 
-        <nb-list>
-            @for (user of users; track user.id) {
-                <nb-list-item>
-                    <nb-user [picture]="user.avatar" [name]="user.name" [title]="user.email" class="w-100" />
-                    @if (!user.active) {
-                        <nb-badge text="DEACTIVATED" status="danger" class="position-relative mx-1" />
-                    } @else {
-                        <nb-select
-                            size="small"
-                            class="mx-1"
-                            [(ngModel)]="user.role"
-                            [disabled]="isBusy || currentUser?.id === user.id"
-                            (ngModelChange)="updateRole(user, $event)">
-                            @for (role of roles; track role) {
-                                <nb-option [value]="role">{{ role === 'admin' ? 'Admin' : 'User' }}</nb-option>
-                            }
-                        </nb-select>
-                    }
-                    <nb-actions size="small">
-                        <nb-action
-                            icon="email-outline"
-                            nbTooltip="Send reset email"
-                            (click)="sendPasswordReset(user)"
-                            [disabled]="isBusy || !user.active || currentUser?.id === user.id" />
-                        <nb-action
-                            icon="shield-outline"
-                            nbTooltip="Generate new password"
-                            (click)="resetPassword(user)"
-                            [disabled]="isBusy || !user.active || currentUser?.id === user.id" />
-                        @if (user.active) {
-                            <nb-action
-                                icon="person-remove-outline"
-                                nbTooltip="Deactivate user"
-                                (click)="deactivateUser(user)"
-                                [disabled]="isBusy || currentUser?.id === user.id" />
-                        } @else {
-                            <nb-action
-                                icon="person-add-outline"
-                                nbTooltip="Activate user"
-                                (click)="activateUser(user)"
-                                [disabled]="isBusy || currentUser?.id === user.id" />
-                        }
-                    </nb-actions>
-                </nb-list-item>
-            }
-        </nb-list>
+        @if (users.length) {
+            <nb-list>
+                @for (user of users; track user.id) {
+                    <nb-list-item class="user-list-item">
+                        <div class="user-row">
+                            <nb-user
+                                [picture]="user.avatar"
+                                [name]="user.name"
+                                [title]="user.email"
+                                class="user-identity" />
+
+                            <div class="user-controls">
+                                @if (!user.active) {
+                                    <nb-badge
+                                        text="DEACTIVATED"
+                                        status="danger"
+                                        class="status-indicator position-relative" />
+                                } @else {
+                                    <nb-select
+                                        size="small"
+                                        class="role-select"
+                                        [attr.aria-label]="'Role for ' + user.name"
+                                        [(ngModel)]="user.role"
+                                        [disabled]="isBusy || currentUser?.id === user.id"
+                                        (ngModelChange)="updateRole(user, $event)">
+                                        @for (role of roles; track role) {
+                                            <nb-option [value]="role">
+                                                {{ role === 'admin' ? 'Admin' : 'User' }}
+                                            </nb-option>
+                                        }
+                                    </nb-select>
+                                }
+
+                                <nb-actions size="small" class="user-actions">
+                                    <nb-action
+                                        icon="email-outline"
+                                        nbTooltip="Send reset email"
+                                        [attr.aria-label]="'Send password reset email to ' + user.name"
+                                        (click)="sendPasswordReset(user)"
+                                        [disabled]="isBusy || !user.active || currentUser?.id === user.id" />
+                                    <nb-action
+                                        icon="shield-outline"
+                                        nbTooltip="Generate new password"
+                                        [attr.aria-label]="'Generate new password for ' + user.name"
+                                        (click)="resetPassword(user)"
+                                        [disabled]="isBusy || !user.active || currentUser?.id === user.id" />
+                                    @if (user.active) {
+                                        <nb-action
+                                            icon="person-remove-outline"
+                                            nbTooltip="Deactivate user"
+                                            [attr.aria-label]="'Deactivate ' + user.name"
+                                            (click)="deactivateUser(user)"
+                                            [disabled]="isBusy || currentUser?.id === user.id" />
+                                    } @else {
+                                        <nb-action
+                                            icon="person-add-outline"
+                                            nbTooltip="Activate user"
+                                            [attr.aria-label]="'Activate ' + user.name"
+                                            (click)="activateUser(user)"
+                                            [disabled]="isBusy || currentUser?.id === user.id" />
+                                    }
+                                </nb-actions>
+                            </div>
+                        </div>
+                    </nb-list-item>
+                }
+            </nb-list>
+        } @else if (!isBusy) {
+            <nb-list>
+                <nb-list-item class="text-hint">No users found.</nb-list-item>
+            </nb-list>
+        }
     </nb-card-body>
 </nb-card>

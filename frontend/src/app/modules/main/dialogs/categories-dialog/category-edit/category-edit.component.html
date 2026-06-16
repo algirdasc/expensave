@@ -1,7 +1,15 @@
 <form #categoryForm="ngForm" (submit)="save.emit(this.category)" autocomplete="off">
     <nb-card class="dialog">
         <nb-card-header class="d-flex align-items-center">
-            <button nbButton type="button" status="primary" ghost (click)="back.emit()" class="me-3">
+            <button
+                nbButton
+                type="button"
+                status="primary"
+                ghost
+                aria-label="Back from category management"
+                nbTooltip="Back"
+                (click)="back.emit()"
+                class="me-3">
                 <nb-icon icon="arrow-back-outline" />
             </button>
             Manage category
@@ -45,17 +53,26 @@
         </nb-card-body>
 
         <nb-card-footer>
-            <div class="d-flex flex-row-reverse justify-content-between">
+            <div class="d-flex align-items-center justify-content-between">
+                <span>
+                    @if (category.id && category.definedByUser) {
+                        <button
+                            nbButton
+                            type="button"
+                            ghost
+                            status="danger"
+                            aria-label="Delete category"
+                            nbTooltip="Delete category"
+                            (click)="deleteCategory()">
+                            <nb-icon icon="trash-2-outline" />
+                        </button>
+                    }
+                </span>
+
                 <button nbButton type="submit" status="primary" [disabled]="saveButtonEnabled || !categoryForm.valid">
                     <nb-icon icon="save-outline" />
                     Save
                 </button>
-
-                @if (category.id && category.definedByUser) {
-                    <button nbButton type="button" ghost status="danger" (click)="deleteCategory()">
-                        <nb-icon icon="trash-2-outline" />
-                    </button>
-                }
             </div>
         </nb-card-footer>
     </nb-card>

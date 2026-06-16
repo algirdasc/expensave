@@ -1,11 +1,18 @@
 import { AfterViewInit, Component, ElementRef, inject, Input, ViewChild } from '@angular/core';
-import { NbButtonModule, NbCardModule, NbDialogRef, NbIconModule, NbInputModule } from '@nebular/theme';
+import {
+    NbButtonModule,
+    NbCardModule,
+    NbDialogRef,
+    NbIconModule,
+    NbInputModule,
+    NbTooltipModule,
+} from '@nebular/theme';
 import { FormsModule } from '@angular/forms';
 
 @Component({
     templateUrl: 'input-dialog.component.html',
     styleUrls: ['input-dialog.component.scss'],
-    imports: [NbCardModule, NbButtonModule, NbIconModule, NbInputModule, FormsModule],
+    imports: [NbCardModule, NbButtonModule, NbIconModule, NbInputModule, NbTooltipModule, FormsModule],
 })
 export class InputDialogComponent implements AfterViewInit {
     @Input()

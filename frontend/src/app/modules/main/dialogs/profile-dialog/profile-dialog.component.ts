@@ -8,6 +8,7 @@ import {
     NbInputModule,
     NbSpinnerModule,
     NbToastrService,
+    NbTooltipModule,
     NbUserModule,
 } from '@nebular/theme';
 import { User } from '../../../../api/objects/user';
@@ -29,6 +30,7 @@ import { UserQueries } from '../../../../queries/user.queries';
         NbIconModule,
         NbFormFieldModule,
         NbInputModule,
+        NbTooltipModule,
     ],
 })
 export class ProfileDialogComponent {

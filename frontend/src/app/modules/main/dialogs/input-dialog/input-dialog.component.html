@@ -1,7 +1,14 @@
-<nb-card size="small">
+<nb-card class="dialog" size="small">
     <nb-card-header class="d-flex align-items-center justify-content-between">
         {{ title }}
-        <button nbButton type="button" status="primary" ghost (click)="dialogRef.close()">
+        <button
+            nbButton
+            type="button"
+            status="primary"
+            ghost
+            aria-label="Close input dialog"
+            nbTooltip="Close"
+            (click)="dialogRef.close()">
             <nb-icon icon="close-outline" />
         </button>
     </nb-card-header>
@@ -11,13 +18,12 @@
             nbInput
             fullWidth
             #focus
-            class="p-3 h-100 w-100 border-0"
-            style="resize: none"
+            class="dialog-textarea p-3 h-100 w-100 border-0"
             [placeholder]="placeholder"
             [(ngModel)]="text"></textarea>
     </nb-card-body>
 
-    <nb-card-footer class="text-right">
+    <nb-card-footer class="d-flex justify-content-end">
         <button nbButton type="button" status="primary" (click)="dialogRef.close(text ?? '')">
             <nb-icon icon="save-outline" />
             Save
