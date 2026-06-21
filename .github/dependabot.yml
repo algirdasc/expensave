@@ -38,3 +38,5 @@ updates:
         versions: [">=22"]
       - dependency-name: "@angular/cdk"
         versions: [">=21.1"]
+      - dependency-name: "typescript"
+        versions: [">=6"]
