@@ -12,7 +12,7 @@
         "beberlei/doctrineextensions": "^1.5",
         "doctrine/annotations": "^2.0",
         "doctrine/doctrine-bundle": "^3.2",
-        "doctrine/doctrine-migrations-bundle": "^3.3",
+        "doctrine/doctrine-migrations-bundle": "^4.0",
         "doctrine/orm": "^3.2",
         "gesdinet/jwt-refresh-token-bundle": "^2.0",
         "lexik/jwt-authentication-bundle": "^3.1",
