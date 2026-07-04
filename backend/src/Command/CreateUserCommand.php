@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 namespace App\Command;
 
+use App\Entity\Calendar;
 use App\Entity\User;
 use App\Enum\UserRole;
+use App\Repository\CalendarRepository;
 use App\Repository\UserRepository;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
@@ -23,6 +25,7 @@ class CreateUserCommand extends Command
 {
     public function __construct(
         private readonly UserRepository $userRepository,
+        private readonly CalendarRepository $calendarRepository,
         private readonly ValidatorInterface $validator,
     ) {
         parent::__construct();
@@ -84,8 +87,14 @@ class CreateUserCommand extends Command
 
         $this->userRepository->save($user);
 
+        $calendar = new Calendar('Personal', $user);
+        $this->calendarRepository->save($calendar);
+
+        $user->setDefaultCalendarId($calendar->getId());
+        $this->userRepository->save($user);
+
         $io->success(sprintf(
-            'User "%s" created successfully%s.',
+            'User "%s" created successfully%s. Default calendar "Personal" created.',
             $email,
             $isAdmin ? ' with admin role' : '',
         ));
