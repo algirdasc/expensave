@@ -98,33 +98,45 @@
 
     .install-hero-box {
       width: min(940px, 100%);
-      background: linear-gradient(180deg, rgba(27,31,42,.96), rgba(21,24,33,.96));
-      border: 1px solid rgba(52,59,74,.95);
-      border-radius: 18px;
-      padding: 1rem;
-      box-shadow: 0 20px 60px rgba(0,0,0,.45);
+      background: #1a1d27;
+      border: 1px solid #2a303d;
+      border-radius: 14px;
+      overflow: hidden;
+      box-shadow: 0 24px 70px rgba(0,0,0,.55);
       text-align:left;
     }
-    .install-hero-head {
-      display:flex; align-items:center; justify-content:space-between; gap:1rem;
-      margin-bottom:.75rem; flex-wrap:wrap;
+    .macos-titlebar {
+      display:flex; align-items:center; gap:.55rem;
+      background: #21242f; border-bottom:1px solid #2a303d;
+      padding:.65rem 1rem;
     }
-    .install-hero-title { font-size:.95rem; font-weight:600; color:var(--text); }
-    .install-hero-sub { font-size:.85rem; color:var(--text-muted); }
-    .install-hero-actions { display:flex; gap:.75rem; align-items:center; }
-    .install-copy {
-      background: rgba(34,39,51,.95); border:1px solid var(--border); color:var(--text);
-      padding:.55rem .95rem; border-radius:10px; cursor:pointer; font-size:.85rem; transition:.2s;
+    .macos-dot {
+      width:12px; height:12px; border-radius:50%;
     }
-    .install-copy:hover { border-color:#414959; }
-    .install-command {
-      width:100%; overflow:auto; border-radius:14px;
-      background:#0d1016; border:1px solid #202532; padding:1rem 1.1rem;
+    .macos-dot.red   { background:#ff5f57; }
+    .macos-dot.yellow{ background:#febc2e; }
+    .macos-dot.green { background:#28c840; }
+    .macos-titlebar-label {
+      flex:1; text-align:center; font-size:.78rem; color:#6c7689;
       font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-      font-size: .95rem; color:#dff7f2; white-space: nowrap;
+      margin-right:2.5rem;
     }
-    .install-command .prompt { color:#6c7689; margin-right:.75rem; }
-    .install-command .cmd { color:#baf3e5; }
+    .install-command {
+      display:flex; align-items:center; justify-content:space-between; gap:1rem;
+      padding:1rem 1.1rem; overflow:auto;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      font-size: .95rem; white-space: nowrap;
+    }
+    .install-command-left { display:flex; align-items:center; gap:.75rem; overflow:hidden; }
+    .install-command .prompt { color:#ff5f57; flex-shrink:0; }
+    .install-command .cmd { color:#baf3e5; overflow:hidden; text-overflow:ellipsis; }
+    .copy-inline {
+      flex-shrink:0; background:rgba(255,255,255,.06); border:1px solid #2a303d;
+      color:#8c94a7; border-radius:8px; cursor:pointer; padding:.3rem .5rem;
+      transition:.2s; display:flex; align-items:center; justify-content:center;
+    }
+    .copy-inline:hover { background:rgba(255,255,255,.1); color:var(--text); border-color:#414959; }
+    .copy-inline svg { width:15px; height:15px; fill:none; stroke:currentColor; stroke-width:1.8; stroke-linecap:round; stroke-linejoin:round; }
 
     section { padding: 5rem 2rem; }
     .container { max-width: 1120px; margin:0 auto; }
@@ -188,11 +200,12 @@
     .install-card h3 { font-size:1.05rem; margin-bottom:.45rem; }
     .install-card p { color:var(--text-muted); font-size:.9rem; margin-bottom:1rem; }
     .install-card .code-block {
-      width:100%; overflow:auto; white-space:nowrap;
-      background:#0d1016; border:1px solid #202532; border-radius:12px; padding:.9rem 1rem;
+      display:flex; align-items:center; justify-content:space-between; gap:.75rem;
+      background:#0d1016; border:1px solid #202532; border-radius:12px; padding:.85rem 1rem;
       font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-      font-size:.86rem; color:#baf3e5; margin-top:auto;
+      font-size:.86rem; color:#baf3e5; margin-top:auto; overflow:hidden;
     }
+    .install-card .code-block span { overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
     .install-card .helper { margin-top:.8rem; font-size:.82rem; color:var(--text-muted); }
     .hostinger-btn {
       display:flex; align-items:center; justify-content:center; width:100%;
@@ -266,16 +279,21 @@
       <a href="#install" class="btn-primary">🚀 Get started</a>
     </div>
     <div class="install-hero-box">
-      <div class="install-hero-head">
-        <div>
-          <div class="install-hero-title">Install in one command</div>
-          <div class="install-hero-sub">Interactive installer checks Docker, configures app, and starts everything for you.</div>
-        </div>
-        <div class="install-hero-actions">
-          <button class="install-copy" onclick="copyInstall()">Copy command</button>
-        </div>
+      <div class="macos-titlebar">
+        <span class="macos-dot red"></span>
+        <span class="macos-dot yellow"></span>
+        <span class="macos-dot green"></span>
+        <span class="macos-titlebar-label">bash</span>
       </div>
-      <div class="install-command"><span class="prompt">$</span><span id="install-cmd" class="cmd">curl -fsSL https://raw.githubusercontent.com/algirdasc/expensave/main/install.sh | sudo bash</span></div>
+      <div class="install-command">
+        <div class="install-command-left">
+          <span class="prompt">$</span>
+          <span id="install-cmd" class="cmd">curl -fsSL https://raw.githubusercontent.com/algirdasc/expensave/main/install.sh | sudo bash</span>
+        </div>
+        <button class="copy-inline" onclick="copyCmd(this,'install-cmd')" aria-label="Copy">
+          <svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+        </button>
+      </div>
     </div>
   </section>
 
@@ -326,13 +344,13 @@
           <span class="badge recommended">Recommended</span>
           <h3>Automated installer</h3>
           <p>Interactive bash script. Checks Docker, asks a few questions, and starts Expensave for you.</p>
-          <div class="code-block">curl -fsSL https://raw.githubusercontent.com/algirdasc/expensave/main/install.sh | sudo bash</div>
+          <div class="code-block"><span>curl -fsSL https://raw.githubusercontent.com/algirdasc/expensave/main/install.sh | sudo bash</span><button class="copy-inline" onclick="copyCmd(this,'cb-installer')" aria-label="Copy"><svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg></button><span id="cb-installer" style="display:none">curl -fsSL https://raw.githubusercontent.com/algirdasc/expensave/main/install.sh | sudo bash</span></div>
         </div>
         <div class="install-card" style="display:flex;flex-direction:column;">
           <span class="badge">Manual setup</span>
           <h3>Docker Compose</h3>
           <p>Prefer full control? Use Docker Compose and configure everything yourself.</p>
-          <div class="code-block" style="margin-top:auto;">docker compose up -d</div>
+          <div class="code-block" style="margin-top:auto;"><span>docker compose up -d</span><button class="copy-inline" onclick="copyText(this,'docker compose up -d')" aria-label="Copy"><svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg></button></div>
           <div class="helper">Step-by-step guide available in <a href="https://github.com/algirdasc/expensave/wiki/Installation" target="_blank">Installation wiki →</a></div>
         </div>
         <div class="install-card" style="display:flex;flex-direction:column;">
@@ -372,15 +390,23 @@
   </footer>
 
   <script>
-    function copyInstall() {
-      const cmd = document.getElementById('install-cmd').textContent;
-      navigator.clipboard.writeText(cmd).then(() => {
-        const btn = document.querySelector('.install-copy');
-        btn.textContent = 'Copied!';
-        setTimeout(() => btn.textContent = 'Copy command', 2000);
-      });
+    const copyIcon = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="15" height="15"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>`;
+    const checkIcon = `<svg viewBox="0 0 24 24" fill="none" stroke="#28c840" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" width="15" height="15"><polyline points="20 6 9 17 4 12"/></svg>`;
+
+    function flashCopied(btn) {
+      btn.innerHTML = checkIcon;
+      btn.style.color = '#28c840';
+      setTimeout(() => { btn.innerHTML = copyIcon; btn.style.color = ''; }, 2000);
     }
 
+    function copyCmd(btn, id) {
+      const text = document.getElementById(id).textContent;
+      navigator.clipboard.writeText(text).then(() => flashCopied(btn));
+    }
+
+    function copyText(btn, text) {
+      navigator.clipboard.writeText(text).then(() => flashCopied(btn));
+    }
   </script>
 </body>
 </html>
