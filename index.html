@@ -169,7 +169,7 @@
       border-top:1px solid var(--border); border-bottom:1px solid var(--border);
     }
     .install-options {
-      display:grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap:1.5rem; align-items:stretch;
+      display:grid; grid-template-columns: 1fr 1fr; gap:1.5rem; align-items:stretch;
     }
     .install-card.full {
       grid-column: 1 / -1;
@@ -237,7 +237,7 @@
       .install-command { font-size:.82rem; }
       .screenshot-row { grid-template-columns: 1fr; }
       .features-grid { grid-template-columns: 1fr; }
-      .install-options, .community-grid { grid-template-columns:1fr; }
+      .install-options, .install-card.full, .community-grid { grid-template-columns:1fr; grid-column: auto; }
     }
   </style>
 </head>
