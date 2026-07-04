@@ -7,22 +7,19 @@ set -uo pipefail
 # ─────────────────────────────────────────────
 
 REPO="algirdasc/expensave"
-SCRIPT_URL="https://raw.githubusercontent.com/${REPO}/main/install.sh"
 COMPOSE_URL="https://raw.githubusercontent.com/${REPO}/main/docker-compose.yml"
 DEFAULT_INSTALL_DIR="/opt/expensave"
 
-# When run via 'curl ... | bash', stdin is the script text. Interactive
-# reads and stdin-consuming commands then behave unpredictably. Re-exec
-# from a real file so the script body no longer lives on stdin.
+# When run via 'curl ... | bash', the script body is fed through stdin.
+# After the first interactive read the remaining script may be lost and
+# bash exits early. Copy *this same script* (from stdin) to a temp file
+# and re-exec it with the terminal as stdin — no re-download, so the
+# version never drifts.
 if [ ! -t 0 ] && [ -z "${EXPENSAVE_REEXEC:-}" ]; then
     tmp="$(mktemp)"
-    if curl -fsSL "$SCRIPT_URL" -o "$tmp"; then
-        export EXPENSAVE_REEXEC=1
-        exec bash "$tmp" "$@" < /dev/tty
-    else
-        printf "Failed to download installer from %s\n" "$SCRIPT_URL" >&2
-        exit 1
-    fi
+    cat > "$tmp"
+    export EXPENSAVE_REEXEC=1
+    exec bash "$tmp" "$@" < /dev/tty
 fi
 
 # Fail loudly on unexpected errors instead of exiting silently
