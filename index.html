@@ -171,6 +171,9 @@
     .install-options {
       display:grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap:1.5rem; align-items:stretch;
     }
+    .install-card.full {
+      grid-column: 1 / -1;
+    }
     .install-card {
       display:flex; flex-direction:column;
       background: rgba(27,31,42,.95); border:1px solid var(--border); border-radius:18px; padding:1.5rem;
@@ -247,7 +250,7 @@
       <a href="https://github.com/algirdasc/expensave" target="_blank" class="nav-btn" aria-label="GitHub repository">
         <svg class="github-icon" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8a8 8 0 0 0 5.47 7.59c.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.5-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82a7.56 7.56 0 0 1 4 0c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8 8 0 0 0 16 8c0-4.42-3.58-8-8-8Z"/></svg>
         GitHub
-        <img src="https://img.shields.io/github/stars/algirdasc/expensave?style=flat&label=stars&color=e3b341&labelColor=2a303d" alt="GitHub stars" style="height:20px;border-radius:6px;" />
+        <img src="https://img.shields.io/github/stars/algirdasc/expensave?style=flat&label=⭐&color=e3b341&labelColor=2a303d" alt="GitHub stars" style="height:20px;border-radius:6px;" />
       </a>
     </div>
   </nav>
@@ -257,7 +260,6 @@
     <p>Expensave is a free, self-hosted expense tracker for personal and family budget management. No subscriptions. No cloud lock-in. Just your data, on your own server.</p>
     <div class="hero-actions">
       <a href="#install" class="btn-primary">🚀 Get started</a>
-      <a href="https://github.com/algirdasc/expensave" target="_blank" class="btn-secondary">⭐ Star on GitHub</a>
     </div>
     <div class="install-hero-box">
       <div class="install-hero-head">
@@ -316,6 +318,12 @@
       <h2 class="section-title">One command. Your server. Done.</h2>
       <p class="section-sub">Choose guided install, manual Docker Compose setup, or one-click VPS deployment.</p>
       <div class="install-options">
+        <div class="install-card full">
+          <span class="badge recommended">Recommended</span>
+          <h3>Automated installer</h3>
+          <p>Interactive bash script. Checks Docker, asks a few questions, and starts Expensave for you.</p>
+          <div class="code-block">curl -fsSL https://raw.githubusercontent.com/algirdasc/expensave/main/install.sh | sudo bash</div>
+        </div>
         <div class="install-card">
           <span class="badge">Manual setup</span>
           <h3>Docker Compose</h3>
