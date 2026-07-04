@@ -130,6 +130,7 @@ collect_config() {
         TZ=$(detect_timezone)
         LOCALE=$(detect_locale)
         REGISTRATION_DISABLED="no"
+        ADMIN_NAME=""
         ADMIN_EMAIL=""
         ADMIN_PASSWORD=""
         USE_DEFAULTS=true
@@ -158,11 +159,13 @@ collect_config() {
         if confirm "Disable user registration? (single-user / private instance)" "n"; then
             REGISTRATION_DISABLED="yes"
             printf "\n"
-            info "Registration disabled — an admin account will be created."
-            ask ADMIN_EMAIL "Admin email" "admin@example.com"
+            info "Registration disabled — your account will be created."
+            ask ADMIN_NAME "Your name" ""
+            ask ADMIN_EMAIL "Your email" ""
             ADMIN_PASSWORD=$(gen_password)
         else
             REGISTRATION_DISABLED="no"
+            ADMIN_NAME=""
             ADMIN_EMAIL=""
             ADMIN_PASSWORD=""
         fi
@@ -240,6 +243,7 @@ EOF
         info "Creating admin user: ${ADMIN_EMAIL}"
         docker compose exec -T application php bin/console app:user:create \
             --email="$ADMIN_EMAIL" \
+            --name="$ADMIN_NAME" \
             --password="$ADMIN_PASSWORD" \
             --admin 2>/dev/null || \
         warn "Could not create admin user automatically. Create it manually after startup."
