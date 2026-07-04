@@ -10,47 +10,39 @@
 
 ## Screenshots
 
-> Fresh screenshots below. Jumbotron is reserved for the GitHub Pages landing page.
-
 ### Desktop
 
 <a href="https://raw.githubusercontent.com/algirdasc/expensave/main/docs/images/screenshots/desktop-calendar.png">
     <img alt="Expensave desktop calendar view" src="https://raw.githubusercontent.com/algirdasc/expensave/main/docs/images/screenshots/desktop-calendar.png" style="width: 49%; float: left;" />
 </a>
-<div><small>Calendar view: select account, date range, and overview of expenses.</small></div>
 <a href="https://raw.githubusercontent.com/algirdasc/expensave/main/docs/images/screenshots/desktop-expense-dialog.png">
     <img alt="Expensave desktop expense dialog" src="https://raw.githubusercontent.com/algirdasc/expensave/main/docs/images/screenshots/desktop-expense-dialog.png" style="width: 49%; float: right;" />
 </a>
-<div><small>Expense editor: create, edit, and confirm a transaction.</small></div>
 <div style="clear: both;"></div>
+<p><small><strong>Calendar & editing:</strong> browse your timeline, review entries, and create or edit transactions.</small></p>
 
 <a href="https://raw.githubusercontent.com/algirdasc/expensave/main/docs/images/screenshots/desktop-report.png">
-    <img alt="Expensave report view" src="https://raw.githubusercontent.com/algirdasc/expensave/main/docs/images/screenshots/desktop-report.png" style="width: 49%; float: left;" />
+    <img alt="Expensave desktop report view" src="https://raw.githubusercontent.com/algirdasc/expensave/main/docs/images/screenshots/desktop-report.png" style="width: 49%; float: left;" />
 </a>
-<div><small>Reports overview: spending analytics and trends by category and date.</small></div>
-<a href="https://raw.githubusercontent.com/algirdasc/expensave/main/docs/images/screenshots/desktop-reports-details.png">
-    <img alt="Expensave report details" src="https://raw.githubusercontent.com/algirdasc/expensave/main/docs/images/screenshots/desktop-reports-details.png" style="width: 49%; float: right;" />
+<a href="https://raw.githubusercontent.com/algirdasc/expensave/main/docs/images/screenshots/main_light.png">
+    <img alt="Expensave desktop light theme view" src="https://raw.githubusercontent.com/algirdasc/expensave/main/docs/images/screenshots/main_light.png" style="width: 49%; float: right;" />
 </a>
-<div><small>Reports details: drill down into detailed spending breakdowns.</small></div>
 <div style="clear: both;"></div>
+<p><small><strong>Reports & themes:</strong> analyze spending trends and use Expensave in light or dark mode.</small></p>
 
 ### Mobile
 
 <a href="https://raw.githubusercontent.com/algirdasc/expensave/main/docs/images/screenshots/mobile-overview.png">
-    <img alt="Expensave mobile main view" src="https://raw.githubusercontent.com/algirdasc/expensave/main/docs/images/screenshots/mobile-overview.png" style="width: 24%; float: left;" />
+    <img alt="Expensave mobile overview" src="https://raw.githubusercontent.com/algirdasc/expensave/main/docs/images/screenshots/mobile-overview.png" style="width: 32%; float: left;" />
 </a>
 <a href="https://raw.githubusercontent.com/algirdasc/expensave/main/docs/images/screenshots/mobile-expense-dialog.png">
-    <img alt="Expensave mobile expense dialog" src="https://raw.githubusercontent.com/algirdasc/expensave/main/docs/images/screenshots/mobile-expense-dialog.png" style="width: 24%; float: left;" />
+    <img alt="Expensave mobile expense dialog" src="https://raw.githubusercontent.com/algirdasc/expensave/main/docs/images/screenshots/mobile-expense-dialog.png" style="width: 32%; float: left;" />
 </a>
 <a href="https://raw.githubusercontent.com/algirdasc/expensave/main/docs/images/screenshots/mobile-reports-overview.png">
-    <img alt="Expensave mobile report view" src="https://raw.githubusercontent.com/algirdasc/expensave/main/docs/images/screenshots/mobile-reports-overview.png" style="width: 24%; float: left;" />
+    <img alt="Expensave mobile reports overview" src="https://raw.githubusercontent.com/algirdasc/expensave/main/docs/images/screenshots/mobile-reports-overview.png" style="width: 32%; float: left;" />
 </a>
-<div><small>Mobile reports overview: analytics on a small screen.</small></div>
-<a href="https://raw.githubusercontent.com/algirdasc/expensave/main/docs/images/screenshots/mobile-reports-details.png">
-    <img alt="Expensave mobile report details" src="https://raw.githubusercontent.com/algirdasc/expensave/main/docs/images/screenshots/mobile-reports-details.png" style="width: 24%; float: left;" />
-</a>
-<div><small>Mobile reports details: same charts, phone-friendly layout.</small></div>
 <div style="clear: both;"></div>
+<p><small><strong>Mobile experience:</strong> manage expenses, edit entries, and review reports on smaller screens.</small></p>
 
 ---
 
