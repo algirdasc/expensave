@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Expensave — Self-hosted Expense Tracker</title>
+  <meta name="description" content="Free, open-source self-hosted expense tracker for personal and family budget management. Track spending, share calendars, import bank statements." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --primary:     #3f5eb5;
+      --primary-light: #6d82dc;
+      --primary-dark: #293c86;
+      --secondary:   #00bd9d;
+      --secondary-light: #31d7bb;
+      --bg:          #101218;
+      --bg-2:        #151821;
+      --bg-3:        #1b1f2a;
+      --bg-4:        #222733;
+      --border:      #2a303d;
+      --text:        #d7dce8;
+      --text-muted:  #8c94a7;
+      --radius:      12px;
+      --radius-lg:   20px;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Ubuntu', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    a { color: var(--secondary); text-decoration: none; }
+    a:hover { color: var(--secondary-light); }
+
+    /* ── Nav ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 1rem 2rem;
+      background: rgba(16, 18, 24, 0.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-logo {
+      display: flex; align-items: center; gap: 0.75rem;
+      font-size: 1.2rem; font-weight: 600; color: var(--text);
+    }
+    .nav-logo img { width: 32px; height: 32px; border-radius: 8px; }
+    .nav-links { display: flex; gap: 1.5rem; align-items: center; }
+    .nav-links a { color: var(--text-muted); font-size: 0.9rem; transition: color .2s; }
+    .nav-links a:hover { color: var(--text); }
+    .nav-btn {
+      background: var(--primary);
+      color: #fff !important;
+      padding: 0.45rem 1.1rem;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      font-weight: 500;
+      transition: background .2s;
+    }
+    .nav-btn:hover { background: var(--primary-light) !important; color: #fff; }
+
+    /* ── Hero ── */
+    .hero {
+      min-height: 100vh;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      text-align: center;
+      padding: 8rem 2rem 4rem;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute; inset: 0;
+      background:
+        radial-gradient(ellipse 80% 60% at 50% -10%, rgba(63,94,181,.35) 0%, transparent 70%),
+        radial-gradient(ellipse 50% 40% at 80% 80%, rgba(0,189,157,.15) 0%, transparent 60%);
+      pointer-events: none;
+    }
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      background: rgba(63,94,181,.15);
+      border: 1px solid rgba(63,94,181,.4);
+      color: var(--primary-light);
+      padding: 0.35rem 1rem;
+      border-radius: 999px;
+      font-size: 0.8rem;
+      font-weight: 500;
+      margin-bottom: 1.5rem;
+    }
+    .hero-badge span { width: 6px; height: 6px; background: var(--secondary); border-radius: 50%; display: inline-block; }
+    .hero h1 {
+      font-size: clamp(2.5rem, 6vw, 4.5rem);
+      font-weight: 700;
+      line-height: 1.1;
+      margin-bottom: 1.25rem;
+      letter-spacing: -0.02em;
+    }
+    .hero h1 em {
+      font-style: normal;
+      background: linear-gradient(135deg, var(--primary-light), var(--secondary));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .hero p {
+      font-size: clamp(1rem, 2vw, 1.2rem);
+      color: var(--text-muted);
+      max-width: 560px;
+      margin: 0 auto 2.5rem;
+    }
+    .hero-actions { display: flex; gap: 1rem; flex-wrap: wrap; justify-content: center; margin-bottom: 3.5rem; }
+    .btn-primary {
+      background: var(--primary);
+      color: #fff;
+      padding: 0.85rem 2rem;
+      border-radius: var(--radius);
+      font-weight: 600;
+      font-size: 1rem;
+      transition: all .2s;
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      box-shadow: 0 4px 24px rgba(63,94,181,.35);
+    }
+    .btn-primary:hover { background: var(--primary-light); color: #fff; transform: translateY(-1px); box-shadow: 0 8px 32px rgba(63,94,181,.45); }
+    .btn-secondary {
+      background: var(--bg-4);
+      color: var(--text);
+      padding: 0.85rem 2rem;
+      border-radius: var(--radius);
+      font-weight: 500;
+      font-size: 1rem;
+      border: 1px solid var(--border);
+      transition: all .2s;
+      display: inline-flex; align-items: center; gap: 0.5rem;
+    }
+    .btn-secondary:hover { background: var(--bg-3); color: var(--text); border-color: #414959; transform: translateY(-1px); }
+
+    /* ── Install snippet ── */
+    .install-snippet {
+      background: var(--bg-3);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 0.75rem 1.25rem;
+      display: inline-flex; align-items: center; gap: 1rem;
+      font-family: 'Courier New', monospace;
+      font-size: 0.85rem;
+      color: var(--secondary);
+      max-width: 100%;
+    }
+    .install-snippet .prompt { color: var(--text-muted); user-select: none; }
+    .copy-btn {
+      background: none; border: none; cursor: pointer;
+      color: var(--text-muted); font-size: 0.75rem;
+      padding: 0.25rem 0.5rem;
+      border-radius: 6px;
+      transition: all .2s;
+      white-space: nowrap;
+    }
+    .copy-btn:hover { background: var(--bg-4); color: var(--text); }
+
+    /* ── Screenshot ── */
+    .screenshot-section {
+      padding: 2rem 2rem 5rem;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+    .screenshot-main {
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      border: 1px solid var(--border);
+      box-shadow: 0 24px 80px rgba(0,0,0,.6);
+    }
+    .screenshot-main img { width: 100%; display: block; }
+    .screenshot-row {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 1rem; margin-top: 1rem;
+    }
+    .screenshot-row img {
+      width: 100%; border-radius: var(--radius);
+      border: 1px solid var(--border);
+      box-shadow: 0 8px 32px rgba(0,0,0,.4);
+    }
+
+    /* ── Section ── */
+    section { padding: 5rem 2rem; }
+    .container { max-width: 1100px; margin: 0 auto; }
+    .section-label {
+      font-size: 0.75rem; font-weight: 600; letter-spacing: .1em;
+      text-transform: uppercase; color: var(--secondary);
+      margin-bottom: 0.75rem;
+    }
+    .section-title {
+      font-size: clamp(1.75rem, 3vw, 2.5rem);
+      font-weight: 700; line-height: 1.2;
+      margin-bottom: 1rem;
+    }
+    .section-sub {
+      color: var(--text-muted); font-size: 1.05rem;
+      max-width: 560px; margin-bottom: 3rem;
+    }
+
+    /* ── Features ── */
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.25rem;
+    }
+    .feature-card {
+      background: var(--bg-2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.5rem;
+      transition: border-color .2s, transform .2s;
+    }
+    .feature-card:hover { border-color: #414959; transform: translateY(-2px); }
+    .feature-icon { font-size: 1.75rem; margin-bottom: 0.75rem; display: block; }
+    .feature-card h3 { font-size: 1rem; font-weight: 600; margin-bottom: 0.4rem; }
+    .feature-card p { font-size: 0.9rem; color: var(--text-muted); line-height: 1.5; }
+
+    /* ── Install section ── */
+    .install-section { background: var(--bg-2); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+    .install-options { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem; margin-top: 2.5rem; }
+    .install-card {
+      background: var(--bg-3);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.5rem;
+    }
+    .install-card .badge {
+      display: inline-block;
+      background: rgba(63,94,181,.2);
+      color: var(--primary-light);
+      font-size: 0.7rem; font-weight: 600;
+      text-transform: uppercase; letter-spacing: .08em;
+      padding: 0.2rem 0.6rem; border-radius: 999px;
+      margin-bottom: 0.75rem;
+    }
+    .install-card .badge.recommended { background: rgba(0,189,157,.15); color: var(--secondary); }
+    .install-card h3 { font-size: 1rem; font-weight: 600; margin-bottom: 0.5rem; }
+    .install-card p { font-size: 0.875rem; color: var(--text-muted); margin-bottom: 1rem; }
+    .code-block {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 0.85rem 1rem;
+      font-family: 'Courier New', monospace;
+      font-size: 0.8rem;
+      color: var(--secondary);
+      overflow-x: auto;
+      white-space: nowrap;
+    }
+    .hostinger-btn { display: inline-block; margin-top: 0.75rem; }
+    .hostinger-btn img { height: 36px; }
+
+    /* ── Mobile ── */
+    .mobile-grid {
+      display: flex; gap: 1.5rem; justify-content: center; flex-wrap: wrap;
+      margin-top: 2.5rem;
+    }
+    .mobile-grid img {
+      width: 200px; border-radius: var(--radius);
+      border: 1px solid var(--border);
+      box-shadow: 0 8px 32px rgba(0,0,0,.5);
+    }
+
+    /* ── Community ── */
+    .community-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1.25rem; margin-top: 2.5rem; }
+    .community-card {
+      background: var(--bg-2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.5rem;
+      text-align: center;
+      transition: border-color .2s, transform .2s;
+    }
+    .community-card:hover { border-color: #414959; transform: translateY(-2px); }
+    .community-card .icon { font-size: 2rem; margin-bottom: 0.75rem; display: block; }
+    .community-card h3 { font-size: 1rem; font-weight: 600; margin-bottom: 0.4rem; }
+    .community-card p { font-size: 0.875rem; color: var(--text-muted); margin-bottom: 1rem; }
+    .community-card a {
+      display: inline-block;
+      background: var(--bg-4);
+      border: 1px solid var(--border);
+      color: var(--text);
+      padding: 0.45rem 1rem;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      font-weight: 500;
+      transition: all .2s;
+    }
+    .community-card a:hover { background: var(--bg-3); border-color: #414959; }
+
+    /* ── Footer ── */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 2.5rem 2rem;
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 0.875rem;
+    }
+    footer .footer-links { display: flex; gap: 1.5rem; justify-content: center; margin-bottom: 1rem; flex-wrap: wrap; }
+    footer .footer-links a { color: var(--text-muted); transition: color .2s; }
+    footer .footer-links a:hover { color: var(--text); }
+
+    /* ── Responsive ── */
+    @media (max-width: 640px) {
+      nav { padding: 1rem; }
+      .nav-links { gap: 1rem; }
+      .nav-links a:not(.nav-btn) { display: none; }
+      .screenshot-row { grid-template-columns: 1fr; }
+      .install-snippet { font-size: 0.75rem; }
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo">
+    <img src="https://raw.githubusercontent.com/algirdasc/expensave/main/frontend/src/assets/images/logo-256x256.png" alt="Expensave logo" />
+    Expensave
+  </div>
+  <div class="nav-links">
+    <a href="#features">Features</a>
+    <a href="#install">Install</a>
+    <a href="#community">Community</a>
+    <a href="https://github.com/algirdasc/expensave" target="_blank" class="nav-btn">GitHub ↗</a>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="hero-badge"><span></span> Open-source · Self-hosted · Free forever</div>
+  <h1>Track expenses,<br /><em>own your data.</em></h1>
+  <p>Expensave is a free, self-hosted expense tracker for personal and family budget management. No subscriptions. No cloud. Your server, your rules.</p>
+  <div class="hero-actions">
+    <a href="#install" class="btn-primary">🚀 Get started</a>
+    <a href="https://github.com/algirdasc/expensave" target="_blank" class="btn-secondary">⭐ Star on GitHub</a>
+  </div>
+  <div class="install-snippet">
+    <span class="prompt">$</span>
+    <span id="install-cmd">curl -fsSL https://raw.githubusercontent.com/algirdasc/expensave/main/install.sh | sudo bash</span>
+    <button class="copy-btn" onclick="copyInstall()">Copy</button>
+  </div>
+</section>
+
+<div class="screenshot-section">
+  <div class="screenshot-main">
+    <img src="https://raw.githubusercontent.com/algirdasc/expensave/main/docs/images/screenshots/desktop-calendar.png" alt="Expensave calendar view" />
+  </div>
+  <div class="screenshot-row">
+    <img src="https://raw.githubusercontent.com/algirdasc/expensave/main/docs/images/screenshots/desktop-expense-dialog.png" alt="Expensave expense dialog" />
+    <img src="https://raw.githubusercontent.com/algirdasc/expensave/main/docs/images/screenshots/desktop-sidebar.png" alt="Expensave sidebar" />
+  </div>
+</div>
+
+<section id="features">
+  <div class="container">
+    <div class="section-label">Features</div>
+    <h2 class="section-title">Everything you need to manage finances</h2>
+    <p class="section-sub">Built for individuals and families who want full control over their financial data.</p>
+    <div class="features-grid">
+      <div class="feature-card"><span class="feature-icon">👥</span><h3>Multi-user support</h3><p>Invite family members and share expense calendars. Everyone stays on the same page.</p></div>
+      <div class="feature-card"><span class="feature-icon">📅</span><h3>Unlimited calendars</h3><p>Create separate calendars for different budgets — household, travel, personal spending.</p></div>
+      <div class="feature-card"><span class="feature-icon">🔁</span><h3>Recurring expenses</h3><p>Set up daily, weekly, monthly, or yearly recurring transactions. Never miss a bill.</p></div>
+      <div class="feature-card"><span class="feature-icon">🏦</span><h3>Bank statement import</h3><p>Import transactions from your bank in various formats. Supports multiple financial institutions.</p></div>
+      <div class="feature-card"><span class="feature-icon">📊</span><h3>Reports & insights</h3><p>Visualise spending habits and income with clear, actionable reports.</p></div>
+      <div class="feature-card"><span class="feature-icon">📱</span><h3>Mobile PWA</h3><p>Install on iOS or Android directly from the browser. No app store required.</p></div>
+      <div class="feature-card"><span class="feature-icon">🔒</span><h3>Your data, your server</h3><p>Self-hosted means zero third-party access to your financial data. GPL-3 licensed.</p></div>
+      <div class="feature-card"><span class="feature-icon">🐳</span><h3>Docker-first</h3><p>One command to install. Runs anywhere Docker runs — VPS, home server, Raspberry Pi.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="install" class="install-section">
+  <div class="container">
+    <div class="section-label">Installation</div>
+    <h2 class="section-title">Up and running in minutes</h2>
+    <p class="section-sub">Three ways to install — pick what works for you.</p>
+    <div class="install-options">
+      <div class="install-card">
+        <span class="badge recommended">⭐ Recommended</span>
+        <h3>Automated installer</h3>
+        <p>Interactive bash script. Checks requirements, configures settings, and starts the app.</p>
+        <div class="code-block">curl -fsSL https://raw.githubusercontent.com/algirdasc/expensave/main/install.sh | sudo bash</div>
+      </div>
+      <div class="install-card">
+        <span class="badge">Docker Compose</span>
+        <h3>Manual setup</h3>
+        <p>Download the compose file and configure your own <code style="color:var(--secondary);font-size:.85em">.env</code>. Full control.</p>
+        <div class="code-block">docker compose up -d</div>
+        <p style="margin-top:.75rem;font-size:.8rem;color:var(--text-muted)">See <a href="https://github.com/algirdasc/expensave/wiki/Installation">full instructions →</a></p>
+      </div>
+      <div class="install-card">
+        <span class="badge">One-click</span>
+        <h3>Deploy on Hostinger</h3>
+        <p>Launch on a Hostinger VPS with Docker pre-configured. No terminal needed.</p>
+        <a href="https://www.hostinger.com/vps/docker-hosting?compose_url=https://raw.githubusercontent.com/algirdasc/expensave/refs/heads/main/docker-compose.yml&REFERRALCODE=1ALGIRDAS48#pricing" target="_blank" class="hostinger-btn">
+          <img src="https://assets.hostinger.com/vps/deploy.svg" alt="Deploy on Hostinger" />
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="container" style="text-align:center">
+    <div class="section-label">Mobile</div>
+    <h2 class="section-title">Works great on mobile</h2>
+    <p class="section-sub" style="margin:0 auto 0">Install as a PWA on iOS or Android — no app store, no extra setup.</p>
+    <div class="mobile-grid">
+      <img src="https://raw.githubusercontent.com/algirdasc/expensave/main/docs/images/screenshots/mobile-calendar.png" alt="Expensave mobile calendar" />
+      <img src="https://raw.githubusercontent.com/algirdasc/expensave/main/docs/images/screenshots/mobile-expense-dialog.png" alt="Expensave mobile expense dialog" />
+      <img src="https://raw.githubusercontent.com/algirdasc/expensave/main/docs/images/screenshots/mobile-sidebar.png" alt="Expensave mobile sidebar" />
+    </div>
+  </div>
+</section>
+
+<section id="community">
+  <div class="container">
+    <div class="section-label">Community</div>
+    <h2 class="section-title">Join the community</h2>
+    <p class="section-sub">Questions, ideas, bug reports — we're here to help.</p>
+    <div class="community-grid">
+      <div class="community-card"><span class="icon">💬</span><h3>Discussions</h3><p>Ask questions, share ideas, and connect with other Expensave users.</p><a href="https://github.com/algirdasc/expensave/discussions" target="_blank">Join discussions →</a></div>
+      <div class="community-card"><span class="icon">🐛</span><h3>Bug reports</h3><p>Found something broken? Open an issue and we'll get it fixed.</p><a href="https://github.com/algirdasc/expensave/issues" target="_blank">Open an issue →</a></div>
+      <div class="community-card"><span class="icon">❤️</span><h3>Sponsor</h3><p>Expensave is built in free time. Your support keeps the project alive.</p><a href="https://github.com/sponsors/algirdasc" target="_blank">Become a sponsor →</a></div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-links">
+    <a href="https://github.com/algirdasc/expensave" target="_blank">GitHub</a>
+    <a href="https://github.com/algirdasc/expensave/wiki" target="_blank">Documentation</a>
+    <a href="https://github.com/algirdasc/expensave/discussions" target="_blank">Discussions</a>
+    <a href="https://github.com/algirdasc/expensave/issues" target="_blank">Issues</a>
+    <a href="https://github.com/algirdasc/expensave/blob/main/LICENSE" target="_blank">GPL-3.0</a>
+  </div>
+  <p>Expensave is free, open-source software licensed under <a href="https://github.com/algirdasc/expensave/blob/main/LICENSE" target="_blank">GPL-3.0</a>.</p>
+</footer>
+
+<script>
+  function copyInstall() {
+    const cmd = document.getElementById('install-cmd').textContent;
+    navigator.clipboard.writeText(cmd).then(() => {
+      const btn = document.querySelector('.copy-btn');
+      btn.textContent = 'Copied!';
+      setTimeout(() => btn.textContent = 'Copy', 2000);
+    });
+  }
+</script>
+
+</body>
+</html>
