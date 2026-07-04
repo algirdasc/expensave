@@ -10,6 +10,16 @@ REPO="algirdasc/expensave"
 COMPOSE_URL="https://raw.githubusercontent.com/${REPO}/main/docker-compose.yml"
 DEFAULT_INSTALL_DIR="/opt/expensave"
 
+# Interactive prompts read from /dev/tty (see ask/confirm), so the script
+# works even when piped via 'curl ... | bash'. Require a usable terminal.
+if [ ! -r /dev/tty ]; then
+    printf "This installer is interactive and needs a terminal (/dev/tty).\n" >&2
+    exit 1
+fi
+
+# Surface unexpected failures instead of a bare non-zero exit
+trap 'code=$?; if [ $code -ne 0 ]; then printf "\n  \033[0;31m✗ Installer failed (exit %s). See the message above.\033[0m\n\n" "$code" >&2; fi' EXIT
+
 # ── Colors ────────────────────────────────────
 RED='\033[0;31m'
 GREEN='\033[0;32m'
@@ -31,7 +41,7 @@ ask() {
     # ask <var_name> <prompt> <default>
     local var="$1" prompt="$2" default="$3"
     printf "  ${BOLD}%s${NC} ${DIM}[%s]${NC}: " "$prompt" "$default"
-    read -r input
+    read -r input < /dev/tty
     eval "$var=\"${input:-$default}\""
 }
 
@@ -39,7 +49,7 @@ ask_secret() {
     # ask_secret <var_name> <prompt>
     local var="$1" prompt="$2"
     printf "  ${BOLD}%s${NC}: " "$prompt"
-    read -rs input
+    read -rs input < /dev/tty
     printf "\n"
     eval "$var=\"$input\""
 }
@@ -50,14 +60,17 @@ confirm() {
     local hint
     [ "$default" = "y" ] && hint="Y/n" || hint="y/N"
     printf "  ${BOLD}%s${NC} ${DIM}[%s]${NC}: " "$prompt" "$hint"
-    read -r answer
+    read -r answer < /dev/tty
     answer="${answer:-$default}"
     [[ "$answer" =~ ^[Yy] ]]
 }
 
 gen_password() {
-    # 20 char alphanumeric
-    tr -dc 'A-Za-z0-9' </dev/urandom | head -c 20
+    # 20 char alphanumeric. Read a fixed random chunk into a var first,
+    # then transform in-memory — no pipes, no SIGPIPE, no subshell quirks.
+    local raw
+    raw=$(head -c 4096 /dev/urandom | LC_ALL=C tr -dc 'A-Za-z0-9')
+    printf '%s' "${raw:0:20}"
 }
 
 detect_timezone() {
@@ -179,8 +192,14 @@ do_install() {
 
     # Create install dir
     info "Creating directory: ${INSTALL_DIR}"
-    mkdir -p "$INSTALL_DIR"
-    cd "$INSTALL_DIR"
+    if ! mkdir -p "$INSTALL_DIR"; then
+        error "Could not create ${INSTALL_DIR}. Try running with sudo."
+        exit 1
+    fi
+    if ! cd "$INSTALL_DIR"; then
+        error "Could not enter ${INSTALL_DIR}."
+        exit 1
+    fi
 
     # Generate secrets
     local db_password
