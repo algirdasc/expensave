@@ -49,7 +49,8 @@
       padding:.5rem 1rem; border-radius:10px; font-size:.85rem; font-weight:500;
       transition: all .2s;
     }
-    .nav-btn:hover { border-color:#4d5668; transform:translateY(-1px); }
+    .nav-btn:hover { border-color:#4d5668; background: linear-gradient(180deg, rgba(52,59,74,.96), rgba(34,39,51,.96)); }
+    .nav-star { display:inline-flex; align-items:center; gap:.35rem; background: rgba(255,255,255,.06); border-radius:6px; padding:.15rem .45rem; font-size:.78rem; color:var(--text-muted); }
     .github-icon { width:16px; height:16px; fill:currentColor; }
 
     .hero {
@@ -258,13 +259,13 @@
       <a href="https://github.com/algirdasc/expensave" target="_blank" class="nav-btn" aria-label="GitHub repository">
         <svg class="github-icon" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8a8 8 0 0 0 5.47 7.59c.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.5-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82a7.56 7.56 0 0 1 4 0c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8 8 0 0 0 16 8c0-4.42-3.58-8-8-8Z"/></svg>
         GitHub
+        <span class="nav-star">⭐ 22</span>
       </a>
     </div>
   </nav>
 
   <section class="hero">
-    <div class="hero-badge"><span></span> Open-source · Self-hosted · Free forever</div>
-    <h1>Track expenses.<br><em>Keep every euro close.</em></h1>
+    <h1>Budget smarter.<br><em>See exactly where your money goes.</em></h1>
     <p>Expensave is a free, self-hosted expense tracker for personal and family budget management. No subscriptions. No cloud lock-in. Just your data, on your own server.</p>
     <div class="hero-actions">
       <a href="#install" class="btn-primary">🚀 Get started</a>
@@ -287,7 +288,7 @@
   <section>
     <div class="container">
       <div class="section-label">Interface</div>
-      <h2 class="section-title">Clean calendar-first interface for everyday budgeting</h2>
+      <h2 class="section-title">All your money at a glance.</h2>
       <p class="section-sub">See incoming and outgoing money at a glance, add transactions quickly, and keep family budgets organised without spreadsheet chaos.</p>
       <div class="showcase-grid">
         <div class="showcase-main">
@@ -301,6 +302,11 @@
           <div class="showcase-shot"><img src="https://raw.githubusercontent.com/algirdasc/expensave/main/docs/images/screenshots/desktop-expense-dialog.png" alt="Expensave expense dialog" /></div>
           <div class="showcase-shot"><img src="https://raw.githubusercontent.com/algirdasc/expensave/main/docs/images/screenshots/desktop-sidebar.png" alt="Expensave sidebar and calendar list" /></div>
         </div>
+      </div>
+      <div class="mobile-grid" style="margin-top:1.5rem; justify-content:flex-start;">
+        <img src="https://raw.githubusercontent.com/algirdasc/expensave/main/docs/images/screenshots/mobile-calendar.png" alt="Expensave mobile calendar" />
+        <img src="https://raw.githubusercontent.com/algirdasc/expensave/main/docs/images/screenshots/mobile-expense-dialog.png" alt="Expensave mobile expense dialog" />
+        <img src="https://raw.githubusercontent.com/algirdasc/expensave/main/docs/images/screenshots/mobile-sidebar.png" alt="Expensave mobile sidebar" />
       </div>
     </div>
   </section>
@@ -324,15 +330,9 @@
   <section id="install" class="install-section">
     <div class="container">
       <div class="section-label">Installation</div>
-      <h2 class="section-title">Start fast. Keep control.</h2>
+      <h2 class="section-title">One command. Your server. Done.</h2>
       <p class="section-sub">Choose guided install, manual Docker Compose setup, or one-click VPS deployment.</p>
       <div class="install-options">
-        <div class="install-card">
-          <span class="badge recommended">Recommended</span>
-          <h3>Automated installer</h3>
-          <p>Interactive pure bash installer. Verifies Docker, asks a few friendly questions, and launches Expensave for you.</p>
-          <div class="code-block">curl -fsSL https://raw.githubusercontent.com/algirdasc/expensave/main/install.sh | sudo bash</div>
-        </div>
         <div class="install-card">
           <span class="badge">Manual setup</span>
           <h3>Docker Compose</h3>
