@@ -76,7 +76,7 @@ class CreateUserCommand extends Command
         $errors = $this->validator->validate($user);
         if (count($errors) > 0) {
             foreach ($errors as $error) {
-                $io->error($error->getMessage());
+                $io->error((string) $error->getMessage());
             }
 
             return Command::FAILURE;
