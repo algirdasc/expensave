@@ -12,38 +12,38 @@
 
 ### Desktop
 
-<a href="https://raw.githubusercontent.com/algirdasc/expensave/main/docs/images/screenshots/jumbotron.png">
-    <img alt="Expensave desktop main view" src="https://raw.githubusercontent.com/algirdasc/expensave/main/docs/images/screenshots/jumbotron.png" />
+<a href="https://raw.githubusercontent.com/algirdasc/expensave/main/docs/images/screenshots/desktop-overview.png">
+    <img alt="Expensave desktop main view" src="https://raw.githubusercontent.com/algirdasc/expensave/main/docs/images/screenshots/desktop-overview.png" />
 </a>
-<a href="https://raw.githubusercontent.com/algirdasc/expensave/main/docs/images/screenshots/main.png">
-    <img alt="Expensave desktop calendar view" src="https://raw.githubusercontent.com/algirdasc/expensave/main/docs/images/screenshots/main.png" style="width: 49%; float: left;" />
+<a href="https://raw.githubusercontent.com/algirdasc/expensave/main/docs/images/screenshots/desktop-calendar.png">
+    <img alt="Expensave desktop calendar view" src="https://raw.githubusercontent.com/algirdasc/expensave/main/docs/images/screenshots/desktop-calendar.png" style="width: 49%; float: left;" />
 </a>
-<a href="https://raw.githubusercontent.com/algirdasc/expensave/main/docs/images/screenshots/main_expense.png">
-    <img alt="Expensave desktop expense dialog" src="https://raw.githubusercontent.com/algirdasc/expensave/main/docs/images/screenshots/main_expense.png" style="width: 49%; float: right;" />
+<a href="https://raw.githubusercontent.com/algirdasc/expensave/main/docs/images/screenshots/desktop-expense-dialog.png">
+    <img alt="Expensave desktop expense dialog" src="https://raw.githubusercontent.com/algirdasc/expensave/main/docs/images/screenshots/desktop-expense-dialog.png" style="width: 49%; float: right;" />
 </a>
 <div style="clear: both;"></div>
 
-<a href="https://raw.githubusercontent.com/algirdasc/expensave/main/docs/images/screenshots/report.png">
-    <img alt="Expensave report view" src="https://raw.githubusercontent.com/algirdasc/expensave/main/docs/images/screenshots/report.png" style="width: 49%; float: left;" />
+<a href="https://raw.githubusercontent.com/algirdasc/expensave/main/docs/images/screenshots/desktop-reports-overview.png">
+    <img alt="Expensave report view" src="https://raw.githubusercontent.com/algirdasc/expensave/main/docs/images/screenshots/desktop-reports-overview.png" style="width: 49%; float: left;" />
 </a>
-<a href="https://raw.githubusercontent.com/algirdasc/expensave/main/docs/images/screenshots/report_2.png">
-    <img alt="Expensave report details" src="https://raw.githubusercontent.com/algirdasc/expensave/main/docs/images/screenshots/report_2.png" style="width: 49%; float: right;" />
+<a href="https://raw.githubusercontent.com/algirdasc/expensave/main/docs/images/screenshots/desktop-reports-details.png">
+    <img alt="Expensave report details" src="https://raw.githubusercontent.com/algirdasc/expensave/main/docs/images/screenshots/desktop-reports-details.png" style="width: 49%; float: right;" />
 </a>
 <div style="clear: both;"></div>
 
 ### Mobile
 
-<a href="https://raw.githubusercontent.com/algirdasc/expensave/main/docs/images/screenshots/mobile.png">
-    <img alt="Expensave mobile main view" src="https://raw.githubusercontent.com/algirdasc/expensave/main/docs/images/screenshots/mobile.png" style="width: 24%; float: left;" />
+<a href="https://raw.githubusercontent.com/algirdasc/expensave/main/docs/images/screenshots/mobile-overview.png">
+    <img alt="Expensave mobile main view" src="https://raw.githubusercontent.com/algirdasc/expensave/main/docs/images/screenshots/mobile-overview.png" style="width: 24%; float: left;" />
 </a>
-<a href="https://raw.githubusercontent.com/algirdasc/expensave/main/docs/images/screenshots/mobile_expense.png">
-    <img alt="Expensave mobile expense dialog" src="https://raw.githubusercontent.com/algirdasc/expensave/main/docs/images/screenshots/mobile_expense.png" style="width: 24%; float: left;" />
+<a href="https://raw.githubusercontent.com/algirdasc/expensave/main/docs/images/screenshots/mobile-expense-dialog.png">
+    <img alt="Expensave mobile expense dialog" src="https://raw.githubusercontent.com/algirdasc/expensave/main/docs/images/screenshots/mobile-expense-dialog.png" style="width: 24%; float: left;" />
 </a>
-<a href="https://raw.githubusercontent.com/algirdasc/expensave/main/docs/images/screenshots/mobile_report.png">
-    <img alt="Expensave mobile report view" src="https://raw.githubusercontent.com/algirdasc/expensave/main/docs/images/screenshots/mobile_report.png" style="width: 24%; float: left;" />
+<a href="https://raw.githubusercontent.com/algirdasc/expensave/main/docs/images/screenshots/mobile-reports-overview.png">
+    <img alt="Expensave mobile report view" src="https://raw.githubusercontent.com/algirdasc/expensave/main/docs/images/screenshots/mobile-reports-overview.png" style="width: 24%; float: left;" />
 </a>
-<a href="https://raw.githubusercontent.com/algirdasc/expensave/main/docs/images/screenshots/mobile_report_2.png">
-    <img alt="Expensave mobile report details" src="https://raw.githubusercontent.com/algirdasc/expensave/main/docs/images/screenshots/mobile_report_2.png" style="width: 24%; float: left;" />
+<a href="https://raw.githubusercontent.com/algirdasc/expensave/main/docs/images/screenshots/mobile-reports-details.png">
+    <img alt="Expensave mobile report details" src="https://raw.githubusercontent.com/algirdasc/expensave/main/docs/images/screenshots/mobile-reports-details.png" style="width: 24%; float: left;" />
 </a>
 <div style="clear: both;"></div>
 
