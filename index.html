@@ -51,6 +51,22 @@
     .nav-btn:hover { border-color:#4d5668; background:linear-gradient(180deg,rgba(52,59,74,.96),rgba(34,39,51,.96)); }
     .github-icon { width:16px; height:16px; fill:currentColor; flex-shrink:0; }
 
+
+    .hero::before {
+      content:""; position:absolute; inset:0; z-index:-2;
+      background:
+        linear-gradient(180deg, rgba(16,18,24,.80) 0%, rgba(16,18,24,.68) 42%, rgba(16,18,24,.96) 100%),
+        url('assets/screenshots/jumbotron.png') center top / cover no-repeat;
+      opacity:.86;
+    }
+    .hero::after {
+      content:""; position:absolute; inset:0; z-index:-1;
+      background:
+        radial-gradient(ellipse 60% 38% at 50% 20%, rgba(63,94,181,.24), transparent 70%),
+        radial-gradient(ellipse 36% 26% at 76% 28%, rgba(0,189,157,.16), transparent 70%);
+      pointer-events:none;
+    }
+
     .hero {
       min-height:100vh; display:flex; flex-direction:column; align-items:center; justify-content:center;
       text-align:center; padding:8rem 2rem 4rem; position:relative;
@@ -109,16 +125,34 @@
     .copy-inline svg { width:15px; height:15px; fill:none; stroke:currentColor; stroke-width:1.8; stroke-linecap:round; stroke-linejoin:round; }
 
     section { padding:5rem 2rem; }
+    .showcase-section {
+      position:relative;
+      margin-top:-1px;
+      padding-top:6.5rem;
+      background:
+        linear-gradient(180deg, rgba(16,18,24,1) 0%, rgba(17,20,28,.98) 34%, rgba(16,18,24,1) 100%),
+        radial-gradient(ellipse 70% 32% at 50% 0%, rgba(0,189,157,.10), transparent 70%);
+      border-top:1px solid rgba(255,255,255,.05);
+    }
+    .showcase-section::before {
+      content:""; position:absolute; left:50%; top:0; transform:translateX(-50%);
+      width:min(1120px, calc(100% - 3rem)); height:1px;
+      background:linear-gradient(90deg, transparent, rgba(0,189,157,.45), rgba(63,94,181,.45), transparent);
+    }
     .container { max-width:1120px; margin:0 auto; width:100%; }
     .section-label { font-size:.75rem; font-weight:600; letter-spacing:.1em; text-transform:uppercase; color:var(--secondary); margin-bottom:.75rem; }
     .section-title { font-size:clamp(1.9rem,4vw,3rem); font-weight:700; line-height:1.14; margin-bottom:1rem; }
     .section-sub { color:var(--text-muted); font-size:1.05rem; max-width:720px; margin-bottom:2.5rem; }
 
-    .showcase-main { border-radius:var(--radius-lg); overflow:hidden; border:1px solid var(--border); box-shadow:var(--shadow); background:var(--bg-2); margin-bottom:1rem; }
-    .showcase-main img { width:100%; display:block; }
+    .showcase-main { border-radius:var(--radius-lg); overflow:hidden; border:1px solid var(--border); box-shadow:var(--shadow); background:var(--bg-2); margin-bottom:1rem; display:block; }
+    .showcase-main img { width:100%; display:block; transition:transform .25s ease; }
+    .showcase-main:hover img { transform:scale(1.012); }
     .screenshot-row { display:grid; grid-template-columns:repeat(3,1fr); gap:1rem; margin-bottom:1rem; }
-    .showcase-shot { border-radius:14px; overflow:hidden; border:1px solid var(--border); background:var(--bg-2); box-shadow:0 8px 28px rgba(0,0,0,.35); }
-    .showcase-shot img { width:100%; display:block; }
+    .showcase-shot { display:block; border-radius:14px; overflow:hidden; border:1px solid var(--border); background:var(--bg-2); box-shadow:0 8px 28px rgba(0,0,0,.35); transition:transform .2s ease,border-color .2s ease; }
+    .showcase-shot:hover { transform:translateY(-2px); border-color:#414959; }
+    .showcase-shot img { width:100%; display:block; aspect-ratio:16/10; object-fit:cover; object-position:top center; }
+    .showcase-shot.phone { border-radius:24px; max-height:470px; }
+    .showcase-shot.phone img { aspect-ratio:9/16; object-fit:cover; object-position:top center; }
 
     .features-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:1.25rem; }
     .feature-card {
@@ -184,6 +218,7 @@
       .screenshot-row { grid-template-columns:1fr 1fr; }
       .community-grid { grid-template-columns:repeat(2,1fr); }
       section { padding:3.5rem 1.5rem; }
+      .showcase-section { padding-top:5rem; }
     }
 
     @media (max-width:640px) {
@@ -217,6 +252,7 @@
 
       .community-grid { grid-template-columns:1fr; }
       section { padding:3rem 1rem; }
+      .showcase-section { padding-top:4.5rem; }
       .section-title { font-size:clamp(1.5rem,6vw,2rem); }
     }
 
@@ -270,23 +306,23 @@
     </div>
   </section>
 
-  <section>
+  <section class="showcase-section">
     <div class="container">
       <div class="section-label">Interface</div>
       <h2 class="section-title">All your money at a glance.</h2>
       <p class="section-sub">See incoming and outgoing money at a glance, add transactions quickly, and keep family budgets organised without spreadsheet chaos.</p>
-      <div class="showcase-main">
-        <img src="https://raw.githubusercontent.com/algirdasc/expensave/main/docs/images/screenshots/desktop-calendar.png" alt="Expensave desktop calendar view" />
-      </div>
+      <a class="showcase-main" href="assets/screenshots/desktop-calendar.png" target="_blank" rel="noopener">
+        <img src="assets/screenshots/desktop-calendar.png" alt="Expensave desktop calendar view" />
+      </a>
       <div class="screenshot-row">
-        <div class="showcase-shot"><img src="https://raw.githubusercontent.com/algirdasc/expensave/main/docs/images/screenshots/desktop-expense-dialog.png" alt="Expensave expense dialog" /></div>
-        <div class="showcase-shot"><img src="https://raw.githubusercontent.com/algirdasc/expensave/main/docs/images/screenshots/desktop-sidebar.png" alt="Expensave sidebar" /></div>
-        <div class="showcase-shot"><img src="https://raw.githubusercontent.com/algirdasc/expensave/main/docs/images/screenshots/desktop-calendar.png" alt="Expensave calendar" /></div>
+        <a class="showcase-shot" href="assets/screenshots/desktop-expense-dialog.png" target="_blank" rel="noopener"><img src="assets/screenshots/desktop-expense-dialog.png" alt="Expensave expense editor" /></a>
+        <a class="showcase-shot" href="assets/screenshots/desktop-report.png" target="_blank" rel="noopener"><img src="assets/screenshots/desktop-report.png" alt="Expensave reports" /></a>
+        <a class="showcase-shot" href="assets/screenshots/desktop-light.png" target="_blank" rel="noopener"><img src="assets/screenshots/desktop-light.png" alt="Expensave light theme" /></a>
       </div>
       <div class="screenshot-row mobile-row">
-        <div class="showcase-shot"><img src="https://raw.githubusercontent.com/algirdasc/expensave/main/docs/images/screenshots/mobile-calendar.png" alt="Expensave mobile calendar" /></div>
-        <div class="showcase-shot"><img src="https://raw.githubusercontent.com/algirdasc/expensave/main/docs/images/screenshots/mobile-expense-dialog.png" alt="Expensave mobile expense dialog" /></div>
-        <div class="showcase-shot"><img src="https://raw.githubusercontent.com/algirdasc/expensave/main/docs/images/screenshots/mobile-sidebar.png" alt="Expensave mobile sidebar" /></div>
+        <a class="showcase-shot phone" href="assets/screenshots/mobile-overview.png" target="_blank" rel="noopener"><img src="assets/screenshots/mobile-overview.png" alt="Expensave mobile overview" /></a>
+        <a class="showcase-shot phone" href="assets/screenshots/mobile-expense-dialog.png" target="_blank" rel="noopener"><img src="assets/screenshots/mobile-expense-dialog.png" alt="Expensave mobile expense editor" /></a>
+        <a class="showcase-shot phone" href="assets/screenshots/mobile-reports-overview.png" target="_blank" rel="noopener"><img src="assets/screenshots/mobile-reports-overview.png" alt="Expensave mobile reports" /></a>
       </div>
     </div>
   </section>
