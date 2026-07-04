@@ -1,16 +1,36 @@
-# Backend
-/backend/public/bundles
-/backend/var
-/backend/vendor
-/backend/config/secrets
-/backend/config/jwt/*.pem
-/backend/.env.local
-/backend/.env.local.php
-/backend/.env.*.local
-/backend/*.cache
-/backend/*.phar
-/backend/phpunit.xml
+# ─── Root ─────────────────────────────────────────────────────────────────────
+.git
+.github
+.gitignore
+.dockerignore
 
-# Frontend
-/frontend/.angular
-/frontend/dist
+README.md
+LICENSE
+AGENTS.md
+install.sh
+
+docker-compose.yml
+docker-compose.development.yml
+
+docs/
+ai/
+
+# ─── Backend ──────────────────────────────────────────────────────────────────
+backend/var
+backend/vendor
+backend/config/secrets
+backend/config/jwt/*.pem
+backend/.env.local
+backend/.env.local.php
+backend/.env.*.local
+backend/*.cache
+backend/*.phar
+backend/phpunit.xml
+backend/phpstan.neon
+backend/tests/
+backend/public/bundles
+
+# ─── Frontend ─────────────────────────────────────────────────────────────────
+frontend/.angular
+frontend/dist
+frontend/node_modules
