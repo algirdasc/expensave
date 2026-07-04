@@ -133,24 +133,20 @@
     .section-title { font-size: clamp(1.9rem, 4vw, 3rem); font-weight:700; line-height:1.14; margin-bottom:1rem; }
     .section-sub { color:var(--text-muted); font-size:1.05rem; max-width: 720px; margin-bottom: 2.5rem; }
 
-    .showcase-grid {
-      display:grid; grid-template-columns: minmax(0, 1.05fr) minmax(320px, .95fr); gap:1.5rem; align-items:start;
-    }
     .showcase-main {
       border-radius: var(--radius-lg); overflow:hidden; border:1px solid var(--border); box-shadow:var(--shadow);
-      background: var(--bg-2);
+      background: var(--bg-2); margin-bottom:1rem;
     }
     .showcase-main img { width:100%; display:block; }
-    .showcase-side { display:grid; gap:1rem; }
-    .showcase-copy {
-      background: linear-gradient(180deg, rgba(21,24,33,.95), rgba(27,31,42,.95));
-      border:1px solid var(--border); border-radius:18px; padding:1.4rem;
+    .screenshot-row {
+      display:grid; grid-template-columns: repeat(3, 1fr); gap:1rem; margin-bottom:1rem;
     }
-    .showcase-copy h3 { font-size:1.2rem; margin-bottom:.55rem; }
-    .showcase-copy p { color:var(--text-muted); font-size:.95rem; }
+    .screenshot-row.mobile-row img {
+      border-radius:18px;
+    }
     .showcase-shot {
-      border-radius:16px; overflow:hidden; border:1px solid var(--border); background:var(--bg-2);
-      box-shadow:0 10px 35px rgba(0,0,0,.35);
+      border-radius:14px; overflow:hidden; border:1px solid var(--border); background:var(--bg-2);
+      box-shadow:0 8px 28px rgba(0,0,0,.35);
     }
     .showcase-shot img { width:100%; display:block; }
 
@@ -200,18 +196,7 @@
     }
     .hostinger-btn img { width:100%; max-width: 260px; height:auto; }
 
-    .mobile-section .mobile-wrap {
-      display:grid; grid-template-columns: minmax(280px, .9fr) minmax(0, 1.1fr); gap:1.5rem; align-items:center;
-    }
-    .mobile-copy {
-      background: rgba(21,24,33,.95); border:1px solid var(--border); border-radius:18px; padding:1.5rem;
-    }
-    .mobile-copy h3 { font-size:1.3rem; margin-bottom:.6rem; }
-    .mobile-copy p { color:var(--text-muted); }
-    .mobile-grid { display:flex; gap:1rem; justify-content:center; flex-wrap:wrap; }
-    .mobile-grid img {
-      width: 180px; border-radius: 18px; border:1px solid var(--border); box-shadow:0 12px 40px rgba(0,0,0,.5);
-    }
+
 
     .community-grid { display:grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap:1.25rem; }
     .community-card {
@@ -233,8 +218,8 @@
     footer .footer-links a { color:var(--text-muted); }
     footer .footer-links a:hover { color:var(--text); }
 
-    @media (max-width: 960px) {
-      .showcase-grid, .mobile-section .mobile-wrap { grid-template-columns: 1fr; }
+    @media (max-width: 768px) {
+      .screenshot-row { grid-template-columns: 1fr 1fr; }
     }
     @media (max-width: 640px) {
       nav { padding:1rem; }
@@ -242,7 +227,8 @@
       .hero { padding:7rem 1.2rem 3rem; }
       .install-hero-head { align-items:flex-start; }
       .install-command { font-size:.82rem; }
-      .showcase-grid, .install-options, .features-grid, .community-grid { grid-template-columns:1fr; }
+      .screenshot-row { grid-template-columns: 1fr; }
+      .install-options, .features-grid, .community-grid { grid-template-columns:1fr; }
     }
   </style>
 </head>
@@ -290,23 +276,18 @@
       <div class="section-label">Interface</div>
       <h2 class="section-title">All your money at a glance.</h2>
       <p class="section-sub">See incoming and outgoing money at a glance, add transactions quickly, and keep family budgets organised without spreadsheet chaos.</p>
-      <div class="showcase-grid">
-        <div class="showcase-main">
-          <img src="https://raw.githubusercontent.com/algirdasc/expensave/main/docs/images/screenshots/desktop-calendar.png" alt="Expensave desktop calendar view" />
-        </div>
-        <div class="showcase-side">
-          <div class="showcase-copy">
-            <h3>Built around clarity</h3>
-            <p>Calendar view, quick expense dialog, and shared side navigation keep the app simple even when multiple people manage same budget.</p>
-          </div>
-          <div class="showcase-shot"><img src="https://raw.githubusercontent.com/algirdasc/expensave/main/docs/images/screenshots/desktop-expense-dialog.png" alt="Expensave expense dialog" /></div>
-          <div class="showcase-shot"><img src="https://raw.githubusercontent.com/algirdasc/expensave/main/docs/images/screenshots/desktop-sidebar.png" alt="Expensave sidebar and calendar list" /></div>
-        </div>
+      <div class="showcase-main">
+        <img src="https://raw.githubusercontent.com/algirdasc/expensave/main/docs/images/screenshots/desktop-calendar.png" alt="Expensave desktop calendar view" />
       </div>
-      <div class="mobile-grid" style="margin-top:1.5rem; justify-content:flex-start;">
-        <img src="https://raw.githubusercontent.com/algirdasc/expensave/main/docs/images/screenshots/mobile-calendar.png" alt="Expensave mobile calendar" />
-        <img src="https://raw.githubusercontent.com/algirdasc/expensave/main/docs/images/screenshots/mobile-expense-dialog.png" alt="Expensave mobile expense dialog" />
-        <img src="https://raw.githubusercontent.com/algirdasc/expensave/main/docs/images/screenshots/mobile-sidebar.png" alt="Expensave mobile sidebar" />
+      <div class="screenshot-row">
+        <div class="showcase-shot"><img src="https://raw.githubusercontent.com/algirdasc/expensave/main/docs/images/screenshots/desktop-expense-dialog.png" alt="Expensave expense dialog" /></div>
+        <div class="showcase-shot"><img src="https://raw.githubusercontent.com/algirdasc/expensave/main/docs/images/screenshots/desktop-sidebar.png" alt="Expensave sidebar" /></div>
+        <div class="showcase-shot"><img src="https://raw.githubusercontent.com/algirdasc/expensave/main/docs/images/screenshots/desktop-calendar.png" alt="Expensave calendar" /></div>
+      </div>
+      <div class="screenshot-row mobile-row">
+        <div class="showcase-shot"><img src="https://raw.githubusercontent.com/algirdasc/expensave/main/docs/images/screenshots/mobile-calendar.png" alt="Expensave mobile calendar" /></div>
+        <div class="showcase-shot"><img src="https://raw.githubusercontent.com/algirdasc/expensave/main/docs/images/screenshots/mobile-expense-dialog.png" alt="Expensave mobile expense dialog" /></div>
+        <div class="showcase-shot"><img src="https://raw.githubusercontent.com/algirdasc/expensave/main/docs/images/screenshots/mobile-sidebar.png" alt="Expensave mobile sidebar" /></div>
       </div>
     </div>
   </section>
@@ -347,23 +328,6 @@
           <a href="https://www.hostinger.com/vps/docker-hosting?compose_url=https://raw.githubusercontent.com/algirdasc/expensave/refs/heads/main/docker-compose.yml&REFERRALCODE=1ALGIRDAS48#pricing" target="_blank" class="hostinger-btn">
             <img src="https://assets.hostinger.com/vps/deploy.svg" alt="Deploy on Hostinger" />
           </a>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section class="mobile-section">
-    <div class="container">
-      <div class="mobile-wrap">
-        <div class="mobile-copy">
-          <div class="section-label">Mobile</div>
-          <h2 class="section-title" style="font-size:clamp(1.8rem,3vw,2.5rem); margin-bottom:.8rem;">Your finances, always nearby</h2>
-          <p>Install Expensave as a PWA on your phone and keep budgets, balances, and quick expense entry right in your pocket.</p>
-        </div>
-        <div class="mobile-grid">
-          <img src="https://raw.githubusercontent.com/algirdasc/expensave/main/docs/images/screenshots/mobile-calendar.png" alt="Expensave mobile calendar" />
-          <img src="https://raw.githubusercontent.com/algirdasc/expensave/main/docs/images/screenshots/mobile-expense-dialog.png" alt="Expensave mobile expense dialog" />
-          <img src="https://raw.githubusercontent.com/algirdasc/expensave/main/docs/images/screenshots/mobile-sidebar.png" alt="Expensave mobile sidebar" />
         </div>
       </div>
     </div>
