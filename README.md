@@ -10,6 +10,8 @@
 
 ## Screenshots
 
+> Fresh screenshots below. Jumbotron is reserved for the GitHub Pages landing page.
+
 ### Desktop
 
 <a href="https://raw.githubusercontent.com/algirdasc/expensave/main/docs/images/screenshots/desktop-calendar.png">
