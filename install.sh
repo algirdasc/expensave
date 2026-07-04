@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-set -uo pipefail
+set -euo pipefail
 
 # ─────────────────────────────────────────────
 #  Expensave Installer
@@ -10,22 +10,15 @@ REPO="algirdasc/expensave"
 COMPOSE_URL="https://raw.githubusercontent.com/${REPO}/main/docker-compose.yml"
 DEFAULT_INSTALL_DIR="/opt/expensave"
 
-# When run via 'curl ... | bash', the script body is fed through stdin.
-# After the first interactive read the remaining script may be lost and
-# bash exits early. Copy *this same script* (from stdin) to a temp file
-# and re-exec it with the terminal as stdin — no re-download, so the
-# version never drifts.
-if [ ! -t 0 ] && [ -z "${EXPENSAVE_REEXEC:-}" ]; then
-    tmp="$(mktemp)"
-    cat > "$tmp"
-    printf '[debug] re-exec from %s\n' "$tmp" >&2
-    export EXPENSAVE_REEXEC=1
-    exec bash "$tmp" < /dev/tty
+# Interactive prompts read from /dev/tty (see ask/confirm), so the script
+# works even when piped via 'curl ... | bash'. Require a usable terminal.
+if [ ! -r /dev/tty ]; then
+    printf "This installer is interactive and needs a terminal (/dev/tty).\n" >&2
+    exit 1
 fi
-[ -n "${EXPENSAVE_REEXEC:-}" ] && printf '[debug] running re-exec copy\n' >&2
 
-# Fail loudly on unexpected errors instead of exiting silently
-trap 'code=$?; if [ $code -ne 0 ]; then printf "\n  \033[0;31m✗\033[0m Installer stopped (exit %s). See the last message above.\n\n" "$code" >&2; fi' EXIT
+# Surface unexpected failures instead of a bare non-zero exit
+trap 'code=$?; if [ $code -ne 0 ]; then printf "\n  \033[0;31m✗ Installer failed (exit %s). See the message above.\033[0m\n\n" "$code" >&2; fi' EXIT
 
 # ── Colors ────────────────────────────────────
 RED='\033[0;31m'
@@ -320,18 +313,9 @@ main() {
     printf "${BOLD}  ╚═══════════════════════════════════╝${NC}\n"
     printf "\n"
 
-    # Ensure we can read interactive input even when piped (curl | bash)
-    if [ ! -t 0 ] && [ ! -r /dev/tty ]; then
-        error "This installer is interactive and needs a terminal."
-        printf "\n  Run it like this instead:\n"
-        printf "    ${BOLD}bash <(curl -fsSL ${COMPOSE_URL%/docker-compose.yml}/install.sh)${NC}\n\n"
-        exit 1
-    fi
-
     check_root
     check_docker
     collect_config
-    printf "\n  ${DIM}[debug] config collected, starting install...${NC}\n"
     do_install
     print_summary
 }
