@@ -58,7 +58,7 @@
 Requires Docker. Installs and starts Expensave interactively:
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/algirdasc/expensave/main/install.sh | sudo bash
+curl -fsSL https://expensave.app/install.sh | sudo bash
 ```
 
 The installer will:
