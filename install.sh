@@ -201,10 +201,6 @@ do_install() {
         exit 1
     fi
 
-    # Generate secrets
-    local db_password
-    db_password=$(gen_password)
-
     # Download docker-compose.yml
     info "Downloading docker-compose.yml"
     curl -fsSL "$COMPOSE_URL" -o docker-compose.yml
@@ -220,8 +216,6 @@ TZ=${TZ}
 LOCALE=${LOCALE}
 REGISTRATION_DISABLED=${REGISTRATION_DISABLED}
 
-# Database (auto-generated — do not share)
-DB_PASSWORD=${db_password}
 EOF
     success ".env written"
 
@@ -232,7 +226,6 @@ EOF
         -e "s|TZ: Europe/Vilnius|TZ: \${TZ}|g" \
         -e "s|LOCALE: en|LOCALE: \${LOCALE}|g" \
         -e "s|REGISTRATION_DISABLED: no|REGISTRATION_DISABLED: \${REGISTRATION_DISABLED}|g" \
-        -e "s|MARIADB_PASSWORD: expensave|MARIADB_PASSWORD: \${DB_PASSWORD}|g" \
         docker-compose.yml
     rm -f docker-compose.yml.bak
     success "docker-compose.yml configured"
