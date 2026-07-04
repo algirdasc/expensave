@@ -132,7 +132,7 @@ export class MainComponent implements OnInit {
         this.bindResolvedRouteData();
         this.bindVisibleDateQueryParam();
 
-        if (this.statementImportService.expenses.length) {
+        if (this.statementImportService.draft().length) {
             this.statementImportService.processImport();
         }
     }

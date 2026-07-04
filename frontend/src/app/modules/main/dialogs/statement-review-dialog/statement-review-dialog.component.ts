@@ -1,5 +1,5 @@
 import { DatePipe, NgStyle } from '@angular/common';
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import {
     NbButtonModule,
     NbCardModule,
@@ -12,6 +12,7 @@ import {
 import { slideAnimation } from '../../../../animations/slide.animation';
 import { Expense } from '../../../../api/objects/expense';
 import { APP_CONFIG } from '../../../../app.initializer';
+import { StatementImportService } from '../../services/statement-import.service';
 import { ConfirmDialogComponent } from '../confirm-dialog/confirm-dialog.component';
 import { ExpenseDialogComponent } from '../expense-dialog/expense-dialog.component';
 import { ShortNumberPipe } from '../../../../pipes/shortnumber.pipe';
@@ -26,28 +27,54 @@ export const DIALOG_ACTION_CLOSE = 'close';
     animations: slideAnimation,
     imports: [NbCardModule, NbButtonModule, NbIconModule, NbListModule, NbTooltipModule, NgStyle, ShortNumberPipe],
 })
-export class StatementReviewDialogComponent implements OnInit {
-    public expenses: Expense[] = [];
-    public onImportChange: (expenses: Expense[]) => void;
+export class StatementReviewDialogComponent {
+    // Passed via dialog context
+    public importService: StatementImportService;
 
     protected readonly dialogRef = inject<NbDialogRef<StatementReviewDialogComponent>>(NbDialogRef);
     protected readonly Object = Object;
     protected readonly DIALOG_ACTION_CLOSE = DIALOG_ACTION_CLOSE;
-    protected groupedByDates: { [key: string]: Expense[] } = {};
-    protected groupedDates: string[] = [];
-    protected totalExpensesAmountByDates: { [key: string]: number } = {};
-    protected totalExpensesAmount: number = 0;
     protected calendarRefreshNeeded: boolean = false;
 
     private readonly dialogService = inject(NbDialogService);
-    private datePipe: DatePipe;
+    private readonly datePipe: DatePipe = new DatePipe(APP_CONFIG.locale);
 
-    public constructor() {
-        this.datePipe = new DatePipe(APP_CONFIG.locale);
+    protected get expensesCount(): number {
+        return this.importService.draft().length;
     }
 
-    public ngOnInit(): void {
-        this.reloadGroupedExpenses();
+    protected get groupedByDates(): Record<string, Expense[]> {
+        const grouped: Record<string, Expense[]> = {};
+
+        for (const expense of this.importService.draft()) {
+            const key = this.expenseGroup(expense);
+
+            if (!grouped[key]) {
+                grouped[key] = [];
+            }
+
+            grouped[key].push(expense);
+        }
+
+        return grouped;
+    }
+
+    protected get groupedDates(): string[] {
+        return Object.keys(this.groupedByDates);
+    }
+
+    protected get totalExpensesAmountByDates(): Record<string, number> {
+        const totals: Record<string, number> = {};
+
+        for (const [date, items] of Object.entries(this.groupedByDates)) {
+            totals[date] = items.reduce((sum, item) => sum + (item.amount ?? 0), 0);
+        }
+
+        return totals;
+    }
+
+    protected get totalExpensesAmount(): number {
+        return this.importService.draft().reduce((sum, e) => sum + (e.amount ?? 0), 0);
     }
 
     public openExpense(expense: Expense): void {
@@ -72,26 +99,22 @@ export class StatementReviewDialogComponent implements OnInit {
                 this.calendarRefreshNeeded = true;
             }
 
-            // Defer list mutation to the next tick so it does not run inside
-            // the same change detection cycle that is closing the dialog.
-            setTimeout(() => this.removeExpenseFromList(expense));
-        });
-    }
+            this.importService.removeFromDraft(expense);
 
-    private closeIfEmpty(): void {
-        if (!this.expenses.length) {
-            this.dialogRef.close({
-                action: DIALOG_ACTION_CLOSE,
-                calendarRefreshNeeded: this.calendarRefreshNeeded,
-            });
-        }
+            if (!this.importService.draft().length) {
+                this.dialogRef.close({
+                    action: DIALOG_ACTION_CLOSE,
+                    calendarRefreshNeeded: this.calendarRefreshNeeded,
+                });
+            }
+        });
     }
 
     public importExpenses(): void {
         this.dialogService
             .open(ConfirmDialogComponent, {
                 context: {
-                    question: `Are you sure you want to import ${this.expenses.length} transactions?`,
+                    question: `Are you sure you want to import ${this.importService.draft().length} transactions?`,
                 },
             })
             .onClose.subscribe((result: boolean) => {
@@ -121,41 +144,7 @@ export class StatementReviewDialogComponent implements OnInit {
             });
     }
 
-    public removeExpenseFromList(expense: Expense): void {
-        if (this.expenses.indexOf(expense) === -1) {
-            return;
-        }
-
-        this.expenses = this.expenses.filter(item => item !== expense);
-
-        this.reloadGroupedExpenses();
-        this.onImportChange([...this.expenses]);
-        this.closeIfEmpty();
-    }
-
-    private reloadGroupedExpenses(): void {
-        this.groupedByDates = {};
-        this.groupedDates = [];
-        this.totalExpensesAmountByDates = {};
-        this.totalExpensesAmount = 0;
-
-        this.expenses.forEach((expense: Expense) => {
-            this.totalExpensesAmount += expense.amount;
-            const expenseGroup = this.expenseGroup(expense);
-
-            if (!this.groupedByDates[expenseGroup]) {
-                this.groupedByDates[expenseGroup] = [];
-                this.totalExpensesAmountByDates[expenseGroup] = 0;
-            }
-
-            this.groupedByDates[expenseGroup].push(expense);
-            this.totalExpensesAmountByDates[expenseGroup] += expense.amount;
-        });
-
-        this.groupedDates = Object.keys(this.groupedByDates);
-    }
-
     private expenseGroup(expense: Expense): string {
-        return this.datePipe.transform(expense.createdAt);
+        return this.datePipe.transform(expense.createdAt) ?? 'Unknown';
     }
 }

@@ -1,4 +1,4 @@
-import { inject, Injectable } from '@angular/core';
+import { inject, Injectable, signal } from '@angular/core';
 import { injectMutation } from '@tanstack/angular-query-experimental';
 import { NbDialogService, NbToastrService } from '@nebular/theme';
 import { plainToInstance } from 'class-transformer';
@@ -22,7 +22,8 @@ const TOASTR_TITLE = 'Bank statement import';
 // eslint-disable-next-line @angular-eslint/use-injectable-provided-in -- Intentionally scoped through MainModule providers.
 @Injectable()
 export class StatementImportService {
-    public expenses: Expense[] = [];
+    // Reactive draft — single source of truth for the review dialog
+    public readonly draft = signal<Expense[]>([]);
 
     private readonly dialogService = inject(NbDialogService);
     private readonly mainService = inject(MainService);
@@ -68,9 +69,7 @@ export class StatementImportService {
                             return;
                         }
 
-                        this.updateImportStorage(response.expenses);
-                        this.reloadImportStorage();
-
+                        this.setDraft(response.expenses);
                         this.processImport();
                     },
                     onSettled: () => this.mainService.isApplicationBusy.next(false),
@@ -82,41 +81,39 @@ export class StatementImportService {
         fileInput.click();
     }
 
-    public updateImportStorage(expenses: Expense[]): void {
-        localStorage.setItem(IMPORT_KEY, JSON.stringify(expenses));
-        localStorage.setItem(IMPORT_COUNT_KEY, expenses.length.toString());
-    }
-
-    public reloadImportStorage(): void {
-        const localExpenses = localStorage.getItem(IMPORT_KEY);
-        if (localExpenses === null) {
-            return;
-        }
-
-        try {
-            const expenses = JSON.parse(localExpenses);
-            this.expenses = Array.isArray(expenses)
-                ? expenses.map((expense: Expense) => plainToInstance(Expense, expense))
-                : [];
-        } catch {
-            this.clearImportStorage();
-        }
+    public removeFromDraft(expense: Expense): void {
+        const key = this.expenseKey(expense);
+        this.setDraft(this.draft().filter(item => this.expenseKey(item) !== key));
     }
 
     public clearImportStorage(): void {
         localStorage.removeItem(IMPORT_KEY);
         localStorage.removeItem(IMPORT_COUNT_KEY);
-        this.expenses = [];
+        this.draft.set([]);
+    }
+
+    public reloadImportStorage(): void {
+        const raw = localStorage.getItem(IMPORT_KEY);
+
+        if (raw === null) {
+            return;
+        }
+
+        try {
+            const parsed = JSON.parse(raw);
+            const expenses = Array.isArray(parsed) ? parsed.map((e: Expense) => plainToInstance(Expense, e)) : [];
+
+            this.draft.set(expenses);
+        } catch {
+            this.clearImportStorage();
+        }
     }
 
     public processImport(): void {
         this.dialogService
             .open(StatementReviewDialogComponent, {
                 context: {
-                    expenses: this.expenses,
-                    onImportChange: (expenses: Expense[]) => {
-                        this.updateImportStorage(expenses);
-                    },
+                    importService: this,
                 },
             })
             .onClose.subscribe((result: { action: string; calendarRefreshNeeded: boolean }) => {
@@ -127,7 +124,7 @@ export class StatementImportService {
                 switch (result.action) {
                     case DIALOG_ACTION_IMPORT:
                         this.mainService.isApplicationBusy.next(true);
-                        this.expenseImportMutation.mutate(this.expenses, {
+                        this.expenseImportMutation.mutate(this.draft(), {
                             onSuccess: () => {
                                 this.toastrService.success(
                                     'Transactions are being imported, please be patient',
@@ -143,17 +140,27 @@ export class StatementImportService {
                         this.clearImportStorage();
                         break;
                     case DIALOG_ACTION_CLOSE:
-                        if (!this.expenses.length) {
+                        if (!this.draft().length) {
                             this.clearImportStorage();
-                        } else {
-                            this.reloadImportStorage();
                         }
+
                         break;
                 }
             });
     }
 
-    public importStorage(): void {
-        this.expenseImportMutation.mutate(this.expenses);
+    private setDraft(expenses: Expense[]): void {
+        this.draft.set(expenses);
+        localStorage.setItem(IMPORT_KEY, JSON.stringify(expenses));
+        localStorage.setItem(IMPORT_COUNT_KEY, String(expenses.length));
+    }
+
+    private expenseKey(expense: Expense): string {
+        return [
+            expense.id ?? 'null',
+            expense.label ?? '',
+            expense.amount ?? 0,
+            expense.createdAt ? new Date(expense.createdAt).toISOString() : '',
+        ].join('|');
     }
 }

@@ -5,10 +5,10 @@
         @if (user?.isAdmin) {
             <nb-action icon="people-outline" (click)="manageUsers()" nbTooltip="Users" />
         }
-        @if (statementImportService.expenses.length) {
+        @if (hasPendingImport) {
             <nb-action
                 icon="attach-2-outline"
-                (click)="statementImportService.processImport()"
+                (click)="processImport()"
                 badgeDot
                 badgePosition="top right"
                 badgeStatus="danger" />

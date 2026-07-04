@@ -11,12 +11,12 @@ import { StatementImportService } from '../../services/statement-import.service'
                 nbButton
                 type="button"
                 class="sidebar-toggler-button"
-                [status]="statementImportService.expenses.length ? 'danger' : 'basic'"
+                [status]="hasPendingImport ? 'danger' : 'basic'"
                 (click)="toggleSidebar()"
                 id="sidebar-toggler">
                 <nb-icon icon="menu-2-outline"></nb-icon>
             </button>
-            @if (statementImportService.expenses.length) {
+            @if (hasPendingImport) {
                 <nb-badge [dotMode]="true" status="danger" position="top right"></nb-badge>
             }
         </div>
@@ -38,9 +38,12 @@ import { StatementImportService } from '../../services/statement-import.service'
     imports: [NbButtonModule, NbIconModule, NbBadgeModule],
 })
 export class HeaderSidebarToggleComponent {
-    protected readonly statementImportService = inject(StatementImportService);
-
+    private readonly statementImportService = inject(StatementImportService);
     private readonly sidebarService = inject(NbSidebarService);
+
+    protected get hasPendingImport(): boolean {
+        return this.statementImportService.draft().length > 0;
+    }
 
     public toggleSidebar(): void {
         this.sidebarService.toggle(false, SIDEBAR_TAG);

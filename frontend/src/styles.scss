@@ -9,6 +9,29 @@
 
 @include nb-install() {
     @include nb-theme-global();
+
+    * {
+        scrollbar-width: thin;
+        scrollbar-color: nb-theme(border-basic-color-4) transparent;
+
+        &::-webkit-scrollbar {
+            width: 4px;
+            height: 4px;
+        }
+
+        &::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        &::-webkit-scrollbar-thumb {
+            background: nb-theme(border-basic-color-4);
+            border-radius: 4px;
+        }
+
+        &::-webkit-scrollbar-thumb:hover {
+            background: nb-theme(border-basic-color-5);
+        }
+    }
 }
 
 body {
