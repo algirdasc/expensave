@@ -31,7 +31,7 @@ ask() {
     # ask <var_name> <prompt> <default>
     local var="$1" prompt="$2" default="$3"
     printf "  ${BOLD}%s${NC} ${DIM}[%s]${NC}: " "$prompt" "$default"
-    read -r input
+    read -r input < /dev/tty
     eval "$var=\"${input:-$default}\""
 }
 
@@ -39,7 +39,7 @@ ask_secret() {
     # ask_secret <var_name> <prompt>
     local var="$1" prompt="$2"
     printf "  ${BOLD}%s${NC}: " "$prompt"
-    read -rs input
+    read -rs input < /dev/tty
     printf "\n"
     eval "$var=\"$input\""
 }
@@ -50,7 +50,7 @@ confirm() {
     local hint
     [ "$default" = "y" ] && hint="Y/n" || hint="y/N"
     printf "  ${BOLD}%s${NC} ${DIM}[%s]${NC}: " "$prompt" "$hint"
-    read -r answer
+    read -r answer < /dev/tty
     answer="${answer:-$default}"
     [[ "$answer" =~ ^[Yy] ]]
 }
@@ -293,6 +293,14 @@ main() {
     printf "${BOLD}  ║   Self-hosted expense tracking    ║${NC}\n"
     printf "${BOLD}  ╚═══════════════════════════════════╝${NC}\n"
     printf "\n"
+
+    # Ensure we can read interactive input even when piped (curl | bash)
+    if [ ! -t 0 ] && [ ! -r /dev/tty ]; then
+        error "This installer is interactive and needs a terminal."
+        printf "\n  Run it like this instead:\n"
+        printf "    ${BOLD}bash <(curl -fsSL ${COMPOSE_URL%/docker-compose.yml}/install.sh)${NC}\n\n"
+        exit 1
+    fi
 
     check_root
     check_docker
