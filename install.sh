@@ -1,10 +1,13 @@
 #!/usr/bin/env bash
-set -euo pipefail
+set -uo pipefail
 
 # ─────────────────────────────────────────────
 #  Expensave Installer
 #  https://github.com/algirdasc/expensave
 # ─────────────────────────────────────────────
+
+# Fail loudly on unexpected errors instead of exiting silently
+trap 'code=$?; if [ $code -ne 0 ]; then printf "\n  \033[0;31m✗\033[0m Installer stopped (exit %s). See the last message above.\n\n" "$code" >&2; fi' EXIT
 
 REPO="algirdasc/expensave"
 COMPOSE_URL="https://raw.githubusercontent.com/${REPO}/main/docker-compose.yml"
@@ -179,8 +182,14 @@ do_install() {
 
     # Create install dir
     info "Creating directory: ${INSTALL_DIR}"
-    mkdir -p "$INSTALL_DIR"
-    cd "$INSTALL_DIR"
+    if ! mkdir -p "$INSTALL_DIR"; then
+        error "Could not create ${INSTALL_DIR}. Try running with sudo."
+        exit 1
+    fi
+    if ! cd "$INSTALL_DIR"; then
+        error "Could not enter ${INSTALL_DIR}."
+        exit 1
+    fi
 
     # Generate secrets
     local db_password
