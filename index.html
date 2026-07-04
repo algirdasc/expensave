@@ -122,14 +122,14 @@
       margin-right:2.5rem;
     }
     .install-command {
-      display:flex; align-items:center; justify-content:space-between; gap:1rem;
-      padding:1rem 1.1rem; overflow:auto;
+      display:flex; align-items:center; justify-content:space-between; gap:.75rem;
+      padding:1rem 1.1rem;
       font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-      font-size: .95rem; white-space: nowrap;
+      font-size: .95rem; min-width:0;
     }
-    .install-command-left { display:flex; align-items:center; gap:.75rem; overflow:hidden; }
+    .install-command-left { display:flex; align-items:center; gap:.75rem; overflow:hidden; min-width:0; flex:1; }
     .install-command .prompt { color:#ff5f57; flex-shrink:0; }
-    .install-command .cmd { color:#baf3e5; overflow:hidden; text-overflow:ellipsis; }
+    .install-command .cmd { color:#baf3e5; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; min-width:0; }
     .copy-inline {
       flex-shrink:0; background:rgba(255,255,255,.06); border:1px solid #2a303d;
       color:#8c94a7; border-radius:8px; cursor:pointer; padding:.3rem .5rem;
@@ -236,21 +236,60 @@
     footer .footer-links a { color:var(--text-muted); }
     footer .footer-links a:hover { color:var(--text); }
 
-    @media (max-width: 768px) {
-      .screenshot-row { grid-template-columns: 1fr 1fr; }
-    }
+    /* ── Tablet ── */
     @media (max-width: 900px) {
       .features-grid { grid-template-columns: repeat(2, 1fr); }
+      .screenshot-row { grid-template-columns: 1fr 1fr; }
+      section { padding: 3.5rem 1.5rem; }
     }
+
+    /* ── Mobile ── */
     @media (max-width: 640px) {
-      nav { padding:1rem; }
+      /* Nav */
+      nav { padding:.85rem 1rem; }
       .nav-links a:not(.nav-btn) { display:none; }
-      .hero { padding:7rem 1.2rem 3rem; }
-      .install-hero-head { align-items:flex-start; }
-      .install-command { font-size:.82rem; }
+      .nav-btn { padding:.4rem .75rem; font-size:.8rem; }
+      .nav-logo { font-size:1rem; }
+      .nav-logo img { width:26px; height:26px; }
+
+      /* Hero */
+      .hero { padding:6rem 1rem 2.5rem; }
+      .hero h1 { font-size: clamp(2rem, 9vw, 3rem); letter-spacing:-.02em; }
+      .hero p { font-size:.95rem; }
+      .hero-actions { gap:.75rem; }
+      .btn-primary, .btn-secondary { padding:.75rem 1.1rem; font-size:.9rem; }
+
+      /* Install hero box */
+      .install-hero-box { border-radius:12px; }
+      .install-command { font-size:.78rem; padding:.85rem .9rem; }
+      .macos-titlebar-label { font-size:.72rem; }
+
+      /* Screenshots */
       .screenshot-row { grid-template-columns: 1fr; }
+      .screenshot-row.mobile-row { grid-template-columns: repeat(3, 1fr); gap:.5rem; }
+      .screenshot-row.mobile-row img { border-radius:12px; }
+
+      /* Features */
       .features-grid { grid-template-columns: 1fr; }
-      .install-options, .install-card.full, .community-grid { grid-template-columns:1fr; grid-column: auto; }
+
+      /* Install section */
+      .install-options { grid-template-columns: 1fr; }
+      .install-card.full { grid-column: auto; }
+      .install-card .code-block { font-size:.78rem; }
+
+      /* Community */
+      .community-grid { grid-template-columns: 1fr; }
+
+      /* Section spacing */
+      section { padding: 3rem 1rem; }
+      .section-title { font-size: clamp(1.6rem, 6vw, 2rem); }
+    }
+
+    /* ── Small phones ── */
+    @media (max-width: 380px) {
+      .hero h1 { font-size: 1.9rem; }
+      .install-command { font-size:.72rem; }
+      .screenshot-row.mobile-row { grid-template-columns: 1fr 1fr; }
     }
   </style>
 </head>
