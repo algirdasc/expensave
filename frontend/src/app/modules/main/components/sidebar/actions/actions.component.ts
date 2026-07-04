@@ -19,11 +19,19 @@ export class ActionsComponent {
     @Input()
     public user: User;
 
-    protected statementImportService = inject(StatementImportService);
     protected readonly environment = environment;
 
-    private dialogService = inject(NbDialogService);
-    private router = inject(Router);
+    private readonly dialogService = inject(NbDialogService);
+    private readonly router = inject(Router);
+    private readonly statementImportService = inject(StatementImportService);
+
+    protected get hasPendingImport(): boolean {
+        return this.statementImportService.draft().length > 0;
+    }
+
+    public processImport(): void {
+        this.statementImportService.processImport();
+    }
 
     public editCategories(): void {
         this.dialogService.open(CategoriesDialogComponent, {

@@ -13,12 +13,12 @@
         </button>
     </nb-card-header>
     <nb-card-header class="d-flex align-items-center justify-content-between with-background">
-        <small class="text-hint w-100">TRANSACTIONS - {{ expenses.length }}</small>
+        <small class="text-hint w-100">TRANSACTIONS - {{ expensesCount }}</small>
         <span>{{ totalExpensesAmount | shortNumber }}</span>
     </nb-card-header>
     <nb-card-body class="p-0">
         @for (date of groupedDates; track date) {
-            <nb-list>
+            <nb-list [@slideAnimation]>
                 <nb-list-item [@slideAnimation] class="with-background text-hint">
                     <div class="d-flex w-100"><nb-icon icon="calendar-outline" class="me-1" /> {{ date }}</div>
                     <div>
@@ -60,7 +60,7 @@
             aria-label="Cancel statement import"
             nbTooltip="Cancel statement import"
             (click)="cancelImport()">
-            <nb-icon icon="trash-outline" />
+            <nb-icon icon="trash-2-outline" />
         </button>
 
         <button nbButton type="button" status="primary" (click)="importExpenses()">
