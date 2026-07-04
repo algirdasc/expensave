@@ -8,6 +8,7 @@ import { ExpenseQueries } from '../../../queries/expense.queries';
 import { StatementImportQueries } from '../../../queries/statement-import.queries';
 import {
     DIALOG_ACTION_CANCEL,
+    DIALOG_ACTION_CLOSE,
     DIALOG_ACTION_IMPORT,
     StatementReviewDialogComponent,
 } from '../dialogs/statement-review-dialog/statement-review-dialog.component';
@@ -140,6 +141,13 @@ export class StatementImportService {
                         break;
                     case DIALOG_ACTION_CANCEL:
                         this.clearImportStorage();
+                        break;
+                    case DIALOG_ACTION_CLOSE:
+                        if (!this.expenses.length) {
+                            this.clearImportStorage();
+                        } else {
+                            this.reloadImportStorage();
+                        }
                         break;
                 }
             });

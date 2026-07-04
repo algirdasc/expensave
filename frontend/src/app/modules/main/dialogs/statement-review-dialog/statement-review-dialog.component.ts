@@ -74,12 +74,19 @@ export class StatementReviewDialogComponent implements OnInit {
         });
 
         expenseDialog.onClose.subscribe((savedExpense: Expense) => {
-            if (!savedExpense) {
+            if (!(savedExpense instanceof Expense)) {
                 return;
             }
 
             this.removeExpenseFromList(expense);
             this.calendarRefreshNeeded = true;
+
+            if (!this.expenses.length) {
+                this.dialogRef.close({
+                    action: DIALOG_ACTION_CLOSE,
+                    calendarRefreshNeeded: this.calendarRefreshNeeded,
+                });
+            }
         });
     }
 
