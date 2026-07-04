@@ -58,21 +58,23 @@ export class StatementReviewDialogComponent implements OnInit {
                 showBalanceTab: false,
                 deletable: true,
                 onExpenseDelete: () => {
-                    this.removeExpenseFromList(expense);
-                    expenseDialog.close();
-                    this.closeIfEmpty();
+                    expenseDialog.close(true);
                 },
             },
         });
 
         expenseDialog.onClose.subscribe((result: Expense | boolean | undefined) => {
-            if (!(result instanceof Expense)) {
+            if (!result) {
                 return;
             }
 
-            this.removeExpenseFromList(expense);
-            this.calendarRefreshNeeded = true;
-            this.closeIfEmpty();
+            if (result instanceof Expense) {
+                this.calendarRefreshNeeded = true;
+            }
+
+            // Defer list mutation to the next tick so it does not run inside
+            // the same change detection cycle that is closing the dialog.
+            setTimeout(() => this.removeExpenseFromList(expense));
         });
     }
 
@@ -128,6 +130,7 @@ export class StatementReviewDialogComponent implements OnInit {
 
         this.reloadGroupedExpenses();
         this.onImportChange([...this.expenses]);
+        this.closeIfEmpty();
     }
 
     private reloadGroupedExpenses(): void {
