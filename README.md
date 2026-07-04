@@ -39,7 +39,7 @@
     <img alt="Expensave mobile expense dialog" src="https://raw.githubusercontent.com/algirdasc/expensave/main/docs/images/screenshots/mobile-expense-dialog.png" style="width: 32%; float: left;" />
 </a>
 <a href="https://raw.githubusercontent.com/algirdasc/expensave/main/docs/images/screenshots/mobile-reports-overview.png">
-    <img alt="Expensave mobile reports overview" src="https://raw.githubusercontent.com/algirdasc/expensave/main/docs/images/screenshots/mobile-reports-overview.png" style="width: 32%; float: left;" />
+    <img alt="Expensave mobile reports overview" src="https://raw.githubusercontent.com/algirdasc/expensave/main/docs/images/screenshots/mobile-reports-details.png" style="width: 32%; float: left;" />
 </a>
 <div style="clear: both;"></div>
 <p><small><strong>Mobile experience:</strong> manage expenses, edit entries, and review reports on smaller screens.</small></p>

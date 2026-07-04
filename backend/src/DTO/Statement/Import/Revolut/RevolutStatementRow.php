@@ -150,7 +150,7 @@ class RevolutStatementRow implements StatementImportRowInterface
 
     public function getAmount(): float
     {
-        return $this->amount - $this->getFee();
+        return round($this->amount - $this->getFee(), 2);
     }
 
     public function getCreatedAt(): DateTime
