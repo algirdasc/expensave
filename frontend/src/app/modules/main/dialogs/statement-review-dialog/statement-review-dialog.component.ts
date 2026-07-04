@@ -57,24 +57,11 @@ export class StatementReviewDialogComponent implements OnInit {
                 showTransferTab: false,
                 showBalanceTab: false,
                 deletable: true,
-                onExpenseDelete: () => {
-                    this.removeExpenseFromList(expense);
-
-                    expenseDialog.close();
-
-                    // Close review if no expenses to import is left
-                    if (!this.expenses.length) {
-                        this.dialogRef.close({
-                            action: DIALOG_ACTION_CLOSE,
-                            calendarRefreshNeeded: this.calendarRefreshNeeded,
-                        });
-                    }
-                },
             },
         });
 
-        expenseDialog.onClose.subscribe((savedExpense: Expense) => {
-            if (!(savedExpense instanceof Expense)) {
+        expenseDialog.onClose.subscribe((result: Expense | boolean | undefined) => {
+            if (!result) {
                 return;
             }
 
@@ -125,15 +112,14 @@ export class StatementReviewDialogComponent implements OnInit {
     }
 
     public removeExpenseFromList(expense: Expense): void {
-        const index = this.expenses.indexOf(expense);
-        if (index === -1) {
+        if (this.expenses.indexOf(expense) === -1) {
             return;
         }
 
-        this.expenses.splice(index, 1);
+        this.expenses = this.expenses.filter(item => item !== expense);
 
         this.reloadGroupedExpenses();
-        this.onImportChange(this.expenses);
+        this.onImportChange([...this.expenses]);
     }
 
     private reloadGroupedExpenses(): void {

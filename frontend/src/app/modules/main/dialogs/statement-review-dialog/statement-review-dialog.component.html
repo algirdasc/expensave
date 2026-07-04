@@ -17,7 +17,7 @@
         <span>{{ totalExpensesAmount | shortNumber }}</span>
     </nb-card-header>
     <nb-card-body class="p-0">
-        @for (date of groupedDates; track $index) {
+        @for (date of groupedDates; track date) {
             <nb-list>
                 <nb-list-item [@slideAnimation] class="with-background text-hint">
                     <div class="d-flex w-100"><nb-icon icon="calendar-outline" class="me-1" /> {{ date }}</div>
@@ -26,7 +26,7 @@
                     </div>
                 </nb-list-item>
 
-                @for (expense of groupedByDates[date]; track $index) {
+                @for (expense of groupedByDates[date]; track expense.label + '|' + expense.createdAt + '|' + expense.amount) {
                     <nb-list-item
                         [@slideAnimation]
                         (click)="!expense.id ? openExpense(expense) : null"
