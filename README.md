@@ -95,7 +95,6 @@ cat > .env <<EOF
 TZ=Europe/Vilnius
 LOCALE=en
 REGISTRATION_DISABLED=no
-DB_PASSWORD=change_me_please
 EOF
 ```
 
