@@ -26,7 +26,10 @@
                     </div>
                 </nb-list-item>
 
-                @for (expense of groupedByDates[date]; track expense.label + '|' + expense.createdAt + '|' + expense.amount) {
+                @for (
+                    expense of groupedByDates[date];
+                    track expense.label + '|' + expense.createdAt + '|' + expense.amount
+                ) {
                     <nb-list-item
                         [@slideAnimation]
                         (click)="!expense.id ? openExpense(expense) : null"
