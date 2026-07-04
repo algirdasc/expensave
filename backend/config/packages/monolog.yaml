@@ -27,4 +27,4 @@ when@prod:
             stderr:
                 type: stream
                 path: php://stderr
-                level: debug
+                level: info
