@@ -57,24 +57,32 @@ export class StatementReviewDialogComponent implements OnInit {
                 showTransferTab: false,
                 showBalanceTab: false,
                 deletable: true,
+                onExpenseDelete: () => {
+                    this.removeExpenseFromList(expense);
+                    expenseDialog.close();
+                    this.closeIfEmpty();
+                },
             },
         });
 
         expenseDialog.onClose.subscribe((result: Expense | boolean | undefined) => {
-            if (!result) {
+            if (!(result instanceof Expense)) {
                 return;
             }
 
             this.removeExpenseFromList(expense);
             this.calendarRefreshNeeded = true;
-
-            if (!this.expenses.length) {
-                this.dialogRef.close({
-                    action: DIALOG_ACTION_CLOSE,
-                    calendarRefreshNeeded: this.calendarRefreshNeeded,
-                });
-            }
+            this.closeIfEmpty();
         });
+    }
+
+    private closeIfEmpty(): void {
+        if (!this.expenses.length) {
+            this.dialogRef.close({
+                action: DIALOG_ACTION_CLOSE,
+                calendarRefreshNeeded: this.calendarRefreshNeeded,
+            });
+        }
     }
 
     public importExpenses(): void {
