@@ -18,9 +18,11 @@ DEFAULT_INSTALL_DIR="/opt/expensave"
 if [ ! -t 0 ] && [ -z "${EXPENSAVE_REEXEC:-}" ]; then
     tmp="$(mktemp)"
     cat > "$tmp"
+    printf '[debug] re-exec from %s\n' "$tmp" >&2
     export EXPENSAVE_REEXEC=1
-    exec bash "$tmp" "$@" < /dev/tty
+    exec bash "$tmp" < /dev/tty
 fi
+[ -n "${EXPENSAVE_REEXEC:-}" ] && printf '[debug] running re-exec copy\n' >&2
 
 # Fail loudly on unexpected errors instead of exiting silently
 trap 'code=$?; if [ $code -ne 0 ]; then printf "\n  \033[0;31m✗\033[0m Installer stopped (exit %s). See the last message above.\n\n" "$code" >&2; fi' EXIT
@@ -71,10 +73,11 @@ confirm() {
 }
 
 gen_password() {
-    # 20 char alphanumeric — read a fixed chunk first to avoid SIGPIPE
-    # (piping /dev/urandom straight into head closes the pipe early and
-    #  can kill the whole script when running under 'curl | bash')
-    LC_ALL=C tr -dc 'A-Za-z0-9' < <(head -c 4096 /dev/urandom) | cut -c1-20
+    # 20 char alphanumeric. Read a fixed random chunk into a var first,
+    # then transform in-memory — no pipes, no SIGPIPE, no subshell quirks.
+    local raw
+    raw=$(head -c 4096 /dev/urandom | LC_ALL=C tr -dc 'A-Za-z0-9')
+    printf '%s' "${raw:0:20}"
 }
 
 detect_timezone() {
@@ -328,6 +331,7 @@ main() {
     check_root
     check_docker
     collect_config
+    printf "\n  ${DIM}[debug] config collected, starting install...${NC}\n"
     do_install
     print_summary
 }
