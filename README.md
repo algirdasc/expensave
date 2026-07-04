@@ -1,94 +1,169 @@
 # Expensave
 
-Expensave is an open-source application designed to help you track your personal and family expenses effortlessly, enabling better budgeting and financial management. Highly inspired by [Dollarbird](https://dollarbird.co/), Expensave offers intuitive features to monitor your spending habits and stay on top of your finances.
+**Expensave** is a free, open-source self-hosted expense tracker for personal and family budget management. Track spending, share calendars with family members, import bank statements, and monitor your finances — all on your own server.
 
-## Support
-
-This open-source project is developed in my free time. 
-You can support this project by clicking the "Sponsor" button above.
-Your sponsorship will help me dedicate more time and resources to improve the project, add new features, fix bugs, and stay motivated. It also helps me understand that this project is useful not only for me, but for many users like you.
+[![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
+[![GitHub release](https://img.shields.io/github/v/release/algirdasc/expensave)](https://github.com/algirdasc/expensave/releases)
+[![Docker Pulls](https://img.shields.io/docker/pulls/algirdasc/expensave)](https://hub.docker.com/r/algirdasc/expensave)
 
 ---
 
-# Screenshots
+## Screenshots
 
-## Desktop version
+### Desktop
 
 <a href="https://raw.githubusercontent.com/algirdasc/expensave/main/docs/images/screenshots/desktop-calendar.png">
-    <img alt="Calendar view" src="https://raw.githubusercontent.com/algirdasc/expensave/main/docs/images/screenshots/desktop-calendar.png" />
+    <img alt="Expensave desktop calendar view" src="https://raw.githubusercontent.com/algirdasc/expensave/main/docs/images/screenshots/desktop-calendar.png" />
 </a>
 <a href="https://raw.githubusercontent.com/algirdasc/expensave/main/docs/images/screenshots/desktop-expense-dialog.png">
-    <img alt="Expense dialog" src="https://raw.githubusercontent.com/algirdasc/expensave/main/docs/images/screenshots/desktop-expense-dialog.png" style="width: 49%; float: left;" />
+    <img alt="Expensave expense dialog" src="https://raw.githubusercontent.com/algirdasc/expensave/main/docs/images/screenshots/desktop-expense-dialog.png" style="width: 49%; float: left;" />
 </a>
 <a href="https://raw.githubusercontent.com/algirdasc/expensave/main/docs/images/screenshots/desktop-sidebar.png">
-    <img alt="Calendar list" src="https://raw.githubusercontent.com/algirdasc/expensave/main/docs/images/screenshots/desktop-sidebar.png" style="width: 49%; float: right;" />
+    <img alt="Expensave sidebar" src="https://raw.githubusercontent.com/algirdasc/expensave/main/docs/images/screenshots/desktop-sidebar.png" style="width: 49%; float: right;" />
 </a>
 <div style="clear: both;"></div>
 
-## Mobile version
+### Mobile
 
 <a href="https://raw.githubusercontent.com/algirdasc/expensave/main/docs/images/screenshots/mobile-calendar.png">
-    <img alt="Mobile version calendar view" src="https://raw.githubusercontent.com/algirdasc/expensave/main/docs/images/screenshots/mobile-calendar.png" style="width: 32%; float: left;" />
+    <img alt="Expensave mobile calendar view" src="https://raw.githubusercontent.com/algirdasc/expensave/main/docs/images/screenshots/mobile-calendar.png" style="width: 32%; float: left;" />
 </a>
 <a href="https://raw.githubusercontent.com/algirdasc/expensave/main/docs/images/screenshots/mobile-expense-dialog.png">
-    <img alt="Mobile version expense dialog" src="https://raw.githubusercontent.com/algirdasc/expensave/main/docs/images/screenshots/mobile-expense-dialog.png" style="width: 32%; float: left;" />
+    <img alt="Expensave mobile expense dialog" src="https://raw.githubusercontent.com/algirdasc/expensave/main/docs/images/screenshots/mobile-expense-dialog.png" style="width: 32%; float: left;" />
 </a>
 <a href="https://raw.githubusercontent.com/algirdasc/expensave/main/docs/images/screenshots/mobile-sidebar.png">
-    <img alt="Mobile version calendar list" src="https://raw.githubusercontent.com/algirdasc/expensave/main/docs/images/screenshots/mobile-sidebar.png" style="width: 32%; float: left;" />
+    <img alt="Expensave mobile sidebar" src="https://raw.githubusercontent.com/algirdasc/expensave/main/docs/images/screenshots/mobile-sidebar.png" style="width: 32%; float: left;" />
 </a>
 <div style="clear: both;"></div>
+
+---
 
 ## Features
 
-- Multiple user support
-- Shared expense calendars between family members
-- Multiple & unlimited expense calendars- Recurring expenses with daily, weekly, monthly, and yearly schedules
-- Import your balance from financial institutions in various [formats](https://github.com/algirdasc/expensave/wiki/Bank-statement-import#supported-banks) 
-- Reports on your spending and income habits
-- Responsive design
-- Mobile [PWA](https://web.dev/explore/progressive-web-apps) application
+- 👥 Multiple user support
+- 📅 Shared expense calendars between family members
+- ♾️ Multiple & unlimited expense calendars
+- 🔁 Recurring expenses — daily, weekly, monthly, and yearly schedules
+- 🏦 Import bank statements in various [formats](https://github.com/algirdasc/expensave/wiki/Bank-statement-import#supported-banks)
+- 📊 Reports on spending and income habits
+- 📱 Mobile [PWA](https://web.dev/explore/progressive-web-apps) — installable on iOS and Android
+- 🎨 Responsive design — works on desktop, tablet, and mobile
 
-## Installation
+---
 
-### Install on Hostinger VPS seamlessly
+## Quick Start
+
+### Option 1 — Automated installer (recommended)
+
+Requires Docker. Installs and starts Expensave interactively:
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/algirdasc/expensave/main/install.sh | sudo bash
+```
+
+The installer will:
+- Verify Docker is installed and running
+- Ask whether to use default or custom settings
+- Configure timezone and locale from your OS automatically
+- Generate a secure database password
+- Pull images and start the application
+- Print the URL and credentials when done
+
+---
+
+### Option 2 — Docker Compose (manual)
+
+**1. Create a directory and download the compose file:**
+
+```bash
+mkdir -p /opt/expensave && cd /opt/expensave
+curl -fsSL https://raw.githubusercontent.com/algirdasc/expensave/main/docker-compose.yml -o docker-compose.yml
+```
+
+**2. Create a `.env` file:**
+
+```bash
+cat > .env <<EOF
+TZ=Europe/Vilnius
+LOCALE=en
+REGISTRATION_DISABLED=no
+DB_PASSWORD=change_me_please
+EOF
+```
+
+**3. Start:**
+
+```bash
+docker compose up -d
+```
+
+App is available at **http://localhost:18000**
+
+**Useful commands:**
+
+```bash
+docker compose logs -f          # view logs
+docker compose pull && docker compose up -d   # update to latest
+docker compose down             # stop
+```
+
+---
+
+### Option 3 — Deploy on Hostinger VPS
+
+One-click deploy on a Hostinger VPS with Docker pre-configured:
 
 [![Deploy on Hostinger](https://assets.hostinger.com/vps/deploy.svg)](https://www.hostinger.com/vps/docker-hosting?compose_url=https://raw.githubusercontent.com/algirdasc/expensave/refs/heads/main/docker-compose.yml&REFERRALCODE=1ALGIRDAS48#pricing)
 
-## Install self-hosted instance
+---
 
-See wiki: [Installation](https://github.com/algirdasc/expensave/wiki/Installation).
+## Mobile PWA
 
-### Password Reset Email
-
-Password reset emails are sent through Symfony Mailer. See [Mail sending setup](./docs/MAIL_SENDING.md) for generic SMTP configuration and Gmail mailbox setup.
-
-## Installing Mobile Version
+Expensave works as a Progressive Web App — install it on your phone directly from the browser, no app store required.
 
 See wiki: [Using mobile version](https://github.com/algirdasc/expensave/wiki/Using-mobile-version).
 
+---
+
 ## Bank Statement Import
+
+Import your balance from financial institutions in various formats.
 
 See wiki: [Bank statement import](https://github.com/algirdasc/expensave/wiki/Bank-statement-import).
 
-## Contributing
+---
 
-Contributions from the community are more than welcomed! If you'd like to contribute to Expensave, please fork the repository and submit a pull request with your changes. Before submitting a pull request, make sure to:
+## Community & Discussions
 
-- Follow the [contribution guidelines](./docs/CONTRIBUTING.md).
-- Follow coding standards: [Symfony](https://symfony.com/doc/current/contributing/code/standards.html) and [Angular](https://angular.io/guide/styleguide).
-- Write clear and concise commit messages.
-- Test your changes thoroughly.
+Have a question, idea, or want to share how you use Expensave?
+
+👉 **[Join the discussion on GitHub](https://github.com/algirdasc/expensave/discussions)**
+
+- 💡 **Ideas & feature requests** — suggest what you'd like to see
+- ❓ **Q&A** — ask questions and get help from the community
+- 🗣️ **Show & tell** — share your setup or how you use Expensave
+
+---
 
 ## Support
 
-If you encounter any issues or have any questions about Expensave, feel free to [open an issue](https://github.com/algirdasc/expensave/issues) on GitHub.
+### 💬 Bug reports & questions
 
-## Tech Stack
+Found a bug or need help?
 
-**Frontend:** Angular, Nebular, Bootstrap
+- [Open an issue](https://github.com/algirdasc/expensave/issues) for bug reports
+- [Start a discussion](https://github.com/algirdasc/expensave/discussions) for questions and ideas
 
-**Backend:** PHP 8, Symfony
+### ❤️ Financial support
 
-## Acknowledgements
+Expensave is developed and maintained in my free time. If you find it useful, consider supporting the project:
 
-Expensave was highly inspired by [Dollarbird](https://dollarbird.co/).
+- Click the **Sponsor** button at the top of this page
+- Your support helps me dedicate more time to new features, bug fixes, and keeping the project alive
+- It also lets me know that Expensave is useful to others — which means a lot
+
+---
+
+## License
+
+Expensave is open-source software licensed under the [GNU General Public License v3.0](./LICENSE).
