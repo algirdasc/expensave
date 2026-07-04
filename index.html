@@ -125,6 +125,20 @@
     .copy-inline svg { width:15px; height:15px; fill:none; stroke:currentColor; stroke-width:1.8; stroke-linecap:round; stroke-linejoin:round; }
 
     section { padding:5rem 2rem; }
+    .showcase-section {
+      position:relative;
+      margin-top:-1px;
+      padding-top:6.5rem;
+      background:
+        linear-gradient(180deg, rgba(16,18,24,1) 0%, rgba(17,20,28,.98) 34%, rgba(16,18,24,1) 100%),
+        radial-gradient(ellipse 70% 32% at 50% 0%, rgba(0,189,157,.10), transparent 70%);
+      border-top:1px solid rgba(255,255,255,.05);
+    }
+    .showcase-section::before {
+      content:""; position:absolute; left:50%; top:0; transform:translateX(-50%);
+      width:min(1120px, calc(100% - 3rem)); height:1px;
+      background:linear-gradient(90deg, transparent, rgba(0,189,157,.45), rgba(63,94,181,.45), transparent);
+    }
     .container { max-width:1120px; margin:0 auto; width:100%; }
     .section-label { font-size:.75rem; font-weight:600; letter-spacing:.1em; text-transform:uppercase; color:var(--secondary); margin-bottom:.75rem; }
     .section-title { font-size:clamp(1.9rem,4vw,3rem); font-weight:700; line-height:1.14; margin-bottom:1rem; }
@@ -139,7 +153,6 @@
     .showcase-shot img { width:100%; display:block; aspect-ratio:16/10; object-fit:cover; object-position:top center; }
     .showcase-shot.phone { border-radius:24px; max-height:470px; }
     .showcase-shot.phone img { aspect-ratio:9/16; object-fit:cover; object-position:top center; }
-    .screenshot-caption { color:var(--text-muted); font-size:.85rem; margin:.45rem 0 1rem; }
 
     .features-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:1.25rem; }
     .feature-card {
@@ -205,6 +218,7 @@
       .screenshot-row { grid-template-columns:1fr 1fr; }
       .community-grid { grid-template-columns:repeat(2,1fr); }
       section { padding:3.5rem 1.5rem; }
+      .showcase-section { padding-top:5rem; }
     }
 
     @media (max-width:640px) {
@@ -238,6 +252,7 @@
 
       .community-grid { grid-template-columns:1fr; }
       section { padding:3rem 1rem; }
+      .showcase-section { padding-top:4.5rem; }
       .section-title { font-size:clamp(1.5rem,6vw,2rem); }
     }
 
@@ -291,7 +306,7 @@
     </div>
   </section>
 
-  <section>
+  <section class="showcase-section">
     <div class="container">
       <div class="section-label">Interface</div>
       <h2 class="section-title">All your money at a glance.</h2>
@@ -299,21 +314,16 @@
       <a class="showcase-main" href="assets/screenshots/desktop-calendar.png" target="_blank" rel="noopener">
         <img src="assets/screenshots/desktop-calendar.png" alt="Expensave desktop calendar view" />
       </a>
-      <p class="screenshot-caption">Calendar view: track daily spending, income, and account balance in one timeline.</p>
-
       <div class="screenshot-row">
         <a class="showcase-shot" href="assets/screenshots/desktop-expense-dialog.png" target="_blank" rel="noopener"><img src="assets/screenshots/desktop-expense-dialog.png" alt="Expensave expense editor" /></a>
         <a class="showcase-shot" href="assets/screenshots/desktop-report.png" target="_blank" rel="noopener"><img src="assets/screenshots/desktop-report.png" alt="Expensave reports" /></a>
         <a class="showcase-shot" href="assets/screenshots/desktop-light.png" target="_blank" rel="noopener"><img src="assets/screenshots/desktop-light.png" alt="Expensave light theme" /></a>
       </div>
-      <p class="screenshot-caption">Edit transactions quickly, review reports, and switch between dark and light UI.</p>
-
       <div class="screenshot-row mobile-row">
         <a class="showcase-shot phone" href="assets/screenshots/mobile-overview.png" target="_blank" rel="noopener"><img src="assets/screenshots/mobile-overview.png" alt="Expensave mobile overview" /></a>
         <a class="showcase-shot phone" href="assets/screenshots/mobile-expense-dialog.png" target="_blank" rel="noopener"><img src="assets/screenshots/mobile-expense-dialog.png" alt="Expensave mobile expense editor" /></a>
         <a class="showcase-shot phone" href="assets/screenshots/mobile-reports-overview.png" target="_blank" rel="noopener"><img src="assets/screenshots/mobile-reports-overview.png" alt="Expensave mobile reports" /></a>
       </div>
-      <p class="screenshot-caption">Mobile screens are cropped for context here — click any screenshot to open the full-size image.</p>
     </div>
   </section>
 
