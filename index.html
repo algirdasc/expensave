@@ -153,7 +153,7 @@
     .showcase-shot img { width:100%; display:block; }
 
     .features-grid {
-      display:grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap:1.25rem;
+      display:grid; grid-template-columns: repeat(3, 1fr); gap:1.25rem;
     }
     .feature-card {
       background: rgba(21,24,33,.95); border:1px solid var(--border); border-radius:16px; padding:1.4rem;
@@ -195,9 +195,9 @@
     }
     .install-card .helper { margin-top:.8rem; font-size:.82rem; color:var(--text-muted); }
     .hostinger-btn {
-      margin-top:auto; display:flex; align-items:center; justify-content:center; width:100%;
-      min-height: 88px; border-radius:14px; border:1px dashed #414959; background: rgba(16,18,24,.45);
-      padding:1rem;
+      display:flex; align-items:center; justify-content:center; width:100%;
+      flex:1; border-radius:14px; border:1px dashed #414959; background: rgba(16,18,24,.45);
+      padding:1.25rem 1rem;
     }
     .hostinger-btn img { width:100%; max-width: 260px; height:auto; }
 
@@ -226,6 +226,9 @@
     @media (max-width: 768px) {
       .screenshot-row { grid-template-columns: 1fr 1fr; }
     }
+    @media (max-width: 900px) {
+      .features-grid { grid-template-columns: repeat(2, 1fr); }
+    }
     @media (max-width: 640px) {
       nav { padding:1rem; }
       .nav-links a:not(.nav-btn) { display:none; }
@@ -233,7 +236,8 @@
       .install-hero-head { align-items:flex-start; }
       .install-command { font-size:.82rem; }
       .screenshot-row { grid-template-columns: 1fr; }
-      .install-options, .features-grid, .community-grid { grid-template-columns:1fr; }
+      .features-grid { grid-template-columns: 1fr; }
+      .install-options, .community-grid { grid-template-columns:1fr; }
     }
   </style>
 </head>
@@ -324,18 +328,18 @@
           <p>Interactive bash script. Checks Docker, asks a few questions, and starts Expensave for you.</p>
           <div class="code-block">curl -fsSL https://raw.githubusercontent.com/algirdasc/expensave/main/install.sh | sudo bash</div>
         </div>
-        <div class="install-card">
+        <div class="install-card" style="display:flex;flex-direction:column;">
           <span class="badge">Manual setup</span>
           <h3>Docker Compose</h3>
           <p>Prefer full control? Use Docker Compose and configure everything yourself.</p>
-          <div class="code-block">docker compose up -d</div>
+          <div class="code-block" style="margin-top:auto;">docker compose up -d</div>
           <div class="helper">Step-by-step guide available in <a href="https://github.com/algirdasc/expensave/wiki/Installation" target="_blank">Installation wiki →</a></div>
         </div>
-        <div class="install-card">
+        <div class="install-card" style="display:flex;flex-direction:column;">
           <span class="badge">One-click</span>
           <h3>Deploy on Hostinger</h3>
           <p>Launch on a Hostinger VPS with Docker pre-configured. Good fit if you want less terminal work.</p>
-          <a href="https://www.hostinger.com/vps/docker-hosting?compose_url=https://raw.githubusercontent.com/algirdasc/expensave/refs/heads/main/docker-compose.yml&REFERRALCODE=1ALGIRDAS48#pricing" target="_blank" class="hostinger-btn">
+          <a href="https://www.hostinger.com/vps/docker-hosting?compose_url=https://raw.githubusercontent.com/algirdasc/expensave/refs/heads/main/docker-compose.yml&REFERRALCODE=1ALGIRDAS48#pricing" target="_blank" class="hostinger-btn" style="margin-top:auto;">
             <img src="https://assets.hostinger.com/vps/deploy.svg" alt="Deploy on Hostinger" />
           </a>
         </div>
