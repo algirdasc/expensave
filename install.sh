@@ -6,12 +6,27 @@ set -uo pipefail
 #  https://github.com/algirdasc/expensave
 # ─────────────────────────────────────────────
 
-# Fail loudly on unexpected errors instead of exiting silently
-trap 'code=$?; if [ $code -ne 0 ]; then printf "\n  \033[0;31m✗\033[0m Installer stopped (exit %s). See the last message above.\n\n" "$code" >&2; fi' EXIT
-
 REPO="algirdasc/expensave"
+SCRIPT_URL="https://raw.githubusercontent.com/${REPO}/main/install.sh"
 COMPOSE_URL="https://raw.githubusercontent.com/${REPO}/main/docker-compose.yml"
 DEFAULT_INSTALL_DIR="/opt/expensave"
+
+# When run via 'curl ... | bash', stdin is the script text. Interactive
+# reads and stdin-consuming commands then behave unpredictably. Re-exec
+# from a real file so the script body no longer lives on stdin.
+if [ ! -t 0 ] && [ -z "${EXPENSAVE_REEXEC:-}" ]; then
+    tmp="$(mktemp)"
+    if curl -fsSL "$SCRIPT_URL" -o "$tmp"; then
+        export EXPENSAVE_REEXEC=1
+        exec bash "$tmp" "$@" < /dev/tty
+    else
+        printf "Failed to download installer from %s\n" "$SCRIPT_URL" >&2
+        exit 1
+    fi
+fi
+
+# Fail loudly on unexpected errors instead of exiting silently
+trap 'code=$?; if [ $code -ne 0 ]; then printf "\n  \033[0;31m✗\033[0m Installer stopped (exit %s). See the last message above.\n\n" "$code" >&2; fi' EXIT
 
 # ── Colors ────────────────────────────────────
 RED='\033[0;31m'
@@ -59,8 +74,10 @@ confirm() {
 }
 
 gen_password() {
-    # 20 char alphanumeric
-    tr -dc 'A-Za-z0-9' </dev/urandom | head -c 20
+    # 20 char alphanumeric — read a fixed chunk first to avoid SIGPIPE
+    # (piping /dev/urandom straight into head closes the pipe early and
+    #  can kill the whole script when running under 'curl | bash')
+    LC_ALL=C tr -dc 'A-Za-z0-9' < <(head -c 4096 /dev/urandom) | cut -c1-20
 }
 
 detect_timezone() {
