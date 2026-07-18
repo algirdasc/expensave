@@ -1,14 +1,14 @@
 import { inject } from '@angular/core';
 import { CanActivateFn, Router } from '@angular/router';
-import { NbAuthService } from '@nebular/auth';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
+import { TokenRefreshService } from '../../services/token-refresh.service';
 
 export const canActivateAuthenticated: CanActivateFn = (): Observable<boolean> => {
-    const authService: NbAuthService = inject(NbAuthService);
+    const tokenRefreshService: TokenRefreshService = inject(TokenRefreshService);
     const router: Router = inject(Router);
 
-    return authService.isAuthenticatedOrRefresh().pipe(
+    return tokenRefreshService.isAuthenticatedOrRefresh().pipe(
         tap((authenticated: boolean) => {
             if (!authenticated) {
                 router.navigate(['auth/login']);
