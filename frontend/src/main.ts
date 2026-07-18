@@ -9,13 +9,15 @@ import {
 import { MainService } from './app/modules/main/main.service';
 import { environment } from './environments/environment';
 import { AppInitializer } from './app/app.initializer';
-import { NB_AUTH_TOKEN_INTERCEPTOR_FILTER, NbAuthJWTInterceptor } from '@nebular/auth';
+import { NB_AUTH_TOKEN_INTERCEPTOR_FILTER } from '@nebular/auth';
 import { tokenFilter } from './app/modules/auth/token.filter';
 import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { ErrorInterceptor } from './app/interceptors/error.interceptor';
 import { DateInterceptor } from './app/interceptors/date.interceptor';
 import { ApiInterceptor } from './app/interceptors/api.interceptor';
 import { UnauthorizedInterceptor } from './app/interceptors/unauthorized.interceptor';
+import { AuthJWTInterceptor } from './app/interceptors/auth-jwt.interceptor';
+import { AppResumeService } from './app/services/app-resume.service';
 import { AuthStrategy } from './app/modules/auth/auth-strategy';
 import { AuthOptionsService } from './app/services/auth-options.service';
 import { CommonModule } from '@angular/common';
@@ -83,6 +85,9 @@ bootstrapApplication(AppComponent, {
         provideAppInitializer(() => {
             inject(ThemePreferenceService).initialize();
         }),
+        provideAppInitializer(() => {
+            inject(AppResumeService).initialize();
+        }),
         {
             provide: LOCALE_ID,
             useFactory: (appInitializer: AppInitializer): string => appInitializer.getLocaleId(),
@@ -97,7 +102,7 @@ bootstrapApplication(AppComponent, {
         { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
         { provide: HTTP_INTERCEPTORS, useClass: DateInterceptor, multi: true },
         { provide: HTTP_INTERCEPTORS, useClass: ApiInterceptor, multi: true },
-        { provide: HTTP_INTERCEPTORS, useClass: NbAuthJWTInterceptor, multi: true },
+        { provide: HTTP_INTERCEPTORS, useClass: AuthJWTInterceptor, multi: true },
         { provide: HTTP_INTERCEPTORS, useClass: UnauthorizedInterceptor, multi: true },
         AuthStrategy,
         AuthOptionsService,
