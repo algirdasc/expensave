@@ -43,7 +43,7 @@ export class AuthModule {
                     rememberMe: false,
                     strategy: 'jwt',
                     showMessages: {
-                        error: false,
+                        error: true,
                     },
                 },
                 register: {
