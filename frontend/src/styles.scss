@@ -48,3 +48,16 @@ nb-list-item.with-background {
 .font-weight-normal {
     font-weight: normal;
 }
+
+// Dialog header icon buttons (close / back) should read as a bare icon only -
+// no background, border, outline or focus fill in any state.
+nb-card-header [nbButton].appearance-ghost.status-basic {
+    &,
+    &:hover,
+    &:focus,
+    &:active {
+        background-color: transparent;
+        border-color: transparent;
+        box-shadow: none;
+    }
+}
