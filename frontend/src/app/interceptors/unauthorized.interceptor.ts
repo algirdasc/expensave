@@ -14,12 +14,18 @@ export class UnauthorizedInterceptor implements HttpInterceptor {
     public intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
         return next.handle(req).pipe(
             catchError((error: HttpErrorResponse) => {
-                if (error.status === 401) {
+                // A 401 from the refresh endpoint means the refresh token itself
+                // is invalid/consumed; it is handled by the auth layer, so do not
+                // clear tokens here (that caused spurious logouts under the
+                // single-use refresh token race on app resume).
+                const isRefreshRequest = req.url.includes('/auth/refresh-token');
+
+                if (error.status === 401 && !isRefreshRequest) {
                     this.tokenService.clear();
                     this.router.navigate(['auth/login']);
                 }
 
-                return throwError(error);
+                return throwError(() => error);
             })
         );
     }

@@ -14,6 +14,12 @@ export class ErrorInterceptor implements HttpInterceptor {
     public intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
         return next.handle(req).pipe(
             catchError((response: HttpErrorResponse) => {
+                // 401s are expected during token expiry/refresh and are handled
+                // by the auth layer (UnauthorizedInterceptor); no toast needed.
+                if (response.status === 401) {
+                    return throwError(() => response);
+                }
+
                 if (response.status === 0) {
                     this.toastrService.danger('Unable to connect to Expensave server!', 'Connection error!');
                 } else {
