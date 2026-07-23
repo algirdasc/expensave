@@ -9,7 +9,6 @@ import { injectMutation, injectQuery } from '@tanstack/angular-query-experimenta
 
 @Component({
     templateUrl: 'categories-dialog.component.html',
-    styleUrl: 'categories-dialog.component.scss',
     imports: [NbSpinnerModule, CategoryListComponent, CategoryEditComponent],
 })
 export class CategoriesDialogComponent implements OnInit {

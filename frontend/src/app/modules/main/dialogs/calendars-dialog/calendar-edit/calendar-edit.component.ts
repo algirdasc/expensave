@@ -16,13 +16,11 @@ import {
     NbTooltipModule,
     NbUserModule,
 } from '@nebular/theme';
-import { AsyncPipe } from '@angular/common';
 import { UserQueries } from '../../../../../queries/user.queries';
 import { injectQuery } from '@tanstack/angular-query-experimental';
 
 @Component({
     templateUrl: 'calendar-edit.component.html',
-    styleUrl: 'calendar-edit.component.scss',
     selector: 'app-calendar-edit',
     imports: [
         FormsModule,
@@ -36,7 +34,6 @@ import { injectQuery } from '@tanstack/angular-query-experimental';
         NbAutocompleteModule,
         NbOptionModule,
         NbTooltipModule,
-        AsyncPipe,
     ],
 })
 export class CalendarEditComponent {

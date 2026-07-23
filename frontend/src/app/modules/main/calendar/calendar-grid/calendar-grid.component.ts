@@ -8,7 +8,6 @@ import { CalendarGridRowComponent } from '../calendar-grid-row/calendar-grid-row
 
 @Component({
     selector: 'app-calendar-grid',
-    styleUrls: ['calendar-grid.component.scss'],
     templateUrl: 'calendar-grid.component.html',
     imports: [CalendarGridRowComponent],
 })

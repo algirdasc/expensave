@@ -2,13 +2,12 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { slideAnimation } from '../../../../animations/slide.animation';
 import { Expense } from '../../../../api/objects/expense';
 import { NbIconModule, NbListModule } from '@nebular/theme';
-import { NgStyle } from '@angular/common';
 import { ShortNumberPipe } from '../../../../pipes/shortnumber.pipe';
 
 @Component({
     selector: 'app-expense-list-items',
     template: ` <nb-list>
-        <nb-list-item class="with-background">
+        <nb-list-item>
             <small class="text-hint w-100">{{ header }}</small>
             <span>{{ totalExpensesAmount | shortNumber }}</span>
         </nb-list-item>
@@ -29,7 +28,7 @@ import { ShortNumberPipe } from '../../../../pipes/shortnumber.pipe';
         }
     </nb-list>`,
     animations: slideAnimation,
-    imports: [NbListModule, NbIconModule, NgStyle, ShortNumberPipe],
+    imports: [NbListModule, NbIconModule, ShortNumberPipe],
 })
 export class ExpenseListItemsComponent implements OnInit {
     @Input({ required: true })

@@ -1,16 +1,10 @@
+// Emits Bootstrap utility classes (.d-flex, .text-center, .align-items-center,
+// .justify-content-*, spacing, etc.) globally - relied on across all templates.
 @use 'bootstrap/scss/bootstrap-utilities' as *;
-
 
 nb-sidebar > .main-container > .scrollable {
   padding: 0 !important;
 }
-
-@include media-breakpoint-down(md) {
-  .dialog {
-      //margin-bottom: 30vh !important;
-  }
-}
-
 
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {

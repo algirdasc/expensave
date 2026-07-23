@@ -20,7 +20,6 @@ import { UserQueries } from '../../../../queries/user.queries';
 
 @Component({
     templateUrl: 'profile-dialog.component.html',
-    styleUrls: ['profile-dialog.component.scss'],
     imports: [
         FormsModule,
         NbCardModule,

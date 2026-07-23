@@ -9,7 +9,6 @@ import { UserQueries } from '../../../../queries/user.queries';
 
 @Component({
     templateUrl: 'calendars-dialog.component.html',
-    styleUrls: ['calendars-dialog.component.scss'],
     imports: [NbSpinnerModule, CalendarListComponent, CalendarEditComponent],
 })
 export class CalendarsDialogComponent {

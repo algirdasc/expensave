@@ -6,7 +6,6 @@ import { NbButtonModule, NbCardModule, NbIconModule, NbListModule, NbTooltipModu
 @Component({
     selector: 'app-calendar-list',
     templateUrl: 'calendar-list.component.html',
-    styleUrls: ['calendar-list.component.scss'],
     animations: slideAnimation,
     imports: [NbCardModule, NbButtonModule, NbIconModule, NbListModule, NbTooltipModule],
 })
