@@ -20,9 +20,7 @@
             }
         </nb-list>
     </nb-card-body>
-    <nb-card-footer
-        class="d-flex justify-content-between"
-        [class.border-top]="categoryBalances.length > 0">
+    <nb-card-footer class="d-flex justify-content-between" [class.border-top]="categoryBalances.length > 0">
         <div class="text-center">
             <div class="text-hint mb-0">INCOME</div>
             <strong>{{ income | shortNumber }}</strong>

@@ -5,10 +5,11 @@ import { Expense } from '../../../../api/objects/expense';
 import { CalendarService } from '../../calendar/calendar.service';
 import { ExpenseListItemsComponent } from './expense-list-items.component';
 import { ShortNumberPipe } from '../../../../pipes/shortnumber.pipe';
+import { DatePipe } from '@angular/common';
 
 @Component({
     templateUrl: 'expense-list-dialog.component.html',
-    imports: [NbCardModule, ExpenseListItemsComponent, NbButtonModule, NbIconModule, ShortNumberPipe],
+    imports: [NbCardModule, ExpenseListItemsComponent, NbButtonModule, NbIconModule, ShortNumberPipe, DatePipe],
 })
 export class ExpenseListDialogComponent implements OnInit {
     public visibleDate: Date;

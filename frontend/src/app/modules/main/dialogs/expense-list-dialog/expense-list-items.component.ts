@@ -16,7 +16,7 @@ import { ShortNumberPipe } from '../../../../pipes/shortnumber.pipe';
                 <nb-icon
                     [icon]="icon"
                     class="flex-shrink-0 me-2"
-                    [ngStyle]="{ color: expense.category?.color }"></nb-icon>
+                    [style]="{ color: expense.category?.color }"></nb-icon>
                 <div class="text-truncate w-100 mx-3">
                     {{ expense.label }}
                     <small class="d-flex align-items-center text-hint">
