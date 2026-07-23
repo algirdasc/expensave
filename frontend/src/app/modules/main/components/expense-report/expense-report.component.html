@@ -1,5 +1,5 @@
 <nb-card class="mb-0 border-0">
-    <nb-card-header class="with-background font-weight-normal text-center border-bottom">
+    <nb-card-header class="text-center border-bottom">
         <span class="text-hint">{{ dateFrom | date: 'mediumDate' }}</span>
         <nb-icon icon="arrow-forward-outline" class="mx-3" />
         <span class="text-hint">{{ dateTo | date: 'mediumDate' }}</span>
@@ -20,9 +20,7 @@
             }
         </nb-list>
     </nb-card-body>
-    <nb-card-footer
-        class="with-background d-flex justify-content-between"
-        [class.border-top]="categoryBalances.length > 0">
+    <nb-card-footer class="d-flex justify-content-between" [class.border-top]="categoryBalances.length > 0">
         <div class="text-center">
             <div class="text-hint mb-0">INCOME</div>
             <strong>{{ income | shortNumber }}</strong>

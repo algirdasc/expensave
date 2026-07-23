@@ -1,32 +1,35 @@
-<nb-card class="dialog" size="small">
-    <nb-card-header class="d-flex align-items-center justify-content-between">
-        {{ title }}
-        <button
-            nbButton
-            type="button"
-            status="basic"
-            ghost
-            aria-label="Close input dialog"
-            nbTooltip="Close"
-            (click)="dialogRef.close()">
-            <nb-icon icon="close-outline" />
-        </button>
-    </nb-card-header>
+<form (ngSubmit)="dialogRef.close(text ?? '')">
+    <nb-card class="dialog" size="small">
+        <nb-card-header class="d-flex align-items-center justify-content-between">
+            {{ title }}
+            <button
+                nbButton
+                type="button"
+                status="basic"
+                ghost
+                aria-label="Close input dialog"
+                nbTooltip="Close"
+                (click)="dialogRef.close()">
+                <nb-icon icon="close-outline" />
+            </button>
+        </nb-card-header>
 
-    <nb-card-body class="p-0 overflow-hidden">
-        <textarea
-            nbInput
-            fullWidth
-            #focus
-            class="dialog-textarea p-3 h-100 w-100 border-0"
-            [placeholder]="placeholder"
-            [(ngModel)]="text"></textarea>
-    </nb-card-body>
+        <nb-card-body class="p-0 overflow-hidden">
+            <textarea
+                nbInput
+                fullWidth
+                #focus
+                class="dialog-textarea p-3 h-100 w-100 border-0"
+                [placeholder]="placeholder"
+                [(ngModel)]="text"
+                [ngModelOptions]="{ standalone: true }"></textarea>
+        </nb-card-body>
 
-    <nb-card-footer class="d-flex justify-content-end">
-        <button nbButton type="button" status="primary" (click)="dialogRef.close(text ?? '')">
-            <nb-icon icon="save-outline" />
-            Save
-        </button>
-    </nb-card-footer>
-</nb-card>
+        <nb-card-footer class="d-flex justify-content-end">
+            <button nbButton type="submit" status="primary">
+                <nb-icon icon="save-outline" />
+                Save
+            </button>
+        </nb-card-footer>
+    </nb-card>
+</form>

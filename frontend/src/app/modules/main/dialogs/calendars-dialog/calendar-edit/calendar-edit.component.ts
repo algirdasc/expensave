@@ -16,13 +16,12 @@ import {
     NbTooltipModule,
     NbUserModule,
 } from '@nebular/theme';
-import { AsyncPipe } from '@angular/common';
 import { UserQueries } from '../../../../../queries/user.queries';
 import { injectQuery } from '@tanstack/angular-query-experimental';
+import { AsyncPipe } from '@angular/common';
 
 @Component({
     templateUrl: 'calendar-edit.component.html',
-    styleUrl: 'calendar-edit.component.scss',
     selector: 'app-calendar-edit',
     imports: [
         FormsModule,

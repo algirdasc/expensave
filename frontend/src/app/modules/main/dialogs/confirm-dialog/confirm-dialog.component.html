@@ -4,14 +4,14 @@
             {{ question }}
         </p>
     </nb-card-body>
-    <nb-card-footer class="d-flex justify-content-end gap-2">
+    <nb-card-footer class="d-flex align-items-center justify-content-between">
+        <button nbButton type="button" ghost status="basic" (click)="dialogRef.close(false)">
+            <nb-icon icon="close-outline" />
+            {{ noText }}
+        </button>
         <button nbButton type="button" status="primary" (click)="dialogRef.close(true)">
             <nb-icon icon="checkmark-outline" />
             {{ yesText }}
-        </button>
-        <button nbButton type="button" (click)="dialogRef.close(false)">
-            <nb-icon icon="close-outline" />
-            {{ noText }}
         </button>
     </nb-card-footer>
 </nb-card>

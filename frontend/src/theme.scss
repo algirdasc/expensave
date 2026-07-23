@@ -40,6 +40,8 @@ $nb-themes: nb-register-theme(
                     link-text-active-color: nb-theme(color-secondary-600),
                     button-outline-width: 0,
                     sidebar-width: 24rem,
+                    toggle-primary-checked-switcher-background-color: var(--color-primary-300),
+                    toggle-primary-checked-switcher-checkmark-color: var(--color-primary-900),
                 ),
                 expensave,
                 default
@@ -124,6 +126,8 @@ $nb-themes: nb-register-theme(
                     spinner-danger-background-color: rgba(16, 18, 24, 0.72),
                     spinner-control-background-color: rgba(16, 18, 24, 0.72),
                     sidebar-width: 24rem,
+                    toggle-primary-checked-switcher-background-color: var(--color-primary-700),
+                    toggle-primary-checked-switcher-checkmark-color: var(--color-primary-100),
                 ),
                 expensave-dark,
                 dark

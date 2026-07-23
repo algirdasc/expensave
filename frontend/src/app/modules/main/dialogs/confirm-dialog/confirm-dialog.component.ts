@@ -1,9 +1,8 @@
 import { Component, inject } from '@angular/core';
-import { NbDialogRef, NbCardModule, NbButtonModule, NbIconModule } from '@nebular/theme';
+import { NbButtonModule, NbCardModule, NbDialogRef, NbIconModule } from '@nebular/theme';
 
 @Component({
     templateUrl: 'confirm-dialog.component.html',
-    styleUrls: ['confirm-dialog.component.scss'],
     imports: [NbCardModule, NbButtonModule, NbIconModule],
 })
 export class ConfirmDialogComponent {

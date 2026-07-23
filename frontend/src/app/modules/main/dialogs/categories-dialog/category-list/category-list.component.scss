@@ -1,11 +1,5 @@
 @use '../../../../../../theme' as *;
 
-.category-color {
-  width: 24px;
-  height: 24px;
-  border-radius: 50%;
-}
-
 nb-list-item.active {
   color: nb-theme(text-alternate-color);
 
