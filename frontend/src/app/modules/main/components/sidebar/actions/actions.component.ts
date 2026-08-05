@@ -6,13 +6,13 @@ import { CategoriesDialogComponent } from '../../../dialogs/categories-dialog/ca
 import { AdminUsersDialogComponent } from '../../../dialogs/admin-users-dialog/admin-users-dialog.component';
 import { ProfileDialogComponent } from '../../../dialogs/profile-dialog/profile-dialog.component';
 import { StatementImportService } from '../../../services/statement-import.service';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { ConfirmDialogComponent } from '../../../dialogs/confirm-dialog/confirm-dialog.component';
 
 @Component({
     selector: 'app-sidebar-actions',
     templateUrl: 'actions.component.html',
-    imports: [NbActionsModule, NbTooltipModule, NbButtonModule, NbIconModule],
+    imports: [NbActionsModule, RouterLink, NbTooltipModule, NbButtonModule, NbIconModule],
 })
 export class ActionsComponent {
     @Input()
