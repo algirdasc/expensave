@@ -13,7 +13,13 @@ use Symfony\Component\Serializer\SerializerInterface;
 
 readonly class ISO20022ImportHandler implements StatementImportHandlerInterface
 {
-    private const ISO20022_XMLNS = 'urn:iso:std:iso:20022:tech:xsd:camt.053.001.02';
+    /**
+     * Supported camt.053 message versions (.001.02 through .001.08).
+     * The DTOs only map fields common across versions, so all of these
+     * deserialize identically. .001.08 is the new default under SWIFT's
+     * MT940→CAMT.053 migration (2025–2028; mBank, ING, Nordea already ship it).
+     */
+    private const ISO20022_XMLNS_PATTERN = 'urn:iso:std:iso:20022:tech:xsd:camt\.053\.001\.0[2-8]';
 
     /**
      * Hard limit to avoid pathological / DoS XML inputs.
@@ -39,8 +45,8 @@ readonly class ISO20022ImportHandler implements StatementImportHandlerInterface
         }
 
         // Avoid parsing untrusted XML just to detect the namespace.
-        // camt.053.001.02 normally looks like: <Document xmlns="...">
-        return (bool) preg_match('/\bxmlns\s*=\s*"' . preg_quote(self::ISO20022_XMLNS, '/') . '"/i', $xml);
+        // camt.053 normally looks like: <Document xmlns="...">
+        return (bool) preg_match('/\bxmlns\s*=\s*"' . self::ISO20022_XMLNS_PATTERN . '"/i', $xml);
     }
 
     public function process(UploadedFile $file): iterable
