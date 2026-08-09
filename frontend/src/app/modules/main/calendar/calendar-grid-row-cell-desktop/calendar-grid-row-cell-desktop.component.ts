@@ -12,9 +12,11 @@ import { Expense } from '../../../../api/objects/expense';
 import { ExpenseBalance } from '../../../../api/objects/expense-balance';
 import { ExpenseListDialogComponent } from '../../dialogs/expense-list-dialog/expense-list-dialog.component';
 import { CalendarService } from '../calendar.service';
+import { MainService } from '../../main.service';
 import { CalendarCellInterface } from '../interfaces/calendar-cell.interface';
 import { CalendarGridRowCellDesktopExpenseItemComponent } from './calendar-grid-row-cell-desktop-expense-item/calendar-grid-row-cell-desktop-expense-item.component';
 import { ShortNumberPipe } from '../../../../pipes/shortnumber.pipe';
+import { expenseMatchesSearch, hasExpenseSearchQuery } from '../../../../util/expense-search.util';
 
 export const EXPENSE_LIST_ITEM_HEIGHT = 21;
 
@@ -41,6 +43,7 @@ export class CalendarGridRowCellDesktopComponent
     public hasUnconfirmedExpenses: boolean = false;
 
     private dialogService = inject(NbDialogService);
+    private readonly mainService = inject(MainService);
     private expenseListCapacity: number = 1;
 
     public constructor() {
@@ -55,15 +58,26 @@ export class CalendarGridRowCellDesktopComponent
         return this.expenses.slice(0, this.expenseListCapacity);
     }
 
-    public get invisibleExpensesCount(): number {
-        const visibleCount = this.visibleExpenses.length;
-        const totalCount = this.expenses.length;
+    public get invisibleExpenses(): Expense[] {
+        return this.expenses.slice(this.expenseListCapacity);
+    }
 
-        if (totalCount > visibleCount) {
-            return totalCount - visibleCount;
+    public get invisibleExpensesCount(): number {
+        return this.invisibleExpenses.length;
+    }
+
+    protected get hasSearchQuery(): boolean {
+        return hasExpenseSearchQuery(this.mainService.searchQuery);
+    }
+
+    protected get invisibleSearchMatchesCount(): number {
+        if (!this.hasSearchQuery) {
+            return 0;
         }
 
-        return 0;
+        return this.invisibleExpenses.filter((expense: Expense) =>
+            expenseMatchesSearch(expense, this.mainService.searchQuery)
+        ).length;
     }
 
     public onResized(event: ResizedEvent): void {

@@ -59,6 +59,15 @@
 .other-label {
     font-size: 12px;
     color: nb-theme(text-info-color);
+    transition: opacity 0.15s ease-in-out;
+
+    &.expense-dimmed {
+        opacity: 0.2;
+    }
+
+    &.has-search-matches {
+        font-weight: nb-theme(text-subtitle-font-weight);
+    }
 }
 
 .unconfirmed-expenses {
