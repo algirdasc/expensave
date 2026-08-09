@@ -1,5 +1,5 @@
 import { Expense } from '../api/objects/expense';
-import { expenseMatchesSearch } from './expense-search.util';
+import { expenseMatchesSearch, hasExpenseSearchQuery } from './expense-search.util';
 
 function createExpense(data: Partial<Expense>): Expense {
     return Object.assign(new Expense(), data);
@@ -67,5 +67,19 @@ describe('expenseMatchesSearch', () => {
 
         expect(expenseMatchesSearch(expense, 'anything')).toBeFalse();
         expect(expenseMatchesSearch(expense, '')).toBeTrue();
+    });
+});
+
+describe('hasExpenseSearchQuery', () => {
+    it('is false for empty, blank or nullish queries', (): void => {
+        expect(hasExpenseSearchQuery('')).toBeFalse();
+        expect(hasExpenseSearchQuery('   ')).toBeFalse();
+        expect(hasExpenseSearchQuery(null)).toBeFalse();
+        expect(hasExpenseSearchQuery(undefined)).toBeFalse();
+    });
+
+    it('is true for a query with content', (): void => {
+        expect(hasExpenseSearchQuery('groceries')).toBeTrue();
+        expect(hasExpenseSearchQuery(' 12.5 ')).toBeTrue();
     });
 });

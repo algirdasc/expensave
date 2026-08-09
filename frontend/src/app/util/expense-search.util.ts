@@ -3,15 +3,22 @@ import { Expense } from '../api/objects/expense';
 const NUMERIC_QUERY_PATTERN = /^\d+([.,]\d+)?$/;
 
 /**
+ * Tells whether a raw search query contains anything worth filtering by.
+ */
+export function hasExpenseSearchQuery(rawQuery: string): boolean {
+    return !!rawQuery?.trim();
+}
+
+/**
  * Client-side expense search: matches against label, description and absolute amount.
  * An empty (or blank) query matches every expense.
  */
 export function expenseMatchesSearch(expense: Expense, rawQuery: string): boolean {
-    const query = rawQuery?.trim().toLowerCase() ?? '';
-
-    if (!query) {
+    if (!hasExpenseSearchQuery(rawQuery)) {
         return true;
     }
+
+    const query = rawQuery.trim().toLowerCase();
 
     if (expense.label?.toLowerCase().includes(query)) {
         return true;

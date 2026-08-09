@@ -31,7 +31,13 @@
         }
 
         @if (!!invisibleExpensesCount) {
-            <a href="#" (click)="$event.preventDefault(); openInvisibleExpenses()" class="other-label px-1">
+            <a
+                href="#"
+                (click)="$event.preventDefault(); openInvisibleExpenses()"
+                class="other-label px-1"
+                [class.expense-dimmed]="hasSearchQuery && !invisibleSearchMatchesCount"
+                [class.has-search-matches]="!!invisibleSearchMatchesCount"
+                [attr.title]="invisibleSearchMatchesCount ? 'Includes expenses matching your search' : null">
                 + {{ invisibleExpensesCount | shortNumber: '.0-0' }} other
             </a>
         }
