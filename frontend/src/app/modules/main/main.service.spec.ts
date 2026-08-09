@@ -30,6 +30,20 @@ describe('MainService', () => {
 
         expect(service.visibleDate).toBe(visibleDate);
     });
+
+    it('stores search query as reactive main UI state', (): void => {
+        service.searchQuery = 'groceries';
+
+        expect(service.searchQuery).toBe('groceries');
+    });
+
+    it('defaults search query to empty string and coerces nullish values', (): void => {
+        expect(service.searchQuery).toBe('');
+
+        service.searchQuery = null;
+
+        expect(service.searchQuery).toBe('');
+    });
 });
 
 const calendarWithId = (id: number, name: string): Calendar => {

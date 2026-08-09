@@ -1,7 +1,9 @@
 import { Component, inject, Input } from '@angular/core';
 import { Expense } from '../../../../api/objects/expense';
 import { UNCATEGORIZED_COLOR } from '../../../../util/color.util';
+import { expenseMatchesSearch } from '../../../../util/expense-search.util';
 import { CalendarService } from '../calendar.service';
+import { MainService } from '../../main.service';
 import { NbIconModule, NbListModule } from '@nebular/theme';
 import { DatePipe } from '@angular/common';
 import { ShortNumberPipe } from '../../../../pipes/shortnumber.pipe';
@@ -20,6 +22,7 @@ import { ShortNumberPipe } from '../../../../pipes/shortnumber.pipe';
                 <nb-list-item
                     [style.background-color]="expense.category?.color ?? UNCATEGORIZED_COLOR"
                     [class.expense-unconfirmed]="!confirmed"
+                    [class.expense-dimmed]="!expenseMatchesSearch(expense, mainService.searchQuery)"
                     (click)="calendarService.editExpense(expense)"
                     class="mb-2 rounded actionable">
                     <nb-icon class="flex-shrink-0" icon="{{ expense.category?.icon }}pricetags-outline"></nb-icon>
@@ -47,7 +50,9 @@ export class CalendarExpenseListMobileItemsComponent {
     protected confirmed: boolean;
 
     protected calendarService = inject(CalendarService);
+    protected mainService = inject(MainService);
     protected readonly UNCATEGORIZED_COLOR = UNCATEGORIZED_COLOR;
+    protected readonly expenseMatchesSearch = expenseMatchesSearch;
 
     public get expensesSum(): number {
         let sum = 0;

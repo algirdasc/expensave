@@ -10,6 +10,7 @@ export class MainService {
     private readonly title = inject(Title);
     private readonly activeCalendar = signal<Calendar>(null);
     private readonly activeVisibleDate = signal<Date>(new Date());
+    private readonly activeSearchQuery = signal<string>('');
 
     public get calendar(): Calendar {
         return this.activeCalendar();
@@ -17,6 +18,10 @@ export class MainService {
 
     public get visibleDate(): Date {
         return this.activeVisibleDate();
+    }
+
+    public get searchQuery(): string {
+        return this.activeSearchQuery();
     }
 
     public set calendar(calendar: Calendar) {
@@ -27,6 +32,10 @@ export class MainService {
 
     public set visibleDate(visibleDate: Date) {
         this.activeVisibleDate.set(visibleDate);
+    }
+
+    public set searchQuery(query: string) {
+        this.activeSearchQuery.set(query ?? '');
     }
 }
 

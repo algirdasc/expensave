@@ -6,6 +6,11 @@
     align-items: center;
     position: relative;
     cursor: pointer;
+    transition: opacity 0.15s ease-in-out;
+}
+
+:host.expense-dimmed {
+    opacity: 0.2;
 }
 
 :host.expense-unconfirmed {

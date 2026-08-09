@@ -1,6 +1,8 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, inject, Input, OnInit, Output } from '@angular/core';
 import { slideAnimation } from '../../../../animations/slide.animation';
 import { Expense } from '../../../../api/objects/expense';
+import { expenseMatchesSearch } from '../../../../util/expense-search.util';
+import { MainService } from '../../main.service';
 import { NbIconModule, NbListModule } from '@nebular/theme';
 import { ShortNumberPipe } from '../../../../pipes/shortnumber.pipe';
 
@@ -12,7 +14,11 @@ import { ShortNumberPipe } from '../../../../pipes/shortnumber.pipe';
             <span>{{ totalExpensesAmount | shortNumber }}</span>
         </nb-list-item>
         @for (expense of expenses; track expense.id) {
-            <nb-list-item [@slideAnimation] class="actionable" (click)="expenseClick.emit(expense)">
+            <nb-list-item
+                [@slideAnimation]
+                class="actionable"
+                [class.expense-dimmed]="!expenseMatchesSearch(expense, mainService.searchQuery)"
+                (click)="expenseClick.emit(expense)">
                 <nb-icon
                     [icon]="icon"
                     class="flex-shrink-0 me-2"
@@ -28,6 +34,15 @@ import { ShortNumberPipe } from '../../../../pipes/shortnumber.pipe';
         }
     </nb-list>`,
     animations: slideAnimation,
+    styles: `
+        nb-list-item {
+            transition: opacity 0.15s ease-in-out;
+        }
+
+        nb-list-item.expense-dimmed {
+            opacity: 0.2;
+        }
+    `,
     imports: [NbListModule, NbIconModule, ShortNumberPipe],
 })
 export class ExpenseListItemsComponent implements OnInit {
@@ -44,6 +59,9 @@ export class ExpenseListItemsComponent implements OnInit {
     public readonly expenseClick: EventEmitter<Expense> = new EventEmitter<Expense>();
 
     protected totalExpensesAmount: number = 0;
+
+    protected readonly mainService = inject(MainService);
+    protected readonly expenseMatchesSearch = expenseMatchesSearch;
 
     public ngOnInit(): void {
         this.expenses.forEach((expense: Expense) => {

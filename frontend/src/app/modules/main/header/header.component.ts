@@ -6,6 +6,7 @@ import { DateUtil } from '../../../util/date.util';
 import { HeaderCalendarInfoComponent } from './components/header-calendar-info.component';
 import { HeaderDatePickerComponent } from './components/header-date-picker.component';
 import { HeaderNavButtonsComponent } from './components/header-nav-buttons.component';
+import { HeaderSearchComponent } from './components/header-search.component';
 import { HeaderSidebarToggleComponent } from './components/header-sidebar-toggle.component';
 
 @Component({
@@ -17,6 +18,7 @@ import { HeaderSidebarToggleComponent } from './components/header-sidebar-toggle
         HeaderCalendarInfoComponent,
         HeaderDatePickerComponent,
         HeaderNavButtonsComponent,
+        HeaderSearchComponent,
     ],
 })
 export class HeaderComponent {

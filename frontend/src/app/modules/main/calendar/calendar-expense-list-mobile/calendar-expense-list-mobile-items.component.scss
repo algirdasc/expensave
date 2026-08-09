@@ -1,9 +1,14 @@
 nb-list-item {
     color: #ffffff;
+    transition: opacity 0.15s ease-in-out;
 }
 
 nb-list-item.expense-unconfirmed {
     color: hsla(0, 0%, 100%, .7);
+}
+
+nb-list-item.expense-dimmed {
+    opacity: 0.2;
 }
 
 .repeat-icon {
