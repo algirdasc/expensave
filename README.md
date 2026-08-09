@@ -52,7 +52,7 @@
 - 📅 Shared expense calendars between family members
 - ♾️ Multiple & unlimited expense calendars
 - 🔁 Recurring expenses — daily, weekly, monthly, and yearly schedules
-- 🏦 Import bank statements in various [formats](https://github.com/algirdasc/expensave/wiki/Bank-statement-import#supported-banks)
+- 🏦 Import bank statements in various [formats](https://github.com/algirdasc/expensave/wiki/Bank-statement-import#supported-banks) — OFX/QFX, ISO 20022 XML, Revolut, Dollarbird
 - 📊 Reports on spending and income habits
 - 📱 Mobile [PWA](https://web.dev/explore/progressive-web-apps) — installable on iOS and Android
 - 🎨 Responsive design — works on desktop, tablet, and mobile
@@ -134,9 +134,14 @@ See wiki: [Using mobile version](https://github.com/algirdasc/expensave/wiki/Usi
 
 ## Bank Statement Import
 
-Import your balance from financial institutions in various formats.
+Import your balance from financial institutions in various formats:
 
-See wiki: [Bank statement import](https://github.com/algirdasc/expensave/wiki/Bank-statement-import).
+- **OFX / QFX** — supported by most US banks (Chase, Bank of America, Wells Fargo, Citi, American Express, …). Look for a "Quicken (QFX)", "Web Connect" or "OFX" download option in your internet bank. Both bank account and credit card statements are supported.
+- **ISO 20022 XML (camt.053, versions .001.02–.001.08)** — the standard SEPA statement format offered by most European banks (Luminor, ING, Nordea, mBank, …).
+- **Revolut** — CSV statement exported from the Revolut internet bank.
+- **Dollarbird** — CSV data export, for migrating from Dollarbird.
+
+See wiki for detailed export instructions: [Bank statement import](https://github.com/algirdasc/expensave/wiki/Bank-statement-import).
 
 ---
 

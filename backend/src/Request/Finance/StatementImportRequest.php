@@ -19,6 +19,10 @@ class StatementImportRequest extends AbstractRequest
             'text/csv',
             'application/csv',
             'application/vnd.ms-excel',
+            // OFX/QFX: SGML variants are detected as text/plain; some systems use registered OFX types.
+            'text/plain',
+            'application/x-ofx',
+            'application/vnd.intu.qfx',
         ],
         mimeTypesMessage: 'Unsupported file type.'
     )]
