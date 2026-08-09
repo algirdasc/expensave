@@ -41,7 +41,8 @@ export class StatementImportService {
         const fileInput = document.createElement('input');
         fileInput.type = 'file';
         fileInput.style.display = 'none';
-        fileInput.accept = 'text/csv, text/xml, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
+        fileInput.accept =
+            'text/csv, text/xml, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, .ofx, .qfx';
         fileInput.onchange = (): void => {
             const file = fileInput.files?.[0];
             if (!file) {

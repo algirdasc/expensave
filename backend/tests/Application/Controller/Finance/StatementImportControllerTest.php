@@ -53,6 +53,35 @@ class StatementImportControllerTest extends ApplicationTestCase
         $this->assertSame('uncategorized', $expense['category']['type']);
     }
 
+    public function testOfxStatementImport(): void
+    {
+        $uploadedFile = new UploadedFile(self::getAssetFile('Files/StatementImport/ofx1_import.ofx'), 'ofx1_import.ofx', test: true);
+        $calendarId = $this->getCalendarId('User 1 Calendar');
+
+        $this->client->request('POST', sprintf('/api/calendar/%d/import', $calendarId), [], [
+            'statement' => $uploadedFile
+        ], [
+            'CONTENT_TYPE' => 'multipart/form-data',
+            'HTTP_ACCEPT' => 'multipart/form-data',
+        ]);
+
+        $this->assertResponseIsSuccessful();
+
+        $response = $this->getJsonResponse($this->client);
+        $this->assertArrayHasKey('expenses', $response);
+        $this->assertCount(1, $response['expenses']);
+
+        $expense = $response['expenses'][0];
+        $this->assertNull($expense['id']);
+        $this->assertSame(-7.35, $expense['amount']);
+        $this->assertSame('Hardware Store', $expense['label']);
+        $this->assertSame('Tools', $expense['description']);
+        $this->assertTrue($expense['confirmed']);
+        $this->assertSame('2024-08-05 10:20:30', $expense['createdAt']);
+        $this->assertSame('User 1 Calendar', $expense['calendar']['name']);
+        $this->assertSame('Uncategorized', $expense['category']['name']);
+    }
+
     public static function filePathProvider(): array
     {
         return [
