@@ -24,7 +24,6 @@ class LogoutController extends AbstractApiController
     #[Route('', name: 'index', methods: Request::METHOD_DELETE)]
     public function index(#[CurrentUser] User $user): JsonResponse
     {
-        // ponytail: revokes every session of the user; per-device revoke if clients ever send the token
         $this->refreshTokenRepository->revokeAllForUser($user);
 
         return $this->respond(new EmptyResponse());
