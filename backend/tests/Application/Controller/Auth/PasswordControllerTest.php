@@ -19,9 +19,23 @@ class PasswordControllerTest extends ApplicationTestCase
 
     public function setUp(): void
     {
+        $_ENV['MAILER_DSN'] = 'null://null';
+        putenv('MAILER_DSN=null://null');
+
         parent::setUp();
 
         $this->client = $this->getAuthenticatedClient();
+    }
+
+    public function testForgotPasswordIsAccepted(): void
+    {
+        $user = $this->getUser();
+
+        $this->client->jsonRequest('POST', '/api/auth/password/forgot', ['email' => $user->getEmail()]);
+        $this->assertResponseIsSuccessful();
+
+        static::getContainer()->get('doctrine')->getManager()->refresh($user);
+        $this->assertNotNull($user->getPasswordResetToken());
     }
 
     public function testResetPasswordTokenCannotBeUsedTwice(): void
