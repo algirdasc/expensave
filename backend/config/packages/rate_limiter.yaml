@@ -1,0 +1,12 @@
+framework:
+    rate_limiter:
+        password_forgot:
+            policy: 'fixed_window'
+            limit: 3
+            interval: '15 minutes'
+
+when@test:
+    framework:
+        rate_limiter:
+            password_forgot:
+                limit: 1000
