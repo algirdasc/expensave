@@ -29,7 +29,7 @@ class PasswordControllerTest extends ApplicationTestCase
         $token = 'reset-token';
         $user = $this->getUser();
         $user
-            ->setPasswordResetToken($token)
+            ->setPasswordResetToken(hash('sha256', $token))
             ->setPasswordResetTokenExpiresAt(new DateTimeImmutable('+1 hour'))
         ;
 

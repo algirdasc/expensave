@@ -36,7 +36,7 @@ readonly class PasswordResetService
 
         $token = bin2hex(random_bytes(32));
         $user
-            ->setPasswordResetToken($token)
+            ->setPasswordResetToken(self::hashToken($token))
             ->setPasswordResetTokenExpiresAt(new DateTimeImmutable(sprintf('+%d hour', self::RESET_TOKEN_TTL_HOURS)))
         ;
 
@@ -62,9 +62,10 @@ readonly class PasswordResetService
 
     public function resetPassword(string $hash, string $password): void
     {
-        $user = $this->userRepository->findOneBy(['passwordResetToken' => $hash, 'active' => true]);
+        $hashedToken = self::hashToken($hash);
+        $user = $this->userRepository->findOneBy(['passwordResetToken' => $hashedToken, 'active' => true]);
 
-        if ($user === null || !$user->hasValidPasswordResetToken($hash, new DateTimeImmutable())) {
+        if ($user === null || !$user->hasValidPasswordResetToken($hashedToken, new DateTimeImmutable())) {
             throw new RequestValidationException(new ConstraintViolationList([
                 new ConstraintViolation(
                     self::INVALID_RESET_TOKEN_MESSAGE,
@@ -83,6 +84,12 @@ readonly class PasswordResetService
         ;
 
         $this->userRepository->save($user);
+    }
+
+    // sha256 suffices: 256-bit random tokens have no password-guessing surface.
+    private static function hashToken(string $token): string
+    {
+        return hash('sha256', $token);
     }
 
     private function createResetLink(string $token): string

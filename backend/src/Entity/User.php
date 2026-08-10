@@ -229,9 +229,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function hasValidPasswordResetToken(string $token, DateTimeInterface $now): bool
+    public function hasValidPasswordResetToken(string $hashedToken, DateTimeInterface $now): bool
     {
-        return $this->passwordResetToken === $token
+        return $this->passwordResetToken !== null
+            && hash_equals($this->passwordResetToken, $hashedToken)
             && $this->passwordResetTokenExpiresAt !== null
             && $this->passwordResetTokenExpiresAt > $now;
     }
