@@ -9,6 +9,7 @@ use App\Handler\Error\ErrorHandlerInterface;
 use App\Handler\Error\UnhandledExceptionHandler;
 use App\Response\Error\ErrorResponse;
 use RuntimeException;
+use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Component\DependencyInjection\Attribute\AutowireIterator;
 use Throwable;
 
@@ -18,7 +19,8 @@ readonly class ErrorResponseResolver
      * @param iterable<ErrorHandlerInterface> $responseErrorHandlers
      */
     public function __construct(
-        #[AutowireIterator('app.handler.error')] private readonly iterable $responseErrorHandlers
+        #[AutowireIterator('app.handler.error')] private readonly iterable $responseErrorHandlers,
+        #[Autowire('%kernel.debug%')] private readonly bool $debug,
     ) {
     }
 
@@ -31,7 +33,7 @@ readonly class ErrorResponseResolver
         }
 
         return new ErrorResponse(
-            (new UnhandledExceptionHandler())->setThrowable($throwable)
+            (new UnhandledExceptionHandler($this->debug))->setThrowable($throwable)
         );
     }
 }

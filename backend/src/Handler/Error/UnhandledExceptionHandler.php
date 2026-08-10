@@ -6,12 +6,20 @@ namespace App\Handler\Error;
 
 use App\Exception\UnhandledException;
 use App\Response\Error\ErrorResponseMessage;
+use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Component\HttpFoundation\Response;
 use Throwable;
 
 class UnhandledExceptionHandler implements ErrorHandlerInterface
 {
+    private const string GENERIC_MESSAGE = 'Internal server error.';
+
     private Throwable $throwable;
+
+    public function __construct(
+        #[Autowire('%kernel.debug%')] private readonly bool $debug = false
+    ) {
+    }
 
     public function isSupported(Throwable $throwable): bool
     {
@@ -27,7 +35,8 @@ class UnhandledExceptionHandler implements ErrorHandlerInterface
 
     public function getThrowable(): Throwable
     {
-        return $this->throwable;
+        // Hide the real exception class (e.g. Doctrine internals) from API clients in prod.
+        return $this->debug ? $this->throwable : new UnhandledException(self::GENERIC_MESSAGE);
     }
 
     public function getStatusCode(): int
@@ -37,6 +46,10 @@ class UnhandledExceptionHandler implements ErrorHandlerInterface
 
     public function getMessages(): array
     {
+        if (!$this->debug) {
+            return [new ErrorResponseMessage(self::GENERIC_MESSAGE)];
+        }
+
         return [
             new ErrorResponseMessage(
                 $this->throwable->getMessage(),
