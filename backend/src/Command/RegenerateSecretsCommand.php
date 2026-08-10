@@ -41,12 +41,6 @@ class RegenerateSecretsCommand extends Command
 
     private function generateSecret(): string
     {
-        $a = '0123456789abcdef';
-        $secret = '';
-        for ($i = 0; $i < 32; $i++) {
-            $secret .= $a[rand(0, 15)];
-        }
-
-        return $secret;
+        return bin2hex(random_bytes(16));
     }
 }
