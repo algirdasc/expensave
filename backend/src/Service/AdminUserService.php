@@ -7,6 +7,7 @@ namespace App\Service;
 use App\Entity\User;
 use App\Enum\UserRole;
 use App\Exception\DataConflictException;
+use App\Repository\RefreshTokenRepository;
 use App\Repository\UserRepository;
 
 readonly class AdminUserService
@@ -16,6 +17,7 @@ readonly class AdminUserService
     public function __construct(
         private UserRepository $userRepository,
         private PasswordResetService $passwordResetService,
+        private RefreshTokenRepository $refreshTokenRepository,
     ) {
     }
 
@@ -54,6 +56,7 @@ readonly class AdminUserService
         ;
 
         $this->userRepository->save($user);
+        $this->refreshTokenRepository->revokeAllForUser($user);
 
         return $user;
     }

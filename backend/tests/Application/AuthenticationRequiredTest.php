@@ -29,6 +29,7 @@ class AuthenticationRequiredTest extends ApplicationTestCase
     public static function endpointProvider(): array
     {
         return [
+            'Logout' => ['DELETE', '/api/auth/logout'],
             'Profile' => ['GET', '/api/user/profile'],
             'User list' => ['GET', '/api/user'],
             'Calendar list' => ['GET', '/api/calendar'],
