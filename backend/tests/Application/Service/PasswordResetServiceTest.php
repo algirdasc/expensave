@@ -69,7 +69,11 @@ class PasswordResetServiceTest extends TestCase
                 $this->assertSame(['no-reply@expensave.local'], array_map(static fn ($address): string => $address->getAddress(), $message->getFrom()));
                 $this->assertSame(['user@example.com'], array_map(static fn ($address): string => $address->getAddress(), $message->getTo()));
                 $this->assertStringContainsString('/auth/reset-password?hash=', (string) $message->getTextBody());
-                $this->assertStringContainsString((string) $user->getPasswordResetToken(), (string) $message->getTextBody());
+
+                // The email carries the raw token; only its sha256 hash may be persisted.
+                $this->assertSame(1, preg_match('/hash=([a-f0-9]{64})/', (string) $message->getTextBody(), $matches));
+                $this->assertSame(hash('sha256', $matches[1]), $user->getPasswordResetToken());
+                $this->assertNotSame($matches[1], $user->getPasswordResetToken());
 
                 return true;
             }));
@@ -90,7 +94,7 @@ class PasswordResetServiceTest extends TestCase
         $repo
             ->expects($this->once())
             ->method('findOneBy')
-            ->with(['passwordResetToken' => 'missing-hash', 'active' => true])
+            ->with(['passwordResetToken' => hash('sha256', 'missing-hash'), 'active' => true])
             ->willReturn(null);
 
         $repo
@@ -112,14 +116,14 @@ class PasswordResetServiceTest extends TestCase
             ->setName('User')
             ->setActive(true)
             ->setPassword('current-password-hash')
-            ->setPasswordResetToken('reset-hash')
+            ->setPasswordResetToken(hash('sha256', 'reset-hash'))
             ->setPasswordResetTokenExpiresAt(new DateTimeImmutable('-1 minute'));
 
         $repo = $this->createMock(UserRepository::class);
         $repo
             ->expects($this->once())
             ->method('findOneBy')
-            ->with(['passwordResetToken' => 'reset-hash', 'active' => true])
+            ->with(['passwordResetToken' => hash('sha256', 'reset-hash'), 'active' => true])
             ->willReturn($user);
 
         $repo
@@ -141,14 +145,14 @@ class PasswordResetServiceTest extends TestCase
             ->setName('User')
             ->setActive(true)
             ->setPassword('current-password-hash')
-            ->setPasswordResetToken('reset-hash')
+            ->setPasswordResetToken(hash('sha256', 'reset-hash'))
             ->setPasswordResetTokenExpiresAt(new DateTimeImmutable('+1 hour'));
 
         $repo = $this->createMock(UserRepository::class);
         $repo
             ->expects($this->once())
             ->method('findOneBy')
-            ->with(['passwordResetToken' => 'reset-hash', 'active' => true])
+            ->with(['passwordResetToken' => hash('sha256', 'reset-hash'), 'active' => true])
             ->willReturn($user);
 
         $repo
