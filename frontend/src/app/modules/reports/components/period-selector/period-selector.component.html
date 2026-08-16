@@ -11,10 +11,17 @@
     <button type="button" nbButtonToggle [value]="periods.THIS_YEAR" [pressed]="period === periods.THIS_YEAR">
         This year
     </button>
-    <button type="button" nbButtonToggle [value]="periods.LIFETIME" [pressed]="period === periods.LIFETIME">
+    <button
+        type="button"
+        nbButtonToggle
+        [value]="periods.LIFETIME"
+        [pressed]="period === periods.LIFETIME"
+        [disabled]="lifetimeDisabled">
         Lifetime
     </button>
-    <button type="button" nbButtonToggle [value]="periods.CUSTOM" #customDateRange>Custom</button>
+    <button type="button" nbButtonToggle [value]="periods.CUSTOM" [disabled]="customDisabled" #customDateRange>
+        Custom
+    </button>
 </nb-button-group>
 
 <nb-rangepicker
