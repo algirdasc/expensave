@@ -58,10 +58,10 @@
         "@tanstack/eslint-plugin-query": "^5.101.2",
         "@types/jasmine": "~6.0.0",
         "@types/jasminewd2": "~2.0.3",
-        "@types/node": "~26.1.2",
-        "@typescript-eslint/eslint-plugin": "^8.66.0",
-        "@typescript-eslint/parser": "^8.66.0",
-        "eslint": "^10.8.0",
+        "@types/node": "~26.2.0",
+        "@typescript-eslint/eslint-plugin": "^8.67.0",
+        "@typescript-eslint/parser": "^8.67.0",
+        "eslint": "^10.8.1",
         "eslint-config-prettier": "^10.1.5",
         "eslint-plugin-prettier": "^5.5.5",
         "jasmine-core": "^6.3.0",
@@ -73,7 +73,7 @@
         "prettier": "^3.9.5",
         "ts-node": "~10.9.2",
         "typescript": "~5.9.3",
-        "typescript-eslint": "^8.66.0"
+        "typescript-eslint": "^8.67.0"
     },
     "overrides": {
         "http-proxy-middleware": "^3.0.7",
