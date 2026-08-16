@@ -70,6 +70,10 @@ export class PeriodSelectorComponent implements AfterViewInit {
 
     onPeriodChange(event: PeriodEnum[]): void {
         const period: PeriodEnum = event.pop();
+
+        if (this.disabledPeriods.includes(period)) {
+            return;
+        }
         const currentDate = new Date();
         const lastMonth = this.dateService.addMonth(currentDate, -1);
 
