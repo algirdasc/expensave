@@ -13,6 +13,7 @@ export type SankeyFlows = {
     data: SankeyDataPoint[];
     colors: Map<string, string>;
     labels: Record<string, string>;
+    columns: Record<string, number>;
 };
 
 export function buildSankeyFlows(categoryBalances: CategoryBalance[]): SankeyFlows {
@@ -46,12 +47,16 @@ export function buildSankeyFlows(categoryBalances: CategoryBalance[]): SankeyFlo
     const change = totalIncome - totalExpense;
     labels[BUDGET_NODE] = withSum(BUDGET_NODE, change);
 
+    const columns: Record<string, number> = {};
+
     if (change > 0) {
         data.push({ from: BUDGET_NODE, to: SAVED_NODE, flow: change });
         labels[SAVED_NODE] = withSum(SAVED_NODE, change);
+        // push Saved one column past the expense categories so it reads as a separate branch
+        columns[SAVED_NODE] = totalIncome > 0 ? 3 : 2;
     }
 
-    return { data, colors, labels };
+    return { data, colors, labels, columns };
 }
 
 function withSum(name: string, sum: number): string {

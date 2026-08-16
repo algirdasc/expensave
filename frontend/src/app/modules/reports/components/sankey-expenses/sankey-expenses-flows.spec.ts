@@ -54,6 +54,26 @@ describe('buildSankeyFlows', () => {
         expect(labels[SAVED_NODE]).toBe('Saved (1.30K)');
     });
 
+    it('places the saved node one column past the expense categories', () => {
+        const { columns } = buildSankeyFlows([
+            categoryBalance('Salary', '#111111', 2000, 0),
+            categoryBalance('Rent', '#333333', 0, -700),
+        ]);
+
+        expect(columns[SAVED_NODE]).toBe(3);
+    });
+
+    it('shifts the saved node column when there is no income', () => {
+        const { columns } = buildSankeyFlows([
+            categoryBalance('Salary', '#111111', 1000, 0),
+            categoryBalance('Rent', '#333333', 0, -500),
+        ]);
+        expect(columns[SAVED_NODE]).toBe(3);
+
+        const deficit = buildSankeyFlows([categoryBalance('Rent', '#333333', 0, -500)]);
+        expect(deficit.columns[SAVED_NODE]).toBeUndefined();
+    });
+
     it('omits the saved node when expenses exceed income', () => {
         const { data, labels } = buildSankeyFlows([
             categoryBalance('Salary', '#111111', 1000, 0),

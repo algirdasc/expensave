@@ -56,13 +56,14 @@ export class SankeyExpensesComponent extends AbstractReportComponent<CategoryExp
             };
         }
 
-        const { data, colors, labels } = buildSankeyFlows(response.categoryBalances);
+        const { data, colors, labels, columns } = buildSankeyFlows(response.categoryBalances);
 
         return {
             datasets: [
                 {
                     data,
                     labels,
+                    column: columns,
                     colorFrom: (context): string =>
                         colors.get((context.raw as SankeyDataPoint).from) ?? UNCATEGORIZED_COLOR,
                     colorTo: (context): string =>
