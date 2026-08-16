@@ -72,7 +72,7 @@ export class SankeyExpensesComponent extends AbstractReportComponent<CategoryExp
                         colors.get((context.raw as SankeyDataPoint).to) ?? UNCATEGORIZED_COLOR,
                     colorMode: 'gradient',
                     color: getComputedStyle(this.elementRef.nativeElement).color,
-                    nodePadding: 30,
+                    nodePadding: 20,
                     size: 'max',
                 },
             ],
