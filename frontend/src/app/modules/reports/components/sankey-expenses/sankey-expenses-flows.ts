@@ -52,8 +52,9 @@ export function buildSankeyFlows(categoryBalances: CategoryBalance[]): SankeyFlo
     if (change > 0) {
         data.push({ from: BUDGET_NODE, to: SAVED_NODE, flow: change });
         labels[SAVED_NODE] = withSum(SAVED_NODE, change);
-        // push Saved one column past the expense categories so it reads as a separate branch
-        columns[SAVED_NODE] = totalIncome > 0 ? 3 : 2;
+
+        const expenseColumn = totalIncome > 0 ? 2 : 1;
+        columns[SAVED_NODE] = expenseColumn + 1;
     }
 
     return { data, colors, labels, columns };
