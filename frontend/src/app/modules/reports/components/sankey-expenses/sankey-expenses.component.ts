@@ -64,6 +64,9 @@ export class SankeyExpensesComponent extends AbstractReportComponent<CategoryExp
                     data,
                     labels,
                     column: columns,
+                    // 'even' keeps sink nodes in their own column; default 'edge' would drag
+                    // all expense categories into the forced Saved column and nullify the split
+                    modeX: 'even',
                     colorFrom: (context): string =>
                         colors.get((context.raw as SankeyDataPoint).from) ?? UNCATEGORIZED_COLOR,
                     colorTo: (context): string =>
