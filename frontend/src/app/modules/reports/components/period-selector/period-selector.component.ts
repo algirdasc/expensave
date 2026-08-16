@@ -29,9 +29,6 @@ export class PeriodSelectorComponent implements AfterViewInit {
     @Input({ required: true })
     period: PeriodEnum;
 
-    @Input()
-    disabledPeriods: PeriodEnum[] = [];
-
     @Output()
     public readonly dateRangeChange: EventEmitter<NbCalendarRange<Date>> = new EventEmitter<NbCalendarRange<Date>>();
 
@@ -50,14 +47,6 @@ export class PeriodSelectorComponent implements AfterViewInit {
         this.firstDayOfWeek = getLocaleFirstDayOfWeek(APP_CONFIG.locale);
     }
 
-    get lifetimeDisabled(): boolean {
-        return this.disabledPeriods.includes(PeriodEnum.LIFETIME);
-    }
-
-    get customDisabled(): boolean {
-        return this.disabledPeriods.includes(PeriodEnum.CUSTOM);
-    }
-
     ngAfterViewInit(): void {
         this.rangePicker.attach(this.customDateRangeButton);
     }
@@ -70,10 +59,6 @@ export class PeriodSelectorComponent implements AfterViewInit {
 
     onPeriodChange(event: PeriodEnum[]): void {
         const period: PeriodEnum = event.pop();
-
-        if (this.disabledPeriods.includes(period)) {
-            return;
-        }
         const currentDate = new Date();
         const lastMonth = this.dateService.addMonth(currentDate, -1);
 
