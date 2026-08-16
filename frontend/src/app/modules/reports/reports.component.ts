@@ -5,6 +5,7 @@ import { NbCardModule, NbCheckboxModule, NbIconModule, NbLayoutModule, NbListMod
 import { DailyExpensesComponent } from './components/daily-expenses/daily-expenses.component';
 import { MonthlyExpensesComponent } from './components/monthly-expenses/monthly-expenses.component';
 import { CategoryExpensesComponent } from './components/category-expenses/category-expenses.component';
+import { SankeyExpensesComponent } from './components/sankey-expenses/sankey-expenses.component';
 import { CalendarQueries } from '../../queries/calendar.queries';
 import { injectQuery } from '@tanstack/angular-query-experimental';
 import { ReportsStore } from './reports.store';
@@ -28,6 +29,7 @@ type ReportsRouteData = {
         DailyExpensesComponent,
         MonthlyExpensesComponent,
         CategoryExpensesComponent,
+        SankeyExpensesComponent,
     ],
 })
 export class ReportsComponent implements OnInit {
