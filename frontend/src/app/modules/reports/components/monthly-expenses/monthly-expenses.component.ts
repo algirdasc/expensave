@@ -1,20 +1,11 @@
-import { FormStyle, getLocaleMonthNames, TranslationWidth } from '@angular/common';
-import { Component, computed, inject, OnInit } from '@angular/core';
-import {
-    NbButtonGroupModule,
-    NbButtonModule,
-    NbCalendarRange,
-    NbCardModule,
-    NbDateService,
-    NbIconModule,
-    NbSpinnerModule,
-} from '@nebular/theme';
+import { Component, computed, inject } from '@angular/core';
+import { NbCardModule, NbDateService, NbSpinnerModule } from '@nebular/theme';
 import { ChartConfiguration } from 'chart.js';
 import { ExpenseReportResponse } from '../../../../api/response/expense-report.response';
-import { APP_CONFIG } from '../../../../app.initializer';
 import { ShortNumberPipe } from '../../../../pipes/shortnumber.pipe';
-import { DateUtil } from '../../../../util/date.util';
 import { AbstractReportComponent } from '../abstract-report.component';
+import { DateRangeComponent } from '../date-range.component';
+import { PeriodEnum, PeriodSelectorComponent } from '../period-selector/period-selector.component';
 import { chartTooltipHandler } from './monthly-expenses-tooltip';
 import { BaseChartDirective } from 'ng2-charts';
 
@@ -24,18 +15,14 @@ import { BaseChartDirective } from 'ng2-charts';
     imports: [
         NbCardModule,
         NbSpinnerModule,
-        NbButtonGroupModule,
-        NbButtonModule,
-        NbIconModule,
+        PeriodSelectorComponent,
+        DateRangeComponent,
         BaseChartDirective,
         ShortNumberPipe,
     ],
 })
-export class MonthlyExpensesComponent extends AbstractReportComponent<ExpenseReportResponse> implements OnInit {
+export class MonthlyExpensesComponent extends AbstractReportComponent<ExpenseReportResponse> {
     readonly dateService = inject<NbDateService<Date>>(NbDateService);
-    readonly monthLabels: string[] = [
-        ...getLocaleMonthNames(APP_CONFIG.locale, FormStyle.Format, TranslationWidth.Short),
-    ];
     barChartOptions: ChartConfiguration['options'] = {
         responsive: true,
         scales: {
@@ -63,6 +50,7 @@ export class MonthlyExpensesComponent extends AbstractReportComponent<ExpenseRep
             },
         },
     };
+    PeriodEnum = PeriodEnum;
     readonly reportsApiMethod = 'monthlyExpenses' as const;
 
     private readonly barChartDataValue = computed<ChartConfiguration['data']>(() => {
@@ -73,10 +61,16 @@ export class MonthlyExpensesComponent extends AbstractReportComponent<ExpenseRep
             };
         }
 
+        const period = this.reportPeriod();
+        const showYear = !period?.start || period.start.getFullYear() !== period.end?.getFullYear();
+        const labelFormat = showYear ? 'MMM yyyy' : 'MMM';
+
         const incomeData: number[] = [];
         const expenseData: number[] = [];
+        const labels: string[] = [];
 
         for (const expenseBalance of response.expenseBalances) {
+            labels.push(this.dateService.format(expenseBalance.balanceAt, labelFormat));
             incomeData.push(expenseBalance.income);
             expenseData.push(Math.abs(expenseBalance.expense));
         }
@@ -94,14 +88,10 @@ export class MonthlyExpensesComponent extends AbstractReportComponent<ExpenseRep
                     backgroundColor: '#FF3D71',
                 },
             ],
-            labels: this.monthLabels,
+            labels,
         };
     });
     private readonly reportMeta = computed(() => this.reportData()?.meta);
-
-    get reportYear(): number | null {
-        return this.currentReportPeriod?.start?.getFullYear() ?? null;
-    }
 
     get barChartData(): ChartConfiguration['data'] {
         return this.barChartDataValue();
@@ -117,28 +107,5 @@ export class MonthlyExpensesComponent extends AbstractReportComponent<ExpenseRep
 
     get expense(): number {
         return Math.abs(this.reportMeta()?.expense ?? 0);
-    }
-
-    ngOnInit(): void {
-        this.navigateToday();
-    }
-
-    navigatePrev(): void {
-        this.navigateTo(this.dateService.addYear(this.reportPeriod()?.start, -1));
-    }
-
-    navigateToday(): void {
-        this.navigateTo(new Date());
-    }
-
-    navigateNext(): void {
-        this.navigateTo(this.dateService.addYear(this.reportPeriod()?.start, 1));
-    }
-
-    navigateTo(date: Date): void {
-        this.reportPeriod.set(<NbCalendarRange<Date>>{
-            start: this.dateService.getYearStart(date),
-            end: DateUtil.endOfTheDay(this.dateService.getYearEnd(date)),
-        });
     }
 }
