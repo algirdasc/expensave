@@ -1,5 +1,6 @@
-import { Component, computed } from '@angular/core';
-import { NbCardModule, NbSpinnerModule } from '@nebular/theme';
+import { Component, computed, ElementRef, inject, signal } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { NbCardModule, NbSpinnerModule, NbThemeService } from '@nebular/theme';
 import { Chart, ChartConfiguration } from 'chart.js';
 import { Flow, SankeyController, SankeyDataPoint } from 'chartjs-chart-sankey';
 import { BaseChartDirective } from 'ng2-charts';
@@ -41,7 +42,13 @@ export class SankeyExpensesComponent extends AbstractReportComponent<CategoryExp
     readonly reportsApiMethod = 'categoryExpenses' as const;
     protected readonly PeriodEnum = PeriodEnum;
 
+    private readonly elementRef = inject(ElementRef);
+    private readonly themeService = inject(NbThemeService);
+    private readonly themeVersion = signal(0);
+
     private readonly sankeyChartDataValue = computed<ChartConfiguration<'sankey'>['data']>(() => {
+        this.themeVersion();
+
         const response = this.reportData();
         if (!response) {
             return {
@@ -49,22 +56,33 @@ export class SankeyExpensesComponent extends AbstractReportComponent<CategoryExp
             };
         }
 
-        const { data, colors } = buildSankeyFlows(response.categoryBalances);
+        const { data, colors, labels } = buildSankeyFlows(response.categoryBalances);
 
         return {
             datasets: [
                 {
                     data,
+                    labels,
                     colorFrom: (context): string =>
                         colors.get((context.raw as SankeyDataPoint).from) ?? UNCATEGORIZED_COLOR,
                     colorTo: (context): string =>
                         colors.get((context.raw as SankeyDataPoint).to) ?? UNCATEGORIZED_COLOR,
                     colorMode: 'gradient',
+                    color: getComputedStyle(this.elementRef.nativeElement).color,
                     size: 'max',
                 },
             ],
         };
     });
+
+    constructor() {
+        super();
+
+        this.themeService
+            .onThemeChange()
+            .pipe(takeUntilDestroyed())
+            .subscribe(() => this.themeVersion.update(version => version + 1));
+    }
 
     get sankeyChartData(): ChartConfiguration<'sankey'>['data'] {
         return this.sankeyChartDataValue();
