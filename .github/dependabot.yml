@@ -30,6 +30,9 @@ updates:
         update-types:
           - major
     ignore:
+      # jasmine-core 7 requires karma-jasmine support (5.1.0 caps at jasmine-core 4/5/6)
+      - dependency-name: "jasmine-core"
+        versions: [">=7"]
       - dependency-name: "@angular*"
         versions: [">=22"]
       - dependency-name: "@schematics/angular"
