@@ -26,13 +26,13 @@ class ExpenseExportControllerTest extends ApplicationTestCase
         $this->client->request('GET', sprintf('/api/calendar/%d/export/2024-01-01/2024-12-31', $calendarId));
 
         $this->assertResponseIsSuccessful();
-        $this->assertSame('text/csv', $this->client->getResponse()->headers->get('Content-Type'));
+        $this->assertStringStartsWith('text/csv', (string) $this->client->getResponse()->headers->get('Content-Type'));
         $this->assertSame(
             'attachment; filename="expenses-user-1-calendar-2024-01-01-2024-12-31.csv"',
             $this->client->getResponse()->headers->get('Content-Disposition')
         );
 
-        $rows = array_map('str_getcsv', array_filter(explode("\n", $this->client->getResponse()->getContent())));
+        $rows = array_map('str_getcsv', array_filter(explode("\n", $this->getStreamedContent())));
 
         $this->assertSame(
             ['date', 'label', 'category', 'calendar', 'amount', 'user', 'description', 'confirmed'],
@@ -58,8 +58,18 @@ class ExpenseExportControllerTest extends ApplicationTestCase
 
         $this->assertResponseIsSuccessful();
 
-        $rows = array_filter(explode("\n", $this->client->getResponse()->getContent()));
+        $rows = array_filter(explode("\n", $this->getStreamedContent()));
         $this->assertCount(3, $rows);
+    }
+
+    private function getStreamedContent(): string
+    {
+        $response = $this->client->getResponse();
+
+        ob_start();
+        $response->sendContent();
+
+        return (string) ob_get_clean();
     }
 
     public function testExpenseExportForbidden(): void
