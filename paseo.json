@@ -1,0 +1,30 @@
+{
+  "metadataGeneration": {
+    "branchName": { "instructions": "Use the format <type>/<short-kebab-description>, where <type> is a Conventional Commits type (feat, fix, docs, style, refactor, perf, test, build, ci, chore)." },
+    "commitMessage": { "instructions": "Follow Conventional Commits v1.0.0: <type>(<optional scope>): <imperative description>, with types feat, fix, docs, style, refactor, perf, test, build, ci, chore. Mark breaking changes with ! after the type/scope or a BREAKING CHANGE footer." },
+    "pullRequest": { "instructions": "Title follows Conventional Commits v1.0.0: <type>(<optional scope>): <description>. Body summarizes the changes and includes a BREAKING CHANGE section when applicable." }
+  },
+  "worktree": {
+    "setup": [
+      "echo COMPOSE_FILE=docker-compose.development.yml > .env",
+      "docker compose build",
+      "docker compose run --rm dev_frontend npm ci",
+      "docker compose run --rm --no-deps -e COMPOSER_ALLOW_SUPERUSER=1 dev_backend composer install --no-interaction",
+      "DB_PORT=0 docker compose up -d --wait dev_database",
+      "docker compose run --rm dev_backend php bin/console doctrine:migrations:migrate --allow-no-migration -n",
+      "docker compose run --rm dev_backend php bin/console lexik:jwt:generate-keypair --skip-if-exists -n",
+      "docker compose stop"
+    ],
+    "teardown": "docker compose down -v"
+  },
+  "scripts": {
+    "backend": {
+      "type": "service",
+      "command": "BIND_IP=$HOST BACKEND_PORT=$PASEO_PORT DB_PORT=0 docker compose up dev_backend dev_database"
+    },
+    "frontend": {
+      "type": "service",
+      "command": "BIND_IP=$HOST FRONTEND_PORT=$PASEO_PORT docker compose up dev_frontend"
+    }
+  }
+}
