@@ -1,0 +1,6 @@
+{
+  "worktree": {
+    "setup": "echo \"Setting up worktree\"",
+    "teardown": "echo \"Tearing down the worktree\""
+  }
+}
