@@ -32,7 +32,7 @@ class ExpenseExportControllerTest extends ApplicationTestCase
             $this->client->getResponse()->headers->get('Content-Disposition')
         );
 
-        $rows = array_map('str_getcsv', array_filter(explode("\n", $this->getStreamedContent())));
+        $rows = array_map('str_getcsv', array_filter(explode("\n", (string) $this->client->getResponse()->getContent())));
 
         $this->assertSame(
             ['date', 'label', 'category', 'calendar', 'amount', 'user', 'description', 'confirmed'],
@@ -58,18 +58,8 @@ class ExpenseExportControllerTest extends ApplicationTestCase
 
         $this->assertResponseIsSuccessful();
 
-        $rows = array_filter(explode("\n", $this->getStreamedContent()));
+        $rows = array_filter(explode("\n", (string) $this->client->getResponse()->getContent()));
         $this->assertCount(3, $rows);
-    }
-
-    private function getStreamedContent(): string
-    {
-        $response = $this->client->getResponse();
-
-        ob_start();
-        $response->sendContent();
-
-        return (string) ob_get_clean();
     }
 
     public function testExpenseExportForbidden(): void

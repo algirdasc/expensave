@@ -13,7 +13,6 @@ use App\Security\Voters\CalendarVoter;
 use DateTime;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\StreamedResponse;
 use Symfony\Component\Routing\Attribute\Route;
 
 #[Route('api/calendar', name: 'calendar_expense_')]
@@ -35,19 +34,20 @@ class ExpenseExportController extends AbstractApiController
 
         $expenses = $this->expenseRepository->findByCalendarsAndInterval([$calendar], $dateFrom, $dateTo);
 
-        $response = new StreamedResponse(function () use ($expenses): void {
-            $handle = fopen('php://output', 'w');
-            if ($handle === false) {
-                throw new \RuntimeException('Unable to open output stream');
-            }
+        // ponytail: buffered in php://temp, memory-safe for realistic per-calendar volumes; stream if exports ever hit 100k+ rows
+        $handle = fopen('php://temp', 'r+');
+        if ($handle === false) {
+            throw new \RuntimeException('Unable to open temporary stream');
+        }
 
-            fputcsv($handle, self::COLUMNS);
-            foreach ($expenses as $expense) {
-                fputcsv($handle, $this->toRow($expense));
-            }
+        fputcsv($handle, self::COLUMNS);
+        foreach ($expenses as $expense) {
+            fputcsv($handle, $this->toRow($expense));
+        }
 
-            fclose($handle);
-        });
+        rewind($handle);
+        $content = stream_get_contents($handle);
+        fclose($handle);
 
         $filename = sprintf(
             'expenses-%s-%s-%s.csv',
@@ -56,10 +56,10 @@ class ExpenseExportController extends AbstractApiController
             $dateTo->format('Y-m-d')
         );
 
-        $response->headers->set('Content-Type', 'text/csv');
-        $response->headers->set('Content-Disposition', sprintf('attachment; filename="%s"', $filename));
-
-        return $response;
+        return new Response((string) $content, Response::HTTP_OK, [
+            'Content-Type' => 'text/csv',
+            'Content-Disposition' => sprintf('attachment; filename="%s"', $filename),
+        ]);
     }
 
     /**
