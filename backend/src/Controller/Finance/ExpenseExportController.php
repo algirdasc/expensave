@@ -37,6 +37,9 @@ class ExpenseExportController extends AbstractApiController
 
         $response = new StreamedResponse(function () use ($expenses): void {
             $handle = fopen('php://output', 'w');
+            if ($handle === false) {
+                throw new \RuntimeException('Unable to open output stream');
+            }
 
             fputcsv($handle, self::COLUMNS);
             foreach ($expenses as $expense) {
