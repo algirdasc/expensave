@@ -27,6 +27,10 @@ import { CalendarEditComponent } from '../../../dialogs/calendars-dialog/calenda
 import { ConfirmDialogComponent } from '../../../dialogs/confirm-dialog/confirm-dialog.component';
 import { StatementImportService } from '../../../services/statement-import.service';
 import { ShortNumberPipe } from '../../../../../pipes/shortnumber.pipe';
+import { CalendarApiService } from '../../../../../api/calendar.api.service';
+import { DateUtil } from '../../../../../util/date.util';
+import { MainService } from '../../../main.service';
+import { NbDateService } from '@nebular/theme';
 import { injectMutation, injectQuery } from '@tanstack/angular-query-experimental';
 
 @Component({
@@ -51,6 +55,9 @@ export class CalendarSidebarListComponent implements OnChanges {
 
     private readonly calendarQueries = inject(CalendarQueries);
     private readonly userQueries = inject(UserQueries);
+    private readonly calendarApiService = inject(CalendarApiService);
+    private readonly mainService = inject(MainService);
+    private readonly dateService = inject<NbDateService<Date>>(NbDateService);
     private readonly editableCalendarId = signal<number | null>(null);
     private readonly openedCalendarEditId = signal<number | null>(null);
     private readonly calendarDetailQuery = injectQuery(() => {
@@ -113,6 +120,22 @@ export class CalendarSidebarListComponent implements OnChanges {
                     });
                 }
             });
+    }
+
+    public exportExpenses(calendar: Calendar): void {
+        const year = this.mainService.visibleDate.getFullYear();
+        const month = this.mainService.visibleDate.getMonth();
+        const dateFrom = this.dateService.createDate(year, month, 1);
+        const dateTo = DateUtil.endOfTheDay(this.dateService.createDate(year, month + 1, 0));
+
+        this.calendarApiService.exportExpenses(calendar.id, dateFrom, dateTo).subscribe((blob: Blob) => {
+            const slug = calendar.name.toLowerCase().replace(/[^a-z0-9]+/g, '-');
+            const anchor = document.createElement('a');
+            anchor.href = URL.createObjectURL(blob);
+            anchor.download = `expenses-${slug}-${this.dateService.format(dateFrom, DateUtil.DATE_FORMAT)}-${this.dateService.format(dateTo, DateUtil.DATE_FORMAT)}.csv`;
+            anchor.click();
+            URL.revokeObjectURL(anchor.href);
+        });
     }
 
     public makeDefault(calendar: Calendar): void {
