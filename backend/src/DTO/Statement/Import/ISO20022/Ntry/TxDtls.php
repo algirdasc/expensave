@@ -15,7 +15,7 @@ class TxDtls
 {
     private Refs $refs;
     private ?RltdPties $rltdPties = null;
-    private RmtInf $rmtInf;
+    private ?RmtInf $rmtInf = null;
 
     public function getRefs(): Refs
     {
@@ -29,12 +29,12 @@ class TxDtls
         return $this;
     }
 
-    public function getRmtInf(): RmtInf
+    public function getRmtInf(): ?RmtInf
     {
         return $this->rmtInf;
     }
 
-    public function setRmtInf(RmtInf $rmtInf): self
+    public function setRmtInf(?RmtInf $rmtInf): self
     {
         $this->rmtInf = $rmtInf;
 
