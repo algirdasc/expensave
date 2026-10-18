@@ -1,3 +1,7 @@
+# Host ports come from the environment: paseo.json services set
+# FRONTEND_PORT/BACKEND_PORT=$PASEO_PORT (per worktree), DB_PORT=0 (ephemeral)
+# and BIND_IP=$HOST (127.0.0.1 or 0.0.0.0, matching the paseo daemon).
+# Unset, the defaults below apply (18001/18002/3306 on all interfaces).
 services:
   dev_backend:
     build:
@@ -13,7 +17,7 @@ services:
     depends_on:
       - dev_database
     ports:
-      - '18001:18001'
+      - '${BIND_IP:-0.0.0.0}:${BACKEND_PORT:-18001}:18001'
 
   dev_frontend:
     build:
@@ -21,7 +25,7 @@ services:
     volumes:
       - .:/opt/expensave
     ports:
-      - '18002:18002'
+      - '${BIND_IP:-0.0.0.0}:${FRONTEND_PORT:-18002}:18002'
 
   dev_database:
     image: mariadb:11
@@ -34,8 +38,13 @@ services:
       MARIADB_USER: dev_expensave
       MARIADB_PASSWORD: dev_expensave
       MARIADB_DATABASE: dev_expensave
+    healthcheck:
+      test: [ "CMD", "mariadb-admin", "ping", "-h", "127.0.0.1" ]
+      interval: 5s
+      retries: 10
+      timeout: 5s
     ports:
-      - '3306:3306'
+      - '${BIND_IP:-0.0.0.0}:${DB_PORT:-3306}:3306'
 
 volumes:
   expensave_db:

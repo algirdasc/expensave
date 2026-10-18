@@ -1,0 +1,6 @@
+{
+    "/api": {
+        "target": "http://dev_backend:18001",
+        "secure": false
+    }
+}

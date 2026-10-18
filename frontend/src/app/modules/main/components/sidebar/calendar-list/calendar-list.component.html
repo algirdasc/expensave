@@ -50,8 +50,18 @@
                                     size="small"
                                     status="success"
                                     (click)="statementImportService.uploadStatement(item)"
-                                    title="Import / export statements">
-                                    <nb-icon icon="attach-outline" />
+                                    title="Import statement">
+                                    <nb-icon icon="cloud-upload-outline" />
+                                </button>
+                                <button
+                                    nbButton
+                                    type="button"
+                                    ghost
+                                    size="small"
+                                    status="success"
+                                    (click)="exportExpenses(item)"
+                                    title="Export expenses (CSV)">
+                                    <nb-icon icon="cloud-download-outline" />
                                 </button>
 
                                 @if (item.owner?.id === user?.id) {

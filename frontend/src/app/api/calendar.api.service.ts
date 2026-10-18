@@ -18,6 +18,15 @@ export class CalendarApiService extends AbstractEntityApiService<Calendar> {
         return this.listExpensesById(calendar.id, dateFrom, dateTo);
     }
 
+    public exportExpenses(calendarId: number, dateFrom: Date, dateTo: Date): Observable<Blob> {
+        const dateFromString = this.dateService.format(dateFrom, DateUtil.DATE_FORMAT);
+        const dateToString = this.dateService.format(dateTo, DateUtil.DATE_FORMAT);
+
+        return this.http.get(`${this.backend}/${calendarId}/export/${dateFromString}/${dateToString}`, {
+            responseType: 'blob',
+        });
+    }
+
     public listExpensesById(calendarId: number, dateFrom: Date, dateTo: Date): Observable<CalendarExpenseListResponse> {
         const dateFromString = this.dateService.format(dateFrom, DateUtil.DATE_FORMAT);
         const dateToString = this.dateService.format(dateTo, DateUtil.DATE_FORMAT);
