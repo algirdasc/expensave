@@ -6,6 +6,7 @@ import {
     NbFormFieldModule,
     NbIconModule,
     NbInputModule,
+    NbSelectModule,
     NbSpinnerModule,
     NbToastrService,
     NbTooltipModule,
@@ -14,6 +15,7 @@ import {
 import { User } from '../../../../api/objects/user';
 import { PasswordRequest } from '../../../../api/request/password.request';
 import { AuthOptionsService } from '../../../../services/auth-options.service';
+import { LocalePreferenceService } from '../../../../services/locale-preference.service';
 import { FormsModule } from '@angular/forms';
 import { injectMutation, injectQuery } from '@tanstack/angular-query-experimental';
 import { UserQueries } from '../../../../queries/user.queries';
@@ -29,6 +31,7 @@ import { UserQueries } from '../../../../queries/user.queries';
         NbIconModule,
         NbFormFieldModule,
         NbInputModule,
+        NbSelectModule,
         NbTooltipModule,
     ],
 })
@@ -38,6 +41,8 @@ export class ProfileDialogComponent {
     public passwordRequest: PasswordRequest = new PasswordRequest();
     public readonly passwordMinLength: number = this.authOptions.getConfigValue('forms.validation.password.minLength');
     public readonly passwordMaxLength: number = this.authOptions.getConfigValue('forms.validation.password.maxLength');
+
+    protected readonly localePreference = inject(LocalePreferenceService);
 
     private readonly userQueries = inject(UserQueries);
     private readonly toastrService = inject(NbToastrService);
