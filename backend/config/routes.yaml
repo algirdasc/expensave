@@ -2,6 +2,10 @@ controllers:
     resource: ../src/Controller/
     type: attribute
 
+mcp:
+    resource: .
+    type: mcp
+
 api_refresh_token:
     path: /api/auth/refresh-token
 #    methods: GET|POST
