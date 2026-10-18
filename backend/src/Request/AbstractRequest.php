@@ -12,6 +12,9 @@ use Symfony\Component\DependencyInjection\Attribute\AutowireIterator;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\PropertyAccess\PropertyAccess;
 
+/**
+ * @phpstan-consistent-constructor
+ */
 abstract class AbstractRequest
 {
     /**
@@ -22,6 +25,11 @@ abstract class AbstractRequest
         private readonly RequestStack $requestStack,
     ) {
         $this->populate();
+    }
+
+    public static function blank(): static
+    {
+        return new static([], new RequestStack());
     }
 
     protected function populate(): void
