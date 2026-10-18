@@ -1,0 +1,14 @@
+mcp:
+    servers:
+        default:
+            name: expensave
+            version: '%env(APP_VERSION)%'
+            transports:
+                http: true
+            http:
+                path: /_mcp
+                # DNS rebinding protection: comma-separated hostnames (without port)
+                # allowed to reach the MCP endpoint. Set MCP_ALLOWED_HOSTS to your
+                # public domain when deploying, e.g. MCP_ALLOWED_HOSTS=expensave.example.com
+                allowed_hosts: '%env(csv:MCP_ALLOWED_HOSTS)%'
+            registry: ['App\Mcp\']
