@@ -15,6 +15,19 @@
         </nb-card-header>
         <nb-card-body>
             <div class="mb-3">
+                <label class="label" for="locale-select">Locale (number & calendar format)</label>
+                <nb-select
+                    id="locale-select"
+                    fullWidth
+                    [selected]="localePreference.locale"
+                    (selectedChange)="localePreference.setLocale($event)">
+                    @for (locale of localePreference.locales; track locale.id) {
+                        <nb-option [value]="locale.id">{{ locale.label }}</nb-option>
+                    }
+                </nb-select>
+            </div>
+            <hr />
+            <div class="mb-3">
                 <nb-form-field>
                     <nb-icon nbPrefix icon="shield-outline" />
                     <input
