@@ -54,6 +54,7 @@
 - 🔁 Recurring expenses — daily, weekly, monthly, and yearly schedules
 - 🏦 Import bank statements in various [formats](https://github.com/algirdasc/expensave/wiki/Bank-statement-import#supported-banks) — OFX/QFX, ISO 20022 XML, Revolut, Dollarbird
 - 📊 Reports on spending and income habits
+- 🤖 AI assistant integration — manage expenses from Claude, Cursor, and other AI tools via the built-in [MCP server](https://github.com/algirdasc/expensave/wiki/MCP-server)
 - 📱 Mobile [PWA](https://web.dev/explore/progressive-web-apps) — installable on iOS and Android
 - 🎨 Responsive design — works on desktop, tablet, and mobile
 
@@ -142,6 +143,16 @@ Import your balance from financial institutions in various formats:
 - **Dollarbird** — CSV data export, for migrating from Dollarbird.
 
 See wiki for detailed export instructions: [Bank statement import](https://github.com/algirdasc/expensave/wiki/Bank-statement-import).
+
+---
+
+## AI Assistants (MCP)
+
+Expensave exposes a built-in [MCP (Model Context Protocol)](https://modelcontextprotocol.io/) server at `/_mcp`, so AI assistants like Claude, Cursor, or pi can manage your expenses programmatically — add, update, and delete expenses, browse calendars and categories, and generate spending reports — with the same permissions as the web app.
+
+Point your MCP client at `https://your-expensave-host/_mcp` with a Bearer token from the login endpoint, and ask things like *"add a 12.50 grocery expense for today"* or *"show my monthly spending report"*.
+
+See wiki for setup, client configuration, and the full tool list: [MCP server (AI assistants)](https://github.com/algirdasc/expensave/wiki/MCP-server).
 
 ---
 
