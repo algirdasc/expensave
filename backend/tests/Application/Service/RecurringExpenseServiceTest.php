@@ -86,7 +86,12 @@ class RecurringExpenseServiceTest extends TestCase
         $category = new Category();
         $recurringExpense = $this->createRecurringExpense($calendar, $category)
             ->setFrequency(RecurringExpenseFrequency::BIWEEKLY);
-        $expenses = $this->createExpenseSeries($calendar, $category, $recurringExpense);
+        $expenses = [
+            $this->createExpense($calendar, $category, $recurringExpense, '2024-01-01 09:00:00'),
+            $this->createExpense($calendar, $category, $recurringExpense, '2024-01-15 09:00:00'),
+            $this->createExpense($calendar, $category, $recurringExpense, '2024-01-29 09:00:00'),
+            $this->createExpense($calendar, $category, $recurringExpense, '2024-02-12 09:00:00'),
+        ];
         $selectedExpense = $expenses[2];
         $request = $this->createUpdateRequest(
             calendar: $calendar,
