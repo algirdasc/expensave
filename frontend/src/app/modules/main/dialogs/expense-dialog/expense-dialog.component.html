@@ -8,7 +8,8 @@
                         *nbTabContent
                         #tabExpense
                         [onSubmit]="onExpenseSubmit"
-                        [onDelete]="onExpenseDelete" />
+                        [onDelete]="onExpenseDelete"
+                        [deletable]="deletable" />
                 </nb-tab>
             }
             @if (showTransferTab) {
@@ -23,7 +24,8 @@
                         *nbTabContent
                         #tabBalance
                         [onSubmit]="onBalanceSubmit"
-                        [onDelete]="onBalanceDelete" />
+                        [onDelete]="onBalanceDelete"
+                        [deletable]="deletable" />
                 </nb-tab>
             }
         </nb-tabset>
