@@ -92,7 +92,7 @@ class RecurringExpenseServiceTest extends TestCase
             $this->createExpense($calendar, $category, $recurringExpense, '2024-01-29 09:00:00'),
             $this->createExpense($calendar, $category, $recurringExpense, '2024-02-12 09:00:00'),
         ];
-        $selectedExpense = $expenses[2];
+        $selectedExpense = $expenses[1];
         $request = $this->createUpdateRequest(
             calendar: $calendar,
             category: $category,
