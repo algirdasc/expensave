@@ -1,0 +1,40 @@
+name: "Audit fix"
+
+on:
+  schedule:
+    - cron: "0 6 * * 1"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  npm-audit-fix:
+    name: npm audit fix (frontend)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Code checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+
+      - name: Run npm audit fix
+        working-directory: frontend
+        run: npm audit fix
+
+      - name: Fail if audit still reports vulnerabilities
+        working-directory: frontend
+        run: npm audit
+
+      - name: Create pull request
+        uses: peter-evans/create-pull-request@v7
+        with:
+          commit-message: "chore(frontend): npm audit fix"
+          title: "chore(frontend): npm audit fix"
+          body: "Automated `npm audit fix` from the audit-fix workflow. Audit passes with 0 vulnerabilities."
+          branch: chore/npm-audit-fix
+          delete-branch: true
