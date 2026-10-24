@@ -61,6 +61,7 @@ import { Expense } from '../../../../../../api/objects/expense';
                                     [(ngModel)]="expense.recurringFrequency">
                                     <nb-option value="daily">Daily</nb-option>
                                     <nb-option value="weekly">Weekly</nb-option>
+                                    <nb-option value="biweekly">Bi-weekly</nb-option>
                                     <nb-option value="monthly">Monthly</nb-option>
                                     <nb-option value="yearly">Yearly</nb-option>
                                 </nb-select>

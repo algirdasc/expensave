@@ -11,6 +11,7 @@ enum RecurringExpenseFrequency: string
 {
     case DAILY = 'daily';
     case WEEKLY = 'weekly';
+    case BIWEEKLY = 'biweekly';
     case MONTHLY = 'monthly';
     case YEARLY = 'yearly';
 

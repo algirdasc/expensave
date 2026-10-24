@@ -4,7 +4,7 @@ import { Calendar } from './calendar';
 import { Category } from './category';
 import { User } from './user';
 
-export type RecurringExpenseFrequency = 'daily' | 'weekly' | 'monthly' | 'yearly';
+export type RecurringExpenseFrequency = 'daily' | 'weekly' | 'biweekly' | 'monthly' | 'yearly';
 export type RecurringExpenseUpdateScope = 'this' | 'future' | 'past' | 'all';
 
 export class Expense implements EntityInterface {

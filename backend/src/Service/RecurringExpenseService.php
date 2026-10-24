@@ -241,6 +241,7 @@ readonly class RecurringExpenseService
         $interval = match ($frequency) {
             RecurringExpenseFrequency::DAILY => new DateInterval(sprintf('P%dD', $index)),
             RecurringExpenseFrequency::WEEKLY => new DateInterval(sprintf('P%dW', $index)),
+            RecurringExpenseFrequency::BIWEEKLY => new DateInterval(sprintf('P%dW', $index * 2)),
             RecurringExpenseFrequency::MONTHLY => new DateInterval(sprintf('P%dM', $index)),
             RecurringExpenseFrequency::YEARLY => new DateInterval(sprintf('P%dY', $index)),
         };

@@ -80,6 +80,37 @@ class RecurringExpenseServiceTest extends TestCase
         $this->assertSame($updatedCategory, $futureExpense->getCategory());
     }
 
+    public function testUpdateFromRequestShiftsBiweeklyOccurrencesByFourteenDays(): void
+    {
+        $calendar = new Calendar('Calendar', new User());
+        $category = new Category();
+        $recurringExpense = $this->createRecurringExpense($calendar, $category)
+            ->setFrequency(RecurringExpenseFrequency::BIWEEKLY);
+        $expenses = $this->createExpenseSeries($calendar, $category, $recurringExpense);
+        $selectedExpense = $expenses[2];
+        $request = $this->createUpdateRequest(
+            calendar: $calendar,
+            category: $category,
+            scope: RecurringExpenseUpdateScope::ALL,
+        );
+
+        $this->expenseRepository
+            ->expects($this->once())
+            ->method('findByRecurringExpenseAndUpdateScope')
+            ->with($recurringExpense, $selectedExpense->getCreatedAt(), RecurringExpenseUpdateScope::ALL)
+            ->willReturn($expenses);
+        $this->expenseRepository->expects($this->exactly(4))->method('save');
+        $this->recurringExpenseRepository->expects($this->once())->method('save');
+
+        $this->recurringExpenseService->updateFromRequest($selectedExpense, $request);
+
+        $this->assertSame('2024-01-02 09:00:00', $expenses[0]->getCreatedAt()->format('Y-m-d H:i:s'));
+        $this->assertSame('2024-01-16 09:00:00', $expenses[1]->getCreatedAt()->format('Y-m-d H:i:s'));
+        $this->assertSame('2024-01-30 09:00:00', $expenses[2]->getCreatedAt()->format('Y-m-d H:i:s'));
+        $this->assertSame('2024-02-13 09:00:00', $expenses[3]->getCreatedAt()->format('Y-m-d H:i:s'));
+        $this->assertSame('2024-01-02 09:00:00', $recurringExpense->getStartsAt()->format('Y-m-d H:i:s'));
+    }
+
     public function testUpdateFromRequestUpdatesRecurringRuleWhenAllOccurrencesChange(): void
     {
         $calendar = new Calendar('Calendar', new User());
