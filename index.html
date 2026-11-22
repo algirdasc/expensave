@@ -286,7 +286,7 @@
     <h1>Budget smarter.<br><em>See exactly where your money goes.</em></h1>
     <p>Expensave is a free, self-hosted expense tracker for personal and family budget management. No subscriptions. No cloud lock-in. Just your data, on your own server.</p>
     <div class="hero-actions">
-      <a href="#install" class="btn-primary">🚀 Get started</a>
+      <a href="#install" class="btn-primary" data-umami-event="get-started-click">🚀 Get started</a>
     </div>
     <div class="install-hero-box">
       <div class="macos-titlebar">
@@ -407,8 +407,9 @@
       btn.innerHTML = checkIcon; btn.style.color='#28c840';
       setTimeout(()=>{ btn.innerHTML=copyIcon; btn.style.color=''; },2000);
     }
-    function copyCmd(btn,id) { navigator.clipboard.writeText(document.getElementById(id).textContent).then(()=>flashCopied(btn)); }
-    function copyText(btn,text) { navigator.clipboard.writeText(text).then(()=>flashCopied(btn)); }
+    function trackCopy(props) { if (window.umami) umami.track('install-cmd-copy', props); }
+    function copyCmd(btn,id) { navigator.clipboard.writeText(document.getElementById(id).textContent).then(()=>flashCopied(btn)); trackCopy({location:id}); }
+    function copyText(btn,text) { navigator.clipboard.writeText(text).then(()=>flashCopied(btn)); trackCopy({command:text}); }
   </script>
 </body>
 </html>
